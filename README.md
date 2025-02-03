@@ -6,8 +6,8 @@
 ### (https://github.com/Mutagen-Modding/Mutagen),
 ### 框架/库名称：Mutagen.Bethesda，由 [Mutagen] 开发，许可证为 [GPL-3.0-only]。
 
-###以及有依赖关系的 GameFinder所有组件
-###(https://github.com/erri120/GameFinder)
+### 以及有依赖关系的 GameFinder所有组件
+### (https://github.com/erri120/GameFinder)
 ### 框架/库名称：erri120.GameFinder，由 [erri120] 开发，许可证为 [GPL-3.0-only]。
 
 ### 有关更多信息，请查阅本程序和对方各自框架的许可证文件。
