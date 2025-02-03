@@ -20,5 +20,10 @@ namespace YDSkyrimToolR
         {
             InitializeComponent();
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            DeFine.Init();
+        }
     }
 }

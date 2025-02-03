@@ -50,6 +50,12 @@
       "frameworks": {
         "net9.0-windows7.0": {
           "targetAlias": "net9.0-windows",
+          "dependencies": {
+            "Mutagen.Bethesda": {
+              "target": "Package",
+              "version": "[0.48.1, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
