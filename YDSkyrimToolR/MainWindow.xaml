@@ -3,10 +3,299 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
         xmlns:local="clr-namespace:YDSkyrimToolR"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
-    <Grid>
+        Title="MainWindow" Height="790" Width="1200" Loaded="Window_Loaded"   Style="{DynamicResource DefWin}" WindowStartupLocation="CenterScreen">
 
-    </Grid>
+    <Window.Resources>
+        <Storyboard x:Key="ShowSmallNav">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ShowNavSign" Storyboard.TargetProperty="Visibility">
+                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+            </ObjectAnimationUsingKeyFrames>
+            <ThicknessAnimation    
+     Storyboard.TargetName="SmallMenu"
+     Storyboard.TargetProperty="Margin"                              
+     From="0,0,0,130" To="0,0,0,-50" Duration="0:0:0.2"/>
+            <DoubleAnimation
+     Storyboard.TargetName="Nav"
+     Storyboard.TargetProperty="Opacity"
+     From="0.0" To="1.0" Duration="0:0:0.4"/>
+        </Storyboard>
+
+        <Storyboard x:Key="HideSmallNav">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ShowNavSign" Storyboard.TargetProperty="Visibility">
+                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+            </ObjectAnimationUsingKeyFrames>
+
+            <ThicknessAnimation
+     Storyboard.TargetName="SmallMenu"
+     Storyboard.TargetProperty="Margin"
+     From="0,0,0,-50" To="0,0,0,130" Duration="0:0:0.2"/>
+            <DoubleAnimation
+     Storyboard.TargetName="Nav"
+     Storyboard.TargetProperty="Opacity"
+     From="1.0" To="0.0" Duration="0:0:0.4"/>
+        </Storyboard>
+    </Window.Resources>
+
+    <Border MouseLeftButtonDown="WinHead_MouseLeftButtonDown"  Style="{DynamicResource DefWinBackground}" Name="MainBackGround" >
+
+        <Border.Effect>
+            <DropShadowEffect  BlurRadius="10" Direction="1" ShadowDepth="0.7" Color="#FFF77FAC" Opacity="0.8" />
+        </Border.Effect>
+
+        <Grid>
+            <Border Background="#FFF77FAC" CornerRadius="7" Panel.ZIndex="0" Name="Footer" Margin="0 45 0 0">
+            </Border>
+            <Grid Panel.ZIndex="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Name="Header" Margin="10 0 10 0">
+                    <Label HorizontalAlignment="Left" Name="MainCaption" Foreground="White" VerticalAlignment="Center">
+                        YDSkyrimToolR Gui 3.1.1 Alpha
+                    </Label>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+
+                        <Border Tag="Min" PreviewMouseDown="AnyHeaderButtonClick" CornerRadius="5"  Grid.Column="1" Height="25" Width="25"   Background="#FFF77FAC"  MouseEnter="RMouserEffectByEnter" MouseLeave="RMouserEffectByLeave" Cursor="Hand">
+                            <Image Tag="Min" Name="TMin" Stretch="Uniform"  Source="/YDSkyrimToolR;component/Material/TMin.png"  Width="16" Height="2" Opacity="1" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="HighQuality">
+                            </Image>
+                        </Border>
+
+
+                        <Border Tag="MaxWin"  PreviewMouseDown="AnyHeaderButtonClick" CornerRadius="5"  Grid.Column="3" Height="25" Width="25"  Background="#FFF77FAC"  MouseEnter="RMouserEffectByEnter" MouseLeave="RMouserEffectByLeave" Cursor="Hand">
+                            <Image Tag="MaxWin" Name="TChangeWin" Stretch="UniformToFill"  Source="/YDSkyrimToolR;component/Material/TChangeWin.png"   Width="14" Height="13" Opacity="0.8" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="HighQuality">
+                            </Image>
+                        </Border>
+
+
+                        <Border Tag="Close" PreviewMouseDown="AnyHeaderButtonClick" CornerRadius="5"  Grid.Column="5" Height="25" Width="25"  Background="#FFF77FAC"  MouseEnter="RMouserEffectByEnter" MouseLeave="RMouserEffectByLeave" Cursor="Hand">
+                            <Image Tag="Close" Name="TClose" Stretch="UniformToFill"   Source="/YDSkyrimToolR;component/Material/TClose.png"  Width="14" Height="13" Opacity="0.8" SnapsToDevicePixels="True"  RenderOptions.BitmapScalingMode="HighQuality">
+                            </Image>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+
+                <Grid Name="Frames" Grid.Row="1" Margin="0 0 0 5">
+                    <Grid Tag="LoadingView" Visibility="Visible" Background = "#FFF77FAC">
+                        <Grid Grid.Row="0" Grid.RowSpan="2" Margin="0 10 0 10" Name="LoadingControl" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Grid.Resources>
+                                <Style x:Key="ellipse" TargetType="Ellipse">
+                                    <Setter Property="Width" Value="10"/>
+                                    <Setter Property="Height" Value="10"/>
+                                    <Setter Property="Canvas.Left" Value="45.0"/>
+                                    <Setter Property="Fill" Value="White"/>
+                                    <Setter Property="RenderTransformOrigin" Value="0.5,5.55"/>
+                                </Style>
+                                <PowerEase x:Key="powerease" Power="3" EasingMode="EaseInOut"/>
+                            </Grid.Resources>
+                            <Canvas Width="100" Height="100">
+                                <Canvas.Triggers>
+                                    <EventTrigger RoutedEvent="Loaded" x:Name="LoadingTrigger">
+                                        <BeginStoryboard>
+                                            <Storyboard Name="LoadingEffect" Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)" RepeatBehavior="Forever">
+                                                <DoubleAnimation Storyboard.TargetName="e1" To="360" Duration="0:0:2" EasingFunction="{StaticResource powerease}" AccelerationRatio="0.1" DecelerationRatio="0.9"/>
+                                                <DoubleAnimation Storyboard.TargetName="e2" To="360" Duration="0:0:2" EasingFunction="{StaticResource powerease}" AccelerationRatio="0.2" DecelerationRatio="0.8"/>
+                                                <DoubleAnimation Storyboard.TargetName="e3" To="360" Duration="0:0:2" EasingFunction="{StaticResource powerease}" AccelerationRatio="0.3" DecelerationRatio="0.7"/>
+                                                <DoubleAnimation Storyboard.TargetName="e4" To="360" Duration="0:0:2" EasingFunction="{StaticResource powerease}" AccelerationRatio="0.4" DecelerationRatio="0.6"/>
+                                                <DoubleAnimation Storyboard.TargetName="e5" To="360" Duration="0:0:2" EasingFunction="{StaticResource powerease}" AccelerationRatio="0.5" DecelerationRatio="0.5"/>
+                                                <DoubleAnimation Storyboard.TargetName="e6" To="360" Duration="0:0:2" EasingFunction="{StaticResource powerease}" AccelerationRatio="0.6" DecelerationRatio="0.4"/>
+                                                <DoubleAnimation Storyboard.TargetName="e7" To="360" Duration="0:0:2" EasingFunction="{StaticResource powerease}" AccelerationRatio="0.7" DecelerationRatio="0.3"/>
+                                                <DoubleAnimation Storyboard.TargetName="e8" To="360" Duration="0:0:2" EasingFunction="{StaticResource powerease}" AccelerationRatio="0.8" DecelerationRatio="0.2"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </Canvas.Triggers>
+
+                                <Ellipse Width="100" Height="100"/>
+                                <Label Content="Loading" FontSize="15" FontWeight="Bold" Margin="0 5 0 0" Foreground="White" Width="100" Height="100" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                                <Ellipse Name="e1" Style="{StaticResource ellipse}">
+                                    <Ellipse.RenderTransform>
+                                        <RotateTransform Angle="0"/>
+                                    </Ellipse.RenderTransform>
+                                </Ellipse>
+                                <Ellipse Name="e2" Style="{StaticResource ellipse}">
+                                    <Ellipse.RenderTransform>
+                                        <RotateTransform Angle="0"/>
+                                    </Ellipse.RenderTransform>
+                                </Ellipse>
+                                <Ellipse Name="e3" Style="{StaticResource ellipse}">
+                                    <Ellipse.RenderTransform>
+                                        <RotateTransform Angle="0"/>
+                                    </Ellipse.RenderTransform>
+                                </Ellipse>
+                                <Ellipse Name="e4" Style="{StaticResource ellipse}">
+                                    <Ellipse.RenderTransform>
+                                        <RotateTransform Angle="0"/>
+                                    </Ellipse.RenderTransform>
+                                </Ellipse>
+                                <Ellipse Name="e5" Style="{StaticResource ellipse}">
+                                    <Ellipse.RenderTransform>
+                                        <RotateTransform Angle="0"/>
+                                    </Ellipse.RenderTransform>
+                                </Ellipse>
+                                <Ellipse Name="e6" Style="{StaticResource ellipse}">
+                                    <Ellipse.RenderTransform>
+                                        <RotateTransform Angle="0"/>
+                                    </Ellipse.RenderTransform>
+                                </Ellipse>
+                                <Ellipse Name="e7" Style="{StaticResource ellipse}">
+                                    <Ellipse.RenderTransform>
+                                        <RotateTransform Angle="0"/>
+                                    </Ellipse.RenderTransform>
+                                </Ellipse>
+                                <Ellipse Name="e8" Style="{StaticResource ellipse}">
+                                    <Ellipse.RenderTransform>
+                                        <RotateTransform Angle="0"/>
+                                    </Ellipse.RenderTransform>
+                                </Ellipse>
+                            </Canvas>
+                        </Grid>
+                    </Grid>
+                    <Grid Tag="MainView" Margin="0 0 0 5" Background= "White" Visibility="Visible">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="180"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Orientation="Horizontal" Panel.ZIndex="5">
+                                <Border PreviewMouseDown="AutoShowSmallNav" Background="#FFFD98BE" Name="SmallMenu" CornerRadius="0 0 8 8" VerticalAlignment="Top" Cursor="Hand" Height="180">
+                                    <Border.RenderTransform>
+                                        <ScaleTransform x:Name="MyScaleTransform" ScaleX="1" ScaleY="1"/>
+                                    </Border.RenderTransform>
+
+                                    <Grid>
+                                        <Image Name="ShowNavSign" Panel.ZIndex="99" VerticalAlignment="Top" Margin="0 15 0 0" Source="/YDSkyrimToolR;component/Material/WhiteDown.png" Stretch="UniformToFill" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="HighQuality" Height="15" Width="20">
+                                        </Image>
+
+                                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Name="Nav" Margin="0 5 0 0" Opacity="0.8">
+                                            <StackPanel.Triggers>
+                                               
+                                            </StackPanel.Triggers>
+                                            <Grid Width="50" Height="50" Margin="0 0 0 1" Tag="TransView" >
+                                                <Image Source="{svgc:SvgImage ../Material/TransICO.svg}" Height="23" Width="23"  Grid.Column="0" Style="{DynamicResource HighQuality}"/>
+                                            </Grid>
+                                            <Grid Width="50" Height="50" Margin="0 0 0 1" Tag="TransView">
+                                                <Image Source="{svgc:SvgImage ../Material/TransICO.svg}" Height="23" Width="23"  Grid.Column="0" Style="{DynamicResource HighQuality}"/>
+                                            </Grid>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                                <Grid Background="#FF655B5F" Width="230" Height="35" VerticalAlignment="Top">
+                                    <Label Foreground="White" VerticalAlignment="Center" FontSize="13" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                                        TranslationCore
+                                    </Label>
+                                </Grid>
+                                <Grid Background="#FF393939" Width="230" Height="35" VerticalAlignment="Top">
+                                    <Label  Foreground="White" VerticalAlignment="Center" FontSize="13" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                                        STRINGS(0/0)
+                                    </Label>
+                                    <Grid Height="5" VerticalAlignment="Bottom" Background="#FFC9C0C0">
+                                        <Grid Height="5" Width="30" HorizontalAlignment="Left" Background="#FFEBA727">
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                                <Grid Width="230" Height="35" VerticalAlignment="Top" Background="#FFFFE3E3">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label VerticalAlignment="Center" Margin="10 0 0 0" FontSize="12">
+                                            TypeFilter
+                                        </Label>
+                                        <ComboBox Cursor="Hand" Name="TransTargetType" Style="{StaticResource WpfComboBoxStyle}"  Margin="10 0 0 0">
+                                        </ComboBox>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+
+                            <Grid Height="35" Width="230" VerticalAlignment="Top" HorizontalAlignment="Right" Background="#FFE8E8E8" Margin="0 0 200 0" Panel.ZIndex="5">
+                                <StackPanel Orientation="Horizontal">
+                                    <Label VerticalAlignment="Center" Margin="10 0 0 0" FontSize="12">
+                                        Node
+                                    </Label>
+
+                                    <svgc:SvgViewbox Name="LanguagesEngine" Stretch="UniformToFill" Source="/Material/Languages.svg"  Margin="10 0 3 0" Width="19" Panel.ZIndex="900" Height="19"  ToolTip="本地词组引擎"  Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
+
+                                    <svgc:SvgViewbox Name="CodeEngine" Stretch="UniformToFill" Source="/Material/Code.svg"  Margin="3 0 3 0" Width="20" Panel.ZIndex="900" Height="18" ToolTip="代码识别引擎"  Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
+
+                                    <svgc:SvgViewbox Name="ConjunctionEngine" Stretch="UniformToFill" Source="/Material/Conjunction.svg"  Margin="3 0 3 0" Width="17" Panel.ZIndex="900" Height="18" ToolTip="本地连词引擎"  Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
+
+                                    <svgc:SvgViewbox Name="BaiduEngine" Stretch="UniformToFill" Source="/Material/Baidu.svg" Margin="3 0 3 0" Width="17" Panel.ZIndex="900" Height="18" ToolTip="百度云翻译"  Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
+
+                                    <svgc:SvgViewbox Name="GoogleEngine" Stretch="UniformToFill" Source="/Material/Google.svg" Margin="3 0 3 0" Width="17" Panel.ZIndex="900" Height="18" ToolTip="谷歌云翻译"  Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
+
+                                    <svgc:SvgViewbox Name="DivEngine" Stretch="UniformToFill" Source="/Material/Div.svg"  Margin="3 0 3 0" Width="21" Panel.ZIndex="900" Height="18.2" ToolTip="自定义引擎"  Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <Grid Height="50" Width="100" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 2 70 0" Panel.ZIndex="5">
+
+                                <StackPanel Orientation="Horizontal">
+                                    <Border  CornerRadius="5" Background="#FFF789B2" Width="35" Height="35" Margin="20 -5 20 0" PreviewMouseDown="ChangeTransProcessState" Cursor="Hand" Name="ProcessStateBackGround">
+                                        <svgc:SvgViewbox Name="AutoKeep" Stretch="Fill" Source="/Material/Stop.svg"  Margin="3 0 3 0" Width="15" Panel.ZIndex="900" Height="15" ToolTip="继续" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand" Opacity="1"/>
+                                    </Border>
+                                </StackPanel>
+
+                            </Grid>
+
+                            <Grid Height="50" Width="100" VerticalAlignment="Top" HorizontalAlignment="Right" Panel.ZIndex="5">
+
+                                <StackPanel Orientation="Horizontal">
+                                    <Border  CornerRadius="5" Background="#FFF789B2" Width="80" Height="35"  Name="StartTransBtn">
+                                        <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand" ToolTip="载入文件" MouseDown="AutoLoadFile">
+                                            LoadFile
+                                        </Label>
+                                    </Border>
+                                </StackPanel>
+                                
+                            </Grid>
+
+                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" Grid.RowSpan="2">
+                                
+                                <Grid Height="30" Background="#FF7B7B7B" Margin="10 50 10 0" VerticalAlignment="Top">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.35*"/>
+                                        <ColumnDefinition Width="0.5*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="White">
+                                        Type
+                                    </Label>
+                                    <Label Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="White">
+                                        Key
+                                    </Label>
+                                    <Label Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="White">
+                                        SourceText
+                                    </Label>
+                                    <Label Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="White">
+                                        TransText
+                                    </Label>
+                                </Grid>
+
+                                <Grid Margin="10 80 10 0" VerticalAlignment="Top" Name="TransView">
+                                </Grid>
+                                
+
+
+                                <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="#FFFFDDF9" CornerRadius="7" Width="370" Height="80" Visibility="Collapsed" Name="DragdropView">
+                                    <Label Foreground="Black" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        Drag and drop here
+                                    </Label>
+                                </Border>
+                            </Grid>
+
+                        </Grid>
+
+
+                    </Grid>
+                </Grid>
+
+            </Grid>
+        </Grid>
+
+
+    </Border>
 </Window>

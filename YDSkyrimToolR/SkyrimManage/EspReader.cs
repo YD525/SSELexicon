@@ -43,12 +43,15 @@ namespace YDSkyrimToolR.SkyrimManage
             {
                 foreach (var GetArmor in this.CurrentReadMod.Armors.ToList())
                 {
-                    int CreatHashID = (GetArmor.EditorID + GetArmor.FormKey).GetHashCode();
+                    int CreatHashID = GetArmor.EditorID.GetHashCode();
                     Armor.Add(CreatHashID, GetArmor);
                 }
             }
         }
-
+        public SkyrimMod? DefReadMod(string FilePath)
+        {
+           return ReadMod(FilePath, Mutagen.Bethesda.Strings.Language.ChineseSimplified);
+        }
         public SkyrimMod? ReadMod(string FilePath, Mutagen.Bethesda.Strings.Language SetLanguage)
         {
             if (File.Exists(FilePath) && (FilePath.ToLower().EndsWith(".esp") || FilePath.ToLower().EndsWith(".esm")))
@@ -78,7 +81,7 @@ namespace YDSkyrimToolR.SkyrimManage
 
         public bool DefSaveMod(SkyrimMod SourceMod, string OutPutPath)
         {
-            return SaveEspEsmFile(SourceMod, OutPutPath, new EncodingBundle(MutagenEncoding._utf8_1256, MutagenEncoding._utf8_1256));
+            return SaveMod(SourceMod, OutPutPath, new EncodingBundle(MutagenEncoding._utf8_1256, MutagenEncoding._utf8_1256));
         }
 
         private void ApplyRam()

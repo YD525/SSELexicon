@@ -1,0 +1,209 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows;
+using Mutagen.Bethesda.Fallout4;
+using Mutagen.Bethesda.Skyrim;
+using System.Runtime.CompilerServices;
+
+namespace YDSkyrimToolR.UIManage
+{
+    public class UIHelper
+    {
+        public static double DefFontSize = 15;
+        public static double DefLineHeight = 40;
+       
+        public static Grid CreatLine(string Type,string EditorID,string Key, string SourceText,string TransText)
+        {
+            Grid MainGrid = new Grid();
+            MainGrid.Height = DefLineHeight;
+            //Calc FontSize For Auto Height
+            //Margin 25
+            var GetTextWidthRange = (DeFine.WorkingWin.ActualWidth / 3) - 25;
+            var GetTextSize = (SourceText.Length * DefFontSize);
+            if (GetTextSize > GetTextWidthRange)
+            {
+                MainGrid.Height = 80;
+                MainGrid.Background = new SolidColorBrush(Color.FromRgb(45, 45, 45));
+            }
+            else
+            {
+                MainGrid.Background = new SolidColorBrush(Color.FromRgb(35, 35, 35));
+            }
+
+            RowDefinition Row1st = new RowDefinition();
+            Row1st.Height = new GridLength(1,GridUnitType.Star);
+            RowDefinition Row2nd = new RowDefinition();
+            Row2nd.Height = new GridLength(1,GridUnitType.Pixel);
+
+            MainGrid.RowDefinitions.Add(Row1st);
+            MainGrid.RowDefinitions.Add(Row2nd);
+
+            ColumnDefinition Column1st = new ColumnDefinition();
+            Column1st.Width = new GridLength(0.35,GridUnitType.Star);
+            //ColumnDefinition Column2nd = new ColumnDefinition();
+            //Column2nd.Width = new GridLength(0.3, GridUnitType.Star);
+            ColumnDefinition Column3rd = new ColumnDefinition();
+            Column3rd.Width = new GridLength(0.5, GridUnitType.Star);
+            ColumnDefinition Column5th = new ColumnDefinition();
+            Column5th.Width = new GridLength(1, GridUnitType.Star);
+            ColumnDefinition Column6th = new ColumnDefinition();
+            Column6th.Width = new GridLength(1, GridUnitType.Star);
+
+            MainGrid.ColumnDefinitions.Add(Column1st);
+            //MainGrid.ColumnDefinitions.Add(Column2nd);
+            MainGrid.ColumnDefinitions.Add(Column3rd);
+            MainGrid.ColumnDefinitions.Add(Column5th);
+            MainGrid.ColumnDefinitions.Add(Column6th);
+
+            Grid Footer = new Grid();
+            Footer.Height = 1;
+            Footer.Opacity = 0.9;
+            Footer.Background = new SolidColorBrush(Color.FromRgb(30,30,30));
+            Grid.SetColumn(Footer,0);
+            Grid.SetColumnSpan(Footer, 5);
+            Grid.SetRow(Footer, 1);
+            MainGrid.Children.Add(Footer);
+        
+            Label TypeBox = new Label();
+            TypeBox.Height = MainGrid.Height - 10;
+            TypeBox.Margin = new Thickness(10,0,10,0);
+            TypeBox.FontSize = DefFontSize;
+            TypeBox.VerticalAlignment = VerticalAlignment.Center;
+            TypeBox.BorderBrush = new SolidColorBrush(Color.FromRgb(76,76,76));
+            TypeBox.Background = null;
+            TypeBox.BorderThickness = new Thickness(1);
+            TypeBox.Foreground = new SolidColorBrush(Colors.White);
+            TypeBox.VerticalContentAlignment = VerticalAlignment.Center;
+            TypeBox.HorizontalContentAlignment = HorizontalAlignment.Center;
+            TypeBox.Content = Type;
+            Grid.SetRow(TypeBox,0);
+            Grid.SetColumn(TypeBox, 0);
+            MainGrid.Children.Add(TypeBox);
+
+            //Label EditorIDBox = new Label();
+            //EditorIDBox.Height = 30;
+            //EditorIDBox.Margin = new Thickness(10, 0, 10, 0);
+            //EditorIDBox.FontSize = DefFontSize;
+            //EditorIDBox.VerticalAlignment = VerticalAlignment.Center;
+            //EditorIDBox.BorderBrush = new SolidColorBrush(Color.FromRgb(76, 76, 76));
+            //EditorIDBox.Background = null;
+            //EditorIDBox.BorderThickness = new Thickness(1);
+            //EditorIDBox.Foreground = new SolidColorBrush(Colors.White);
+            //EditorIDBox.VerticalContentAlignment = VerticalAlignment.Center;
+            //EditorIDBox.HorizontalContentAlignment = HorizontalAlignment.Center;
+            //EditorIDBox.Content = EditorID;
+            //Grid.SetRow(EditorIDBox, 0);
+            //Grid.SetColumn(EditorIDBox, 1);
+            //MainGrid.Children.Add(EditorIDBox);
+
+            TextBox KeyBox = new TextBox();
+            KeyBox.IsReadOnly = true;
+            KeyBox.IsTabStop = false;
+            KeyBox.Height = MainGrid.Height - 10;
+            KeyBox.Margin = new Thickness(10, 0, 10, 0);
+            KeyBox.FontSize = DefFontSize;
+            KeyBox.VerticalAlignment = VerticalAlignment.Center;
+            KeyBox.BorderBrush = new SolidColorBrush(Color.FromRgb(76, 76, 76));
+            KeyBox.Background = null;
+            KeyBox.BorderThickness = new Thickness(1);
+            KeyBox.Foreground = new SolidColorBrush(Colors.White);
+            KeyBox.VerticalContentAlignment = VerticalAlignment.Center;
+            KeyBox.HorizontalContentAlignment = HorizontalAlignment.Center;
+            KeyBox.CaretBrush = new SolidColorBrush(Colors.White);
+            KeyBox.AcceptsReturn = true;
+            KeyBox.TextWrapping = TextWrapping.Wrap;
+            KeyBox.Text = Key;
+            Grid.SetRow(KeyBox, 0);
+            Grid.SetColumn(KeyBox, 1);
+            MainGrid.Children.Add(KeyBox);
+
+
+            TextBox SourceTextBox = new TextBox();
+            SourceTextBox.Height = MainGrid.Height - 10;
+            SourceTextBox.IsTabStop = false;
+            SourceTextBox.IsReadOnly = true;
+            SourceTextBox.Margin = new Thickness(10, 0, 10, 0);
+            SourceTextBox.FontSize = DefFontSize;
+            SourceTextBox.VerticalAlignment = VerticalAlignment.Center;
+            SourceTextBox.BorderBrush = new SolidColorBrush(Color.FromRgb(76, 76, 76));
+            SourceTextBox.Background = null;
+            SourceTextBox.SelectionBrush = new SolidColorBrush(Color.FromRgb(17, 145, 243));
+            SourceTextBox.BorderThickness = new Thickness(1);
+            SourceTextBox.Foreground = new SolidColorBrush(Colors.White);
+            SourceTextBox.VerticalContentAlignment = VerticalAlignment.Center;
+            SourceTextBox.HorizontalContentAlignment = HorizontalAlignment.Center;
+            SourceTextBox.CaretBrush = new SolidColorBrush(Colors.White);
+            SourceTextBox.AcceptsReturn = true;
+            SourceTextBox.TextWrapping = TextWrapping.Wrap;
+            SourceTextBox.PreviewMouseDown += SourceTextBox_PreviewMouseDown;
+            SourceTextBox.Text = SourceText;
+            Grid.SetRow(SourceTextBox, 0);
+            Grid.SetColumn(SourceTextBox, 2);
+            MainGrid.Children.Add(SourceTextBox);
+
+            TextBox TransTextBox = new TextBox();
+            TransTextBox.Height = MainGrid.Height - 10;
+            TransTextBox.Margin = new Thickness(10, 0, 10, 0);
+            TransTextBox.FontSize = DefFontSize;
+            TransTextBox.VerticalAlignment = VerticalAlignment.Center;
+            TransTextBox.BorderBrush = new SolidColorBrush(Color.FromRgb(87, 87, 87));
+            TransTextBox.Background = null;
+            TransTextBox.SelectionBrush = new SolidColorBrush(Color.FromRgb(17, 145, 243));
+            TransTextBox.BorderThickness = new Thickness(1);
+            TransTextBox.Foreground = new SolidColorBrush(Colors.White);
+            TransTextBox.VerticalContentAlignment = VerticalAlignment.Center;
+            TransTextBox.HorizontalContentAlignment = HorizontalAlignment.Center;
+            TransTextBox.CaretBrush = new SolidColorBrush(Colors.White);
+            TransTextBox.AcceptsReturn = true;
+            TransTextBox.TextWrapping = TextWrapping.Wrap;
+            TransTextBox.Text = TransText;
+            TransTextBox.MouseEnter += TransTextBox_MouseEnter;
+            TransTextBox.MouseLeave += TransTextBox_MouseLeave;
+            TransTextBox.Tag = MainGrid;
+            Grid.SetRow(TransTextBox, 0);
+            Grid.SetColumn(TransTextBox, 3);
+            MainGrid.Children.Add(TransTextBox);
+
+            return MainGrid;
+        }
+
+        private static void SourceTextBox_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (sender is TextBox)
+            {
+                (sender as TextBox).SelectAll();
+                Clipboard.SetText((sender as TextBox).Text.Trim());
+            }
+        }
+
+        private static void TransTextBox_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            if (sender is TextBox)
+            {
+                var LockerGrid = ((sender as TextBox).Tag as Grid);
+                if (LockerGrid.Height != DefLineHeight)
+                {
+                    LockerGrid.Background = new SolidColorBrush(Color.FromRgb(45, 45, 45));
+                }
+                else
+                {
+                    LockerGrid.Background = new SolidColorBrush(Color.FromRgb(35, 35, 35));
+                }
+            }
+        }
+
+        private static void TransTextBox_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            if (sender is TextBox)
+            {
+                var LockerGrid = ((sender as TextBox).Tag as Grid);
+                LockerGrid.Background = new SolidColorBrush(Color.FromRgb(60, 60, 60));
+            }
+        }
+    }
+}
