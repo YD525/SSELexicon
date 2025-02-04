@@ -69,3 +69,5 @@ C:\Users\Administrator\source\repos\YDSkyrimToolR\YDSkyrimToolR\bin\Debug\net9.0
 C:\Users\Administrator\source\repos\YDSkyrimToolR\YDSkyrimToolR\bin\Debug\net9.0-windows\SharpVectors.Rendering.Wpf.dll
 C:\Users\Administrator\source\repos\YDSkyrimToolR\YDSkyrimToolR\bin\Debug\net9.0-windows\SharpVectors.Runtime.Wpf.dll
 C:\Users\Administrator\source\repos\YDSkyrimToolR\YDSkyrimToolR\bin\Debug\net9.0-windows\SharpVectors.Rendering.Gdi.dll
+C:\Users\Administrator\source\repos\YDSkyrimToolR\YDSkyrimToolR\bin\Debug\net9.0-windows\Microsoft.WindowsAPICodePack.dll
+C:\Users\Administrator\source\repos\YDSkyrimToolR\YDSkyrimToolR\bin\Debug\net9.0-windows\Microsoft.WindowsAPICodePack.Shell.dll

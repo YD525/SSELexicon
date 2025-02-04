@@ -211,6 +211,41 @@
           }
         }
       },
+      "Microsoft-WindowsAPICodePack-Core/1.1.5": {
+        "type": "package",
+        "compile": {
+          "lib/net7.0-windows7.0/Microsoft.WindowsAPICodePack.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net7.0-windows7.0/Microsoft.WindowsAPICodePack.dll": {
+            "related": ".xml"
+          }
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WindowsForms"
+        ]
+      },
+      "Microsoft-WindowsAPICodePack-Shell/1.1.5": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft-WindowsAPICodePack-Core": "1.1.5"
+        },
+        "compile": {
+          "lib/net7.0-windows7.0/Microsoft.WindowsAPICodePack.Shell.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net7.0-windows7.0/Microsoft.WindowsAPICodePack.Shell.dll": {
+            "related": ".xml"
+          }
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App"
+        ]
+      },
       "Microsoft.Bcl.AsyncInterfaces/6.0.0": {
         "type": "package",
         "compile": {
@@ -1305,6 +1340,60 @@
         "lib/netstandard2.0/Loqui.xml",
         "loqui.2.69.0.nupkg.sha512",
         "loqui.nuspec"
+      ]
+    },
+    "Microsoft-WindowsAPICodePack-Core/1.1.5": {
+      "sha512": "3feeT5wxrH/T4YmoZwCglVrUw6aS4+WJLA3FRADLVT2J85/zjptrCikvGNcLI1+gDeoI1AZ4w45gF2FvBv6eQw==",
+      "type": "package",
+      "path": "microsoft-windowsapicodepack-core/1.1.5",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net452/Microsoft.WindowsAPICodePack.dll",
+        "lib/net452/Microsoft.WindowsAPICodePack.xml",
+        "lib/net462/Microsoft.WindowsAPICodePack.dll",
+        "lib/net462/Microsoft.WindowsAPICodePack.xml",
+        "lib/net472/Microsoft.WindowsAPICodePack.dll",
+        "lib/net472/Microsoft.WindowsAPICodePack.xml",
+        "lib/net48/Microsoft.WindowsAPICodePack.dll",
+        "lib/net48/Microsoft.WindowsAPICodePack.xml",
+        "lib/net481/Microsoft.WindowsAPICodePack.dll",
+        "lib/net481/Microsoft.WindowsAPICodePack.xml",
+        "lib/net6.0-windows7.0/Microsoft.WindowsAPICodePack.dll",
+        "lib/net6.0-windows7.0/Microsoft.WindowsAPICodePack.xml",
+        "lib/net7.0-windows7.0/Microsoft.WindowsAPICodePack.dll",
+        "lib/net7.0-windows7.0/Microsoft.WindowsAPICodePack.xml",
+        "lib/netcoreapp3.1/Microsoft.WindowsAPICodePack.dll",
+        "lib/netcoreapp3.1/Microsoft.WindowsAPICodePack.xml",
+        "microsoft-windowsapicodepack-core.1.1.5.nupkg.sha512",
+        "microsoft-windowsapicodepack-core.nuspec"
+      ]
+    },
+    "Microsoft-WindowsAPICodePack-Shell/1.1.5": {
+      "sha512": "lZ+oIxvTp1Ph0YrzFl3AKcrry7OCfi0awf43nrGwodWqDlFASktZ+pN532rbU/5o09irYjxVu1m3UxO5L1H8fw==",
+      "type": "package",
+      "path": "microsoft-windowsapicodepack-shell/1.1.5",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net452/Microsoft.WindowsAPICodePack.Shell.dll",
+        "lib/net452/Microsoft.WindowsAPICodePack.Shell.xml",
+        "lib/net462/Microsoft.WindowsAPICodePack.Shell.dll",
+        "lib/net462/Microsoft.WindowsAPICodePack.Shell.xml",
+        "lib/net472/Microsoft.WindowsAPICodePack.Shell.dll",
+        "lib/net472/Microsoft.WindowsAPICodePack.Shell.xml",
+        "lib/net48/Microsoft.WindowsAPICodePack.Shell.dll",
+        "lib/net48/Microsoft.WindowsAPICodePack.Shell.xml",
+        "lib/net481/Microsoft.WindowsAPICodePack.Shell.dll",
+        "lib/net481/Microsoft.WindowsAPICodePack.Shell.xml",
+        "lib/net6.0-windows7.0/Microsoft.WindowsAPICodePack.Shell.dll",
+        "lib/net6.0-windows7.0/Microsoft.WindowsAPICodePack.Shell.xml",
+        "lib/net7.0-windows7.0/Microsoft.WindowsAPICodePack.Shell.dll",
+        "lib/net7.0-windows7.0/Microsoft.WindowsAPICodePack.Shell.xml",
+        "lib/netcoreapp3.1/Microsoft.WindowsAPICodePack.Shell.dll",
+        "lib/netcoreapp3.1/Microsoft.WindowsAPICodePack.Shell.xml",
+        "microsoft-windowsapicodepack-shell.1.1.5.nupkg.sha512",
+        "microsoft-windowsapicodepack-shell.nuspec"
       ]
     },
     "Microsoft.Bcl.AsyncInterfaces/6.0.0": {
@@ -3499,6 +3588,8 @@
   },
   "projectFileDependencyGroups": {
     "net9.0-windows7.0": [
+      "Microsoft-WindowsAPICodePack-Core >= 1.1.5",
+      "Microsoft-WindowsAPICodePack-Shell >= 1.1.5",
       "Mutagen.Bethesda >= 0.48.1",
       "SharpVectors >= 1.8.4.2",
       "System.Drawing.Common >= 9.0.1"
@@ -3555,6 +3646,14 @@
       "net9.0-windows7.0": {
         "targetAlias": "net9.0-windows",
         "dependencies": {
+          "Microsoft-WindowsAPICodePack-Core": {
+            "target": "Package",
+            "version": "[1.1.5, )"
+          },
+          "Microsoft-WindowsAPICodePack-Shell": {
+            "target": "Package",
+            "version": "[1.1.5, )"
+          },
           "Mutagen.Bethesda": {
             "target": "Package",
             "version": "[0.48.1, )"

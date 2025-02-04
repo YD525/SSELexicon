@@ -6,7 +6,7 @@
         xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
         xmlns:local="clr-namespace:YDSkyrimToolR"
         mc:Ignorable="d"
-        Title="MainWindow" Height="790" Width="1200" Loaded="Window_Loaded"   Style="{DynamicResource DefWin}" WindowStartupLocation="CenterScreen">
+        Title="MainWindow" Height="790" Width="1200" Loaded="Window_Loaded" Style="{DynamicResource DefWin}" WindowStartupLocation="CenterScreen" AllowDrop="True" PreviewDragEnter="ModTransView_DragEnter" PreviewDrop="ModTransView_Drop"  PreviewDragLeave="ModTransView_DragLeave">
 
     <Window.Resources>
         <Storyboard x:Key="ShowSmallNav">
@@ -156,61 +156,71 @@
                         </Grid>
                     </Grid>
                     <Grid Tag="MainView" Margin="0 0 0 5" Background= "White" Visibility="Visible">
-                        <Grid>
+
+                        <Grid Name="MainNav" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="999">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="180"/>
                                 <RowDefinition Height="1*"/>
                             </Grid.RowDefinitions>
 
-                            <StackPanel Orientation="Horizontal" Panel.ZIndex="5">
-                                <Border PreviewMouseDown="AutoShowSmallNav" Background="#FFFD98BE" Name="SmallMenu" CornerRadius="0 0 8 8" VerticalAlignment="Top" Cursor="Hand" Height="180">
-                                    <Border.RenderTransform>
-                                        <ScaleTransform x:Name="MyScaleTransform" ScaleX="1" ScaleY="1"/>
-                                    </Border.RenderTransform>
+                            <Border PreviewMouseDown="AutoShowSmallNav" Background="#FFFD98BE" Name="SmallMenu" CornerRadius="0 0 8 8" VerticalAlignment="Top" Cursor="Hand" Height="180">
+                                <Border.RenderTransform>
+                                    <ScaleTransform x:Name="MyScaleTransform" ScaleX="1" ScaleY="1"/>
+                                </Border.RenderTransform>
 
-                                    <Grid>
-                                        <Image Name="ShowNavSign" Panel.ZIndex="99" VerticalAlignment="Top" Margin="0 15 0 0" Source="/YDSkyrimToolR;component/Material/WhiteDown.png" Stretch="UniformToFill" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="HighQuality" Height="15" Width="20">
-                                        </Image>
+                                <Grid>
+                                    <Image Name="ShowNavSign" Panel.ZIndex="99" VerticalAlignment="Top" Margin="0 15 0 0" Source="/YDSkyrimToolR;component/Material/WhiteDown.png" Stretch="UniformToFill" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="HighQuality" Height="15" Width="20">
+                                    </Image>
 
-                                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Name="Nav" Margin="0 5 0 0" Opacity="0.8">
-                                            <StackPanel.Triggers>
-                                               
-                                            </StackPanel.Triggers>
-                                            <Grid Width="50" Height="50" Margin="0 0 0 1" Tag="TransView" >
-                                                <Image Source="{svgc:SvgImage ../Material/TransICO.svg}" Height="23" Width="23"  Grid.Column="0" Style="{DynamicResource HighQuality}"/>
-                                            </Grid>
-                                            <Grid Width="50" Height="50" Margin="0 0 0 1" Tag="TransView">
-                                                <Image Source="{svgc:SvgImage ../Material/TransICO.svg}" Height="23" Width="23"  Grid.Column="0" Style="{DynamicResource HighQuality}"/>
-                                            </Grid>
-                                        </StackPanel>
-                                    </Grid>
-                                </Border>
-                                <Grid Background="#FF655B5F" Width="230" Height="35" VerticalAlignment="Top">
-                                    <Label Foreground="White" VerticalAlignment="Center" FontSize="13" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Name="Nav" Margin="0 5 0 0" Opacity="0.8">
+                                        <StackPanel.Triggers>
+
+                                        </StackPanel.Triggers>
+                                        <Grid Width="50" Height="50" Margin="0 0 0 1" Tag="TransView" >
+                                            <Image Source="{svgc:SvgImage ../Material/TransICO.svg}" Height="23" Width="23"  Grid.Column="0" Style="{DynamicResource HighQuality}"/>
+                                        </Grid>
+                                        <Grid Width="50" Height="50" Margin="0 0 0 1" Tag="TransView">
+                                            <Image Source="{svgc:SvgImage ../Material/TransICO.svg}" Height="23" Width="23"  Grid.Column="0" Style="{DynamicResource HighQuality}"/>
+                                        </Grid>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </Grid>
+
+                        <Grid Name="ModTransView">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Orientation="Horizontal" Panel.ZIndex="5" Margin="50 0 0 0">
+                               
+                                <Grid Background="#FF655B5F" Width="180" Height="35" VerticalAlignment="Top">
+                                    <Label Foreground="White" VerticalAlignment="Center" FontSize="13" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Name="Caption">
                                         TranslationCore
                                     </Label>
                                 </Grid>
-                                <Grid Background="#FF393939" Width="230" Height="35" VerticalAlignment="Top">
-                                    <Label  Foreground="White" VerticalAlignment="Center" FontSize="13" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                                <Grid Background="#FF393939" Width="200" Height="35" VerticalAlignment="Top">
+                                    <Label  Foreground="White" VerticalAlignment="Center" FontSize="13" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Name="TransProcess">
                                         STRINGS(0/0)
                                     </Label>
-                                    <Grid Height="5" VerticalAlignment="Bottom" Background="#FFC9C0C0">
-                                        <Grid Height="5" Width="30" HorizontalAlignment="Left" Background="#FFEBA727">
+                                    <Grid Height="5" VerticalAlignment="Bottom" Background="#FFC9C0C0" Name="ProcessBarFrame">
+                                        <Grid Height="5" Width="0" HorizontalAlignment="Left" Background="#FFEBA727" Name="ProcessBar">
                                         </Grid>
                                     </Grid>
                                 </Grid>
-                                <Grid Width="230" Height="35" VerticalAlignment="Top" Background="#FFFFE3E3">
+                                <Grid Width="220" Height="35" VerticalAlignment="Top">
                                     <StackPanel Orientation="Horizontal">
                                         <Label VerticalAlignment="Center" Margin="10 0 0 0" FontSize="12">
                                             TypeFilter
                                         </Label>
-                                        <ComboBox Cursor="Hand" Name="TransTargetType" Style="{StaticResource WpfComboBoxStyle}"  Margin="10 0 0 0">
+                                        <ComboBox Cursor="Hand" Width="135" Name="TransTargetType" Style="{StaticResource WpfComboBoxStyle}" Margin="10 0 0 0" SelectionChanged="TransTargetType_SelectionChanged">
                                         </ComboBox>
                                     </StackPanel>
                                 </Grid>
                             </StackPanel>
 
-                            <Grid Height="35" Width="230" VerticalAlignment="Top" HorizontalAlignment="Right" Background="#FFE8E8E8" Margin="0 0 200 0" Panel.ZIndex="5">
+                            <Grid Height="35" Width="230" VerticalAlignment="Top" HorizontalAlignment="Right" Background="#FFE8E8E8" Margin="0 0 260 0" Panel.ZIndex="5">
                                 <StackPanel Orientation="Horizontal">
                                     <Label VerticalAlignment="Center" Margin="10 0 0 0" FontSize="12">
                                         Node
@@ -230,22 +240,21 @@
                                 </StackPanel>
                             </Grid>
 
-                            <Grid Height="50" Width="100" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 2 70 0" Panel.ZIndex="5">
-
+                            <Grid Height="50" Width="255" VerticalAlignment="Top" HorizontalAlignment="Right" Panel.ZIndex="5">
                                 <StackPanel Orientation="Horizontal">
-                                    <Border  CornerRadius="5" Background="#FFF789B2" Width="35" Height="35" Margin="20 -5 20 0" PreviewMouseDown="ChangeTransProcessState" Cursor="Hand" Name="ProcessStateBackGround">
+
+                                    <Border  CornerRadius="5" Background="#FFF789B2" Width="35" Height="35" Margin="20 0 20 0" PreviewMouseDown="ChangeTransProcessState" Cursor="Hand" Name="ProcessStateBackGround">
                                         <svgc:SvgViewbox Name="AutoKeep" Stretch="Fill" Source="/Material/Stop.svg"  Margin="3 0 3 0" Width="15" Panel.ZIndex="900" Height="15" ToolTip="继续" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand" Opacity="1"/>
                                     </Border>
-                                </StackPanel>
 
-                            </Grid>
-
-                            <Grid Height="50" Width="100" VerticalAlignment="Top" HorizontalAlignment="Right" Panel.ZIndex="5">
-
-                                <StackPanel Orientation="Horizontal">
-                                    <Border  CornerRadius="5" Background="#FFF789B2" Width="80" Height="35"  Name="StartTransBtn">
-                                        <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand" ToolTip="载入文件" MouseDown="AutoLoadFile">
+                                    <Border  CornerRadius="5" Background="#FFF789B2" Width="80" Height="35"  Name="StartTransBtn" PreviewMouseDown="AutoLoadEsp">
+                                        <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand" ToolTip="载入文件">
                                             LoadFile
+                                        </Label>
+                                    </Border>
+                                    <Border IsEnabled="False" Opacity="0.3" Margin="10 0 0 0" CornerRadius="5" Background="#FFF789B2" Width="80" Height="35"  Name="CancelTransBtn" PreviewMouseDown="CancelTransEsp">
+                                        <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand" ToolTip="取消翻译">
+                                           Cancel
                                         </Label>
                                     </Border>
                                 </StackPanel>
@@ -253,7 +262,7 @@
                             </Grid>
 
                             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" Grid.RowSpan="2">
-                                
+
                                 <Grid Height="30" Background="#FF7B7B7B" Margin="10 50 10 0" VerticalAlignment="Top">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="0.35*"/>
@@ -274,21 +283,22 @@
                                         TransText
                                     </Label>
                                 </Grid>
-
                                 <Grid Margin="10 80 10 0" VerticalAlignment="Top" Name="TransView">
                                 </Grid>
-                                
-
-
-                                <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="#FFFFDDF9" CornerRadius="7" Width="370" Height="80" Visibility="Collapsed" Name="DragdropView">
-                                    <Label Foreground="Black" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        Drag and drop here
-                                    </Label>
-                                </Border>
                             </Grid>
+
+                            
+
 
                         </Grid>
 
+                        <Grid Name="DragDropView" Visibility="Collapsed">
+                            <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="#FFFFDDF9" CornerRadius="7" Width="370" Height="80" Visibility="Visible" Name="DragdropView">
+                                <Label Foreground="Black" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    Drag and drop here
+                                </Label>
+                            </Border>
+                        </Grid>
 
                     </Grid>
                 </Grid>

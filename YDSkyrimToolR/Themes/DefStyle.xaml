@@ -127,7 +127,7 @@
     </ControlTemplate>
 
     <Style x:Key="WpfComboBoxStyle" TargetType="{x:Type ComboBox}">
-        <Setter Property="Height" Value="30" />
+        <Setter Property="Height" Value="35" />
         <Setter Property="Padding" Value="12,0,33,0" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="MaxDropDownHeight" Value="150" />
@@ -140,7 +140,7 @@
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
         <Setter Property="Foreground" Value="#3E434D" />
-        <Setter Property="MinWidth" Value="120" />
+        <Setter Property="MinWidth" Value="80" />
         <Setter Property="MinHeight" Value="30" />
         <Setter Property="Template">
             <Setter.Value>

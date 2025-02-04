@@ -9,17 +9,26 @@ using System.Windows;
 using Mutagen.Bethesda.Fallout4;
 using Mutagen.Bethesda.Skyrim;
 using System.Runtime.CompilerServices;
+using YDSkyrimToolR.TranslateManage;
+using Noggog;
+using YDSkyrimToolR.ConvertManager;
 
 namespace YDSkyrimToolR.UIManage
 {
     public class UIHelper
     {
+        public static int ModifyCount = 0;
         public static double DefFontSize = 15;
         public static double DefLineHeight = 40;
-       
+        public static SolidColorBrush DefHeightBackground = new SolidColorBrush(Color.FromRgb(15, 15, 15));
+        public static SolidColorBrush ExtendHeightBackground = new SolidColorBrush(Color.FromRgb(40, 40, 40));
+
         public static Grid CreatLine(string Type,string EditorID,string Key, string SourceText,string TransText)
         {
             Grid MainGrid = new Grid();
+
+            MainGrid.Tag = Key.GetHashCode().ToString();
+
             MainGrid.Height = DefLineHeight;
             //Calc FontSize For Auto Height
             //Margin 25
@@ -28,11 +37,11 @@ namespace YDSkyrimToolR.UIManage
             if (GetTextSize > GetTextWidthRange)
             {
                 MainGrid.Height = 80;
-                MainGrid.Background = new SolidColorBrush(Color.FromRgb(45, 45, 45));
+                MainGrid.Background = ExtendHeightBackground;
             }
             else
             {
-                MainGrid.Background = new SolidColorBrush(Color.FromRgb(35, 35, 35));
+                MainGrid.Background = DefHeightBackground;
             }
 
             RowDefinition Row1st = new RowDefinition();
@@ -152,6 +161,11 @@ namespace YDSkyrimToolR.UIManage
             TransTextBox.FontSize = DefFontSize;
             TransTextBox.VerticalAlignment = VerticalAlignment.Center;
             TransTextBox.BorderBrush = new SolidColorBrush(Color.FromRgb(87, 87, 87));
+            if (TransText.Length > 0)
+            {
+                TransTextBox.BorderBrush = new SolidColorBrush(Colors.Green);
+                ModifyCount++;
+            }
             TransTextBox.Background = null;
             TransTextBox.SelectionBrush = new SolidColorBrush(Color.FromRgb(17, 145, 243));
             TransTextBox.BorderThickness = new Thickness(1);
@@ -164,12 +178,74 @@ namespace YDSkyrimToolR.UIManage
             TransTextBox.Text = TransText;
             TransTextBox.MouseEnter += TransTextBox_MouseEnter;
             TransTextBox.MouseLeave += TransTextBox_MouseLeave;
+            TransTextBox.LostFocus += TransTextBox_LostFocus;
             TransTextBox.Tag = MainGrid;
+
+            TransTextBox.MouseLeave += TransTextBox_MouseLeave1; ;
             Grid.SetRow(TransTextBox, 0);
             Grid.SetColumn(TransTextBox, 3);
             MainGrid.Children.Add(TransTextBox);
 
             return MainGrid;
+        }
+
+        private static void TransTextBox_MouseLeave1(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            var GetTextBox = (sender as TextBox);
+            var GetKey = ConvertHelper.ObjToInt((GetTextBox.Tag as Grid).Tag);
+            if (GetTextBox.Text.Length > 0)
+            {
+                Translator.TransData[GetKey] = GetTextBox.Text;
+            }
+        }
+
+        public static Dictionary<int, int> ModifyCountCache = new Dictionary<int, int>();
+
+        private static void TransTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var GetKey = ConvertHelper.ObjToInt(((sender as TextBox).Tag as Grid).Tag);
+
+            if ((sender as TextBox).Text.Length > 0)
+            {
+                Translator.TransData[GetKey] = (sender as TextBox).Text;
+
+                (sender as TextBox).BorderBrush = new SolidColorBrush(Colors.Green);
+
+                int GetGridModifyCount = 0;
+
+                if (!ModifyCountCache.ContainsKey(GetKey))
+                {
+                    ModifyCountCache.Add(GetKey,1);
+                    GetGridModifyCount = 1;
+                }
+
+                if (GetGridModifyCount > 0)
+                {
+                    UIHelper.ModifyCount++;
+
+                    if (DeFine.WorkingWin != null)
+                    {
+                        DeFine.WorkingWin.GetStatistics();
+                    }
+                }
+                else
+                { 
+                
+                }
+            }
+            else
+            {
+                if (ModifyCountCache.ContainsKey(GetKey))
+                {
+                    ModifyCountCache.Remove(GetKey);
+                    UIHelper.ModifyCount--;
+                    DeFine.WorkingWin.GetStatistics();
+                }
+
+                Translator.TransData[GetKey] = (sender as TextBox).Text;
+
+                (sender as TextBox).BorderBrush = new SolidColorBrush(Color.FromRgb(87, 87, 87));
+            }
         }
 
         private static void SourceTextBox_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -185,15 +261,41 @@ namespace YDSkyrimToolR.UIManage
         {
             if (sender is TextBox)
             {
+                var GetKey = ConvertHelper.ObjToInt(((sender as TextBox).Tag as Grid).Tag);
+
                 var LockerGrid = ((sender as TextBox).Tag as Grid);
+                (sender as TextBox).Foreground = new SolidColorBrush(Colors.White);
+                (LockerGrid.Children[3] as TextBox).Foreground = new SolidColorBrush(Colors.White);
+
                 if (LockerGrid.Height != DefLineHeight)
                 {
-                    LockerGrid.Background = new SolidColorBrush(Color.FromRgb(45, 45, 45));
+                    LockerGrid.Background = ExtendHeightBackground;
                 }
                 else
                 {
-                    LockerGrid.Background = new SolidColorBrush(Color.FromRgb(35, 35, 35));
+                    LockerGrid.Background = DefHeightBackground;
                 }
+
+                if ((sender as TextBox).Text.Length > 0)
+                {
+                    (sender as TextBox).BorderBrush = new SolidColorBrush(Colors.Green);
+                }
+                else
+                {
+                    (sender as TextBox).BorderBrush = new SolidColorBrush(Color.FromRgb(87, 87, 87));
+                }
+
+                if ((sender as TextBox).Text.Length == 0)
+                {
+                    if (ModifyCountCache.ContainsKey(GetKey))
+                    {
+                        ModifyCountCache.Remove(GetKey);
+                        UIHelper.ModifyCount--;
+                        DeFine.WorkingWin.GetStatistics();
+                    }
+                }
+
+                Translator.TransData[GetKey] = (sender as TextBox).Text;
             }
         }
 
@@ -202,7 +304,9 @@ namespace YDSkyrimToolR.UIManage
             if (sender is TextBox)
             {
                 var LockerGrid = ((sender as TextBox).Tag as Grid);
-                LockerGrid.Background = new SolidColorBrush(Color.FromRgb(60, 60, 60));
+                (sender as TextBox).Foreground = new SolidColorBrush(Colors.Orange);
+                (LockerGrid.Children[3] as TextBox).Foreground = new SolidColorBrush(Colors.Yellow);
+                LockerGrid.Background = new SolidColorBrush(Color.FromRgb(55, 55, 55));
             }
         }
     }
