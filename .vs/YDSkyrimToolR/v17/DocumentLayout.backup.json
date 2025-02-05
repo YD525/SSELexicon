@@ -138,6 +138,10 @@
               "IsPinned": true
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
+            },
+            {
               "$type": "Document",
               "DocumentIndex": 6,
               "Title": "SkyrimDataLoader.cs",
@@ -147,12 +151,7 @@
               "RelativeToolTip": "YDSkyrimToolR\\UIManage\\SkyrimDataLoader.cs",
               "ViewState": "AgIAAAYAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-05T17:22:11.617Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:1:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
+              "WhenOpened": "2025-02-05T17:22:11.617Z"
             },
             {
               "$type": "Document",
@@ -177,8 +176,7 @@
               "RelativeToolTip": "YDSkyrimToolR\\UIManage\\UIHelper.cs",
               "ViewState": "AgIAAAYAAAAAAAAAAAAAABUAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-04T17:30:07.192Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-04T17:30:07.192Z"
             },
             {
               "$type": "Document",
@@ -307,8 +305,7 @@
               "RelativeToolTip": "YDSkyrimToolR\\MainWindow.xaml.cs",
               "ViewState": "AgIAAAkAAAAAAAAAAAAAABoAAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-03T20:51:43.992Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-03T20:51:43.992Z"
             },
             {
               "$type": "Document",
@@ -320,8 +317,7 @@
               "RelativeToolTip": "YDSkyrimToolR\\TranslateManage\\Translator.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-04T09:36:55.801Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-04T09:36:55.801Z"
             },
             {
               "$type": "Document",
@@ -333,8 +329,7 @@
               "RelativeToolTip": "YDSkyrimToolR\\DeFine.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAwA0AAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-03T21:36:32.284Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-03T21:36:32.284Z"
             },
             {
               "$type": "Document",
@@ -370,8 +365,7 @@
               "RelativeToolTip": "YDSkyrimToolR\\ConvertManage\\ConvertHelper.cs",
               "ViewState": "AgIAAI0AAAAAAAAAAAAAABwAAAA8AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-04T02:07:25.923Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-04T02:07:25.923Z"
             },
             {
               "$type": "Document",
