@@ -15,6 +15,11 @@ using YDSkyrimToolR.ConvertManager;
 
 namespace YDSkyrimToolR.UIManage
 {
+    /*
+    * @Author: 约定
+    * @GitHub: https://github.com/tolove336/YDSkyrimToolR
+    * @Date: 2025-02-06
+    */
     public class UIHelper
     {
         public static int ModifyCount = 0;

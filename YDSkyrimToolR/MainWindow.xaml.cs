@@ -20,7 +20,11 @@ using YDSkyrimToolR.TranslateManage;
 using YDSkyrimToolR.UIManage;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 using static YDSkyrimToolR.UIManage.SkyrimDataLoader;
-
+/*
+* @Author: 约定
+* @GitHub: https://github.com/tolove336/YDSkyrimToolR
+* @Date: 2025-02-06
+*/
 namespace YDSkyrimToolR
 {
     /// <summary>

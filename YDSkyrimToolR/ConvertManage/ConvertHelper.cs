@@ -8,7 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Media.Imaging;
-
+/*
+* @Author: 约定
+* @GitHub: https://github.com/tolove336/YDSkyrimToolR
+* @Date: 2025-02-06
+*/
 namespace YDSkyrimToolR.ConvertManager
 {
     public class ConvertHelper
@@ -20,11 +24,9 @@ namespace YDSkyrimToolR.ConvertManager
             string base64Str = "";
             try
             {
-                //读写指针移到距开头10个字节处
                 fsForRead.Seek(0, SeekOrigin.Begin);
                 byte[] bs = new byte[fsForRead.Length];
                 int log = Convert.ToInt32(fsForRead.Length);
-                //从文件中读取10个字节放到数组bs中
                 fsForRead.Read(bs, 0, log);
                 base64Str = Convert.ToBase64String(bs);
                 return base64Str;

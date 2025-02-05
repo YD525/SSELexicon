@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("YDSkyrimToolR")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c89b3425e794fb75840089d0686d390e90704e4a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+06f8cb6206045c78024f0003155688f9cf2c03af")]
 [assembly: System.Reflection.AssemblyProductAttribute("YDSkyrimToolR")]
 [assembly: System.Reflection.AssemblyTitleAttribute("YDSkyrimToolR")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

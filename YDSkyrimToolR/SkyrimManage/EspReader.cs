@@ -13,7 +13,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using YDSkyrimToolR.ConvertManager;
-
+/*
+* @Author: 约定
+* @GitHub: https://github.com/tolove336/YDSkyrimToolR
+* @Date: 2025-02-06
+*/
+/*
+* Module referenced from Mutagen
+* @Author: Mutagen
+* @GitHub: https://github.com/Mutagen-Modding/Mutagen
+* @Date: 2025-02-06
+*/
 namespace YDSkyrimToolR.SkyrimManage
 {
     public class EspReader
