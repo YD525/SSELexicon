@@ -27,7 +27,7 @@ namespace YDSkyrimToolR.UIManage
         public List<ExRow> Rows = new List<ExRow>();
         public double LineHeight = 0;
 
-        public YDListView(Grid Parent,double LineHeight = 50)
+        public YDListView(Grid Parent, double LineHeight = 50)
         {
             this.LineHeight = LineHeight;
 
@@ -66,7 +66,7 @@ namespace YDSkyrimToolR.UIManage
             }
 
             return null;
-        }       
+        }
         private void Refresh()
         {
             if (this.Rows.Count == 0) return;
@@ -108,7 +108,7 @@ namespace YDSkyrimToolR.UIManage
                     RowOffset++;
                 }
             }
-           
+
         }
         public List<string> AddBlock(params UIElement[] Controls)
         {
@@ -236,7 +236,7 @@ namespace YDSkyrimToolR.UIManage
             foreach (var Get in ExColStyles)
             {
                 string CreatControlNameA = string.Format("R{0}C{1}", this.Rows.Count, ColOffset);
-               
+
                 OneRow.Columns.Add(new ExCol(Controls[ColOffset], CreatControlNameA));
 
                 ColOffset++;
@@ -253,7 +253,7 @@ namespace YDSkyrimToolR.UIManage
                     this.MainGrid.ColumnDefinitions.Add(OneColumn);
                 }
             }
-            
+
             RowDefinition OneGridRow = new RowDefinition();
             OneGridRow.Height = new GridLength(this.LineHeight, GridUnitType.Pixel);
             this.MainGrid.RowDefinitions.Add(OneGridRow);
@@ -281,7 +281,7 @@ namespace YDSkyrimToolR.UIManage
         }
         public void DeleteByName(string Name)
         {
-            for(int i=0;i<this.Rows.Count;i++)
+            for (int i = 0; i < this.Rows.Count; i++)
             {
                 for (int ir = 0; ir < this.Rows[i].Columns.Count; ir++)
                 {
@@ -317,7 +317,7 @@ namespace YDSkyrimToolR.UIManage
         public UIElement Control = null;
         public string ControlName;
 
-        public ExCol(UIElement Control,string ControlName)
+        public ExCol(UIElement Control, string ControlName)
         {
             this.Control = Control;
             this.ControlName = ControlName;
@@ -330,7 +330,7 @@ namespace YDSkyrimToolR.UIManage
         public int TopIndex = 0;
 
         public List<ExCol> Columns = new List<ExCol>();
-        
+
         public int CompareTo(ExRow p)
         {
             if (this.TopIndex > p.TopIndex)

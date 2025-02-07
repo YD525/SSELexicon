@@ -1,0 +1,101 @@
+﻿<Window x:Class="YDSkyrimToolR.ActionWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:YDSkyrimToolR"
+        mc:Ignorable="d"
+        Title="ActionWin"  Height="280" Width="390" WindowStartupLocation="CenterScreen" Topmost="True">
+    <Window.Style>
+        <Style TargetType="Window">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="WindowStyle" Value="None" />
+            <Setter Property="ResizeMode" Value="CanResize" />
+            <Setter Property="AllowsTransparency" Value="True" />
+            <Setter Property="WindowChrome.WindowChrome">
+                <Setter.Value>
+                    <WindowChrome CaptionHeight="25" ResizeBorderThickness="0"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Style>
+
+
+    <Border BorderThickness="8" CornerRadius="5" SnapsToDevicePixels="True" Margin="10">
+
+        <Border.BorderBrush>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FFF77FAC" Offset="0"/>
+                <GradientStop Color="#FFFF9BC1" Offset="0.379"/>
+                <GradientStop Color="#FFF66299"/>
+                <GradientStop Color="#FFFFB0CE" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.BorderBrush>
+
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="10" Direction="3" ShadowDepth="0" Color="White" Opacity="0.5" />
+        </Border.Effect>
+
+
+
+        <Border BorderThickness="0"  Margin="-3 -3 -3 -3" CornerRadius="5" SnapsToDevicePixels="True"  Background="White" Name="FristLoad">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Background="#FFF66299" MouseLeftButtonDown="WinHead_MouseLeftButtonDown">
+                    <Label Name="Caption" VerticalAlignment="Center" Foreground="White"  FontSize="18" Margin="10 0 0 0" FontFamily="Microsoft YaHei UI">
+
+                    </Label>
+                </Grid>
+
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-20,0,0" Grid.Row="1" Height="100">
+
+                    <StackPanel Orientation="Horizontal" Margin="0 30 0 30">
+                        <TextBox Width="260" Height="85" BorderBrush="AliceBlue" BorderThickness="0" Foreground="#707070" FontSize="15" IsReadOnly="True" VerticalAlignment="Center"  Name="CurrentMsg" FontFamily="Microsoft YaHei UI" Margin="3 -33 0 0" AcceptsReturn="True" TextWrapping="Wrap" Background="{x:Null}" VerticalContentAlignment="Center"></TextBox>
+                    </StackPanel>
+
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 0 0 25">
+
+                    <Border Name="Cancel" CornerRadius="5"  VerticalAlignment="Center" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"  Width="60" Height="35" BorderBrush="#FFF77FAC" BorderThickness="0.5" Cursor="Hand" PreviewMouseDown = "OneCancel">
+                        <Grid>
+                            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                <Label  Foreground="#FFF77FAC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Padding="17 2 17 2"  FontSize="13">
+                                    取消
+                                </Label>
+                            </StackPanel>
+                        </Grid>
+
+                    </Border>
+
+                    <Border Name="Confirm" CornerRadius="5"  VerticalAlignment="Center" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"  Width="60" Height="35" Margin="30 0 0 0" Cursor="Hand" PreviewMouseDown = "OneConfirm">
+
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Color="#FFF77FAC" Offset="0.5"/>
+                                <GradientStop Color="#FFFFBCE5" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+
+                        <Grid>
+                            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                <Label Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Padding="17 2 17 2"  FontSize="13">
+                                    确定
+                                </Label>
+                            </StackPanel>
+                        </Grid>
+
+                    </Border>
+
+                </StackPanel>
+
+            </Grid>
+        </Border>
+
+    </Border>
+</Window>

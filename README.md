@@ -10,6 +10,10 @@
 ## (https://github.com/Mutagen-Modding/Mutagen),
 ## 框架/库名称：Mutagen.Bethesda，由 [Mutagen] 开发，许可证为 [GPL-3.0-only]。
 
+## 并且，它的部分组件使用了以下开源框架/库：
+## (https://github.com/Orvid/Champollion),
+## 框架/库名称：Champollion，由 [Orvid] 开发，许可证为 [GPL-3.0-only]。
+
 ## 以及有依赖关系的 GameFinder所有组件
 ## (https://github.com/erri120/GameFinder)
 ## 框架/库名称：erri120.GameFinder，由 [erri120] 开发，许可证为 [GPL-3.0-only]。
@@ -20,7 +24,10 @@
 ### 你可以分享 并且使用改进这个源码 但是请遵守协议规范 在License文件可以看到
 ### 关于软件的任何问题可以咨询我的 QQ525084464
 
-#### 另外乐捐我也是喜欢的TAT
 
 #### 目前还在开发中仓库会持续更新的
 
+#### 另外乐捐我也是喜欢的TAT
+#### 支持本项目
+如果你喜欢这个项目，可以通过以下方式支持我们：
+![支付宝收款码](alipay_qrcode.jpg)

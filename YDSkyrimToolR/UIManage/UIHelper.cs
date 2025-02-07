@@ -12,6 +12,7 @@ using System.Runtime.CompilerServices;
 using YDSkyrimToolR.TranslateManage;
 using Noggog;
 using YDSkyrimToolR.ConvertManager;
+using YDSkyrimToolR.SkyrimManage;
 
 namespace YDSkyrimToolR.UIManage
 {
@@ -28,7 +29,7 @@ namespace YDSkyrimToolR.UIManage
         public static SolidColorBrush DefHeightBackground = new SolidColorBrush(Color.FromRgb(15, 15, 15));
         public static SolidColorBrush ExtendHeightBackground = new SolidColorBrush(Color.FromRgb(40, 40, 40));
 
-        public static Grid CreatLine(string Type,string EditorID,string Key, string SourceText,string TransText)
+        public static Grid CreatLine(string Type, string EditorID, string Key, string SourceText, string TransText)
         {
             Grid MainGrid = new Grid();
 
@@ -37,8 +38,17 @@ namespace YDSkyrimToolR.UIManage
             MainGrid.Height = DefLineHeight;
             //Calc FontSize For Auto Height
             //Margin 25
+
+            double TempFontSize = DefFontSize;
+
             var GetTextWidthRange = (DeFine.WorkingWin.ActualWidth / 3) - 25;
-            var GetTextSize = (SourceText.Length * DefFontSize);
+
+
+            if (!StrChecker.ContainsChinese(SourceText))
+            {
+                TempFontSize = 8;
+            }
+            var GetTextSize = (SourceText.Length * TempFontSize);
             if (GetTextSize > GetTextWidthRange)
             {
                 MainGrid.Height = 80;
@@ -50,15 +60,15 @@ namespace YDSkyrimToolR.UIManage
             }
 
             RowDefinition Row1st = new RowDefinition();
-            Row1st.Height = new GridLength(1,GridUnitType.Star);
+            Row1st.Height = new GridLength(1, GridUnitType.Star);
             RowDefinition Row2nd = new RowDefinition();
-            Row2nd.Height = new GridLength(1,GridUnitType.Pixel);
+            Row2nd.Height = new GridLength(1, GridUnitType.Pixel);
 
             MainGrid.RowDefinitions.Add(Row1st);
             MainGrid.RowDefinitions.Add(Row2nd);
 
             ColumnDefinition Column1st = new ColumnDefinition();
-            Column1st.Width = new GridLength(0.35,GridUnitType.Star);
+            Column1st.Width = new GridLength(0.35, GridUnitType.Star);
             //ColumnDefinition Column2nd = new ColumnDefinition();
             //Column2nd.Width = new GridLength(0.3, GridUnitType.Star);
             ColumnDefinition Column3rd = new ColumnDefinition();
@@ -77,25 +87,25 @@ namespace YDSkyrimToolR.UIManage
             Grid Footer = new Grid();
             Footer.Height = 1;
             Footer.Opacity = 0.9;
-            Footer.Background = new SolidColorBrush(Color.FromRgb(30,30,30));
-            Grid.SetColumn(Footer,0);
+            Footer.Background = new SolidColorBrush(Color.FromRgb(30, 30, 30));
+            Grid.SetColumn(Footer, 0);
             Grid.SetColumnSpan(Footer, 5);
             Grid.SetRow(Footer, 1);
             MainGrid.Children.Add(Footer);
-        
+
             Label TypeBox = new Label();
             TypeBox.Height = MainGrid.Height - 10;
-            TypeBox.Margin = new Thickness(10,0,10,0);
+            TypeBox.Margin = new Thickness(10, 0, 10, 0);
             TypeBox.FontSize = DefFontSize;
             TypeBox.VerticalAlignment = VerticalAlignment.Center;
-            TypeBox.BorderBrush = new SolidColorBrush(Color.FromRgb(76,76,76));
+            TypeBox.BorderBrush = new SolidColorBrush(Color.FromRgb(76, 76, 76));
             TypeBox.Background = null;
             TypeBox.BorderThickness = new Thickness(1);
             TypeBox.Foreground = new SolidColorBrush(Colors.White);
             TypeBox.VerticalContentAlignment = VerticalAlignment.Center;
             TypeBox.HorizontalContentAlignment = HorizontalAlignment.Center;
             TypeBox.Content = Type;
-            Grid.SetRow(TypeBox,0);
+            Grid.SetRow(TypeBox, 0);
             Grid.SetColumn(TypeBox, 0);
             MainGrid.Children.Add(TypeBox);
 
@@ -169,7 +179,10 @@ namespace YDSkyrimToolR.UIManage
             if (TransText.Length > 0)
             {
                 TransTextBox.BorderBrush = new SolidColorBrush(Colors.Green);
-                ModifyCount++;
+                if (UIHelper.ModifyCount < DeFine.WorkingWin.MaxTransCount)
+                {
+                    ModifyCount++;
+                }
             }
             TransTextBox.Background = null;
             TransTextBox.SelectionBrush = new SolidColorBrush(Color.FromRgb(17, 145, 243));
@@ -214,19 +227,23 @@ namespace YDSkyrimToolR.UIManage
             {
                 Translator.TransData[GetKey] = (sender as TextBox).Text;
 
+                if ((sender as TextBox).BorderBrush != new SolidColorBrush(Colors.BlueViolet))
                 (sender as TextBox).BorderBrush = new SolidColorBrush(Colors.Green);
 
                 int GetGridModifyCount = 0;
 
                 if (!ModifyCountCache.ContainsKey(GetKey))
                 {
-                    ModifyCountCache.Add(GetKey,1);
+                    ModifyCountCache.Add(GetKey, 1);
                     GetGridModifyCount = 1;
                 }
 
                 if (GetGridModifyCount > 0)
                 {
-                    UIHelper.ModifyCount++;
+                    if (UIHelper.ModifyCount < DeFine.WorkingWin.MaxTransCount)
+                    {
+                        UIHelper.ModifyCount++;
+                    }
 
                     if (DeFine.WorkingWin != null)
                     {
@@ -234,8 +251,8 @@ namespace YDSkyrimToolR.UIManage
                     }
                 }
                 else
-                { 
-                
+                {
+
                 }
             }
             else
@@ -283,6 +300,7 @@ namespace YDSkyrimToolR.UIManage
 
                 if ((sender as TextBox).Text.Length > 0)
                 {
+                    if ((sender as TextBox).BorderBrush != new SolidColorBrush(Colors.BlueViolet))
                     (sender as TextBox).BorderBrush = new SolidColorBrush(Colors.Green);
                 }
                 else
@@ -299,8 +317,8 @@ namespace YDSkyrimToolR.UIManage
                         DeFine.WorkingWin.GetStatistics();
                     }
                 }
-
-                Translator.TransData[GetKey] = (sender as TextBox).Text;
+                string Text = (sender as TextBox).Text;
+                Translator.TransData[GetKey] = Text;
             }
         }
 
@@ -312,6 +330,24 @@ namespace YDSkyrimToolR.UIManage
                 (sender as TextBox).Foreground = new SolidColorBrush(Colors.Orange);
                 (LockerGrid.Children[3] as TextBox).Foreground = new SolidColorBrush(Colors.Yellow);
                 LockerGrid.Background = new SolidColorBrush(Color.FromRgb(55, 55, 55));
+
+                if (DeFine.WorkingWin.CurrentTransType == 3)
+                {
+                    try
+                    {
+                        string GetKey = ConvertHelper.ObjToStr((LockerGrid.Children[2] as TextBox).Text);
+                        if (GetKey.Contains("-"))
+                        {
+                            DeFine.ActiveIDE.ScrollToLine(ConvertHelper.ObjToInt(GetKey.Split('-')[0]));
+                            int GetEnd = 0;
+
+                            DeFine.ActiveIDE.Select(ConvertHelper.ObjToInt(GetKey.Split('-')[1]), ConvertHelper.ObjToInt(GetKey.Split('-')[2].Split('(')[0]));
+                        }
+                    }
+                    catch { }
+                }
+
+                DeFine.DefTransTool.QuickSearchStr((LockerGrid.Children[3] as TextBox).Text);
             }
         }
     }

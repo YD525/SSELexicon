@@ -1,0 +1,212 @@
+<?xml version="1.0"?>
+<SyntaxDefinition name="SharpLua" extensions=".slua;.lua" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+  <!-- The named colors 'Comment' and 'String' are used in SharpDevelop to detect if a line is inside a multiline string/comment -->
+  <Color name="Comment" foreground="#ff999999" exampleText="-- comment" />
+  <Color name="String" foreground="#fff99157" />
+  <Color name="Function" foreground="#FF2EE84B" />
+	
+  <Color name="StringDSP" foreground="#FF7A7878" />
+  <Color name="Punctuation" />
+  <Color name="MethodCall" foreground="#ffffcc66"/>
+  <Color name="NumberLiteral" foreground="#ff99cc99"/>
+  <Color name="NilKeyword" fontWeight="bold"/>
+  <Color name="Keywords" fontWeight="bold" foreground="#ff6699cc" />
+  <Color name="GotoKeywords" foreground="#ffcc99cc" />
+  <Color name="Visibility" fontWeight="bold" foreground="#fff99157"/>
+  <Color name="TrueFalse" fontWeight="bold" foreground="#ff66cccc" />
+  <Color name="System" foreground="#FFF49A0C" />
+  <Color name="PapyrusDeFine" foreground="#FF249BE9"/>
+
+	
+ <Color name="SystemDef" foreground="#FF03A9E7" />
+  <RuleSet name="CommentMarkerSet">
+    <Keywords fontWeight="bold" foreground="#fff2777a">
+      <Word>TODO</Word>
+      <Word>FIXME</Word>
+    </Keywords>
+    <Keywords fontWeight="bold" foreground="#fff2777a">
+      <Word>HACK</Word>
+      <Word>UNDONE</Word>
+    </Keywords>
+  </RuleSet>
+
+  <!-- This is the main ruleset. -->
+  <RuleSet>
+
+    <Span color="Comment">
+      <Begin color="XmlDoc/DocComment">---</Begin>
+      <RuleSet>
+        <Import ruleSet="XmlDoc/DocCommentSet"/>
+        <Import ruleSet="CommentMarkerSet"/>
+      </RuleSet>
+    </Span>
+
+
+    <Span color="Comment" ruleSet="CommentMarkerSet" multiline="true">
+      <Begin>--\[[=]*\[</Begin>
+      <End>\][=]*]</End>
+    </Span>
+
+
+    <Span color="Comment" ruleSet="CommentMarkerSet">
+      <Begin>--</Begin>
+    </Span>
+
+    <Span color="String">
+      <Begin>"</Begin>
+      <End>"</End>
+      <RuleSet>
+        <!-- span for escape sequences -->
+        <Span begin="\\" end="."/>
+      </RuleSet>
+    </Span>
+
+    <Span color="StringDSP">
+      <Begin>'</Begin>
+      <End>'</End>
+      <RuleSet>
+        <!-- span for escape sequences -->
+        <Span begin="\\" end="."/>
+      </RuleSet>
+    </Span>
+	  
+	  <Span color="StringDSP">
+		  <Begin>//</Begin>
+		 
+		  <RuleSet>
+			  <!-- span for escape sequences -->
+			  <Span begin="//" />
+		  </RuleSet>
+	  </Span>
+
+    <Span color="String" multiline="true">
+      <Begin color="String">\[[=]*\[</Begin>
+      <End>\][=]*]</End>
+    </Span>
+
+	  
+	  <Keywords color="PapyrusDeFine">
+		  <Word>Actor</Word>
+		  <Word>Function</Word>
+		  <Word>Keyword</Word>
+		  <Word>GlobalVariable</Word>
+		  <Word>Quest</Word>
+		  <Word>Spell</Word>
+		  <Word>MagicEffect</Word>
+		  <Word>ScriptName</Word>
+		  <Word>Extends</Word>
+		  <Word>String</Word>
+		  <Word>string</Word>
+		  <Word>int</Word>
+		  <Word>Int</Word>
+		  <Word>Float</Word>
+		  <Word>Bool</Word>
+		  <Word>Double</Word>
+		  <Word>If</Word>
+		  <Word>Else</Word>
+		  <Word>EndIf</Word>
+    </Keywords>
+    <Keywords color="TrueFalse">
+      <Word>true</Word>
+      <Word>false</Word>
+	  <Word>DisplayedName</Word>
+	</Keywords>
+	 
+	  <Keywords color="Keywords">
+      <Word>;</Word>
+      <Word>and</Word>
+      <Word>break</Word>
+      <Word>do</Word>
+      <Word>else</Word>
+      <Word>elseif</Word>
+      <Word>end</Word>
+      <Word>false</Word>
+      <Word>for</Word>
+      <Word>function</Word>
+      <Word>if</Word>
+      <Word>endif</Word>
+	  <Word>then</Word>
+      <Word>in</Word>
+      <Word>local</Word>
+      <!--<Word>nil</Word>-->
+      <Word>not</Word>
+      <Word>or</Word>
+      <Word>repeat</Word>
+      <Word>return</Word>
+      <Word>then</Word>
+      <Word>true</Word>
+      <Word>until</Word>
+      <Word>while</Word>
+      <Word>using</Word>
+      <Word>continue</Word>
+      <Word>{</Word>
+	  <Word>}</Word>
+    </Keywords>
+
+    <Keywords color="GotoKeywords">
+      <Word>break</Word>
+      <Word>return</Word>
+    </Keywords>
+
+	  <Keywords color="System" >
+		  <Word>&lt;</Word>
+		  <Word>&gt;</Word>
+		  <Word>Modify</Word>
+		  <Word>Insert</Word>
+		  <Word>Delete</Word>
+	  </Keywords>
+
+	  <Keywords color="SystemDef">
+		  <Word>this</Word>
+	  </Keywords>
+
+    <Keywords color="Visibility">
+      <Word>local</Word>
+    </Keywords>
+
+    <Keywords color="NilKeyword">
+      <Word>nil</Word>
+    </Keywords>
+
+    <!-- Mark previous rule-->
+    <Rule color="MethodCall">
+      \b
+      [\d\w_]+  # an identifier
+      (?=\s*\() # followed by (
+    </Rule>
+    <Rule color="MethodCall">
+      \b
+      [\d\w_]+  # an identifier
+      (?=\s*\") # followed by "
+    </Rule>
+    <Rule color="MethodCall">
+      \b
+      [\d\w_]+  # an identifier
+      (?=\s*\') # followed by '
+    </Rule>
+    <Rule color="MethodCall">
+      \b
+      [\d\w_]+  # an identifier
+      (?=\s*\{) # followed by {
+    </Rule>
+    <Rule color="MethodCall">
+      \b
+      [\d\w_]+  # an identifier
+      (?=\s*\[) # followed by [
+    </Rule>
+
+    <!-- Digits -->
+    <Rule color="NumberLiteral">
+      \b0[xX][0-9a-fA-F]+  # hex number
+      |
+      ( \b\d+(\.[0-9]+)?   #number with optional floating point
+      | \.[0-9]+           #or just starting with floating point
+      )
+      ([eE][+-]?[0-9]+)? # optional exponent
+    </Rule>
+
+    <Rule color="Punctuation">
+      [?,.;()\[\]{}+\-/%*&lt;&gt;^+~!|&amp;]+
+    </Rule>
+  </RuleSet>
+</SyntaxDefinition>

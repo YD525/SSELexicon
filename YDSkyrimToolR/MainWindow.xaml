@@ -6,7 +6,7 @@
         xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
         xmlns:local="clr-namespace:YDSkyrimToolR"
         mc:Ignorable="d"
-        Title="MainWindow" Height="790" Width="1200" Loaded="Window_Loaded" Style="{DynamicResource DefWin}" WindowStartupLocation="CenterScreen" AllowDrop="True" PreviewDragEnter="ModTransView_DragEnter" PreviewDrop="ModTransView_Drop"  PreviewDragLeave="ModTransView_DragLeave">
+        Title="MainWindow" Height="790" LocationChanged="Window_LocationChanged" Width="1200" Loaded="Window_Loaded" Style="{DynamicResource DefWin}" WindowStartupLocation="CenterScreen" AllowDrop="True" PreviewDragEnter="ModTransView_DragEnter" PreviewDrop="ModTransView_Drop"  PreviewDragLeave="ModTransView_DragLeave">
 
     <Window.Resources>
         <Storyboard x:Key="ShowSmallNav">
@@ -247,8 +247,8 @@
                                         <svgc:SvgViewbox Name="AutoKeep" Stretch="Fill" Source="/Material/Stop.svg"  Margin="3 0 3 0" Width="15" Panel.ZIndex="900" Height="15" ToolTip="继续" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand" Opacity="1"/>
                                     </Border>
 
-                                    <Border  CornerRadius="5" Background="#FFF789B2" Width="80" Height="35"  Name="StartTransBtn" PreviewMouseDown="AutoLoadEsp">
-                                        <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand" ToolTip="载入文件">
+                                    <Border  CornerRadius="5" Background="#FFF789B2" Width="80" Height="35"  Name="StartTransBtn" PreviewMouseDown="AutoLoadOrSave">
+                                        <Label Name="LoadBtnContent" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand" ToolTip="载入文件">
                                             LoadFile
                                         </Label>
                                     </Border>

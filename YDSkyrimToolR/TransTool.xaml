@@ -1,0 +1,60 @@
+﻿<Window x:Class="YDSkyrimToolR.TransTool"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:YDSkyrimToolR"
+        mc:Ignorable="d"
+        Title="TransTool" Height="350" Width="780" Closing="Window_Closing" Style="{DynamicResource DefWin}" ResizeMode="NoResize" ShowInTaskbar="False" Loaded="Window_Loaded">
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="260"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal" Height="30" VerticalAlignment="Center">
+                    <Label>
+                        快速离线翻译
+                    </Label>
+                    <TextBox Width="230" Name="Form" Foreground="Red" VerticalAlignment="Center">
+
+                    </TextBox>
+                    <TextBox Margin="5 0 0 0" Width="230" Name="To" Foreground="Red" VerticalAlignment="Center">
+                    </TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Height="30" VerticalAlignment="Center">
+                    <Label>
+                        原混合引擎翻译
+                    </Label>
+                    <Button Click="StartTransing" VerticalAlignment="Center" Name="TransControlBtn">
+                        开始翻译当前标签
+                    </Button>
+                    <Button Margin="5 0 0 0" Click="ClearData" VerticalAlignment="Center">
+                        清理缓存
+                    </Button>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Height="30" VerticalAlignment="Center">
+                    <Label>
+                        百度云 APPID
+                    </Label>
+                    <TextBox Width="230" Name="Appid" Foreground="Red" VerticalAlignment="Center" MouseLeave="Appid_MouseLeave">
+
+                    </TextBox>
+
+                    <Label>
+                        百度云 密钥
+                    </Label>
+                    <PasswordBox Margin="5 0 0 0" Width="230" Name="Key" Foreground="Red" VerticalAlignment="Center" MouseLeave="Key_MouseLeave">
+                    </PasswordBox>
+                </StackPanel>
+            </StackPanel>
+
+          
+        </Grid>
+        <Grid Grid.Row="1" Background="Black">
+            <ListBox Name="Log" Background="Black" Foreground="White" BorderThickness="0">
+            </ListBox>
+        </Grid>
+    </Grid>
+</Window>

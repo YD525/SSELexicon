@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using YDSkyrimToolR.ConvertManager;
+using YDSkyrimToolR.UIManage;
 /*
 * @Author: 约定
 * @GitHub: https://github.com/tolove336/YDSkyrimToolR
@@ -80,6 +81,9 @@ namespace YDSkyrimToolR.SkyrimManage
 
         public void Close()
         {
+            UIHelper.ModifyCountCache.Clear();
+            UIHelper.ModifyCount = 0;
+
             ClearRam();
             CurrentReadMod = null;
         }
@@ -241,13 +245,14 @@ namespace YDSkyrimToolR.SkyrimManage
 
             }
         }
+
         public SkyrimMod? DefReadMod(string FilePath)
         {
            return ReadMod(FilePath, Mutagen.Bethesda.Strings.Language.ChineseSimplified);
         }
         public SkyrimMod? ReadMod(string FilePath, Mutagen.Bethesda.Strings.Language SetLanguage)
         {
-            if (File.Exists(FilePath) && (FilePath.ToLower().EndsWith(".esp") || FilePath.ToLower().EndsWith(".esm")))
+            if (File.Exists(FilePath) && (FilePath.ToLower().EndsWith(".esp") || FilePath.ToLower().EndsWith(".esm") || FilePath.ToLower().EndsWith(".esl")))
             {
                 YDSkyrimToolR.TranslateManage.Translator.ClearCache();
                 Cache<IModMasterStyledGetter, ModKey>? FlagsLookup = null;
@@ -267,422 +272,422 @@ namespace YDSkyrimToolR.SkyrimManage
 
                 ToRam();
                  
-                foreach (var Get in this.CurrentReadMod.Keywords.ToList())
-                {
+                //foreach (var Get in this.CurrentReadMod.Keywords.ToList())
+                //{
 
-                }
+                //}
 
-                foreach (var Item in CurrentReadMod.EnumerateMajorRecords())
-                {
-                    if (Item.EditorID != null)
-                    {
-                        if (Item.EditorID.Contains("zadc_BondagePole"))
-                        { 
+                //foreach (var Item in CurrentReadMod.EnumerateMajorRecords())
+                //{
+                //    if (Item.EditorID != null)
+                //    {
+                //        if (Item.EditorID.Contains("zadc_BondagePole"))
+                //        { 
                         
-                        }
+                //        }
 
-                        if (Item is ActionRecord)
-                        {
+                //        if (Item is ActionRecord)
+                //        {
 
-                        }
-                        if (Item is TextureSet)
-                        {
+                //        }
+                //        if (Item is TextureSet)
+                //        {
 
-                        }
-                        if (Item is Global)
-                        {
+                //        }
+                //        if (Item is Global)
+                //        {
 
-                        }
-                        if (Item is Class)
-                        {
+                //        }
+                //        if (Item is Class)
+                //        {
 
-                        }
-                        if (Item is Faction)
-                        {
+                //        }
+                //        if (Item is Faction)
+                //        {
 
-                        }
-                        if (Item is HeadPart)
-                        {
+                //        }
+                //        if (Item is HeadPart)
+                //        {
 
-                        }
-                        if (Item is Hair)
-                        {
+                //        }
+                //        if (Item is Hair)
+                //        {
 
-                        }
-                        if (Item is Eyes)
-                        {
+                //        }
+                //        if (Item is Eyes)
+                //        {
 
-                        }
-                        if (Item is Race)
-                        {
+                //        }
+                //        if (Item is Race)
+                //        {
 
-                        }
-                        if (Item is SoundMarker)
-                        {
+                //        }
+                //        if (Item is SoundMarker)
+                //        {
 
-                        }
-                        if (Item is AcousticSpace)
-                        {
+                //        }
+                //        if (Item is AcousticSpace)
+                //        {
 
-                        }
-                        if (Item is MagicEffect)
-                        {
+                //        }
+                //        if (Item is MagicEffect)
+                //        {
 
-                        }
-                        if (Item is LandscapeTexture)
-                        {
+                //        }
+                //        if (Item is LandscapeTexture)
+                //        {
 
-                        }
-                        if (Item is ObjectEffect)
-                        {
+                //        }
+                //        if (Item is ObjectEffect)
+                //        {
 
-                        }
-                        if (Item is Spell)
-                        {
+                //        }
+                //        if (Item is Spell)
+                //        {
 
-                        }
-                        if (Item is Scroll)
-                        {
+                //        }
+                //        if (Item is Scroll)
+                //        {
 
-                        }
-                        if (Item is TalkingActivator)
-                        {
+                //        }
+                //        if (Item is TalkingActivator)
+                //        {
 
-                        }
-                        if (Item is Door)
-                        {
+                //        }
+                //        if (Item is Door)
+                //        {
 
-                        }
-                        if (Item is Ingredient)
-                        {
+                //        }
+                //        if (Item is Ingredient)
+                //        {
 
-                        }
-                        if (Item is Light)
-                        {
+                //        }
+                //        if (Item is Light)
+                //        {
 
-                        }
-                        if (Item is AlchemicalApparatus)
-                        {
+                //        }
+                //        if (Item is AlchemicalApparatus)
+                //        {
 
-                        }
-                        if (Item is Static)
-                        {
+                //        }
+                //        if (Item is Static)
+                //        {
 
-                        }
-                        if (Item is MoveableStatic)
-                        {
+                //        }
+                //        if (Item is MoveableStatic)
+                //        {
 
-                        }
-                        if (Item is Grass)
-                        {
+                //        }
+                //        if (Item is Grass)
+                //        {
 
-                        }
-                        if (Item is Tree)
-                        {
+                //        }
+                //        if (Item is Tree)
+                //        {
 
-                        }
-                        if (Item is Flora)
-                        {
+                //        }
+                //        if (Item is Flora)
+                //        {
 
-                        }
-                        if (Item is Furniture)
-                        {
+                //        }
+                //        if (Item is Furniture)
+                //        {
 
-                        }
-                        if (Item is Weapon)
-                        {
+                //        }
+                //        if (Item is Weapon)
+                //        {
 
-                        }
-                        if (Item is Ammunition)
-                        {
+                //        }
+                //        if (Item is Ammunition)
+                //        {
 
-                        }
-                        if (Item is Npc)
-                        {
+                //        }
+                //        if (Item is Npc)
+                //        {
 
-                        }
-                        if (Item is LeveledNpc)
-                        {
+                //        }
+                //        if (Item is LeveledNpc)
+                //        {
 
-                        }
-                        if (Item is Ingestible)
-                        {
+                //        }
+                //        if (Item is Ingestible)
+                //        {
 
-                        }
-                        if (Item is IdleMarker)
-                        {
+                //        }
+                //        if (Item is IdleMarker)
+                //        {
 
-                        }
-                        if (Item is ConstructibleObject)
-                        {
+                //        }
+                //        if (Item is ConstructibleObject)
+                //        {
 
-                        }
-                        if (Item is Projectile)
-                        {
+                //        }
+                //        if (Item is Projectile)
+                //        {
 
-                        }
-                        if (Item is Hazard)
-                        {
+                //        }
+                //        if (Item is Hazard)
+                //        {
 
-                        }
-                        if (Item is LeveledItem)
-                        {
+                //        }
+                //        if (Item is LeveledItem)
+                //        {
 
-                        }
-                        if (Item is Weather)
-                        {
+                //        }
+                //        if (Item is Weather)
+                //        {
 
-                        }
-                        if (Item is Climate)
-                        {
+                //        }
+                //        if (Item is Climate)
+                //        {
 
-                        }
-                        if (Item is ShaderParticleGeometry)
-                        {
+                //        }
+                //        if (Item is ShaderParticleGeometry)
+                //        {
 
-                        }
-                        if (Item is VisualEffect)
-                        {
+                //        }
+                //        if (Item is VisualEffect)
+                //        {
 
-                        }
-                        if (Item is Region)
-                        {
+                //        }
+                //        if (Item is Region)
+                //        {
 
-                        }
-                        if (Item is NavigationMeshInfoMap)
-                        {
+                //        }
+                //        if (Item is NavigationMeshInfoMap)
+                //        {
 
-                        }
-                        if (Item is CellBlock)
-                        {
+                //        }
+                //        if (Item is CellBlock)
+                //        {
 
-                        }
-                        if (Item is Worldspace)
-                        {
+                //        }
+                //        if (Item is Worldspace)
+                //        {
 
-                        }
-                        if (Item is IdleAnimation)
-                        {
+                //        }
+                //        if (Item is IdleAnimation)
+                //        {
 
-                        }
-                        if (Item is Package)
-                        {
+                //        }
+                //        if (Item is Package)
+                //        {
 
-                        }
-                        if (Item is CombatStyle)
-                        {
+                //        }
+                //        if (Item is CombatStyle)
+                //        {
 
-                        }
-                        if (Item is LoadScreen)
-                        {
+                //        }
+                //        if (Item is LoadScreen)
+                //        {
 
-                        }
-                        if (Item is LeveledSpell)
-                        {
+                //        }
+                //        if (Item is LeveledSpell)
+                //        {
 
-                        }
-                        if (Item is AnimatedObject)
-                        {
+                //        }
+                //        if (Item is AnimatedObject)
+                //        {
 
-                        }
-                        if (Item is Water)
-                        {
+                //        }
+                //        if (Item is Water)
+                //        {
 
-                        }
-                        if (Item is EffectShader)
-                        {
+                //        }
+                //        if (Item is EffectShader)
+                //        {
 
-                        }
-                        if (Item is Explosion)
-                        {
+                //        }
+                //        if (Item is Explosion)
+                //        {
 
-                        }
-                        if (Item is Debris)
-                        {
+                //        }
+                //        if (Item is Debris)
+                //        {
 
-                        }
-                        if (Item is ImageSpace)
-                        {
+                //        }
+                //        if (Item is ImageSpace)
+                //        {
 
-                        }
-                        if (Item is ImageSpaceAdapter)
-                        {
+                //        }
+                //        if (Item is ImageSpaceAdapter)
+                //        {
 
-                        }
-                        if (Item is FormList)
-                        {
+                //        }
+                //        if (Item is FormList)
+                //        {
 
-                        }
-                        if (Item is BodyPartData)
-                        {
+                //        }
+                //        if (Item is BodyPartData)
+                //        {
 
-                        }
-                        if (Item is AddonNode)
-                        {
+                //        }
+                //        if (Item is AddonNode)
+                //        {
 
-                        }
-                        if (Item is ActorValueInformation)
-                        {
+                //        }
+                //        if (Item is ActorValueInformation)
+                //        {
 
-                        }
-                        if (Item is CameraShot)
-                        {
+                //        }
+                //        if (Item is CameraShot)
+                //        {
 
-                        }
-                        if (Item is CameraPath)
-                        {
+                //        }
+                //        if (Item is CameraPath)
+                //        {
 
-                        }
-                        if (Item is VoiceType)
-                        {
+                //        }
+                //        if (Item is VoiceType)
+                //        {
 
-                        }
-                        if (Item is MaterialType)
-                        {
+                //        }
+                //        if (Item is MaterialType)
+                //        {
 
-                        }
-                        if (Item is Impact)
-                        {
+                //        }
+                //        if (Item is Impact)
+                //        {
 
-                        }
-                        if (Item is ImpactDataSet)
-                        {
+                //        }
+                //        if (Item is ImpactDataSet)
+                //        {
 
-                        }
-                        if (Item is ArmorAddon)
-                        {
+                //        }
+                //        if (Item is ArmorAddon)
+                //        {
 
-                        }
-                        if (Item is EncounterZone)
-                        {
+                //        }
+                //        if (Item is EncounterZone)
+                //        {
 
-                        }
-                        if (Item is Location)
-                        {
+                //        }
+                //        if (Item is Location)
+                //        {
 
-                        }
-                        if (Item is DefaultObjectManager)
-                        {
+                //        }
+                //        if (Item is DefaultObjectManager)
+                //        {
 
-                        }
-                        if (Item is LightingTemplate)
-                        {
+                //        }
+                //        if (Item is LightingTemplate)
+                //        {
 
-                        }
-                        if (Item is MusicType)
-                        {
+                //        }
+                //        if (Item is MusicType)
+                //        {
 
-                        }
-                        if (Item is Footstep)
-                        {
+                //        }
+                //        if (Item is Footstep)
+                //        {
 
-                        }
-                        if (Item is FootstepSet)
-                        {
+                //        }
+                //        if (Item is FootstepSet)
+                //        {
 
-                        }
-                        if (Item is StoryManagerBranchNode)
-                        {
+                //        }
+                //        if (Item is StoryManagerBranchNode)
+                //        {
 
-                        }
-                        if (Item is StoryManagerQuestNode)
-                        {
+                //        }
+                //        if (Item is StoryManagerQuestNode)
+                //        {
 
-                        }
-                        if (Item is StoryManagerEventNode)
-                        {
+                //        }
+                //        if (Item is StoryManagerEventNode)
+                //        {
 
-                        }
-                        if (Item is DialogBranch)
-                        {
+                //        }
+                //        if (Item is DialogBranch)
+                //        {
 
-                        }
-                        if (Item is MusicTrack)
-                        {
+                //        }
+                //        if (Item is MusicTrack)
+                //        {
 
-                        }
-                        if (Item is DialogView)
-                        {
+                //        }
+                //        if (Item is DialogView)
+                //        {
 
-                        }
-                        if (Item is WordOfPower)
-                        {
+                //        }
+                //        if (Item is WordOfPower)
+                //        {
 
-                        }
-                        if (Item is Shout)
-                        {
+                //        }
+                //        if (Item is Shout)
+                //        {
 
-                        }
-                        if (Item is EquipType)
-                        {
+                //        }
+                //        if (Item is EquipType)
+                //        {
 
-                        }
-                        if (Item is Relationship)
-                        {
+                //        }
+                //        if (Item is Relationship)
+                //        {
 
-                        }
-                        if (Item is Scene)
-                        {
+                //        }
+                //        if (Item is Scene)
+                //        {
 
-                        }
-                        if (Item is AssociationType)
-                        {
+                //        }
+                //        if (Item is AssociationType)
+                //        {
 
-                        }
-                        if (Item is Outfit)
-                        {
+                //        }
+                //        if (Item is Outfit)
+                //        {
 
-                        }
-                        if (Item is ArtObject)
-                        {
+                //        }
+                //        if (Item is ArtObject)
+                //        {
 
-                        }
-                        if (Item is MaterialObject)
-                        {
+                //        }
+                //        if (Item is MaterialObject)
+                //        {
 
-                        }
-                        if (Item is MovementType)
-                        {
+                //        }
+                //        if (Item is MovementType)
+                //        {
 
-                        }
-                        if (Item is SoundDescriptor)
-                        {
+                //        }
+                //        if (Item is SoundDescriptor)
+                //        {
 
-                        }
-                        if (Item is DualCastData)
-                        {
+                //        }
+                //        if (Item is DualCastData)
+                //        {
 
-                        }
-                        if (Item is SoundCategory)
-                        {
+                //        }
+                //        if (Item is SoundCategory)
+                //        {
 
-                        }
-                        if (Item is SoundOutputModel)
-                        {
+                //        }
+                //        if (Item is SoundOutputModel)
+                //        {
 
-                        }
-                        if (Item is CollisionLayer)
-                        {
+                //        }
+                //        if (Item is CollisionLayer)
+                //        {
 
-                        }
-                        if (Item is ColorRecord)
-                        {
+                //        }
+                //        if (Item is ColorRecord)
+                //        {
 
-                        }
-                        if (Item is ReverbParameters)
-                        {
+                //        }
+                //        if (Item is ReverbParameters)
+                //        {
 
-                        }
-                        if (Item is VolumetricLighting)
-                        {
+                //        }
+                //        if (Item is VolumetricLighting)
+                //        {
 
-                        }
-                        if (Item is LensFlare)
-                        {
+                //        }
+                //        if (Item is LensFlare)
+                //        {
 
-                        }
-                    }
-                }
+                //        }
+                //    }
+                //}
 
                 return CurrentReadMod;
             }
@@ -738,7 +743,7 @@ namespace YDSkyrimToolR.SkyrimManage
 
                 Task.Run(async () =>
                 {
-                    await SourceMod.BeginWrite.ToPath("C:\\Users\\Administrator\\Desktop\\TestPy\\AA\\3.esm")
+                    await SourceMod.BeginWrite.ToPath(OutPutPath)
                    .WithLoadOrderFromHeaderMasters()
                    .WithDefaultDataFolder()
                    .WithEmbeddedEncodings(SetEncodingBundle)

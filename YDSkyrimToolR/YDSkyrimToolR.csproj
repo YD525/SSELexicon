@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <None Remove="DownICO.png" />
+    <None Remove="IDERule\Lua.xshd" />
     <None Remove="Material\Baidu.svg" />
     <None Remove="Material\Code.svg" />
     <None Remove="Material\Conjunction.svg" />
@@ -32,6 +33,10 @@
     <None Remove="Material\YellowState.svg" />
     <None Remove="Material\YouDao.svg" />
     <None Remove="UPICO.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="IDERule\Lua.xshd" />
   </ItemGroup>
 
   <ItemGroup>
@@ -72,10 +77,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AvalonEdit" Version="6.3.0.90" />
     <PackageReference Include="Microsoft-WindowsAPICodePack-Core" Version="1.1.5" />
     <PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.5" />
     <PackageReference Include="Mutagen.Bethesda" Version="0.48.1" />
     <PackageReference Include="SharpVectors" Version="1.8.4.2" />
+    <PackageReference Include="System.Data.SQLite" Version="1.0.119" />
     <PackageReference Include="System.Drawing.Common" Version="9.0.1" />
   </ItemGroup>
 

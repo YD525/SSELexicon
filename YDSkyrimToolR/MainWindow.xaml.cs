@@ -58,45 +58,85 @@ namespace YDSkyrimToolR
             if(TransTargetType.Items.Count>0)
             TransTargetType.SelectedValue = TransTargetType.Items[0];
         }
-
+        public MCMReader GlobalMCMReader = null;
         public EspReader GlobalEspReader = null;
+        public PexReader GlobalPexReader = null;
+
         public YDListView TransViewList = null;
 
         public List<ObjSelect> CanSetSelecter = new List<ObjSelect>();
         public ObjSelect CurrentSelect = ObjSelect.Null;
 
-        public void ReloadData()
+        public void ReloadData(bool CanReloadCountCache = true)
         {
-            UIHelper.ModifyCountCache.Clear();
+            if (CanReloadCountCache)
+            {
+                UIHelper.ModifyCountCache.Clear();
+            }  
             UIHelper.ModifyCount = 0;
+
             this.Dispatcher.Invoke(new Action(() =>
             {
                 TransViewList.Clear();
             }));
+            if (CurrentTransType == 2)
+            {
+                SkyrimDataLoader.Load(CurrentSelect, GlobalEspReader, TransViewList);
+            }
+            else
+            if (CurrentTransType == 1)
+            {
+                foreach (var GetItem in GlobalMCMReader.MCMItems)
+                {
+                    TransViewList.AddRowR(UIHelper.CreatLine(GetItem.Type,GetItem.EditorID,GetItem.Key,GetItem.SourceText,GetItem.GetTextIfTransR()));
+                }
+            }
+            if (CurrentTransType == 3)
+            {
+                foreach (var GetItem in GlobalPexReader.SafeStringParams)
+                {
+                    TransViewList.AddRowR(UIHelper.CreatLine(GetItem.Type, GetItem.EditorID, GetItem.Key, GetItem.SourceText, GetItem.GetTextIfTransR()));
+                }
+            }
 
-            SkyrimDataLoader.Load(CurrentSelect, GlobalEspReader, TransViewList);
             GetStatistics();
         }
 
+        public int MaxTransCount = 0;
         public void GetStatistics()
         {
             this.Dispatcher.Invoke(new Action(() =>
             {
                 double GetRate = ((double)UIHelper.ModifyCount / (double)TransViewList.Rows.Count);
-                ProcessBar.Width = ProcessBarFrame.ActualWidth * GetRate;
-                TransProcess.Content = string.Format("STRINGS({0}/{1})", UIHelper.ModifyCount, TransViewList.Rows.Count);
+                if (GetRate > 0)
+                {
+                    try {
+                        ProcessBar.Width = ProcessBarFrame.ActualWidth * GetRate;
+                    }
+                    catch { }
+                }
+                MaxTransCount = TransViewList.Rows.Count;
+                TransProcess.Content = string.Format("STRINGS({0}/{1})", UIHelper.ModifyCount, MaxTransCount);
             }));
         }
+
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             DeFine.Init(this);
-           
+            DeFine.DefTransTool.Show();
+
+            GlobalEspReader = new EspReader();
+            GlobalMCMReader = new MCMReader();
+            GlobalPexReader = new PexReader();
+
+            FunctionFinder.FindLine();
+
             new Thread(() =>
             {
                 ShowFrameByTag("LoadingView");
-                GlobalEspReader = new EspReader();
-                Thread.Sleep(2000);
+                LocalTrans.Init();
+                var Get = LocalTrans.SearchLocalData("Dialogue Disable Faction");
                 EndLoadViewEffect();
                 ShowFrameByTag("MainView");
 
@@ -118,24 +158,93 @@ namespace YDSkyrimToolR
             }).Start();
         }
 
-        public void LoadESPOrESM()
+        public void LoadAny()
         {
             CommonOpenFileDialog Dialog = new CommonOpenFileDialog();
             Dialog.IsFolderPicker = false;   //设置为选择文件夹
             if (Dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                LoadESPOrESM(Dialog.FileName);
+                LoadAny(Dialog.FileName);
             }
         }
 
-        //C:\Users\Administrator\Desktop\TestPy\AA
-        public void LoadESPOrESM(string FilePath)
+        public int CurrentTransType = 0;
+
+        string LastSetPath = "";
+        
+        public void LoadAny(string FilePath)
         {
             if (System.IO.File.Exists(FilePath))
             {
+                string GetFileName = FilePath.Substring(FilePath.LastIndexOf(@"\") + @"\".Length);
+                Caption.Content = GetFileName;
                 //3.1.1 Version esl not support
-                if (FilePath.ToLower().EndsWith(".esp") || FilePath.ToLower().EndsWith(".esm"))
+                if (FilePath.ToLower().EndsWith(".pex"))
                 {
+                    CurrentTransType = 3;
+
+                    GlobalEspReader.Close();
+                    GlobalMCMReader.Close();
+                    GlobalPexReader.Close();
+
+                    LastSetPath = FilePath;
+
+                    this.Dispatcher.Invoke(new Action(() =>
+                    {
+                        TransViewList.Clear();
+                    }));
+
+                    CanSetSelecter.Clear();
+
+                    GlobalPexReader.LoadPexFile(LastSetPath);
+
+                    this.Dispatcher.Invoke(new Action(() => {
+                        CancelTransBtn.Opacity = 1;
+                        CancelTransBtn.IsEnabled = true;
+                        LoadBtnContent.Content = "SaveFile";
+                    }));
+
+                    ReSetTransTargetType();
+                    ReloadData();
+                }
+                if (FilePath.ToLower().EndsWith(".txt"))
+                {
+                    CurrentTransType = 1;
+
+                    GlobalEspReader.Close();
+                    GlobalMCMReader.Close();
+                    GlobalPexReader.Close();
+
+                    LastSetPath = FilePath;
+
+                    this.Dispatcher.Invoke(new Action(() =>
+                    {
+                        TransViewList.Clear();
+                    }));
+
+                    CanSetSelecter.Clear();
+
+                    GlobalMCMReader.LoadMCM(LastSetPath);
+
+                    this.Dispatcher.Invoke(new Action(() => {
+                        CancelTransBtn.Opacity = 1;
+                        CancelTransBtn.IsEnabled = true;
+                        LoadBtnContent.Content = "SaveFile";
+                    }));
+
+                    ReSetTransTargetType();
+                    ReloadData();
+                }
+                if (FilePath.ToLower().EndsWith(".esp") || FilePath.ToLower().EndsWith(".esm") || FilePath.ToLower().EndsWith(".esl"))
+                {
+                    CurrentTransType = 2;
+
+                    GlobalEspReader.Close();
+                    GlobalMCMReader.Close();
+                    GlobalPexReader.Close();
+
+                    LastSetPath = FilePath;
+
                     this.Dispatcher.Invoke(new Action(() =>
                     {
                         TransViewList.Clear();
@@ -143,8 +252,13 @@ namespace YDSkyrimToolR
                     GlobalEspReader.DefReadMod(FilePath);
                     CanSetSelecter.Clear();
                     CanSetSelecter.AddRange(SkyrimDataLoader.QueryParams(GlobalEspReader));
-                    CancelTransBtn.Opacity = 1;
-                    CancelTransBtn.IsEnabled = true;
+
+                    this.Dispatcher.Invoke(new Action(() => {
+                        CancelTransBtn.Opacity = 1;
+                        CancelTransBtn.IsEnabled = true;
+                        LoadBtnContent.Content = "SaveFile";
+                    }));
+
                     ReSetTransTargetType();
                     ReloadData();
                 }
@@ -232,13 +346,13 @@ namespace YDSkyrimToolR
                             if (SizeChangeState == 0)
                             {
                                 this.WindowState = WindowState.Maximized;
-                                ReloadData();
+                                ReloadData(false);
                                 SizeChangeState = 1;
                             }
                             else
                             {
                                 this.WindowState = WindowState.Normal;
-                                ReloadData();
+                                ReloadData(false);
                                 SizeChangeState = 0;
                             }
 
@@ -343,7 +457,7 @@ namespace YDSkyrimToolR
             }
         }
 
-        private void AutoLoadEsp(object sender, MouseButtonEventArgs e)
+        private void AutoLoadOrSave(object sender, MouseButtonEventArgs e)
         {
             string GetButtonContent = "";
             if (sender is Border)
@@ -359,13 +473,73 @@ namespace YDSkyrimToolR
 
             if (GetButtonContent.Equals("LoadFile"))
             {
-                LoadESPOrESM();
-                SetButtonContent = "SaveFile";
+                LoadAny();
             }
             else
             {
+                Caption.Name = "TranslationCore";
                 CancelTransBtn.Opacity = 0.3;
                 CancelTransBtn.IsEnabled = false;
+
+                string GetFilePath = LastSetPath.Substring(0, LastSetPath.LastIndexOf(@"\")) + @"\";
+                string GetFileFullName = LastSetPath.Substring(LastSetPath.LastIndexOf(@"\") + @"\".Length);
+                string GetFileSuffix = GetFileFullName.Split('.')[1];
+                string GetFileName = GetFileFullName.Split('.')[0];
+
+                if (CurrentTransType == 3)
+                {
+                    if (UIHelper.ModifyCount > 0)
+                        if (GlobalPexReader != null)
+                        {
+                            string GetBackUPPath = GetFilePath + GetFileFullName + ".backup";
+                            if (File.Exists(GetBackUPPath))
+                            {
+                                File.Delete(GetBackUPPath);
+                            }
+                            File.Copy(LastSetPath, GetBackUPPath);
+                            File.Delete(LastSetPath);
+
+                            GlobalPexReader.SavePexFile(LastSetPath);
+                        }
+                }
+                if (CurrentTransType == 2)
+                {
+                    if (UIHelper.ModifyCount > 0)
+                        if (GlobalEspReader != null)
+                        {
+                            if (GlobalEspReader.CurrentReadMod != null)
+                            {
+                                string GetBackUPPath = GetFilePath + GetFileFullName + ".backup";
+                                if (File.Exists(GetBackUPPath))
+                                {
+                                    File.Delete(GetBackUPPath);
+                                }
+                                File.Copy(LastSetPath, GetBackUPPath);
+                                File.Delete(LastSetPath);
+                                SystemDataWriter.WriteAllMemoryData(ref GlobalEspReader);
+                                GlobalEspReader.DefSaveMod(GlobalEspReader.CurrentReadMod, LastSetPath);
+                            }
+                        }
+                }
+                else
+                if (CurrentTransType == 1)
+                {
+                   if (UIHelper.ModifyCount > 0)
+                    if (GlobalMCMReader != null)
+                    {
+                        string GetBackUPPath = GetFilePath + GetFileFullName + ".backup";
+                        if (File.Exists(GetBackUPPath))
+                        {
+                            File.Delete(GetBackUPPath);
+                        }
+                        File.Copy(LastSetPath, GetBackUPPath);
+                        File.Delete(LastSetPath);
+
+                        GlobalMCMReader.SaveMCMConfig(LastSetPath);
+                    }
+                }
+               
+                CancelTransEsp(null,null);
                 SetButtonContent = "LoadFile";
             }
 
@@ -381,8 +555,13 @@ namespace YDSkyrimToolR
 
         private void CancelTransEsp(object sender, MouseButtonEventArgs e)
         {
+            Caption.Name = "TranslationCore";
+
             TransViewList.Clear();
             GlobalEspReader.Close();
+            GlobalMCMReader.Close();
+            GlobalPexReader.Close();
+    
             (StartTransBtn.Child as Label).Content = "LoadFile";
             CancelTransBtn.Opacity = 0.3;
             CancelTransBtn.IsEnabled = false;
@@ -447,7 +626,7 @@ namespace YDSkyrimToolR
                         string GetFilePath = OneFile[0];
                         if (File.Exists(GetFilePath))
                         {
-                            LoadESPOrESM(GetFilePath);
+                            LoadAny(GetFilePath);
                             ModTransView_DragLeave(null, null);
                         }
                     }
@@ -461,6 +640,16 @@ namespace YDSkyrimToolR
             {
                 CurrentSelect = Enum.Parse<ObjSelect>(GetSelectValue);
                 ReloadData();
+            }
+        }
+
+        private void Window_LocationChanged(object sender, EventArgs e)
+        {
+            if (DeFine.DefTransTool != null)
+            {
+                DeFine.DefTransTool.Top = this.Top + this.Height;
+                DeFine.DefTransTool.Width = this.Width;
+                DeFine.DefTransTool.Left = this.Left;
             }
         }
     }
