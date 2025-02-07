@@ -25,4 +25,4 @@
 ### 另外乐捐我也是喜欢的TAT
 ### 如果你喜欢这个项目可以通过以下方式支持我个人：
 ### 请我喝杯咖啡 -  Buy Me A Coffee
-### ![支付宝](alipay_qrcode.jpg)
+![alipay](alipay_qrcode.jpg)
