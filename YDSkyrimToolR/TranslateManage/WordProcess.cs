@@ -33,6 +33,8 @@ namespace YDSkyrimToolR.TranslateCore
 
                     MainTransThread = new Thread(() => 
                     {
+                        LanguageHelper.Init();
+
                         int GetTransCount = 0;
 
                         DeFine.WorkingWin.Dispatcher.Invoke(new Action(() => {
@@ -41,6 +43,11 @@ namespace YDSkyrimToolR.TranslateCore
 
                         for (int i = 0; i < GetTransCount; i++)
                         {
+                            if (!LockerAutoTransService)
+                            {
+                                MainTransThread = null;
+                                return;
+                            }
                             while (Translator.StopAny)
                             {
                                 Thread.Sleep(100);
@@ -48,11 +55,14 @@ namespace YDSkyrimToolR.TranslateCore
 
                             int GetTransHashKey = 0;
                             string GetTransText = "";
+                            string GetTag = "";
+                            string GetKey = "";
 
                             DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
                             {
                                 Grid MainGrid = DeFine.WorkingWin.TransViewList.GetMainGrid().Children[i] as Grid;
-
+                                GetTag = ConvertHelper.ObjToStr((MainGrid.Children[1] as Label).Content);
+                                GetKey = ConvertHelper.ObjToStr((MainGrid.Children[2] as TextBox).Text);
                                 if ((MainGrid.Children[4] as TextBox).Text.Trim().Length == 0)
                                 {
                                     GetTransText = (MainGrid.Children[3] as TextBox).Text.Trim();
@@ -62,33 +72,62 @@ namespace YDSkyrimToolR.TranslateCore
 
                             if (GetTransText.Trim().Length > 0 && GetTransHashKey != 0)
                             {
-                                if (!StrChecker.ContainsChinese(GetTransText))
+                                if (GetTag.ToLower() != "book")
                                 {
-                                    List<EngineProcessItem> EngineProcessItems = new List<EngineProcessItem>();
-                                    var GetResult = new WordProcess().ProcessWords(ref EngineProcessItems, GetTransText, BDLanguage.EN, BDLanguage.CN);
-                                    if (GetResult.Trim().Length > 0)
+                                    if (!StrChecker.ContainsChinese(GetTransText))
                                     {
-                                        Translator.TransData[GetTransHashKey] = GetResult;
+                                        NextGet:
 
-                                      
-                                       
-                                        DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
+                                        List<EngineProcessItem> EngineProcessItems = new List<EngineProcessItem>();
+                                        var GetResult = new WordProcess().ProcessWords(ref EngineProcessItems, GetTransText, BDLanguage.EN, BDLanguage.CN);
+                                        if (GetResult.Trim().Length > 0)
                                         {
-                                            if (UIHelper.ModifyCount < DeFine.WorkingWin.TransViewList.GetMainGrid().Children.Count)
+                                            Translator.TransData[GetTransHashKey] = GetResult;
+
+                                            DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
                                             {
-                                                UIHelper.ModifyCount++;
-                                            }   
+                                                if (UIHelper.ModifyCount < DeFine.WorkingWin.TransViewList.GetMainGrid().Children.Count)
+                                                {
+                                                    UIHelper.ModifyCount++;
+                                                }
 
-                                            DeFine.WorkingWin.GetStatistics();
+                                                DeFine.WorkingWin.GetStatistics();
 
-                                            Grid MainGrid = DeFine.WorkingWin.TransViewList.GetMainGrid().Children[i] as Grid;
+                                                Grid MainGrid = DeFine.WorkingWin.TransViewList.GetMainGrid().Children[i] as Grid;
 
-                                            (MainGrid.Children[4] as TextBox).Text = GetResult;
-                                            (MainGrid.Children[4] as TextBox).BorderBrush = new SolidColorBrush(Colors.BlueViolet);
-                                        }));
+                                                (MainGrid.Children[4] as TextBox).Text = GetResult;
+                                                (MainGrid.Children[4] as TextBox).BorderBrush = new SolidColorBrush(Colors.BlueViolet);
+                                            }));
+                                        }
+                                        else
+                                        {
+                                            DeFine.DefTransTool.TranslateMsg("接口返回为空重新请求.");
+                                            if (!StrChecker.ContainsChinese(GetTransText))
+                                            {
+                                                Thread.Sleep(new Random(Guid.NewGuid().GetHashCode()).Next(500, 2000));
+                                                goto NextGet;
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        DeFine.DefTransTool.TranslateMsg("跳过以翻译的内容" + GetTransText);
                                     }
                                 }
+                                else
+                                {
+                                    DeFine.DefTransTool.TranslateMsg("跳过翻译BOOK字段"+ GetKey);
+                                }
+                               
                             }
+                        }
+
+                        if (DeFine.DefTransTool != null)
+                        {
+                            DeFine.DefTransTool.TranslateMsg("当前标签翻译结束");
+                            DeFine.DefTransTool.Dispatcher.Invoke(new Action(() => {
+                                DeFine.DefTransTool.TransControlBtn.Content = "开始翻译当前标签";
+                            }));
                         }
 
                         MainTransThread = null;
@@ -100,13 +139,9 @@ namespace YDSkyrimToolR.TranslateCore
             else
             {
                 LockerAutoTransService = false;
-                if (MainTransThread != null)
+                while (MainTransThread != null)
                 {
-                    try 
-                    {
-                        MainTransThread.Abort();
-                        MainTransThread = null;
-                    } catch { }
+                    Thread.Sleep(50);
                 }
             }
         }
@@ -130,9 +165,10 @@ namespace YDSkyrimToolR.TranslateCore
             }
             return false;
         }
-        public void FormatText(ref string Str)
+        public static void FormatText(ref string Str)
         {
             Str = Str.Replace("。", ".").Replace("，", ",").Replace("(", " ( ").Replace(")", " ) ").Replace("（", " ( ").Replace("）", " ) ").Replace("【", "[").Replace("】", "]").Replace("《", "<").Replace("》", ">").Replace("‘", " ‘ ").Replace("'", " ‘ ");
+            Str = Str.Trim();
         }
 
         public string QuickTranslate(string OneWord, BDLanguage From, BDLanguage To, int WordType = 0)
@@ -324,6 +360,7 @@ namespace YDSkyrimToolR.TranslateCore
         public string CurrentLine = "";
         public string ProcessWords(ref List<EngineProcessItem> EngineProcessItems, string Content, BDLanguage From, BDLanguage To)
         {
+            string RealContent = Content;
             if (Content.Trim().Length == 0) return string.Empty;
 
             if (Content.Contains("u200b"))
@@ -393,8 +430,10 @@ namespace YDSkyrimToolR.TranslateCore
 
                     if (CreatTranslate.GetRemainingText(CreatTranslate.Content).Trim().Length > 0)
                     {
+                        var GetTrans = new LanguageHelper().EnglishToCN(RealContent, CreatTranslate.Content);
+
                         string TempText = CreatTranslate.Content;
-                        CreatTranslate.Content = new LanguageHelper().EnglishToCN(CreatTranslate.Content);
+                        CreatTranslate.Content = GetTrans;
 
                         EngineProcessItems.Add(new EngineProcessItem("YunEngine",TempText, CreatTranslate.Content,0));
                     }
@@ -418,7 +457,6 @@ namespace YDSkyrimToolR.TranslateCore
             
             WordProcess.SendTranslateMsg("最终结果", "混合翻译", CreatTranslate.Content);
 
-
             CreatTranslate.Content = CreatTranslate.Content.Replace("“", "'");
 
             CreatTranslate.Content = CreatTranslate.Content.Replace("”", "'");
@@ -435,7 +473,7 @@ namespace YDSkyrimToolR.TranslateCore
 
             CreatTranslate.Content = CreatTranslate.Content.Replace("-", " - ");
 
-            CreatTranslate.Content = CreatTranslate.Content.Replace("\u200b", "").Replace("\u200B", "").Replace("他妈的", "该死的").Replace("去精液", "射精液").Replace("辣味", "热乎乎的").Replace("负载", "正在").Replace("不想精液", "不想让精液").Replace("快点精液", "快点射精液").Replace("上帝", "天啊").Replace("肉棒in", "肉棒在").Replace("precum", "先走汁").Replace("还不精液", "还不射精液").Replace("烟蒂", "臀部").Replace("厚的", "浓稠的").Replace("轴", "阳物").Replace("体内充气", "体内膨胀").Replace("插头泵","充气泵").Replace("给了你的充气泵一个挤压", "压住了你的充气泵");
+            CreatTranslate.Content = CreatTranslate.Content.Replace("\u200b", "").Replace("\u200B", "");
 
             return CreatTranslate.Content;
         }
@@ -613,7 +651,7 @@ namespace YDSkyrimToolR.TranslateCore
                 }
             }
           
-            new WordProcess().FormatText(ref GetText);
+            WordProcess.FormatText(ref GetText);
 
             GetText = GetText.Replace(".", "").Replace(",", "").Replace("-", "").Replace(":", "").Replace("'", "").Replace("\"","");
             GetText = GetText.Replace(">", "").Replace("<", "");

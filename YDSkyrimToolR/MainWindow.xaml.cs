@@ -124,19 +124,19 @@ namespace YDSkyrimToolR
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             DeFine.Init(this);
-            DeFine.DefTransTool.Show();
-
-            GlobalEspReader = new EspReader();
-            GlobalMCMReader = new MCMReader();
-            GlobalPexReader = new PexReader();
-
-            FunctionFinder.FindLine();
 
             new Thread(() =>
             {
                 ShowFrameByTag("LoadingView");
+
                 LocalTrans.Init();
-                var Get = LocalTrans.SearchLocalData("Dialogue Disable Faction");
+
+                GlobalEspReader = new EspReader();
+                GlobalMCMReader = new MCMReader();
+                GlobalPexReader = new PexReader();
+
+                Thread.Sleep(1000);
+
                 EndLoadViewEffect();
                 ShowFrameByTag("MainView");
 
@@ -154,6 +154,8 @@ namespace YDSkyrimToolR
                         TransViewList.ExColStyles.Add(new ExColStyle(1, GridUnitType.Star));
                         TransViewList.Clear();
                     }
+
+                    DeFine.DefTransTool.Show();
                 }));
             }).Start();
         }
@@ -651,6 +653,11 @@ namespace YDSkyrimToolR
                 DeFine.DefTransTool.Width = this.Width;
                 DeFine.DefTransTool.Left = this.Left;
             }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Environment.Exit(0);
         }
     }
 }

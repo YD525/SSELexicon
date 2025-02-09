@@ -8,44 +8,47 @@
         Title="TransTool" Height="350" Width="780" Closing="Window_Closing" Style="{DynamicResource DefWin}" ResizeMode="NoResize" ShowInTaskbar="False" Loaded="Window_Loaded">
     <Grid Background="White">
         <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="260"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <StackPanel Orientation="Vertical">
-                <StackPanel Orientation="Horizontal" Height="30" VerticalAlignment="Center">
-                    <Label>
-                        快速离线翻译
-                    </Label>
-                    <TextBox Width="230" Name="Form" Foreground="Red" VerticalAlignment="Center">
-
-                    </TextBox>
-                    <TextBox Margin="5 0 0 0" Width="230" Name="To" Foreground="Red" VerticalAlignment="Center">
-                    </TextBox>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Height="30" VerticalAlignment="Center">
-                    <Label>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 5" Height="30">
+                    <Label VerticalContentAlignment="Center">
                         原混合引擎翻译
                     </Label>
-                    <Button Click="StartTransing" VerticalAlignment="Center" Name="TransControlBtn">
-                        开始翻译当前标签
-                    </Button>
-                    <Button Margin="5 0 0 0" Click="ClearData" VerticalAlignment="Center">
-                        清理缓存
-                    </Button>
+
+                    <Border  CornerRadius="5" Background="#FFF789B2" Name="StartTransBtn" PreviewMouseDown="StartTransing" Margin="5 0 0 0" >
+                        <Label Name="TransControlBtn" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand" ToolTip="翻译指定标签" VerticalContentAlignment="Center">
+                            开始翻译当前标签
+                        </Label>
+                    </Border>
+
+                    <Border  CornerRadius="5" Background="#FFF789B2" PreviewMouseDown="ClearCache" Margin="5 0 0 0">
+                        <Label Name="ClearCacheBtn" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand" ToolTip="翻译指定标签" VerticalContentAlignment="Center">
+                            清理缓存
+                        </Label>
+                    </Border>
+
+                    <Label VerticalContentAlignment="Center">
+                        快速本地翻译
+                    </Label>
+
+                    <TextBox Name="LocalTransCN" IsReadOnly="True" VerticalContentAlignment="Center" BorderThickness="0" BorderBrush="{x:Null}" Background="{x:Null}">
+                    </TextBox>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Height="30" VerticalAlignment="Center">
-                    <Label>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Height="30">
+                    <Label VerticalContentAlignment="Center">
                         百度云 APPID
                     </Label>
-                    <TextBox Width="230" Name="Appid" Foreground="Red" VerticalAlignment="Center" MouseLeave="Appid_MouseLeave">
+                    <TextBox Width="230" Name="Appid" Foreground="Red" VerticalAlignment="Center" MouseLeave="Appid_MouseLeave" VerticalContentAlignment="Center">
 
                     </TextBox>
 
-                    <Label>
+                    <Label VerticalContentAlignment="Center">
                         百度云 密钥
                     </Label>
-                    <PasswordBox Margin="5 0 0 0" Width="230" Name="Key" Foreground="Red" VerticalAlignment="Center" MouseLeave="Key_MouseLeave">
+                    <PasswordBox Margin="5 0 0 0" Width="230" Name="Key" Foreground="Red" VerticalAlignment="Center" MouseLeave="Key_MouseLeave" VerticalContentAlignment="Center">
                     </PasswordBox>
                 </StackPanel>
             </StackPanel>

@@ -50,9 +50,16 @@ namespace YDSkyrimToolR.TranslateCore
         {
             EngineSelects.Clear();
 
-            EngineSelects.Add(new EngineSelect(new BaiDuApi(), 6));
-            EngineSelects.Add(new EngineSelect(new ICIBAHelper(), 3));
-            EngineSelects.Add(new EngineSelect(new GoogleHelper(), 1));
+            if (DeFine.GlobalLocalSetting.BaiDuAppID.Trim().Length > 0)
+            {
+                EngineSelects.Add(new EngineSelect(new BaiDuApi(), 6));
+            }
+
+            if (ConvertHelper.ObjToStr(new GoogleHelper().FreeTransStr("Test")).Length > 0)
+            {
+                EngineSelects.Add(new EngineSelect(new GoogleHelper(), 2));
+            }
+           
             Shuffle<EngineSelect>(EngineSelects);
         }
 
@@ -141,21 +148,21 @@ namespace YDSkyrimToolR.TranslateCore
 
         public static string OptimizeString(string Str)
         {
-            return Str.Replace("（", "(").Replace("）", ")").Replace("【", "[").Replace("】", "]").Replace("一个一个", "一个").Replace("一个一对", "一对").Replace("一个一套", "一套").Replace("一个一双", "一双");
+            return Str.Replace("（", "(").Replace("）", ")").Replace("一个一个", "一个").Replace("一个一对", "一对").Replace("一个一套", "一套").Replace("一个一双", "一双");
         }
 
-        public string EnglishToCN(string Str)
+        public string EnglishToCN(string RealSourceStr,string SourceStr)
         {
-            if (Str == "")
+            if (SourceStr == "")
             {
                 return "";
             }
 
-            string GetCacheStr = TranslateDBCache.FindCache(Str, 0, 1);
+            string GetCacheStr = TranslateDBCache.FindCache(SourceStr, 0, 1);
 
             if (GetCacheStr.Trim().Length > 0)
             {
-                WordProcess.SendTranslateMsg("从数据库缓存", Str, GetCacheStr);
+                WordProcess.SendTranslateMsg("从数据库缓存", SourceStr, GetCacheStr);
                 return GetCacheStr;
             }
 
@@ -166,7 +173,7 @@ namespace YDSkyrimToolR.TranslateCore
             {
                 if (LanguageHelper.EngineSelects[i].CurrentCallCount < LanguageHelper.EngineSelects[i].MaxUseCount)
                 {
-                    string GetTrans = LanguageHelper.EngineSelects[i].Call(Str);
+                    string GetTrans = LanguageHelper.EngineSelects[i].Call(RealSourceStr,SourceStr);
                     if (GetTrans.Trim().Length > 0)
                     {
                         return GetTrans;
@@ -198,7 +205,7 @@ namespace YDSkyrimToolR.TranslateCore
                 MaxUseCount = maxUseCount;
             }
 
-            public string Call(string SourceStr)
+            public string Call(string RealSourceStr,string SourceStr)
             {
                 WordTProcess OneProcess = new WordTProcess(SourceStr);
 
@@ -237,7 +244,11 @@ namespace YDSkyrimToolR.TranslateCore
                                     {
                                         if (GetData.trans_result.Length > 0)
                                         {
-                                            SetTransLine = GetData.trans_result[0].dst;
+                                            foreach (var GetLine in GetData.trans_result)
+                                            {
+                                                SetTransLine += GetLine.dst + "\r\n";
+                                            }
+
                                             this.CurrentCallCount++;
                                             WordProcess.SendTranslateMsg("翻译引擎(百度云)", GetSource, SetTransLine);
                                         }
@@ -263,28 +274,6 @@ namespace YDSkyrimToolR.TranslateCore
                         }
                     }
                     else
-                    if (this.Engine is ICIBAHelper)
-                    {
-                        if (DeFine.ICIBAApiUsing)
-                        {
-                            var GetData = ConvertHelper.ObjToStr((this.Engine as ICIBAHelper).FreeTransStr(GetSource));
-                            if (GetData.Trim().Length > 0)
-                            {
-                                SetTransLine = GetData;
-                                this.CurrentCallCount++;
-                                WordProcess.SendTranslateMsg("翻译引擎(爱词霸)", GetSource, SetTransLine);
-                            }
-                            else
-                            {
-                                this.CurrentCallCount = this.MaxUseCount;
-                            }
-                        }
-                        else
-                        {
-                            this.CurrentCallCount = this.MaxUseCount;
-                        }
-                    }
-                    else
                     if (this.Engine is GoogleHelper)
                     {
                         if (DeFine.GoogleYunApiUsing)
@@ -293,6 +282,7 @@ namespace YDSkyrimToolR.TranslateCore
                             if (StrChecker.ContainsChinese(GetData))
                             {
                                 SetTransLine = GetData;
+
                                 this.CurrentCallCount++;
                                 WordProcess.SendTranslateMsg("翻译引擎(谷歌)", GetSource, SetTransLine);
                             }
@@ -307,9 +297,14 @@ namespace YDSkyrimToolR.TranslateCore
                         }
                     }
 
+                    if (SetTransLine.EndsWith("\r\n"))
+                    {
+                        SetTransLine = SetTransLine.Substring(0, SetTransLine.Length - "\r\n".Length);
+                    }
+
                     if (new WordProcess().HasChinese(SetTransLine))
                     {
-                        TranslateDBCache.AddCache(GetSource, 0, 1, SetTransLine);
+                        TranslateDBCache.AddCache(SourceStr, 0, 1, SetTransLine);
                     }
 
                     return SetTransLine.Trim();
@@ -317,6 +312,22 @@ namespace YDSkyrimToolR.TranslateCore
 
                 return string.Empty;
             }
+        }
+
+        public static string CheckStr(string RealSourceStr, string TransStr)
+        {
+            TransStr = OptimizeString(TransStr);
+
+            if (TransStr.StartsWith("(") && !RealSourceStr.StartsWith("("))
+            {
+                TransStr = TransStr.Substring(1);
+            }
+
+            if (TransStr.EndsWith("(") && !RealSourceStr.EndsWith("("))
+            {
+                TransStr = TransStr.Substring(0,TransStr.Length-1);
+            }
+            return TransStr;
         }
        
 

@@ -27,7 +27,6 @@ namespace YDSkyrimToolR
         public static bool CodeParsingEngineUsing = true;//代码处理引擎
         public static bool ConjunctionEngineUsing = true;//连词引擎
         public static bool BaiDuYunApiUsing = true;//百度翻译引擎
-        public static bool ICIBAApiUsing = false;//爱词霸翻译引擎
         public static bool GoogleYunApiUsing = true;//谷歌翻译引擎
         public static bool DivCacheEngineUsing = true;//自定义内存翻译引擎(一次性)
         public static bool AutoTranslate = true;//始终关闭自动翻译
