@@ -12,6 +12,7 @@ using System.IO.Abstractions;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using YDSkyrimToolR.ConvertManager;
 using YDSkyrimToolR.UIManage;
 /*
@@ -743,9 +744,10 @@ namespace YDSkyrimToolR.SkyrimManage
 
                 Task.Run(async () =>
                 {
+                    try { 
                     await SourceMod.BeginWrite.ToPath(OutPutPath)
                    .WithLoadOrderFromHeaderMasters()
-                   .WithDefaultDataFolder()
+                   .WithNoDataFolder()
                    .WithEmbeddedEncodings(SetEncodingBundle)
                    .WithFileSystem(GlobalFileSystem)
                    .WithRecordCount(RecordCountOption.Iterate)
@@ -757,7 +759,11 @@ namespace YDSkyrimToolR.SkyrimManage
                    .NoCheckIfLowerRangeDisallowed()
                    .NoNullFormIDStandardization()
                    .WriteAsync();
-
+                    }
+                    catch(Exception Ex) 
+                    {
+                        MessageBox.Show(Ex.Message); 
+                    }
                 }).Wait();
 
                 return true;
