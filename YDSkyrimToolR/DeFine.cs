@@ -27,6 +27,7 @@ namespace YDSkyrimToolR
         public static bool CodeParsingEngineUsing = true;//代码处理引擎
         public static bool ConjunctionEngineUsing = true;//连词引擎
         public static bool BaiDuYunApiUsing = true;//百度翻译引擎
+        public static bool DeepSeekApiUsing = true;//DeepSeek机能搭载
         public static bool GoogleYunApiUsing = true;//谷歌翻译引擎
         public static bool DivCacheEngineUsing = true;//自定义内存翻译引擎(一次性)
         public static bool AutoTranslate = true;//始终关闭自动翻译
@@ -76,6 +77,7 @@ namespace YDSkyrimToolR
         public string GoogleKey { get; set; } = "";
         public string BaiDuAppID { get; set; } = "";
         public string BaiDuSecretKey { get; set; } = "";
+        public string DeepSeekKey { get; set; } = "";
         public int TransCount { get; set; } = 0;
         public void ReadConfig()
         {
@@ -92,6 +94,7 @@ namespace YDSkyrimToolR
                     this.GoogleKey = GetSetting.GoogleKey;
                     this.BaiDuAppID = GetSetting.BaiDuAppID;
                     this.BaiDuSecretKey = GetSetting.BaiDuSecretKey;
+                    this.DeepSeekKey = GetSetting.DeepSeekKey;
                     this.TransCount = GetSetting.TransCount;
                     this.ModOrganizerConfig = GetSetting.ModOrganizerConfig;
                     this.PlaySound = GetSetting.PlaySound;

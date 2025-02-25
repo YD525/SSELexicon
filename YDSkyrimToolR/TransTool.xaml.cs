@@ -81,6 +81,12 @@ namespace YDSkyrimToolR
             DeFine.GlobalLocalSetting.SaveConfig();
         }
 
+        private void DeepSeekKey_MouseLeave(object sender, MouseEventArgs e)
+        {
+            DeFine.GlobalLocalSetting.DeepSeekKey = DeepSeekKey.Password.Trim();
+            DeFine.GlobalLocalSetting.SaveConfig();
+        }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             this.Left = DeFine.WorkingWin.Left;
@@ -88,6 +94,7 @@ namespace YDSkyrimToolR
             this.Top = DeFine.WorkingWin.Top + DeFine.WorkingWin.Height;
             Appid.Text = DeFine.GlobalLocalSetting.BaiDuAppID;
             Key.Password = DeFine.GlobalLocalSetting.BaiDuSecretKey;
+            DeepSeekKey.Password = DeFine.GlobalLocalSetting.DeepSeekKey;
             this.Owner = DeFine.WorkingWin;
         }
 
@@ -137,5 +144,7 @@ namespace YDSkyrimToolR
 
             }
         }
+
+       
     }
 }

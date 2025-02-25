@@ -37,20 +37,36 @@
                     <TextBox Name="LocalTransCN" IsReadOnly="True" VerticalContentAlignment="Center" BorderThickness="0" BorderBrush="{x:Null}" Background="{x:Null}">
                     </TextBox>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Height="30">
-                    <Label VerticalContentAlignment="Center">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="90"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="90"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label VerticalContentAlignment="Center" Grid.Column="0">
                         百度云 APPID
                     </Label>
-                    <TextBox Width="230" Name="Appid" Foreground="Red" VerticalAlignment="Center" MouseLeave="Appid_MouseLeave" VerticalContentAlignment="Center">
+                    <TextBox Grid.Column="1"  Name="Appid" Foreground="Red" VerticalAlignment="Center" MouseLeave="Appid_MouseLeave" VerticalContentAlignment="Center" Margin="5 0 5 0">
 
                     </TextBox>
 
-                    <Label VerticalContentAlignment="Center">
+                    <Label Grid.Column="2" VerticalContentAlignment="Center">
                         百度云 密钥
                     </Label>
-                    <PasswordBox Margin="5 0 0 0" Width="230" Name="Key" Foreground="Red" VerticalAlignment="Center" MouseLeave="Key_MouseLeave" VerticalContentAlignment="Center">
+                    <PasswordBox Grid.Column="3" Name="Key" Foreground="Red" VerticalAlignment="Center" MouseLeave="Key_MouseLeave" VerticalContentAlignment="Center" Margin="5 0 5 0">
                     </PasswordBox>
-                </StackPanel>
+
+                    <Label Grid.Column="4" VerticalContentAlignment="Center">
+                        DeepSeek密钥
+                    </Label>
+
+                    <PasswordBox Grid.Column="5" Name="DeepSeekKey" Foreground="Red" VerticalAlignment="Center" MouseLeave="DeepSeekKey_MouseLeave" VerticalContentAlignment="Center" Margin="5 0 5 0">
+                    </PasswordBox>
+                </Grid>
             </StackPanel>
 
           

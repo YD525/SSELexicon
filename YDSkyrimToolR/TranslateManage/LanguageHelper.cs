@@ -50,14 +50,22 @@ namespace YDSkyrimToolR.TranslateCore
         {
             EngineSelects.Clear();
 
+            if(DeFine.BaiDuYunApiUsing)
             if (DeFine.GlobalLocalSetting.BaiDuAppID.Trim().Length > 0)
             {
                 EngineSelects.Add(new EngineSelect(new BaiDuApi(), 6));
             }
 
+            if(DeFine.GoogleYunApiUsing)
             if (ConvertHelper.ObjToStr(new GoogleHelper().FreeTransStr("Test")).Length > 0)
             {
                 EngineSelects.Add(new EngineSelect(new GoogleHelper(), 2));
+            }
+
+            if(DeFine.DeepSeekApiUsing)
+            if (DeFine.GlobalLocalSetting.DeepSeekKey.Trim().Length > 0)
+            {
+                EngineSelects.Add(new EngineSelect(new DeepSeekApi(), 6));
             }
            
             Shuffle<EngineSelect>(EngineSelects);
@@ -285,6 +293,29 @@ namespace YDSkyrimToolR.TranslateCore
 
                                 this.CurrentCallCount++;
                                 WordProcess.SendTranslateMsg("翻译引擎(谷歌)", GetSource, SetTransLine);
+                            }
+                            else
+                            {
+                                this.CurrentCallCount = this.MaxUseCount;
+                            }
+                        }
+                        else
+                        {
+                            this.CurrentCallCount = this.MaxUseCount;
+                        }
+                    }
+                    else
+                    if (this.Engine is DeepSeekApi)
+                    {
+                        if (DeFine.DeepSeekApiUsing)
+                        {
+                            var GetData = (this.Engine as DeepSeekApi).QuickTrans(GetSource).Trim();
+                            if (StrChecker.ContainsChinese(GetData))
+                            {
+                                SetTransLine = GetData;
+
+                                this.CurrentCallCount++;
+                                WordProcess.SendTranslateMsg("翻译引擎(DeepSeek)", GetSource, SetTransLine);
                             }
                             else
                             {

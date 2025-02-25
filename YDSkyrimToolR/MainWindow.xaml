@@ -194,7 +194,7 @@
                             </Grid.RowDefinitions>
 
                             <StackPanel Orientation="Horizontal" Panel.ZIndex="5" Margin="50 0 0 0">
-                               
+
                                 <Grid Background="#FF655B5F" Width="180" Height="35" VerticalAlignment="Top">
                                     <Label Foreground="White" VerticalAlignment="Center" FontSize="13" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Name="Caption">
                                         TranslationCore
@@ -236,6 +236,8 @@
 
                                     <svgc:SvgViewbox Name="GoogleEngine" Stretch="UniformToFill" Source="/Material/Google.svg" Margin="3 0 3 0" Width="17" Panel.ZIndex="900" Height="18" ToolTip="谷歌云翻译"  Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
 
+                                    <svgc:SvgViewbox Name="DeepSeekEngine" Stretch="UniformToFill" Source="/Material/DeepSeek.svg" Margin="3 0 3 0" Width="20" Panel.ZIndex="900" Height="18" ToolTip="DeepSeekAI翻译"  Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
+
                                     <svgc:SvgViewbox Name="DivEngine" Stretch="UniformToFill" Source="/Material/Div.svg"  Margin="3 0 3 0" Width="21" Panel.ZIndex="900" Height="18.2" ToolTip="自定义引擎"  Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
                                 </StackPanel>
                             </Grid>
@@ -254,11 +256,11 @@
                                     </Border>
                                     <Border IsEnabled="False" Opacity="0.3" Margin="10 0 0 0" CornerRadius="5" Background="#FFF789B2" Width="80" Height="35"  Name="CancelTransBtn" PreviewMouseDown="CancelTransEsp">
                                         <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand" ToolTip="取消翻译">
-                                           Cancel
+                                            Cancel
                                         </Label>
                                     </Border>
                                 </StackPanel>
-                                
+
                             </Grid>
 
                             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" Grid.RowSpan="2">
@@ -287,7 +289,7 @@
                                 </Grid>
                             </Grid>
 
-                            
+
 
 
                         </Grid>

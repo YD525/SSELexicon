@@ -14,6 +14,7 @@
     <None Remove="Material\Baidu.svg" />
     <None Remove="Material\Code.svg" />
     <None Remove="Material\Conjunction.svg" />
+    <None Remove="Material\DeepSeek.svg" />
     <None Remove="Material\Div.svg" />
     <None Remove="Material\End.svg" />
     <None Remove="Material\Google.svg" />
@@ -40,6 +41,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Material\DeepSeek.svg" />
     <Resource Include="Material\DownICO.png" />
     <Resource Include="Material\Baidu.svg" />
     <Resource Include="Material\Code.svg" />
