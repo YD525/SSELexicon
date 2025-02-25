@@ -3,6 +3,7 @@ using Mutagen.Bethesda.Plugins;
 using SharpVectors.Converters;
 using System.IO;
 using System.Text;
+using System.Transactions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -88,14 +89,14 @@ namespace YDSkyrimToolR
             {
                 foreach (var GetItem in GlobalMCMReader.MCMItems)
                 {
-                    TransViewList.AddRowR(UIHelper.CreatLine(GetItem.Type,GetItem.EditorID,GetItem.Key,GetItem.SourceText,GetItem.GetTextIfTransR()));
+                    TransViewList.AddRowR(UIHelper.CreatLine(GetItem.Type,GetItem.EditorID,GetItem.Key,GetItem.SourceText,GetItem.GetTextIfTransR(),false));
                 }
             }
             if (CurrentTransType == 3)
             {
                 foreach (var GetItem in GlobalPexReader.SafeStringParams)
                 {
-                    TransViewList.AddRowR(UIHelper.CreatLine(GetItem.Type, GetItem.EditorID, GetItem.Key, GetItem.SourceText, GetItem.GetTextIfTransR()));
+                    TransViewList.AddRowR(UIHelper.CreatLine(GetItem.Type, GetItem.EditorID, GetItem.Key, GetItem.SourceText, GetItem.GetTextIfTransR(),GetItem.Danger));
                 }
             }
 
@@ -125,11 +126,17 @@ namespace YDSkyrimToolR
         {
             DeFine.Init(this);
 
+            this.Topmost = true;
+            this.Show();
+            this.Activate();
+
             new Thread(() =>
             {
                 ShowFrameByTag("LoadingView");
 
                 LocalTrans.Init();
+
+                CheckEngineState();
 
                 GlobalEspReader = new EspReader();
                 GlobalMCMReader = new MCMReader();
@@ -142,6 +149,7 @@ namespace YDSkyrimToolR
 
                 this.Dispatcher.Invoke(new Action(() =>
                 {
+                    this.Topmost = false;
                     Storyboard GetStoryboard = this.Resources["HideSmallNav"] as Storyboard;
                     if (GetStoryboard != null)
                     {
@@ -430,9 +438,138 @@ namespace YDSkyrimToolR
             }
         }
 
+        public void CheckEngineState()
+        {
+            this.Dispatcher.Invoke(new Action(() => {
+                foreach (var GetEngine in EngineUIs.Children)
+                {
+                    if (GetEngine is SvgViewbox)
+                    {
+                        string GetContent = ConvertHelper.ObjToStr((GetEngine as SvgViewbox).ToolTip);
+
+                        switch (GetContent)
+                        {
+                            case "本地词组引擎":
+                                {
+                                    if (!DeFine.GlobalLocalSetting.PhraseEngineUsing)
+                                    {
+                                        (GetEngine as SvgViewbox).Opacity = 0.1;
+                                    }
+                                }
+                                break;
+                            case "代码识别引擎":
+                                {
+                                    if (!DeFine.GlobalLocalSetting.CodeParsingEngineUsing)
+                                    {
+                                        (GetEngine as SvgViewbox).Opacity = 0.1;
+                                    }
+                                }
+                                break;
+                            case "本地连词引擎":
+                                {
+                                    if (!DeFine.GlobalLocalSetting.ConjunctionEngineUsing)
+                                    {
+                                        (GetEngine as SvgViewbox).Opacity = 0.1;
+                                    }
+                                }
+                                break;
+                            case "百度云翻译":
+                                {
+                                    if (!DeFine.GlobalLocalSetting.BaiDuYunApiUsing)
+                                    {
+                                        (GetEngine as SvgViewbox).Opacity = 0.1;
+                                    }
+                                }
+                                break;
+                            case "谷歌云翻译":
+                                {
+                                    if (!DeFine.GlobalLocalSetting.GoogleYunApiUsing)
+                                    {
+                                        (GetEngine as SvgViewbox).Opacity = 0.1;
+                                    }
+                                }
+                                break;
+                            case "DeepSeekAI翻译":
+                                {
+                                    if (!DeFine.GlobalLocalSetting.DeepSeekApiUsing)
+                                    {
+                                        (GetEngine as SvgViewbox).Opacity = 0.1;
+                                    }
+                                }
+                                break;
+                            case "自定义引擎":
+                                {
+                                    if (!DeFine.GlobalLocalSetting.DivCacheEngineUsing)
+                                    {
+                                        (GetEngine as SvgViewbox).Opacity = 0.1;
+                                    }
+                                }
+                                break;
+                        }
+                    }
+                }
+            }));
+        }
+
         private void SelectEngine(object sender, MouseButtonEventArgs e)
         {
+            string GetContent = ConvertHelper.ObjToStr((sender as SvgViewbox).ToolTip);
 
+            double GetOpacity = ConvertHelper.ObjToDouble((sender as SvgViewbox).Opacity);
+
+            bool OneState = false;
+
+            if (GetOpacity == 1)
+            {
+                OneState = false;
+                (sender as SvgViewbox).Opacity = 0.1;
+            }
+            else
+            {
+                OneState = true;
+                (sender as SvgViewbox).Opacity = 1;
+            }
+
+            switch (GetContent)
+            {
+                case "本地词组引擎":
+                    {
+                        DeFine.GlobalLocalSetting.PhraseEngineUsing = OneState;
+                    }
+                    break;
+                case "代码识别引擎":
+                    {
+                        MessageBox.Show("为了确保不会翻译到代码禁止禁用!");
+                        (sender as SvgViewbox).Opacity = 1;
+                        //DeFine.CodeParsingEngineUsing = OneState;
+                    }
+                    break;
+                case "本地连词引擎":
+                    {
+                        DeFine.GlobalLocalSetting.ConjunctionEngineUsing = OneState;
+                    }
+                    break;
+                case "百度云翻译":
+                    {
+                        DeFine.GlobalLocalSetting.BaiDuYunApiUsing = OneState;
+                    }
+                    break;
+                case "谷歌云翻译":
+                    {
+                        DeFine.GlobalLocalSetting.GoogleYunApiUsing = OneState;
+                    }
+                    break;
+                case "DeepSeekAI翻译":
+                    {
+                        DeFine.GlobalLocalSetting.DeepSeekApiUsing = OneState;
+                    }
+                    break;
+                case "自定义引擎":
+                    {
+                        DeFine.GlobalLocalSetting.DivCacheEngineUsing = OneState;
+                    }
+                break;
+            }
         }
 
 
@@ -657,6 +794,7 @@ namespace YDSkyrimToolR
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            DeFine.GlobalLocalSetting.SaveConfig();
             Environment.Exit(0);
         }
     }

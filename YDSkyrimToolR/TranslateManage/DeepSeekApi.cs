@@ -79,7 +79,7 @@ namespace YDSkyrimToolR.TranslateManage
     {
         public string QuickTrans(string TransSource)
         {
-            var GetTransSource = string.Format("{0} 翻译到中文 接口只返回结果", TransSource);
+            var GetTransSource = string.Format("{0} 翻译到中文 你只需返回结果 不要说其他的任何话 如果内容里出现\"(数值)\"这是填空的括号 不要处理掉这些括号", TransSource);
             var GetResult = CallAI(GetTransSource);
             string CNStr = "";
             if (GetResult.choices.Length > 0)

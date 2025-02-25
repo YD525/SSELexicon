@@ -145,6 +145,9 @@ namespace YDSkyrimToolR
             }
         }
 
-       
+        private void EditEngineRule(object sender, MouseButtonEventArgs e)
+        {
+            new EngineEditView().Show();
+        }
     }
 }

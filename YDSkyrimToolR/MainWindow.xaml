@@ -221,7 +221,7 @@
                             </StackPanel>
 
                             <Grid Height="35" Width="230" VerticalAlignment="Top" HorizontalAlignment="Right" Background="#FFE8E8E8" Margin="0 0 260 0" Panel.ZIndex="5">
-                                <StackPanel Orientation="Horizontal">
+                                <StackPanel Orientation="Horizontal" Name="EngineUIs">
                                     <Label VerticalAlignment="Center" Margin="10 0 0 0" FontSize="12">
                                         Node
                                     </Label>

@@ -268,7 +268,7 @@ namespace YDSkyrimToolR.UIManage
                     {
                         string SetType = "Name";
                         GetTransStr = TryGetTransData(GetQuestItem.EditorID, SetType);
-                        View.AddRowR(UIHelper.CreatLine("Quest", GetHashKey.ToString(), GenUniqueKey(GetQuestItem.EditorID,SetType), GetName, GetTransStr));
+                        View.AddRowR(UIHelper.CreatLine("Quest", GetHashKey.ToString(), GenUniqueKey(GetQuestItem.EditorID,SetType), GetName, GetTransStr,false));
                     }));
                 }
                 var GetDescription = ConvertHelper.ObjToStr(GetQuestItem.Description);
@@ -278,7 +278,7 @@ namespace YDSkyrimToolR.UIManage
                     {
                         string SetType = "Description";
                         GetTransStr = TryGetTransData(GetQuestItem.EditorID, SetType);
-                        View.AddRowR(UIHelper.CreatLine("Quest", GetHashKey.ToString(), GenUniqueKey(GetQuestItem.EditorID,SetType).ToString(), GetDescription, GetTransStr));
+                        View.AddRowR(UIHelper.CreatLine("Quest", GetHashKey.ToString(), GenUniqueKey(GetQuestItem.EditorID,SetType).ToString(), GetDescription, GetTransStr,false));
                     }));
                 }
             }
@@ -300,7 +300,7 @@ namespace YDSkyrimToolR.UIManage
                     {
                         string SetType = "Name";
                         GetTransStr = TryGetTransData(GetFactionItem.EditorID, SetType);
-                        View.AddRowR(UIHelper.CreatLine("Faction", GetHashKey.ToString(), GenUniqueKey(GetFactionItem.EditorID,SetType).ToString(), GetName, GetTransStr));
+                        View.AddRowR(UIHelper.CreatLine("Faction", GetHashKey.ToString(), GenUniqueKey(GetFactionItem.EditorID,SetType).ToString(), GetName, GetTransStr,false));
                     }));
                 }
 
@@ -319,7 +319,7 @@ namespace YDSkyrimToolR.UIManage
                             {
                                 string SetType = string.Format("Female[{0}]",CountRank);
                                 GetTransStr = TryGetTransData(GetFactionItem.EditorID, SetType);
-                                View.AddRowR(UIHelper.CreatLine("Faction", GetHashKey.ToString(), GenUniqueKey(GetFactionItem.EditorID,SetType).ToString(), GetFemale, GetTransStr));
+                                View.AddRowR(UIHelper.CreatLine("Faction", GetHashKey.ToString(), GenUniqueKey(GetFactionItem.EditorID,SetType).ToString(), GetFemale, GetTransStr,false));
                             }));
                         }
                         if (GetMale.Trim().Length > 0)
@@ -328,7 +328,7 @@ namespace YDSkyrimToolR.UIManage
                             {
                                 string SetType = string.Format("Male[{0}]", CountRank);
                                 GetTransStr = TryGetTransData(GetFactionItem.EditorID, SetType);
-                                View.AddRowR(UIHelper.CreatLine("Faction", GetHashKey.ToString(), GenUniqueKey(GetFactionItem.EditorID,SetType).ToString(), GetMale, GetTransStr));
+                                View.AddRowR(UIHelper.CreatLine("Faction", GetHashKey.ToString(), GenUniqueKey(GetFactionItem.EditorID,SetType).ToString(), GetMale, GetTransStr,false));
                             }));
                         }
 
@@ -357,7 +357,7 @@ namespace YDSkyrimToolR.UIManage
                     {
                         string SetType = "Name";
                         GetTransStr = TryGetTransData(GetPerkItem.EditorID, SetType);
-                        View.AddRowR(UIHelper.CreatLine("Perk", GetHashKey.ToString(), GenUniqueKey(GetPerkItem.EditorID,SetType).ToString(), GetName, GetTransStr));
+                        View.AddRowR(UIHelper.CreatLine("Perk", GetHashKey.ToString(), GenUniqueKey(GetPerkItem.EditorID,SetType).ToString(), GetName, GetTransStr,false));
                     }));
                 }
 
@@ -368,7 +368,7 @@ namespace YDSkyrimToolR.UIManage
                     {
                         string SetType = "Description";
                         GetTransStr = TryGetTransData(GetPerkItem.EditorID, SetType);
-                        View.AddRowR(UIHelper.CreatLine("Perk", GetHashKey.ToString(), GenUniqueKey(GetPerkItem.EditorID,SetType).ToString(), GetDescription, GetTransStr));
+                        View.AddRowR(UIHelper.CreatLine("Perk", GetHashKey.ToString(), GenUniqueKey(GetPerkItem.EditorID,SetType).ToString(), GetDescription, GetTransStr,false));
                     }));
                 }
             }
@@ -390,7 +390,7 @@ namespace YDSkyrimToolR.UIManage
                     {
                         string SetType = "Name";
                         GetTransStr = TryGetTransData(GetWeapon.EditorID, SetType);
-                        View.AddRowR(UIHelper.CreatLine("Weapon", GetHashKey.ToString(), GenUniqueKey(GetWeapon.EditorID,SetType).ToString(), GetName, GetTransStr));
+                        View.AddRowR(UIHelper.CreatLine("Weapon", GetHashKey.ToString(), GenUniqueKey(GetWeapon.EditorID,SetType).ToString(), GetName, GetTransStr, false));
                     }));
                 }
 
@@ -401,7 +401,7 @@ namespace YDSkyrimToolR.UIManage
                     {
                         string SetType = "Description";
                         GetTransStr = TryGetTransData(GetWeapon.EditorID, SetType);
-                        View.AddRowR(UIHelper.CreatLine("Weapon", GetHashKey.ToString(), GenUniqueKey(GetWeapon.EditorID,SetType).ToString(), GetDescription, GetTransStr));
+                        View.AddRowR(UIHelper.CreatLine("Weapon", GetHashKey.ToString(), GenUniqueKey(GetWeapon.EditorID,SetType).ToString(), GetDescription, GetTransStr, false));
                     }));
                 }
             }
@@ -423,7 +423,7 @@ namespace YDSkyrimToolR.UIManage
                     {
                         string SetType = "Name";
                         GetTransStr = TryGetTransData(GetSoulGem.EditorID, SetType);
-                        View.AddRowR(UIHelper.CreatLine("SoulGem", GetHashKey.ToString(), GenUniqueKey(GetSoulGem.EditorID,SetType).ToString(), GetName, GetTransStr));
+                        View.AddRowR(UIHelper.CreatLine("SoulGem", GetHashKey.ToString(), GenUniqueKey(GetSoulGem.EditorID,SetType).ToString(), GetName, GetTransStr, false));
                     }));
                 }
             }
@@ -445,7 +445,7 @@ namespace YDSkyrimToolR.UIManage
                     {
                         string SetType = "Name";
                         GetTransStr = TryGetTransData(GetArmor.EditorID,SetType);
-                        View.AddRowR(UIHelper.CreatLine("Armor", GetHashKey.ToString(), GenUniqueKey(GetArmor.EditorID,SetType).ToString(), GetName, GetTransStr));
+                        View.AddRowR(UIHelper.CreatLine("Armor", GetHashKey.ToString(), GenUniqueKey(GetArmor.EditorID,SetType).ToString(), GetName, GetTransStr, false));
                     }));
                 }
 
@@ -456,7 +456,7 @@ namespace YDSkyrimToolR.UIManage
                     {
                         string SetType = "Description";
                         GetTransStr = TryGetTransData(GetArmor.EditorID, SetType);
-                        View.AddRowR(UIHelper.CreatLine("Armor", GetHashKey.ToString(), GenUniqueKey(GetArmor.EditorID,SetType).ToString(), GetDescription, GetTransStr));
+                        View.AddRowR(UIHelper.CreatLine("Armor", GetHashKey.ToString(), GenUniqueKey(GetArmor.EditorID,SetType).ToString(), GetDescription, GetTransStr, false));
                     }));
                 }
             }
@@ -478,7 +478,7 @@ namespace YDSkyrimToolR.UIManage
                     {
                         string SetType = "Name";
                         GetTransStr = TryGetTransData(GetKey.EditorID, SetType);
-                        View.AddRowR(UIHelper.CreatLine("Key", GetHashKey.ToString(), GenUniqueKey(GetKey.EditorID,SetType).ToString(), GetName, GetTransStr));
+                        View.AddRowR(UIHelper.CreatLine("Key", GetHashKey.ToString(), GenUniqueKey(GetKey.EditorID,SetType).ToString(), GetName, GetTransStr, false));
                     }));
                 }
             }
@@ -500,7 +500,7 @@ namespace YDSkyrimToolR.UIManage
                     {
                         string SetType = "Name";
                         GetTransStr = TryGetTransData(GetContainer.EditorID, SetType);
-                        View.AddRowR(UIHelper.CreatLine("Container", GetHashKey.ToString(), GenUniqueKey(GetContainer.EditorID,SetType).ToString(), GetName, GetTransStr));
+                        View.AddRowR(UIHelper.CreatLine("Container", GetHashKey.ToString(), GenUniqueKey(GetContainer.EditorID,SetType).ToString(), GetName, GetTransStr, false));
                     }));
                 }
             }
@@ -522,7 +522,7 @@ namespace YDSkyrimToolR.UIManage
                     {
                         string SetType = "Name" + GetActivator;
                         GetTransStr = TryGetTransData(GetActivator.EditorID, SetType);
-                        View.AddRowR(UIHelper.CreatLine("Activator", GetHashKey.ToString(), GenUniqueKey(GetActivator.EditorID,SetType).ToString(), GetName, GetTransStr));
+                        View.AddRowR(UIHelper.CreatLine("Activator", GetHashKey.ToString(), GenUniqueKey(GetActivator.EditorID,SetType).ToString(), GetName, GetTransStr, false));
                     }));
                 }
 
@@ -533,7 +533,7 @@ namespace YDSkyrimToolR.UIManage
                     {
                         string SetType = "ActivateTextOverride";
                         GetTransStr = TryGetTransData(GetActivator.EditorID, SetType);
-                        View.AddRowR(UIHelper.CreatLine("Activator", GetHashKey.ToString(), GenUniqueKey(GetActivator.EditorID,SetType).ToString(), GetActivateTextOverride, GetTransStr));
+                        View.AddRowR(UIHelper.CreatLine("Activator", GetHashKey.ToString(), GenUniqueKey(GetActivator.EditorID,SetType).ToString(), GetActivateTextOverride, GetTransStr, false));
                     }));
                 }
             }
@@ -555,7 +555,7 @@ namespace YDSkyrimToolR.UIManage
                     {
                         string SetType = "Name";
                         GetTransStr = TryGetTransData(GetMiscItem.EditorID, SetType);
-                        View.AddRowR(UIHelper.CreatLine("MiscItem", GetHashKey.ToString(), GenUniqueKey(GetMiscItem.EditorID,SetType).ToString(), GetName, GetTransStr));
+                        View.AddRowR(UIHelper.CreatLine("MiscItem", GetHashKey.ToString(), GenUniqueKey(GetMiscItem.EditorID,SetType).ToString(), GetName, GetTransStr, false));
                     }));
                 }
 
@@ -581,7 +581,7 @@ namespace YDSkyrimToolR.UIManage
                     {
                         string SetType = "Name";
                         GetTransStr = TryGetTransData(Books.EditorID, SetType);
-                        View.AddRowR(UIHelper.CreatLine("Book", GetHashKey.ToString(), GenUniqueKey(Books.EditorID,SetType).ToString(), GetName, GetTransStr));
+                        View.AddRowR(UIHelper.CreatLine("Book", GetHashKey.ToString(), GenUniqueKey(Books.EditorID,SetType).ToString(), GetName, GetTransStr, false));
                     }));
                 }
 
@@ -592,7 +592,7 @@ namespace YDSkyrimToolR.UIManage
                     {
                         string SetType = "Description";
                         GetTransStr = TryGetTransData(Books.EditorID, SetType);
-                        View.AddRowR(UIHelper.CreatLine("Book", GetHashKey.ToString(), GenUniqueKey(Books.EditorID,SetType).ToString(), GetDescription, GetTransStr));
+                        View.AddRowR(UIHelper.CreatLine("Book", GetHashKey.ToString(), GenUniqueKey(Books.EditorID,SetType).ToString(), GetDescription, GetTransStr, false));
                     }));
                 }
 
@@ -603,7 +603,7 @@ namespace YDSkyrimToolR.UIManage
                     {
                         string SetType = "BookText";
                         GetTransStr = TryGetTransData(Books.EditorID, SetType);
-                        View.AddRowR(UIHelper.CreatLine("Book", GetHashKey.ToString(), GenUniqueKey(Books.EditorID,SetType).ToString(), GetBookText, GetTransStr));
+                        View.AddRowR(UIHelper.CreatLine("Book", GetHashKey.ToString(), GenUniqueKey(Books.EditorID,SetType).ToString(), GetBookText, GetTransStr, false));
                     }));
                 }
             }
@@ -625,7 +625,7 @@ namespace YDSkyrimToolR.UIManage
                     {
                         string SetType = "Name";
                         GetTransStr = TryGetTransData(GetMessageItem.EditorID, SetType);
-                        View.AddRowR(UIHelper.CreatLine("Message", GetHashKey.ToString(), GenUniqueKey(GetMessageItem.EditorID,SetType).ToString(), GetName, GetTransStr));
+                        View.AddRowR(UIHelper.CreatLine("Message", GetHashKey.ToString(), GenUniqueKey(GetMessageItem.EditorID,SetType).ToString(), GetName, GetTransStr, false));
                     }));
                 }
 
@@ -636,7 +636,7 @@ namespace YDSkyrimToolR.UIManage
                     {
                         string SetType = "Description";
                         GetTransStr = TryGetTransData(GetMessageItem.EditorID, SetType);
-                        View.AddRowR(UIHelper.CreatLine("Message", GetHashKey.ToString(), GenUniqueKey(GetMessageItem.EditorID,SetType).ToString(), GetDescription, GetTransStr));
+                        View.AddRowR(UIHelper.CreatLine("Message", GetHashKey.ToString(), GenUniqueKey(GetMessageItem.EditorID,SetType).ToString(), GetDescription, GetTransStr, false));
                     }));
                 }
             }
@@ -665,7 +665,7 @@ namespace YDSkyrimToolR.UIManage
                                 {
                                     string SetType = string.Format("Button[{0}]", ir);
                                     GetTransStr = TryGetTransData(GetMessageItem.EditorID, SetType);
-                                    View.AddRowR(UIHelper.CreatLine("Button", GetHashKey.ToString(), GenUniqueKey(GetMessageItem.EditorID,SetType).ToString(), GetButton, GetTransStr));
+                                    View.AddRowR(UIHelper.CreatLine("Button", GetHashKey.ToString(), GenUniqueKey(GetMessageItem.EditorID,SetType).ToString(), GetButton, GetTransStr, false));
                                 }));
                             }
                         }
@@ -690,7 +690,7 @@ namespace YDSkyrimToolR.UIManage
                     {
                         string SetType = "Name";
                         GetTransStr = TryGetTransData(GetDialogTopicItem.EditorID, SetType);
-                        View.AddRowR(UIHelper.CreatLine("DialogTopic", GetHashKey.ToString(), GenUniqueKey(GetDialogTopicItem.EditorID,SetType).ToString(), GetName, GetTransStr));
+                        View.AddRowR(UIHelper.CreatLine("DialogTopic", GetHashKey.ToString(), GenUniqueKey(GetDialogTopicItem.EditorID,SetType).ToString(), GetName, GetTransStr, false));
                     }));
                 }
 
@@ -711,7 +711,7 @@ namespace YDSkyrimToolR.UIManage
                             {
                                 string SetType = string.Format("Response[{0}]", ForCount);
                                 GetTransStr = TryGetTransData(GetDialogTopicItem.EditorID, SetType);
-                                View.AddRowR(UIHelper.CreatLine("DialogTopic", GetHashKey.ToString(), GenUniqueKey(GetDialogTopicItem.EditorID,SetType).ToString(), GetValue, GetTransStr));
+                                View.AddRowR(UIHelper.CreatLine("DialogTopic", GetHashKey.ToString(), GenUniqueKey(GetDialogTopicItem.EditorID,SetType).ToString(), GetValue, GetTransStr, false));
                             }));
                         }
                     }
@@ -736,7 +736,7 @@ namespace YDSkyrimToolR.UIManage
                     {
                         string SetType = "Name";
                         GetTransStr = TryGetTransData(GetSpellItem.EditorID, SetType);
-                        View.AddRowR(UIHelper.CreatLine("Spell", GetHashKey.ToString(), GenUniqueKey(GetSpellItem.EditorID,SetType).ToString(), GetName, GetTransStr));
+                        View.AddRowR(UIHelper.CreatLine("Spell", GetHashKey.ToString(), GenUniqueKey(GetSpellItem.EditorID,SetType).ToString(), GetName, GetTransStr, false));
                     }));
                 }
             }
@@ -758,7 +758,7 @@ namespace YDSkyrimToolR.UIManage
                     {
                         string SetType = "Name";
                         GetTransStr = TryGetTransData(GetObjectEffect.EditorID, SetType);
-                        View.AddRowR(UIHelper.CreatLine("ObjectEffect", GetHashKey.ToString(), GenUniqueKey(GetObjectEffect.EditorID,SetType), GetName, GetTransStr));
+                        View.AddRowR(UIHelper.CreatLine("ObjectEffect", GetHashKey.ToString(), GenUniqueKey(GetObjectEffect.EditorID,SetType), GetName, GetTransStr, false));
                     }));
                 }
             }
@@ -780,7 +780,7 @@ namespace YDSkyrimToolR.UIManage
                     {
                         string SetType = "Name";
                         GetTransStr = TryGetTransData(GetMagicEffect.EditorID, SetType);
-                        View.AddRowR(UIHelper.CreatLine("MagicEffect", GetHashKey.ToString(),GenUniqueKey(GetMagicEffect.EditorID, SetType), GetName, GetTransStr));
+                        View.AddRowR(UIHelper.CreatLine("MagicEffect", GetHashKey.ToString(),GenUniqueKey(GetMagicEffect.EditorID, SetType), GetName, GetTransStr, false));
                     }));
                 }
 
@@ -791,7 +791,7 @@ namespace YDSkyrimToolR.UIManage
                     {
                         string SetType = "Description";
                         GetTransStr = TryGetTransData(GetMagicEffect.EditorID, SetType);
-                        View.AddRowR(UIHelper.CreatLine("MagicEffect", GetHashKey.ToString(), GenUniqueKey(GetMagicEffect.EditorID,SetType), GetDescription, GetTransStr));
+                        View.AddRowR(UIHelper.CreatLine("MagicEffect", GetHashKey.ToString(), GenUniqueKey(GetMagicEffect.EditorID,SetType), GetDescription, GetTransStr, false));
                     }));
                 }
             }
@@ -819,7 +819,7 @@ namespace YDSkyrimToolR.UIManage
                             {
                                 string SetType = string.Format("Cell[{0}]",ForID);
                                 GetTransStr = TryGetTransData(GetChild.EditorID, SetType);
-                                View.AddRowR(UIHelper.CreatLine("Cell", GetHashKey.ToString(), GenUniqueKey(GetChild.EditorID,SetType), GetName, GetTransStr));
+                                View.AddRowR(UIHelper.CreatLine("Cell", GetHashKey.ToString(), GenUniqueKey(GetChild.EditorID,SetType), GetName, GetTransStr, false));
                             }));
                         }
                     }

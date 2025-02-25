@@ -38,13 +38,16 @@ namespace YDSkyrimToolR.SkyrimManage
         public string TransText = "";
         public string VariableType = "";
         public string VariableName = "";
+        public bool Danger = false;
+        public int LineID = 0;
 
         public List<string> FunctionLinks = new List<string>();
 
-        public StringParam(string DefLine, string EditorID, string SourceText)
+        public StringParam(string DefLine, int LineID,int Offset,int Length, string SourceText)
         {
             this.Type = "Script";
-            this.EditorID = EditorID;
+           
+            this.EditorID = string.Format("{0}-{1}-{2}", LineID, Offset, Length);
             this.Key = SkyrimDataLoader.GenUniqueKey(this.EditorID, this.Type);
 
             this.SourceText = SourceText.Substring(1);
@@ -433,10 +436,19 @@ namespace YDSkyrimToolR.SkyrimManage
                         string TryGetVariableType = "";
                         string TryGetVariableName = "";
                         var SearchLink = TryGetLinks(i, GetOffset, GetString, ref TryGetVariableType, ref TryGetVariableName);
-                        StringParam NStringParam = new StringParam(GetLineStr,string.Format("{0}-{1}-{2}",i,GetOffset, GetLength), GetString);
+
+                        int GetDefLineID = 0;
+                        if (GetLineStr.Contains("#DEBUG_LINE_NO:"))
+                        {
+                            var GetCutIDStr = GetLineStr.Substring(GetLineStr.IndexOf("#DEBUG_LINE_NO:") + "#DEBUG_LINE_NO:".Length).Trim();
+                            GetDefLineID = ConvertHelper.ObjToInt(GetCutIDStr);
+                        }
+
+                        StringParam NStringParam = new StringParam(GetLineStr,GetDefLineID,GetOffset,GetLength, GetString);
                         NStringParam.FunctionLinks = SearchLink;
                         NStringParam.VariableType = TryGetVariableType;
                         NStringParam.VariableName = TryGetVariableName;
+                        NStringParam.LineID = GetDefLineID;
                         StringParams.Add(NStringParam);
                     }
                 }
@@ -447,8 +459,17 @@ namespace YDSkyrimToolR.SkyrimManage
 
         public void StartFilter()
         {
-            foreach (var GetParam in this.StringParams)
+            // in 
+            for (int i = 0;i< this.StringParams.Count;i++)
             {
+                var GetParam = this.StringParams[i];
+                int GetDefLineID = 0;
+                if (GetParam.DefLine.Contains("#DEBUG_LINE_NO:"))
+                {
+                   var GetCutIDStr = GetParam.DefLine.Substring(GetParam.DefLine.IndexOf("#DEBUG_LINE_NO:")+ "#DEBUG_LINE_NO:".Length).Trim();
+                   GetDefLineID = ConvertHelper.ObjToInt(GetCutIDStr);
+                   GetParam.LineID = GetDefLineID;
+                }
                 if (GetParam.SourceText.Trim().Length == 0)
                 {
                     goto QuickPass;
@@ -681,6 +702,9 @@ namespace YDSkyrimToolR.SkyrimManage
                     }
                 }
 
+                GetParam.Danger = true;
+                this.SafeStringParams.Add(GetParam);
+
                 QuickPass:
                 int Result = 0;
             }
@@ -710,6 +734,38 @@ namespace YDSkyrimToolR.SkyrimManage
             SearchAllStr();
         }
 
+        public class LinkValue
+        {
+            public string Value = "";
+            public int DefLineID = 0;
+            public LinkValue(string Value, int DefLineID)
+            {
+                this.Value = Value;
+                this.DefLineID = DefLineID;
+            }
+        }
+
+        public string GetSourceStr(List<string>Lines)
+        {
+            string RichText = string.Empty;
+            foreach (var Get in Lines)
+            {
+                if (Get.Trim().Length > 0)
+                {
+                    RichText += (Get + "\n");
+                }
+                else
+                {
+                    RichText += "\n";
+                }
+            }
+            if (RichText.EndsWith("\n"))
+            {
+                RichText = RichText.Substring(0, RichText.Length - 1);
+            }
+            return RichText;
+        }
+
         public void SavePexFile(string OutPutPath)
         {
             if (File.Exists(OutPutPath))
@@ -717,7 +773,7 @@ namespace YDSkyrimToolR.SkyrimManage
                 return;
             }
 
-            Dictionary<string, string> LinkTexts = new Dictionary<string, string>();
+            Dictionary<string, LinkValue> LinkTexts = new Dictionary<string, LinkValue>();
             foreach (var GetParam in this.StringParams)
             {
                 if (GetParam.FunctionLinks.Count > 0)
@@ -728,7 +784,7 @@ namespace YDSkyrimToolR.SkyrimManage
                     if (Translator.TransData.ContainsKey(GetParam.Key.GetHashCode()))
                     {
                         if (!LinkTexts.ContainsKey(GetParam.DefSourceText))
-                        LinkTexts.Add(GetParam.DefSourceText, Translator.TransData[GetParam.Key.GetHashCode()]);
+                        LinkTexts.Add(GetParam.DefSourceText,new LinkValue(Translator.TransData[GetParam.Key.GetHashCode()],GetParam.LineID));
                     }
 
                     if (GetFunctionName.Contains("ecSlider"))
@@ -753,7 +809,7 @@ namespace YDSkyrimToolR.SkyrimManage
                                         if (Translator.TransData.ContainsKey(SetTKey))
                                         {
                                             if (!LinkTexts.ContainsKey(GetLinkText.Trim()))
-                                            LinkTexts.Add(GetLinkText.Trim(), Translator.TransData[SetTKey]);
+                                            LinkTexts.Add(GetLinkText.Trim(),new LinkValue(Translator.TransData[SetTKey],GetParam.LineID));
                                         }
                                         this.SafeStringParams.Add(new StringParam(GetDefLine, Key, TempLink, GetLinkText.Trim()));
                                     }
@@ -783,7 +839,7 @@ namespace YDSkyrimToolR.SkyrimManage
                                         if (Translator.TransData.ContainsKey(SetTKey))
                                         {
                                             if(!LinkTexts.ContainsKey(GetLinkText.Trim()))
-                                            LinkTexts.Add(GetLinkText.Trim(), Translator.TransData[SetTKey]);
+                                            LinkTexts.Add(GetLinkText.Trim(), new LinkValue(Translator.TransData[SetTKey],GetParam.LineID));
                                         }
                                         this.SafeStringParams.Add(new StringParam(GetDefLine, Key, TempLink, GetLinkText.Trim()));
                                     }
@@ -798,15 +854,37 @@ namespace YDSkyrimToolR.SkyrimManage
             var Encoding = DataHelper.GetFileEncodeType(DeFine.GetFullPath(@"\Cache\"+ CurrentFileName +".pas"));
 
             string GetFileContent = Encoding.GetString(DataHelper.GetBytesByFilePath(DeFine.GetFullPath(@"\Cache\" + CurrentFileName + ".pas")));
+
+            List<string> Lines = GetFileContent.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None).ToList();
+
             for (int i = 0; i < LinkTexts.Count; i++)
             {
                 string GetKey = LinkTexts.ElementAt(i).Key;
                 if (GetFileContent.Contains(GetKey))
                 {
-                    LinkTexts[GetKey]= SystemDataWriter.PreFormatStr(LinkTexts[GetKey].Replace("\"","'"));
-                    GetFileContent = GetFileContent.Replace(GetKey,"\"" +  LinkTexts[GetKey] + "\"");
+                    var GetLinkValue = LinkTexts[GetKey];
+                    GetLinkValue.Value = SystemDataWriter.PreFormatStr(GetLinkValue.Value.Replace("\"","'"));
+                    LinkTexts[GetKey] = GetLinkValue;
+
+                    for (int ir = 0; ir < Lines.Count; ir++)
+                    {
+                        string GetLine = Lines[ir];
+                        if (GetLine.Contains("@line")&& GetLinkValue.Value.Trim().Length>0)
+                        {
+                            string CheckID = GetLine.Substring(GetLine.IndexOf("@line") + "@line".Length).Trim();
+                            if (CheckID.Equals(GetLinkValue.DefLineID.ToString()))
+                            {
+                                Lines[ir] = Lines[ir].Replace(GetKey,"\"" + GetLinkValue.Value + "\"");
+                            }
+                        }
+                    }
                 }
             }
+
+            GetFileContent = string.Empty;
+
+            GetFileContent = GetSourceStr(Lines);
+
             string SetPath = DeFine.GetFullPath(@"\Cache\" + CurrentFileName + ".pas");
 
             if (File.Exists(SetPath))

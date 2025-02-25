@@ -57,10 +57,12 @@ namespace YDSkyrimToolR.TranslateCore
                             string GetTransText = "";
                             string GetTag = "";
                             string GetKey = "";
+                            string GetTilp = "";
 
                             DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
                             {
                                 Grid MainGrid = DeFine.WorkingWin.TransViewList.GetMainGrid().Children[i] as Grid;
+                                GetTilp = ConvertHelper.ObjToStr(MainGrid.ToolTip);
                                 GetTag = ConvertHelper.ObjToStr((MainGrid.Children[1] as Label).Content);
                                 GetKey = ConvertHelper.ObjToStr((MainGrid.Children[2] as TextBox).Text);
                                 if ((MainGrid.Children[4] as TextBox).Text.Trim().Length == 0)
@@ -72,6 +74,11 @@ namespace YDSkyrimToolR.TranslateCore
 
                             if (GetTransText.Trim().Length > 0 && GetTransHashKey != 0)
                             {
+                                if (GetTilp == "Danger")
+                                {
+                                    DeFine.DefTransTool.TranslateMsg("跳过危险字段" + GetKey);
+                                }
+                                else
                                 if (GetTag.ToLower() != "book")
                                 {
                                     if (!StrChecker.ContainsChinese(GetTransText))
@@ -250,7 +257,7 @@ namespace YDSkyrimToolR.TranslateCore
 
         public string ProcessWordGroups(ref List<EngineProcessItem> EngineMsgs,string Content, BDLanguage From, BDLanguage To)
         {
-            if (!DeFine.PhraseEngineUsing) return Content;
+            if (!DeFine.GlobalLocalSetting.PhraseEngineUsing) return Content;
             int MaxLength = 2;
 
             string RichText = "";
@@ -394,7 +401,7 @@ namespace YDSkyrimToolR.TranslateCore
 
             string RichText = "";
 
-            if (DeFine.PhraseEngineUsing)
+            if (DeFine.GlobalLocalSetting.PhraseEngineUsing)
             {
                 var Contents = Content.Split(' ');
 
@@ -446,7 +453,7 @@ namespace YDSkyrimToolR.TranslateCore
 
             CreatTranslate.UsingDBWord();
 
-            if (DeFine.DivCacheEngineUsing)
+            if (DeFine.GlobalLocalSetting.DivCacheEngineUsing)
             {
                 string TempStr = CreatTranslate.Content;
 
@@ -523,7 +530,7 @@ namespace YDSkyrimToolR.TranslateCore
 
         public TranslateCache(ref List<EngineProcessItem> EngineMsgs,string Msg)
         {
-            if (DeFine.CodeParsingEngineUsing)
+            if (DeFine.GlobalLocalSetting.CodeParsingEngineUsing)
             {
                 this.Content = this.CodeParsing.ProcessCode(Msg);
             }
@@ -532,12 +539,12 @@ namespace YDSkyrimToolR.TranslateCore
                 this.Content = Msg;
             }
 
-            if (DeFine.ConjunctionEngineUsing)
+            if (DeFine.GlobalLocalSetting.ConjunctionEngineUsing)
             {
                 this.Content = this.Conjunction.ProcessStr(ref EngineMsgs,this.Content);
             }
 
-            if (DeFine.PhraseEngineUsing)
+            if (DeFine.GlobalLocalSetting.PhraseEngineUsing)
             {
                 this.Content = DetachDBWord(this.Content, ref CardItems);
             }
@@ -600,17 +607,17 @@ namespace YDSkyrimToolR.TranslateCore
         {
             string GetText = this.Content;
 
-            if (DeFine.CodeParsingEngineUsing)
+            if (DeFine.GlobalLocalSetting.CodeParsingEngineUsing)
             {
                 GetText = CodeParsing.UsingCode(GetText);
             }
 
-            if (DeFine.ConjunctionEngineUsing)
+            if (DeFine.GlobalLocalSetting.ConjunctionEngineUsing)
             {
                 GetText = Conjunction.UsingStr(GetText);
             }
 
-            if (DeFine.PhraseEngineUsing)
+            if (DeFine.GlobalLocalSetting.PhraseEngineUsing)
             {
                 foreach (var Get in this.CardItems)
                 {
@@ -631,17 +638,17 @@ namespace YDSkyrimToolR.TranslateCore
         {
             string GetText = Text;
 
-            if (DeFine.CodeParsingEngineUsing)
+            if (DeFine.GlobalLocalSetting.CodeParsingEngineUsing)
             {
                 GetText = this.CodeParsing.GetRemainingText(GetText);
             }
 
-            if (DeFine.ConjunctionEngineUsing)
+            if (DeFine.GlobalLocalSetting.ConjunctionEngineUsing)
             {
                 GetText = this.Conjunction.GetRemainingText(GetText);
             }
 
-            if (DeFine.PhraseEngineUsing)
+            if (DeFine.GlobalLocalSetting.PhraseEngineUsing)
             {
                 foreach (var Get in this.CardItems)
                 {

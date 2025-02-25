@@ -20,13 +20,19 @@
 
                     <Border  CornerRadius="5" Background="#FFF789B2" Name="StartTransBtn" PreviewMouseDown="StartTransing" Margin="5 0 0 0" >
                         <Label Name="TransControlBtn" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand" ToolTip="翻译指定标签" VerticalContentAlignment="Center">
-                            开始翻译当前标签
+                            开始翻译当前类别
                         </Label>
                     </Border>
 
                     <Border  CornerRadius="5" Background="#FFF789B2" PreviewMouseDown="ClearCache" Margin="5 0 0 0">
                         <Label Name="ClearCacheBtn" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand" ToolTip="翻译指定标签" VerticalContentAlignment="Center">
                             清理缓存
+                        </Label>
+                    </Border>
+                    
+                    <Border  CornerRadius="5" Background="#FFF789B2" PreviewMouseDown="EditEngineRule" Margin="5 0 0 0">
+                        <Label Name="EditEngine" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand" VerticalContentAlignment="Center">
+                            调教引擎
                         </Label>
                     </Border>
 

@@ -29,7 +29,7 @@ namespace YDSkyrimToolR.UIManage
         public static SolidColorBrush DefHeightBackground = new SolidColorBrush(Color.FromRgb(15, 15, 15));
         public static SolidColorBrush ExtendHeightBackground = new SolidColorBrush(Color.FromRgb(40, 40, 40));
 
-        public static Grid CreatLine(string Type, string EditorID, string Key, string SourceText, string TransText)
+        public static Grid CreatLine(string Type, string EditorID, string Key, string SourceText, string TransText,bool Danger)
         {
             Grid MainGrid = new Grid();
 
@@ -57,6 +57,12 @@ namespace YDSkyrimToolR.UIManage
             else
             {
                 MainGrid.Background = DefHeightBackground;
+            }
+
+            if (Danger)
+            {
+                MainGrid.Background = new SolidColorBrush(Colors.Red);
+                MainGrid.ToolTip = "Danger";
             }
 
             RowDefinition Row1st = new RowDefinition();
@@ -264,8 +270,6 @@ namespace YDSkyrimToolR.UIManage
                     DeFine.WorkingWin.GetStatistics();
                 }
 
-                Translator.TransData[GetKey] = (sender as TextBox).Text;
-
                 (sender as TextBox).BorderBrush = new SolidColorBrush(Color.FromRgb(87, 87, 87));
             }
         }
@@ -284,17 +288,19 @@ namespace YDSkyrimToolR.UIManage
             if (sender is TextBox)
             {
                 var GetKey = ConvertHelper.ObjToInt(((sender as TextBox).Tag as Grid).Tag);
-
+                var GetToolTipStr = ConvertHelper.ObjToStr((sender as TextBox).Tag as Grid);
                 var LockerGrid = ((sender as TextBox).Tag as Grid);
                 (sender as TextBox).Foreground = new SolidColorBrush(Colors.White);
                 (LockerGrid.Children[3] as TextBox).Foreground = new SolidColorBrush(Colors.White);
 
                 if (LockerGrid.Height != DefLineHeight)
                 {
+                    if(GetToolTipStr.Length == 0)
                     LockerGrid.Background = ExtendHeightBackground;
                 }
                 else
                 {
+                    if (GetToolTipStr.Length == 0)
                     LockerGrid.Background = DefHeightBackground;
                 }
 
@@ -318,7 +324,10 @@ namespace YDSkyrimToolR.UIManage
                     }
                 }
                 string Text = (sender as TextBox).Text;
-                Translator.TransData[GetKey] = Text;
+                if (Text.Trim().Length > 0)
+                {
+                    Translator.TransData[GetKey] = Text;
+                }
             }
         }
 
@@ -327,8 +336,11 @@ namespace YDSkyrimToolR.UIManage
             if (sender is TextBox)
             {
                 var LockerGrid = ((sender as TextBox).Tag as Grid);
+                var GetToolTipStr = ConvertHelper.ObjToStr(((sender as TextBox).Tag as Grid));
                 (sender as TextBox).Foreground = new SolidColorBrush(Colors.Orange);
                 (LockerGrid.Children[3] as TextBox).Foreground = new SolidColorBrush(Colors.Yellow);
+
+                if(GetToolTipStr.Length==0)
                 LockerGrid.Background = new SolidColorBrush(Color.FromRgb(55, 55, 55));
 
                 if (DeFine.WorkingWin.CurrentTransType == 3)

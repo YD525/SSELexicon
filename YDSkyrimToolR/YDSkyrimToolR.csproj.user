@@ -13,6 +13,9 @@
     <Compile Update="CodeView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="EngineEditView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="SearchText.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -25,6 +28,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="CodeView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="EngineEditView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">

@@ -50,19 +50,19 @@ namespace YDSkyrimToolR.TranslateCore
         {
             EngineSelects.Clear();
 
-            if(DeFine.BaiDuYunApiUsing)
+            if(DeFine.GlobalLocalSetting.BaiDuYunApiUsing)
             if (DeFine.GlobalLocalSetting.BaiDuAppID.Trim().Length > 0)
             {
                 EngineSelects.Add(new EngineSelect(new BaiDuApi(), 6));
             }
 
-            if(DeFine.GoogleYunApiUsing)
+            if(DeFine.GlobalLocalSetting.GoogleYunApiUsing)
             if (ConvertHelper.ObjToStr(new GoogleHelper().FreeTransStr("Test")).Length > 0)
             {
                 EngineSelects.Add(new EngineSelect(new GoogleHelper(), 2));
             }
 
-            if(DeFine.DeepSeekApiUsing)
+            if(DeFine.GlobalLocalSetting.DeepSeekApiUsing)
             if (DeFine.GlobalLocalSetting.DeepSeekKey.Trim().Length > 0)
             {
                 EngineSelects.Add(new EngineSelect(new DeepSeekApi(), 6));
@@ -241,7 +241,7 @@ namespace YDSkyrimToolR.TranslateCore
 
                     if (this.Engine is BaiDuApi)
                     {
-                        if (DeFine.BaiDuYunApiUsing)
+                        if (DeFine.GlobalLocalSetting.BaiDuYunApiUsing)
                         {
                             if (this.CurrentCallCount < this.MaxUseCount)
                             {
@@ -284,7 +284,7 @@ namespace YDSkyrimToolR.TranslateCore
                     else
                     if (this.Engine is GoogleHelper)
                     {
-                        if (DeFine.GoogleYunApiUsing)
+                        if (DeFine.GlobalLocalSetting.GoogleYunApiUsing)
                         {
                             var GetData = ConvertHelper.ObjToStr((this.Engine as GoogleHelper).FreeTransStr(GetSource));
                             if (StrChecker.ContainsChinese(GetData))
@@ -307,7 +307,7 @@ namespace YDSkyrimToolR.TranslateCore
                     else
                     if (this.Engine is DeepSeekApi)
                     {
-                        if (DeFine.DeepSeekApiUsing)
+                        if (DeFine.GlobalLocalSetting.DeepSeekApiUsing)
                         {
                             var GetData = (this.Engine as DeepSeekApi).QuickTrans(GetSource).Trim();
                             if (StrChecker.ContainsChinese(GetData))

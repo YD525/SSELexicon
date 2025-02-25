@@ -1,0 +1,23 @@
+﻿<Window x:Class="YDSkyrimToolR.EngineEditView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:YDSkyrimToolR"
+        mc:Ignorable="d"
+        Title="EngineEditView开发中..." Height="450" Width="800">
+    <Grid>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Label VerticalAlignment="Center">
+                要翻译内容
+            </Label>
+            <TextBox Width="100" Margin="5" Name="Source" AcceptsReturn="True" TextWrapping="Wrap" Height="100">
+            </TextBox>
+            <Button VerticalAlignment="Center" Click="StartTestTrans">
+                调用混合翻译
+            </Button>
+            <TextBox Width="100" Margin="5" Name="TargetStr" AcceptsReturn="True" TextWrapping="Wrap" Height="100">
+            </TextBox>
+        </StackPanel>
+    </Grid>
+</Window>

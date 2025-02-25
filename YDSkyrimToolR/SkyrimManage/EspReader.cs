@@ -708,17 +708,17 @@ namespace YDSkyrimToolR.SkyrimManage
                 return;
             }
 
-            List<Armor> Armors = new List<Armor>();
+            //List<Armor> Armors = new List<Armor>();
 
-            for (int i = 0; i < this.Armors.Count; i++)
-            { 
-               var GetKey = this.Armors.ElementAt(i).Key;
-               var ToItem = this.Armors[GetKey];
-               Armors.Add(ToItem);
-            }
+            //for (int i = 0; i < this.Armors.Count; i++)
+            //{ 
+            //   var GetKey = this.Armors.ElementAt(i).Key;
+            //   var ToItem = this.Armors[GetKey];
+            //   Armors.Add(ToItem);
+            //}
 
-            if(Armors.Count>0 && Armors.Count.Equals(CurrentReadMod.Armors.Count))
-            CurrentReadMod.Armors.Set(Armors);
+            //if(Armors.Count>0 && Armors.Count.Equals(CurrentReadMod.Armors.Count))
+            //CurrentReadMod.Armors.Set(Armors);
 
         }
 

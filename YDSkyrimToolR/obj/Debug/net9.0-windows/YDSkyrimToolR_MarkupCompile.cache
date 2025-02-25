@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET9_0;NETCOREAPP
 C:\Users\Administrator\source\repos\YDSkyrimToolR\YDSkyrimToolR\App.xaml
-6-326848546
+7-824451759
 
-42-1000080195
+43340023074
 2601064707841
-ActionWin.xaml;CodeView.xaml;MainWindow.xaml;SearchText.xaml;Themes\DefStyle.xaml;TransTool.xaml;
+ActionWin.xaml;CodeView.xaml;EngineEditView.xaml;MainWindow.xaml;SearchText.xaml;Themes\DefStyle.xaml;TransTool.xaml;
 
 False
 

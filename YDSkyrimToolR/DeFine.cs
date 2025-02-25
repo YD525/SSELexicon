@@ -23,13 +23,6 @@ namespace YDSkyrimToolR
     {
         public static int DefPageSize = 100;
 
-        public static bool PhraseEngineUsing = true;//词组引擎
-        public static bool CodeParsingEngineUsing = true;//代码处理引擎
-        public static bool ConjunctionEngineUsing = true;//连词引擎
-        public static bool BaiDuYunApiUsing = true;//百度翻译引擎
-        public static bool DeepSeekApiUsing = true;//DeepSeek机能搭载
-        public static bool GoogleYunApiUsing = true;//谷歌翻译引擎
-        public static bool DivCacheEngineUsing = true;//自定义内存翻译引擎(一次性)
         public static bool AutoTranslate = true;//始终关闭自动翻译
 
         public static string BackupPath = @"\BackUpData\";//自动备份路径
@@ -68,6 +61,14 @@ namespace YDSkyrimToolR
 
     public class LocalSetting
     {
+        public bool PhraseEngineUsing { get; set; } = true;//词组引擎
+        public bool CodeParsingEngineUsing { get; set; } = true;//代码处理引擎
+        public bool ConjunctionEngineUsing { get; set; } = true;//连词引擎
+        public bool BaiDuYunApiUsing { get; set; } = true;//百度翻译引擎
+        public bool DeepSeekApiUsing { get; set; } = true;//DeepSeek机能搭载
+        public bool GoogleYunApiUsing { get; set; } = true;//谷歌翻译引擎
+        public bool DivCacheEngineUsing { get; set; } = true;//自定义内存翻译引擎(一次性)
+
         public string BackUpPath { get; set; } = "";
         public string APath { get; set; } = "";
         public string BPath { get; set; } = "";
@@ -86,19 +87,29 @@ namespace YDSkyrimToolR
                 var GetStr = FileHelper.ReadFileByStr(DeFine.GetFullPath(@"\setting.config"), Encoding.UTF8);
                 if (GetStr.Trim().Length > 0)
                 {
-                    var GetSetting =JsonSerializer.Deserialize<LocalSetting>(GetStr);
+                    var GetSetting = JsonSerializer.Deserialize<LocalSetting>(GetStr);
+                    if (GetSetting != null)
+                    {
+                        this.PhraseEngineUsing = GetSetting.PhraseEngineUsing;
+                        this.CodeParsingEngineUsing = GetSetting.CodeParsingEngineUsing;
+                        this.ConjunctionEngineUsing = GetSetting.ConjunctionEngineUsing;
+                        this.BaiDuYunApiUsing = GetSetting.BaiDuYunApiUsing;
+                        this.DeepSeekApiUsing = GetSetting.DeepSeekApiUsing;
+                        this.GoogleYunApiUsing = GetSetting.GoogleYunApiUsing;
+                        this.DivCacheEngineUsing = GetSetting.DivCacheEngineUsing;
 
-                    this.APath = GetSetting.APath;
-                    this.BPath = GetSetting.BPath;
-                    this.SkyrimPath = GetSetting.SkyrimPath;
-                    this.GoogleKey = GetSetting.GoogleKey;
-                    this.BaiDuAppID = GetSetting.BaiDuAppID;
-                    this.BaiDuSecretKey = GetSetting.BaiDuSecretKey;
-                    this.DeepSeekKey = GetSetting.DeepSeekKey;
-                    this.TransCount = GetSetting.TransCount;
-                    this.ModOrganizerConfig = GetSetting.ModOrganizerConfig;
-                    this.PlaySound = GetSetting.PlaySound;
-                    this.BackUpPath = GetSetting.BackUpPath;
+                        this.APath = GetSetting.APath;
+                        this.BPath = GetSetting.BPath;
+                        this.SkyrimPath = GetSetting.SkyrimPath;
+                        this.GoogleKey = GetSetting.GoogleKey;
+                        this.BaiDuAppID = GetSetting.BaiDuAppID;
+                        this.BaiDuSecretKey = GetSetting.BaiDuSecretKey;
+                        this.DeepSeekKey = GetSetting.DeepSeekKey;
+                        this.TransCount = GetSetting.TransCount;
+                        this.ModOrganizerConfig = GetSetting.ModOrganizerConfig;
+                        this.PlaySound = GetSetting.PlaySound;
+                        this.BackUpPath = GetSetting.BackUpPath;
+                    }
                 }
                 else
                 {
