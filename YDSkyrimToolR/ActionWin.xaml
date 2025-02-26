@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:YDSkyrimToolR"
         mc:Ignorable="d"
-        Title="ActionWin"  Height="280" Width="390" WindowStartupLocation="CenterScreen" Topmost="True">
+        Title="ActionWin"  Height="300" Width="390" WindowStartupLocation="CenterScreen" Topmost="True">
     <Window.Style>
         <Style TargetType="Window">
             <Setter Property="Background" Value="Transparent" />
@@ -52,13 +52,7 @@
                     </Label>
                 </Grid>
 
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-20,0,0" Grid.Row="1" Height="100">
-
-                    <StackPanel Orientation="Horizontal" Margin="0 30 0 30">
-                        <TextBox Width="260" Height="85" BorderBrush="AliceBlue" BorderThickness="0" Foreground="#707070" FontSize="15" IsReadOnly="True" VerticalAlignment="Center"  Name="CurrentMsg" FontFamily="Microsoft YaHei UI" Margin="3 -33 0 0" AcceptsReturn="True" TextWrapping="Wrap" Background="{x:Null}" VerticalContentAlignment="Center"></TextBox>
-                    </StackPanel>
-
-                </StackPanel>
+                <TextBox BorderThickness="0" BorderBrush="{x:Null}" Grid.Row="1" Margin="10 20 10 80" Foreground="#707070" FontSize="15" IsReadOnly="True" Name="CurrentMsg" FontFamily="Microsoft YaHei UI" AcceptsReturn="True" TextWrapping="Wrap" Background="{x:Null}" HorizontalContentAlignment="Center"></TextBox>
 
                 <StackPanel Grid.Row="1" Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 0 0 25">
 
@@ -66,7 +60,7 @@
                         <Grid>
                             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                                 <Label  Foreground="#FFF77FAC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Padding="17 2 17 2"  FontSize="13">
-                                    取消
+                                    No
                                 </Label>
                             </StackPanel>
                         </Grid>
@@ -74,7 +68,6 @@
                     </Border>
 
                     <Border Name="Confirm" CornerRadius="5"  VerticalAlignment="Center" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"  Width="60" Height="35" Margin="30 0 0 0" Cursor="Hand" PreviewMouseDown = "OneConfirm">
-
                         <Border.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                                 <GradientStop Color="#FFF77FAC" Offset="0.5"/>
@@ -85,7 +78,7 @@
                         <Grid>
                             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                                 <Label Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Padding="17 2 17 2"  FontSize="13">
-                                    确定
+                                    Yes
                                 </Label>
                             </StackPanel>
                         </Grid>

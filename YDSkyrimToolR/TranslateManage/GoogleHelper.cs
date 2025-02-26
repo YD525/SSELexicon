@@ -8,6 +8,8 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using YDSkyrimToolR.ConvertManager;
+using static YDSkyrimToolR.TranslateManage.BaiDuApi;
+using YDSkyrimToolR.TranslateCore;
 
 namespace YDSkyrimToolR.TranslateManage
 {
@@ -16,9 +18,58 @@ namespace YDSkyrimToolR.TranslateManage
     {
         public string ApiKey = "";
 
-        public string FreeTransStr(string ENText)
+        public string FreeTransStr(string ENText,Languages FromLang, Languages ToLang)
         {
-            string Url = string.Format("https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=zh&dt=t&q={0}", System.Web.HttpUtility.UrlEncode(ENText));
+            BDLanguages Source = BDLanguages.en;
+            BDLanguages Target = BDLanguages.zh;
+
+            if (FromLang == Languages.English)
+            {
+                Source = BDLanguages.en;
+            }
+            if (FromLang == Languages.Chinese)
+            {
+                Source = BDLanguages.zh;
+            }
+            if (FromLang == Languages.Japanese)
+            {
+                Source = BDLanguages.jp;
+            }
+            if (FromLang == Languages.German)
+            {
+                Source = BDLanguages.de;
+            }
+            if (FromLang == Languages.Korean)
+            {
+                Source = BDLanguages.kor;
+            }
+
+            if (ToLang == Languages.English)
+            {
+                Target = BDLanguages.en;
+            }
+            if (ToLang == Languages.Chinese)
+            {
+                Target = BDLanguages.zh;
+            }
+            if (ToLang == Languages.Japanese)
+            {
+                Target = BDLanguages.jp;
+            }
+            if (ToLang == Languages.German)
+            {
+                Target = BDLanguages.de;
+            }
+            if (ToLang == Languages.Korean)
+            {
+                Target = BDLanguages.kor;
+            }
+
+            return TransStr(Source.ToString(), Target.ToString(), ENText);
+        }
+        public string TransStr(string FromLang,string ToLang, string ENText)
+        {
+            string Url = string.Format("https://translate.googleapis.com/translate_a/single?client=gtx&sl={0}&tl={1}&dt=t&q={2}",FromLang,ToLang,System.Web.HttpUtility.UrlEncode(ENText));
             HttpItem Http = new HttpItem()
             {
                 URL = Url,

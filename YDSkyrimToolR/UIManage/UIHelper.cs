@@ -29,6 +29,7 @@ namespace YDSkyrimToolR.UIManage
         public static SolidColorBrush DefHeightBackground = new SolidColorBrush(Color.FromRgb(15, 15, 15));
         public static SolidColorBrush ExtendHeightBackground = new SolidColorBrush(Color.FromRgb(40, 40, 40));
 
+
         public static Grid CreatLine(string Type, string EditorID, string Key, string SourceText, string TransText,bool Danger)
         {
             Grid MainGrid = new Grid();
@@ -217,10 +218,8 @@ namespace YDSkyrimToolR.UIManage
         {
             var GetTextBox = (sender as TextBox);
             var GetKey = ConvertHelper.ObjToInt((GetTextBox.Tag as Grid).Tag);
-            if (GetTextBox.Text.Length > 0)
-            {
-                Translator.TransData[GetKey] = GetTextBox.Text;
-            }
+
+            AutoSetTransData(GetKey, GetTextBox.Text);
         }
 
         public static Dictionary<int, int> ModifyCountCache = new Dictionary<int, int>();
@@ -231,7 +230,7 @@ namespace YDSkyrimToolR.UIManage
 
             if ((sender as TextBox).Text.Length > 0)
             {
-                Translator.TransData[GetKey] = (sender as TextBox).Text;
+                AutoSetTransData(GetKey,(sender as TextBox).Text);
 
                 if ((sender as TextBox).BorderBrush != new SolidColorBrush(Colors.BlueViolet))
                 (sender as TextBox).BorderBrush = new SolidColorBrush(Colors.Green);
@@ -274,13 +273,24 @@ namespace YDSkyrimToolR.UIManage
             }
         }
 
+        public static void AutoSetTransData(int Key,string Data)
+        {
+            if (Data.Trim().Length > 0)
+            {
+                Translator.TransData[Key] = Data;
+            }
+            else
+            {
+                if (Translator.TransData.ContainsKey(Key))
+                {
+                    Translator.TransData.Remove(Key);
+                }
+            }
+        }
+
         private static void SourceTextBox_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            if (sender is TextBox)
-            {
-                (sender as TextBox).SelectAll();
-                Clipboard.SetText((sender as TextBox).Text.Trim());
-            }
+          
         }
 
         private static void TransTextBox_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
@@ -326,11 +336,19 @@ namespace YDSkyrimToolR.UIManage
                 string Text = (sender as TextBox).Text;
                 if (Text.Trim().Length > 0)
                 {
-                    Translator.TransData[GetKey] = Text;
+                    AutoSetTransData(GetKey,Text);
                 }
             }
         }
 
+        private static CancellationTokenSource AutoCancelSelectIDETrd;
+        public static void CancelAutoSelect()
+        {
+            AutoCancelSelectIDETrd?.Cancel();
+        }
+
+        public static bool ExitAny = true;
+        public static Thread AutoSelectIDETrd = null;
         private static void TransTextBox_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
             if (sender is TextBox)
@@ -350,10 +368,44 @@ namespace YDSkyrimToolR.UIManage
                         string GetKey = ConvertHelper.ObjToStr((LockerGrid.Children[2] as TextBox).Text);
                         if (GetKey.Contains("-"))
                         {
-                            DeFine.ActiveIDE.ScrollToLine(ConvertHelper.ObjToInt(GetKey.Split('-')[0]));
-                            int GetEnd = 0;
+                            var GetStr = GetKey.Split('-')[3];
+                            if (GetStr.Contains("("))
+                            {
+                                GetStr = GetStr.Split("(")[0];
+                            }
+                            try {
+                                if (AutoSelectIDETrd != null)
+                                {
+                                    CancelAutoSelect();
+                                }
+                            }
+                            catch { }
 
-                            DeFine.ActiveIDE.Select(ConvertHelper.ObjToInt(GetKey.Split('-')[1]), ConvertHelper.ObjToInt(GetKey.Split('-')[2].Split('(')[0]));
+                            AutoCancelSelectIDETrd = new CancellationTokenSource();
+                            var Token = AutoCancelSelectIDETrd.Token;
+
+                            AutoSelectIDETrd = new Thread(() =>
+                            {
+                                try
+                                {
+                                    // 可取消的等待（替代 Thread.Sleep）
+                                    Task.Delay(200, Token).Wait(Token);
+
+                                    Token.ThrowIfCancellationRequested();
+
+                                    DeFine.ActiveIDE.Dispatcher.Invoke(() =>
+                                    {
+                                        DeFine.ActiveIDE.ScrollToLine(ConvertHelper.ObjToInt(GetStr)); 
+                                        DeFine.ActiveIDE.Select(ConvertHelper.ObjToInt(GetKey.Split('-')[1]), ConvertHelper.ObjToInt(GetKey.Split('-')[2].Split('(')[0]));
+                                    });
+                                }
+                                catch (OperationCanceledException)
+                                {
+                                    // 取消时静默处理
+                                }
+                            });
+
+                            AutoSelectIDETrd.Start();
                         }
                     }
                     catch { }

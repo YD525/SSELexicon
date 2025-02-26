@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.RightsManagement;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -21,6 +22,9 @@ namespace YDSkyrimToolR
     */
     public class DeFine
     {
+        public static Languages SourceLanguage = Languages.English;
+        public static Languages TargetLanguage = Languages.Chinese;
+
         public static int DefPageSize = 100;
 
         public static bool AutoTranslate = true;//始终关闭自动翻译

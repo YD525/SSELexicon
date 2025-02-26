@@ -57,7 +57,7 @@ namespace YDSkyrimToolR.TranslateCore
         {
             ACodeParse OneACodeParse = new ACodeParse(Content);
             List<EngineProcessItem> EngineProcessItems = new List<EngineProcessItem>();
-            string GetCN = new WordProcess().ProcessWords(ref EngineProcessItems, OneACodeParse.Content, BDLanguage.EN, BDLanguage.CN);
+            string GetCN = new WordProcess().ProcessWords(ref EngineProcessItems, OneACodeParse.Content, DeFine.SourceLanguage, DeFine.TargetLanguage);
             return OneACodeParse.UsingCode(GetCN);
         }
         public static string ProcessAproposCode(string FileName, string Content)

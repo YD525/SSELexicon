@@ -30,7 +30,7 @@ namespace YDSkyrimToolR
             string GetSourceStr = Source.Text.Trim();
             new Thread(() => { 
                 List<EngineProcessItem> EngineProcessItems = new List<EngineProcessItem>();
-                var GetResult = new WordProcess().ProcessWords(ref EngineProcessItems,GetSourceStr, BDLanguage.EN, BDLanguage.CN);
+                var GetResult = new WordProcess().ProcessWords(ref EngineProcessItems,GetSourceStr, DeFine.SourceLanguage, DeFine.TargetLanguage);
                 this.Dispatcher.Invoke(new Action(() => {
                     TargetStr.Text = GetResult;
                 }));

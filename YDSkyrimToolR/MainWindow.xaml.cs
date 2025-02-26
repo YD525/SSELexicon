@@ -1,5 +1,6 @@
 ﻿using Microsoft.WindowsAPICodePack.Dialogs;
 using Mutagen.Bethesda.Plugins;
+using Mutagen.Bethesda.Starfield;
 using SharpVectors.Converters;
 using System.IO;
 using System.Text;
@@ -68,39 +69,55 @@ namespace YDSkyrimToolR
         public List<ObjSelect> CanSetSelecter = new List<ObjSelect>();
         public ObjSelect CurrentSelect = ObjSelect.Null;
 
+        public object LockerAddTrd = new object();
+
         public void ReloadData(bool CanReloadCountCache = true)
         {
-            if (CanReloadCountCache)
-            {
-                UIHelper.ModifyCountCache.Clear();
-            }  
-            UIHelper.ModifyCount = 0;
-
-            this.Dispatcher.Invoke(new Action(() =>
-            {
-                TransViewList.Clear();
-            }));
-            if (CurrentTransType == 2)
-            {
-                SkyrimDataLoader.Load(CurrentSelect, GlobalEspReader, TransViewList);
-            }
-            else
-            if (CurrentTransType == 1)
-            {
-                foreach (var GetItem in GlobalMCMReader.MCMItems)
+            new Thread(() => 
+            { 
+                lock(LockerAddTrd)
                 {
-                    TransViewList.AddRowR(UIHelper.CreatLine(GetItem.Type,GetItem.EditorID,GetItem.Key,GetItem.SourceText,GetItem.GetTextIfTransR(),false));
-                }
-            }
-            if (CurrentTransType == 3)
-            {
-                foreach (var GetItem in GlobalPexReader.SafeStringParams)
-                {
-                    TransViewList.AddRowR(UIHelper.CreatLine(GetItem.Type, GetItem.EditorID, GetItem.Key, GetItem.SourceText, GetItem.GetTextIfTransR(),GetItem.Danger));
-                }
-            }
+                    GC.Collect();
 
-            GetStatistics();
+                    if (CanReloadCountCache)
+                    {
+                        UIHelper.ModifyCountCache.Clear();
+                    }
+                    UIHelper.ModifyCount = 0;
+
+                    this.Dispatcher.Invoke(new Action(() =>
+                    {
+                        TransViewList.Clear();
+                    }));
+
+                    if (CurrentTransType == 2)
+                    {
+                        SkyrimDataLoader.Load(CurrentSelect, GlobalEspReader, TransViewList);
+                    }
+                    else
+                    if (CurrentTransType == 1)
+                    {
+                        foreach (var GetItem in GlobalMCMReader.MCMItems)
+                        {
+                            this.Dispatcher.Invoke(new Action(() => {
+                                TransViewList.AddRowR(UIHelper.CreatLine(GetItem.Type, GetItem.EditorID, GetItem.Key, GetItem.SourceText, GetItem.GetTextIfTransR(), false));
+                            }));
+                           
+                        }
+                    }
+                    if (CurrentTransType == 3)
+                    {
+                        foreach (var GetItem in GlobalPexReader.SafeStringParams)
+                        {
+                            this.Dispatcher.Invoke(new Action(() => {
+                                TransViewList.AddRowR(UIHelper.CreatLine(GetItem.Type, GetItem.EditorID, GetItem.Key, GetItem.SourceText, GetItem.GetTextIfTransR(), GetItem.Danger));
+                            }));
+                        }
+                    }
+
+                    GetStatistics();
+                }
+            }).Start();
         }
 
         public int MaxTransCount = 0;
@@ -121,11 +138,40 @@ namespace YDSkyrimToolR
             }));
         }
 
+        public void ReloadViewMode()
+        {
+            ViewMode.Items.Clear();
+            ViewMode.Items.Add("Quick");
+            ViewMode.Items.Add("Normal");
+
+            ViewMode.SelectedValue = ViewMode.Items[0];
+        }
+
+        public void ReloadLanguageMode()
+        {
+            Source.Items.Clear();
+            Source.Items.Add("English");
+            Source.Items.Add("Chinese");
+            Source.Items.Add("Japanese");
+            Source.Items.Add("Korean");
+            Source.Items.Add("German");
+            Source.SelectedValue = Source.Items[0];
+
+            Target.Items.Clear();
+            Target.Items.Add("Chinese");
+            Target.Items.Add("English");
+            Target.Items.Add("Japanese");
+            Target.Items.Add("Korean");
+            Target.Items.Add("German");
+            Target.SelectedValue = Target.Items[0];
+        }
+
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             DeFine.Init(this);
-
+            ReloadViewMode();
+            ReloadLanguageMode();
             this.Topmost = true;
             this.Show();
             this.Activate();
@@ -796,6 +842,102 @@ namespace YDSkyrimToolR
         {
             DeFine.GlobalLocalSetting.SaveConfig();
             Environment.Exit(0);
+        }
+
+
+
+        private void Source_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //  English = 0, Chinese = 1, Japanese = 2, German = 5, Korean = 6
+            string GetValue = ConvertHelper.ObjToStr(Source.SelectedValue);
+            switch (GetValue)
+            {
+                case "English":
+                    {
+                        DeFine.SourceLanguage = TranslateCore.Languages.English;
+                    }
+                break;
+                case "Chinese":
+                    {
+                        DeFine.SourceLanguage = TranslateCore.Languages.Chinese;
+                    }
+                break;
+                case "Japanese":
+                    {
+                        DeFine.SourceLanguage = TranslateCore.Languages.Japanese;
+                    }
+                break;
+                case "German":
+                    {
+                        DeFine.SourceLanguage = TranslateCore.Languages.German;
+                    }
+                    break;
+                case "Korean":
+                    {
+                        DeFine.SourceLanguage = TranslateCore.Languages.Korean;
+                    }
+                break;
+            }
+        }
+
+        private void Target_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string GetValue = ConvertHelper.ObjToStr(Target.SelectedValue);
+            switch (GetValue)
+            {
+                case "English":
+                    {
+                        DeFine.TargetLanguage = TranslateCore.Languages.English;
+                    }
+                    break;
+                case "Chinese":
+                    {
+                        DeFine.TargetLanguage = TranslateCore.Languages.Chinese;
+                    }
+                    break;
+                case "Japanese":
+                    {
+                        DeFine.TargetLanguage = TranslateCore.Languages.Japanese;
+                    }
+                    break;
+                case "German":
+                    {
+                        DeFine.TargetLanguage = TranslateCore.Languages.German;
+                    }
+                    break;
+                case "Korean":
+                    {
+                        DeFine.TargetLanguage = TranslateCore.Languages.Korean;
+                    }
+                    break;
+            }
+        }
+
+        private void ClearCache(object sender, MouseButtonEventArgs e)
+        {
+            if (ActionWin.Show("clear the cache for translation?", "Warning: After cleaning up, all content including previous translations will no longer be cached. Translating again will retrieve it from the cloud, which will waste the results of your previous translations and increase word count consumption!", MsgAction.YesNo, MsgType.Info) > 0)
+            {
+                string SqlOrder = "Delete From CloudTranslation Where 1=1";
+                int State = DeFine.GlobalDB.ExecuteNonQuery(SqlOrder);
+                if (State != 0)
+                {
+                    ActionWin.Show("DBMsg", "Done!", MsgAction.Yes, MsgType.Info);
+                    DeFine.GlobalDB.ExecuteNonQuery("vacuum");
+                }
+                else
+                {
+
+                }
+            }
+            else
+            {
+
+            }
+        }
+
+        private void ShowAboutUS(object sender, MouseButtonEventArgs e)
+        {
+            ActionWin.Show("约定酱的YDSkyrimTools", "YDSkyrimTools It is an open-source and free translation tool for Skyrim SE Mod\r\nIntended to significantly reduce the workload of Sinicizers\r\nProtocol GPL3.0\r\n See Github https://github.com/tolove336/YDSkyrimToolR\r\n I only handle it when I have free time", MsgAction.Null,MsgType.Info);
         }
     }
 }

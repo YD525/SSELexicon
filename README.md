@@ -1,28 +1,32 @@
-# YDSkyrimTool
-## YDSkyrimTools 是一款开源且免费的上古卷轴 Mod的翻译工具 然后还带了一些其他的功能目前正在写
-### 最早是基于9DM 泰姆瑞尔MOD组 我写的YDSkyrimTool改良而来。
-### 意在显著降低汉化者的工作量。
+# YDSkyrimToolR
+## YDSkyrimTools It is an open-source and free translation tool for Skyrim SE Mod
+### Initially, it was based on 9DM 泰姆瑞尔MOD组 I wrote it as an improvement of YDSkyrimTool。
+### Intended to significantly reduce the workload of Sinicizers。
 
-### 该项目采用 [GPL-3.0-only] 许可。
-### 并且，它的部分逻辑使用了以下开源框架/库：
+### This project adopts the GPL-3.0-oly license。
+
+### And, some of its logic uses the following open-source frameworks/libraries：
 ### (https://github.com/Mutagen-Modding/Mutagen),
-### 框架/库名称：Mutagen.Bethesda，由 [Mutagen] 开发，许可证为 [GPL-3.0-only]。
+### Framework/Library Name：Mutagen.Bethesda，Developed by [Mutagen], licensed under [GPL-3.0-oly].
 
-### 并且，它的部分组件使用了以下开源框架/库：
+### And, some of its logic uses the following open-source frameworks/libraries：
 ### (https://github.com/Orvid/Champollion),
-### 框架/库名称：Champollion，由 [Orvid] 开发，许可证为 [GPL-3.0-only]。
+### Framework/Library Name：Champollion，Developed by [Ovid], licensed under [GPL-3.0-oly].
 
-### 以及有依赖关系的 GameFinder所有组件
+### And all components of GameFinder that have dependencies
 ### (https://github.com/erri120/GameFinder)
-### 框架/库名称：erri120.GameFinder，由 [erri120] 开发，许可证为 [GPL-3.0-only]。
+### Framework/Library Name：erri120.GameFinder，Developed by [erri120], licensed under [GPL-3.0-oly].
 
-### 有关更多信息，请查阅本程序和对方各自框架的许可证[License]文件。
+### For more information, please refer to the [License] files of this program and the respective frameworks of the other party.
 
-### 关于软件的任何问题可以咨询我的 QQ525084464
+### For any questions about the software, you can consult my QQ 52508464 or submit a post on Github
 
-### 目前还在开发中仓库会持续更新的
+### Currently under development, the warehouse will continue to be updated
 
-### 另外乐捐我也是喜欢的TAT
-### 如果你喜欢这个项目可以通过以下方式支持我个人：
+![UI](1.png)
+![UI](2.png)
+
+### In addition, I also enjoy accepting donations
+### If you like this project, you can support me personally through the following ways:
 ### 请我喝杯咖啡 -  Buy Me A Coffee
 ![alipay](alipay_qrcode.jpg)

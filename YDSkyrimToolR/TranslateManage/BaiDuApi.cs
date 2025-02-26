@@ -8,11 +8,17 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
+using YDSkyrimToolR.TranslateCore;
 
 namespace YDSkyrimToolR.TranslateManage
 {
     public class BaiDuApi
     {
+        public enum BDLanguages
+        {
+            en=0, zh = 1, jp=2, de=3, kor = 5
+        }
+
         public string GenerateSignature(string appId, string query, string salt, string secretKey)
         {
             // Step 1: 拼接字符串
@@ -35,9 +41,53 @@ namespace YDSkyrimToolR.TranslateManage
             }
         }
 
-        public BaiduTransResult? TransStr(string Query, string FromLang, string ToLang)
+        public BaiduTransResult? TransStr(string Query,Languages FromLang, Languages ToLang)
         {
-            return ConstructGetRequestUrl(DeFine.GlobalLocalSetting.BaiDuAppID, Query, FromLang, ToLang, new Random(Guid.NewGuid().GetHashCode()).Next(100, 999).ToString(), DeFine.GlobalLocalSetting.BaiDuSecretKey);
+            BDLanguages Source = BDLanguages.en;
+            BDLanguages Target = BDLanguages.zh;
+
+            if (FromLang == Languages.English)
+            {
+                Source = BDLanguages.en;
+            }
+            if (FromLang == Languages.Chinese)
+            {
+                Source = BDLanguages.zh;
+            }
+            if (FromLang == Languages.Japanese)
+            {
+                Source = BDLanguages.jp;
+            }
+            if (FromLang == Languages.German)
+            {
+                Source = BDLanguages.de;
+            }
+            if (FromLang == Languages.Korean)
+            {
+                Source = BDLanguages.kor;
+            }
+
+            if (ToLang == Languages.English)
+            {
+                Target = BDLanguages.en;
+            }
+            if (ToLang == Languages.Chinese)
+            {
+                Target = BDLanguages.zh;
+            }
+            if (ToLang == Languages.Japanese)
+            {
+                Target = BDLanguages.jp;
+            }
+            if (ToLang == Languages.German)
+            {
+                Target = BDLanguages.de;
+            }
+            if (ToLang == Languages.Korean)
+            {
+                Target = BDLanguages.kor;
+            }
+            return ConstructGetRequestUrl(DeFine.GlobalLocalSetting.BaiDuAppID, Query, Source.ToString(), Target.ToString(), new Random(Guid.NewGuid().GetHashCode()).Next(100, 999).ToString(), DeFine.GlobalLocalSetting.BaiDuSecretKey);
         }
 
         public string Host = "https://fanyi-api.baidu.com";

@@ -57,7 +57,7 @@ namespace YDSkyrimToolR.TranslateCore
             }
 
             if(DeFine.GlobalLocalSetting.GoogleYunApiUsing)
-            if (ConvertHelper.ObjToStr(new GoogleHelper().FreeTransStr("Test")).Length > 0)
+            if (ConvertHelper.ObjToStr(new GoogleHelper().FreeTransStr("Test",DeFine.SourceLanguage,DeFine.TargetLanguage)).Length > 0)
             {
                 EngineSelects.Add(new EngineSelect(new GoogleHelper(), 2));
             }
@@ -69,24 +69,6 @@ namespace YDSkyrimToolR.TranslateCore
             }
            
             Shuffle<EngineSelect>(EngineSelects);
-        }
-
-        public enum LanguageType
-        {
-            zh,//中文    
-            en,//英文    
-            ja,//日文    
-            ko,//韩文    
-            fr,//法文    
-            es,//西班牙文
-            pt,//葡萄牙文
-            it,//意大利文
-            ru,//俄文    
-            vi,//越南文    
-            de,//德文    
-            ar,//阿拉伯文
-            id,//印尼文    
-            auto,//自动识别
         }
 
         public bool IsEnglishChar(string strValue)
@@ -159,7 +141,7 @@ namespace YDSkyrimToolR.TranslateCore
             return Str.Replace("（", "(").Replace("）", ")").Replace("一个一个", "一个").Replace("一个一对", "一对").Replace("一个一套", "一套").Replace("一个一双", "一双");
         }
 
-        public string EnglishToCN(string RealSourceStr,string SourceStr)
+        public string TransAny(Languages Source,Languages Target,string RealSourceStr,string SourceStr)
         {
             if (SourceStr == "")
             {
@@ -170,7 +152,7 @@ namespace YDSkyrimToolR.TranslateCore
 
             if (GetCacheStr.Trim().Length > 0)
             {
-                WordProcess.SendTranslateMsg("从数据库缓存", SourceStr, GetCacheStr);
+                WordProcess.SendTranslateMsg("Cache From Database", SourceStr, GetCacheStr);
                 return GetCacheStr;
             }
 
@@ -181,7 +163,7 @@ namespace YDSkyrimToolR.TranslateCore
             {
                 if (LanguageHelper.EngineSelects[i].CurrentCallCount < LanguageHelper.EngineSelects[i].MaxUseCount)
                 {
-                    string GetTrans = LanguageHelper.EngineSelects[i].Call(RealSourceStr,SourceStr);
+                    string GetTrans = LanguageHelper.EngineSelects[i].Call(Source,Target,RealSourceStr,SourceStr);
                     if (GetTrans.Trim().Length > 0)
                     {
                         return GetTrans;
@@ -213,7 +195,7 @@ namespace YDSkyrimToolR.TranslateCore
                 MaxUseCount = maxUseCount;
             }
 
-            public string Call(string RealSourceStr,string SourceStr)
+            public string Call(Languages Source, Languages Target,string RealSourceStr,string SourceStr)
             {
                 WordTProcess OneProcess = new WordTProcess(SourceStr);
 
@@ -245,7 +227,7 @@ namespace YDSkyrimToolR.TranslateCore
                         {
                             if (this.CurrentCallCount < this.MaxUseCount)
                             {
-                                var GetData = (this.Engine as BaiDuApi).TransStr(GetSource, "en", "zh");
+                                var GetData = (this.Engine as BaiDuApi).TransStr(GetSource, Source, Target);
                                 if (GetData != null)
                                 {
                                     if (GetData.trans_result != null)
@@ -258,7 +240,7 @@ namespace YDSkyrimToolR.TranslateCore
                                             }
 
                                             this.CurrentCallCount++;
-                                            WordProcess.SendTranslateMsg("翻译引擎(百度云)", GetSource, SetTransLine);
+                                            WordProcess.SendTranslateMsg("Cloud Engine(BaiDuYun)", GetSource, SetTransLine);
                                         }
                                         else
                                         {
@@ -286,18 +268,11 @@ namespace YDSkyrimToolR.TranslateCore
                     {
                         if (DeFine.GlobalLocalSetting.GoogleYunApiUsing)
                         {
-                            var GetData = ConvertHelper.ObjToStr((this.Engine as GoogleHelper).FreeTransStr(GetSource));
-                            if (StrChecker.ContainsChinese(GetData))
-                            {
-                                SetTransLine = GetData;
+                            var GetData = ConvertHelper.ObjToStr((this.Engine as GoogleHelper).FreeTransStr(GetSource, Source, Target));
 
-                                this.CurrentCallCount++;
-                                WordProcess.SendTranslateMsg("翻译引擎(谷歌)", GetSource, SetTransLine);
-                            }
-                            else
-                            {
-                                this.CurrentCallCount = this.MaxUseCount;
-                            }
+                            SetTransLine = GetData;
+                            this.CurrentCallCount++;
+                            WordProcess.SendTranslateMsg("Cloud Engine(Google)", GetSource, SetTransLine);
                         }
                         else
                         {
@@ -309,18 +284,11 @@ namespace YDSkyrimToolR.TranslateCore
                     {
                         if (DeFine.GlobalLocalSetting.DeepSeekApiUsing)
                         {
-                            var GetData = (this.Engine as DeepSeekApi).QuickTrans(GetSource).Trim();
-                            if (StrChecker.ContainsChinese(GetData))
-                            {
-                                SetTransLine = GetData;
+                            var GetData = (this.Engine as DeepSeekApi).QuickTrans(GetSource, Source, Target).Trim();
 
-                                this.CurrentCallCount++;
-                                WordProcess.SendTranslateMsg("翻译引擎(DeepSeek)", GetSource, SetTransLine);
-                            }
-                            else
-                            {
-                                this.CurrentCallCount = this.MaxUseCount;
-                            }
+                            SetTransLine = GetData;
+                            this.CurrentCallCount++;
+                            WordProcess.SendTranslateMsg("Cloud Engine(DeepSeek)", GetSource, SetTransLine);
                         }
                         else
                         {
@@ -333,9 +301,9 @@ namespace YDSkyrimToolR.TranslateCore
                         SetTransLine = SetTransLine.Substring(0, SetTransLine.Length - "\r\n".Length);
                     }
 
-                    if (new WordProcess().HasChinese(SetTransLine))
+                    if (SetTransLine.Trim().Length>0)
                     {
-                        TranslateDBCache.AddCache(SourceStr, 0, 1, SetTransLine);
+                        TranslateDBCache.AddCache(SourceStr, (int)Source, (int)Target, SetTransLine);
                     }
 
                     return SetTransLine.Trim();

@@ -15,29 +15,23 @@
             <StackPanel Orientation="Vertical">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 5" Height="30">
                     <Label VerticalContentAlignment="Center">
-                        原混合引擎翻译
+                        JointTranslation:
                     </Label>
 
                     <Border  CornerRadius="5" Background="#FFF789B2" Name="StartTransBtn" PreviewMouseDown="StartTransing" Margin="5 0 0 0" >
                         <Label Name="TransControlBtn" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand" ToolTip="翻译指定标签" VerticalContentAlignment="Center">
-                            开始翻译当前类别
+                            StartTranslation
                         </Label>
                     </Border>
 
-                    <Border  CornerRadius="5" Background="#FFF789B2" PreviewMouseDown="ClearCache" Margin="5 0 0 0">
-                        <Label Name="ClearCacheBtn" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand" ToolTip="翻译指定标签" VerticalContentAlignment="Center">
-                            清理缓存
-                        </Label>
-                    </Border>
-                    
                     <Border  CornerRadius="5" Background="#FFF789B2" PreviewMouseDown="EditEngineRule" Margin="5 0 0 0">
                         <Label Name="EditEngine" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand" VerticalContentAlignment="Center">
-                            调教引擎
+                            Tuning Engine
                         </Label>
                     </Border>
 
                     <Label VerticalContentAlignment="Center">
-                        快速本地翻译
+                        OfflineTranslation:
                     </Label>
 
                     <TextBox Name="LocalTransCN" IsReadOnly="True" VerticalContentAlignment="Center" BorderThickness="0" BorderBrush="{x:Null}" Background="{x:Null}">
@@ -54,20 +48,20 @@
                     </Grid.ColumnDefinitions>
 
                     <Label VerticalContentAlignment="Center" Grid.Column="0">
-                        百度云 APPID
+                        BaiDu APPID
                     </Label>
                     <TextBox Grid.Column="1"  Name="Appid" Foreground="Red" VerticalAlignment="Center" MouseLeave="Appid_MouseLeave" VerticalContentAlignment="Center" Margin="5 0 5 0">
 
                     </TextBox>
 
                     <Label Grid.Column="2" VerticalContentAlignment="Center">
-                        百度云 密钥
+                        BaiDu Key
                     </Label>
                     <PasswordBox Grid.Column="3" Name="Key" Foreground="Red" VerticalAlignment="Center" MouseLeave="Key_MouseLeave" VerticalContentAlignment="Center" Margin="5 0 5 0">
                     </PasswordBox>
 
                     <Label Grid.Column="4" VerticalContentAlignment="Center">
-                        DeepSeek密钥
+                        DeepSeek Key
                     </Label>
 
                     <PasswordBox Grid.Column="5" Name="DeepSeekKey" Foreground="Red" VerticalAlignment="Center" MouseLeave="DeepSeekKey_MouseLeave" VerticalContentAlignment="Center" Margin="5 0 5 0">

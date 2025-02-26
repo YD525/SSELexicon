@@ -6,7 +6,7 @@
         xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
         xmlns:local="clr-namespace:YDSkyrimToolR"
         mc:Ignorable="d"
-        Title="MainWindow" Height="790" LocationChanged="Window_LocationChanged" Width="1200" Loaded="Window_Loaded" Style="{DynamicResource DefWin}" WindowStartupLocation="CenterScreen" AllowDrop="True" PreviewDragEnter="ModTransView_DragEnter" PreviewDrop="ModTransView_Drop"  PreviewDragLeave="ModTransView_DragLeave" Closing="Window_Closing">
+        Title="MainWindow" Height="790" LocationChanged="Window_LocationChanged" Width="1200" MinWidth="1000" Loaded="Window_Loaded" Style="{DynamicResource DefWin}" WindowStartupLocation="CenterScreen" AllowDrop="True" PreviewDragEnter="ModTransView_DragEnter" PreviewDrop="ModTransView_Drop"  PreviewDragLeave="ModTransView_DragLeave" Closing="Window_Closing">
 
     <Window.Resources>
         <Storyboard x:Key="ShowSmallNav">
@@ -56,7 +56,7 @@
 
                 <Grid Grid.Row="0" Name="Header" Margin="10 0 10 0">
                     <Label HorizontalAlignment="Left" Name="MainCaption" Foreground="White" VerticalAlignment="Center">
-                        YDSkyrimToolR Gui 3.1.1 Alpha
+                        YDSkyrimToolR Gui 3.3.25 Beta
                     </Label>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
 
@@ -209,12 +209,12 @@
                                         </Grid>
                                     </Grid>
                                 </Grid>
-                                <Grid Width="220" Height="35" VerticalAlignment="Top">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Label VerticalAlignment="Center" Margin="10 0 0 0" FontSize="12">
+                                <Grid Width="220" Height="37" VerticalAlignment="Top">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <Label  Margin="10 0 0 0" FontSize="12" VerticalAlignment="Center">
                                             TypeFilter
                                         </Label>
-                                        <ComboBox Cursor="Hand" Width="135" Name="TransTargetType" Style="{StaticResource WpfComboBoxStyle}" Margin="10 0 0 0" SelectionChanged="TransTargetType_SelectionChanged">
+                                        <ComboBox VerticalAlignment="Center" Cursor="Hand" Width="135" Name="TransTargetType" Style="{StaticResource WpfComboBoxStyle}" Margin="10 0 0 0" SelectionChanged="TransTargetType_SelectionChanged">
                                         </ComboBox>
                                     </StackPanel>
                                 </Grid>
@@ -264,29 +264,67 @@
                             </Grid>
 
                             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" Grid.RowSpan="2">
+                                <StackPanel Orientation="Vertical" Margin="10 50 10 0">
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Height="38">
+                                        <Label VerticalAlignment="Center">ViewMode</Label>
+                                        <ComboBox VerticalAlignment="Center" Cursor="Hand" Width="100" Name="ViewMode" Style="{StaticResource WpfComboBoxStyle}">
+                                        </ComboBox>
+                                        <Label VerticalAlignment="Center">Source</Label>
+                                        <ComboBox VerticalAlignment="Center" Cursor="Hand" Width="100" Name="Source" Style="{StaticResource WpfComboBoxStyle}" SelectionChanged="Source_SelectionChanged">
+                                        </ComboBox>
+                                        <Border  CornerRadius="5" Background="#FFF789B2" Width="50" Height="30" Margin="10 0 0 0"  Cursor="Hand">
+                                            <Label  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" ToolTip="检测源文本语言类型">
+                                                Detect
+                                            </Label>
+                                        </Border>
+                                        <Label VerticalAlignment="Center" Margin="10 0 0 0">Target</Label>
+                                        <ComboBox VerticalAlignment="Center" Cursor="Hand" Width="100" Name="Target" Style="{StaticResource WpfComboBoxStyle}" SelectionChanged="Target_SelectionChanged">
+                                        </ComboBox>
+                                        
+                                        <Label VerticalAlignment="Center"  Margin="10 0 0 0">Translate Platform</Label>
+                                        <Border  CornerRadius="5" Background="#FFF789B2" Width="100" Height="30" Margin="10 0 0 0" Cursor="Hand">
+                                            <Label  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" ToolTip="配置平台密钥">
+                                                API Keys
+                                            </Label>
+                                        </Border>
 
-                                <Grid Height="30" Background="#FF7B7B7B" Margin="10 50 10 0" VerticalAlignment="Top">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="0.35*"/>
-                                        <ColumnDefinition Width="0.5*"/>
-                                        <ColumnDefinition Width="1*"/>
-                                        <ColumnDefinition Width="1*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Label Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="White">
-                                        Type
-                                    </Label>
-                                    <Label Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="White">
-                                        Key
-                                    </Label>
-                                    <Label Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="White">
-                                        SourceText
-                                    </Label>
-                                    <Label Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="White">
-                                        TransText
-                                    </Label>
-                                </Grid>
-                                <Grid Margin="10 80 10 0" VerticalAlignment="Top" Name="TransView">
-                                </Grid>
+                                        <Label VerticalAlignment="Center"  Margin="10 0 0 0">Request</Label>
+
+                                        <Border  CornerRadius="5" Background="#FFF789B2" Width="100" Height="30" Margin="10 0 0 0"  Cursor="Hand" PreviewMouseDown="ClearCache">
+                                            <Label  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" ToolTip="清理翻译缓存">
+                                                Clear Cache
+                                            </Label>
+                                        </Border>
+
+                                        <Border  CornerRadius="5" Background="#FFF789B2" Width="100" Height="30" Margin="10 0 0 0"  Cursor="Hand" PreviewMouseDown="ShowAboutUS">
+                                            <Label  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" ToolTip="关于我们">
+                                                About US
+                                            </Label>
+                                        </Border>
+                                    </StackPanel>
+                                    <Grid Height="30" Background="#FF7B7B7B" VerticalAlignment="Top">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0.35*"/>
+                                            <ColumnDefinition Width="0.5*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="White">
+                                            Type
+                                        </Label>
+                                        <Label Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="White">
+                                            Key
+                                        </Label>
+                                        <Label Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="White">
+                                            SourceText
+                                        </Label>
+                                        <Label Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="White">
+                                            TransText
+                                        </Label>
+                                    </Grid>
+                                    <Grid  VerticalAlignment="Top" Name="TransView">
+                                    </Grid>
+                                </StackPanel>
                             </Grid>
 
 

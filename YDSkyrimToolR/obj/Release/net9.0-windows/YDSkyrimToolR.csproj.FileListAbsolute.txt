@@ -70,6 +70,7 @@ C:\Users\Administrator\source\repos\YDSkyrimToolR\YDSkyrimToolR\obj\Release\net9
 C:\Users\Administrator\source\repos\YDSkyrimToolR\YDSkyrimToolR\obj\Release\net9.0-windows\Themes\DefStyle.baml
 C:\Users\Administrator\source\repos\YDSkyrimToolR\YDSkyrimToolR\obj\Release\net9.0-windows\ActionWin.g.cs
 C:\Users\Administrator\source\repos\YDSkyrimToolR\YDSkyrimToolR\obj\Release\net9.0-windows\CodeView.g.cs
+C:\Users\Administrator\source\repos\YDSkyrimToolR\YDSkyrimToolR\obj\Release\net9.0-windows\EngineEditView.g.cs
 C:\Users\Administrator\source\repos\YDSkyrimToolR\YDSkyrimToolR\obj\Release\net9.0-windows\MainWindow.g.cs
 C:\Users\Administrator\source\repos\YDSkyrimToolR\YDSkyrimToolR\obj\Release\net9.0-windows\SearchText.g.cs
 C:\Users\Administrator\source\repos\YDSkyrimToolR\YDSkyrimToolR\obj\Release\net9.0-windows\TransTool.g.cs
@@ -80,6 +81,7 @@ C:\Users\Administrator\source\repos\YDSkyrimToolR\YDSkyrimToolR\obj\Release\net9
 C:\Users\Administrator\source\repos\YDSkyrimToolR\YDSkyrimToolR\obj\Release\net9.0-windows\App.baml
 C:\Users\Administrator\source\repos\YDSkyrimToolR\YDSkyrimToolR\obj\Release\net9.0-windows\ActionWin.baml
 C:\Users\Administrator\source\repos\YDSkyrimToolR\YDSkyrimToolR\obj\Release\net9.0-windows\CodeView.baml
+C:\Users\Administrator\source\repos\YDSkyrimToolR\YDSkyrimToolR\obj\Release\net9.0-windows\EngineEditView.baml
 C:\Users\Administrator\source\repos\YDSkyrimToolR\YDSkyrimToolR\obj\Release\net9.0-windows\MainWindow.baml
 C:\Users\Administrator\source\repos\YDSkyrimToolR\YDSkyrimToolR\obj\Release\net9.0-windows\SearchText.baml
 C:\Users\Administrator\source\repos\YDSkyrimToolR\YDSkyrimToolR\obj\Release\net9.0-windows\TransTool.baml
@@ -95,5 +97,3 @@ C:\Users\Administrator\source\repos\YDSkyrimToolR\YDSkyrimToolR\obj\Release\net9
 C:\Users\Administrator\source\repos\YDSkyrimToolR\YDSkyrimToolR\obj\Release\net9.0-windows\YDSkyrimToolR.pdb
 C:\Users\Administrator\source\repos\YDSkyrimToolR\YDSkyrimToolR\obj\Release\net9.0-windows\YDSkyrimToolR.genruntimeconfig.cache
 C:\Users\Administrator\source\repos\YDSkyrimToolR\YDSkyrimToolR\obj\Release\net9.0-windows\ref\YDSkyrimToolR.dll
-C:\Users\Administrator\source\repos\YDSkyrimToolR\YDSkyrimToolR\obj\Release\net9.0-windows\EngineEditView.g.cs
-C:\Users\Administrator\source\repos\YDSkyrimToolR\YDSkyrimToolR\obj\Release\net9.0-windows\EngineEditView.baml

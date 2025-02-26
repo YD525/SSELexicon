@@ -60,8 +60,11 @@ namespace YDSkyrimToolR
 
         public void QuickSearchStr(string Str)
         {
-            var GetStr = LocalTrans.SearchLocalData(Str);
-            LocalTransCN.Text = Str + "->" + GetStr;
+            if (DeFine.SourceLanguage == Languages.English && DeFine.SourceLanguage == Languages.Chinese)
+            {
+                var GetStr = LocalTrans.SearchLocalData(Str);
+                LocalTransCN.Text = Str + "->" + GetStr;
+            }
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -100,51 +103,24 @@ namespace YDSkyrimToolR
 
         private void StartTransing(object sender, MouseButtonEventArgs e)
         {
-            if (ConvertHelper.ObjToStr(TransControlBtn.Content) == "开始翻译当前标签")
+            if (ConvertHelper.ObjToStr(TransControlBtn.Content) == "StartTranslation")
             {
                 AutoRow = 0;
                 WordProcess.StartAutoTransService(false);
                 WordProcess.StartAutoTransService(true);
-                TransControlBtn.Content = "终止翻译线程";
+                TransControlBtn.Content = "StopTranslation";
             }
             else
             {
-                TransControlBtn.Content = "终止中...";
-
-                new Thread(() =>
+                WordProcess.StartAutoTransService(false);
+                this.Dispatcher.Invoke(new Action(() =>
                 {
-                    WordProcess.StartAutoTransService(false);
-                    this.Dispatcher.Invoke(new Action(() =>
-                    {
-                        TransControlBtn.Content = "开始翻译当前标签";
-                    }));
-                }).Start();
-               
+                    TransControlBtn.Content = "StartTranslation";
+                }));
             }
         }
 
-        private void ClearCache(object sender, MouseButtonEventArgs e)
-        {
-            if (ActionWin.Show("您确定要清理以翻译的缓存？", "警告清理后所有包括以前翻译的内容不在缓存,再次翻译会重新从云端获取,会浪费您以前翻译的结果,会增加字数消耗量!", MsgAction.YesNo, MsgType.Info) > 0)
-            {
-                string SqlOrder = "Delete From CloudTranslation Where 1=1";
-                int State = DeFine.GlobalDB.ExecuteNonQuery(SqlOrder);
-                if (State != 0)
-                {
-                    ActionWin.Show("数据库事务", "Done!", MsgAction.Yes, MsgType.Info);
-                    DeFine.GlobalDB.ExecuteNonQuery("vacuum");
-                }
-                else
-                {
-
-                }
-            }
-            else
-            {
-
-            }
-        }
-
+        
         private void EditEngineRule(object sender, MouseButtonEventArgs e)
         {
             new EngineEditView().Show();

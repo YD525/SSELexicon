@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using static System.Net.WebRequestMethods;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Text.Json;
+using YDSkyrimToolR.TranslateCore;
+using static YDSkyrimToolR.TranslateManage.BaiDuApi;
 
 namespace YDSkyrimToolR.TranslateManage
 {
@@ -77,23 +79,75 @@ namespace YDSkyrimToolR.TranslateManage
 
     public class DeepSeekApi
     {
-        public string QuickTrans(string TransSource)
+        public string QuickTrans(string TransSource,Languages FromLang, Languages ToLang)
         {
-            var GetTransSource = string.Format("{0} 翻译到中文 你只需返回结果 不要说其他的任何话 如果内容里出现\"(数值)\"这是填空的括号 不要处理掉这些括号", TransSource);
+            string From = "";
+            string To = "";
+
+            if (FromLang == Languages.English)
+            {
+                From = "英文";
+            }
+            if (FromLang == Languages.Chinese)
+            {
+                From = "中文";
+            }
+            if (FromLang == Languages.Japanese)
+            {
+                From = "日文";
+            }
+            if (FromLang == Languages.German)
+            {
+                From = "德文";
+            }
+            if (FromLang == Languages.Korean)
+            {
+                From = "韩文";
+            }
+
+            if (ToLang == Languages.English)
+            {
+                To = "英文";
+            }
+            if (ToLang == Languages.Chinese)
+            {
+                To = "中文";
+            }
+            if (ToLang == Languages.Japanese)
+            {
+                To = "日文";
+            }
+            if (ToLang == Languages.German)
+            {
+                To = "德文";
+            }
+            if (ToLang == Languages.Korean)
+            {
+                To = "韩文";
+            }     
+
+            var GetTransSource = $"{TransSource} {From}翻译到{To} 你只需返回结果 不要说其他的任何话 如果内容里出现\"(数值)\"这是填空的括号 不要处理掉这些括号";
             var GetResult = CallAI(GetTransSource);
-            string CNStr = "";
-            if (GetResult.choices.Length > 0)
+            if (GetResult != null)
             {
-                CNStr = GetResult.choices[0].message.content.Trim(); 
+                if (GetResult.choices != null)
+                {
+                    string CNStr = "";
+                    if (GetResult.choices.Length > 0)
+                    {
+                        CNStr = GetResult.choices[0].message.content.Trim();
+                    }
+                    if (CNStr.Trim().Length > 0)
+                    {
+                        return CNStr;
+                    }
+                    else
+                    {
+                        return string.Empty;
+                    }
+                }
             }
-            if (CNStr.Trim().Length > 0)
-            {
-                return CNStr;
-            }
-            else
-            {
-                return string.Empty;
-            }
+            return string.Empty;
         }
 
         public DeepSeekRootobject CallAI(string Msg)
