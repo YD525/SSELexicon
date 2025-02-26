@@ -72,6 +72,8 @@ namespace YDSkyrimToolR
         public bool DeepSeekApiUsing { get; set; } = true;//DeepSeek机能搭载
         public bool GoogleYunApiUsing { get; set; } = true;//谷歌翻译引擎
         public bool DivCacheEngineUsing { get; set; } = true;//自定义内存翻译引擎(一次性)
+        public Languages SourceLanguage { get; set; } = Languages.English;
+        public Languages TargetLanguage { get; set; } = Languages.Chinese;
 
         public string BackUpPath { get; set; } = "";
         public string APath { get; set; } = "";
@@ -101,6 +103,10 @@ namespace YDSkyrimToolR
                         this.DeepSeekApiUsing = GetSetting.DeepSeekApiUsing;
                         this.GoogleYunApiUsing = GetSetting.GoogleYunApiUsing;
                         this.DivCacheEngineUsing = GetSetting.DivCacheEngineUsing;
+                        this.SourceLanguage = GetSetting.SourceLanguage;
+                        this.TargetLanguage = GetSetting.TargetLanguage;
+                        DeFine.SourceLanguage = GetSetting.SourceLanguage;
+                        DeFine.TargetLanguage = GetSetting.TargetLanguage;
 
                         this.APath = GetSetting.APath;
                         this.BPath = GetSetting.BPath;

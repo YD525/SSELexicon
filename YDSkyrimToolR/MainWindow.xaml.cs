@@ -57,8 +57,7 @@ namespace YDSkyrimToolR
                 TransTargetType.Items.Add(GetType.ToString());
             }
 
-            if(TransTargetType.Items.Count>0)
-            TransTargetType.SelectedValue = TransTargetType.Items[0];
+            TransTargetType.SelectedValue = ObjSelect.All.ToString();
         }
         public MCMReader GlobalMCMReader = null;
         public EspReader GlobalEspReader = null;
@@ -125,7 +124,7 @@ namespace YDSkyrimToolR
         {
             this.Dispatcher.Invoke(new Action(() =>
             {
-                double GetRate = ((double)UIHelper.ModifyCount / (double)TransViewList.Rows.Count);
+                double GetRate = ((double)UIHelper.ModifyCount / (double)TransViewList.Rows);
                 if (GetRate > 0)
                 {
                     try {
@@ -133,7 +132,7 @@ namespace YDSkyrimToolR
                     }
                     catch { }
                 }
-                MaxTransCount = TransViewList.Rows.Count;
+                MaxTransCount = TransViewList.Rows;
                 TransProcess.Content = string.Format("STRINGS({0}/{1})", UIHelper.ModifyCount, MaxTransCount);
             }));
         }
@@ -155,7 +154,7 @@ namespace YDSkyrimToolR
             Source.Items.Add("Japanese");
             Source.Items.Add("Korean");
             Source.Items.Add("German");
-            Source.SelectedValue = Source.Items[0];
+            Source.SelectedValue = DeFine.SourceLanguage.ToString();
 
             Target.Items.Clear();
             Target.Items.Add("Chinese");
@@ -163,7 +162,7 @@ namespace YDSkyrimToolR
             Target.Items.Add("Japanese");
             Target.Items.Add("Korean");
             Target.Items.Add("German");
-            Target.SelectedValue = Target.Items[0];
+            Target.SelectedValue = DeFine.TargetLanguage.ToString();
         }
 
 
@@ -204,8 +203,7 @@ namespace YDSkyrimToolR
 
                     if (TransViewList == null)
                     {
-                        TransViewList = new YDListView(TransView, 40);
-                        TransViewList.ExColStyles.Add(new ExColStyle(1, GridUnitType.Star));
+                        TransViewList = new YDListView(TransView);
                         TransViewList.Clear();
                     }
 
@@ -402,13 +400,11 @@ namespace YDSkyrimToolR
                             if (SizeChangeState == 0)
                             {
                                 this.WindowState = WindowState.Maximized;
-                                ReloadData(false);
                                 SizeChangeState = 1;
                             }
                             else
                             {
-                                this.WindowState = WindowState.Normal;
-                                ReloadData(false);
+                                this.WindowState = WindowState.Normal;                        
                                 SizeChangeState = 0;
                             }
 
@@ -878,6 +874,7 @@ namespace YDSkyrimToolR
                     }
                 break;
             }
+            DeFine.GlobalLocalSetting.SourceLanguage = DeFine.SourceLanguage;
         }
 
         private void Target_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -911,6 +908,7 @@ namespace YDSkyrimToolR
                     }
                     break;
             }
+            DeFine.GlobalLocalSetting.TargetLanguage = DeFine.TargetLanguage;
         }
 
         private void ClearCache(object sender, MouseButtonEventArgs e)

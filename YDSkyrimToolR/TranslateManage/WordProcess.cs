@@ -59,7 +59,7 @@ namespace YDSkyrimToolR.TranslateCore
 
                             DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
                             {
-                                GetTransCount = DeFine.WorkingWin.TransViewList.GetMainGrid().Children.Count;
+                                GetTransCount = DeFine.WorkingWin.TransViewList.Rows;
                             }));
 
                             for (int i = 0; i < GetTransCount; i++)
@@ -81,19 +81,20 @@ namespace YDSkyrimToolR.TranslateCore
                                 string GetTilp = "";
                                 string TargetText = "";
 
+                                Grid MainGrid = null;
                                 DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
-                                {
-                                    Grid MainGrid = DeFine.WorkingWin.TransViewList.GetMainGrid().Children[i] as Grid;
-                                    GetTilp = ConvertHelper.ObjToStr(MainGrid.ToolTip);
-                                    GetTag = ConvertHelper.ObjToStr((MainGrid.Children[1] as Label).Content);
-                                    GetKey = ConvertHelper.ObjToStr((MainGrid.Children[2] as TextBox).Text);
-                                    TargetText = ConvertHelper.ObjToStr((MainGrid.Children[4] as TextBox).Text);
-                                    if ((MainGrid.Children[4] as TextBox).Text.Trim().Length == 0)
-                                    {
-                                        GetTransText = (MainGrid.Children[3] as TextBox).Text.Trim();
-                                        GetTransHashKey = ConvertHelper.ObjToInt(MainGrid.Tag);
-                                    }
-                                }));
+                                 {
+                                     MainGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
+                                     GetTilp = ConvertHelper.ObjToStr(MainGrid.ToolTip);
+                                     GetTag = ConvertHelper.ObjToStr((MainGrid.Children[1] as Label).Content);
+                                     GetKey = ConvertHelper.ObjToStr((MainGrid.Children[2] as TextBox).Text);
+                                     TargetText = ConvertHelper.ObjToStr((MainGrid.Children[4] as TextBox).Text);
+                                     if ((MainGrid.Children[4] as TextBox).Text.Trim().Length == 0)
+                                     {
+                                         GetTransText = (MainGrid.Children[3] as TextBox).Text.Trim();
+                                         GetTransHashKey = ConvertHelper.ObjToInt(MainGrid.Tag);
+                                     }
+                                 }));
 
                                 if (GetTransText.Trim().Length > 0 && GetTransHashKey != 0)
                                 {
@@ -128,10 +129,8 @@ namespace YDSkyrimToolR.TranslateCore
 
                                                     DeFine.WorkingWin.GetStatistics();
 
-                                                    Grid MainGrid = DeFine.WorkingWin.TransViewList.GetMainGrid().Children[i] as Grid;
-
                                                     (MainGrid.Children[4] as TextBox).Text = GetResult;
-                                                    (MainGrid.Children[4] as TextBox).BorderBrush = new SolidColorBrush(Colors.BlueViolet);
+                                                    (MainGrid.Children[4] as TextBox).BorderBrush = new SolidColorBrush(Colors.Green);
                                                 }));
                                             }
                                             else
@@ -400,6 +399,8 @@ namespace YDSkyrimToolR.TranslateCore
         public string CurrentLine = "";
         public string ProcessWords(ref List<EngineProcessItem> EngineProcessItems, string Content, Languages From, Languages To)
         {
+            //Thread.Sleep(1000);
+            //return "1";
             string RealContent = Content;
             if (Content.Trim().Length == 0) return string.Empty;
 

@@ -1,348 +1,178 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Linq;
 using System.Windows.Controls;
-using System.Windows.Markup;
+using System.Windows;
+using System.Windows.Media;
+using DynamicData.Tests;
+using Reloaded.Memory.Extensions;
+using System.Windows.Threading;
+using Mutagen.Bethesda.Strings;
+using YDSkyrimToolR;
 
-namespace YDSkyrimToolR.UIManage
+public class YDListView
 {
-    /*
-    * @Author: 约定
-    * @GitHub: https://github.com/tolove336/YDSkyrimToolR
-    * @Date: 2025-02-06
-    */
-    public class YDListView
+    private Grid Parent = null;
+    private ScrollViewer Scroll = null;
+    private Grid MainGrid;
+
+    public Thread UpdateTrd = null;
+
+    public List<Grid> RealLines = new List<Grid>();
+    public List<Grid> VisibleRows = new List<Grid>();
+
+    public int Rows { get { return GetRows(); } }
+    public int BufferRows = 3;
+
+    private int GetRows()
     {
-        public List<ExColStyle> ExColStyles = new List<ExColStyle>();
+        return this.RealLines.Count;
+    }
 
-        private Grid Parent = null;
-        private ScrollViewer Scroll = null;
-        private Grid MainGrid;
+    public YDListView(Grid Parent)
+    {
+        this.MainGrid = new Grid();
+        this.MainGrid.Background = null;
 
-        public List<ExRow> Rows = new List<ExRow>();
-        public double LineHeight = 0;
+        ScrollViewer OneScroll = new ScrollViewer();
+        OneScroll.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+        OneScroll.HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled;
+        OneScroll.Content = MainGrid;
+        OneScroll.ScrollChanged += OnScrollChanged; // 监听滚动
 
-        public YDListView(Grid Parent, double LineHeight = 50)
+        this.Scroll = OneScroll;
+
+        Parent.Children.Add(OneScroll);
+        this.Parent = Parent;
+
+        UpdateTrd = new Thread(() => 
         {
-            this.LineHeight = LineHeight;
-
-            this.MainGrid = new Grid();
-            this.MainGrid.Background = null;
-
-            ScrollViewer OneScroll = new ScrollViewer();
-            OneScroll.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
-            OneScroll.HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled;
-            OneScroll.Content = MainGrid;
-
-            this.Scroll = OneScroll;
-
-            Parent.Children.Add(OneScroll);
-            this.Parent = Parent;
-        }
-
-        public void Clear()
-        {
-            this.Rows.Clear();
-            this.MainGrid.Children.Clear();
-
-            this.MainGrid.RowDefinitions.Clear();
-            this.MainGrid.ColumnDefinitions.Clear();
-
-            this.Scroll.Content = this.MainGrid;
-
-            this.Scroll.ScrollToTop();
-        }
-
-        public Grid GetMainGrid()
-        {
-            if (this.Scroll.Content != null)
+            while (true)
             {
-                return this.Scroll.Content as Grid;
-            }
-
-            return null;
-        }
-        private void Refresh()
-        {
-            if (this.Rows.Count == 0) return;
-
-            var GetGrid = GetMainGrid();
-
-            if (GetGrid != null)
-            {
-                this.MainGrid.Children.Clear();
-                this.MainGrid.ColumnDefinitions.Clear();
-                this.MainGrid.RowDefinitions.Clear();
-
-                foreach (var GetStyles in this.ExColStyles)
+                Thread.Sleep(200);
+                try 
                 {
-                    ColumnDefinition OneColumn = new ColumnDefinition();
-                    OneColumn.Width = new GridLength(GetStyles.Width, GetStyles.UnitType);
-                    this.MainGrid.ColumnDefinitions.Add(OneColumn);
-                }
-
-                int RowOffset = 0;
-                int ColOffset = 0;
-
-                foreach (var GetControlRow in this.Rows)
-                {
-                    ColOffset = 0;
-
-                    foreach (var GetCol in GetControlRow.Columns)
+                    DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
                     {
-                        this.MainGrid.Children.Add(GetCol.Control);
-                        Grid.SetColumn(GetCol.Control, ColOffset);
-                        Grid.SetRow(GetCol.Control, RowOffset);
-
-                        ColOffset++;
-                    }
-
-                    RowDefinition OneRow = new RowDefinition();
-                    OneRow.Height = new GridLength(this.LineHeight, GridUnitType.Pixel);
-                    this.MainGrid.RowDefinitions.Add(OneRow);
-                    RowOffset++;
+                        UpdateVisibleRows();
+                    }));
                 }
+                catch { }
             }
+            
+        });
+        UpdateTrd.Start();
+    }
 
-        }
-        public List<string> AddBlock(params UIElement[] Controls)
+    public Grid GetMainGrid()
+    {
+        return this.MainGrid;
+    }
+
+    public void Clear()
+    {
+        this.RealLines.Clear();
+        this.MainGrid.Children.Clear();
+        this.MainGrid.RowDefinitions.Clear();
+        this.Scroll.ScrollToTop();
+    }
+
+    private bool CanUpDate = false;
+    private void OnScrollChanged(object sender, ScrollChangedEventArgs e)
+    {
+        // 使用 Dispatcher 在主线程中处理更新，避免直接在滚动事件中处理
+        CanUpDate = true;
+    }
+
+    public void UpdateVisibleRows()
+    {
+        if (CanUpDate)
         {
-            List<string> Names = new List<string>();
+            CanUpDate = false;
+        }
+        else
+        {
+            return;
+        }
+        VisibleRows.Clear();
 
-            ExRow OneRow = null;
+        double ScrollTop = this.Scroll.VerticalOffset;
+        double ViewHeight = this.Scroll.ViewportHeight;
+        double AccumulatedHeight = 0;
+        int FirstVisibleRow = 0;
 
-            int WaitAutoReturnCount = 0;
-
-            if (this.Rows.Count == 0)
+        // 计算第一条可见行
+        for (int i = 0; i < this.RealLines.Count; i++)
+        {
+            if (AccumulatedHeight >= ScrollTop)
             {
-                OneRow = new ExRow(this.Rows.Count + 1);
-                this.Rows.Add(OneRow);
-                WaitAutoReturnCount = this.ExColStyles.Count;
+                FirstVisibleRow = i;
+                break;
             }
-            else
-            {
-                if (this.Rows[this.Rows.Count - 1].Columns.Count < this.ExColStyles.Count)
-                {
-                    WaitAutoReturnCount = this.ExColStyles.Count - this.Rows[this.Rows.Count - 1].Columns.Count;
-                    OneRow = this.Rows[this.Rows.Count - 1];
-                }
-                else
-                {
-                    OneRow = new ExRow(this.Rows.Count + 1);
-                    this.Rows.Add(OneRow);
-                    WaitAutoReturnCount = this.ExColStyles.Count;
-                }
-            }
-
-            int ColOffset = 0;
-
-            foreach (var Get in ExColStyles)
-            {
-                string CreatControlName = "R{0}C{1}";
-
-                if (Controls.Length < ColOffset + 1) break;
-
-                if (WaitAutoReturnCount > 0)
-                {
-                    CreatControlName = string.Format(CreatControlName, this.Rows.Count, ColOffset);
-
-                    Names.Add(CreatControlName);
-                    OneRow.Columns.Add(new ExCol(Controls[ColOffset], CreatControlName));
-
-                    WaitAutoReturnCount--;
-                }
-                else
-                {
-                    OneRow = new ExRow(this.Rows.Count + 1);
-                    ColOffset = -1;
-                    this.Rows.Add(OneRow);
-                    CreatControlName = string.Format(CreatControlName, this.Rows.Count, ColOffset);
-                    Names.Add(CreatControlName);
-                    OneRow.Columns.Add(new ExCol(Controls[ColOffset], CreatControlName));
-                    WaitAutoReturnCount = this.ExColStyles.Count - 1;
-                }
-
-                ColOffset++;
-            }
-
-            Refresh();
-
-            return Names;
+            AccumulatedHeight += this.RealLines[i].Height;
         }
 
-        public int AddRowR(Grid Controls)
+        // 计算最后一条可见行
+        double VisibleHeight = 0;
+        int LastVisibleRow = FirstVisibleRow;
+
+        for (int i = FirstVisibleRow; i < this.RealLines.Count; i++)
         {
-            ExRow OneRow = null;
-            OneRow = new ExRow(this.Rows.Count + 1);
-            this.Rows.Add(OneRow);
-
-            int ColOffset = 0;
-
-            string CreatControlNameA = string.Format("R{0}C{1}", this.Rows.Count, ColOffset);
-
-            OneRow.Columns.Add(new ExCol(Controls, CreatControlNameA));
-
-            ColOffset++;
-
-            int RowSign = this.Rows.Count - 1;
-
-            if (this.MainGrid.ColumnDefinitions.Count == 0)
+            VisibleHeight += this.RealLines[i].Height;
+            if (VisibleHeight >= ViewHeight)
             {
-                foreach (var GetStyles in this.ExColStyles)
+                LastVisibleRow = i;
+                break;
+            }
+        }
+
+        if (LastVisibleRow != FirstVisibleRow)
+        {
+            LastVisibleRow += BufferRows; // 额外缓存行
+            if (LastVisibleRow >= GetRows())
+            {
+                LastVisibleRow = GetRows() - 1;
+            }
+
+            int FirstVisibleRowWithBuffer = Math.Max(0, FirstVisibleRow - BufferRows);
+
+            MainGrid.Children.Clear();
+
+            for (int i = 0; i < this.RealLines.Count; i++)
+            {
+                if (i >= FirstVisibleRowWithBuffer && i <= LastVisibleRow)
                 {
-                    ColumnDefinition OneColumn = new ColumnDefinition();
-                    OneColumn.Width = new GridLength(GetStyles.Width, GetStyles.UnitType);
-                    this.MainGrid.ColumnDefinitions.Add(OneColumn);
+                    MainGrid.Children.Add(this.RealLines[i]);
+
+                    Grid.SetRow(this.RealLines[i], i);
+
+                    VisibleRows.Add(this.RealLines[i]);
                 }
             }
-
-            RowDefinition OneGridRow = new RowDefinition();
-            OneGridRow.Height = new GridLength(Controls.Height, GridUnitType.Pixel);
-            this.MainGrid.RowDefinitions.Add(OneGridRow);
-
-            int GridColOffset = 0;
-
-            foreach (var GetCol in OneRow.Columns)
-            {
-                this.MainGrid.Children.Add(GetCol.Control);
-                Grid.SetColumn(GetCol.Control, GridColOffset);
-                Grid.SetRow(GetCol.Control, RowSign);
-
-                GridColOffset++;
-            }
-
-            return this.Rows.Count - 1;
-        }
-        /// <summary>
-        /// return Offset
-        /// </summary>
-        /// <param name="Controls"></param>
-        /// <returns></returns>
-        public int AddRow(params UIElement[] Controls)
-        {
-            if (Controls.Length != this.ExColStyles.Count) return -1;
-
-            ExRow OneRow = null;
-            OneRow = new ExRow(this.Rows.Count + 1);
-            this.Rows.Add(OneRow);
-
-            int ColOffset = 0;
-
-            foreach (var Get in ExColStyles)
-            {
-                string CreatControlNameA = string.Format("R{0}C{1}", this.Rows.Count, ColOffset);
-
-                OneRow.Columns.Add(new ExCol(Controls[ColOffset], CreatControlNameA));
-
-                ColOffset++;
-            }
-
-            int RowSign = this.Rows.Count - 1;
-
-            if (this.MainGrid.ColumnDefinitions.Count == 0)
-            {
-                foreach (var GetStyles in this.ExColStyles)
-                {
-                    ColumnDefinition OneColumn = new ColumnDefinition();
-                    OneColumn.Width = new GridLength(GetStyles.Width, GetStyles.UnitType);
-                    this.MainGrid.ColumnDefinitions.Add(OneColumn);
-                }
-            }
-
-            RowDefinition OneGridRow = new RowDefinition();
-            OneGridRow.Height = new GridLength(this.LineHeight, GridUnitType.Pixel);
-            this.MainGrid.RowDefinitions.Add(OneGridRow);
-
-            int GridColOffset = 0;
-
-            foreach (var GetCol in OneRow.Columns)
-            {
-                this.MainGrid.Children.Add(GetCol.Control);
-                Grid.SetColumn(GetCol.Control, GridColOffset);
-                Grid.SetRow(GetCol.Control, RowSign);
-
-                GridColOffset++;
-            }
-
-            return this.Rows.Count - 1;
-        }
-        public void DeleteRow(int Offset)
-        {
-            if (this.Rows.Count > (Offset + 1))
-            {
-                this.Rows.RemoveAt(Offset);
-                Refresh();
-            }
-        }
-        public void DeleteByName(string Name)
-        {
-            for (int i = 0; i < this.Rows.Count; i++)
-            {
-                for (int ir = 0; ir < this.Rows[i].Columns.Count; ir++)
-                {
-                    if (this.Rows[i].Columns[ir].ControlName.Equals(Name))
-                    {
-                        this.Rows[i].Columns.RemoveAt(ir);
-                    }
-                }
-            }
-
-            Refresh();
-        }
-
-        public void MoveToEnd()
-        {
-            this.Scroll.ScrollToEnd();
         }
     }
 
-    public class ExColStyle
+    public int AddRowR(Grid Item)
     {
-        public double Width = 0;
-        public GridUnitType UnitType;
-
-        public ExColStyle(double Width = 1, GridUnitType UnitType = GridUnitType.Star)
-        {
-            this.Width = Width;
-            this.UnitType = UnitType;
-        }
+        return AddRow(Item);
     }
-    public class ExCol
-    {
-        public UIElement Control = null;
-        public string ControlName;
 
-        public ExCol(UIElement Control, string ControlName)
-        {
-            this.Control = Control;
-            this.ControlName = ControlName;
-        }
+    public int AddRow(Grid Item)
+    {
+        this.RealLines.Add(Item);
+
+        RowDefinition RowDef = new RowDefinition();
+        RowDef.Height = new GridLength(Item.Height, GridUnitType.Pixel);
+        this.MainGrid.RowDefinitions.Add(RowDef);
+
+        return this.RealLines.Count;
     }
-    public class ExRow : IComparable<ExRow>
+
+    public void DeleteRow(int Offset)
     {
-        public int ID = 0;
+        this.MainGrid.RowDefinitions.RemoveAt(Offset);
+        this.MainGrid.Children.RemoveAt(Offset);
+        this.RealLines.RemoveAt(Offset);
 
-        public int TopIndex = 0;
-
-        public List<ExCol> Columns = new List<ExCol>();
-
-        public int CompareTo(ExRow p)
-        {
-            if (this.TopIndex > p.TopIndex)
-                return 1;
-            else
-                return -1;
-        }
-
-        public ExRow(int ID)
-        {
-            this.ID = ID;
-            this.TopIndex = ID;
-        }
+        UpdateVisibleRows();
     }
 }
+
