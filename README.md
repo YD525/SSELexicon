@@ -1,27 +1,27 @@
 # YDSkyrimToolR
 ## YDSkyrimTools It is an open-source and free translation tool for Skyrim SE Mod
-### Initially, it was based on 9DM 泰姆瑞尔MOD组 I wrote it as an improvement of YDSkyrimTool。
-### Intended to significantly reduce the workload of Sinicizers。
+#### Initially, it was based on 9DM 泰姆瑞尔MOD组 I wrote it as an improvement of YDSkyrimTool。
+#### Intended to significantly reduce the workload of Sinicizers。
 
-### This project adopts the GPL-3.0-oly license。
+#### This project adopts the GPL-3.0-oly license。
 
-### And, some of its logic uses the following open-source frameworks/libraries：
-### (https://github.com/Mutagen-Modding/Mutagen),
-### Framework/Library Name：Mutagen.Bethesda，Developed by [Mutagen], licensed under [GPL-3.0-oly].
+#### And, some of its logic uses the following open-source frameworks/libraries：
+#### (https://github.com/Mutagen-Modding/Mutagen),
+#### Framework/Library Name：Mutagen.Bethesda，Developed by [Mutagen], licensed under [GPL-3.0-oly].
 
-### And, some of its logic uses the following open-source frameworks/libraries：
-### (https://github.com/Orvid/Champollion),
-### Framework/Library Name：Champollion，Developed by [Ovid], licensed under [GPL-3.0-oly].
+#### And, some of its logic uses the following open-source frameworks/libraries：
+#### (https://github.com/Orvid/Champollion),
+#### Framework/Library Name：Champollion，Developed by [Ovid], licensed under [GPL-3.0-oly].
 
-### And all components of GameFinder that have dependencies
-### (https://github.com/erri120/GameFinder)
-### Framework/Library Name：erri120.GameFinder，Developed by [erri120], licensed under [GPL-3.0-oly].
+#### And all components of GameFinder that have dependencies
+#### (https://github.com/erri120/GameFinder)
+#### Framework/Library Name：erri120.GameFinder，Developed by [erri120], licensed under [GPL-3.0-oly].
 
-### For more information, please refer to the [License] files of this program and the respective frameworks of the other party.
+#### For more information, please refer to the [License] files of this program and the respective frameworks of the other party.
 
-### For any questions about the software, you can consult my QQ 52508464 or submit a post on Github
+#### For any questions about the software, you can consult my QQ 52508464 or submit a post on Github
 
-### Currently under development, the warehouse will continue to be updated
+#### Currently under development, the warehouse will continue to be updated
 
 ![UI](1.png)
 ![UI](2.png)
