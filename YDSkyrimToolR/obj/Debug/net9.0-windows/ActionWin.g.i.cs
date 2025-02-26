@@ -94,7 +94,7 @@ namespace YDSkyrimToolR {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/YDSkyrimToolR;component/actionwin.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/YDSkyrimToolR;V1.0.0.0;component/actionwin.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\ActionWin.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

@@ -118,7 +118,7 @@ namespace YDSkyrimToolR {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/YDSkyrimToolR;component/transtool.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/YDSkyrimToolR;V1.0.0.0;component/transtool.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\TransTool.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
