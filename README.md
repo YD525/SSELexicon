@@ -1,6 +1,6 @@
 # YDSkyrimToolR
 ## YDSkyrimTools It is an open-source and free translation tool for Skyrim SE Mod
-#### Initially, it was based on 9DM 泰姆瑞尔MOD组 I wrote it as an improvement of YDSkyrimTool。
+#### Powered by: 9DM 泰姆瑞尔MOD组 约定酱
 #### Intended to significantly reduce the workload of Sinicizers。
 
 #### This project adopts the GPL-3.0-oly license。
@@ -26,7 +26,7 @@
 ![UI](1.png)
 ![UI](2.png)
 
-#### In addition, I also enjoy accepting donations
-#### If you like this project, you can support me personally through the following ways:
-#### 请我喝杯咖啡 -  Buy Me A Coffee
+### In addition, I also enjoy accepting donations
+### If you like this project, you can support me personally through the following ways:
+### 请我喝杯咖啡 -  Buy Me A Coffee
 ![alipay](alipay_qrcode.jpg)
