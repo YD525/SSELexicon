@@ -184,8 +184,10 @@ namespace YDSkyrimToolR.TranslateManage
             catch { }
 
             string GetResult = new HttpHelper().GetHtml(Http).Html;
-            
+            try {
             return JsonSerializer.Deserialize<DeepSeekRootobject>(GetResult);
+            }
+            catch { return null; }
         }
     }
 }

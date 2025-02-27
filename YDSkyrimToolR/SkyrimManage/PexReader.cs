@@ -277,6 +277,12 @@ namespace YDSkyrimToolR.SkyrimManage
             string GetFileType = GetFileFullName.Split('.')[1];
             string GetFileName = GetFileFullName.Split('.')[0];
             CurrentFileName = GetFileName;
+
+            if (File.Exists(DeFine.GetFullPath(@"Cache\") + GetFileName + "." + GetFileType))
+            {
+                File.Delete(DeFine.GetFullPath(@"Cache\") + GetFileName + "." + GetFileType);
+            }
+
             File.Copy(FilePath, DeFine.GetFullPath(@"Cache\") + GetFileName + "." + GetFileType);
             TempFilePath = DeFine.GetFullPath(@"Cache\") + GetFileName + "." + GetFileType;
             GetFilePath = DeFine.GetFullPath(@"Cache\");

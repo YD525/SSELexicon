@@ -18,6 +18,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using YDSkyrimToolR.ConvertManager;
 using YDSkyrimToolR.SkyrimManage;
+using YDSkyrimToolR.TranslateCore;
 using YDSkyrimToolR.TranslateManage;
 using YDSkyrimToolR.UIManage;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
@@ -72,9 +73,9 @@ namespace YDSkyrimToolR
 
         public void ReloadData(bool CanReloadCountCache = true)
         {
-            new Thread(() => 
-            { 
-                lock(LockerAddTrd)
+            new Thread(() =>
+            {
+                lock (LockerAddTrd)
                 {
                     GC.Collect();
 
@@ -98,17 +99,19 @@ namespace YDSkyrimToolR
                     {
                         foreach (var GetItem in GlobalMCMReader.MCMItems)
                         {
-                            this.Dispatcher.Invoke(new Action(() => {
+                            this.Dispatcher.Invoke(new Action(() =>
+                            {
                                 TransViewList.AddRowR(UIHelper.CreatLine(GetItem.Type, GetItem.EditorID, GetItem.Key, GetItem.SourceText, GetItem.GetTextIfTransR(), false));
                             }));
-                           
+
                         }
                     }
                     if (CurrentTransType == 3)
                     {
                         foreach (var GetItem in GlobalPexReader.SafeStringParams)
                         {
-                            this.Dispatcher.Invoke(new Action(() => {
+                            this.Dispatcher.Invoke(new Action(() =>
+                            {
                                 TransViewList.AddRowR(UIHelper.CreatLine(GetItem.Type, GetItem.EditorID, GetItem.Key, GetItem.SourceText, GetItem.GetTextIfTransR(), GetItem.Danger));
                             }));
                         }
@@ -127,7 +130,8 @@ namespace YDSkyrimToolR
                 double GetRate = ((double)UIHelper.ModifyCount / (double)TransViewList.Rows);
                 if (GetRate > 0)
                 {
-                    try {
+                    try
+                    {
                         ProcessBar.Width = ProcessBarFrame.ActualWidth * GetRate;
                     }
                     catch { }
@@ -225,7 +229,7 @@ namespace YDSkyrimToolR
         public int CurrentTransType = 0;
 
         string LastSetPath = "";
-        
+
         public void LoadAny(string FilePath)
         {
             if (System.IO.File.Exists(FilePath))
@@ -252,7 +256,8 @@ namespace YDSkyrimToolR
 
                     GlobalPexReader.LoadPexFile(LastSetPath);
 
-                    this.Dispatcher.Invoke(new Action(() => {
+                    this.Dispatcher.Invoke(new Action(() =>
+                    {
                         CancelTransBtn.Opacity = 1;
                         CancelTransBtn.IsEnabled = true;
                         LoadBtnContent.Content = "SaveFile";
@@ -280,7 +285,8 @@ namespace YDSkyrimToolR
 
                     GlobalMCMReader.LoadMCM(LastSetPath);
 
-                    this.Dispatcher.Invoke(new Action(() => {
+                    this.Dispatcher.Invoke(new Action(() =>
+                    {
                         CancelTransBtn.Opacity = 1;
                         CancelTransBtn.IsEnabled = true;
                         LoadBtnContent.Content = "SaveFile";
@@ -307,7 +313,8 @@ namespace YDSkyrimToolR
                     CanSetSelecter.Clear();
                     CanSetSelecter.AddRange(SkyrimDataLoader.QueryParams(GlobalEspReader));
 
-                    this.Dispatcher.Invoke(new Action(() => {
+                    this.Dispatcher.Invoke(new Action(() =>
+                    {
                         CancelTransBtn.Opacity = 1;
                         CancelTransBtn.IsEnabled = true;
                         LoadBtnContent.Content = "SaveFile";
@@ -404,7 +411,7 @@ namespace YDSkyrimToolR
                             }
                             else
                             {
-                                this.WindowState = WindowState.Normal;                        
+                                this.WindowState = WindowState.Normal;
                                 SizeChangeState = 0;
                             }
 
@@ -482,7 +489,8 @@ namespace YDSkyrimToolR
 
         public void CheckEngineState()
         {
-            this.Dispatcher.Invoke(new Action(() => {
+            this.Dispatcher.Invoke(new Action(() =>
+            {
                 foreach (var GetEngine in EngineUIs.Children)
                 {
                     if (GetEngine is SvgViewbox)
@@ -610,7 +618,7 @@ namespace YDSkyrimToolR
                     {
                         DeFine.GlobalLocalSetting.DivCacheEngineUsing = OneState;
                     }
-                break;
+                    break;
             }
         }
 
@@ -705,22 +713,22 @@ namespace YDSkyrimToolR
                 else
                 if (CurrentTransType == 1)
                 {
-                   if (UIHelper.ModifyCount > 0)
-                    if (GlobalMCMReader != null)
-                    {
-                        string GetBackUPPath = GetFilePath + GetFileFullName + ".backup";
-                        if (File.Exists(GetBackUPPath))
+                    if (UIHelper.ModifyCount > 0)
+                        if (GlobalMCMReader != null)
                         {
-                            File.Delete(GetBackUPPath);
-                        }
-                        File.Copy(LastSetPath, GetBackUPPath);
-                        File.Delete(LastSetPath);
+                            string GetBackUPPath = GetFilePath + GetFileFullName + ".backup";
+                            if (File.Exists(GetBackUPPath))
+                            {
+                                File.Delete(GetBackUPPath);
+                            }
+                            File.Copy(LastSetPath, GetBackUPPath);
+                            File.Delete(LastSetPath);
 
-                        GlobalMCMReader.SaveMCMConfig(LastSetPath);
-                    }
+                            GlobalMCMReader.SaveMCMConfig(LastSetPath);
+                        }
                 }
-               
-                CancelTransEsp(null,null);
+
+                CancelTransEsp(null, null);
                 SetButtonContent = "LoadFile";
             }
 
@@ -742,7 +750,7 @@ namespace YDSkyrimToolR
             GlobalEspReader.Close();
             GlobalMCMReader.Close();
             GlobalPexReader.Close();
-    
+
             (StartTransBtn.Child as Label).Content = "LoadFile";
             CancelTransBtn.Opacity = 0.3;
             CancelTransBtn.IsEnabled = false;
@@ -852,17 +860,17 @@ namespace YDSkyrimToolR
                     {
                         DeFine.SourceLanguage = TranslateCore.Languages.English;
                     }
-                break;
+                    break;
                 case "Chinese":
                     {
                         DeFine.SourceLanguage = TranslateCore.Languages.Chinese;
                     }
-                break;
+                    break;
                 case "Japanese":
                     {
                         DeFine.SourceLanguage = TranslateCore.Languages.Japanese;
                     }
-                break;
+                    break;
                 case "German":
                     {
                         DeFine.SourceLanguage = TranslateCore.Languages.German;
@@ -872,7 +880,7 @@ namespace YDSkyrimToolR
                     {
                         DeFine.SourceLanguage = TranslateCore.Languages.Korean;
                     }
-                break;
+                    break;
             }
             DeFine.GlobalLocalSetting.SourceLanguage = DeFine.SourceLanguage;
         }
@@ -935,7 +943,162 @@ namespace YDSkyrimToolR
 
         private void ShowAboutUS(object sender, MouseButtonEventArgs e)
         {
-            ActionWin.Show("约定酱的YDSkyrimTools", "YDSkyrimTools It is an open-source and free translation tool for Skyrim SE Mod\r\nIntended to significantly reduce the workload of Sinicizers\r\nProtocol GPL3.0\r\n See Github https://github.com/tolove336/YDSkyrimToolR\r\n I only handle it when I have free time", MsgAction.Null,MsgType.Info);
+            ActionWin.Show("约定酱的YDSkyrimTools", "YDSkyrimTools It is an open-source and free translation tool for Skyrim SE Mod\r\nIntended to significantly reduce the workload of Sinicizers\r\nProtocol GPL3.0\r\n See Github https://github.com/tolove336/YDSkyrimToolR\r\n I only handle it when I have free time", MsgAction.Null, MsgType.Info);
+        }
+
+        private void ViewModeChange(object sender, SelectionChangedEventArgs e)
+        {
+            if (ConvertHelper.ObjToStr(ViewMode.SelectedValue).Equals("Quick"))
+            {
+                TransViewBox.Width = double.NaN;
+                TransViewBox.HorizontalAlignment = HorizontalAlignment.Stretch;
+                ExtendBox.Width = 0;
+            }
+            else
+            {
+                TransViewBox.Width = this.Width * 0.6;
+                TransViewBox.HorizontalAlignment = HorizontalAlignment.Left;
+                ExtendBox.Width = this.Width - TransViewBox.Width;
+            }
+        }
+
+        private void ToStr_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (FromStr.Text.Trim().Length == 0)
+            {
+                return;
+            }
+            if (sender is TextBox)
+            {
+                if ((sender as TextBox).Tag != null)
+                {
+                    int Key = ConvertHelper.ObjToInt((sender as TextBox).Tag);
+                    string GetText = (sender as TextBox).Text;
+                    if (GetText.Trim().Length > 0)
+                    {
+                        (UIHelper.SelectLine.Children[4] as TextBox).Text = GetText;
+                        Translator.TransData[Key] = GetText;
+                    }
+                    else
+                    {
+                        (UIHelper.SelectLine.Children[4] as TextBox).Text = string.Empty;
+                        (UIHelper.SelectLine.Children[4] as TextBox).BorderBrush = new SolidColorBrush(Color.FromRgb(87, 87, 87));
+                        if (Translator.TransData.ContainsKey(Key))
+                        {
+                            Translator.TransData.Remove(Key);
+                        }
+                    }
+                }
+            }
+        }
+
+
+        private void TransCurrentItem(object sender, MouseButtonEventArgs e)
+        {
+            new Thread(() =>
+            {
+                this.Dispatcher.Invoke(new Action(() =>
+                {
+                    TransViewList.GetMainGrid().IsHitTestVisible = false;
+                }));
+                string GetFromStr = "";
+                this.Dispatcher.Invoke(new Action(() =>
+                {
+                    GetFromStr = FromStr.Text;
+                }));
+                List<EngineProcessItem> EngineProcessItems = new List<EngineProcessItem>();
+                var GetResult = new WordProcess().ProcessWords(ref EngineProcessItems, GetFromStr, DeFine.SourceLanguage, DeFine.TargetLanguage);
+                this.Dispatcher.Invoke(new Action(() =>
+                {
+                    ToStr.Text = GetResult;
+                }));
+                this.Dispatcher.Invoke(new Action(() =>
+                {
+                    TransViewList.GetMainGrid().IsHitTestVisible = true;
+                }));
+            }).Start();
+        }
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.F1)
+            {
+                if (TransViewList.GetMainGrid().IsHitTestVisible)
+                {
+                    TransCurrentItem(null, null);
+                }
+            }
+        }
+
+        private void SendQuestionToAI(object sender, MouseButtonEventArgs e)
+        {
+            string GetSendAIText = SendAIText.Text;
+            if (ConvertHelper.ObjToStr(SendQuestionBtn.Content).Equals("SendQuestion"))
+            {
+                new Thread(() =>
+                {
+                    this.Dispatcher.Invoke(new Action(() =>
+                    {
+                        SendQuestionBtn.Content = "AI Thinking...";
+                    }));
+
+                    string To = "";
+                    if (DeFine.TargetLanguage == Languages.English)
+                    {
+                        To = "英文";
+                    }
+                    if (DeFine.TargetLanguage == Languages.Chinese)
+                    {
+                        To = "中文";
+                    }
+                    if (DeFine.TargetLanguage == Languages.Japanese)
+                    {
+                        To = "日文";
+                    }
+                    if (DeFine.TargetLanguage == Languages.German)
+                    {
+                        To = "德文";
+                    }
+                    if (DeFine.TargetLanguage == Languages.Korean)
+                    {
+                        To = "韩文";
+                    }
+
+                    var GetResult = new DeepSeekApi().CallAI($"{GetSendAIText} ,请用 {To} 回复,能有点猫娘的口吻吗可爱点的.");
+
+                    if (GetResult != null)
+                    {
+                        if (GetResult.choices != null)
+                        {
+                            string CNStr = "";
+                            if (GetResult.choices.Length > 0)
+                            {
+                                CNStr = GetResult.choices[0].message.content.Trim();
+                            }
+                            if (CNStr.Trim().Length > 0)
+                            {
+                                this.Dispatcher.Invoke(new Action(() =>
+                                {
+                                    AILog.Text = CNStr;
+                                }));
+                            }
+                            else
+                            {
+                                this.Dispatcher.Invoke(new Action(() =>
+                                {
+                                    AILog.Text = string.Empty;
+                                }));
+                            }
+                        }
+                    }
+
+                    this.Dispatcher.Invoke(new Action(() =>
+                    {
+                        SendQuestionBtn.Content = "SendQuestion";
+                    }));
+
+                }).Start();
+            }
         }
     }
 }

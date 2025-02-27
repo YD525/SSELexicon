@@ -82,6 +82,18 @@ public class YDListView
         CanUpDate = true;
     }
 
+    public double GetHight(Grid Grid)
+    {
+        if (!double.IsNaN(Grid.ActualHeight))
+        {
+            if (Grid.ActualHeight > 0)
+            {
+                return Grid.ActualHeight;
+            }
+        }
+        return Grid.Height;
+    }
+
     public void UpdateVisibleRows()
     {
         if (CanUpDate)
@@ -95,6 +107,7 @@ public class YDListView
         VisibleRows.Clear();
 
         double ScrollTop = this.Scroll.VerticalOffset;
+        double ScrollHeight = this.Scroll.ExtentHeight;
         double ViewHeight = this.Scroll.ViewportHeight;
         double AccumulatedHeight = 0;
         int FirstVisibleRow = 0;
@@ -107,7 +120,7 @@ public class YDListView
                 FirstVisibleRow = i;
                 break;
             }
-            AccumulatedHeight += this.RealLines[i].Height;
+            AccumulatedHeight += GetHight(this.RealLines[i]);
         }
 
         // 计算最后一条可见行
@@ -116,7 +129,7 @@ public class YDListView
 
         for (int i = FirstVisibleRow; i < this.RealLines.Count; i++)
         {
-            VisibleHeight += this.RealLines[i].Height;
+            VisibleHeight += GetHight(this.RealLines[i]);
             if (VisibleHeight >= ViewHeight)
             {
                 LastVisibleRow = i;
@@ -124,18 +137,32 @@ public class YDListView
             }
         }
 
-        if (LastVisibleRow != FirstVisibleRow)
+        LastVisibleRow += BufferRows; // 额外缓存行
+        if (LastVisibleRow >= GetRows())
         {
-            LastVisibleRow += BufferRows; // 额外缓存行
-            if (LastVisibleRow >= GetRows())
+            LastVisibleRow = GetRows() - 1;
+        }
+
+        int FirstVisibleRowWithBuffer = Math.Max(0, FirstVisibleRow - BufferRows);
+
+        MainGrid.Children.Clear();
+
+        if (ScrollTop + ViewHeight >= ScrollHeight - 100)
+        {
+            for (int i = 0; i < this.RealLines.Count; i++)
             {
-                LastVisibleRow = GetRows() - 1;
+                if (i >= FirstVisibleRowWithBuffer)
+                {
+                    MainGrid.Children.Add(this.RealLines[i]);
+
+                    Grid.SetRow(this.RealLines[i], i);
+
+                    VisibleRows.Add(this.RealLines[i]);
+                }
             }
-
-            int FirstVisibleRowWithBuffer = Math.Max(0, FirstVisibleRow - BufferRows);
-
-            MainGrid.Children.Clear();
-
+        }
+        else
+        {
             for (int i = 0; i < this.RealLines.Count; i++)
             {
                 if (i >= FirstVisibleRowWithBuffer && i <= LastVisibleRow)

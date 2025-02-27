@@ -83,7 +83,7 @@ namespace YDSkyrimToolR.TranslateCore
 
                                 Grid MainGrid = null;
                                 DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
-                                 {
+                                {
                                      MainGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
                                      GetTilp = ConvertHelper.ObjToStr(MainGrid.ToolTip);
                                      GetTag = ConvertHelper.ObjToStr((MainGrid.Children[1] as Label).Content);
@@ -94,7 +94,7 @@ namespace YDSkyrimToolR.TranslateCore
                                          GetTransText = (MainGrid.Children[3] as TextBox).Text.Trim();
                                          GetTransHashKey = ConvertHelper.ObjToInt(MainGrid.Tag);
                                      }
-                                 }));
+                                }));
 
                                 if (GetTransText.Trim().Length > 0 && GetTransHashKey != 0)
                                 {

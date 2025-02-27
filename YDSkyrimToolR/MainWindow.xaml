@@ -6,344 +6,10 @@
         xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
         xmlns:local="clr-namespace:YDSkyrimToolR"
         mc:Ignorable="d"
-        Title="MainWindow" Height="790" LocationChanged="Window_LocationChanged" Width="1200" MinWidth="1000" Loaded="Window_Loaded" Style="{DynamicResource DefWin}" WindowStartupLocation="CenterScreen" AllowDrop="True" PreviewDragEnter="ModTransView_DragEnter" PreviewDrop="ModTransView_Drop"  PreviewDragLeave="ModTransView_DragLeave" Closing="Window_Closing">
+        Title="MainWindow" PreviewKeyDown="Window_PreviewKeyDown" Height="790" LocationChanged="Window_LocationChanged" Width="1200" MinWidth="1000" Loaded="Window_Loaded" Style="{DynamicResource DefWin}" WindowStartupLocation="CenterScreen" AllowDrop="True" PreviewDragEnter="ModTransView_DragEnter" PreviewDrop="ModTransView_Drop"  PreviewDragLeave="ModTransView_DragLeave" Closing="Window_Closing">
 
 
     <Window.Resources>
-        <local:RichBorderWidthConverter x:Key="RichBorderWidthConverter" ></local:RichBorderWidthConverter>
-        <SolidColorBrush x:Key="TextBox.Static.Border" Color="#FFABAdB3"/>
-        <SolidColorBrush x:Key="TextBox.MouseOver.Border" Color="#FF7EB4EA"/>
-        <SolidColorBrush x:Key="TextBox.Focus.Border" Color="#FF569DE5"/>
-        <Style x:Key="{x:Type TextBoxBase}" TargetType="{x:Type TextBoxBase}">
-            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource TextBox.Static.Border}"/>
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
-            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-            <Setter Property="AllowDrop" Value="true"/>
-            <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
-            <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type TextBoxBase}">
-                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
-                            <ScrollViewer  HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
-                                <Grid>
-                                    <Grid.Width>
-                                        <MultiBinding Converter="{StaticResource RichBorderWidthConverter}">
-                                            <Binding ElementName="PART_ContentHost" Path="ActualHeight" />
-                                            <Binding ElementName="border" Path="ActualHeight" />
-                                            <Binding ElementName="border" Path="ActualWidth" />
-                                        </MultiBinding>
-                                    </Grid.Width>
-                                    <ScrollViewer x:Name="PART_ContentHost" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
-
-                                </Grid>
-                            </ScrollViewer>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsEnabled" Value="false">
-                                <Setter Property="Opacity" TargetName="border" Value="0.56"/>
-                            </Trigger>
-                            <Trigger Property="IsMouseOver" Value="true">
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource TextBox.MouseOver.Border}"/>
-                            </Trigger>
-                            <Trigger Property="IsKeyboardFocused" Value="true">
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource TextBox.Focus.Border}"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <MultiTrigger>
-                    <MultiTrigger.Conditions>
-                        <Condition Property="IsInactiveSelectionHighlightEnabled" Value="true"/>
-                        <Condition Property="IsSelectionActive" Value="false"/>
-                    </MultiTrigger.Conditions>
-                    <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
-                </MultiTrigger>
-            </Style.Triggers>
-        </Style>
-        <Style x:Key="{x:Type Hyperlink}" TargetType="{x:Type Hyperlink}">
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}"/>
-            <Setter Property="TextDecorations" Value="Underline"/>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="true">
-                    <Setter Property="Foreground" Value="Red"/>
-                </Trigger>
-                <Trigger Property="IsEnabled" Value="false">
-                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-                </Trigger>
-                <Trigger Property="IsEnabled" Value="true">
-                    <Setter Property="Cursor" Value="Hand"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-        <Style x:Key="RichTextBoxStyle1" TargetType="{x:Type RichTextBox}">
-            <Style.Resources>
-                <Style x:Key="{x:Type FlowDocument}" TargetType="{x:Type FlowDocument}">
-                    <Setter Property="OverridesDefaultStyle" Value="true"/>
-                </Style>
-                <Style x:Key="{x:Type Hyperlink}" BasedOn="{StaticResource {x:Type Hyperlink}}" TargetType="{x:Type Hyperlink}">
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Foreground" Value="Blue"/>
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Style.Resources>
-            <Setter Property="MinWidth" Value="10"/>
-            <Style.BasedOn>
-                <StaticResource ResourceKey="{x:Type TextBoxBase}"/>
-            </Style.BasedOn>
-        </Style>
-
-
-        <Style x:Key="ScrollBarThumb" TargetType="{x:Type Thumb}">
-            <Setter Property="OverridesDefaultStyle" Value="true"/>
-            <Setter Property="IsTabStop" Value="false"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Thumb}">
-                        <Grid>
-                            <!--滚动条颜色-->
-                            <Border Background="#646465" CornerRadius="3"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="HorizontalScrollBarPageButton" TargetType="{x:Type RepeatButton}">
-            <Setter Property="OverridesDefaultStyle" Value="true"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Focusable" Value="false"/>
-            <Setter Property="IsTabStop" Value="false"/>
-            <Setter Property="Opacity" Value="0.2"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type RepeatButton}">
-                        <Rectangle Fill="{TemplateBinding Background}" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="VerticalScrollBarPageButton" TargetType="{x:Type RepeatButton}">
-            <Setter Property="OverridesDefaultStyle" Value="true"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Focusable" Value="false"/>
-            <Setter Property="IsTabStop" Value="false"/>
-            <Setter Property="Opacity" Value="0.2"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type RepeatButton}">
-                        <Rectangle Fill="{TemplateBinding Background}" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <!--滚动条上下按钮-->
-        <Style x:Key="VerticalScrollBarPageButton2" TargetType="{x:Type RepeatButton}">
-            <Setter Property="OverridesDefaultStyle"  Value="true"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Focusable" Value="false"/>
-            <Setter Property="IsTabStop" Value="false"/>
-            <Setter Property="Opacity"  Value="0"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type RepeatButton}">
-                        <Rectangle Fill="#90000000" Width="0" Height="0"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="for_scrollbar" TargetType="{x:Type ScrollBar}">
-            <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false"/>
-            <Setter Property="Stylus.IsFlicksEnabled" Value="false"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Margin" Value="0,1,1,6"/>
-            <Setter Property="Width"  Value="10"/>
-            <Setter Property="MinWidth"  Value="5"/>
-            <Setter Property="Opacity"   Value="0.2"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ScrollBar}">
-                        <Grid x:Name="Bg" SnapsToDevicePixels="true">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"></RowDefinition>
-                                <RowDefinition Height="*"></RowDefinition>
-                                <RowDefinition Height="auto"></RowDefinition>
-                            </Grid.RowDefinitions>
-                            <RepeatButton  Grid.Row="0" Style="{StaticResource VerticalScrollBarPageButton2}" Command="{x:Static ScrollBar.PageUpCommand}"/>
-                            <Track x:Name="PART_Track"   Grid.Row="1" IsEnabled="{TemplateBinding IsMouseOver}" IsDirectionReversed="true">
-                                <Track.DecreaseRepeatButton>
-                                    <RepeatButton Style="{StaticResource VerticalScrollBarPageButton}" Command="{x:Static ScrollBar.PageUpCommand}"/>
-                                </Track.DecreaseRepeatButton>
-                                <Track.IncreaseRepeatButton>
-                                    <RepeatButton Style="{StaticResource VerticalScrollBarPageButton}" Command="{x:Static ScrollBar.PageDownCommand}"/>
-                                </Track.IncreaseRepeatButton>
-                                <Track.Thumb>
-                                    <Thumb Style="{StaticResource ScrollBarThumb}"/>
-                                </Track.Thumb>
-                            </Track>
-                            <RepeatButton Grid.Row="2" Style="{StaticResource VerticalScrollBarPageButton2}" Command="{x:Static ScrollBar.PageDownCommand}"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="Orientation" Value="Horizontal">
-                    <Setter Property="Background"  Value="Transparent"/>
-                    <Setter Property="Margin" Value="1,0,6,1"/>
-                    <Setter Property="Height"   Value="5"/>
-                    <Setter Property="MinHeight"  Value="5"/>
-                    <Setter Property="Width"    Value="Auto"/>
-                    <Setter Property="Opacity" Value="0.2"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type ScrollBar}">
-                                <Grid x:Name="Bg" SnapsToDevicePixels="true">
-                                    <Track x:Name="PART_Track" IsEnabled="{TemplateBinding IsMouseOver}">
-                                        <Track.DecreaseRepeatButton>
-                                            <RepeatButton Style="{StaticResource HorizontalScrollBarPageButton}"  Command="{x:Static ScrollBar.PageLeftCommand}"/>
-                                        </Track.DecreaseRepeatButton>
-                                        <Track.IncreaseRepeatButton>
-                                            <RepeatButton Style="{StaticResource HorizontalScrollBarPageButton}"  Command="{x:Static ScrollBar.PageRightCommand}"/>
-                                        </Track.IncreaseRepeatButton>
-                                        <Track.Thumb>
-                                            <Thumb Style="{StaticResource ScrollBarThumb}"/>
-                                        </Track.Thumb>
-                                    </Track>
-                                </Grid>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-        <Style x:Key="for_scrollviewer"
- TargetType="{x:Type ScrollViewer}">
-            <Setter Property="BorderBrush" Value="LightGray"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ScrollViewer}">
-                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True">
-                            <Grid Background="{TemplateBinding Background}">
-                                <ScrollContentPresenter  Cursor="{TemplateBinding Cursor}" Margin="{TemplateBinding Padding}" ContentTemplate="{TemplateBinding ContentTemplate}"/>
-                                <ScrollBar x:Name="PART_VerticalScrollBar"
-                             HorizontalAlignment="Right"
-                             Maximum="{TemplateBinding ScrollableHeight}"
-                             Orientation="Vertical"
-                             Style="{StaticResource for_scrollbar}"
-                             ViewportSize="{TemplateBinding ViewportHeight}"
-                             Value="{TemplateBinding VerticalOffset}"
-                             Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
-                                <ScrollBar x:Name="PART_HorizontalScrollBar"
-                             Maximum="{TemplateBinding ScrollableWidth}"
-                             Orientation="Horizontal"
-                             Style="{StaticResource for_scrollbar}"
-                             VerticalAlignment="Bottom"
-                             Value="{TemplateBinding HorizontalOffset}"
-                             ViewportSize="{TemplateBinding ViewportWidth}"
-                             Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
-                            </Grid>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <EventTrigger RoutedEvent="ScrollChanged" >
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation
-                              Storyboard.TargetName="PART_VerticalScrollBar"
-                              Storyboard.TargetProperty="Opacity"
-                              To="0.8"
-                              Duration="0:0:1"/>
-                                        <DoubleAnimation
-                              Storyboard.TargetName="PART_VerticalScrollBar"
-                              Storyboard.TargetProperty="Opacity"
-                              To="0.2"
-                              Duration="0:0:1"
-                              BeginTime="0:0:1"/>
-                                        <DoubleAnimation
-                              Storyboard.TargetName="PART_HorizontalScrollBar"
-                              Storyboard.TargetProperty="Opacity"
-                              To="0.8"
-                              Duration="0:0:1"/>
-                                        <DoubleAnimation
-                              Storyboard.TargetName="PART_HorizontalScrollBar"
-                              Storyboard.TargetProperty="Opacity"
-                              To="0.2"
-                              Duration="0:0:1"
-                              BeginTime="0:0:1"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                            <EventTrigger RoutedEvent="MouseEnter"
-                            SourceName="PART_VerticalScrollBar">
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation
-                              Storyboard.TargetName="PART_VerticalScrollBar"
-                              Storyboard.TargetProperty="Opacity"
-                              To="0.8"
-                              Duration="0:0:0.7"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                            <EventTrigger RoutedEvent="MouseLeave"
-                            SourceName="PART_VerticalScrollBar">
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation
-                              Storyboard.TargetName="PART_VerticalScrollBar"
-                              Storyboard.TargetProperty="Opacity"
-                              To="0.2"
-                              Duration="0:0:0.7"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                            <EventTrigger RoutedEvent="MouseEnter"
-                            SourceName="PART_HorizontalScrollBar">
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation
-                              Storyboard.TargetName="PART_HorizontalScrollBar"
-                              Storyboard.TargetProperty="Opacity"
-                              To="0.8"
-                              Duration="0:0:0.7"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                            <EventTrigger RoutedEvent="MouseLeave"
-                            SourceName="PART_HorizontalScrollBar">
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation
-                              Storyboard.TargetName="PART_HorizontalScrollBar"
-                              Storyboard.TargetProperty="Opacity"
-                              To="0.2"
-                              Duration="0:0:0.7"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <!--默认ScrollBar-->
-        <Style TargetType="ScrollBar" BasedOn="{StaticResource for_scrollbar}"/>
-
-        <!--默认ScrollView-->
-        <Style TargetType="ScrollViewer" BasedOn="{StaticResource for_scrollviewer}"/>
-        
         <Storyboard x:Key="ShowSmallNav">
             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ShowNavSign" Storyboard.TargetProperty="Visibility">
                 <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
@@ -391,7 +57,7 @@
 
                 <Grid Grid.Row="0" Name="Header" Margin="10 0 10 0">
                     <Label HorizontalAlignment="Left" Name="MainCaption" Foreground="White" VerticalAlignment="Center">
-                        YDSkyrimToolR Gui 3.3.27 Beta
+                        YDSkyrimToolR Gui 3.3.28 Beta
                     </Label>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
 
@@ -595,16 +261,16 @@
 
                             </Grid>
 
-                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" Grid.RowSpan="2">
+                            <Grid Grid.RowSpan="2">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="50"/>
                                     <RowDefinition Height="38"/>
-                                    <RowDefinition Height="30"/>
                                     <RowDefinition Height="1*"/>
                                 </Grid.RowDefinitions>
+
                                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Grid.Row="1">
                                     <Label VerticalAlignment="Center">ViewMode</Label>
-                                    <ComboBox VerticalAlignment="Center" Cursor="Hand" Width="100" Name="ViewMode" Style="{StaticResource WpfComboBoxStyle}">
+                                    <ComboBox VerticalAlignment="Center" Cursor="Hand" Width="100" Name="ViewMode" SelectionChanged="ViewModeChange" Style="{StaticResource WpfComboBoxStyle}">
                                     </ComboBox>
                                     <Label VerticalAlignment="Center">Source</Label>
                                     <ComboBox VerticalAlignment="Center" Cursor="Hand" Width="100" Name="Source" Style="{StaticResource WpfComboBoxStyle}" SelectionChanged="Source_SelectionChanged">
@@ -639,29 +305,73 @@
                                         </Label>
                                     </Border>
                                 </StackPanel>
-                                <Grid Height="30" Background="#FF7B7B7B" VerticalAlignment="Top" Grid.Row="2">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="0.35*"/>
-                                        <ColumnDefinition Width="0.5*"/>
-                                        <ColumnDefinition Width="1*"/>
-                                        <ColumnDefinition Width="1*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Label Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="White">
-                                        Type
-                                    </Label>
-                                    <Label Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="White">
-                                        Key
-                                    </Label>
-                                    <Label Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="White">
-                                        SourceText
-                                    </Label>
-                                    <Label Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="White">
-                                        TransText
-                                    </Label>
+
+                                <Grid VerticalAlignment="Stretch" Grid.Row="2" Name="TransViewBox" Panel.ZIndex="99999" Width="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="1*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Grid Height="30" Background="#FF7B7B7B" VerticalAlignment="Top" Grid.Row="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0.35*"/>
+                                            <ColumnDefinition Width="0.5*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="White">
+                                            Type
+                                        </Label>
+                                        <Label Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="White">
+                                            Key
+                                        </Label>
+                                        <Label Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="White">
+                                            SourceText
+                                        </Label>
+                                        <Label Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="White">
+                                            TransText
+                                        </Label>
+                                    </Grid>
+                                    <Grid Name="TransView" Grid.Row="1" Panel.ZIndex="999">
+                                    </Grid>
                                 </Grid>
-                                <Grid Name="TransView" Grid.Row="3">
+
+                                <Grid HorizontalAlignment="Right" Width="0"  Grid.Row="2" Name="ExtendBox" Background="Black">
+                                    <StackPanel Orientation="Vertical" Margin="5">
+                                        <Label Foreground="White">
+                                            DeepSeek->
+                                        </Label>
+                                        <TextBox Name="SendAIText" Padding="10" FontSize="15" Background="#FF202020" CaretBrush="Yellow" Foreground="White" BorderThickness="0" BorderBrush="{x:Null}"  AcceptsReturn="True" TextWrapping="Wrap" Height="100">
+                                        </TextBox>
+                                        <Border  Background="#FF076FCB"  Height="30" Margin="10 0 10 0" Cursor="Hand" PreviewMouseDown="SendQuestionToAI" ToolTip="求助DeepSeek娘">
+                                            <Label Name="SendQuestionBtn" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                SendQuestion
+                                            </Label>
+                                        </Border>
+                                        <Label Foreground="White">
+                                            FromStr->
+                                        </Label>
+                                        <TextBox Padding="10" Background="{x:Null}" FontSize="15" IsReadOnly="True"  CaretBrush="Yellow" Name="FromStr" HorizontalContentAlignment="Left" Foreground="White" BorderThickness="0" BorderBrush="{x:Null}" AcceptsReturn="True" TextWrapping="Wrap" Height="100">
+                                        </TextBox>
+                                        <Border ToolTip="HotKey Press F1" Background="#FF076FCB"  Height="30" Margin="10 0 10 0" Cursor="Hand" PreviewMouseDown="TransCurrentItem">
+                                            <Label  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                Translate(F1)
+                                            </Label>
+                                        </Border>
+                                        <Label Foreground="White">
+                                            ToStr->
+                                        </Label>
+                                        <TextBox Padding="10" FontSize="15" Background="#FF202020" CaretBrush="Yellow" Name="ToStr" TextChanged="ToStr_TextChanged" HorizontalContentAlignment="Left" Foreground="White" BorderThickness="0" BorderBrush="{x:Null}" AcceptsReturn="True" TextWrapping="Wrap" Height="100">
+                                        </TextBox>
+                                        <Label Foreground="White">
+                                            AIReply->
+                                        </Label>
+                                        <TextBox IsReadOnly="True" Name="AILog" Padding="10" FontSize="15" Background="{x:Null}" CaretBrush="Yellow" Foreground="White" BorderThickness="0" BorderBrush="{x:Null}"  AcceptsReturn="True" TextWrapping="Wrap" Height="130" VerticalScrollBarVisibility="Auto">
+                                        </TextBox>
+                                    </StackPanel>
                                 </Grid>
                             </Grid>
+                          
                         </Grid>
 
                         <Grid Name="DragDropView" Visibility="Collapsed">

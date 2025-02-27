@@ -23,6 +23,7 @@ namespace YDSkyrimToolR.UIManage
     */
     public class UIHelper
     {
+        public static Grid SelectLine = null;
         public static int ModifyCount = 0;
         public static double DefFontSize = 15;
         public static double DefLineHeight = 40;
@@ -39,6 +40,8 @@ namespace YDSkyrimToolR.UIManage
             MainGrid.Height = DefLineHeight;
             //Calc FontSize For Auto Height
             //Margin 25
+
+            MainGrid.PreviewMouseDown += MainGrid_PreviewMouseDown;
 
             double TempFontSize = DefFontSize;
 
@@ -171,6 +174,7 @@ namespace YDSkyrimToolR.UIManage
             SourceTextBox.CaretBrush = new SolidColorBrush(Colors.White);
             SourceTextBox.AcceptsReturn = true;
             SourceTextBox.TextWrapping = TextWrapping.Wrap;
+            SourceTextBox.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
             SourceTextBox.PreviewMouseDown += SourceTextBox_PreviewMouseDown;
             SourceTextBox.Text = SourceText;
             Grid.SetRow(SourceTextBox, 0);
@@ -200,6 +204,7 @@ namespace YDSkyrimToolR.UIManage
             TransTextBox.CaretBrush = new SolidColorBrush(Colors.White);
             TransTextBox.AcceptsReturn = true;
             TransTextBox.TextWrapping = TextWrapping.Wrap;
+            TransTextBox.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
             TransTextBox.Text = TransText;
             TransTextBox.MouseEnter += TransTextBox_MouseEnter;
             TransTextBox.MouseLeave += TransTextBox_MouseLeave;
@@ -212,6 +217,28 @@ namespace YDSkyrimToolR.UIManage
             MainGrid.Children.Add(TransTextBox);
 
             return MainGrid;
+        }
+
+        private static void MainGrid_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (sender is Grid)
+            {
+                Grid LockerGrid = (Grid)sender;
+                if (LockerGrid.Children.Count >= 5)
+                {
+                    UIHelper.SelectLine = LockerGrid;
+                    var MainGrid = LockerGrid;
+                    var GetTilp = ConvertHelper.ObjToStr(MainGrid.ToolTip);
+                    var GetTag = ConvertHelper.ObjToStr((MainGrid.Children[1] as Label).Content);
+                    var GetKey = ConvertHelper.ObjToStr((MainGrid.Children[2] as TextBox).Text);
+                    var GetTransText = (MainGrid.Children[3] as TextBox).Text.Trim();
+                    var TargetText = ConvertHelper.ObjToStr((MainGrid.Children[4] as TextBox).Text);
+                    DeFine.WorkingWin.FromStr.Text = GetTransText;
+                    DeFine.WorkingWin.ToStr.Text = TargetText;
+                    DeFine.WorkingWin.ToStr.Tag = ConvertHelper.ObjToInt(MainGrid.Tag);
+                }
+            }
+          
         }
 
         private static void TransTextBox_MouseLeave1(object sender, System.Windows.Input.MouseEventArgs e)
