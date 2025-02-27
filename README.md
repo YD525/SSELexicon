@@ -1,6 +1,6 @@
 # YDSkyrimToolR
 ## YDSkyrimTools It is an open-source and free translation tool for Skyrim SE Mod
-#### The copyright of this program belongs to[约定QQ 525084464(developer) 9DM 泰姆瑞尔MOD组]
+#### The copyright of this program belongs to[约定QQ 525084464(developer)]
 #### Intended to significantly reduce the workload of Sinicizers。
 
 #### This project adopts the GPL-3.0-oly license。
