@@ -33,8 +33,3 @@
 ![UI](pic/03.png)
 ![UI](pic/05.png)
 ![UI](pic/06.png)
-
-### In addition, I also enjoy accepting donations
-### If you like this project, you can support me personally through the following ways:
-### 请我喝杯咖啡 -  Buy Me A Coffee
-![alipay](pic/alipay_qrcode.jpg)
