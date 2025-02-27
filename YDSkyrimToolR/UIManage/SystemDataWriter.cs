@@ -12,6 +12,12 @@ using YDSkyrimToolR.TranslateManage;
 
 namespace YDSkyrimToolR.UIManage
 {
+    /*
+* @Author: 约定
+* @GitHub: https://github.com/tolove336/YDSkyrimToolR
+* @Date: 2025-02-06
+*/
+
     public class SystemDataWriter
     {
         public static string PreFormatStr(string Str)
@@ -43,7 +49,7 @@ namespace YDSkyrimToolR.UIManage
             ReplaceAllToMemory(ref Writer);
         }
 
-        public static void SetData(int GetHashKey,string TransData)
+        public static void SetData(int GetHashKey, string TransData)
         {
             string NewStr = PreFormatStr(TransData);
             if (Regex.Replace(NewStr, @"\s+", "").Length > 0)
@@ -145,27 +151,27 @@ namespace YDSkyrimToolR.UIManage
                 if (GetFactionItem.Ranks.Count > 0)
                 {
                     int CountRank = 0;
-                    if(GetFactionItem.Ranks!=null)
-                    for (int ii = 0; ii < GetFactionItem.Ranks.Count; ii++)
-                    {
-                        CountRank++;
-                        string GetFemale = ConvertHelper.ObjToStr(GetFactionItem.Ranks[ii].Title.Female);
-                        string GetMale = ConvertHelper.ObjToStr(GetFactionItem.Ranks[ii].Title.Male);
-
-                        SetType = string.Format("Female[{0}]", CountRank);
-                        GetTransStr = GetTransData(GetFactionItem.EditorID, SetType);
-                        if (GetTransStr.Trim().Length > 0)
+                    if (GetFactionItem.Ranks != null)
+                        for (int ii = 0; ii < GetFactionItem.Ranks.Count; ii++)
                         {
-                            GetFactionItem.Ranks[ii].Title.Female = GetTransStr;
-                        }
+                            CountRank++;
+                            string GetFemale = ConvertHelper.ObjToStr(GetFactionItem.Ranks[ii].Title.Female);
+                            string GetMale = ConvertHelper.ObjToStr(GetFactionItem.Ranks[ii].Title.Male);
 
-                        SetType = string.Format("Male[{0}]", CountRank);
-                        GetTransStr = GetTransData(GetFactionItem.EditorID, SetType);
-                        if (GetTransStr.Trim().Length > 0)
-                        {
-                            GetFactionItem.Ranks[ii].Title.Male = GetTransStr;
+                            SetType = string.Format("Female[{0}]", CountRank);
+                            GetTransStr = GetTransData(GetFactionItem.EditorID, SetType);
+                            if (GetTransStr.Trim().Length > 0)
+                            {
+                                GetFactionItem.Ranks[ii].Title.Female = GetTransStr;
+                            }
+
+                            SetType = string.Format("Male[{0}]", CountRank);
+                            GetTransStr = GetTransData(GetFactionItem.EditorID, SetType);
+                            if (GetTransStr.Trim().Length > 0)
+                            {
+                                GetFactionItem.Ranks[ii].Title.Male = GetTransStr;
+                            }
                         }
-                    }
                 }
                 Writer.Factions[GetHashKey] = GetFactionItem;
             }
@@ -500,24 +506,24 @@ namespace YDSkyrimToolR.UIManage
                 }
 
                 int ForCount = 0;
-                if(GetDialogTopicItem.Responses != null)
-                for (int ii = 0; ii < GetDialogTopicItem.Responses.Count; ii++)
-                {
-                    ForCount++;
-                    if(GetDialogTopicItem.Responses[ii].Responses!= null)
-                    for (int iii = 0; iii < GetDialogTopicItem.Responses[ii].Responses.Count; iii++)
+                if (GetDialogTopicItem.Responses != null)
+                    for (int ii = 0; ii < GetDialogTopicItem.Responses.Count; ii++)
                     {
                         ForCount++;
+                        if (GetDialogTopicItem.Responses[ii].Responses != null)
+                            for (int iii = 0; iii < GetDialogTopicItem.Responses[ii].Responses.Count; iii++)
+                            {
+                                ForCount++;
 
-                        string GetValue = ConvertHelper.ObjToStr(GetDialogTopicItem.Responses[ii].Responses[iii].Text);
-                        SetType = string.Format("Response[{0}]", ForCount);
-                        GetTransStr = GetTransData(GetDialogTopicItem.EditorID, SetType);
-                        if (GetTransStr.Length > 0)
-                        {
-                            GetDialogTopicItem.Responses[ii].Responses[iii].Text = GetTransStr;
-                        }
+                                string GetValue = ConvertHelper.ObjToStr(GetDialogTopicItem.Responses[ii].Responses[iii].Text);
+                                SetType = string.Format("Response[{0}]", ForCount);
+                                GetTransStr = GetTransData(GetDialogTopicItem.EditorID, SetType);
+                                if (GetTransStr.Length > 0)
+                                {
+                                    GetDialogTopicItem.Responses[ii].Responses[iii].Text = GetTransStr;
+                                }
+                            }
                     }
-                }
                 Writer.DialogTopics[GetHashKey] = GetDialogTopicItem;
             }
         }
@@ -603,23 +609,23 @@ namespace YDSkyrimToolR.UIManage
                 var GetCell = Writer.Cells[GetHashKey];
                 int ForID = 0;
 
-                if(GetCell.SubBlocks!=null)
-                for (int ii = 0; ii < GetCell.SubBlocks.Count; ii++)
-                {
-                    ForID++;
-                    if(GetCell.SubBlocks[ii].Cells!=null)
-                    for (int iii = 0; iii < GetCell.SubBlocks[ii].Cells.Count; iii++)
+                if (GetCell.SubBlocks != null)
+                    for (int ii = 0; ii < GetCell.SubBlocks.Count; ii++)
                     {
                         ForID++;
-                        var GetName = ConvertHelper.ObjToStr(GetCell.SubBlocks[ii].Cells[iii].Name);
-                        string SetType = string.Format("Cell[{0}]", ForID);
-                        GetTransStr = GetTransData(GetCell.SubBlocks[ii].Cells[iii].EditorID, SetType);
-                        if (GetTransStr.Length > 0)
-                        {
-                            GetCell.SubBlocks[ii].Cells[iii].Name = GetTransStr;
-                        }
+                        if (GetCell.SubBlocks[ii].Cells != null)
+                            for (int iii = 0; iii < GetCell.SubBlocks[ii].Cells.Count; iii++)
+                            {
+                                ForID++;
+                                var GetName = ConvertHelper.ObjToStr(GetCell.SubBlocks[ii].Cells[iii].Name);
+                                string SetType = string.Format("Cell[{0}]", ForID);
+                                GetTransStr = GetTransData(GetCell.SubBlocks[ii].Cells[iii].EditorID, SetType);
+                                if (GetTransStr.Length > 0)
+                                {
+                                    GetCell.SubBlocks[ii].Cells[iii].Name = GetTransStr;
+                                }
+                            }
                     }
-                }
                 Writer.Cells[GetHashKey] = GetCell;
             }
         }

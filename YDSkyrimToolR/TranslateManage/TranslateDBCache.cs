@@ -7,6 +7,11 @@ using YDSkyrimToolR.ConvertManager;
 
 namespace YDSkyrimToolR.TranslateCore
 {
+    /*
+* @Author: 约定
+* @GitHub: https://github.com/tolove336/YDSkyrimToolR
+* @Date: 2025-02-06
+*/
     public class TranslateDBCache
     {
         public static string FindCache(string Text,int From,int To)

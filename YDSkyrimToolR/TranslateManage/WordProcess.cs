@@ -19,6 +19,11 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace YDSkyrimToolR.TranslateCore
 {
+    /*
+* @Author: 约定
+* @GitHub: https://github.com/tolove336/YDSkyrimToolR
+* @Date: 2025-02-06
+*/
     public enum Languages
     {
         English = 0, Chinese = 1, Japanese = 2, German = 5, Korean = 6
@@ -84,16 +89,16 @@ namespace YDSkyrimToolR.TranslateCore
                                 Grid MainGrid = null;
                                 DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
                                 {
-                                     MainGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
-                                     GetTilp = ConvertHelper.ObjToStr(MainGrid.ToolTip);
-                                     GetTag = ConvertHelper.ObjToStr((MainGrid.Children[1] as Label).Content);
-                                     GetKey = ConvertHelper.ObjToStr((MainGrid.Children[2] as TextBox).Text);
-                                     TargetText = ConvertHelper.ObjToStr((MainGrid.Children[4] as TextBox).Text);
-                                     if ((MainGrid.Children[4] as TextBox).Text.Trim().Length == 0)
-                                     {
-                                         GetTransText = (MainGrid.Children[3] as TextBox).Text.Trim();
-                                         GetTransHashKey = ConvertHelper.ObjToInt(MainGrid.Tag);
-                                     }
+                                    MainGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
+                                    GetTilp = ConvertHelper.ObjToStr(MainGrid.ToolTip);
+                                    GetTag = ConvertHelper.ObjToStr((MainGrid.Children[1] as Label).Content);
+                                    GetKey = ConvertHelper.ObjToStr((MainGrid.Children[2] as TextBox).Text);
+                                    TargetText = ConvertHelper.ObjToStr((MainGrid.Children[4] as TextBox).Text);
+                                    if ((MainGrid.Children[4] as TextBox).Text.Trim().Length == 0)
+                                    {
+                                        GetTransText = (MainGrid.Children[3] as TextBox).Text.Trim();
+                                        GetTransHashKey = ConvertHelper.ObjToInt(MainGrid.Tag);
+                                    }
                                 }));
 
                                 if (GetTransText.Trim().Length > 0 && GetTransHashKey != 0)

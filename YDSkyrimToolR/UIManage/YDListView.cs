@@ -8,6 +8,12 @@ using System.Windows.Threading;
 using Mutagen.Bethesda.Strings;
 using YDSkyrimToolR;
 
+/*
+* @Author: 约定
+* @GitHub: https://github.com/tolove336/YDSkyrimToolR
+* @Date: 2025-02-06
+*/
+
 public class YDListView
 {
     private Grid Parent = null;
