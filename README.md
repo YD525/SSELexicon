@@ -1,6 +1,6 @@
 # YDSkyrimToolR
 ## YDSkyrimTools It is an open-source and free translation tool for Skyrim SE Mod
-#### The copyright of this program belongs to [约定QQ 525084464(developer)]
+#### The copyright of this program belongs to [YD525 or 约定酱(developer)]
 #### PowerBy [9DM,泰姆瑞尔MOD组]
 #### Intended to significantly reduce the workload of Sinicizers。
 #### Published in https://www.nexusmods.com/skyrimspecialedition/mods/143056 The creator of this mod is myself

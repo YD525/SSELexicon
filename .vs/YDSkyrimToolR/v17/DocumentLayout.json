@@ -177,24 +177,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 19,
+          "SelectedChildIndex": 16,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:1:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "StrChecker.cs",
-              "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\SkyrimManage\\StrChecker.cs",
-              "RelativeDocumentMoniker": "YDSkyrimToolR\\SkyrimManage\\StrChecker.cs",
-              "ToolTip": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\SkyrimManage\\StrChecker.cs",
-              "RelativeToolTip": "YDSkyrimToolR\\SkyrimManage\\StrChecker.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-27T21:57:51.549Z",
-              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -206,8 +193,7 @@
               "RelativeToolTip": "YDSkyrimToolR\\SkyrimManage\\PexReader.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-27T21:57:49.218Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-27T21:57:49.218Z"
             },
             {
               "$type": "Document",
@@ -219,8 +205,7 @@
               "RelativeToolTip": "YDSkyrimToolR\\UIManage\\SystemDataWriter.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAFICAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-27T21:56:55.64Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-27T21:56:55.64Z"
             },
             {
               "$type": "Document",
@@ -232,8 +217,7 @@
               "RelativeToolTip": "YDSkyrimToolR\\UIManage\\YDListView.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-07T03:41:59.166Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-07T03:41:59.166Z"
             },
             {
               "$type": "Document",
@@ -245,8 +229,7 @@
               "RelativeToolTip": "YDSkyrimToolR\\UIManage\\SkyrimDataLoader.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwCAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-26T20:24:46.088Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-26T20:24:46.088Z"
             },
             {
               "$type": "Document",
@@ -258,8 +241,7 @@
               "RelativeToolTip": "YDSkyrimToolR\\DeFine.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAGwAAABKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-07T01:36:04.104Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-07T01:36:04.104Z"
             },
             {
               "$type": "Document",
@@ -270,8 +252,7 @@
               "ToolTip": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\SearchText.xaml",
               "RelativeToolTip": "YDSkyrimToolR\\SearchText.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-02-07T01:56:42.264Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-07T01:56:42.264Z"
             },
             {
               "$type": "Document",
@@ -283,8 +264,7 @@
               "RelativeToolTip": "YDSkyrimToolR\\TranslateManage\\WordProcess.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAI0CAABYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-26T17:30:06.73Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-26T17:30:06.73Z"
             },
             {
               "$type": "Document",
@@ -296,8 +276,7 @@
               "RelativeToolTip": "YDSkyrimToolR\\TransTool.xaml.cs",
               "ViewState": "AgIAAEIAAAAAAAAAAAAAwFgAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-07T03:32:24.825Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-07T03:32:24.825Z"
             },
             {
               "$type": "Document",
@@ -356,8 +335,7 @@
               "RelativeToolTip": "YDSkyrimToolR\\TranslateManage\\Translator.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-07T02:13:21.945Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-07T02:13:21.945Z"
             },
             {
               "$type": "Document",
@@ -369,8 +347,7 @@
               "RelativeToolTip": "YDSkyrimToolR\\TranslateManage\\TranslateDBCache.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-07T19:35:11.82Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-07T19:35:11.82Z"
             },
             {
               "$type": "Document",
@@ -382,8 +359,32 @@
               "RelativeToolTip": "YDSkyrimToolR\\TranslateManage\\SourceStrBackuper.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-07T19:35:09.854Z",
+              "WhenOpened": "2025-02-07T19:35:09.854Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "YDSkyrimToolR\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\MainWindow.xaml.cs",
+              "RelativeToolTip": "YDSkyrimToolR\\MainWindow.xaml.cs",
+              "ViewState": "AgIAACEAAAAAAAAAAAAAABkAAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-07T02:02:12.372Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "StrChecker.cs",
+              "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\SkyrimManage\\StrChecker.cs",
+              "RelativeDocumentMoniker": "YDSkyrimToolR\\SkyrimManage\\StrChecker.cs",
+              "ToolTip": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\SkyrimManage\\StrChecker.cs",
+              "RelativeToolTip": "YDSkyrimToolR\\SkyrimManage\\StrChecker.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-27T21:57:51.549Z"
             },
             {
               "$type": "Document",
@@ -395,8 +396,7 @@
               "RelativeToolTip": "YDSkyrimToolR\\SkyrimManage\\EspReader.cs",
               "ViewState": "AgIAAHICAAAAAAAAAAAAACwCAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-09T22:20:02.555Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-09T22:20:02.555Z"
             },
             {
               "$type": "Document",
@@ -408,21 +408,7 @@
               "RelativeToolTip": "YDSkyrimToolR\\EngineEditView.xaml.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-25T21:09:13.138Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "MainWindow.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\MainWindow.xaml.cs",
-              "RelativeDocumentMoniker": "YDSkyrimToolR\\MainWindow.xaml.cs",
-              "ToolTip": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\MainWindow.xaml.cs",
-              "RelativeToolTip": "YDSkyrimToolR\\MainWindow.xaml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAACAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-07T02:02:12.372Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-25T21:09:13.138Z"
             },
             {
               "$type": "Document",
@@ -517,8 +503,7 @@
               "RelativeToolTip": "YDSkyrimToolR\\UIManage\\UIHelper.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACgBAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-27T04:16:15.186Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-27T04:16:15.186Z"
             },
             {
               "$type": "Document",
