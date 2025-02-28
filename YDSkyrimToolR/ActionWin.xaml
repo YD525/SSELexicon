@@ -52,7 +52,7 @@
                     </Label>
                 </Grid>
 
-                <TextBox BorderThickness="0" BorderBrush="{x:Null}" Grid.Row="1" Margin="10 20 10 80" Foreground="#707070" FontSize="15" IsReadOnly="True" Name="CurrentMsg" FontFamily="Microsoft YaHei UI" AcceptsReturn="True" TextWrapping="Wrap" Background="{x:Null}" HorizontalContentAlignment="Center"></TextBox>
+                <TextBox BorderThickness="0" BorderBrush="{x:Null}" Grid.Row="1" Margin="10 20 10 80" Foreground="#707070" FontSize="15" IsReadOnly="True" Name="CurrentMsg" FontFamily="Microsoft YaHei UI" AcceptsReturn="True" TextWrapping="Wrap" Background="{x:Null}" HorizontalContentAlignment="Center" VerticalScrollBarVisibility="Auto"></TextBox>
 
                 <StackPanel Grid.Row="1" Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 0 0 25">
 

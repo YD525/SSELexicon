@@ -26,9 +26,9 @@ namespace YDSkyrimToolR
             InitializeComponent();
         }
 
-
+       
         public static int SelectState = -1;
-        public static int Show(string Tittle, string Msg, MsgAction OneAction, MsgType OneType)
+        public static int Show(string Tittle, string Msg, MsgAction OneAction, MsgType OneType,int SetHight = 300)
         {
             SelectState = -1;
             Thread NewCreatForm = new Thread(
@@ -42,6 +42,7 @@ namespace YDSkyrimToolR
                      NMessageBoxExtend.Title = Tittle;
                      NMessageBoxExtend.Caption.Content = Tittle;
                      NMessageBoxExtend.CurrentMsg.Text = Msg;
+                     NMessageBoxExtend.Height = SetHight;
 
                      if (OneAction == MsgAction.Yes || OneAction == MsgAction.Null)
                      {

@@ -193,6 +193,21 @@ namespace YDSkyrimToolR
 
                 Thread.Sleep(1000);
 
+                //Frist Check ToolPath
+                if (!File.Exists(DeFine.GetFullPath(@"Tool\Champollion.exe")))
+                {
+                    ActionWin.Show("Lack of pre-processing", "Please manually install the dependent program\nhttps://github.com/Orvid/Champollion\nPlease download the release version and put it in this path\n"+ DeFine.GetFullPath(@"Tool\")+ "\n Path required\n" + DeFine.GetFullPath(@"Tool\Champollion.exe"), MsgAction.Yes,MsgType.Info,390);
+                }
+
+  
+                string GetPapyrusAssemblerPath = DeFine.GetFullPath(@"Tool\") + @"Data\Processors\CreationKit\PapyrusAssembler.exe";
+
+                if (!File.Exists(GetPapyrusAssemblerPath))
+                {
+                    ActionWin.Show("Lack of pre-processing", @"Please Download CK Url: http://www.creationkit.com And Copy Papyrus Compiler\*.*  directory To" + DeFine.GetFullPath(@"Tool\") + @"Data\Processors\CreationKit\" + "\n"
+                        + "Path required\n" + GetPapyrusAssemblerPath, MsgAction.Yes, MsgType.Info, 580);
+                }
+
                 EndLoadViewEffect();
                 ShowFrameByTag("MainView");
 
