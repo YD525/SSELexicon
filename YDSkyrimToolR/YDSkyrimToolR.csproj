@@ -6,6 +6,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Copyright>The copyright of this program belongs to [YD525 &amp; YueDing255 (developer)]. The purpose of this project is to reduce the workload of translators. This project is licensed under the GPL-3.0-only license.</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
@@ -38,6 +40,13 @@
 
   <ItemGroup>
     <EmbeddedResource Include="IDERule\Lua.xshd" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

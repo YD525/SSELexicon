@@ -13,8 +13,11 @@ using System.Reflection;
 
 [assembly: System.Reflection.AssemblyCompanyAttribute("YDSkyrimToolR")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
+[assembly: System.Reflection.AssemblyCopyrightAttribute("The copyright of this program belongs to [YD525 & YueDing255 (developer)]. The pu" +
+    "rpose of this project is to reduce the workload of translators. This project is " +
+    "licensed under the GPL-3.0-only license.")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5bdf25b8a003b9a5c0249e0fd3e70c7a54e3a217")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+08fa6b5c7dda4e9b1eaba9a5908e4c5f9949f58a")]
 [assembly: System.Reflection.AssemblyProductAttribute("YDSkyrimToolR")]
 [assembly: System.Reflection.AssemblyTitleAttribute("YDSkyrimToolR")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

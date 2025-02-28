@@ -351,7 +351,7 @@
               "RelativeDocumentMoniker": "YDSkyrimToolR\\MainWindow.xaml.cs",
               "ToolTip": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\MainWindow.xaml.cs",
               "RelativeToolTip": "YDSkyrimToolR\\MainWindow.xaml.cs",
-              "ViewState": "AgIAALwAAAAAAAAAAAAIwL4AAAAXAAAAAAAAAA==",
+              "ViewState": "AgIAAK0AAAAAAAAAAAAIwMEAAABEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-07T02:02:12.372Z",
               "EditorCaption": ""
@@ -400,7 +400,8 @@
               "ToolTip": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\MainWindow.xaml",
               "RelativeToolTip": "YDSkyrimToolR\\MainWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-02-07T02:00:52.432Z"
+              "WhenOpened": "2025-02-07T02:00:52.432Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -410,7 +411,7 @@
               "RelativeDocumentMoniker": "YDSkyrimToolR\\SkyrimManage\\PexReader.cs",
               "ToolTip": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\SkyrimManage\\PexReader.cs",
               "RelativeToolTip": "YDSkyrimToolR\\SkyrimManage\\PexReader.cs",
-              "ViewState": "AgIAAKIDAAAAAAAAAAAiwKoDAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAKMDAAAAAAAAAAAQwKwDAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-28T03:12:02.682Z",
               "EditorCaption": ""

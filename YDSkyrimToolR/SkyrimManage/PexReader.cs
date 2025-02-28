@@ -932,7 +932,7 @@ namespace YDSkyrimToolR.SkyrimManage
 
             DataHelper.WriteFile(DeFine.GetFullPath(@"\") + CurrentFileName + ".pas", Encoding.GetBytes(GetFileContent));
 
-            string FormatStr = "{0} \"{1}\"\r\n{2}\r\n";
+            string FormatStr = "{0} \"{1}\"\n{2}\n";
            
             string PapyrusAssembler = DeFine.GetFullPath(@"Tool\") + @"Data\Processors\CreationKit\PapyrusAssembler.exe";
             string Param = string.Format(FormatStr, PapyrusAssembler, CurrentFileName, DeFine.GetFullPath(@"Tool\Data\Processors\CreationKit\"));
