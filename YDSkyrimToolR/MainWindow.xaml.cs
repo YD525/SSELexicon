@@ -18,6 +18,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using YDSkyrimToolR.ConvertManager;
 using YDSkyrimToolR.SkyrimManage;
+using YDSkyrimToolR.SkyrimModManager;
 using YDSkyrimToolR.TranslateCore;
 using YDSkyrimToolR.TranslateManage;
 using YDSkyrimToolR.UIManage;
@@ -169,6 +170,26 @@ namespace YDSkyrimToolR
             Target.SelectedValue = DeFine.TargetLanguage.ToString();
         }
 
+        public void CheckINeed()
+        {
+            new Thread(() => { 
+
+            //Frist Check ToolPath
+            if (!File.Exists(DeFine.GetFullPath(@"Tool\Champollion.exe")))
+            {
+                ActionWin.Show("PEX File lacks support", "Please manually install the dependent program\nhttps://github.com/Orvid/Champollion\nPlease download the release version and put it in this path\n" + DeFine.GetFullPath(@"Tool\") + "\n Path required\n" + DeFine.GetFullPath(@"Tool\Champollion.exe"), MsgAction.Yes, MsgType.Info, 390);
+            }
+
+
+            string GetPapyrusAssemblerPath = DeFine.GetFullPath(@"Tool\") + @"Data\Processors\CreationKit\PapyrusAssembler.exe";
+
+            if (!File.Exists(GetPapyrusAssemblerPath))
+            {
+                ActionWin.Show("PEX File lacks support", @"Please Download CK Url: http://www.creationkit.com And Copy Papyrus Compiler\*.*  directory To" + DeFine.GetFullPath(@"Tool\") + @"Data\Processors\CreationKit\" + "\n"
+                    + "Path required\n" + GetPapyrusAssemblerPath, MsgAction.Yes, MsgType.Info, 580);
+            }
+            }).Start();
+        }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -183,7 +204,8 @@ namespace YDSkyrimToolR
             {
                 ShowFrameByTag("LoadingView");
 
-                LocalTrans.Init();
+                CheckINeed();
+                //LocalTrans.Init();
 
                 CheckEngineState();
 
@@ -192,21 +214,6 @@ namespace YDSkyrimToolR
                 GlobalPexReader = new PexReader();
 
                 Thread.Sleep(1000);
-
-                //Frist Check ToolPath
-                if (!File.Exists(DeFine.GetFullPath(@"Tool\Champollion.exe")))
-                {
-                    ActionWin.Show("Lack of pre-processing", "Please manually install the dependent program\nhttps://github.com/Orvid/Champollion\nPlease download the release version and put it in this path\n"+ DeFine.GetFullPath(@"Tool\")+ "\n Path required\n" + DeFine.GetFullPath(@"Tool\Champollion.exe"), MsgAction.Yes,MsgType.Info,390);
-                }
-
-  
-                string GetPapyrusAssemblerPath = DeFine.GetFullPath(@"Tool\") + @"Data\Processors\CreationKit\PapyrusAssembler.exe";
-
-                if (!File.Exists(GetPapyrusAssemblerPath))
-                {
-                    ActionWin.Show("Lack of pre-processing", @"Please Download CK Url: http://www.creationkit.com And Copy Papyrus Compiler\*.*  directory To" + DeFine.GetFullPath(@"Tool\") + @"Data\Processors\CreationKit\" + "\n"
-                        + "Path required\n" + GetPapyrusAssemblerPath, MsgAction.Yes, MsgType.Info, 580);
-                }
 
                 EndLoadViewEffect();
                 ShowFrameByTag("MainView");

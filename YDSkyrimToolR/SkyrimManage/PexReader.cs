@@ -912,7 +912,26 @@ namespace YDSkyrimToolR.SkyrimManage
 
             DataHelper.WriteFile(DeFine.GetFullPath(@"\") + CurrentFileName + ".pas", Encoding.GetBytes(GetFileContent));
 
-            string FileContent = Encoding.UTF8.GetString(DataHelper.GetBytesByFilePath(DeFine.GetFullPath(@"\EN.bat")));
+            string FormatStr = "{0} \"{1}\"\r\n{2}\r\n";
+            string NeedCompileBat = DeFine.GetFullPath(@"\Compile.bat");
+
+            NextCheck:
+            if (!File.Exists(NeedCompileBat))
+            {
+                DataHelper.WriteFile(NeedCompileBat, Encoding.UTF8.GetBytes("{0} \"{1}\"\r\n{2}\r\n"));
+            }
+            else
+            {
+                string CheckFileContent = DataHelper.ReadFileByStr(NeedCompileBat,Encoding.UTF8);
+                if (CheckFileContent != FormatStr)
+                {
+                    //Ensure bat file security
+                    File.Delete(NeedCompileBat);
+                    goto NextCheck;
+                }
+            }
+
+            string FileContent = Encoding.UTF8.GetString(DataHelper.GetBytesByFilePath(DeFine.GetFullPath(@"\Compile.bat")));
             string PapyrusAssembler = DeFine.GetFullPath(@"Tool\") + @"Data\Processors\CreationKit\PapyrusAssembler.exe";
             string Param = string.Format(FileContent, PapyrusAssembler, CurrentFileName, DeFine.GetFullPath(@"Tool\Data\Processors\CreationKit\"));
 

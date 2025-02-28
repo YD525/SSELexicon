@@ -358,7 +358,7 @@
 
                 <Grid Grid.Row="0" Name="Header" Margin="10 0 10 0">
                     <Label HorizontalAlignment="Left" Name="MainCaption" Foreground="White" VerticalAlignment="Center">
-                        Code View - 如果你看不懂脚本 就千万别动这里的内容
+                        Code View
                     </Label>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
 
