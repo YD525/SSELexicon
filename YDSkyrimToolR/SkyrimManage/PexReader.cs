@@ -8,6 +8,7 @@ using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -779,6 +780,25 @@ namespace YDSkyrimToolR.SkyrimManage
             return RichText;
         }
 
+        public void CheckBatSafe(string BatPath,string CheckStr)
+        {
+            NextCheck:
+            if (!File.Exists(BatPath))
+            {
+                DataHelper.WriteFile(BatPath, Encoding.UTF8.GetBytes(CheckStr));
+            }
+            else
+            {
+                string CheckFileContent = DataHelper.ReadFileByStr(BatPath, Encoding.UTF8);
+                if (CheckFileContent != CheckStr)
+                {
+                    //Ensure bat file security
+                    File.Delete(BatPath);
+                    goto NextCheck;
+                }
+            }
+        }
+
         public void SavePexFile(string OutPutPath)
         {
             if (File.Exists(OutPutPath))
@@ -913,36 +933,14 @@ namespace YDSkyrimToolR.SkyrimManage
             DataHelper.WriteFile(DeFine.GetFullPath(@"\") + CurrentFileName + ".pas", Encoding.GetBytes(GetFileContent));
 
             string FormatStr = "{0} \"{1}\"\r\n{2}\r\n";
-            string NeedCompileBat = DeFine.GetFullPath(@"\Compile.bat");
-
-            NextCheck:
-            if (!File.Exists(NeedCompileBat))
-            {
-                DataHelper.WriteFile(NeedCompileBat, Encoding.UTF8.GetBytes("{0} \"{1}\"\r\n{2}\r\n"));
-            }
-            else
-            {
-                string CheckFileContent = DataHelper.ReadFileByStr(NeedCompileBat,Encoding.UTF8);
-                if (CheckFileContent != FormatStr)
-                {
-                    //Ensure bat file security
-                    File.Delete(NeedCompileBat);
-                    goto NextCheck;
-                }
-            }
-
-            string FileContent = Encoding.UTF8.GetString(DataHelper.GetBytesByFilePath(DeFine.GetFullPath(@"\Compile.bat")));
+           
             string PapyrusAssembler = DeFine.GetFullPath(@"Tool\") + @"Data\Processors\CreationKit\PapyrusAssembler.exe";
-            string Param = string.Format(FileContent, PapyrusAssembler, CurrentFileName, DeFine.GetFullPath(@"Tool\Data\Processors\CreationKit\"));
+            string Param = string.Format(FormatStr, PapyrusAssembler, CurrentFileName, DeFine.GetFullPath(@"Tool\Data\Processors\CreationKit\"));
 
-            if (File.Exists(DeFine.GetFullPath("Call.bat")))
-            {
-                File.Delete(DeFine.GetFullPath("Call.bat"));
-            }
+            FileHelper.WriteFile(DeFine.GetFullPath("CompilePex.bat"), Param, Encoding.UTF8);
+            CheckBatSafe(DeFine.GetFullPath("CompilePex.bat"), Param);
 
-            FileHelper.WriteFile(DeFine.GetFullPath("Call.bat"), Param, Encoding.ASCII);
-
-            var Result = ExecuteR(DeFine.GetFullPath("Call.bat"), "");
+            var Result = ExecuteR(DeFine.GetFullPath("CompilePex.bat"), "");
 
             Thread.Sleep(100);
 
