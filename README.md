@@ -21,7 +21,7 @@
 #### For more information, please refer to the [License] files of this program and the respective frameworks of the other party.
 
 #### Attribution
-#### You are free to use, share, and modify this software. However, when making modifications, please credit the original author by including my GitHub address. When sharing the software, ensure that the original mod NexusMods Address is also provided.
+#### You are free to use, share, and modify this software. However, when making modifications, please credit the original author by including my GitHub URL. When sharing the software, Please ensure to provide the original software's NexusMods URL on the project page.
 #### Any version of this project must retain the original author's attribution. Please specify the original author as YD525
 #### GitHub: https://github.com/YD525/YDSkyrimToolR
 #### NexusMods: https://www.nexusmods.com/skyrimspecialedition/mods/143056
