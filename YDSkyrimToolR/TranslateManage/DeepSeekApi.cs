@@ -79,52 +79,11 @@ namespace YDSkyrimToolR.TranslateManage
 
     public class DeepSeekApi
     {
+
         public string QuickTrans(string TransSource,Languages FromLang, Languages ToLang)
         {
-            string From = "";
-            string To = "";
-
-            if (FromLang == Languages.English)
-            {
-                From = "英文";
-            }
-            if (FromLang == Languages.Chinese)
-            {
-                From = "中文";
-            }
-            if (FromLang == Languages.Japanese)
-            {
-                From = "日文";
-            }
-            if (FromLang == Languages.German)
-            {
-                From = "德文";
-            }
-            if (FromLang == Languages.Korean)
-            {
-                From = "韩文";
-            }
-
-            if (ToLang == Languages.English)
-            {
-                To = "英文";
-            }
-            if (ToLang == Languages.Chinese)
-            {
-                To = "中文";
-            }
-            if (ToLang == Languages.Japanese)
-            {
-                To = "日文";
-            }
-            if (ToLang == Languages.German)
-            {
-                To = "德文";
-            }
-            if (ToLang == Languages.Korean)
-            {
-                To = "韩文";
-            }     
+            string From = LanguageHelper.GetLanguageString(FromLang);
+            string To = LanguageHelper.GetLanguageString(ToLang);
 
             var GetTransSource = $"{TransSource} {From}翻译到{To} 你只需返回结果 不要说其他的任何话 如果内容里出现\"(数值)\"这是填空的括号 不要处理掉这些括号";
             var GetResult = CallAI(GetTransSource);
@@ -132,14 +91,14 @@ namespace YDSkyrimToolR.TranslateManage
             {
                 if (GetResult.choices != null)
                 {
-                    string CNStr = "";
+                    string GetStr = "";
                     if (GetResult.choices.Length > 0)
                     {
-                        CNStr = GetResult.choices[0].message.content.Trim();
+                        GetStr = GetResult.choices[0].message.content.Trim();
                     }
-                    if (CNStr.Trim().Length > 0)
+                    if (GetStr.Trim().Length > 0)
                     {
-                        return CNStr;
+                        return GetStr;
                     }
                     else
                     {

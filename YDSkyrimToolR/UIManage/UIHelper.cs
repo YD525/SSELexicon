@@ -437,8 +437,6 @@ namespace YDSkyrimToolR.UIManage
                     }
                     catch { }
                 }
-
-                DeFine.DefTransTool.QuickSearchStr((LockerGrid.Children[3] as TextBox).Text);
             }
         }
     }

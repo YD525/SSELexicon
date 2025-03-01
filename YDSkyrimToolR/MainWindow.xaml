@@ -6,7 +6,7 @@
         xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
         xmlns:local="clr-namespace:YDSkyrimToolR"
         mc:Ignorable="d"
-        Title="MainWindow" PreviewKeyDown="Window_PreviewKeyDown" Height="790" LocationChanged="Window_LocationChanged" Width="1200" MinWidth="1000" Loaded="Window_Loaded" Style="{DynamicResource DefWin}" WindowStartupLocation="CenterScreen" AllowDrop="True" PreviewDragEnter="ModTransView_DragEnter" PreviewDrop="ModTransView_Drop"  PreviewDragLeave="ModTransView_DragLeave" Closing="Window_Closing">
+        Title="MainWindow" PreviewKeyDown="Window_PreviewKeyDown" Height="850" LocationChanged="Window_LocationChanged" Width="1200" MinWidth="1000" Loaded="Window_Loaded" Style="{DynamicResource DefWin}" WindowStartupLocation="CenterScreen" AllowDrop="True" PreviewDragEnter="ModTransView_DragEnter" PreviewDrop="ModTransView_Drop"  PreviewDragLeave="ModTransView_DragLeave" Closing="Window_Closing" SizeChanged="Window_SizeChanged">
 
 
     <Window.Resources>
@@ -57,7 +57,7 @@
 
                 <Grid Grid.Row="0" Name="Header" Margin="10 0 10 0">
                     <Label HorizontalAlignment="Left" Name="MainCaption" Foreground="White" VerticalAlignment="Center">
-                        YDSkyrimToolR Gui 1.3.381
+                        YDSkyrimToolR Gui 1.3.39
                     </Label>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
 
@@ -81,6 +81,10 @@
                 </Grid>
 
                 <Grid Name="Frames" Grid.Row="1" Margin="0 0 0 5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="20"/>
+                    </Grid.RowDefinitions>
                     <Grid Tag="LoadingView" Visibility="Visible" Background = "#FFF77FAC">
                         <Grid Grid.Row="0" Grid.RowSpan="2" Margin="0 10 0 10" Name="LoadingControl" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Grid.Resources>
@@ -178,7 +182,7 @@
 
                                         </StackPanel.Triggers>
                                         <Grid Width="50" Height="50" Margin="0 0 0 1" Tag="TransView" >
-                                            <Image Source="{svgc:SvgImage ../Material/TransICO.svg}" Height="23" Width="23"  Grid.Column="0" Style="{DynamicResource HighQuality}"/>
+                                            <!--<Image Source="{svgc:SvgImage ../Material/TransICO.svg}" Height="23" Width="23"  Grid.Column="0" Style="{DynamicResource HighQuality}"/>-->
                                         </Grid>
                                     </StackPanel>
                                 </Grid>
@@ -207,53 +211,55 @@
                                         </Grid>
                                     </Grid>
                                 </Grid>
-                                <Grid Width="220" Height="37" VerticalAlignment="Top">
+                                <Grid Width="245" Height="37" VerticalAlignment="Top">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                        <Label  Margin="10 0 0 0" FontSize="12" VerticalAlignment="Center">
-                                            TypeFilter
+                                        <Label Name="TypeSelectorTag"  Margin="10 0 0 0" FontSize="12" VerticalAlignment="Center">
+                                            Type Selector
                                         </Label>
-                                        <ComboBox VerticalAlignment="Center" Cursor="Hand" Width="135" Name="TransTargetType" Style="{StaticResource WpfComboBoxStyle}" Margin="10 0 0 0" SelectionChanged="TransTargetType_SelectionChanged">
+                                        <ComboBox VerticalAlignment="Center" Cursor="Hand" Width="135" Name="TypeSelector" Style="{StaticResource WpfComboBoxStyle}" Margin="10 0 0 0" SelectionChanged="TransTargetType_SelectionChanged">
                                         </ComboBox>
                                     </StackPanel>
                                 </Grid>
                             </StackPanel>
 
-                            <Grid Height="35" Width="230" VerticalAlignment="Top" HorizontalAlignment="Right" Background="#FFE8E8E8" Margin="0 0 260 0" Panel.ZIndex="5">
+                            <Grid Height="35" Width="270" VerticalAlignment="Top" HorizontalAlignment="Right" Background="#FFE8E8E8" Margin="0 0 250 0" Panel.ZIndex="5">
                                 <StackPanel Orientation="Horizontal" Name="EngineUIs">
-                                    <Label VerticalAlignment="Center" Margin="10 0 0 0" FontSize="12">
+                                    <Label VerticalAlignment="Center" Margin="10 0 0 0" FontSize="12" Name="Node" ToolTip="Nodes are used to enable and disable the translation platform. If multiple nodes are selected at the same time, load balancing will be applied.">
                                         Node
                                     </Label>
 
-                                    <svgc:SvgViewbox Name="LanguagesEngine" Stretch="UniformToFill" Source="/Material/Languages.svg"  Margin="10 0 3 0" Width="19" Panel.ZIndex="900" Height="19"  ToolTip="本地词组引擎"  Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
+                                    <svgc:SvgViewbox Tag="PhraseEngine"  Name="PhraseEngine" Stretch="UniformToFill" Source="/Material/Languages.svg"  Margin="10 0 3 0" Width="19" Panel.ZIndex="900" Height="19"  Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
 
-                                    <svgc:SvgViewbox Name="CodeEngine" Stretch="UniformToFill" Source="/Material/Code.svg"  Margin="3 0 3 0" Width="20" Panel.ZIndex="900" Height="18" ToolTip="代码识别引擎"  Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
+                                    <svgc:SvgViewbox Tag="CodeEngine" Name="CodeEngine" Stretch="UniformToFill" Source="/Material/Code.svg"  Margin="3 0 3 0" Width="20" Panel.ZIndex="900" Height="18" Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
 
-                                    <svgc:SvgViewbox Name="ConjunctionEngine" Stretch="UniformToFill" Source="/Material/Conjunction.svg"  Margin="3 0 3 0" Width="17" Panel.ZIndex="900" Height="18" ToolTip="本地连词引擎"  Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
+                                    <svgc:SvgViewbox Tag="ConjunctionEngine" Name="ConjunctionEngine" Stretch="UniformToFill" Source="/Material/Conjunction.svg"  Margin="3 0 3 0" Width="17" Panel.ZIndex="900" Height="18" Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
 
-                                    <svgc:SvgViewbox Name="BaiduEngine" Stretch="UniformToFill" Source="/Material/Baidu.svg" Margin="3 0 3 0" Width="17" Panel.ZIndex="900" Height="18" ToolTip="百度云翻译"  Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
+                                    <svgc:SvgViewbox Tag="GoogleEngine" Name="GoogleEngine" Stretch="UniformToFill" Source="/Material/Google.svg" Margin="3 0 3 0" Width="17" Panel.ZIndex="900" Height="18" Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
 
-                                    <svgc:SvgViewbox Name="GoogleEngine" Stretch="UniformToFill" Source="/Material/Google.svg" Margin="3 0 3 0" Width="17" Panel.ZIndex="900" Height="18" ToolTip="谷歌云翻译"  Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
+                                    <svgc:SvgViewbox Tag="BaiduEngine"  Name="BaiduEngine" Stretch="UniformToFill" Source="/Material/Baidu.svg" Margin="3 0 3 0" Width="17" Panel.ZIndex="900" Height="18" Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
 
-                                    <svgc:SvgViewbox Name="DeepSeekEngine" Stretch="UniformToFill" Source="/Material/DeepSeek.svg" Margin="3 0 3 0" Width="20" Panel.ZIndex="900" Height="18" ToolTip="DeepSeekAI翻译"  Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
+                                    <svgc:SvgViewbox Tag="ChatGptEngine" Name="ChatGptEngine" Stretch="UniformToFill" Source="/Material/ChatGpt.svg" Margin="3 0 3 0" Width="20" Panel.ZIndex="900" Height="20" Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
 
-                                    <svgc:SvgViewbox Name="DivEngine" Stretch="UniformToFill" Source="/Material/Div.svg"  Margin="3 0 3 0" Width="21" Panel.ZIndex="900" Height="18.2" ToolTip="自定义引擎"  Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
+                                    <svgc:SvgViewbox Tag="DeepSeekEngine" Name="DeepSeekEngine" Stretch="UniformToFill" Source="/Material/DeepSeek.svg" Margin="3 0 3 0" Width="20" Panel.ZIndex="900" Height="18" Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
+
+                                    <svgc:SvgViewbox Tag="DivEngine" Name="DivEngine" Stretch="UniformToFill" Source="/Material/Div.svg"  Margin="3 0 3 0" Width="21" Panel.ZIndex="900" Height="18.2" Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
                                 </StackPanel>
                             </Grid>
 
                             <Grid Height="50" Width="255" VerticalAlignment="Top" HorizontalAlignment="Right" Panel.ZIndex="5">
                                 <StackPanel Orientation="Horizontal">
 
-                                    <Border  CornerRadius="5" Background="#FFF789B2" Width="35" Height="35" Margin="20 0 20 0" PreviewMouseDown="ChangeTransProcessState" Cursor="Hand" Name="ProcessStateBackGround">
-                                        <svgc:SvgViewbox Name="AutoKeep" Stretch="Fill" Source="/Material/Stop.svg"  Margin="3 0 3 0" Width="15" Panel.ZIndex="900" Height="15" ToolTip="暂停/继续" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand" Opacity="1"/>
+                                    <Border Name="AutoKeepTag" CornerRadius="5" Background="#FFF789B2" Width="35" Height="35" Margin="20 0 20 0" PreviewMouseDown="ChangeTransProcessState" Cursor="Hand">
+                                        <svgc:SvgViewbox Name="AutoKeep" Stretch="Fill" Source="/Material/Keep.svg"  Margin="3 0 3 0" Width="15" Panel.ZIndex="900" Height="15"  HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand" Opacity="1"/>
                                     </Border>
 
                                     <Border  CornerRadius="5" Background="#FFF789B2" Width="80" Height="35"  Name="StartTransBtn" PreviewMouseDown="AutoLoadOrSave">
-                                        <Label Name="LoadBtnContent" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand" ToolTip="载入文件">
+                                        <Label Name="LoadFileButton" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand">
                                             LoadFile
                                         </Label>
                                     </Border>
-                                    <Border IsEnabled="False" Opacity="0.3" Margin="10 0 0 0" CornerRadius="5" Background="#FFF789B2" Width="80" Height="35"  Name="CancelTransBtn" PreviewMouseDown="CancelTransEsp">
-                                        <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand" ToolTip="取消翻译">
+                                    <Border IsEnabled="False" Opacity="0.3" Margin="10 0 0 0" CornerRadius="5" Background="#FFF789B2" Width="80" Height="35"  Name="CancelBtn" PreviewMouseDown="CancelTransEsp">
+                                        <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand">
                                             Cancel
                                         </Label>
                                     </Border>
@@ -269,39 +275,39 @@
                                 </Grid.RowDefinitions>
 
                                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Grid.Row="1">
-                                    <Label VerticalAlignment="Center">ViewMode</Label>
+                                    <Label VerticalAlignment="Center" Name="ViewModeTag">ViewMode</Label>
                                     <ComboBox VerticalAlignment="Center" Cursor="Hand" Width="100" Name="ViewMode" SelectionChanged="ViewModeChange" Style="{StaticResource WpfComboBoxStyle}">
                                     </ComboBox>
-                                    <Label VerticalAlignment="Center">Source</Label>
+                                    <Label VerticalAlignment="Center" Name="SourceTag">Source</Label>
                                     <ComboBox VerticalAlignment="Center" Cursor="Hand" Width="100" Name="Source" Style="{StaticResource WpfComboBoxStyle}" SelectionChanged="Source_SelectionChanged">
                                     </ComboBox>
-                                    <Border  CornerRadius="5" Background="#FFF789B2" Width="50" Height="30" Margin="10 0 0 0"  Cursor="Hand">
-                                        <Label  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" ToolTip="检测源文本语言类型">
+                                    <Border  CornerRadius="5" Background="#FFF789B2" Height="30" Margin="10 0 0 0"  Cursor="Hand" PreviewMouseDown="DetectLang">
+                                        <Label Padding="10 0 10 0"  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" ToolTip="检测源文本语言类型">
                                             Detect
                                         </Label>
                                     </Border>
-                                    <Label VerticalAlignment="Center" Margin="10 0 0 0">Target</Label>
+                                    <Label VerticalAlignment="Center" Name="TargetTag" Margin="10 0 0 0">Target</Label>
                                     <ComboBox VerticalAlignment="Center" Cursor="Hand" Width="100" Name="Target" Style="{StaticResource WpfComboBoxStyle}" SelectionChanged="Target_SelectionChanged">
                                     </ComboBox>
 
-                                    <Label VerticalAlignment="Center"  Margin="10 0 0 0">Translate Platform</Label>
-                                    <Border  CornerRadius="5" Background="#FFF789B2" Width="100" Height="30" Margin="10 0 0 0" Cursor="Hand">
-                                        <Label  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" ToolTip="配置平台密钥">
+                                    <Label VerticalAlignment="Center"  Margin="10 0 0 0" Name="PlatformSettingsTag">Platform Settings</Label>
+                                    <Border  CornerRadius="5" Background="#FFF789B2" Height="30" Margin="10 0 0 0" Cursor="Hand" PreviewMouseDown="OpenSetting">
+                                        <Label Padding="10 0 10 0"  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
                                             API Keys
                                         </Label>
                                     </Border>
 
-                                    <Label VerticalAlignment="Center"  Margin="10 0 0 0">Request</Label>
+                                    <Label VerticalAlignment="Center" Name="RequestSettingsTag"  Margin="10 0 0 0">Request Settings</Label>
 
-                                    <Border  CornerRadius="5" Background="#FFF789B2" Width="100" Height="30" Margin="10 0 0 0"  Cursor="Hand" PreviewMouseDown="ClearCache">
-                                        <Label  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" ToolTip="清理翻译缓存">
+                                    <Border  CornerRadius="5" Background="#FFF789B2" Height="30" Margin="10 0 0 0"  Cursor="Hand" PreviewMouseDown="ClearCache">
+                                        <Label Padding="10 0 10 0" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
                                             Clear Cache
                                         </Label>
                                     </Border>
 
-                                    <Border  CornerRadius="5" Background="#FFF789B2" Width="100" Height="30" Margin="10 0 0 0"  Cursor="Hand" PreviewMouseDown="ShowAboutUS">
-                                        <Label  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" ToolTip="关于我们">
-                                            About US
+                                    <Border  CornerRadius="5" Background="#FFF789B2" Height="30" Margin="10 0 0 0" Cursor="Hand" PreviewMouseDown="OpenSetting">
+                                        <Label  Padding="10 0 10 0" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            UISettings
                                         </Label>
                                     </Border>
                                 </StackPanel>
@@ -338,8 +344,30 @@
 
                                 <Grid HorizontalAlignment="Right" Width="0"  Grid.Row="2" Name="ExtendBox" Background="Black">
                                     <StackPanel Orientation="Vertical" Margin="5">
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                            <Label Foreground="White" VerticalAlignment="Center">
+                                                String Replace->
+                                            </Label>
+
+                                            <Label Foreground="White" VerticalAlignment="Center">
+                                                Key
+                                            </Label>
+                                            <TextBox Name="ReplaceKey" Padding="10" MinWidth="50" MaxWidth="110" Background="#FF202020" CaretBrush="Yellow" Foreground="White" BorderThickness="0" BorderBrush="{x:Null}" VerticalAlignment="Center">
+                                            </TextBox>
+                                            <Label Foreground="White" VerticalAlignment="Center">
+                                                Value
+                                            </Label>
+                                            <TextBox Name="ReplaceValue" Padding="10" MinWidth="50" MaxWidth="110" Background="#FF202020" CaretBrush="Yellow" Foreground="White" BorderThickness="0" BorderBrush="{x:Null}" VerticalAlignment="Center">
+                                            </TextBox>
+                                            <Border  Background="#FF076FCB"  Height="30" Margin="10 0 10 0" Cursor="Hand" PreviewMouseDown="ReplaceAllLine">
+                                                <Label Name="ReplaceBtn" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    Replace
+                                                </Label>
+                                            </Border>
+                                        </StackPanel>
+
                                         <Label Foreground="White">
-                                            DeepSeek->
+                                            AI->
                                         </Label>
                                         <TextBox Name="SendAIText" Padding="10" FontSize="15" Background="#FF202020" CaretBrush="Yellow" Foreground="White" BorderThickness="0" BorderBrush="{x:Null}"  AcceptsReturn="True" TextWrapping="Wrap" Height="100">
                                         </TextBox>
@@ -383,6 +411,10 @@
                         </Grid>
 
                     </Grid>
+
+                    <Label Foreground="White" Name="Log" Grid.Row="1" FontSize="10" Margin="5 -2.7 0 0">
+                        
+                    </Label>
                 </Grid>
 
             </Grid>

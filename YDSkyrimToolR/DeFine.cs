@@ -38,7 +38,6 @@ namespace YDSkyrimToolR
         public static SqlCore<SQLiteHelper> GlobalDB = null;
         public static CodeView CurrentCodeView = null;
         public static TextEditor ActiveIDE = null;
-        public static TransTool DefTransTool = null;
         public static WordProcess WordProcessEngine = null;
 
         public static string GetFullPath(string Path)
@@ -55,10 +54,8 @@ namespace YDSkyrimToolR
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             GlobalDB = new SqlCore<SQLiteHelper>(DeFine.GetFullPath(@"\system.db"));
             CurrentCodeView = new CodeView();
-            DefTransTool = new TransTool();
             WordProcessEngine = new WordProcess();
             ConjunctionHelper.Init();
-            DefTransTool.Hide();
             CurrentCodeView.Hide();
         }
     }
@@ -69,12 +66,13 @@ namespace YDSkyrimToolR
         public bool CodeParsingEngineUsing { get; set; } = true;//代码处理引擎
         public bool ConjunctionEngineUsing { get; set; } = true;//连词引擎
         public bool BaiDuYunApiUsing { get; set; } = true;//百度翻译引擎
+        public bool ChatGptApiUsing { get; set; } = true;//ChatGpt机能搭载
         public bool DeepSeekApiUsing { get; set; } = true;//DeepSeek机能搭载
         public bool GoogleYunApiUsing { get; set; } = true;//谷歌翻译引擎
         public bool DivCacheEngineUsing { get; set; } = true;//自定义内存翻译引擎(一次性)
         public Languages SourceLanguage { get; set; } = Languages.English;
         public Languages TargetLanguage { get; set; } = Languages.Chinese;
-
+        public Languages CurrentUILanguage { get; set; } = Languages.English;
         public string BackUpPath { get; set; } = "";
         public string APath { get; set; } = "";
         public string BPath { get; set; } = "";
@@ -84,6 +82,7 @@ namespace YDSkyrimToolR
         public string GoogleKey { get; set; } = "";
         public string BaiDuAppID { get; set; } = "";
         public string BaiDuSecretKey { get; set; } = "";
+        public string ChatGptKey { get; set; } = "";
         public string DeepSeekKey { get; set; } = "";
         public int TransCount { get; set; } = 0;
         public void ReadConfig()
@@ -100,6 +99,7 @@ namespace YDSkyrimToolR
                         this.CodeParsingEngineUsing = GetSetting.CodeParsingEngineUsing;
                         this.ConjunctionEngineUsing = GetSetting.ConjunctionEngineUsing;
                         this.BaiDuYunApiUsing = GetSetting.BaiDuYunApiUsing;
+                        this.ChatGptApiUsing = GetSetting.ChatGptApiUsing;
                         this.DeepSeekApiUsing = GetSetting.DeepSeekApiUsing;
                         this.GoogleYunApiUsing = GetSetting.GoogleYunApiUsing;
                         this.DivCacheEngineUsing = GetSetting.DivCacheEngineUsing;
@@ -107,13 +107,14 @@ namespace YDSkyrimToolR
                         this.TargetLanguage = GetSetting.TargetLanguage;
                         DeFine.SourceLanguage = GetSetting.SourceLanguage;
                         DeFine.TargetLanguage = GetSetting.TargetLanguage;
-
+                        this.CurrentUILanguage = GetSetting.CurrentUILanguage;
                         this.APath = GetSetting.APath;
                         this.BPath = GetSetting.BPath;
                         this.SkyrimPath = GetSetting.SkyrimPath;
                         this.GoogleKey = GetSetting.GoogleKey;
                         this.BaiDuAppID = GetSetting.BaiDuAppID;
                         this.BaiDuSecretKey = GetSetting.BaiDuSecretKey;
+                        this.ChatGptKey = GetSetting.ChatGptKey;
                         this.DeepSeekKey = GetSetting.DeepSeekKey;
                         this.TransCount = GetSetting.TransCount;
                         this.ModOrganizerConfig = GetSetting.ModOrganizerConfig;

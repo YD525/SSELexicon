@@ -23,8 +23,28 @@ using Mutagen.Bethesda.Starfield;
 
 namespace YDSkyrimToolR.TranslateCore
 {
+    public enum Languages
+    {
+        English = 0, Chinese = 1, Japanese = 2, German = 5, Korean = 6, Turkish = 7 , Brazilian = 8
+    }
+
     public class LanguageHelper
     {
+        public static string GetLanguageString(Languages lang)
+        {
+            return lang switch
+            {
+                Languages.English => "英文",
+                Languages.Chinese => "中文",
+                Languages.Japanese => "日文",
+                Languages.German => "德文",
+                Languages.Korean => "韩文",
+                Languages.Turkish => "土耳其文",
+                Languages.Brazilian => "巴西文",
+               _ => "未知"
+            };
+        }
+
         public static void Shuffle<T>(IList<T> list)
         {
             Random rng = new Random();
@@ -62,7 +82,13 @@ namespace YDSkyrimToolR.TranslateCore
                 EngineSelects.Add(new EngineSelect(new GoogleHelper(), 2));
             }
 
-            if(DeFine.GlobalLocalSetting.DeepSeekApiUsing)
+            if (DeFine.GlobalLocalSetting.ChatGptApiUsing)
+            if (DeFine.GlobalLocalSetting.ChatGptKey.Trim().Length > 0)
+            {
+                EngineSelects.Add(new EngineSelect(new ChatGptApi(), 6));
+            }
+
+            if (DeFine.GlobalLocalSetting.DeepSeekApiUsing)
             if (DeFine.GlobalLocalSetting.DeepSeekKey.Trim().Length > 0)
             {
                 EngineSelects.Add(new EngineSelect(new DeepSeekApi(), 6));
@@ -148,7 +174,7 @@ namespace YDSkyrimToolR.TranslateCore
                 return "";
             }
 
-            string GetCacheStr = TranslateDBCache.FindCache(SourceStr, 0, 1);
+            string GetCacheStr = TranslateDBCache.FindCache(SourceStr, (int)Source, (int)Target);
 
             if (GetCacheStr.Trim().Length > 0)
             {
@@ -177,6 +203,7 @@ namespace YDSkyrimToolR.TranslateCore
 
             if (LimitCount == LanguageHelper.EngineSelects.Count)
             {
+                Thread.Sleep(5);
                 ReloadEngine();
                 goto NextSet;
             }
@@ -273,6 +300,22 @@ namespace YDSkyrimToolR.TranslateCore
                             SetTransLine = GetData;
                             this.CurrentCallCount++;
                             WordProcess.SendTranslateMsg("Cloud Engine(Google)", GetSource, SetTransLine);
+                        }
+                        else
+                        {
+                            this.CurrentCallCount = this.MaxUseCount;
+                        }
+                    }
+                    else
+                    if (this.Engine is ChatGptApi)
+                    {
+                        if (DeFine.GlobalLocalSetting.ChatGptApiUsing)
+                        {
+                            var GetData = (this.Engine as ChatGptApi).QuickTrans(GetSource, Source, Target).Trim();
+
+                            SetTransLine = GetData;
+                            this.CurrentCallCount++;
+                            WordProcess.SendTranslateMsg("Cloud Engine(ChatGptApi)", GetSource, SetTransLine);
                         }
                         else
                         {

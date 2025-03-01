@@ -41,6 +41,13 @@ namespace YDSkyrimToolR
             InitializeComponent();
         }
 
+        public void SetLog(string Str)
+        {
+            this.Dispatcher.Invoke(new Action(() => {
+                this.Log.Content = Str;
+            }));
+        }
+
         public void EndLoadViewEffect()
         {
             this.Dispatcher.Invoke(new Action(() =>
@@ -53,13 +60,13 @@ namespace YDSkyrimToolR
 
         public void ReSetTransTargetType()
         {
-            TransTargetType.Items.Clear();
+            TypeSelector.Items.Clear();
             foreach (var GetType in CanSetSelecter)
             {
-                TransTargetType.Items.Add(GetType.ToString());
+                TypeSelector.Items.Add(GetType.ToString());
             }
 
-            TransTargetType.SelectedValue = ObjSelect.All.ToString();
+            TypeSelector.SelectedValue = ObjSelect.All.ToString();
         }
         public MCMReader GlobalMCMReader = null;
         public EspReader GlobalEspReader = null;
@@ -159,6 +166,8 @@ namespace YDSkyrimToolR
             Source.Items.Add("Japanese");
             Source.Items.Add("Korean");
             Source.Items.Add("German");
+            Source.Items.Add("Turkish");
+            Source.Items.Add("Brazilian");
             Source.SelectedValue = DeFine.SourceLanguage.ToString();
 
             Target.Items.Clear();
@@ -167,6 +176,8 @@ namespace YDSkyrimToolR
             Target.Items.Add("Japanese");
             Target.Items.Add("Korean");
             Target.Items.Add("German");
+            Target.Items.Add("Turkish");
+            Target.Items.Add("Brazilian");
             Target.SelectedValue = DeFine.TargetLanguage.ToString();
         }
 
@@ -190,15 +201,18 @@ namespace YDSkyrimToolR
             }
             }).Start();
         }
+        public void TranslateMsg(string EngineName, string Text, string Result)
+        {
+            SetLog(string.Format("{0}->{1},{2}",EngineName,Text,Result));
+        }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             DeFine.Init(this);
             ReloadViewMode();
             ReloadLanguageMode();
-            this.Topmost = true;
-            this.Show();
-            this.Activate();
+
+            WordProcess.SendTranslateMsg += TranslateMsg;
 
             new Thread(() =>
             {
@@ -214,6 +228,10 @@ namespace YDSkyrimToolR
                 GlobalPexReader = new PexReader();
 
                 Thread.Sleep(1000);
+                this.Dispatcher.BeginInvoke(new Action(() => 
+                {
+                    UILanguageHelper.ChangeLanguage(DeFine.GlobalLocalSetting.CurrentUILanguage);
+                }));
 
                 EndLoadViewEffect();
                 ShowFrameByTag("MainView");
@@ -232,8 +250,6 @@ namespace YDSkyrimToolR
                         TransViewList = new YDListView(TransView);
                         TransViewList.Clear();
                     }
-
-                    DeFine.DefTransTool.Show();
                 }));
             }).Start();
         }
@@ -280,9 +296,10 @@ namespace YDSkyrimToolR
 
                     this.Dispatcher.Invoke(new Action(() =>
                     {
-                        CancelTransBtn.Opacity = 1;
-                        CancelTransBtn.IsEnabled = true;
-                        LoadBtnContent.Content = "SaveFile";
+                        CancelBtn.Opacity = 1;
+                        CancelBtn.IsEnabled = true;
+                        LoadSaveState = 1;
+                        LoadFileButton.Content = UILanguageHelper.SearchStateChangeStr("LoadFileButton", 1);
                     }));
 
                     ReSetTransTargetType();
@@ -309,9 +326,10 @@ namespace YDSkyrimToolR
 
                     this.Dispatcher.Invoke(new Action(() =>
                     {
-                        CancelTransBtn.Opacity = 1;
-                        CancelTransBtn.IsEnabled = true;
-                        LoadBtnContent.Content = "SaveFile";
+                        CancelBtn.Opacity = 1;
+                        CancelBtn.IsEnabled = true;
+                        LoadSaveState = 1;
+                        LoadFileButton.Content = UILanguageHelper.SearchStateChangeStr("LoadFileButton", 1);
                     }));
 
                     ReSetTransTargetType();
@@ -337,9 +355,10 @@ namespace YDSkyrimToolR
 
                     this.Dispatcher.Invoke(new Action(() =>
                     {
-                        CancelTransBtn.Opacity = 1;
-                        CancelTransBtn.IsEnabled = true;
-                        LoadBtnContent.Content = "SaveFile";
+                        CancelBtn.Opacity = 1;
+                        CancelBtn.IsEnabled = true;
+                        LoadSaveState = 1;
+                        LoadFileButton.Content = UILanguageHelper.SearchStateChangeStr("LoadFileButton", 1);
                     }));
 
                     ReSetTransTargetType();
@@ -370,7 +389,7 @@ namespace YDSkyrimToolR
                 }
                 if (SelectGrid != null)
                 {
-                    Footer.Background = SelectGrid.Background;
+                    //Footer.Background = SelectGrid.Background;
                 }
             }));
 
@@ -517,11 +536,11 @@ namespace YDSkyrimToolR
                 {
                     if (GetEngine is SvgViewbox)
                     {
-                        string GetContent = ConvertHelper.ObjToStr((GetEngine as SvgViewbox).ToolTip);
+                        string GetContent = ConvertHelper.ObjToStr((GetEngine as SvgViewbox).Tag);
 
                         switch (GetContent)
                         {
-                            case "本地词组引擎":
+                            case "PhraseEngine":
                                 {
                                     if (!DeFine.GlobalLocalSetting.PhraseEngineUsing)
                                     {
@@ -529,7 +548,7 @@ namespace YDSkyrimToolR
                                     }
                                 }
                                 break;
-                            case "代码识别引擎":
+                            case "CodeEngine":
                                 {
                                     if (!DeFine.GlobalLocalSetting.CodeParsingEngineUsing)
                                     {
@@ -537,7 +556,7 @@ namespace YDSkyrimToolR
                                     }
                                 }
                                 break;
-                            case "本地连词引擎":
+                            case "ConjunctionEngine":
                                 {
                                     if (!DeFine.GlobalLocalSetting.ConjunctionEngineUsing)
                                     {
@@ -545,15 +564,7 @@ namespace YDSkyrimToolR
                                     }
                                 }
                                 break;
-                            case "百度云翻译":
-                                {
-                                    if (!DeFine.GlobalLocalSetting.BaiDuYunApiUsing)
-                                    {
-                                        (GetEngine as SvgViewbox).Opacity = 0.1;
-                                    }
-                                }
-                                break;
-                            case "谷歌云翻译":
+                            case "GoogleEngine":
                                 {
                                     if (!DeFine.GlobalLocalSetting.GoogleYunApiUsing)
                                     {
@@ -561,7 +572,23 @@ namespace YDSkyrimToolR
                                     }
                                 }
                                 break;
-                            case "DeepSeekAI翻译":
+                            case "BaiduEngine":
+                                {
+                                    if (!DeFine.GlobalLocalSetting.BaiDuYunApiUsing)
+                                    {
+                                        (GetEngine as SvgViewbox).Opacity = 0.1;
+                                    }
+                                }
+                                break;
+                            case "ChatGptEngine":
+                                {
+                                    if (!DeFine.GlobalLocalSetting.ChatGptApiUsing)
+                                    {
+                                        (GetEngine as SvgViewbox).Opacity = 0.1;
+                                    }
+                                }
+                                break;
+                            case "DeepSeekEngine":
                                 {
                                     if (!DeFine.GlobalLocalSetting.DeepSeekApiUsing)
                                     {
@@ -569,7 +596,7 @@ namespace YDSkyrimToolR
                                     }
                                 }
                                 break;
-                            case "自定义引擎":
+                            case "DivEngine":
                                 {
                                     if (!DeFine.GlobalLocalSetting.DivCacheEngineUsing)
                                     {
@@ -585,7 +612,7 @@ namespace YDSkyrimToolR
 
         private void SelectEngine(object sender, MouseButtonEventArgs e)
         {
-            string GetContent = ConvertHelper.ObjToStr((sender as SvgViewbox).ToolTip);
+            string GetContent = ConvertHelper.ObjToStr((sender as SvgViewbox).Tag);
 
             double GetOpacity = ConvertHelper.ObjToDouble((sender as SvgViewbox).Opacity);
 
@@ -604,39 +631,44 @@ namespace YDSkyrimToolR
 
             switch (GetContent)
             {
-                case "本地词组引擎":
+                case "PhraseEngine":
                     {
                         DeFine.GlobalLocalSetting.PhraseEngineUsing = OneState;
                     }
                     break;
-                case "代码识别引擎":
+                case "CodeEngine":
                     {
                         MessageBox.Show("为了确保不会翻译到代码禁止禁用!");
                         (sender as SvgViewbox).Opacity = 1;
                         //DeFine.CodeParsingEngineUsing = OneState;
                     }
                     break;
-                case "本地连词引擎":
+                case "ConjunctionEngine":
                     {
                         DeFine.GlobalLocalSetting.ConjunctionEngineUsing = OneState;
                     }
-                    break;
-                case "百度云翻译":
-                    {
-                        DeFine.GlobalLocalSetting.BaiDuYunApiUsing = OneState;
-                    }
-                    break;
-                case "谷歌云翻译":
+                    break;    
+                case "GoogleEngine":
                     {
                         DeFine.GlobalLocalSetting.GoogleYunApiUsing = OneState;
                     }
                     break;
-                case "DeepSeekAI翻译":
+                case "BaiduEngine":
+                    {
+                        DeFine.GlobalLocalSetting.BaiDuYunApiUsing = OneState;
+                    }
+                    break;
+                case "ChatGptEngine":
+                    {
+                        DeFine.GlobalLocalSetting.ChatGptApiUsing = OneState;
+                    }
+                    break;
+                case "DeepSeekEngine":
                     {
                         DeFine.GlobalLocalSetting.DeepSeekApiUsing = OneState;
                     }
                     break;
-                case "自定义引擎":
+                case "DivEngine":
                     {
                         DeFine.GlobalLocalSetting.DivCacheEngineUsing = OneState;
                     }
@@ -644,53 +676,59 @@ namespace YDSkyrimToolR
             }
         }
 
+        public void CheckTransTrdState()
+        {
+            if (WordProcess.MainTransThread == null)
+            {
+                StopAny = true;
+                AutoKeepTag.Background = new SolidColorBrush(Color.FromRgb(247, 137, 178));
+                AutoKeep.Source = new Uri("pack://application:,,,/YDSkyrimToolR;component/Material/Keep.svg");
+            }
+        }
+
+        public bool StopAny = true;
 
         private void ChangeTransProcessState(object sender, MouseButtonEventArgs e)
         {
             if (sender is Border || sender is SvgViewbox)
             {
-                if (Translator.StopAny == true)
+                if (StopAny == true)
                 {
-                    ProcessStateBackGround.Background = new SolidColorBrush(Color.FromRgb(247, 137, 178));
+                    StopAny = false;
+                    AutoKeepTag.Background = new SolidColorBrush(Color.FromRgb(147, 85, 108));
 
-                    AutoKeep.Source = new Uri("pack://application:,,,/YDSkyrimToolR;component/Material/Stop.svg"); ;
-                    Translator.StopAny = false;
+                    AutoKeep.Source = new Uri("pack://application:,,,/YDSkyrimToolR;component/Material/Stop.svg");
+                    WordProcess.StartAutoTransService(true);
                 }
                 else
                 {
-                    ProcessStateBackGround.Background = new SolidColorBrush(Color.FromRgb(147, 85, 108));
+                    StopAny = true;
+                    AutoKeepTag.Background = new SolidColorBrush(Color.FromRgb(247, 137, 178));
 
-                    AutoKeep.Source = new Uri("pack://application:,,,/YDSkyrimToolR;component/Material/Keep.svg"); ;
-                    Translator.StopAny = true;
+                    AutoKeep.Source = new Uri("pack://application:,,,/YDSkyrimToolR;component/Material/Keep.svg");
+                    WordProcess.StartAutoTransService(false);
                 }
-                //.Source = ;
-                ////.Source = new BitmapImage(new Uri("/Material/Setting.png", UriKind.Relative));
             }
         }
 
+        public int LoadSaveState = 0;
         private void AutoLoadOrSave(object sender, MouseButtonEventArgs e)
         {
-            string GetButtonContent = "";
-            if (sender is Border)
-            {
-                GetButtonContent = ConvertHelper.ObjToStr(((sender as Border).Child as Label).Content);
-            }
-            if (sender is Label)
-            {
-                GetButtonContent = ConvertHelper.ObjToStr((sender as Label).Content);
-            }
-
             string SetButtonContent = "";
 
-            if (GetButtonContent.Equals("LoadFile"))
+            if (LoadSaveState == 0)
             {
+                LoadSaveState = 1;
                 LoadAny();
+                LoadFileButton.Content = UILanguageHelper.SearchStateChangeStr("LoadFileButton", 1);
             }
             else
             {
+                LoadSaveState = 0;
+
                 Caption.Name = "TranslationCore";
-                CancelTransBtn.Opacity = 0.3;
-                CancelTransBtn.IsEnabled = false;
+                CancelBtn.Opacity = 0.3;
+                CancelBtn.IsEnabled = false;
 
                 string GetFilePath = LastSetPath.Substring(0, LastSetPath.LastIndexOf(@"\")) + @"\";
                 string GetFileFullName = LastSetPath.Substring(LastSetPath.LastIndexOf(@"\") + @"\".Length);
@@ -751,21 +789,14 @@ namespace YDSkyrimToolR
                 }
 
                 CancelTransEsp(null, null);
-                SetButtonContent = "LoadFile";
-            }
-
-            if (sender is Border)
-            {
-                ((sender as Border).Child as Label).Content = SetButtonContent;
-            }
-            if (sender is Label)
-            {
-                (sender as Label).Content = SetButtonContent;
+                LoadFileButton.Content = UILanguageHelper.SearchStateChangeStr("LoadFileButton", 0);
             }
         }
 
         private void CancelTransEsp(object sender, MouseButtonEventArgs e)
         {
+            WordProcess.StartAutoTransService(false);
+
             Caption.Name = "TranslationCore";
 
             TransViewList.Clear();
@@ -774,8 +805,8 @@ namespace YDSkyrimToolR
             GlobalPexReader.Close();
 
             (StartTransBtn.Child as Label).Content = "LoadFile";
-            CancelTransBtn.Opacity = 0.3;
-            CancelTransBtn.IsEnabled = false;
+            CancelBtn.Opacity = 0.3;
+            CancelBtn.IsEnabled = false;
         }
 
         public bool IsDragEnter = false;
@@ -856,12 +887,7 @@ namespace YDSkyrimToolR
 
         private void Window_LocationChanged(object sender, EventArgs e)
         {
-            if (DeFine.DefTransTool != null)
-            {
-                DeFine.DefTransTool.Top = this.Top + this.Height;
-                DeFine.DefTransTool.Width = this.Width;
-                DeFine.DefTransTool.Left = this.Left;
-            }
+           
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -937,6 +963,11 @@ namespace YDSkyrimToolR
                         DeFine.TargetLanguage = TranslateCore.Languages.Korean;
                     }
                     break;
+                case "Turkish":
+                    {
+                        DeFine.TargetLanguage = TranslateCore.Languages.Turkish;
+                    }
+                    break;
             }
             DeFine.GlobalLocalSetting.TargetLanguage = DeFine.TargetLanguage;
         }
@@ -968,7 +999,7 @@ namespace YDSkyrimToolR
             ActionWin.Show("约定酱的YDSkyrimTools", "YDSkyrimTools It is an open-source and free translation tool for Skyrim SE Mod\r\nIntended to significantly reduce the workload of Sinicizers\r\nProtocol GPL3.0\r\n See Github https://github.com/tolove336/YDSkyrimToolR\r\n I only handle it when I have free time", MsgAction.Null, MsgType.Info);
         }
 
-        private void ViewModeChange(object sender, SelectionChangedEventArgs e)
+        public void AutoViewMode()
         {
             if (ConvertHelper.ObjToStr(ViewMode.SelectedValue).Equals("Quick"))
             {
@@ -982,6 +1013,11 @@ namespace YDSkyrimToolR
                 TransViewBox.HorizontalAlignment = HorizontalAlignment.Left;
                 ExtendBox.Width = this.Width - TransViewBox.Width;
             }
+        }
+
+        private void ViewModeChange(object sender, SelectionChangedEventArgs e)
+        {
+            AutoViewMode();
         }
 
         private void ToStr_TextChanged(object sender, TextChangedEventArgs e)
@@ -1052,6 +1088,75 @@ namespace YDSkyrimToolR
             }
         }
 
+        public void SendQuestionToAI(object Engine,string QuestionStr)
+        {
+            if (Engine is ChatGptApi)
+            {
+                var GetResult = (Engine as ChatGptApi).CallAI($"{QuestionStr} ,请用 {LanguageHelper.GetLanguageString(
+                              DeFine.TargetLanguage
+                              )} 回复,能有点猫娘的口吻吗可爱点的.");
+
+                if (GetResult != null)
+                {
+                    if (GetResult.choices != null)
+                    {
+                        string CNStr = "";
+                        if (GetResult.choices.Length > 0)
+                        {
+                            CNStr = GetResult.choices[0].message.content.Trim();
+                        }
+                        if (CNStr.Trim().Length > 0)
+                        {
+                            this.Dispatcher.Invoke(new Action(() =>
+                            {
+                                AILog.Text = CNStr;
+                            }));
+                        }
+                        else
+                        {
+                            this.Dispatcher.Invoke(new Action(() =>
+                            {
+                                AILog.Text = string.Empty;
+                            }));
+                        }
+                    }
+                }
+            }
+            else
+            if (Engine is DeepSeekApi)
+            {
+                var GetResult = (Engine as DeepSeekApi).CallAI($"{QuestionStr} ,请用 {LanguageHelper.GetLanguageString(
+                              DeFine.TargetLanguage
+                              )} 回复,能有点猫娘的口吻吗可爱点的.");
+
+                if (GetResult != null)
+                {
+                    if (GetResult.choices != null)
+                    {
+                        string CNStr = "";
+                        if (GetResult.choices.Length > 0)
+                        {
+                            CNStr = GetResult.choices[0].message.content.Trim();
+                        }
+                        if (CNStr.Trim().Length > 0)
+                        {
+                            this.Dispatcher.Invoke(new Action(() =>
+                            {
+                                AILog.Text = CNStr;
+                            }));
+                        }
+                        else
+                        {
+                            this.Dispatcher.Invoke(new Action(() =>
+                            {
+                                AILog.Text = string.Empty;
+                            }));
+                        }
+                    }
+                }
+            }
+        }
+
         private void SendQuestionToAI(object sender, MouseButtonEventArgs e)
         {
             string GetSendAIText = SendAIText.Text;
@@ -1064,54 +1169,27 @@ namespace YDSkyrimToolR
                         SendQuestionBtn.Content = "AI Thinking...";
                     }));
 
-                    string To = "";
-                    if (DeFine.TargetLanguage == Languages.English)
+                    List<object> AllEngines = new List<object>();
+
+                    if (DeFine.GlobalLocalSetting.ChatGptApiUsing && DeFine.GlobalLocalSetting.ChatGptKey.Trim().Length>0)
                     {
-                        To = "英文";
+                        AllEngines.Add(new ChatGptApi());
                     }
-                    if (DeFine.TargetLanguage == Languages.Chinese)
+                    if (DeFine.GlobalLocalSetting.DeepSeekApiUsing && DeFine.GlobalLocalSetting.DeepSeekKey.Trim().Length > 0)
                     {
-                        To = "中文";
-                    }
-                    if (DeFine.TargetLanguage == Languages.Japanese)
-                    {
-                        To = "日文";
-                    }
-                    if (DeFine.TargetLanguage == Languages.German)
-                    {
-                        To = "德文";
-                    }
-                    if (DeFine.TargetLanguage == Languages.Korean)
-                    {
-                        To = "韩文";
+                        AllEngines.Add(new DeepSeekApi());
                     }
 
-                    var GetResult = new DeepSeekApi().CallAI($"{GetSendAIText} ,请用 {To} 回复,能有点猫娘的口吻吗可爱点的.");
+                    var GetText = SendAIText.Text;
 
-                    if (GetResult != null)
+                    if (AllEngines.Count == 1)
                     {
-                        if (GetResult.choices != null)
-                        {
-                            string CNStr = "";
-                            if (GetResult.choices.Length > 0)
-                            {
-                                CNStr = GetResult.choices[0].message.content.Trim();
-                            }
-                            if (CNStr.Trim().Length > 0)
-                            {
-                                this.Dispatcher.Invoke(new Action(() =>
-                                {
-                                    AILog.Text = CNStr;
-                                }));
-                            }
-                            else
-                            {
-                                this.Dispatcher.Invoke(new Action(() =>
-                                {
-                                    AILog.Text = string.Empty;
-                                }));
-                            }
-                        }
+                        SendQuestionToAI(AllEngines[0], GetText);
+                    }
+                    else
+                    if (AllEngines.Count > 0)
+                    {
+                        SendQuestionToAI(AllEngines[new Random(Guid.NewGuid().GetHashCode()).Next(0, AllEngines.Count)], GetText);
                     }
 
                     this.Dispatcher.Invoke(new Action(() =>
@@ -1121,6 +1199,31 @@ namespace YDSkyrimToolR
 
                 }).Start();
             }
+        }
+
+        private void OpenSetting(object sender, MouseButtonEventArgs e)
+        {
+            new SettingView().Show();
+        }
+
+        private void DetectLang(object sender, MouseButtonEventArgs e)
+        {
+           var GetLang = WordProcess.DetectLanguage();
+           DeFine.SourceLanguage = GetLang;
+           Source.SelectedValue = GetLang.ToString();
+        }
+
+        private void ReplaceAllLine(object sender, MouseButtonEventArgs e)
+        {
+            if (ActionWin.Show("Confirm?", $"This will replace the contents of all rows. \"{ReplaceKey.Text}\"->\"{ReplaceValue.Text}\"", MsgAction.YesNo, MsgType.Info, 230) > 0)
+            {
+                WordProcess.ReplaceAllLine(ReplaceKey.Text.Trim(), ReplaceValue.Text.Trim());
+            }
+        }
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            AutoViewMode();
         }
     }
 }

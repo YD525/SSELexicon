@@ -97,3 +97,5 @@ C:\Users\Administrator\source\repos\YDSkyrimToolR\YDSkyrimToolR\obj\Release\net9
 C:\Users\Administrator\source\repos\YDSkyrimToolR\YDSkyrimToolR\obj\Release\net9.0-windows\YDSkyrimToolR.pdb
 C:\Users\Administrator\source\repos\YDSkyrimToolR\YDSkyrimToolR\obj\Release\net9.0-windows\YDSkyrimToolR.genruntimeconfig.cache
 C:\Users\Administrator\source\repos\YDSkyrimToolR\YDSkyrimToolR\obj\Release\net9.0-windows\ref\YDSkyrimToolR.dll
+C:\Users\Administrator\source\repos\YDSkyrimToolR\YDSkyrimToolR\obj\Release\net9.0-windows\SettingView.g.cs
+C:\Users\Administrator\source\repos\YDSkyrimToolR\YDSkyrimToolR\obj\Release\net9.0-windows\SettingView.baml
