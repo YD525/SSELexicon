@@ -1,5 +1,5 @@
 # YDSkyrimToolR
-## YDSkyrimTools It is an open-source and free translation tool for Skyrim SE Mod
+## YDSkyrimToolR It is an open-source and free translation tool for Skyrim SE Mod
 
 #### Intended to significantly reduce the workload of Sinicizers。
 #### Published in https://www.nexusmods.com/skyrimspecialedition/mods/143056
