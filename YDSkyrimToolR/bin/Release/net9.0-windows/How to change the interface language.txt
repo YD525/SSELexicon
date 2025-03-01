@@ -1,0 +1,23 @@
+UISettings switches the interface language. If the language you need is not available, the "System.db" file in the root directory of the program is a database file in Sqlite format. Please open it with a database viewing tool.
+Navicat or SQLiteExpert In short, any tool that can read the Sqlite database will do
+
+Languages
+The Languages ​​table is used to store some sensitive words to prevent them from being processed by the translation platform. There is no UI yet, so I will only explain its function.
+
+Conjunction
+The conjunction table is an advanced replacement logic used to analyze the context and replace words based on specific conditions. It is not yet implemented in the UI.
+
+CloudTranslation
+CloudTranslation is used to cache all records obtained from the translation platform
+
+UILanguages
+[UILanguages](
+  [LangType] TEXT, 
+  [Key] TEXT, 
+  [Name] TEXT, 
+  [Str] TEXT);
+
+You need to change this.
+Since there are too many countries in the world, I can't make an interface that everyone can understand. You can modify the field of LangType to English.
+English is the default interface language.
+The Str field is the content that needs to be modified

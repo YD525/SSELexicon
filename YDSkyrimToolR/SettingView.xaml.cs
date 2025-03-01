@@ -75,7 +75,73 @@ namespace YDSkyrimToolR
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            e.Cancel = true;
+            this.Hide();
             DeFine.GlobalLocalSetting.SaveConfig();
+        }
+
+        private void RMouserEffectByEnter(object sender, MouseEventArgs e)
+        {
+            if (sender is Border)
+            {
+                Border LockerGrid = sender as Border;
+                if (LockerGrid.Child != null)
+                {
+                    if (LockerGrid.Child is Image)
+                    {
+                        Image LockerImg = LockerGrid.Child as Image;
+                        LockerImg.Opacity = 0.9;
+                    }
+                    LockerGrid.Background = new SolidColorBrush(Color.FromRgb(244, 101, 155));
+                }
+            }
+        }
+
+        private void RMouserEffectByLeave(object sender, MouseEventArgs e)
+        {
+            if (sender is Border)
+            {
+                Border LockerGrid = sender as Border;
+                if (LockerGrid.Child != null)
+                {
+                    if (LockerGrid.Child is Image)
+                    {
+                        Image LockerImg = LockerGrid.Child as Image;
+                        LockerImg.Opacity = 0.6;
+                    }
+                    LockerGrid.Background = new SolidColorBrush(Color.FromRgb(247, 127, 172));
+                }
+            }
+        }
+
+        private void CloseThis(object sender, MouseButtonEventArgs e)
+        {
+            this.Hide();
+            DeFine.GlobalLocalSetting.SaveConfig();
+        }
+
+        public bool IsLeftMouseDown = false;
+
+        private void WinHead_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                IsLeftMouseDown = true;
+            }
+
+            if (IsLeftMouseDown)
+            {
+                try
+                {
+                    this.Dispatcher.Invoke(new Action(() =>
+                    {
+                        this.DragMove();
+                    }));
+
+                    IsLeftMouseDown = false;
+                }
+                catch { }
+            }
         }
     }
 }

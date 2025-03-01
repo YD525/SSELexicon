@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:YDSkyrimToolR"
         mc:Ignorable="d"
-        Title="ActionWin"  Height="300" Width="390" WindowStartupLocation="CenterScreen" Topmost="True">
+        Title="ActionWin" Height="300" Width="390" WindowStartupLocation="CenterScreen" Topmost="True">
     <Window.Style>
         <Style TargetType="Window">
             <Setter Property="Background" Value="Transparent" />

@@ -5,42 +5,75 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:YDSkyrimToolR"
         mc:Ignorable="d"
-        Title="SettingView" Height="270" Width="500" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Closing="Window_Closing">
-    <Grid>
-        <StackPanel Orientation="Vertical" Margin="10">
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                <Label>
-                    SetUILanguage
+        Title="SettingView" Height="270" Width="500" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Closing="Window_Closing" Style="{DynamicResource DefWin}">
+    <Border MouseLeftButtonDown="WinHead_MouseLeftButtonDown"  Style="{DynamicResource DefWinBackground}" Name="MainBackGround" >
+        <Border.Effect>
+            <DropShadowEffect  BlurRadius="10" Direction="1" ShadowDepth="0.7" Color="#FFF77FAC" Opacity="0.8" />
+        </Border.Effect>
+        
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Name="Header" Margin="10 0 10 0">
+                <Label HorizontalAlignment="Left" Name="MainCaption" Foreground="White" VerticalAlignment="Center">
+                    SettingsView
                 </Label>
-                <ComboBox Name="Languages" Width="100" SelectionChanged="Languages_SelectionChanged">
-                </ComboBox>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
-                <Label>
-                    BaiDuAppID
-                </Label>
-                <TextBox Name="BaiDuAppID" Width="100" TextChanged="BaiDuAppID_TextChanged">
-                </TextBox>
-                <Label Margin="5 0 0 0">
-                    BaiDuKey
-                </Label>
-                <PasswordBox Name="BaiDuKey" Width="100" PasswordChanged="BaiDuKey_PasswordChanged">
-                </PasswordBox>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
-                <Label>
-                    ChatGptKey
-                </Label>
-                <PasswordBox Name="ChatGptKey" Width="267" PasswordChanged="ChatGptKey_PasswordChanged">
-                </PasswordBox>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
-                <Label>
-                   DeepSeekKey
-                </Label>
-                <PasswordBox Name="DeepSeekKey" Width="267" PasswordChanged="DeepSeekKey_PasswordChanged">
-                </PasswordBox>
-            </StackPanel>
-        </StackPanel>
-    </Grid>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Border Tag="Close" PreviewMouseDown="CloseThis" CornerRadius="5"  Grid.Column="5" Height="25" Width="25"  Background="#FFF77FAC"  MouseEnter="RMouserEffectByEnter" MouseLeave="RMouserEffectByLeave" Cursor="Hand">
+                        <Image Tag="Close" Name="TClose" Stretch="UniformToFill"   Source="/YDSkyrimToolR;component/Material/TClose.png"  Width="14" Height="13" Opacity="0.8" SnapsToDevicePixels="True"  RenderOptions.BitmapScalingMode="HighQuality">
+                        </Image>
+                    </Border>
+                </StackPanel>
+            </Grid>
+            <Border Grid.Row="1" Background="White" CornerRadius="0 0 7 7">
+                <StackPanel Orientation="Vertical" Margin="10">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Label>
+                            SetUILanguage
+                        </Label>
+                        <ComboBox Name="Languages" Width="100" SelectionChanged="Languages_SelectionChanged" Style="{StaticResource WpfComboBoxStyle}">
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
+                        <Label>
+                            BaiDuAppID
+                        </Label>
+                        <TextBox Name="BaiDuAppID" Width="100" TextChanged="BaiDuAppID_TextChanged">
+                        </TextBox>
+                        <Label Margin="5 0 0 0">
+                            BaiDuKey
+                        </Label>
+                        <PasswordBox Name="BaiDuKey" Width="100" PasswordChanged="BaiDuKey_PasswordChanged">
+                        </PasswordBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
+                        <Label>
+                            ChatGptKey
+                        </Label>
+                        <PasswordBox Name="ChatGptKey" Width="267" PasswordChanged="ChatGptKey_PasswordChanged">
+                        </PasswordBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
+                        <Label>
+                            DeepSeekKey
+                        </Label>
+                        <PasswordBox Name="DeepSeekKey" Width="267" PasswordChanged="DeepSeekKey_PasswordChanged">
+                        </PasswordBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
+                        <Label>
+                            GoogleKey
+                        </Label>
+                        <PasswordBox Name="GoogleKey" Width="267">
+                        </PasswordBox>
+                    </StackPanel>
+                    <TextBox Margin="0 10 0 0" TextWrapping="Wrap" AcceptsReturn="True" IsReadOnly="True" BorderThickness="0" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Green">
+                        Support Google free translation,You don't need to enter a Googlekey, just enable the Google icon
+                    </TextBox>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Border>
 </Window>

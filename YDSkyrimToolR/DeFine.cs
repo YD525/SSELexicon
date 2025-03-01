@@ -35,10 +35,25 @@ namespace YDSkyrimToolR
         public static LocalSetting GlobalLocalSetting = new LocalSetting();
 
         public static MainWindow WorkingWin = null;
+        public static SettingView CurrentSettingView = null;
         public static SqlCore<SQLiteHelper> GlobalDB = null;
         public static CodeView CurrentCodeView = null;
         public static TextEditor ActiveIDE = null;
         public static WordProcess WordProcessEngine = null;
+
+        public static void ShowSetting()
+        {
+            if (DeFine.WorkingWin != null)
+            {
+                if (CurrentSettingView == null)
+                {
+                    CurrentSettingView = new SettingView();
+                }
+
+                CurrentSettingView.Owner = DeFine.WorkingWin;
+                CurrentSettingView.Show();
+            }
+        }
 
         public static string GetFullPath(string Path)
         {

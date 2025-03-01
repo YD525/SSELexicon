@@ -6,7 +6,7 @@
         xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
         xmlns:local="clr-namespace:YDSkyrimToolR"
         mc:Ignorable="d"
-        Title="MainWindow" PreviewKeyDown="Window_PreviewKeyDown" Height="850" LocationChanged="Window_LocationChanged" Width="1200" MinWidth="1000" Loaded="Window_Loaded" Style="{DynamicResource DefWin}" WindowStartupLocation="CenterScreen" AllowDrop="True" PreviewDragEnter="ModTransView_DragEnter" PreviewDrop="ModTransView_Drop"  PreviewDragLeave="ModTransView_DragLeave" Closing="Window_Closing" SizeChanged="Window_SizeChanged">
+        Title="YDSkyrimToolR" PreviewKeyDown="Window_PreviewKeyDown" Height="850" LocationChanged="Window_LocationChanged" Width="1200" MinWidth="1000" Loaded="Window_Loaded" Style="{DynamicResource DefWin}" WindowStartupLocation="CenterScreen" AllowDrop="True" PreviewDragEnter="ModTransView_DragEnter" PreviewDrop="ModTransView_Drop"  PreviewDragLeave="ModTransView_DragLeave" Closing="Window_Closing" SizeChanged="Window_SizeChanged">
 
 
     <Window.Resources>
@@ -57,7 +57,7 @@
 
                 <Grid Grid.Row="0" Name="Header" Margin="10 0 10 0">
                     <Label HorizontalAlignment="Left" Name="MainCaption" Foreground="White" VerticalAlignment="Center">
-                        YDSkyrimToolR Gui 1.3.39
+                        YDSkyrimToolR Gui 1.3.392
                     </Label>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
 
@@ -412,9 +412,9 @@
 
                     </Grid>
 
-                    <Label Foreground="White" Name="Log" Grid.Row="1" FontSize="10" Margin="5 -2.7 0 0">
+                    <TextBox IsReadOnly="True" Background="{x:Null}" BorderThickness="0" BorderBrush="{x:Null}" Foreground="White" Name="Log" Grid.Row="1" FontSize="10" Margin="5 3 0 0">
                         
-                    </Label>
+                    </TextBox>
                 </Grid>
 
             </Grid>
