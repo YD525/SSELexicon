@@ -25,10 +25,6 @@
 #### Any version of this project must retain the original author's attribution. Please specify the original author as YD525
 #### GitHub: https://github.com/YD525/YDSkyrimToolR
 #### NexusMods: https://www.nexusmods.com/skyrimspecialedition/mods/143056
-#### Copyright (C) 2025 YD525. All rights reserved.
 
-![UI](pic/01.png)
-![UI](pic/02.png)
-![UI](pic/03.png)
-![UI](pic/05.png)
-![UI](pic/06.png)
+#### This project contains third-party libraries licensed under the GPL/LGPL. Any modifications or redistributions must comply with their respective licenses.
+#### Copyright (C) 2025 YD525. All rights reserved.
