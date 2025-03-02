@@ -21,6 +21,11 @@ using YDSkyrimToolR.SkyrimModManager;
 
 namespace YDSkyrimTools.SkyrimModManager
 {
+    /*
+* @Author: YD525
+* @GitHub: https://github.com/YD525/YDSkyrimToolR
+* @Date: 2025-02-06
+*/
     public class ModOrganizerHelper
     {
         public static byte[] GetBytesByFilePath(string strFile)

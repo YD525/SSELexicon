@@ -20,8 +20,8 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 namespace YDSkyrimToolR.TranslateCore
 {
     /*
-* @Author: 约定
-* @GitHub: https://github.com/tolove336/YDSkyrimToolR
+* @Author: YD525
+* @GitHub: https://github.com/YD525/YDSkyrimToolR
 * @Date: 2025-02-06
 */
 

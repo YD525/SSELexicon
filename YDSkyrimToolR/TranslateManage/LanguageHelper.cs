@@ -23,6 +23,11 @@ using Mutagen.Bethesda.Starfield;
 
 namespace YDSkyrimToolR.TranslateCore
 {
+    /*
+* @Author: YD525
+* @GitHub: https://github.com/YD525/YDSkyrimToolR
+* @Date: 2025-02-06
+*/
     public enum Languages
     {
         English = 0, Chinese = 1, Japanese = 2, German = 5, Korean = 6, Turkish = 7 , Brazilian = 8

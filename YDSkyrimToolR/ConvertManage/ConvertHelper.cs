@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Media.Imaging;
 /*
-* @Author: 约定
-* @GitHub: https://github.com/tolove336/YDSkyrimToolR
+* @Author: YD525
+* @GitHub: https://github.com/YD525/YDSkyrimToolR
 * @Date: 2025-02-06
 */
 namespace YDSkyrimToolR.ConvertManager

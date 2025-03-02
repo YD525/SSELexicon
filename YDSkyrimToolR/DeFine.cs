@@ -16,10 +16,10 @@ using YDSkyrimTools.SkyrimModManager;
 namespace YDSkyrimToolR
 {
     /*
-    * @Author: 约定
-    * @GitHub: https://github.com/tolove336/YDSkyrimToolR
-    * @Date: 2025-02-06
-    */
+* @Author: YD525
+* @GitHub: https://github.com/YD525/YDSkyrimToolR
+* @Date: 2025-02-06
+*/
     public class DeFine
     {
         public static string PapyrusCompilerPath = "";

@@ -8,6 +8,11 @@ using YDSkyrimToolR.TranslateCore;  // 引入 System.Text.Json
 
 namespace YDSkyrimToolR.TranslateManage
 {
+    /*
+* @Author: YD525
+* @GitHub: https://github.com/YD525/YDSkyrimToolR
+* @Date: 2025-02-06
+*/
     public class ChatGptItem
     {
         public string model { get; set; }

@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace YDSkyrimToolR.SkyrimManage
 {
+    /*
+* @Author: YD525
+* @GitHub: https://github.com/YD525/YDSkyrimToolR
+* @Date: 2025-02-06
+*/
     public class StrChecker()
     {
         public static bool ContainsChinese(string str)

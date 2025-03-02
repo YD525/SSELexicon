@@ -15,6 +15,11 @@ using YDSkyrimToolR.TranslateCore;
 
 namespace YDSkyrimToolR
 {
+    /*
+* @Author: YD525
+* @GitHub: https://github.com/YD525/YDSkyrimToolR
+* @Date: 2025-02-06
+*/
     /// <summary>
     /// Interaction logic for EngineEditView.xaml
     /// </summary>

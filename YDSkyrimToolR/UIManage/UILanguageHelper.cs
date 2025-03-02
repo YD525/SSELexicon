@@ -15,6 +15,11 @@ using YDSkyrimToolR.TranslateCore;
 
 namespace YDSkyrimToolR.UIManage
 {
+    /*
+* @Author: YD525
+* @GitHub: https://github.com/YD525/YDSkyrimToolR
+* @Date: 2025-02-06
+*/
     public class UIItem
     {
         public Dictionary<Languages, string> Contents;

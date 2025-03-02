@@ -27,8 +27,8 @@ using YDSkyrimTools.SkyrimModManager;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 using static YDSkyrimToolR.UIManage.SkyrimDataLoader;
 /*
-* @Author: 约定
-* @GitHub: https://github.com/tolove336/YDSkyrimToolR
+* @Author: YD525
+* @GitHub: https://github.com/YD525/YDSkyrimToolR
 * @Date: 2025-02-06
 */
 namespace YDSkyrimToolR
@@ -221,7 +221,7 @@ namespace YDSkyrimToolR
 
             WordProcess.SendTranslateMsg += TranslateMsg;
 
-            SetLog("The copyright of this program belongs to YD525 Published on https://www.nexusmods.com/skyrimspecialedition/mods/143056");
+            SetLog("Copyright (C) 2025 YD525 OpenSource:https://github.com/YD525/YDSkyrimToolR");
 
             CheckINeed();
 

@@ -14,6 +14,11 @@ using System.Windows.Media;
 
 namespace YDSkyrimToolR.IDEManager
 {
+    /*
+* @Author: YD525
+* @GitHub: https://github.com/YD525/YDSkyrimToolR
+* @Date: 2025-02-06
+*/
     public class UserInputAction
     {
         public static string CurrentTable = "";

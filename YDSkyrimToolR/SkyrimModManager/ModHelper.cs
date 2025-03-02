@@ -8,7 +8,12 @@ using YDSkyrimToolR.SkyrimModManager;
 
 namespace YDSkyrimTools.SkyrimModManager
 {
-    public  class ModHelper
+    /*
+* @Author: YD525
+* @GitHub: https://github.com/YD525/YDSkyrimToolR
+* @Date: 2025-02-06
+*/
+    public class ModHelper
     {
 
      

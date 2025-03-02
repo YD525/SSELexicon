@@ -20,6 +20,11 @@ using YDSkyrimToolR.UIManage;
 
 namespace YDSkyrimToolR
 {
+    /*
+* @Author: YD525
+* @GitHub: https://github.com/YD525/YDSkyrimToolR
+* @Date: 2025-02-06
+*/
     /// <summary>
     /// Interaction logic for SettingView.xaml
     /// </summary>

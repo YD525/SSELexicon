@@ -8,6 +8,11 @@ using System.Windows.Data;
 
 namespace YDSkyrimToolR
 {
+    /*
+* @Author: YD525
+* @GitHub: https://github.com/YD525/YDSkyrimToolR
+* @Date: 2025-02-06
+*/
     public class RichBorderWidthConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)

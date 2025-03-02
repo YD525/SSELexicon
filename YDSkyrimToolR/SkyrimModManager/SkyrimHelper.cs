@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace YDSkyrimToolR.SkyrimModManager
 {
+    /*
+* @Author: YD525
+* @GitHub: https://github.com/YD525/YDSkyrimToolR
+* @Date: 2025-02-06
+*/
     public class SkyrimHelper
     {
         public static bool FindPapyrusCompilerPath(ref string CompilerPathPtr)
