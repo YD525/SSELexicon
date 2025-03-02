@@ -2,6 +2,7 @@
 using Mutagen.Bethesda.Starfield;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +32,7 @@ namespace YDSkyrimToolR
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            SkyrimSEPath.Text = DeFine.GlobalLocalSetting.SkyrimPath;
             Languages.Items.Clear();
 
             foreach (var Get in UILanguageHelper.SupportLanguages)
@@ -75,6 +77,8 @@ namespace YDSkyrimToolR
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            MakeReady();
+
             e.Cancel = true;
             this.Hide();
             DeFine.GlobalLocalSetting.SaveConfig();
@@ -114,8 +118,21 @@ namespace YDSkyrimToolR
             }
         }
 
+        public void MakeReady()
+        {
+            if (!DeFine.GlobalLocalSetting.SkyrimPath.EndsWith(@"\"))
+            {
+                if (Directory.Exists(DeFine.GlobalLocalSetting.SkyrimPath))
+                {
+                    DeFine.GlobalLocalSetting.SkyrimPath += @"\";
+                    this.SkyrimSEPath.Text = DeFine.GlobalLocalSetting.SkyrimPath;
+                }
+            }
+        }
+
         private void CloseThis(object sender, MouseButtonEventArgs e)
         {
+            MakeReady();
             this.Hide();
             DeFine.GlobalLocalSetting.SaveConfig();
         }
@@ -142,6 +159,11 @@ namespace YDSkyrimToolR
                 }
                 catch { }
             }
+        }
+
+        private void SkyrimSEPath_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            DeFine.GlobalLocalSetting.SkyrimPath = SkyrimSEPath.Text;
         }
     }
 }

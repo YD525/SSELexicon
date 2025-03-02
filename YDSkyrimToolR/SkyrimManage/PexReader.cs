@@ -212,6 +212,39 @@ namespace YDSkyrimToolR.SkyrimManage
             }
         }
 
+        public string ExecuteRR(string ExePath,string StartPath, string Args)
+        {
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                FileName = ExePath,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                WorkingDirectory = StartPath,
+                CreateNoWindow = true,
+                Arguments = Args
+            };
+
+            try
+            {
+                using (Process process = new Process())
+                {
+                    process.StartInfo = startInfo;
+                    process.Start();
+
+                    string output = process.StandardOutput.ReadToEnd();
+                    string error = process.StandardError.ReadToEnd();
+                    process.WaitForExit();
+
+                    return output;
+                }
+            }
+            catch (Exception ex)
+            {
+                return string.Empty;
+            }
+        }
+
         public void Execute(string ExePath, string SourceFilePath, string AssemblyDirectory, string OutPutDirectory)
         {
             string GenParam = string.Format(" {0} -p {1} -a {2} -c -t", SourceFilePath, OutPutDirectory, AssemblyDirectory);
@@ -263,7 +296,7 @@ namespace YDSkyrimToolR.SkyrimManage
             this.PSCContent = string.Empty;
             if (DeCodeFileToUsing(FilePath))
             {
-                if (GenFileToPAS())
+                if (GenFileToPAS(FilePath))
                 {
                     ProcessCode();
                 }
@@ -315,47 +348,60 @@ namespace YDSkyrimToolR.SkyrimManage
             }
         }
 
-        public bool GenFileToPAS()
+        public bool GenFileToPAS(string FilePath)
         {
-            string GetFilePath = TempFilePath.Substring(0, TempFilePath.LastIndexOf(@"\"));
-            string GetFileFullName = TempFilePath.Substring(TempFilePath.LastIndexOf(@"\") + @"\".Length);
-            string GetFileType = GetFileFullName.Split('.')[1];
-            string GetFileName = GetFileFullName.Split('.')[0];
-
-            string PapyrusAssembler = DeFine.GetFullPath(@"Tool\") + @"Data\Processors\CreationKit\PapyrusAssembler.exe";
-            string GenParam = string.Format("\"{0}\" -D\r\n{1}", GetFileName, DeFine.GetFullPath(@"Tool\Data\Processors\CreationKit\"));
-
-            if (File.Exists(DeFine.GetFullPath(@"\") + GetFileName + "." + GetFileType))
+            string CompilerPath = "";
+            if (SkyrimHelper.FindPapyrusCompilerPath(ref CompilerPath))
             {
-                File.Delete(DeFine.GetFullPath(@"\") + GetFileName + "." + GetFileType);
-            }
+                string GetFilePath = TempFilePath.Substring(0, TempFilePath.LastIndexOf(@"\"));
+                string GetFileFullName = TempFilePath.Substring(TempFilePath.LastIndexOf(@"\") + @"\".Length);
+                string GetFileType = GetFileFullName.Split('.')[1];
+                string GetFileName = GetFileFullName.Split('.')[0];
 
-            File.Copy(TempFilePath, DeFine.GetFullPath(@"\") + GetFileName + "." + GetFileType);
+                string PapyrusAssembler = CompilerPath;
+                string GetWorkPath = FilePath.Substring(0, FilePath.LastIndexOf(@"\"));
+                string GenParam = string.Format("\"{0}\" -D\n{1}", GetFileName, GetWorkPath + @"\");
 
-            Execute(PapyrusAssembler, GenParam);
-
-            Thread.Sleep(500);
-
-            if (File.Exists(DeFine.GetFullPath(GetFileName + "." + "disassemble.pas")))
-            {
-                if (File.Exists(DeFine.GetFullPath(@"Cache\") + GetFileName + "." + "pas"))
+                if (File.Exists(DeFine.GetFullPath(@"\") + GetFileName + "." + GetFileType))
                 {
-                    File.Delete(DeFine.GetFullPath(@"Cache\") + GetFileName + "." + "pas");
+                    File.Delete(DeFine.GetFullPath(@"\") + GetFileName + "." + GetFileType);
                 }
-                File.Copy(DeFine.GetFullPath(GetFileName + "." + "disassemble.pas"), DeFine.GetFullPath(@"Cache\") + GetFileName + "." + "pas");
-                File.Delete(DeFine.GetFullPath(GetFileName + "." + "disassemble.pas"));
-                File.Delete(DeFine.GetFullPath(@"\") + GetFileName + "." + GetFileType);
-                if (File.Exists(TempFilePath))
+
+                File.Copy(TempFilePath, DeFine.GetFullPath(@"\") + GetFileName + "." + GetFileType);
+
+                Execute(PapyrusAssembler, GenParam);
+
+                Thread.Sleep(500);
+
+                string SetDisassemblePath = DeFine.GetFullPath(GetFileName + "." + "disassemble.pas");
+
+                if (File.Exists(SetDisassemblePath))
                 {
-                    if (TempFilePath.Contains(DeFine.GetFullPath(@"Cache\")))
+                    string SetCachePas = DeFine.GetFullPath(@"Cache\") + GetFileName + "." + "pas";
+                    if (File.Exists(SetCachePas))
                     {
-                        File.Delete(TempFilePath);
-                        return true;
+                        File.Delete(SetCachePas);
+                    }
+                    File.Copy(SetDisassemblePath, SetCachePas);
+                    if (File.Exists(SetDisassemblePath))
+                    {
+                        File.Delete(SetDisassemblePath);
+                    }
+                    string SetSource = DeFine.GetFullPath(GetFileName + "." + GetFileType);
+                    if (File.Exists(SetSource))
+                    {
+                        File.Delete(SetSource);
+                    }
+                    if (File.Exists(TempFilePath))
+                    {
+                        if (TempFilePath.Contains(DeFine.GetFullPath(@"Cache\")))
+                        {
+                            File.Delete(TempFilePath);
+                            return true;
+                        }
                     }
                 }
-
             }
-
             return false;
         }
 
@@ -780,7 +826,7 @@ namespace YDSkyrimToolR.SkyrimManage
             return RichText;
         }
 
-        public void CheckBatSafe(string BatPath,string CheckStr)
+        public void CheckBatSafe(string BatPath, string CheckStr)
         {
             NextCheck:
             if (!File.Exists(BatPath))
@@ -801,11 +847,6 @@ namespace YDSkyrimToolR.SkyrimManage
 
         public void SavePexFile(string OutPutPath)
         {
-            if (File.Exists(OutPutPath))
-            {
-                return;
-            }
-
             Dictionary<string, LinkValue> LinkTexts = new Dictionary<string, LinkValue>();
             foreach (var GetParam in this.StringParams)
             {
@@ -932,28 +973,46 @@ namespace YDSkyrimToolR.SkyrimManage
 
             DataHelper.WriteFile(DeFine.GetFullPath(@"\") + CurrentFileName + ".pas", Encoding.GetBytes(GetFileContent));
 
-            string FormatStr = "{0} \"{1}\"\n{2}\n";
-           
-            string PapyrusAssembler = DeFine.GetFullPath(@"Tool\") + @"Data\Processors\CreationKit\PapyrusAssembler.exe";
-            string Param = string.Format(FormatStr, PapyrusAssembler, CurrentFileName, DeFine.GetFullPath(@"Tool\Data\Processors\CreationKit\"));
-
-            FileHelper.WriteFile(DeFine.GetFullPath("CompilePex.bat"), Param, Encoding.UTF8);
-            CheckBatSafe(DeFine.GetFullPath("CompilePex.bat"), Param);
-
-            var Result = ExecuteR(DeFine.GetFullPath("CompilePex.bat"), "");
-
-            Thread.Sleep(100);
-
-            if (File.Exists(DeFine.GetFullPath(@"\" + CurrentFileName + ".pex")))
+            string CompilerPath = "";
+            if (SkyrimHelper.FindPapyrusCompilerPath(ref CompilerPath))
             {
-                File.Copy(DeFine.GetFullPath(@"\" + CurrentFileName + ".pex"), OutPutPath);
+                if (File.Exists(OutPutPath + ".backup"))
+                {
+                    File.Delete(OutPutPath + ".backup");
+                }
+                File.Copy(OutPutPath, OutPutPath + ".backup");
+                File.Delete(OutPutPath);
 
-                File.Delete(DeFine.GetFullPath(@"\" + CurrentFileName + ".pex"));
-                File.Delete(DeFine.GetFullPath(@"\" + CurrentFileName + ".pas"));
-                File.Delete(DeFine.GetFullPath(@"\Call.bat"));
+                string GetWorkPath = CompilerPath.Substring(0, CompilerPath.LastIndexOf(@"\") + @"\".Length);
+
+                File.Copy(DeFine.GetFullPath(@"\" + CurrentFileName + ".pas"), GetWorkPath + CurrentFileName + ".pas");
+
+                if (File.Exists(DeFine.GetFullPath(@"\" + CurrentFileName + ".pas")))
+                {
+                    File.Delete(DeFine.GetFullPath(@"\" + CurrentFileName + ".pas"));
+                }
+
+                var Result = ExecuteRR(CompilerPath, GetWorkPath,"\"" + CurrentFileName + "\"");
+
+                if (File.Exists(GetWorkPath + CurrentFileName + ".pas"))
+                {
+                    File.Delete(GetWorkPath + CurrentFileName + ".pas");
+                }
+
+                string SetOutPutFile = GetWorkPath + CurrentFileName + ".pex";
+
+                if (File.Exists(SetOutPutFile))
+                {
+                    File.Copy(SetOutPutFile,OutPutPath);
+                }
+
+                if (File.Exists(SetOutPutFile))
+                {
+                    File.Delete(SetOutPutFile);
+                }
+
+                Close();
             }
-
-            Close();
         }
     }
 

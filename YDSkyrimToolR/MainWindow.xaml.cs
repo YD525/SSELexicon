@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
@@ -22,6 +23,7 @@ using YDSkyrimToolR.SkyrimModManager;
 using YDSkyrimToolR.TranslateCore;
 using YDSkyrimToolR.TranslateManage;
 using YDSkyrimToolR.UIManage;
+using YDSkyrimTools.SkyrimModManager;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 using static YDSkyrimToolR.UIManage.SkyrimDataLoader;
 /*
@@ -184,26 +186,27 @@ namespace YDSkyrimToolR
 
         public void CheckINeed()
         {
-            new Thread(() =>
+            //Frist Check ToolPath
+            if (!File.Exists(DeFine.GetFullPath(@"Tool\Champollion.exe")))
             {
+                ActionWin.Show("PEX File lacks support", "Please manually install the dependent program\n[https://github.com/Orvid/Champollion]\nPlease download the release version and put it in this path\n[" + DeFine.GetFullPath(@"Tool\") + "]\n Path required\n[" + DeFine.GetFullPath(@"Tool\Champollion.exe") + "]", MsgAction.Yes, MsgType.Info, 390);
+            }
 
-                //Frist Check ToolPath
-                if (!File.Exists(DeFine.GetFullPath(@"Tool\Champollion.exe")))
+            if (!Directory.Exists(DeFine.GlobalLocalSetting.SkyrimPath))
+            {
+                DeFine.ShowSetting();
+                ActionWin.Show("Msg", "Please Configure SkyrimSE path", MsgAction.Yes, MsgType.Info, 200);
+            }
+            else
+            {
+                string CompilerPath = "";
+                if (!SkyrimHelper.FindPapyrusCompilerPath(ref CompilerPath))
                 {
-                    ActionWin.Show("PEX File lacks support", "Please manually install the dependent program\n[https://github.com/Orvid/Champollion]\nPlease download the release version and put it in this path\n[" + DeFine.GetFullPath(@"Tool\") + "]\n Path required\n[" + DeFine.GetFullPath(@"Tool\Champollion.exe") + "]", MsgAction.Yes, MsgType.Info, 390);
+                    var GetStr = DeFine.GlobalLocalSetting.SkyrimPath + "Papyrus Compiler" + @"\PapyrusAssembler.exe";
+                    string Msg = "Please Download CreationKit [" + GetStr + "] Must exist.";
+                    ActionWin.Show("PEX File lacks support", Msg, MsgAction.Yes, MsgType.Info, 300);
                 }
-
-
-                string GetPapyrusAssemblerPath = DeFine.GetFullPath(@"Tool\") + @"Data\Processors\CreationKit\PapyrusAssembler.exe";
-
-                if (!File.Exists(GetPapyrusAssemblerPath))
-                {
-                    ActionWin.Show("PEX File lacks support", @"Please Download CK Url: http://www.creationkit.com And Copy Skyrim [Special Edition\Papyrus Compiler\*.*]  directory To [" + DeFine.GetFullPath(@"Tool\") + @"Data\Processors\CreationKit\]" + "\n"
-                        + "Path required\n" + GetPapyrusAssemblerPath, MsgAction.Yes, MsgType.Info, 580);
-                }
-                string Msg = "Notice: This Papyrus Compiler is a program by Bethesda and is not related to this software.\r\n\r\nDo not share any program that includes the Papyrus Compiler, including privately sharing this software if it contains Bethesda's program in the Tool directory.\r\n\r\nUnless you have explicit permission from Bethesda, distributing it may lead to copyright issues.\r\n\r\nYD525 takes no responsibility for this work.";
-                ActionWin.Show("Important Notes", Msg, MsgAction.Yes, MsgType.Info, 500);
-            }).Start();
+            }
         }
         public void TranslateMsg(string EngineName, string Text, string Result)
         {
@@ -220,11 +223,12 @@ namespace YDSkyrimToolR
 
             SetLog("The copyright of this program belongs to YD525 Published on https://www.nexusmods.com/skyrimspecialedition/mods/143056");
 
+            CheckINeed();
+
             new Thread(() =>
             {
                 ShowFrameByTag("LoadingView");
 
-                CheckINeed();
                 //LocalTrans.Init();
 
                 CheckEngineState();
@@ -745,14 +749,6 @@ namespace YDSkyrimToolR
                     if (UIHelper.ModifyCount > 0)
                         if (GlobalPexReader != null)
                         {
-                            string GetBackUPPath = GetFilePath + GetFileFullName + ".backup";
-                            if (File.Exists(GetBackUPPath))
-                            {
-                                File.Delete(GetBackUPPath);
-                            }
-                            File.Copy(LastSetPath, GetBackUPPath);
-                            File.Delete(LastSetPath);
-
                             GlobalPexReader.SavePexFile(LastSetPath);
                         }
                 }

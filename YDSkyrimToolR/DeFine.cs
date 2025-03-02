@@ -22,6 +22,8 @@ namespace YDSkyrimToolR
     */
     public class DeFine
     {
+        public static string PapyrusCompilerPath = "";
+
         public static Languages SourceLanguage = Languages.English;
         public static Languages TargetLanguage = Languages.Chinese;
 
@@ -92,7 +94,6 @@ namespace YDSkyrimToolR
         public string APath { get; set; } = "";
         public string BPath { get; set; } = "";
         public string SkyrimPath { get; set; } = "";
-        public MoConfigItem ModOrganizerConfig { get; set; } = new MoConfigItem();
         public bool PlaySound = false;
         public string GoogleKey { get; set; } = "";
         public string BaiDuAppID { get; set; } = "";
@@ -132,7 +133,6 @@ namespace YDSkyrimToolR
                         this.ChatGptKey = GetSetting.ChatGptKey;
                         this.DeepSeekKey = GetSetting.DeepSeekKey;
                         this.TransCount = GetSetting.TransCount;
-                        this.ModOrganizerConfig = GetSetting.ModOrganizerConfig;
                         this.PlaySound = GetSetting.PlaySound;
                         this.BackUpPath = GetSetting.BackUpPath;
                     }
