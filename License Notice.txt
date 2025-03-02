@@ -1,0 +1,35 @@
+License Notice
+
+You are free to use, share, and modify this software. However, when making modifications, please credit the original author by including my GitHub URL. When sharing the software, Please ensure to provide the original software's NexusMods URL on the project page.
+
+This software is licensed under GPL-3.0-only.
+
+Open-Source Components
+This program utilizes the following open-source frameworks and libraries:
+
+Mutagen.Bethesda
+Developer: Mutagen
+License: GPL-3.0-only
+https://github.com/Mutagen-Modding/Mutagen
+https://github.com/erri120/GameFinder
+Note: Essential for parsing ESP/ESM files,including dependencies within erri120.GameFinder
+
+Champollion
+Developer: Ovid
+License: GPL-3.0-only
+https://github.com/Orvid/Champollion
+Note: Enables the program to obtain assembly code after PEX decompilation
+
+For more details, refer to the License files of this program and the respective frameworks.
+
+Microsoft-WindowsAPICodePack https://github.com/contre/Windows-API-Code-Pack-1.1?tab=License-1-ov-file
+
+Attribution
+Any version of this project must retain the original author's attribution. Please specify the original author as YD525
+
+GitHub: https://github.com/YD525/YDSkyrimToolR
+NexusMods: https://www.nexusmods.com/skyrimspecialedition/mods/143056
+
+File credits
+Copyright and License Information:
+The copyright of this program belongs to [YD525]. The purpose of this project is to reduce the workload of translators. This project is licensed under the GPL-3.0-only license.

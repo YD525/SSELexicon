@@ -17,7 +17,7 @@ using System.Reflection;
     "rpose of this project is to reduce the workload of translators. This project is " +
     "licensed under the GPL-3.0-only license.")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a29ba26a047a0493633ac2bba24bd847808241db")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+66713f17a985b6d8278f641de99c9f9bd8aa7660")]
 [assembly: System.Reflection.AssemblyProductAttribute("YDSkyrimToolR")]
 [assembly: System.Reflection.AssemblyTitleAttribute("YDSkyrimToolR")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
