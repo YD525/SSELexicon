@@ -25,7 +25,7 @@
 #### Any version of this project must retain the original author's attribution. Please specify the original author as YD525
 #### GitHub: https://github.com/YD525/YDSkyrimToolR
 #### NexusMods: https://www.nexusmods.com/skyrimspecialedition/mods/143056
-#### The copyright of this program belongs to [YD525]
+#### Copyright (C) 2025 YD525. All rights reserved.
 
 ![UI](pic/01.png)
 ![UI](pic/02.png)
