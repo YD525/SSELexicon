@@ -1,0 +1,810 @@
+{
+  "ModName": "zadcFurnitureScript.pex",
+  "Dictionarys": [
+    {
+      "Key": "193-6482-10-177(Script)",
+      "OriginalText": "weqeqweq",
+      "TransText": "121"
+    },
+    {
+      "Key": "206-7017-8-191(Script)",
+      "OriginalText": "weqeqe",
+      "TransText": "2121"
+    },
+    {
+      "Key": "213-7316-3-198(Script)",
+      "OriginalText": "3",
+      "TransText": "212"
+    },
+    {
+      "Key": "247-8679-3-234(Script)",
+      "OriginalText": "4",
+      "TransText": "1212"
+    },
+    {
+      "Key": "322-11632-3-302(Script)",
+      "OriginalText": "5",
+      "TransText": "12121"
+    },
+    {
+      "Key": "424-15994-3-401(Script)",
+      "OriginalText": "6",
+      "TransText": "1212"
+    },
+    {
+      "Key": "442-16714-11-419(Script)",
+      "OriginalText": "你尝试将钥匙插入",
+      "TransText": "1212"
+    },
+    {
+      "Key": "444-16915-40-421(Script)",
+      "OriginalText": "这个装置的设计目的是让戴着它的人很难接近锁孔来解锁自己.你费尽心思将钥匙插入",
+      "TransText": ""
+    },
+    {
+      "Key": "446-17080-57-423(Script)",
+      "OriginalText": "该装置的设计目的是将锁安全地放置在佩戴者接触不到的地方.即使拥有正确的钥匙,你也无法自行解锁.你需要寻求帮助!",
+      "TransText": ""
+    },
+    {
+      "Key": "449-17192-22-426(Script)",
+      "OriginalText": "你试图逃离该装置,但无法触及其锁定机制!",
+      "TransText": ""
+    },
+    {
+      "Key": "633-23883-8-593(Script)",
+      "OriginalText": "当你操纵了",
+      "TransText": ""
+    },
+    {
+      "Key": "661-25180-8-621(Script)",
+      "OriginalText": "当你操纵了",
+      "TransText": ""
+    },
+    {
+      "Key": "708-26965-12-664(Script)",
+      "OriginalText": "此装置不能与其交互.",
+      "TransText": ""
+    },
+    {
+      "Key": "716-27178-12-670(Script)",
+      "OriginalText": "此装置不能与其交互.",
+      "TransText": ""
+    },
+    {
+      "Key": "732-27482-12-681(Script)",
+      "OriginalText": "此装置不能与其交互.",
+      "TransText": ""
+    },
+    {
+      "Key": "744-27742-12-690(Script)",
+      "OriginalText": "此装置不能与其交互.",
+      "TransText": ""
+    },
+    {
+      "Key": "771-28805-10-714(Script)",
+      "OriginalText": "会利用你的……",
+      "TransText": ""
+    },
+    {
+      "Key": "773-28910-7-716(Script)",
+      "OriginalText": "会占尽",
+      "TransText": ""
+    },
+    {
+      "Key": "888-33890-18-829(Script)",
+      "OriginalText": "DDC 警告: 未找到性爱动画!",
+      "TransText": ""
+    },
+    {
+      "Key": "968-36976-21-902(Script)",
+      "OriginalText": "未应用难度修正 - 模组制作者不允许!",
+      "TransText": ""
+    },
+    {
+      "Key": "983-37681-10-917(Script)",
+      "OriginalText": "应用难度修正:",
+      "TransText": ""
+    },
+    {
+      "Key": "989-37942-21-924(Script)",
+      "OriginalText": "未应用难度修正 - 模组制作者不允许!",
+      "TransText": ""
+    },
+    {
+      "Key": "1004-38640-10-939(Script)",
+      "OriginalText": "应用难度修正:",
+      "TransText": ""
+    },
+    {
+      "Key": "1010-38913-12-946(Script)",
+      "OriginalText": "你小心翼翼的检查着",
+      "TransText": ""
+    },
+    {
+      "Key": "1012-39031-25-948(Script)",
+      "OriginalText": "这种拘束相当薄弱,不会对挣扎者提供太多的阻力.",
+      "TransText": ""
+    },
+    {
+      "Key": "1014-39147-25-950(Script)",
+      "OriginalText": "这不是一个非常安全的拘束.挣扎开来应该很容易.",
+      "TransText": ""
+    },
+    {
+      "Key": "1016-39263-32-952(Script)",
+      "OriginalText": "这种拘束有些安全,但也不是那么过分.挣扎开来将是相当困难的.",
+      "TransText": ""
+    },
+    {
+      "Key": "1018-39386-36-954(Script)",
+      "OriginalText": "这种拘束装置设计的很安全,但如果你有足够的耐心,有可能会被挣扎开来.",
+      "TransText": ""
+    },
+    {
+      "Key": "1020-39513-28-956(Script)",
+      "OriginalText": "这种拘束装置设计的相当安全,很难挣脱,但并非不可能.",
+      "TransText": ""
+    },
+    {
+      "Key": "1022-39631-23-958(Script)",
+      "OriginalText": "这种拘束装置设计的非常安全,并且极难挣脱.",
+      "TransText": ""
+    },
+    {
+      "Key": "1024-39743-46-960(Script)",
+      "OriginalText": "这种拘束装置设计的极其安全,可以承受大多数穿戴者的挣扎尝试.摆脱这个装置几乎是不可能的.",
+      "TransText": ""
+    },
+    {
+      "Key": "1026-39829-36-962(Script)",
+      "OriginalText": "这种拘束装置是专门为挣扎者设计的. 想要摆脱这个装置是完全不可能的!",
+      "TransText": ""
+    },
+    {
+      "Key": "1030-40004-21-966(Script)",
+      "OriginalText": "它的锁很弱,不会对撬锁者提供太大的阻力",
+      "TransText": ""
+    },
+    {
+      "Key": "1032-40125-20-968(Script)",
+      "OriginalText": "它的锁不是很安全.撬开它应该很容易。",
+      "TransText": ""
+    },
+    {
+      "Key": "1034-40245-27-970(Script)",
+      "OriginalText": "它的锁有些安全,但也不是太安全.撬开它会比较困难.",
+      "TransText": ""
+    },
+    {
+      "Key": "1036-40372-28-972(Script)",
+      "OriginalText": "它的锁设计的很安全,但可能无法承受高强度的撬锁尝试.",
+      "TransText": ""
+    },
+    {
+      "Key": "1038-40500-23-974(Script)",
+      "OriginalText": "它的锁相当安全,很难撬开,但也并非不可能.",
+      "TransText": ""
+    },
+    {
+      "Key": "1040-40622-15-976(Script)",
+      "OriginalText": "它的锁非常安全,极难撬开.",
+      "TransText": ""
+    },
+    {
+      "Key": "1042-40735-23-978(Script)",
+      "OriginalText": "它的锁是特制的,可以承受大多数的撬锁尝试.",
+      "TransText": ""
+    },
+    {
+      "Key": "1044-40798-32-980(Script)",
+      "OriginalText": "它有一个防篡改锁.如果没有正确的钥匙,解锁它是绝对不可能的!",
+      "TransText": ""
+    },
+    {
+      "Key": "1048-40972-26-984(Script)",
+      "OriginalText": "它的制材很脆弱,不会对破坏者提供太多的抗断裂能力",
+      "TransText": ""
+    },
+    {
+      "Key": "1050-41101-22-986(Script)",
+      "OriginalText": "它的制材是不太坚固的.打破它应该很容易.",
+      "TransText": ""
+    },
+    {
+      "Key": "1052-41226-26-988(Script)",
+      "OriginalText": "它的材质有点坚固,但也不过分.打破它的难度适中.",
+      "TransText": ""
+    },
+    {
+      "Key": "1054-41355-34-990(Script)",
+      "OriginalText": "它的材料是坚固的,但如果有正确的工具和足够的努力,是可能打破的.",
+      "TransText": ""
+    },
+    {
+      "Key": "1056-41492-27-992(Script)",
+      "OriginalText": "它的材料相当坚固的,很难打破,但也绝不是不可能的.",
+      "TransText": ""
+    },
+    {
+      "Key": "1058-41621-16-994(Script)",
+      "OriginalText": "它的材料非常坚固,极难破碎.",
+      "TransText": ""
+    },
+    {
+      "Key": "1060-41738-25-996(Script)",
+      "OriginalText": "它的材料异常坚固,可以承受大多数破坏它的尝试.",
+      "TransText": ""
+    },
+    {
+      "Key": "1062-41803-24-998(Script)",
+      "OriginalText": "它是用任何工具和手段都无法破坏的材料制成的!",
+      "TransText": ""
+    },
+    {
+      "Key": "1077-42533-33-1013(Script)",
+      "OriginalText": "你不能在上次尝试后这么快就试图挣脱这个装置! 你可以在大约",
+      "TransText": ""
+    },
+    {
+      "Key": "1079-42734-36-1015(Script)",
+      "OriginalText": "你不能在上次尝试后这么快就试图挣脱这个装置! 你很快就可以再试一次!",
+      "TransText": ""
+    },
+    {
+      "Key": "1081-42820-8-1017(Script)",
+      "OriginalText": "你不能帮助",
+      "TransText": ""
+    },
+    {
+      "Key": "1097-43638-33-1033(Script)",
+      "OriginalText": "你不能在上次尝试之后这么快就尝试打开这个装置! 你可以在大约",
+      "TransText": ""
+    },
+    {
+      "Key": "1099-43839-37-1035(Script)",
+      "OriginalText": "你不能在上次尝试之后这么快就尝试打开这个装置! 你很快就可以再试一次!",
+      "TransText": ""
+    },
+    {
+      "Key": "1101-43926-8-1037(Script)",
+      "OriginalText": "你不能帮助",
+      "TransText": ""
+    },
+    {
+      "Key": "1117-44750-31-1053(Script)",
+      "OriginalText": "你不能在上次尝试后这么快就尝试选择该设备! 你可以在大约",
+      "TransText": ""
+    },
+    {
+      "Key": "1119-44949-35-1055(Script)",
+      "OriginalText": "你不能在上次尝试后这么快就尝试选择该设备! 你很快就可以再试一次!",
+      "TransText": ""
+    },
+    {
+      "Key": "1121-45034-8-1057(Script)",
+      "OriginalText": "你不能帮助",
+      "TransText": ""
+    },
+    {
+      "Key": "1133-45426-14-1069(Script)",
+      "OriginalText": "玩家正在尝试/帮助逃脱",
+      "TransText": ""
+    },
+    {
+      "Key": "1135-45647-8-1071(Script)",
+      "OriginalText": "用户已逃脱",
+      "TransText": ""
+    },
+    {
+      "Key": "1141-45866-10-1075(Script)",
+      "OriginalText": "用户逃脱失败:",
+      "TransText": ""
+    },
+    {
+      "Key": "1146-46185-8-1079(Script)",
+      "OriginalText": "触发仁慈逃脱",
+      "TransText": ""
+    },
+    {
+      "Key": "1161-46578-27-1094(Script)",
+      "OriginalText": "太有趣了!你在时间到之前成功逃离装置将会得到奖励!",
+      "TransText": ""
+    },
+    {
+      "Key": "1163-46654-24-1096(Script)",
+      "OriginalText": "太好玩了!你竟然在时间到之前成功逃离了装置!",
+      "TransText": ""
+    },
+    {
+      "Key": "1191-47875-10-1123(Script)",
+      "OriginalText": "你没能逃脱你的",
+      "TransText": ""
+    },
+    {
+      "Key": "1207-48398-9-1135(Script)",
+      "OriginalText": "Stamina",
+      "TransText": ""
+    },
+    {
+      "Key": "1210-48514-9-1138(Script)",
+      "OriginalText": "Stamina",
+      "TransText": ""
+    },
+    {
+      "Key": "1213-48630-9-1141(Script)",
+      "OriginalText": "Stamina",
+      "TransText": ""
+    },
+    {
+      "Key": "1252-50050-10-1178(Script)",
+      "OriginalText": "你没能逃脱你的",
+      "TransText": ""
+    },
+    {
+      "Key": "1267-50574-11-1190(Script)",
+      "OriginalText": "OneHanded",
+      "TransText": ""
+    },
+    {
+      "Key": "1270-50747-11-1193(Script)",
+      "OriginalText": "OneHanded",
+      "TransText": ""
+    },
+    {
+      "Key": "1273-50920-11-1196(Script)",
+      "OriginalText": "OneHanded",
+      "TransText": ""
+    },
+    {
+      "Key": "1301-51824-9-1224(Script)",
+      "OriginalText": "你没有可以在",
+      "TransText": ""
+    },
+    {
+      "Key": "1310-52251-10-1232(Script)",
+      "OriginalText": "你没能达到你的",
+      "TransText": ""
+    },
+    {
+      "Key": "1321-52810-10-1241(Script)",
+      "OriginalText": "你没能逃脱你的",
+      "TransText": ""
+    },
+    {
+      "Key": "1372-54781-13-1290(Script)",
+      "OriginalText": "Lockpicking",
+      "TransText": ""
+    },
+    {
+      "Key": "1375-54901-13-1293(Script)",
+      "OriginalText": "Lockpicking",
+      "TransText": ""
+    },
+    {
+      "Key": "1378-55021-13-1296(Script)",
+      "OriginalText": "Lockpicking",
+      "TransText": ""
+    },
+    {
+      "Key": "193-6482-5-177(Script)",
+      "OriginalText": "121",
+      "TransText": "2313"
+    },
+    {
+      "Key": "206-7012-6-191(Script)",
+      "OriginalText": "2121",
+      "TransText": "2321312312"
+    },
+    {
+      "Key": "213-7309-5-198(Script)",
+      "OriginalText": "212",
+      "TransText": "21312312"
+    },
+    {
+      "Key": "247-8674-6-234(Script)",
+      "OriginalText": "1212",
+      "TransText": "21312312"
+    },
+    {
+      "Key": "322-11630-7-302(Script)",
+      "OriginalText": "12121",
+      "TransText": "21312312"
+    },
+    {
+      "Key": "424-15996-6-401(Script)",
+      "OriginalText": "1212",
+      "TransText": "123123123"
+    },
+    {
+      "Key": "442-16719-6-419(Script)",
+      "OriginalText": "1212",
+      "TransText": "23123213123"
+    },
+    {
+      "Key": "193-6482-6-177(Script)",
+      "OriginalText": "2313",
+      "TransText": "23131231231"
+    },
+    {
+      "Key": "206-7013-12-191(Script)",
+      "OriginalText": "2321312312",
+      "TransText": "213213123"
+    },
+    {
+      "Key": "213-7316-10-198(Script)",
+      "OriginalText": "21312312",
+      "TransText": "123213123"
+    },
+    {
+      "Key": "247-8686-10-234(Script)",
+      "OriginalText": "21312312",
+      "TransText": "12312313"
+    },
+    {
+      "Key": "322-11646-10-302(Script)",
+      "OriginalText": "21312312",
+      "TransText": "123213123"
+    },
+    {
+      "Key": "424-16015-6-401(Script)",
+      "OriginalText": "1212",
+      "TransText": "213123123"
+    },
+    {
+      "Key": "442-16738-6-419(Script)",
+      "OriginalText": "1212",
+      "TransText": "12321321321312313"
+    },
+    {
+      "Key": "444-16934-40-421(Script)",
+      "OriginalText": "这个装置的设计目的是让戴着它的人很难接近锁孔来解锁自己.你费尽心思将钥匙插入",
+      "TransText": ""
+    },
+    {
+      "Key": "446-17099-57-423(Script)",
+      "OriginalText": "该装置的设计目的是将锁安全地放置在佩戴者接触不到的地方.即使拥有正确的钥匙,你也无法自行解锁.你需要寻求帮助!",
+      "TransText": ""
+    },
+    {
+      "Key": "449-17211-22-426(Script)",
+      "OriginalText": "你试图逃离该装置,但无法触及其锁定机制!",
+      "TransText": ""
+    },
+    {
+      "Key": "633-23902-8-593(Script)",
+      "OriginalText": "当你操纵了",
+      "TransText": ""
+    },
+    {
+      "Key": "661-25199-8-621(Script)",
+      "OriginalText": "当你操纵了",
+      "TransText": ""
+    },
+    {
+      "Key": "708-26984-12-664(Script)",
+      "OriginalText": "此装置不能与其交互.",
+      "TransText": ""
+    },
+    {
+      "Key": "716-27197-12-670(Script)",
+      "OriginalText": "此装置不能与其交互.",
+      "TransText": ""
+    },
+    {
+      "Key": "732-27501-12-681(Script)",
+      "OriginalText": "此装置不能与其交互.",
+      "TransText": ""
+    },
+    {
+      "Key": "744-27761-12-690(Script)",
+      "OriginalText": "此装置不能与其交互.",
+      "TransText": ""
+    },
+    {
+      "Key": "771-28824-10-714(Script)",
+      "OriginalText": "会利用你的……",
+      "TransText": ""
+    },
+    {
+      "Key": "773-28929-7-716(Script)",
+      "OriginalText": "会占尽",
+      "TransText": ""
+    },
+    {
+      "Key": "888-33909-18-829(Script)",
+      "OriginalText": "DDC 警告: 未找到性爱动画!",
+      "TransText": ""
+    },
+    {
+      "Key": "968-36995-21-902(Script)",
+      "OriginalText": "未应用难度修正 - 模组制作者不允许!",
+      "TransText": ""
+    },
+    {
+      "Key": "983-37700-10-917(Script)",
+      "OriginalText": "应用难度修正:",
+      "TransText": ""
+    },
+    {
+      "Key": "989-37961-21-924(Script)",
+      "OriginalText": "未应用难度修正 - 模组制作者不允许!",
+      "TransText": ""
+    },
+    {
+      "Key": "1004-38659-10-939(Script)",
+      "OriginalText": "应用难度修正:",
+      "TransText": ""
+    },
+    {
+      "Key": "1010-38932-12-946(Script)",
+      "OriginalText": "你小心翼翼的检查着",
+      "TransText": ""
+    },
+    {
+      "Key": "1012-39050-25-948(Script)",
+      "OriginalText": "这种拘束相当薄弱,不会对挣扎者提供太多的阻力.",
+      "TransText": ""
+    },
+    {
+      "Key": "1014-39166-25-950(Script)",
+      "OriginalText": "这不是一个非常安全的拘束.挣扎开来应该很容易.",
+      "TransText": ""
+    },
+    {
+      "Key": "1016-39282-32-952(Script)",
+      "OriginalText": "这种拘束有些安全,但也不是那么过分.挣扎开来将是相当困难的.",
+      "TransText": ""
+    },
+    {
+      "Key": "1018-39405-36-954(Script)",
+      "OriginalText": "这种拘束装置设计的很安全,但如果你有足够的耐心,有可能会被挣扎开来.",
+      "TransText": ""
+    },
+    {
+      "Key": "1020-39532-28-956(Script)",
+      "OriginalText": "这种拘束装置设计的相当安全,很难挣脱,但并非不可能.",
+      "TransText": ""
+    },
+    {
+      "Key": "1022-39650-23-958(Script)",
+      "OriginalText": "这种拘束装置设计的非常安全,并且极难挣脱.",
+      "TransText": ""
+    },
+    {
+      "Key": "1024-39762-46-960(Script)",
+      "OriginalText": "这种拘束装置设计的极其安全,可以承受大多数穿戴者的挣扎尝试.摆脱这个装置几乎是不可能的.",
+      "TransText": ""
+    },
+    {
+      "Key": "1026-39848-36-962(Script)",
+      "OriginalText": "这种拘束装置是专门为挣扎者设计的. 想要摆脱这个装置是完全不可能的!",
+      "TransText": ""
+    },
+    {
+      "Key": "1030-40023-21-966(Script)",
+      "OriginalText": "它的锁很弱,不会对撬锁者提供太大的阻力",
+      "TransText": ""
+    },
+    {
+      "Key": "1032-40144-20-968(Script)",
+      "OriginalText": "它的锁不是很安全.撬开它应该很容易。",
+      "TransText": ""
+    },
+    {
+      "Key": "1034-40264-27-970(Script)",
+      "OriginalText": "它的锁有些安全,但也不是太安全.撬开它会比较困难.",
+      "TransText": ""
+    },
+    {
+      "Key": "1036-40391-28-972(Script)",
+      "OriginalText": "它的锁设计的很安全,但可能无法承受高强度的撬锁尝试.",
+      "TransText": ""
+    },
+    {
+      "Key": "1038-40519-23-974(Script)",
+      "OriginalText": "它的锁相当安全,很难撬开,但也并非不可能.",
+      "TransText": ""
+    },
+    {
+      "Key": "1040-40641-15-976(Script)",
+      "OriginalText": "它的锁非常安全,极难撬开.",
+      "TransText": ""
+    },
+    {
+      "Key": "1042-40754-23-978(Script)",
+      "OriginalText": "它的锁是特制的,可以承受大多数的撬锁尝试.",
+      "TransText": ""
+    },
+    {
+      "Key": "1044-40817-32-980(Script)",
+      "OriginalText": "它有一个防篡改锁.如果没有正确的钥匙,解锁它是绝对不可能的!",
+      "TransText": ""
+    },
+    {
+      "Key": "1048-40991-26-984(Script)",
+      "OriginalText": "它的制材很脆弱,不会对破坏者提供太多的抗断裂能力",
+      "TransText": ""
+    },
+    {
+      "Key": "1050-41120-22-986(Script)",
+      "OriginalText": "它的制材是不太坚固的.打破它应该很容易.",
+      "TransText": ""
+    },
+    {
+      "Key": "1052-41245-26-988(Script)",
+      "OriginalText": "它的材质有点坚固,但也不过分.打破它的难度适中.",
+      "TransText": ""
+    },
+    {
+      "Key": "1054-41374-34-990(Script)",
+      "OriginalText": "它的材料是坚固的,但如果有正确的工具和足够的努力,是可能打破的.",
+      "TransText": ""
+    },
+    {
+      "Key": "1056-41511-27-992(Script)",
+      "OriginalText": "它的材料相当坚固的,很难打破,但也绝不是不可能的.",
+      "TransText": ""
+    },
+    {
+      "Key": "1058-41640-16-994(Script)",
+      "OriginalText": "它的材料非常坚固,极难破碎.",
+      "TransText": ""
+    },
+    {
+      "Key": "1060-41757-25-996(Script)",
+      "OriginalText": "它的材料异常坚固,可以承受大多数破坏它的尝试.",
+      "TransText": ""
+    },
+    {
+      "Key": "1062-41822-24-998(Script)",
+      "OriginalText": "它是用任何工具和手段都无法破坏的材料制成的!",
+      "TransText": ""
+    },
+    {
+      "Key": "1077-42552-33-1013(Script)",
+      "OriginalText": "你不能在上次尝试后这么快就试图挣脱这个装置! 你可以在大约",
+      "TransText": ""
+    },
+    {
+      "Key": "1079-42753-36-1015(Script)",
+      "OriginalText": "你不能在上次尝试后这么快就试图挣脱这个装置! 你很快就可以再试一次!",
+      "TransText": ""
+    },
+    {
+      "Key": "1081-42839-8-1017(Script)",
+      "OriginalText": "你不能帮助",
+      "TransText": ""
+    },
+    {
+      "Key": "1097-43657-33-1033(Script)",
+      "OriginalText": "你不能在上次尝试之后这么快就尝试打开这个装置! 你可以在大约",
+      "TransText": ""
+    },
+    {
+      "Key": "1099-43858-37-1035(Script)",
+      "OriginalText": "你不能在上次尝试之后这么快就尝试打开这个装置! 你很快就可以再试一次!",
+      "TransText": ""
+    },
+    {
+      "Key": "1101-43945-8-1037(Script)",
+      "OriginalText": "你不能帮助",
+      "TransText": ""
+    },
+    {
+      "Key": "1117-44769-31-1053(Script)",
+      "OriginalText": "你不能在上次尝试后这么快就尝试选择该设备! 你可以在大约",
+      "TransText": ""
+    },
+    {
+      "Key": "1119-44968-35-1055(Script)",
+      "OriginalText": "你不能在上次尝试后这么快就尝试选择该设备! 你很快就可以再试一次!",
+      "TransText": ""
+    },
+    {
+      "Key": "1121-45053-8-1057(Script)",
+      "OriginalText": "你不能帮助",
+      "TransText": ""
+    },
+    {
+      "Key": "1133-45445-14-1069(Script)",
+      "OriginalText": "玩家正在尝试/帮助逃脱",
+      "TransText": ""
+    },
+    {
+      "Key": "1135-45666-8-1071(Script)",
+      "OriginalText": "用户已逃脱",
+      "TransText": ""
+    },
+    {
+      "Key": "1141-45885-10-1075(Script)",
+      "OriginalText": "用户逃脱失败:",
+      "TransText": ""
+    },
+    {
+      "Key": "1146-46204-8-1079(Script)",
+      "OriginalText": "触发仁慈逃脱",
+      "TransText": ""
+    },
+    {
+      "Key": "1161-46597-27-1094(Script)",
+      "OriginalText": "太有趣了!你在时间到之前成功逃离装置将会得到奖励!",
+      "TransText": ""
+    },
+    {
+      "Key": "1163-46673-24-1096(Script)",
+      "OriginalText": "太好玩了!你竟然在时间到之前成功逃离了装置!",
+      "TransText": ""
+    },
+    {
+      "Key": "1191-47894-10-1123(Script)",
+      "OriginalText": "你没能逃脱你的",
+      "TransText": ""
+    },
+    {
+      "Key": "1207-48417-9-1135(Script)",
+      "OriginalText": "Stamina",
+      "TransText": ""
+    },
+    {
+      "Key": "1210-48533-9-1138(Script)",
+      "OriginalText": "Stamina",
+      "TransText": ""
+    },
+    {
+      "Key": "1213-48649-9-1141(Script)",
+      "OriginalText": "Stamina",
+      "TransText": ""
+    },
+    {
+      "Key": "1252-50069-10-1178(Script)",
+      "OriginalText": "你没能逃脱你的",
+      "TransText": ""
+    },
+    {
+      "Key": "1267-50593-11-1190(Script)",
+      "OriginalText": "OneHanded",
+      "TransText": ""
+    },
+    {
+      "Key": "1270-50766-11-1193(Script)",
+      "OriginalText": "OneHanded",
+      "TransText": ""
+    },
+    {
+      "Key": "1273-50939-11-1196(Script)",
+      "OriginalText": "OneHanded",
+      "TransText": ""
+    },
+    {
+      "Key": "1301-51843-9-1224(Script)",
+      "OriginalText": "你没有可以在",
+      "TransText": ""
+    },
+    {
+      "Key": "1310-52270-10-1232(Script)",
+      "OriginalText": "你没能达到你的",
+      "TransText": ""
+    },
+    {
+      "Key": "1321-52829-10-1241(Script)",
+      "OriginalText": "你没能逃脱你的",
+      "TransText": ""
+    },
+    {
+      "Key": "1372-54800-13-1290(Script)",
+      "OriginalText": "Lockpicking",
+      "TransText": ""
+    },
+    {
+      "Key": "1375-54920-13-1293(Script)",
+      "OriginalText": "Lockpicking",
+      "TransText": ""
+    },
+    {
+      "Key": "1378-55040-13-1296(Script)",
+      "OriginalText": "Lockpicking",
+      "TransText": ""
+    }
+  ]
+}

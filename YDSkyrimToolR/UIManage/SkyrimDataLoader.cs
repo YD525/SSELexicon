@@ -119,7 +119,7 @@ namespace YDSkyrimToolR.UIManage
 
         public static string GenUniqueKey(string EditorID, string SetType)
         {
-            return (EditorID + "(" + SetType.GetHashCode() + ")");
+            return (EditorID + "(" + SetType + ")");
         }
 
         public static void Load(ObjSelect Type,EspReader Reader, YDListView View)

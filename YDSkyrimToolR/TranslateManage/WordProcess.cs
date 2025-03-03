@@ -95,6 +95,44 @@ namespace YDSkyrimToolR.TranslateCore
             return ReplaceCount;
         }
 
+        public static int ReadDictionary()
+        {
+            int ReplaceCount = 0;
+            for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
+            {
+                Grid MainGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
+                int GetTransHashKey = ConvertHelper.ObjToInt(MainGrid.Tag);
+                string GetKey = ConvertHelper.ObjToStr((MainGrid.Children[2] as TextBox).Text);
+                var TargetText = ConvertHelper.ObjToStr((MainGrid.Children[4] as TextBox).Text);
+
+                var GetData = YDDictionaryHelper.CheckDictionary(GetKey);
+
+                if (GetData != null)
+                {
+                    (MainGrid.Children[4] as TextBox).Text = GetData.TransText;
+                }
+            }
+
+            return ReplaceCount;
+        }
+
+        public static int WriteDictionary()
+        {
+            int ReplaceCount = 0;
+            for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
+            {
+                Grid MainGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
+                int GetTransHashKey = ConvertHelper.ObjToInt(MainGrid.Tag);
+                string GetKey = ConvertHelper.ObjToStr((MainGrid.Children[2] as TextBox).Text);
+                var TargetText = ConvertHelper.ObjToStr((MainGrid.Children[4] as TextBox).Text);
+                string GetTransText = (MainGrid.Children[3] as TextBox).Text.Trim();
+
+                YDDictionaryHelper.UPDateTransText(GetKey, GetTransText, TargetText);
+            }
+
+            return ReplaceCount;
+        }
+
         public static Thread MainTransThread = null;
         public static bool LockerAutoTransService = false;
         public static void StartAutoTransService(bool Check)

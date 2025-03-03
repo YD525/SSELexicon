@@ -164,23 +164,19 @@ namespace YDSkyrimToolR
         public void ReloadLanguageMode()
         {
             Source.Items.Clear();
-            Source.Items.Add("English");
-            Source.Items.Add("Chinese");
-            Source.Items.Add("Japanese");
-            Source.Items.Add("Korean");
-            Source.Items.Add("German");
-            Source.Items.Add("Turkish");
-            Source.Items.Add("Brazilian");
+            foreach (var Get in UILanguageHelper.SupportLanguages)
+            {
+                Source.Items.Add(Get.ToString());
+            }
+           
             Source.SelectedValue = DeFine.SourceLanguage.ToString();
 
             Target.Items.Clear();
-            Target.Items.Add("Chinese");
-            Target.Items.Add("English");
-            Target.Items.Add("Japanese");
-            Target.Items.Add("Korean");
-            Target.Items.Add("German");
-            Target.Items.Add("Turkish");
-            Target.Items.Add("Brazilian");
+            foreach (var Get in UILanguageHelper.SupportLanguages)
+            {
+                Target.Items.Add(Get.ToString());
+            }
+
             Target.SelectedValue = DeFine.TargetLanguage.ToString();
         }
 
@@ -224,6 +220,11 @@ namespace YDSkyrimToolR
             SetLog("Copyright (C) 2025 YD525 OpenSource:https://github.com/YD525/YDSkyrimToolR");
 
             CheckINeed();
+
+            if (DeFine.GlobalLocalSetting.AutoLoadDictionaryFile)
+            {
+                UsingDictionary.IsChecked = true;
+            }
 
             new Thread(() =>
             {
@@ -280,11 +281,22 @@ namespace YDSkyrimToolR
 
         public void LoadAny(string FilePath)
         {
-            SetLog(string.Empty);
+            SetLog("Load:" + FilePath);
             if (System.IO.File.Exists(FilePath))
             {
                 string GetFileName = FilePath.Substring(FilePath.LastIndexOf(@"\") + @"\".Length);
                 Caption.Content = GetFileName;
+
+                string GetModName = GetFileName;
+                if (DeFine.GlobalLocalSetting.AutoLoadDictionaryFile)
+                {
+                    YDDictionaryHelper.ReadDictionary(GetModName);
+                }
+                else
+                {
+                    YDDictionaryHelper.Close();
+                }
+
                 //3.1.1 Version esl not support
                 if (FilePath.ToLower().EndsWith(".pex"))
                 {
@@ -723,8 +735,6 @@ namespace YDSkyrimToolR
         public int LoadSaveState = 0;
         private void AutoLoadOrSave(object sender, MouseButtonEventArgs e)
         {
-            string SetButtonContent = "";
-
             if (LoadSaveState == 0)
             {
                 LoadSaveState = 1;
@@ -759,6 +769,12 @@ namespace YDSkyrimToolR
                         {
                             if (GlobalEspReader.CurrentReadMod != null)
                             {
+                                if (CurrentSelect != ObjSelect.All)
+                                {
+                                    CurrentSelect = ObjSelect.All;
+                                    SkyrimDataLoader.Load(CurrentSelect, GlobalEspReader, TransViewList);
+                                }
+
                                 string GetBackUPPath = GetFilePath + GetFileFullName + ".backup";
                                 if (File.Exists(GetBackUPPath))
                                 {
@@ -788,7 +804,16 @@ namespace YDSkyrimToolR
                             GlobalMCMReader.SaveMCMConfig(LastSetPath);
                         }
                 }
-
+                if (DeFine.GlobalLocalSetting.AutoLoadDictionaryFile)
+                {
+                    WordProcess.WriteDictionary();
+                    YDDictionaryHelper.CreatDictionary();
+                }
+                else
+                {
+                    YDDictionaryHelper.Close();
+                }
+                
                 CancelTransEsp(null, null);
                 LoadFileButton.Content = UILanguageHelper.SearchStateChangeStr("LoadFileButton", 0);
             }
@@ -810,9 +835,14 @@ namespace YDSkyrimToolR
             GlobalMCMReader.Close();
             GlobalPexReader.Close();
 
-            (StartTransBtn.Child as Label).Content = "LoadFile";
+            (StartTransBtn.Child as Label).Content = UILanguageHelper.SearchStateChangeStr("LoadFileButton", 0);
+            LoadSaveState = 0;
+
             CancelBtn.Opacity = 0.3;
             CancelBtn.IsEnabled = false;
+
+            TypeSelector.Items.Clear();
+            YDDictionaryHelper.Close();
         }
 
         public bool IsDragEnter = false;
@@ -908,73 +938,24 @@ namespace YDSkyrimToolR
         {
             //  English = 0, Chinese = 1, Japanese = 2, German = 5, Korean = 6
             string GetValue = ConvertHelper.ObjToStr(Source.SelectedValue);
-            switch (GetValue)
+
+            if (GetValue.Trim().Length > 0)
             {
-                case "English":
-                    {
-                        DeFine.SourceLanguage = TranslateCore.Languages.English;
-                    }
-                    break;
-                case "Chinese":
-                    {
-                        DeFine.SourceLanguage = TranslateCore.Languages.Chinese;
-                    }
-                    break;
-                case "Japanese":
-                    {
-                        DeFine.SourceLanguage = TranslateCore.Languages.Japanese;
-                    }
-                    break;
-                case "German":
-                    {
-                        DeFine.SourceLanguage = TranslateCore.Languages.German;
-                    }
-                    break;
-                case "Korean":
-                    {
-                        DeFine.SourceLanguage = TranslateCore.Languages.Korean;
-                    }
-                    break;
+                DeFine.SourceLanguage = Enum.Parse<Languages>(GetValue);
             }
+            
             DeFine.GlobalLocalSetting.SourceLanguage = DeFine.SourceLanguage;
         }
 
         private void Target_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             string GetValue = ConvertHelper.ObjToStr(Target.SelectedValue);
-            switch (GetValue)
+
+            if (GetValue.Trim().Length > 0)
             {
-                case "English":
-                    {
-                        DeFine.TargetLanguage = TranslateCore.Languages.English;
-                    }
-                    break;
-                case "Chinese":
-                    {
-                        DeFine.TargetLanguage = TranslateCore.Languages.Chinese;
-                    }
-                    break;
-                case "Japanese":
-                    {
-                        DeFine.TargetLanguage = TranslateCore.Languages.Japanese;
-                    }
-                    break;
-                case "German":
-                    {
-                        DeFine.TargetLanguage = TranslateCore.Languages.German;
-                    }
-                    break;
-                case "Korean":
-                    {
-                        DeFine.TargetLanguage = TranslateCore.Languages.Korean;
-                    }
-                    break;
-                case "Turkish":
-                    {
-                        DeFine.TargetLanguage = TranslateCore.Languages.Turkish;
-                    }
-                    break;
+                DeFine.TargetLanguage = Enum.Parse<Languages>(GetValue);
             }
+            
             DeFine.GlobalLocalSetting.TargetLanguage = DeFine.TargetLanguage;
         }
 
@@ -1230,6 +1211,31 @@ namespace YDSkyrimToolR
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             AutoViewMode();
+        }
+
+        private void UsingDictionary_Click(object sender, RoutedEventArgs e)
+        {
+            if (LoadSaveState != 0)
+            {
+                MessageBox.Show("The stop dictionary cannot be enabled during the translation phase.");
+                if (DeFine.GlobalLocalSetting.AutoLoadDictionaryFile)
+                {
+                    UsingDictionary.IsChecked = true;
+                }
+            }
+            else
+            {
+                if (UsingDictionary.IsChecked == true)
+                {
+                    DeFine.GlobalLocalSetting.AutoLoadDictionaryFile = true;
+                }
+                else
+                {
+                    DeFine.GlobalLocalSetting.AutoLoadDictionaryFile = false;
+                }
+
+                DeFine.GlobalLocalSetting.SaveConfig();
+            }
         }
     }
 }

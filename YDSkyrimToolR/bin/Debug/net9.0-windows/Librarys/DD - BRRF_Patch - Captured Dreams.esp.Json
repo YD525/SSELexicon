@@ -1,0 +1,575 @@
+{
+  "ModName": "DD - BRRF_Patch - Captured Dreams.esp",
+  "Dictionarys": [
+    {
+      "Key": "CDxQ_WlcuffsLeatherCollar_scriptInstance(Description)",
+      "OriginalText": "wewqe",
+      "TransText": "232132134221313"
+    },
+    {
+      "Key": "CDxQ_SlvcuffsPaddedCollar_scriptInstance(Description)",
+      "OriginalText": "wqeqeq",
+      "TransText": "23213"
+    },
+    {
+      "Key": "CDxQ_TavishcollarPosture_scriptInstance(Description)",
+      "OriginalText": "eqeqeqeq",
+      "TransText": "23213"
+    },
+    {
+      "Key": "CDxQ_REcuffsLeatherCollar_scriptInstance(Description)",
+      "OriginalText": "12123213123123131133",
+      "TransText": "21312312"
+    },
+    {
+      "Key": "CDxQ_REcuffsLeatherPostureCollar_scriptInstance(Description)",
+      "OriginalText": "121212",
+      "TransText": "3123123"
+    },
+    {
+      "Key": "CDxQ_REgagHarnessBall_scriptInstance(Description)",
+      "OriginalText": "121212",
+      "TransText": "213123123"
+    },
+    {
+      "Key": "CDxQ_REgagHarnessRing_scriptInstance(Description)",
+      "OriginalText": "12121",
+      "TransText": "123123123"
+    },
+    {
+      "Key": "CDxQ_REgagStrapBall_scriptInstance(Description)",
+      "OriginalText": "1212",
+      "TransText": "12321312"
+    },
+    {
+      "Key": "CDxQ_REgagStrapRing_scriptInstance(Description)",
+      "OriginalText": "121212",
+      "TransText": "31231231"
+    },
+    {
+      "Key": "CDxQ_REharnessCollar_scriptInstance(Description)",
+      "OriginalText": "121212",
+      "TransText": "1231231313"
+    },
+    {
+      "Key": "CDxQ_WEcuffsLeatherCollar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "WEWQEWQ"
+    },
+    {
+      "Key": "CDxQ_WEcuffsLeatherPostureCollar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "WQEQWEWQE"
+    },
+    {
+      "Key": "CDxQ_WEgagHarnessBall_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "WQEQWEQWEQE"
+    },
+    {
+      "Key": "CDxQ_WEgagHarnessRing_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "2323232323"
+    },
+    {
+      "Key": "CDxQ_WEgagStrapBall_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "213123123123"
+    },
+    {
+      "Key": "CDxQ_WEgagStrapRing_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "3123123121wwwwwwwww"
+    },
+    {
+      "Key": "CDxQ_WEharnessCollar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_RlcuffsLeatherCollar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_RLcuffsLeatherPostureCollar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_RLgagHarnessBall_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_RLgagHarnessRing_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_RLgagStrapBall_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_RLgagStrapRing_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_RLharnessCollar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_RedcuffsPaddedCollar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_WLcuffsLeatherPostureCollar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_WLgagHarnessBall_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_WLgagHarnessRing_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_WLgagStrapBall_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_WLgagStrapRing_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_WLharnessCollar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_BEcuffsLeatherCollar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxXXX_BEgag01ball_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxXXX_BEgag01ring_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_BEgagHarnessBall_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_BEgagHarnessRing_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_BEgagStrapBall_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_BEharnessBody_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_BEharnessCollar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxG_BlkCollarPostureSteel_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxG_BlkCuffsPaddedCollar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxG_RedCollarPostureSteel_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxG_RedCuffsPaddedCollar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxG_WhtCollarPostureSteel_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxG_WhtCuffsPaddedCollar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_BlkcollarPosture_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_BlkcuffsPaddedCollar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_RedcollarPosture_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxP_ProtStdPlusCuffsPaddedCollar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_WhtcollarPosture_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_WhtcuffsPaddedCollar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_JadecuffsPaddedCollar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_WEgagHarnessBallSP_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_WLgagHarnessBallSP_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxG_WTEGagEbHarnessBall_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxG_WTLgagHarnessBall_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_SlvcollarPosture_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxG_SlvrCollarPostureSteel_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxG_SlvrCuffsPaddedCollar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxG_BrzCollarPostureSteel_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxG_BrzCuffsPaddedCollar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxG_DkRedCollarPostureSteel_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxG_DkRedCuffsPaddedCollar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_DkRedcollarPosture_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_DkRedcuffsPaddedCollar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_BEcuffsLeatherPostureCollar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxP_ProtWhtPluscollarPosture_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxP_ProtWhtPluscuffsPaddedCollar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxP_ProtRedPluscollarPosture_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxP_ProtRedPluscuffsPaddedCollar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxP_ProtDkRedPluscollarPosture_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxP_ProtDkRedPluscuffsPaddedCollar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxP_ProtBlkPluscollarPosture_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxP_ProtBlkPluscuffsPaddedCollar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_BEBlindfold_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_BLBlindfold_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_REBlindfold_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_RLBlindfold_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_WEBlindfold_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxQ_WLBlindfold_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxM_RedEboniteHarness_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxM_RedEboniteHarnessCollar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxM_RDEEBlindfold_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxM_EQ03Collar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxS_SlvrCollar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": "Ссылка на проект зарезервирован для взаимодействия сценария."
+    },
+    {
+      "Key": "CDxB_BrzCollarPostureSteelBasic(Name)",
+      "OriginalText": "项圈青铜 (体态) (钢) (非锁定)",
+      "TransText": "Крунза воротника (форма тела) (сталь) (не блокированная)"
+    },
+    {
+      "Key": "CDxB_BrzCollarPostureSteelBasic(Description)",
+      "OriginalText": "钢制项圈旨在通过覆盖整个颈部来确保正确的姿势。它采用青铜色饰面，没有锁定机制",
+      "TransText": "Стальной воротник предназначен для обеспечения правильной осанки"
+    },
+    {
+      "Key": "CDxB_BrzCuffsPaddedCollarBasic(Name)",
+      "OriginalText": "项圈青铜 (带衬垫) (非锁定)",
+      "TransText": ""
+    },
+    {
+      "Key": "CDxB_BrzCuffsPaddedCollarBasic(Description)",
+      "OriginalText": "带有柔软皮革衬垫的金属衣领。它具有青铜注入饰面，没有锁定机制。",
+      "TransText": ""
+    },
+    {
+      "Key": "CDxB_SlvCollarPostureSteelBasic(Name)",
+      "OriginalText": "项圈 (银) (体态) (非锁定)",
+      "TransText": ""
+    },
+    {
+      "Key": "CDxB_SlvCollarPostureSteelBasic(Description)",
+      "OriginalText": "钢制项圈旨在通过覆盖整个颈部来确保正确的姿势。它具有镀银饰面，没有锁定机制",
+      "TransText": ""
+    },
+    {
+      "Key": "CDxB_SlvCuffsPaddedCollarBasic(Name)",
+      "OriginalText": "项圈 (银) (非锁定)",
+      "TransText": ""
+    },
+    {
+      "Key": "CDxB_SlvCuffsPaddedCollarBasic(Description)",
+      "OriginalText": "带有柔软皮革衬垫的金属衣领。它具有青铜注入饰面，没有锁定机制。",
+      "TransText": ""
+    },
+    {
+      "Key": "CDxQ_BrzcollarPosture_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": ""
+    },
+    {
+      "Key": "CDxQ_BrzcuffsPaddedCollar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": ""
+    },
+    {
+      "Key": "CDxQ_BlcuffsLeatherCollar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": ""
+    },
+    {
+      "Key": "CDxQ_BLcuffsLeatherPostureCollar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": ""
+    },
+    {
+      "Key": "CDxQ_BLharnessBody_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": ""
+    },
+    {
+      "Key": "CDxQ_BLharnessCollar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": ""
+    },
+    {
+      "Key": "CDxQ_BLgagHarnessBall_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": ""
+    },
+    {
+      "Key": "CDxQ_BLgagHarnessRing_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": ""
+    },
+    {
+      "Key": "CDxQ_BLgagStrapBall_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": ""
+    },
+    {
+      "Key": "CDxQ_BLgagStrapRing_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": ""
+    },
+    {
+      "Key": "CDxQ_REharnessBody_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": ""
+    },
+    {
+      "Key": "CDxQ_WEharnessBody_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": ""
+    },
+    {
+      "Key": "CDxQ_RLharnessBody_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": ""
+    },
+    {
+      "Key": "CDxQ_WLharnessBody_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": ""
+    },
+    {
+      "Key": "CDxQ_StlcollarPosture_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": ""
+    },
+    {
+      "Key": "CDxQ_StlcuffsPaddedCollar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": ""
+    },
+    {
+      "Key": "CDxP_ProtSlvPlusCuffsPaddedCollar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": ""
+    },
+    {
+      "Key": "CDxP_ProtSlvPlusCollarPostureSteel_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": ""
+    },
+    {
+      "Key": "CDxP_ProtBrzPlusCollarPostureSteel_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": ""
+    },
+    {
+      "Key": "CDxP_ProtBrzPlusCuffsPaddedCollar_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": ""
+    },
+    {
+      "Key": "CDxP_ProtStdPlusCollarPostureSteel_scriptInstance(Description)",
+      "OriginalText": "为脚本交互保留的项目参考。这不应出现在您的库存中。检查您的 Devious Devices 模组配置。",
+      "TransText": ""
+    }
+  ]
+}

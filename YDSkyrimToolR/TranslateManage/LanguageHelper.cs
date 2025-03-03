@@ -30,7 +30,7 @@ namespace YDSkyrimToolR.TranslateCore
 */
     public enum Languages
     {
-        English = 0, Chinese = 1, Japanese = 2, German = 5, Korean = 6, Turkish = 7 , Brazilian = 8
+        English = 0, Chinese = 1, Japanese = 2, German = 5, Korean = 6, Turkish = 7 , Brazilian = 8 , Russian = 9
     }
 
     public class LanguageHelper
@@ -46,7 +46,8 @@ namespace YDSkyrimToolR.TranslateCore
                 Languages.Korean => "韩文",
                 Languages.Turkish => "土耳其文",
                 Languages.Brazilian => "巴西文",
-               _ => "未知"
+                Languages.Russian => "俄语",
+              _ => "未知"
             };
         }
 

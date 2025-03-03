@@ -176,7 +176,18 @@ namespace YDSkyrimToolR.UIManage
             SourceTextBox.TextWrapping = TextWrapping.Wrap;
             SourceTextBox.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
             SourceTextBox.PreviewMouseDown += SourceTextBox_PreviewMouseDown;
-            SourceTextBox.Text = SourceText;
+
+            var FindDictionary = YDDictionaryHelper.CheckDictionary(Key);
+
+            if (FindDictionary != null)
+            {
+                SourceTextBox.Text = FindDictionary.OriginalText;
+            }
+            else
+            {
+                SourceTextBox.Text = SourceText;
+            }
+           
             Grid.SetRow(SourceTextBox, 0);
             Grid.SetColumn(SourceTextBox, 2);
             MainGrid.Children.Add(SourceTextBox);
@@ -205,7 +216,23 @@ namespace YDSkyrimToolR.UIManage
             TransTextBox.AcceptsReturn = true;
             TransTextBox.TextWrapping = TextWrapping.Wrap;
             TransTextBox.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
-            TransTextBox.Text = TransText;
+           
+            if (TransText.Trim().Length == 0)
+            {
+                if (FindDictionary != null)
+                {
+                    if (FindDictionary.TransText.Trim().Length > 0)
+                    {
+                        TransTextBox.Text = FindDictionary.TransText;
+                        TransTextBox.BorderBrush = new SolidColorBrush(Colors.Green);
+                    }
+                }
+            }
+            else
+            {
+                TransTextBox.Text = TransText;
+            }
+
             TransTextBox.MouseEnter += TransTextBox_MouseEnter;
             TransTextBox.MouseLeave += TransTextBox_MouseLeave;
             TransTextBox.LostFocus += TransTextBox_LostFocus;

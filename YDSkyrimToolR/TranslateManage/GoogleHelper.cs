@@ -32,6 +32,7 @@ namespace YDSkyrimToolR.TranslateManage
                 Languages.Korean => "ko",
                 Languages.Turkish => "tr",
                 Languages.Brazilian => "pt-BR",
+                Languages.Russian => "ru",
                 _ => throw new ArgumentOutOfRangeException(nameof(language), "Unsupported language")
             };
         }

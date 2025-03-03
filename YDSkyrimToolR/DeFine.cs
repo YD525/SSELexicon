@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Policy;
 using System.Security.RightsManagement;
 using System.Text;
 using System.Text.Json;
@@ -101,6 +102,8 @@ namespace YDSkyrimToolR
         public string ChatGptKey { get; set; } = "";
         public string DeepSeekKey { get; set; } = "";
         public int TransCount { get; set; } = 0;
+        public bool AutoLoadDictionaryFile { get; set; } = false;
+
         public void ReadConfig()
         {
             if (File.Exists(DeFine.GetFullPath(@"\setting.config")))
@@ -111,6 +114,7 @@ namespace YDSkyrimToolR
                     var GetSetting = JsonSerializer.Deserialize<LocalSetting>(GetStr);
                     if (GetSetting != null)
                     {
+                        this.AutoLoadDictionaryFile = GetSetting.AutoLoadDictionaryFile;
                         this.PhraseEngineUsing = GetSetting.PhraseEngineUsing;
                         this.CodeParsingEngineUsing = GetSetting.CodeParsingEngineUsing;
                         this.ConjunctionEngineUsing = GetSetting.ConjunctionEngineUsing;

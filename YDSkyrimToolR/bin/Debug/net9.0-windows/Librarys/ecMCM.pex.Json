@@ -1,0 +1,235 @@
+{
+  "ModName": "ecMCM.pex",
+  "Dictionarys": [
+    {
+      "Key": "0-120-16-4(Script)",
+      "OriginalText": "ecMCM_default_",
+      "TransText": "213213213123123"
+    },
+    {
+      "Key": "0-160-13-5(Script)",
+      "OriginalText": "ecMCM_desc_",
+      "TransText": "231123"
+    },
+    {
+      "Key": "0-199-15-6(Script)",
+      "OriginalText": "ecMCM_format_",
+      "TransText": "23213213"
+    },
+    {
+      "Key": "0-237-12-7(Script)",
+      "OriginalText": "ecMCM_max_",
+      "TransText": "213123123"
+    },
+    {
+      "Key": "0-272-12-8(Script)",
+      "OriginalText": "ecMCM_min_",
+      "TransText": "123213"
+    },
+    {
+      "Key": "0-308-13-9(Script)",
+      "OriginalText": "ecMCM_step_",
+      "TransText": "123213123"
+    },
+    {
+      "Key": "0-345-13-10(Script)",
+      "OriginalText": "ecMCM_type_",
+      "TransText": "123213123"
+    },
+    {
+      "Key": "0-380-16-11(Script)",
+      "OriginalText": "ecMCM_registry",
+      "TransText": "1231233"
+    },
+    {
+      "Key": "0-415-14-12(Script)",
+      "OriginalText": "ecMCM_state_",
+      "TransText": "3213213123"
+    },
+    {
+      "Key": "0-512-15-16(Script)",
+      "OriginalText": "ecMCM_version",
+      "TransText": "321321321"
+    },
+    {
+      "Key": "125-4220-3-134(Script)",
+      "OriginalText": "{",
+      "TransText": "23123"
+    },
+    {
+      "Key": "211-8596-5-228(Script)",
+      "OriginalText": "{0}",
+      "TransText": "2312312"
+    },
+    {
+      "Key": "297-12865-6-330(Script)",
+      "OriginalText": "WEQ1",
+      "TransText": "12312313"
+    },
+    {
+      "Key": "325-14229-6-357(Script)",
+      "OriginalText": "WEQ2",
+      "TransText": "1232111111111111"
+    },
+    {
+      "Key": "354-15583-6-386(Script)",
+      "OriginalText": "WWW3",
+      "TransText": "312321312312313"
+    },
+    {
+      "Key": "360-15812-7-392(Script)",
+      "OriginalText": "WEQE4",
+      "TransText": ""
+    },
+    {
+      "Key": "365-16166-6-397(Script)",
+      "OriginalText": "WWW3",
+      "TransText": ""
+    },
+    {
+      "Key": "366-16250-7-398(Script)",
+      "OriginalText": "WEQE4",
+      "TransText": ""
+    },
+    {
+      "Key": "367-16298-6-399(Script)",
+      "OriginalText": "WEQ1",
+      "TransText": ""
+    },
+    {
+      "Key": "380-16930-3-414(Script)",
+      "OriginalText": "=",
+      "TransText": ""
+    },
+    {
+      "Key": "382-17083-3-416(Script)",
+      "OriginalText": "=",
+      "TransText": ""
+    },
+    {
+      "Key": "384-17238-3-418(Script)",
+      "OriginalText": "=",
+      "TransText": ""
+    },
+    {
+      "Key": "394-17562-4-428(Script)",
+      "OriginalText": "ok",
+      "TransText": ""
+    },
+    {
+      "Key": "397-17656-8-431(Script)",
+      "OriginalText": "broken",
+      "TransText": ""
+    },
+    {
+      "Key": "399-17699-9-433(Script)",
+      "OriginalText": "missing",
+      "TransText": ""
+    },
+    {
+      "Key": "410-18017-13-445(Script)",
+      "OriginalText": "SKSE Plugin",
+      "TransText": ""
+    },
+    {
+      "Key": "411-18146-13-446(Script)",
+      "OriginalText": "papyrusutil",
+      "TransText": ""
+    },
+    {
+      "Key": "422-18500-14-459(Script)",
+      "OriginalText": "Requirements",
+      "TransText": ""
+    },
+    {
+      "Key": "125-4220-7-134(Script)",
+      "OriginalText": "23123",
+      "TransText": ""
+    },
+    {
+      "Key": "211-8600-9-228(Script)",
+      "OriginalText": "2312312",
+      "TransText": ""
+    },
+    {
+      "Key": "297-12873-10-330(Script)",
+      "OriginalText": "12312313",
+      "TransText": "23123213213"
+    },
+    {
+      "Key": "325-14241-18-357(Script)",
+      "OriginalText": "1232111111111111",
+      "TransText": "2131231231231"
+    },
+    {
+      "Key": "354-15607-17-386(Script)",
+      "OriginalText": "312321312312313",
+      "TransText": "213123123123123"
+    },
+    {
+      "Key": "360-15847-7-392(Script)",
+      "OriginalText": "WEQE4",
+      "TransText": ""
+    },
+    {
+      "Key": "365-16201-6-397(Script)",
+      "OriginalText": "WWW3",
+      "TransText": ""
+    },
+    {
+      "Key": "366-16285-7-398(Script)",
+      "OriginalText": "WEQE4",
+      "TransText": ""
+    },
+    {
+      "Key": "367-16333-6-399(Script)",
+      "OriginalText": "WEQ1",
+      "TransText": ""
+    },
+    {
+      "Key": "380-16965-3-414(Script)",
+      "OriginalText": "=",
+      "TransText": ""
+    },
+    {
+      "Key": "382-17118-3-416(Script)",
+      "OriginalText": "=",
+      "TransText": ""
+    },
+    {
+      "Key": "384-17273-3-418(Script)",
+      "OriginalText": "=",
+      "TransText": ""
+    },
+    {
+      "Key": "394-17597-4-428(Script)",
+      "OriginalText": "ok",
+      "TransText": ""
+    },
+    {
+      "Key": "397-17691-8-431(Script)",
+      "OriginalText": "broken",
+      "TransText": ""
+    },
+    {
+      "Key": "399-17734-9-433(Script)",
+      "OriginalText": "missing",
+      "TransText": ""
+    },
+    {
+      "Key": "410-18052-13-445(Script)",
+      "OriginalText": "SKSE Plugin",
+      "TransText": ""
+    },
+    {
+      "Key": "411-18181-13-446(Script)",
+      "OriginalText": "papyrusutil",
+      "TransText": ""
+    },
+    {
+      "Key": "422-18535-14-459(Script)",
+      "OriginalText": "Requirements",
+      "TransText": ""
+    }
+  ]
+}
