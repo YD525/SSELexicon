@@ -22,9 +22,6 @@
     <Compile Update="SettingView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="TransTool.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="ActionWin.xaml">
@@ -46,9 +43,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Themes\DefStyle.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="TransTool.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

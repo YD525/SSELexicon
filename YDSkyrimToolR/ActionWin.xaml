@@ -21,17 +21,9 @@
     </Window.Style>
 
 
-    <Border BorderThickness="8" CornerRadius="5" SnapsToDevicePixels="True" Margin="10">
+    <Border BorderThickness="8" CornerRadius="5" SnapsToDevicePixels="True" Margin="10" Background="#FF0B74D1" BorderBrush="#FF0B74D1">
 
-        <Border.BorderBrush>
-            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                <GradientStop Color="#FFF77FAC" Offset="0"/>
-                <GradientStop Color="#FFFF9BC1" Offset="0.379"/>
-                <GradientStop Color="#FFF66299"/>
-                <GradientStop Color="#FFFFB0CE" Offset="1"/>
-            </LinearGradientBrush>
-        </Border.BorderBrush>
-
+        
         <Border.Effect>
             <DropShadowEffect BlurRadius="10" Direction="3" ShadowDepth="0" Color="White" Opacity="0.5" />
         </Border.Effect>
@@ -46,7 +38,7 @@
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
 
-                <Grid Grid.Row="0" Background="#FFF66299" MouseLeftButtonDown="WinHead_MouseLeftButtonDown">
+                <Grid Grid.Row="0" Background="#FF0B74D1" MouseLeftButtonDown="WinHead_MouseLeftButtonDown">
                     <Label Name="Caption" VerticalAlignment="Center" Foreground="White"  FontSize="18" Margin="10 0 0 0" FontFamily="Microsoft YaHei UI">
 
                     </Label>
@@ -56,10 +48,10 @@
 
                 <StackPanel Grid.Row="1" Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 0 0 25">
 
-                    <Border Name="Cancel" CornerRadius="5"  VerticalAlignment="Center" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"  Width="60" Height="35" BorderBrush="#FFF77FAC" BorderThickness="0.5" Cursor="Hand" PreviewMouseDown = "OneCancel">
+                    <Border Name="Cancel" CornerRadius="5"  VerticalAlignment="Center" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"  Width="60" Height="35" BorderBrush="#FF0B74D1" BorderThickness="0.5" Cursor="Hand" PreviewMouseDown = "OneCancel">
                         <Grid>
                             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                                <Label  Foreground="#FFF77FAC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Padding="17 2 17 2"  FontSize="13">
+                                <Label  Foreground="#FF0B74D1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Padding="17 2 17 2"  FontSize="13">
                                     No
                                 </Label>
                             </StackPanel>
@@ -67,13 +59,8 @@
 
                     </Border>
 
-                    <Border Name="Confirm" CornerRadius="5"  VerticalAlignment="Center" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"  Width="60" Height="35" Margin="30 0 0 0" Cursor="Hand" PreviewMouseDown = "OneConfirm">
-                        <Border.Background>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                <GradientStop Color="#FFF77FAC" Offset="0.5"/>
-                                <GradientStop Color="#FFFFBCE5" Offset="1"/>
-                            </LinearGradientBrush>
-                        </Border.Background>
+                    <Border Background="#FF0B74D1" Name="Confirm" CornerRadius="5"  VerticalAlignment="Center" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"  Width="60" Height="35" Margin="30 0 0 0" Cursor="Hand" PreviewMouseDown = "OneConfirm">
+                        
 
                         <Grid>
                             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">

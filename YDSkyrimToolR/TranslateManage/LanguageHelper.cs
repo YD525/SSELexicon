@@ -195,7 +195,7 @@ namespace YDSkyrimToolR.TranslateCore
             {
                 if (LanguageHelper.EngineSelects[i].CurrentCallCount < LanguageHelper.EngineSelects[i].MaxUseCount)
                 {
-                    string GetTrans = LanguageHelper.EngineSelects[i].Call(Source,Target,RealSourceStr,SourceStr);
+                    string GetTrans = LanguageHelper.EngineSelects[i].Call(Source,Target,SourceStr);
                     if (GetTrans.Trim().Length > 0)
                     {
                         return GetTrans;
@@ -228,7 +228,7 @@ namespace YDSkyrimToolR.TranslateCore
                 MaxUseCount = maxUseCount;
             }
 
-            public string Call(Languages Source, Languages Target,string RealSourceStr,string SourceStr)
+            public string Call(Languages Source, Languages Target,string SourceStr)
             {
                 WordTProcess OneProcess = new WordTProcess(SourceStr);
 

@@ -2,7 +2,9 @@
 using Mutagen.Bethesda.Plugins;
 using Mutagen.Bethesda.Starfield;
 using SharpVectors.Converters;
+using System.Diagnostics;
 using System.IO;
+using System.Security.Policy;
 using System.Text;
 using System.Transactions;
 using System.Windows;
@@ -82,54 +84,59 @@ namespace YDSkyrimToolR
 
         public object LockerAddTrd = new object();
 
+        public void ReloadDataFunc(bool CanReloadCountCache = true)
+        {
+            lock (LockerAddTrd)
+            {
+                GC.Collect();
+
+                if (CanReloadCountCache)
+                {
+                    UIHelper.ModifyCountCache.Clear();
+                }
+                UIHelper.ModifyCount = 0;
+
+                this.Dispatcher.Invoke(new Action(() =>
+                {
+                    TransViewList.Clear();
+                }));
+
+                if (CurrentTransType == 2)
+                {
+                    SkyrimDataLoader.Load(CurrentSelect, GlobalEspReader, TransViewList);
+                }
+                else
+                if (CurrentTransType == 1)
+                {
+                    foreach (var GetItem in GlobalMCMReader.MCMItems)
+                    {
+                        this.Dispatcher.Invoke(new Action(() =>
+                        {
+                            TransViewList.AddRowR(UIHelper.CreatLine(GetItem.Type, GetItem.EditorID, GetItem.Key, GetItem.SourceText, GetItem.GetTextIfTransR(), false));
+                        }));
+
+                    }
+                }
+                if (CurrentTransType == 3)
+                {
+                    foreach (var GetItem in GlobalPexReader.SafeStringParams)
+                    {
+                        this.Dispatcher.Invoke(new Action(() =>
+                        {
+                            TransViewList.AddRowR(UIHelper.CreatLine(GetItem.Type, GetItem.EditorID, GetItem.Key, GetItem.SourceText, GetItem.GetTextIfTransR(), GetItem.Danger));
+                        }));
+                    }
+                }
+
+                GetStatistics();
+            }
+        }
+
         public void ReloadData(bool CanReloadCountCache = true)
         {
             new Thread(() =>
             {
-                lock (LockerAddTrd)
-                {
-                    GC.Collect();
-
-                    if (CanReloadCountCache)
-                    {
-                        UIHelper.ModifyCountCache.Clear();
-                    }
-                    UIHelper.ModifyCount = 0;
-
-                    this.Dispatcher.Invoke(new Action(() =>
-                    {
-                        TransViewList.Clear();
-                    }));
-
-                    if (CurrentTransType == 2)
-                    {
-                        SkyrimDataLoader.Load(CurrentSelect, GlobalEspReader, TransViewList);
-                    }
-                    else
-                    if (CurrentTransType == 1)
-                    {
-                        foreach (var GetItem in GlobalMCMReader.MCMItems)
-                        {
-                            this.Dispatcher.Invoke(new Action(() =>
-                            {
-                                TransViewList.AddRowR(UIHelper.CreatLine(GetItem.Type, GetItem.EditorID, GetItem.Key, GetItem.SourceText, GetItem.GetTextIfTransR(), false));
-                            }));
-
-                        }
-                    }
-                    if (CurrentTransType == 3)
-                    {
-                        foreach (var GetItem in GlobalPexReader.SafeStringParams)
-                        {
-                            this.Dispatcher.Invoke(new Action(() =>
-                            {
-                                TransViewList.AddRowR(UIHelper.CreatLine(GetItem.Type, GetItem.EditorID, GetItem.Key, GetItem.SourceText, GetItem.GetTextIfTransR(), GetItem.Danger));
-                            }));
-                        }
-                    }
-
-                    GetStatistics();
-                }
+                ReloadDataFunc(CanReloadCountCache);
             }).Start();
         }
 
@@ -185,23 +192,22 @@ namespace YDSkyrimToolR
             //Frist Check ToolPath
             if (!File.Exists(DeFine.GetFullPath(@"Tool\Champollion.exe")))
             {
-                ActionWin.Show("PEX File lacks support", "Please manually install the dependent program\n[https://github.com/Orvid/Champollion]\nPlease download the release version and put it in this path\n[" + DeFine.GetFullPath(@"Tool\") + "]\n Path required\n[" + DeFine.GetFullPath(@"Tool\Champollion.exe") + "]", MsgAction.Yes, MsgType.Info, 390);
+                string Msg = "Please manually install the dependent program\n[https://github.com/Orvid/Champollion]\nPlease download the release version and put it in this path\n[" + DeFine.GetFullPath(@"Tool\") + "]\n Path required\n[" + DeFine.GetFullPath(@"Tool\Champollion.exe") + "]";
+                if (ActionWin.Show("HelpMsg", Msg +"\n" + "Do you want to download the Champollion component now", MsgAction.YesNo, MsgType.Info, 500) > 0)
+                {
+                    Process.Start(new ProcessStartInfo("https://github.com/Orvid/Champollion/releases") { UseShellExecute = true });
+                }
             }
 
-            if (!Directory.Exists(DeFine.GlobalLocalSetting.SkyrimPath))
+            string CompilerPath = "";
+            if (!SkyrimHelper.FindPapyrusCompilerPath(ref CompilerPath))
             {
-                DeFine.ShowSetting();
-                ActionWin.Show("Msg", "Please Configure SkyrimSE path", MsgAction.Yes, MsgType.Info, 200);
-            }
-            else
-            {
-                string CompilerPath = "";
-                if (!SkyrimHelper.FindPapyrusCompilerPath(ref CompilerPath))
-                {
-                    var GetStr = DeFine.GlobalLocalSetting.SkyrimPath + "Papyrus Compiler" + @"\PapyrusAssembler.exe";
-                    string Msg = "Please Download CreationKit [" + GetStr + "] Must exist.";
-                    ActionWin.Show("PEX File lacks support", Msg, MsgAction.Yes, MsgType.Info, 300);
-                }
+                var GetStr = DeFine.GlobalLocalSetting.SkyrimPath + "Papyrus Compiler" + @"\PapyrusAssembler.exe";
+                string Msg = "Please Download CreationKit [" + GetStr + "] Must exist. \n Your Need Configure SkyrimSE path";
+                ActionWin.Show("PEX File lacks support", Msg, MsgAction.Yes, MsgType.Info, 300);
+                this.Dispatcher.Invoke(new Action(() => {
+                    DeFine.ShowSetting();
+                }));
             }
         }
         public void TranslateMsg(string EngineName, string Text, string Result)
@@ -217,9 +223,7 @@ namespace YDSkyrimToolR
 
             WordProcess.SendTranslateMsg += TranslateMsg;
 
-            SetLog("Copyright (C) 2025 YD525 OpenSource:https://github.com/YD525/YDSkyrimToolR");
-
-            CheckINeed();
+            SetLog("Author:YD525 OpenSource:https://github.com/YD525/YDSkyrimToolR");
 
             if (DeFine.GlobalLocalSetting.AutoLoadDictionaryFile)
             {
@@ -229,7 +233,8 @@ namespace YDSkyrimToolR
             new Thread(() =>
             {
                 ShowFrameByTag("LoadingView");
-
+                CheckINeed();
+                DeFine.LoadData();
                 //LocalTrans.Init();
 
                 CheckEngineState();
@@ -238,7 +243,6 @@ namespace YDSkyrimToolR
                 GlobalMCMReader = new MCMReader();
                 GlobalPexReader = new PexReader();
 
-                Thread.Sleep(1000);
                 this.Dispatcher.BeginInvoke(new Action(() =>
                 {
                     UILanguageHelper.ChangeLanguage(DeFine.GlobalLocalSetting.CurrentUILanguage);
@@ -282,6 +286,7 @@ namespace YDSkyrimToolR
         public void LoadAny(string FilePath)
         {
             SetLog("Load:" + FilePath);
+            ClosetTransTrd();
             if (System.IO.File.Exists(FilePath))
             {
                 string GetFileName = FilePath.Substring(FilePath.LastIndexOf(@"\") + @"\".Length);
@@ -502,7 +507,7 @@ namespace YDSkyrimToolR
                         Image LockerImg = LockerGrid.Child as Image;
                         LockerImg.Opacity = 0.9;
                     }
-                    LockerGrid.Background = new SolidColorBrush(Color.FromRgb(244, 101, 155));
+                    LockerGrid.Background = DeFine.SelectBackGround;
                 }
             }
         }
@@ -519,7 +524,7 @@ namespace YDSkyrimToolR
                         Image LockerImg = LockerGrid.Child as Image;
                         LockerImg.Opacity = 0.6;
                     }
-                    LockerGrid.Background = new SolidColorBrush(Color.FromRgb(247, 127, 172));
+                    LockerGrid.Background = DeFine.DefBackGround;
                 }
             }
         }
@@ -567,7 +572,7 @@ namespace YDSkyrimToolR
                                 {
                                     if (!DeFine.GlobalLocalSetting.PhraseEngineUsing)
                                     {
-                                        (GetEngine as SvgViewbox).Opacity = 0.1;
+                                        (GetEngine as SvgViewbox).Opacity = 0.15;
                                     }
                                 }
                                 break;
@@ -575,7 +580,7 @@ namespace YDSkyrimToolR
                                 {
                                     if (!DeFine.GlobalLocalSetting.CodeParsingEngineUsing)
                                     {
-                                        (GetEngine as SvgViewbox).Opacity = 0.1;
+                                        (GetEngine as SvgViewbox).Opacity = 0.15;
                                     }
                                 }
                                 break;
@@ -583,7 +588,7 @@ namespace YDSkyrimToolR
                                 {
                                     if (!DeFine.GlobalLocalSetting.ConjunctionEngineUsing)
                                     {
-                                        (GetEngine as SvgViewbox).Opacity = 0.1;
+                                        (GetEngine as SvgViewbox).Opacity = 0.15;
                                     }
                                 }
                                 break;
@@ -591,7 +596,7 @@ namespace YDSkyrimToolR
                                 {
                                     if (!DeFine.GlobalLocalSetting.GoogleYunApiUsing)
                                     {
-                                        (GetEngine as SvgViewbox).Opacity = 0.1;
+                                        (GetEngine as SvgViewbox).Opacity = 0.15;
                                     }
                                 }
                                 break;
@@ -599,7 +604,7 @@ namespace YDSkyrimToolR
                                 {
                                     if (!DeFine.GlobalLocalSetting.BaiDuYunApiUsing)
                                     {
-                                        (GetEngine as SvgViewbox).Opacity = 0.1;
+                                        (GetEngine as SvgViewbox).Opacity = 0.15;
                                     }
                                 }
                                 break;
@@ -607,7 +612,7 @@ namespace YDSkyrimToolR
                                 {
                                     if (!DeFine.GlobalLocalSetting.ChatGptApiUsing)
                                     {
-                                        (GetEngine as SvgViewbox).Opacity = 0.1;
+                                        (GetEngine as SvgViewbox).Opacity = 0.15;
                                     }
                                 }
                                 break;
@@ -615,7 +620,7 @@ namespace YDSkyrimToolR
                                 {
                                     if (!DeFine.GlobalLocalSetting.DeepSeekApiUsing)
                                     {
-                                        (GetEngine as SvgViewbox).Opacity = 0.1;
+                                        (GetEngine as SvgViewbox).Opacity = 0.15;
                                     }
                                 }
                                 break;
@@ -623,7 +628,7 @@ namespace YDSkyrimToolR
                                 {
                                     if (!DeFine.GlobalLocalSetting.DivCacheEngineUsing)
                                     {
-                                        (GetEngine as SvgViewbox).Opacity = 0.1;
+                                        (GetEngine as SvgViewbox).Opacity = 0.15;
                                     }
                                 }
                                 break;
@@ -644,7 +649,7 @@ namespace YDSkyrimToolR
             if (GetOpacity == 1)
             {
                 OneState = false;
-                (sender as SvgViewbox).Opacity = 0.1;
+                (sender as SvgViewbox).Opacity = 0.15;
             }
             else
             {
@@ -699,12 +704,21 @@ namespace YDSkyrimToolR
 
         public void CheckTransTrdState()
         {
-            if (WordProcess.MainTransThread == null)
+            if (BatchTranslationHelper.TransMainTrd == null)
             {
                 StopAny = true;
-                AutoKeepTag.Background = new SolidColorBrush(Color.FromRgb(247, 137, 178));
+                AutoKeepTag.Background = new SolidColorBrush(Color.FromRgb(11, 116, 209));
                 AutoKeep.Source = new Uri("pack://application:,,,/YDSkyrimToolR;component/Material/Keep.svg");
             }
+        }
+
+        public void ClosetTransTrd()
+        {
+            StopAny = true;
+            AutoKeepTag.Background = new SolidColorBrush(Color.FromRgb(11, 116, 209));
+
+            AutoKeep.Source = new Uri("pack://application:,,,/YDSkyrimToolR;component/Material/Keep.svg");
+            BatchTranslationHelper.Close();
         }
 
         public bool StopAny = true;
@@ -716,18 +730,14 @@ namespace YDSkyrimToolR
                 if (StopAny == true)
                 {
                     StopAny = false;
-                    AutoKeepTag.Background = new SolidColorBrush(Color.FromRgb(147, 85, 108));
+                    AutoKeepTag.Background = new SolidColorBrush(Color.FromRgb(0, 51, 97));
 
                     AutoKeep.Source = new Uri("pack://application:,,,/YDSkyrimToolR;component/Material/Stop.svg");
-                    WordProcess.StartAutoTransService(true);
+                    BatchTranslationHelper.Start();
                 }
                 else
                 {
-                    StopAny = true;
-                    AutoKeepTag.Background = new SolidColorBrush(Color.FromRgb(247, 137, 178));
-
-                    AutoKeep.Source = new Uri("pack://application:,,,/YDSkyrimToolR;component/Material/Keep.svg");
-                    WordProcess.StartAutoTransService(false);
+                    ClosetTransTrd();
                 }
             }
         }
@@ -821,12 +831,7 @@ namespace YDSkyrimToolR
 
         private void CancelTransEsp(object sender, MouseButtonEventArgs e)
         {
-            WordProcess.StartAutoTransService(false);
-
-            StopAny = true;
-            AutoKeepTag.Background = new SolidColorBrush(Color.FromRgb(247, 137, 178));
-
-            AutoKeep.Source = new Uri("pack://application:,,,/YDSkyrimToolR;component/Material/Keep.svg");
+            ClosetTransTrd();
 
             Caption.Name = "TranslationCore";
 
@@ -916,6 +921,7 @@ namespace YDSkyrimToolR
             string GetSelectValue = ConvertHelper.ObjToStr((sender as ComboBox).SelectedValue);
             if (GetSelectValue.Trim().Length > 0)
             {
+                ClosetTransTrd();
                 CurrentSelect = Enum.Parse<ObjSelect>(GetSelectValue);
                 ReloadData();
             }
@@ -961,7 +967,7 @@ namespace YDSkyrimToolR
 
         private void ClearCache(object sender, MouseButtonEventArgs e)
         {
-            if (ActionWin.Show("clear the cache for translation?", "Warning: After cleaning up, all content including previous translations will no longer be cached. Translating again will retrieve it from the cloud, which will waste the results of your previous translations and increase word count consumption!", MsgAction.YesNo, MsgType.Info) > 0)
+            if (ActionWin.Show("Clear the cache for translation?", "Warning: After cleaning up, all content including previous translations will no longer be cached. Translating again will retrieve it from the cloud, which will waste the results of your previous translations and increase word count consumption!", MsgAction.YesNo, MsgType.Info) > 0)
             {
                 string SqlOrder = "Delete From CloudTranslation Where 1=1";
                 int State = DeFine.GlobalDB.ExecuteNonQuery(SqlOrder);
@@ -979,11 +985,6 @@ namespace YDSkyrimToolR
             {
 
             }
-        }
-
-        private void ShowAboutUS(object sender, MouseButtonEventArgs e)
-        {
-            ActionWin.Show("约定酱的YDSkyrimTools", "YDSkyrimTools It is an open-source and free translation tool for Skyrim SE Mod\r\nIntended to significantly reduce the workload of Sinicizers\r\nProtocol GPL3.0\r\n See Github https://github.com/tolove336/YDSkyrimToolR\r\n I only handle it when I have free time", MsgAction.Null, MsgType.Info);
         }
 
         public void AutoViewMode()
@@ -1146,6 +1147,10 @@ namespace YDSkyrimToolR
 
         private void SendQuestionToAI(object sender, MouseButtonEventArgs e)
         {
+            if (!StopAny)
+            {
+                return;
+            }
             string GetSendAIText = SendAIText.Text;
             if (ConvertHelper.ObjToStr(SendQuestionBtn.Content).Equals("SendQuestion"))
             {
@@ -1167,16 +1172,14 @@ namespace YDSkyrimToolR
                         AllEngines.Add(new DeepSeekApi());
                     }
 
-                    var GetText = SendAIText.Text;
-
                     if (AllEngines.Count == 1)
                     {
-                        SendQuestionToAI(AllEngines[0], GetText);
+                        SendQuestionToAI(AllEngines[0], GetSendAIText);
                     }
                     else
                     if (AllEngines.Count > 0)
                     {
-                        SendQuestionToAI(AllEngines[new Random(Guid.NewGuid().GetHashCode()).Next(0, AllEngines.Count)], GetText);
+                        SendQuestionToAI(AllEngines[new Random(Guid.NewGuid().GetHashCode()).Next(0, AllEngines.Count)], GetSendAIText);
                     }
 
                     this.Dispatcher.Invoke(new Action(() =>
@@ -1202,7 +1205,7 @@ namespace YDSkyrimToolR
 
         private void ReplaceAllLine(object sender, MouseButtonEventArgs e)
         {
-            if (ActionWin.Show("Confirm?", $"This will replace the contents of all rows. \"{ReplaceKey.Text}\"->\"{ReplaceValue.Text}\"", MsgAction.YesNo, MsgType.Info, 230) > 0)
+            if (ActionWin.Show("Do you agree?", $"This will replace the contents of all rows. \"{ReplaceKey.Text}\"->\"{ReplaceValue.Text}\"", MsgAction.YesNo, MsgType.Info, 230) > 0)
             {
                 WordProcess.ReplaceAllLine(ReplaceKey.Text.Trim(), ReplaceValue.Text.Trim());
             }
@@ -1217,11 +1220,15 @@ namespace YDSkyrimToolR
         {
             if (LoadSaveState != 0)
             {
-                MessageBox.Show("The stop dictionary cannot be enabled during the translation phase.");
                 if (DeFine.GlobalLocalSetting.AutoLoadDictionaryFile)
                 {
                     UsingDictionary.IsChecked = true;
                 }
+                else
+                {
+                    UsingDictionary.IsChecked = false;
+                }
+                MessageBox.Show("The stop dictionary cannot be enabled during the translation phase.");
             }
             else
             {
@@ -1235,6 +1242,46 @@ namespace YDSkyrimToolR
                 }
 
                 DeFine.GlobalLocalSetting.SaveConfig();
+            }
+        }
+
+        private void ReSetTransLang(object sender, MouseButtonEventArgs e)
+        {
+            if (!StopAny)
+            if (ActionWin.Show("Do you agree?", "This will restore all fields to their initial state.", MsgAction.YesNo, MsgType.Info, 230) > 0)
+            {
+                WordProcess.ReSetAllTransText();
+            }
+           
+        }
+
+        private void ReStoreTransLang(object sender, MouseButtonEventArgs e)
+        {
+            if(!StopAny)
+            if (ActionWin.Show("Do you agree?", "This will revert back to the original file.", MsgAction.YesNo, MsgType.Info, 230) > 0)
+            {
+                if (CurrentSelect != ObjSelect.All)
+                {
+                    ClosetTransTrd();
+                    CurrentSelect = ObjSelect.All;
+                    ReloadDataFunc(true);
+                }
+
+                WordProcess.ReStoreAllTransText();
+
+                if (ActionWin.Show("Do you agree?", "Delete dictionary file and save", MsgAction.YesNo, MsgType.Info, 230) > 0)
+                {
+                    string GetModName = YDDictionaryHelper.CurrentModName;
+                    string SetPath = DeFine.GetFullPath(@"Librarys\" + GetModName) + ".Json";
+                    if (File.Exists(SetPath))
+                    {
+                        File.Delete(SetPath);
+                    }
+                    bool BackUPState = DeFine.GlobalLocalSetting.AutoLoadDictionaryFile;
+                    DeFine.GlobalLocalSetting.AutoLoadDictionaryFile = false;
+                    AutoLoadOrSave(LoadFileButton, null);
+                    DeFine.GlobalLocalSetting.AutoLoadDictionaryFile = BackUPState;
+                }
             }
         }
     }

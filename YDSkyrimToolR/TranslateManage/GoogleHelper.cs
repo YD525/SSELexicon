@@ -126,12 +126,15 @@ namespace YDSkyrimToolR.TranslateManage
                     }
                     if (!RichText.ToLower().Contains("The operation has timed out.".ToLower()))
                     {
-                        Thread.Sleep(1000);
-                        if (RichText.EndsWith("\r\n"))
+                        if (!RichText.ToLower().Contains("No connection could be made because the target ".ToLower()))
                         {
-                            RichText = RichText.Substring(0, RichText.Length - "\r\n".Length);
+                            Thread.Sleep(1000);
+                            if (RichText.EndsWith("\r\n"))
+                            {
+                                RichText = RichText.Substring(0, RichText.Length - "\r\n".Length);
+                            }
+                            return RichText;
                         }
-                        return RichText;
                     }
                     else
                     { 

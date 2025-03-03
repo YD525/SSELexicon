@@ -43,11 +43,11 @@
     <Border MouseLeftButtonDown="WinHead_MouseLeftButtonDown"  Style="{DynamicResource DefWinBackground}" Name="MainBackGround" >
 
         <Border.Effect>
-            <DropShadowEffect  BlurRadius="10" Direction="1" ShadowDepth="0.7" Color="#FFF77FAC" Opacity="0.8" />
+            <DropShadowEffect  BlurRadius="10" Direction="1" ShadowDepth="0.7" Color="#FF69B2F3" Opacity="0.8" />
         </Border.Effect>
 
         <Grid>
-            <Border Background="#FFF77FAC" CornerRadius="7" Panel.ZIndex="0" Name="Footer" Margin="0 45 0 0">
+            <Border Background="#FF0B74D1" CornerRadius="7" Panel.ZIndex="0" Name="Footer" Margin="0 45 0 0">
             </Border>
             <Grid Panel.ZIndex="1">
                 <Grid.RowDefinitions>
@@ -56,24 +56,32 @@
                 </Grid.RowDefinitions>
 
                 <Grid Grid.Row="0" Name="Header" Margin="10 0 10 0">
-                    <Label HorizontalAlignment="Left" Name="MainCaption" Foreground="White" VerticalAlignment="Center">
-                        YDSkyrimToolR Gui 1.3.395
-                    </Label>
+                    <StackPanel Orientation="Horizontal">
+                        <Label HorizontalAlignment="Left" Name="MainCaption" Foreground="White" VerticalAlignment="Center">
+                            YDSkyrimToolR Gui 1.3.397
+                        </Label>
+                        <Grid Background="#FF014C8F" Width="180" Margin="20 0 0 0" Name="ThreadInFo" Visibility="Collapsed">
+                            <Label Foreground="White" FontWeight="Bold" Name="ThreadInFoLog" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                             
+                            </Label>
+                        </Grid>
+                    </StackPanel>
+
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
 
-                        <Border Tag="Min" PreviewMouseDown="AnyHeaderButtonClick" CornerRadius="5"  Grid.Column="1" Height="25" Width="25"   Background="#FFF77FAC"  MouseEnter="RMouserEffectByEnter" MouseLeave="RMouserEffectByLeave" Cursor="Hand">
+                        <Border Tag="Min" PreviewMouseDown="AnyHeaderButtonClick" CornerRadius="5"  Grid.Column="1" Height="25" Width="25"   Background="#FF0B74D1"  MouseEnter="RMouserEffectByEnter" MouseLeave="RMouserEffectByLeave" Cursor="Hand">
                             <Image Tag="Min" Name="TMin" Stretch="Uniform"  Source="/YDSkyrimToolR;component/Material/TMin.png"  Width="16" Height="2" Opacity="1" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="HighQuality">
                             </Image>
                         </Border>
 
 
-                        <Border Tag="MaxWin"  PreviewMouseDown="AnyHeaderButtonClick" CornerRadius="5"  Grid.Column="3" Height="25" Width="25"  Background="#FFF77FAC"  MouseEnter="RMouserEffectByEnter" MouseLeave="RMouserEffectByLeave" Cursor="Hand">
+                        <Border Tag="MaxWin"  PreviewMouseDown="AnyHeaderButtonClick" CornerRadius="5"  Grid.Column="3" Height="25" Width="25"  Background="#FF0B74D1"  MouseEnter="RMouserEffectByEnter" MouseLeave="RMouserEffectByLeave" Cursor="Hand">
                             <Image Tag="MaxWin" Name="TChangeWin" Stretch="UniformToFill"  Source="/YDSkyrimToolR;component/Material/TChangeWin.png"   Width="14" Height="13" Opacity="0.8" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="HighQuality">
                             </Image>
                         </Border>
 
 
-                        <Border Tag="Close" PreviewMouseDown="AnyHeaderButtonClick" CornerRadius="5"  Grid.Column="5" Height="25" Width="25"  Background="#FFF77FAC"  MouseEnter="RMouserEffectByEnter" MouseLeave="RMouserEffectByLeave" Cursor="Hand">
+                        <Border Tag="Close" PreviewMouseDown="AnyHeaderButtonClick" CornerRadius="5"  Grid.Column="5" Height="25" Width="25"  Background="#FF0B74D1"  MouseEnter="RMouserEffectByEnter" MouseLeave="RMouserEffectByLeave" Cursor="Hand">
                             <Image Tag="Close" Name="TClose" Stretch="UniformToFill"   Source="/YDSkyrimToolR;component/Material/TClose.png"  Width="14" Height="13" Opacity="0.8" SnapsToDevicePixels="True"  RenderOptions.BitmapScalingMode="HighQuality">
                             </Image>
                         </Border>
@@ -85,7 +93,7 @@
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="20"/>
                     </Grid.RowDefinitions>
-                    <Grid Tag="LoadingView" Visibility="Visible" Background = "#FFF77FAC">
+                    <Grid Tag="LoadingView" Visibility="Visible" Background = "#FF0B74D1">
                         <Grid Grid.Row="0" Grid.RowSpan="2" Margin="0 10 0 10" Name="LoadingControl" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Grid.Resources>
                                 <Style x:Key="ellipse" TargetType="Ellipse">
@@ -168,7 +176,7 @@
                                 <RowDefinition Height="1*"/>
                             </Grid.RowDefinitions>
 
-                            <Border PreviewMouseDown="AutoShowSmallNav" Background="#FFFD98BE" Name="SmallMenu" CornerRadius="0 0 8 8" VerticalAlignment="Top" Cursor="Hand" Height="180">
+                            <Border PreviewMouseDown="AutoShowSmallNav" Background="#FF0B74D1" Name="SmallMenu" CornerRadius="0 0 8 8" VerticalAlignment="Top" Cursor="Hand" Height="180">
                                 <Border.RenderTransform>
                                     <ScaleTransform x:Name="MyScaleTransform" ScaleX="1" ScaleY="1"/>
                                 </Border.RenderTransform>
@@ -207,7 +215,7 @@
                                         STRINGS(0/0)
                                     </Label>
                                     <Grid Height="5" VerticalAlignment="Bottom" Background="#FFC9C0C0" Name="ProcessBarFrame">
-                                        <Grid Height="5" Width="0" HorizontalAlignment="Left" Background="#FFEBA727" Name="ProcessBar">
+                                        <Grid Height="5" Width="0" HorizontalAlignment="Left" Background="#FF45E4FF" Name="ProcessBar">
                                         </Grid>
                                     </Grid>
                                 </Grid>
@@ -222,17 +230,17 @@
                                 </Grid>
                             </StackPanel>
 
-                            <Grid Height="35" Width="270" VerticalAlignment="Top" HorizontalAlignment="Right" Background="#FFE8E8E8" Margin="0 0 250 0" Panel.ZIndex="5">
+                            <Grid Height="35" Width="210" VerticalAlignment="Top" HorizontalAlignment="Right" Background="#FFE8E8E8" Margin="0 0 280 0" Panel.ZIndex="5">
                                 <StackPanel Orientation="Horizontal" Name="EngineUIs">
                                     <Label VerticalAlignment="Center" Margin="10 0 0 0" FontSize="12" Name="Node" ToolTip="Nodes are used to enable and disable the translation platform. If multiple nodes are selected at the same time, load balancing will be applied.">
                                         Node
                                     </Label>
 
-                                    <svgc:SvgViewbox Tag="PhraseEngine"  Name="PhraseEngine" Stretch="UniformToFill" Source="/Material/Languages.svg"  Margin="10 0 3 0" Width="19" Panel.ZIndex="900" Height="19"  Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
+                                    <svgc:SvgViewbox Tag="PhraseEngine"  Name="PhraseEngine" Stretch="UniformToFill" Source="/Material/Languages.svg"  Margin="10 0 3 0" Width="19" Panel.ZIndex="900" Height="19"  Cursor="Hand" MouseDown="SelectEngine" Opacity="1" Visibility="Collapsed"/>
 
                                     <svgc:SvgViewbox Tag="CodeEngine" Name="CodeEngine" Stretch="UniformToFill" Source="/Material/Code.svg"  Margin="3 0 3 0" Width="20" Panel.ZIndex="900" Height="18" Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
 
-                                    <svgc:SvgViewbox Tag="ConjunctionEngine" Name="ConjunctionEngine" Stretch="UniformToFill" Source="/Material/Conjunction.svg"  Margin="3 0 3 0" Width="17" Panel.ZIndex="900" Height="18" Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
+                                    <svgc:SvgViewbox Tag="ConjunctionEngine" Name="ConjunctionEngine" Stretch="UniformToFill" Source="/Material/Conjunction.svg"  Margin="3 0 3 0" Width="17" Panel.ZIndex="900" Height="18" Cursor="Hand" MouseDown="SelectEngine" Opacity="1" Visibility="Collapsed"/>
 
                                     <svgc:SvgViewbox Tag="GoogleEngine" Name="GoogleEngine" Stretch="UniformToFill" Source="/Material/Google.svg" Margin="3 0 3 0" Width="17" Panel.ZIndex="900" Height="18" Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
 
@@ -249,16 +257,16 @@
                             <Grid Height="50" Width="255" VerticalAlignment="Top" HorizontalAlignment="Right" Panel.ZIndex="5">
                                 <StackPanel Orientation="Horizontal">
 
-                                    <Border Name="AutoKeepTag" CornerRadius="5" Background="#FFF789B2" Width="35" Height="35" Margin="20 0 20 0" PreviewMouseDown="ChangeTransProcessState" Cursor="Hand">
+                                    <Border Name="AutoKeepTag" CornerRadius="5" Background="#FF0B74D1" Width="35" Height="35" Margin="20 0 20 0" PreviewMouseDown="ChangeTransProcessState" Cursor="Hand">
                                         <svgc:SvgViewbox Name="AutoKeep" Stretch="Fill" Source="/Material/Keep.svg"  Margin="3 0 3 0" Width="15" Panel.ZIndex="900" Height="15"  HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand" Opacity="1"/>
                                     </Border>
 
-                                    <Border  CornerRadius="5" Background="#FFF789B2" Width="80" Height="35"  Name="StartTransBtn" PreviewMouseDown="AutoLoadOrSave">
+                                    <Border  CornerRadius="5" Background="#FF0B74D1" Width="80" Height="35"  Name="StartTransBtn" PreviewMouseDown="AutoLoadOrSave">
                                         <Label Name="LoadFileButton" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand">
                                             LoadFile
                                         </Label>
                                     </Border>
-                                    <Border IsEnabled="False" Opacity="0.3" Margin="10 0 0 0" CornerRadius="5" Background="#FFF789B2" Width="80" Height="35"  Name="CancelBtn" PreviewMouseDown="CancelTransEsp">
+                                    <Border IsEnabled="False" Opacity="0.3" Margin="10 0 0 0" CornerRadius="5" Background="#FF0B74D1" Width="80" Height="35"  Name="CancelBtn" PreviewMouseDown="CancelTransEsp">
                                         <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand">
                                             Cancel
                                         </Label>
@@ -281,7 +289,7 @@
                                     <Label VerticalAlignment="Center" Name="SourceTag">Source</Label>
                                     <ComboBox VerticalAlignment="Center" Cursor="Hand" Width="100" Name="Source" Style="{StaticResource WpfComboBoxStyle}" SelectionChanged="Source_SelectionChanged">
                                     </ComboBox>
-                                    <Border  CornerRadius="5" Background="#FFF789B2" Height="30" Margin="10 0 0 0"  Cursor="Hand" PreviewMouseDown="DetectLang">
+                                    <Border  CornerRadius="5" Background="#FF0B74D1" Height="30" Margin="10 0 0 0"  Cursor="Hand" PreviewMouseDown="DetectLang">
                                         <Label Padding="10 0 10 0"  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" ToolTip="">
                                             Detect
                                         </Label>
@@ -290,26 +298,37 @@
                                     <ComboBox VerticalAlignment="Center" Cursor="Hand" Width="100" Name="Target" Style="{StaticResource WpfComboBoxStyle}" SelectionChanged="Target_SelectionChanged">
                                     </ComboBox>
 
+                                    <Border  CornerRadius="5" Background="#FF0B74D1" Height="30" Margin="10 0 0 0"  Cursor="Hand" PreviewMouseDown="ReSetTransLang">
+                                        <Label Padding="10 0 10 0"  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" ToolTip="">
+                                            ReSet
+                                        </Label>
+                                    </Border>
+
+                                    <Border  CornerRadius="5" Background="#FF0B74D1" Height="30" Margin="10 0 0 0"  Cursor="Hand" PreviewMouseDown="ReStoreTransLang">
+                                        <Label Padding="10 0 10 0"  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" ToolTip="">
+                                            ReStore
+                                        </Label>
+                                    </Border>
+
                                     <CheckBox Name="UsingDictionary" VerticalAlignment="Center" Margin="10 0 0 0" Click="UsingDictionary_Click">
                                         Using Dictionary
                                     </CheckBox>
 
-                                    <Label VerticalAlignment="Center"  Margin="10 0 0 0" Name="PlatformSettingsTag">Platform Settings</Label>
-                                    <Border  CornerRadius="5" Background="#FFF789B2" Height="30" Margin="10 0 0 0" Cursor="Hand" PreviewMouseDown="OpenSetting">
+                                    <Label VerticalAlignment="Center" Margin="10 0 0 0">Settings:</Label>
+
+                                    <Border  CornerRadius="5" Background="#FF0B74D1" Height="30" Margin="10 0 0 0" Cursor="Hand" PreviewMouseDown="OpenSetting">
                                         <Label Padding="10 0 10 0"  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
                                             API Keys
                                         </Label>
                                     </Border>
 
-                                    <Label VerticalAlignment="Center" Name="RequestSettingsTag"  Margin="10 0 0 0">Request Settings</Label>
-
-                                    <Border  CornerRadius="5" Background="#FFF789B2" Height="30" Margin="10 0 0 0"  Cursor="Hand" PreviewMouseDown="ClearCache">
+                                    <Border  CornerRadius="5" Background="#FF0B74D1" Height="30" Margin="10 0 0 0"  Cursor="Hand" PreviewMouseDown="ClearCache">
                                         <Label Padding="10 0 10 0" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
                                             Clear Cache
                                         </Label>
                                     </Border>
 
-                                    <Border  CornerRadius="5" Background="#FFF789B2" Height="30" Margin="10 0 0 0" Cursor="Hand" PreviewMouseDown="OpenSetting">
+                                    <Border  CornerRadius="5" Background="#FF0B74D1" Height="30" Margin="10 0 0 0" Cursor="Hand" PreviewMouseDown="OpenSetting">
                                         <Label  Padding="10 0 10 0" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
                                             UISettings
                                         </Label>
@@ -375,7 +394,7 @@
                                         </Label>
                                         <TextBox Name="SendAIText" Padding="10" FontSize="15" Background="#FF202020" CaretBrush="Yellow" Foreground="White" BorderThickness="0" BorderBrush="{x:Null}"  AcceptsReturn="True" TextWrapping="Wrap" Height="100">
                                         </TextBox>
-                                        <Border  Background="#FF076FCB"  Height="30" Margin="10 0 10 0" Cursor="Hand" PreviewMouseDown="SendQuestionToAI" ToolTip="求助DeepSeek娘">
+                                        <Border  Background="#FF076FCB"  Height="30" Margin="10 0 10 0" Cursor="Hand" PreviewMouseDown="SendQuestionToAI">
                                             <Label Name="SendQuestionBtn" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
                                                 SendQuestion
                                             </Label>
@@ -407,7 +426,7 @@
                         </Grid>
 
                         <Grid Name="DragDropView" Visibility="Collapsed">
-                            <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="#FFFFDDF9" CornerRadius="7" Width="370" Height="80" Visibility="Visible" Name="DragdropView">
+                            <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="#FF7EBEFF" CornerRadius="7" Width="370" Height="80" Visibility="Visible" Name="DragdropView">
                                 <Label Foreground="Black" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center">
                                     Drag and drop here
                                 </Label>

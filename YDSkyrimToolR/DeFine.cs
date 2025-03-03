@@ -1,4 +1,5 @@
 ﻿using ICSharpCode.AvalonEdit;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,6 +10,7 @@ using System.Security.RightsManagement;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using YDSkyrimToolR.SkyrimModManager;
 using YDSkyrimToolR.SQLManager;
 using YDSkyrimToolR.TranslateCore;
@@ -23,6 +25,9 @@ namespace YDSkyrimToolR
 */
     public class DeFine
     {
+        public static SolidColorBrush DefBackGround = new SolidColorBrush(Color.FromRgb(11, 116, 209));
+        public static SolidColorBrush SelectBackGround = new SolidColorBrush(Color.FromRgb(7,82,149));
+
         public static string PapyrusCompilerPath = "";
 
         public static Languages SourceLanguage = Languages.English;
@@ -66,15 +71,19 @@ namespace YDSkyrimToolR
 
         public static void Init(MainWindow Work)
         {
-            LanguageHelper.Init();
             GlobalLocalSetting.ReadConfig();
             WorkingWin = Work;
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             GlobalDB = new SqlCore<SQLiteHelper>(DeFine.GetFullPath(@"\system.db"));
             CurrentCodeView = new CodeView();
             WordProcessEngine = new WordProcess();
-            ConjunctionHelper.Init();
             CurrentCodeView.Hide();
+        }
+
+        public static void LoadData()
+        {
+            LanguageHelper.Init();
+            ConjunctionHelper.Init();
         }
     }
 
@@ -102,6 +111,7 @@ namespace YDSkyrimToolR
         public string ChatGptKey { get; set; } = "";
         public string DeepSeekKey { get; set; } = "";
         public int TransCount { get; set; } = 0;
+        public int MaxThreadCount { get; set; } = 0;
         public bool AutoLoadDictionaryFile { get; set; } = false;
 
         public void ReadConfig()
@@ -114,6 +124,7 @@ namespace YDSkyrimToolR
                     var GetSetting = JsonSerializer.Deserialize<LocalSetting>(GetStr);
                     if (GetSetting != null)
                     {
+                        this.MaxThreadCount = GetSetting.MaxThreadCount;
                         this.AutoLoadDictionaryFile = GetSetting.AutoLoadDictionaryFile;
                         this.PhraseEngineUsing = GetSetting.PhraseEngineUsing;
                         this.CodeParsingEngineUsing = GetSetting.CodeParsingEngineUsing;

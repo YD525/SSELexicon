@@ -1,0 +1,785 @@
+{
+  "ModName": "MoreWeapons.esp",
+  "Dictionarys": [
+    {
+      "Key": "IronZweihander(Name)",
+      "OriginalText": "Iron Zweihander",
+      "TransText": "アイアン・ツヴァイヘンダー"
+    },
+    {
+      "Key": "SteelZweihander(Name)",
+      "OriginalText": "Steel Zweihander",
+      "TransText": "スチール・ツヴァイヘンダー"
+    },
+    {
+      "Key": "OrcishZweihander(Name)",
+      "OriginalText": "Orcish Zweihander",
+      "TransText": "オークのツヴァイヘンダー"
+    },
+    {
+      "Key": "DwarvenZweihander(Name)",
+      "OriginalText": "Dwarven Zweihander",
+      "TransText": "ドワーフェン・ツヴァイハンダー"
+    },
+    {
+      "Key": "ElvenZweihander(Name)",
+      "OriginalText": "Elven Zweihander",
+      "TransText": "エルヴェンツヴァイハンダー"
+    },
+    {
+      "Key": "GlassZweihander(Name)",
+      "OriginalText": "Glass Zweihander",
+      "TransText": "ガラスのツヴァイヘンダー"
+    },
+    {
+      "Key": "EbonyZweihander(Name)",
+      "OriginalText": "Ebony Zweihander",
+      "TransText": "エボニー・ツヴァイヘンダー"
+    },
+    {
+      "Key": "DaedricZweihander(Name)",
+      "OriginalText": "Daedric Zweihander",
+      "TransText": "デイドリック・ツヴァイヘンダー"
+    },
+    {
+      "Key": "DraugrZweihander(Name)",
+      "OriginalText": "Ancient Nord Zweihander",
+      "TransText": "古代ノルドのツヴァイヘンダー"
+    },
+    {
+      "Key": "DraugrZweihanderHoned(Name)",
+      "OriginalText": "Ancient Nord Honed Zweihander",
+      "TransText": "古代ノルドの研ぎ澄まされたツヴァイヘンダー"
+    },
+    {
+      "Key": "NordHeroZweihander(Name)",
+      "OriginalText": "Nord Hero Zweihander",
+      "TransText": "ノルドヒーローツヴァイハンダー"
+    },
+    {
+      "Key": "SilverZweihander(Name)",
+      "OriginalText": "Silver Zweihander",
+      "TransText": "シルバー・ツヴァイヘンダー"
+    },
+    {
+      "Key": "ImperialZweihander(Name)",
+      "OriginalText": "Imperial Zweihander",
+      "TransText": "インペリアル・ツヴァイハンダー"
+    },
+    {
+      "Key": "StormCloakZweihander(Name)",
+      "OriginalText": "Stormcloak Zweihander",
+      "TransText": "ストームクローク・ツヴァイヘンダー"
+    },
+    {
+      "Key": "DLC1DragonboneZweihander(Name)",
+      "OriginalText": "Dragonbone Zweihander",
+      "TransText": "ドラゴンボーン・ツヴァイヘンダー"
+    },
+    {
+      "Key": "DLC2NordicZweihander(Name)",
+      "OriginalText": "Nordic Zweihander",
+      "TransText": "ノルディック・ツヴァイヘンダー"
+    },
+    {
+      "Key": "DLC2StalhrimZweihander(Name)",
+      "OriginalText": "Stalhrim Zweihander",
+      "TransText": "スタルリム・ツヴァイヘンダー"
+    },
+    {
+      "Key": "UniqueZweihanderGreatsword(Name)",
+      "OriginalText": "Greatsword",
+      "TransText": "グレートソード"
+    },
+    {
+      "Key": "UniqueZweihanderExiled(Name)",
+      "OriginalText": "Minotaur's Zweihander",
+      "TransText": "ミノタウロスのツヴァイヘンダー"
+    },
+    {
+      "Key": "UniqueZweihanderAstora(Name)",
+      "OriginalText": "Justicar's Wrath",
+      "TransText": "ジャスティカーの怒り"
+    },
+    {
+      "Key": "IronGiantSword(Name)",
+      "OriginalText": "Iron Giant Sword",
+      "TransText": "鉄の巨大な剣"
+    },
+    {
+      "Key": "SteelGiantSword(Name)",
+      "OriginalText": "Steel Giant Sword",
+      "TransText": "鋼の巨大な剣"
+    },
+    {
+      "Key": "OrcishGiantSword(Name)",
+      "OriginalText": "Orcish Giant Sword",
+      "TransText": "オークの巨大な剣"
+    },
+    {
+      "Key": "DwarvenGiantSword(Name)",
+      "OriginalText": "Dwarven Giant Sword",
+      "TransText": "ドワーフン・ジャイアントソード"
+    },
+    {
+      "Key": "RedguardZweihander(Name)",
+      "OriginalText": "Redguard Zweihander",
+      "TransText": "レッドガード・ツヴァイヘンダー"
+    },
+    {
+      "Key": "UniqueZweihanderAkaviri(Name)",
+      "OriginalText": "Akaviri Dragonslayer",
+      "TransText": "アカヴィリのドラゴンスレイヤー"
+    },
+    {
+      "Key": "UniqueZweihanderAkaviri(Description)",
+      "OriginalText": "<60> points of extra damage to dragons, <20> points of shock damage to others.",
+      "TransText": "ドラゴンに対して<60>ポイントの追加ダメージ、他のものに対して<20>ポイントのショックダメージ."
+    },
+    {
+      "Key": "ElvenGiantSword(Name)",
+      "OriginalText": "Elven Giant Sword",
+      "TransText": "エルフの巨大な剣"
+    },
+    {
+      "Key": "GlassGiantSword(Name)",
+      "OriginalText": "Glass Giant Sword",
+      "TransText": "ガラスの巨剣"
+    },
+    {
+      "Key": "EbonyGiantSword(Name)",
+      "OriginalText": "Ebony Giant Sword",
+      "TransText": "エボニー・ジャイアントソード"
+    },
+    {
+      "Key": "DaedricGiantSword(Name)",
+      "OriginalText": "Daedric Giant Sword",
+      "TransText": "デイドラの巨大な剣"
+    },
+    {
+      "Key": "DraugrGiantSword(Name)",
+      "OriginalText": "Ancient Nord Giant Sword",
+      "TransText": "古代ノルドの巨人の剣"
+    },
+    {
+      "Key": "DraugrGiantSwordHoned(Name)",
+      "OriginalText": "Ancient Nord Honed Giant Sword",
+      "TransText": "古代ノルドの研ぎ澄まされた巨人の剣"
+    },
+    {
+      "Key": "NordHeroGiantSword(Name)",
+      "OriginalText": "Nord Hero Giant Sword",
+      "TransText": "ノルドヒーロー巨大剣"
+    },
+    {
+      "Key": "SilverGiantSword(Name)",
+      "OriginalText": "Silver Giant Sword",
+      "TransText": "銀の巨大な剣"
+    },
+    {
+      "Key": "ImperialGiantSword(Name)",
+      "OriginalText": "Imperial GiantSword",
+      "TransText": "インペリアル・ジャイアントソード"
+    },
+    {
+      "Key": "StormCloakGiantSword(Name)",
+      "OriginalText": "Stormcloak Giant Sword",
+      "TransText": "ストームクロークの巨大な剣"
+    },
+    {
+      "Key": "RedguardGiantSword(Name)",
+      "OriginalText": "Redguard Giant Scimitar",
+      "TransText": "レッドガードの巨大なシミター"
+    },
+    {
+      "Key": "DLC1DragonboneGiantSword(Name)",
+      "OriginalText": "Dragonbone Giant Sword",
+      "TransText": "ドラゴンボーンジャイアントソード"
+    },
+    {
+      "Key": "DLC2NordicGiantSword(Name)",
+      "OriginalText": "Nordic Giant Sword",
+      "TransText": "ノルディック・ジャイアントソード"
+    },
+    {
+      "Key": "DLC2StalhrimGiantSword(Name)",
+      "OriginalText": "Stalhrim Giant Sword",
+      "TransText": "スタルリムの巨人の剣"
+    },
+    {
+      "Key": "UniqueGiantSwordAkaviri(Name)",
+      "OriginalText": "Akaviri Wyrmslayer",
+      "TransText": "アカヴィリの竜殺し"
+    },
+    {
+      "Key": "UniqueGiantSwordAkaviri(Description)",
+      "OriginalText": "<60> points of extra damage to dragons, <20> points of shock damage to others.",
+      "TransText": "ドラゴンに対して<60>ポイントの追加ダメージ、他のものに対して<20>ポイントのショックダメージ."
+    },
+    {
+      "Key": "UniqueGiantSwordAshman(Name)",
+      "OriginalText": "Ash Crusher",
+      "TransText": "アッシュクラッシャー"
+    },
+    {
+      "Key": "UniqueGiantSwordIceBlade(Name)",
+      "OriginalText": "The Ice Blade",
+      "TransText": "アイスブレード"
+    },
+    {
+      "Key": "UniqueGiantSwordExiledRedoran(Name)",
+      "OriginalText": "Blade Of The Exiled",
+      "TransText": "追放者の刃"
+    },
+    {
+      "Key": "UniqueGiantSwordAncientIce(Name)",
+      "OriginalText": "Ancient Ice Sword",
+      "TransText": "古代の氷の剣"
+    },
+    {
+      "Key": "UniqueGiantSwordAtmora(Name)",
+      "OriginalText": "Nightmare of Atmora",
+      "TransText": "アトモラの悪夢"
+    },
+    {
+      "Key": "UniqueGiantSwordNightingale(Name)",
+      "OriginalText": "Nightingale's Giant Sword",
+      "TransText": "ナイチンゲールの巨大な剣"
+    },
+    {
+      "Key": "UniqueDwarvenPlasmaBlade(Name)",
+      "OriginalText": "Dwarven Plasma Blade",
+      "TransText": "ドワーフのプラズマブレード"
+    },
+    {
+      "Key": "IronBroadsword(Name)",
+      "OriginalText": "Iron Broadsword",
+      "TransText": "鉄のブロードソード"
+    },
+    {
+      "Key": "SteelBroadsword(Name)",
+      "OriginalText": "Steel Broadsword",
+      "TransText": "鋼のブロードソード"
+    },
+    {
+      "Key": "OrcishBroadsword(Name)",
+      "OriginalText": "Orcish Broadsword",
+      "TransText": "オークのブロードソード"
+    },
+    {
+      "Key": "DwarvenBroadsword(Name)",
+      "OriginalText": "Dwarven Broadsword",
+      "TransText": "ドワーフブロードソード"
+    },
+    {
+      "Key": "ElvenBroadsword(Name)",
+      "OriginalText": "Elven Broadsword",
+      "TransText": "エルフのブロードソード"
+    },
+    {
+      "Key": "GlassBroadsword(Name)",
+      "OriginalText": "Glass Broadsword",
+      "TransText": "グラスブロードソード"
+    },
+    {
+      "Key": "EbonyBroadsword(Name)",
+      "OriginalText": "Ebony Broadsword",
+      "TransText": "エボニー・ブロードソード"
+    },
+    {
+      "Key": "DaedricBroadsword(Name)",
+      "OriginalText": "Daedric Broadsword",
+      "TransText": "デイドリックブロードソード"
+    },
+    {
+      "Key": "SilverBroadsword(Name)",
+      "OriginalText": "Silver Broadsword",
+      "TransText": "シルバーブロードソード"
+    },
+    {
+      "Key": "ImperialBroadsword(Name)",
+      "OriginalText": "Imperial Broadsword",
+      "TransText": "インペリアル・ブロードソード"
+    },
+    {
+      "Key": "StormcloakBroadsword(Name)",
+      "OriginalText": "Stormcloak Broadsword",
+      "TransText": "ストームクローク・ブロードソード"
+    },
+    {
+      "Key": "RedguardBroadscimitar(Name)",
+      "OriginalText": "Redguard BroadScimitar",
+      "TransText": "レッドガード・ブロードシミター"
+    },
+    {
+      "Key": "AkaviriBroadKatana(Name)",
+      "OriginalText": "Blades Broadkatana",
+      "TransText": "ブレードス・ブロードカタナ"
+    },
+    {
+      "Key": "DraugrBroadsword(Name)",
+      "OriginalText": "Ancient Nord Broadsword",
+      "TransText": "古代ノルドのブロードソード"
+    },
+    {
+      "Key": "DraugrBroadswordHoned(Name)",
+      "OriginalText": "Honed Ancient Nord Broadsword",
+      "TransText": "研磨された古代ノルドのブロードソード"
+    },
+    {
+      "Key": "NordHeroBroadsword(Name)",
+      "OriginalText": "Nord Hero Broadsword",
+      "TransText": "ノルドヒーローブロードソード"
+    },
+    {
+      "Key": "DLC1DragonboneBroadsword(Name)",
+      "OriginalText": "Dragonbone Broadsword",
+      "TransText": "ドラゴンボーン・ブロードソード"
+    },
+    {
+      "Key": "DLC2NordicBroadsword(Name)",
+      "OriginalText": "Nordic Broadsword",
+      "TransText": "ノルディック・ブロードソード"
+    },
+    {
+      "Key": "DLC2StalhrimBroadsword(Name)",
+      "OriginalText": "Stalhrim Broadsword",
+      "TransText": "スタルリムブロードソード"
+    },
+    {
+      "Key": "UniqueBroadSwordAncientSkaalBlade(Name)",
+      "OriginalText": "AncientSkaal's Masterpiece",
+      "TransText": "エンシェントスカールの傑作"
+    },
+    {
+      "Key": "UniqueBroadSwordCompanion(Name)",
+      "OriginalText": "Sword of The Fallen Companion",
+      "TransText": "堕ちた者の剣の仲間"
+    },
+    {
+      "Key": "IronHeavySword(Name)",
+      "OriginalText": "Iron Heavy Sword",
+      "TransText": "鉄の重い剣"
+    },
+    {
+      "Key": "SteelHeavySword(Name)",
+      "OriginalText": "Steel Heavy Sword",
+      "TransText": "鋼の重剣"
+    },
+    {
+      "Key": "OrcishHeavySword(Name)",
+      "OriginalText": "Orcish Heavy Sword",
+      "TransText": "オークの重剣"
+    },
+    {
+      "Key": "DwarvenHeavySword(Name)",
+      "OriginalText": "Dwarven Heavy Sword",
+      "TransText": "ドワーフンヘビーソード"
+    },
+    {
+      "Key": "ElvenHeavySword(Name)",
+      "OriginalText": "Elven Heavy Sword",
+      "TransText": "エルヴン・ヘビーソード"
+    },
+    {
+      "Key": "GlassHeavySword(Name)",
+      "OriginalText": "Glass Heavy Sword",
+      "TransText": "グラスヘビーソード"
+    },
+    {
+      "Key": "EbonyHeavySword(Name)",
+      "OriginalText": "Ebony Heavy Sword",
+      "TransText": "エボニーヘビーソード"
+    },
+    {
+      "Key": "DaedricHeavySword(Name)",
+      "OriginalText": "Daedric Heavy Sword",
+      "TransText": "デイドラの重剣"
+    },
+    {
+      "Key": "SilverHeavySword(Name)",
+      "OriginalText": "Silver Heavy Sword",
+      "TransText": "シルバーヘビーソード"
+    },
+    {
+      "Key": "DraugrHeavySword(Name)",
+      "OriginalText": "Ancient Nord Heavy Sword",
+      "TransText": "古代ノルドの重剣"
+    },
+    {
+      "Key": "DraugrHeavySwordHoned(Name)",
+      "OriginalText": "Honed Ancient Nord Heavy Sword",
+      "TransText": "磨かれた古代ノルドの重剣"
+    },
+    {
+      "Key": "NordHeroHeavySword(Name)",
+      "OriginalText": "Nord Hero Heavy Sword",
+      "TransText": "ノルドヒーローヘビーソード"
+    },
+    {
+      "Key": "ImperialHeavysword(Name)",
+      "OriginalText": "Imperial Heavy Sword",
+      "TransText": "インペリアルヘビーソード"
+    },
+    {
+      "Key": "StormcloakHeavysword(Name)",
+      "OriginalText": "Stormcloak Heavy Sword",
+      "TransText": "ストームクローク・ヘビーソード"
+    },
+    {
+      "Key": "RedguardHeavyScimitar(Name)",
+      "OriginalText": "Redguard Heavy Scimitar",
+      "TransText": "レッドガードの重シミター"
+    },
+    {
+      "Key": "AkaviriHeavyKatana(Name)",
+      "OriginalText": "Blades Heavy Katana",
+      "TransText": "ブレードス ヘヴィー カタナ"
+    },
+    {
+      "Key": "DLC1DragonboneHeavySword(Name)",
+      "OriginalText": "Dragonbone Heavy Sword",
+      "TransText": "ドラゴンボーンヘビーソード"
+    },
+    {
+      "Key": "DLC2NordicHeavySword(Name)",
+      "OriginalText": "Nordic Heavy Sword",
+      "TransText": "ノルディック・ヘビーソード"
+    },
+    {
+      "Key": "DLC2StalhrimHeavySword(Name)",
+      "OriginalText": "Stalhrim Heavy Sword",
+      "TransText": "スタルリムの重い剣"
+    },
+    {
+      "Key": "UniqueHeavySwordBlackKnight(Name)",
+      "OriginalText": "Ebony Knight Sword",
+      "TransText": "エボニーナイトソード"
+    },
+    {
+      "Key": "UniqueHeavySwordStoneHeavySword(Name)",
+      "OriginalText": "Stone Heavy Sword",
+      "TransText": "ストーン・ヘビーソード"
+    },
+    {
+      "Key": "IronHeavyThrustSword(Name)",
+      "OriginalText": "Iron Heavy Thrusting Sword",
+      "TransText": "鉄の重突き剣"
+    },
+    {
+      "Key": "SteelHeavyThrustSword(Name)",
+      "OriginalText": "Steel Heavy Thrusting Sword",
+      "TransText": "鋼の重突き剣"
+    },
+    {
+      "Key": "OrcishHeavyThrustSword(Name)",
+      "OriginalText": "Orcish Heavy Thrusting Sword",
+      "TransText": "オークの重突剣"
+    },
+    {
+      "Key": "DwarvenHeavyThrustSword(Name)",
+      "OriginalText": "Dwarven Heavy Thrusting Sword",
+      "TransText": "ドワーフン・ヘヴィ・スラスト・ソード"
+    },
+    {
+      "Key": "ElvenHeavyThrustSword(Name)",
+      "OriginalText": "Elven Heavy Thrusting Sword",
+      "TransText": "エルヴン・ヘヴィ・スラスト・ソード"
+    },
+    {
+      "Key": "GlassHeavyThrustSword(Name)",
+      "OriginalText": "Glass Heavy Thrusting Sword",
+      "TransText": "ガラス重突剣"
+    },
+    {
+      "Key": "EbonyHeavyThrustSword(Name)",
+      "OriginalText": "Ebony Heavy Thrusting Sword",
+      "TransText": "エボニーヘビースラストソード"
+    },
+    {
+      "Key": "DaedricHeavyThrustSword(Name)",
+      "OriginalText": "Daedric Heavy Thrusting Sword",
+      "TransText": "デイドラの重突剣"
+    },
+    {
+      "Key": "SilverHeavyThrustSword(Name)",
+      "OriginalText": "Silver Heavy Thrusting Sword",
+      "TransText": "シルバーヘビースラストソード"
+    },
+    {
+      "Key": "DLC1DragonboneHeavyThrustSword(Name)",
+      "OriginalText": "Dragonbone Heavy Thrusting Sword",
+      "TransText": "ドラゴンボーン・ヘビー・スラストソード"
+    },
+    {
+      "Key": "DLC2NordicHeavyThrustSword(Name)",
+      "OriginalText": "Nordic Heavy Thrusting Sword",
+      "TransText": "ノルディック・ヘビー・スラストソード"
+    },
+    {
+      "Key": "DLC2StalhrimHeavyThrustSword(Name)",
+      "OriginalText": "Stalhrim Heavy Thrusting Sword",
+      "TransText": "スタールリムの重突剣"
+    },
+    {
+      "Key": "UniqueHeavyThrustSwordFlameBlade(Name)",
+      "OriginalText": "The Flame Blade",
+      "TransText": "フレイムブレード"
+    },
+    {
+      "Key": "UniqueHeavyThrustSwordCragBlade(Name)",
+      "OriginalText": "Dragonslayer's Cragblade",
+      "TransText": "ドラゴンスレイヤーのクレイグブレード"
+    },
+    {
+      "Key": "IronRapier(Name)",
+      "OriginalText": "Iron Rapier",
+      "TransText": "アイアン・レイピア"
+    },
+    {
+      "Key": "SteelRapier(Name)",
+      "OriginalText": "Steel Rapier",
+      "TransText": "スチールレイピア"
+    },
+    {
+      "Key": "OrcishRapier(Name)",
+      "OriginalText": "Orcish Rapier",
+      "TransText": "オークのレイピア"
+    },
+    {
+      "Key": "DwarvenRapier(Name)",
+      "OriginalText": "Dwarven Rapier",
+      "TransText": "ドワーフェン・レイピア"
+    },
+    {
+      "Key": "ElvenRapier(Name)",
+      "OriginalText": "Elven Rapier",
+      "TransText": "エルフのレイピア"
+    },
+    {
+      "Key": "GlassRapier(Name)",
+      "OriginalText": "Glass Rapier",
+      "TransText": "グラスラピア"
+    },
+    {
+      "Key": "EbonyRapier(Name)",
+      "OriginalText": "Ebony Rapier",
+      "TransText": "エボニー・レイピア"
+    },
+    {
+      "Key": "DaedricRapier(Name)",
+      "OriginalText": "Daedric Rapier",
+      "TransText": "デイドリック・レイピア"
+    },
+    {
+      "Key": "SilverRapier(Name)",
+      "OriginalText": "Silver Rapier",
+      "TransText": "シルバー・レイピア"
+    },
+    {
+      "Key": "DLC1DragonboneRapier(Name)",
+      "OriginalText": "Dragonbone Rapier",
+      "TransText": "ドラゴンボーン・レイピア"
+    },
+    {
+      "Key": "DLC2NordicRapier(Name)",
+      "OriginalText": "Nordic Rapier",
+      "TransText": "ノルディック・レイピア"
+    },
+    {
+      "Key": "DLC2StalhrimRapier(Name)",
+      "OriginalText": "Stalhrim Rapier",
+      "TransText": "スタルリム・レイピア"
+    },
+    {
+      "Key": "UniqueRapierLightning(Name)",
+      "OriginalText": "Lightning Rapier",
+      "TransText": "ライトニングレイピア"
+    },
+    {
+      "Key": "UniqueRapierRichard(Name)",
+      "OriginalText": "Richard's Rapier",
+      "TransText": "リチャードのレイピア"
+    },
+    {
+      "Key": "IronShotel(Name)",
+      "OriginalText": "Iron Shotel",
+      "TransText": "アイアン・ショテル"
+    },
+    {
+      "Key": "SteelShotel(Name)",
+      "OriginalText": "Steel Shotel",
+      "TransText": "スチールショーテル"
+    },
+    {
+      "Key": "DwarvenShotel(Name)",
+      "OriginalText": "Dwarven Shotel",
+      "TransText": "ドワーフン・ショテル"
+    },
+    {
+      "Key": "OrcishShotel(Name)",
+      "OriginalText": "Orcish Shotel",
+      "TransText": "オークのショーテル"
+    },
+    {
+      "Key": "ElvenShotel(Name)",
+      "OriginalText": "Elven Shotel",
+      "TransText": "エルヴンショーテル"
+    },
+    {
+      "Key": "GlassShotel(Name)",
+      "OriginalText": "Glass Shotel",
+      "TransText": "グラスショテル"
+    },
+    {
+      "Key": "EbonyShotel(Name)",
+      "OriginalText": "Ebony Shotel",
+      "TransText": "エボニーショーテル"
+    },
+    {
+      "Key": "DaedricShotel(Name)",
+      "OriginalText": "Daedric Shotel",
+      "TransText": "デイドラショーテル"
+    },
+    {
+      "Key": "SilverShotel(Name)",
+      "OriginalText": "Silver Shotel",
+      "TransText": "シルバーショーテル"
+    },
+    {
+      "Key": "DraugrShotel(Name)",
+      "OriginalText": "Ancient Nord Shotel",
+      "TransText": "古代ノルドショーテル"
+    },
+    {
+      "Key": "DraugrShotelHoned(Name)",
+      "OriginalText": "Ancient Nord Honed Shotel",
+      "TransText": "古代ノルドの研ぎ澄まされたショーテル"
+    },
+    {
+      "Key": "NordHeroShotel(Name)",
+      "OriginalText": "Nord Hero Shotel",
+      "TransText": "ノルドヒーローショーテル"
+    },
+    {
+      "Key": "ImperialShotel(Name)",
+      "OriginalText": "Imperial Shotel",
+      "TransText": "インペリアルショテル"
+    },
+    {
+      "Key": "RedguardShotel(Name)",
+      "OriginalText": "Redguard Shotel",
+      "TransText": "レッドガード・ショーテル"
+    },
+    {
+      "Key": "DragonboneShotel(Name)",
+      "OriginalText": "Dragonbone Shotel",
+      "TransText": "ドラゴンボーンショーテル"
+    },
+    {
+      "Key": "DLC2NordicShotel(Name)",
+      "OriginalText": "Nordic Shotel",
+      "TransText": "ノルディックショーテル"
+    },
+    {
+      "Key": "DLC2StalhrimShotel(Name)",
+      "OriginalText": "Stalhrim Shotel",
+      "TransText": "スタルリムショーテル"
+    },
+    {
+      "Key": "UniqueShotelMehrunes(Name)",
+      "OriginalText": "Mehrunes' Devoted Shotel",
+      "TransText": "メルーンズの献身ショーテル"
+    },
+    {
+      "Key": "UniqueShotelNightingale(Name)",
+      "OriginalText": "Nightingale Shotel",
+      "TransText": "ナイチンゲールショテル"
+    },
+    {
+      "Key": "IronLance(Name)",
+      "OriginalText": "Iron Lance",
+      "TransText": "アイアンランス"
+    },
+    {
+      "Key": "SteelLance(Name)",
+      "OriginalText": "Steel Lance",
+      "TransText": "スチールランス"
+    },
+    {
+      "Key": "OrcishLance(Name)",
+      "OriginalText": "Orcish Lance",
+      "TransText": "オークのランス"
+    },
+    {
+      "Key": "DwarvenLance(Name)",
+      "OriginalText": "Dwarven Lance",
+      "TransText": "ドワーフランス"
+    },
+    {
+      "Key": "ElvenLance(Name)",
+      "OriginalText": "Elven Lance",
+      "TransText": "エルヴンランス"
+    },
+    {
+      "Key": "GlassLance(Name)",
+      "OriginalText": "Glass Lance",
+      "TransText": "グラスランス"
+    },
+    {
+      "Key": "EbonyLance(Name)",
+      "OriginalText": "Ebony Lance",
+      "TransText": "エボニーランス"
+    },
+    {
+      "Key": "DaedricLance(Name)",
+      "OriginalText": "Daedric Lance",
+      "TransText": "デイドリックランス"
+    },
+    {
+      "Key": "SilverLance(Name)",
+      "OriginalText": "Silver Lance",
+      "TransText": "シルバーランス"
+    },
+    {
+      "Key": "DLC1DragonboneLance(Name)",
+      "OriginalText": "Dragonbone Lance",
+      "TransText": "ドラゴンボーンランス"
+    },
+    {
+      "Key": "DLC2NordicLance(Name)",
+      "OriginalText": "Nordic Lance",
+      "TransText": "ノルディックランス"
+    },
+    {
+      "Key": "DLC2StalhrimLance(Name)",
+      "OriginalText": "Stalhrim Lance",
+      "TransText": "スタルハリムランス"
+    },
+    {
+      "Key": "UniqueLanceGolem(Name)",
+      "OriginalText": "Ice Golem Lance",
+      "TransText": "アイスゴーレムランス"
+    },
+    {
+      "Key": "UniqueLanceDaedricLord(Name)",
+      "OriginalText": "Daedric Lord Lance",
+      "TransText": "デイドリックロードランス"
+    },
+    {
+      "Key": "WeaponDragonDamageZwei(Name)",
+      "OriginalText": "Dragon Damage",
+      "TransText": "ドラゴンのダメージ (数値)"
+    },
+    {
+      "Key": "EnchWeaponIceBlade(Name)",
+      "OriginalText": "Frostfeed",
+      "TransText": "フロストフィード"
+    },
+    {
+      "Key": "EnchAtmora(Name)",
+      "OriginalText": "Absorb Stamina",
+      "TransText": "スタミナ吸収 (数値)"
+    }
+  ]
+}

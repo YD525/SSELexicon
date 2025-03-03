@@ -17,7 +17,7 @@
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="CornerRadius" Value="7"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Setter Property="Background" Value="#FFF77FAC"/>
+        <Setter Property="Background" Value="#FF0B74D1"/>
     </Style>
 
     <Style x:Key="HighQuality">
@@ -196,7 +196,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="myBorder" Property="BorderBrush" Value="#FFFC90C9" />
+                            <Setter TargetName="myBorder" Property="BorderBrush" Value="#FF0B74D1" />
                         </Trigger>
                         <Trigger Property="HasItems" Value="false">
                             <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95" />
@@ -224,10 +224,10 @@
                                 </Border>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="Border" Property="Background" Value="#FFFFE6F2" />
+                                        <Setter TargetName="Border" Property="Background" Value="#FFD4F1F6" />
                                     </Trigger>
                                     <Trigger Property="IsSelected" Value="True">
-                                        <Setter TargetName="Border" Property="Background" Value="#FFF789B2" />
+                                        <Setter TargetName="Border" Property="Background" Value="#FF8CC0EE" />
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>

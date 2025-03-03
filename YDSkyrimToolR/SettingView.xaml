@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:YDSkyrimToolR"
         mc:Ignorable="d"
-        Title="SettingView" Height="300" Width="500" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Closing="Window_Closing" Style="{DynamicResource DefWin}">
+        Title="SettingView" Height="330" Width="500" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Closing="Window_Closing" Style="{DynamicResource DefWin}">
     <Border MouseLeftButtonDown="WinHead_MouseLeftButtonDown"  Style="{DynamicResource DefWinBackground}" Name="MainBackGround" >
         <Border.Effect>
-            <DropShadowEffect  BlurRadius="10" Direction="1" ShadowDepth="0.7" Color="#FFF77FAC" Opacity="0.8" />
+            <DropShadowEffect  BlurRadius="10" Direction="1" ShadowDepth="0.7" Color="#FF5DBCF1" Opacity="0.8" />
         </Border.Effect>
         
         <Grid>
@@ -21,7 +21,7 @@
                     SettingsView
                 </Label>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Border Tag="Close" PreviewMouseDown="CloseThis" CornerRadius="5"  Grid.Column="5" Height="25" Width="25"  Background="#FFF77FAC"  MouseEnter="RMouserEffectByEnter" MouseLeave="RMouserEffectByLeave" Cursor="Hand">
+                    <Border Tag="Close" PreviewMouseDown="CloseThis" CornerRadius="5"  Grid.Column="5" Height="25" Width="25"  Background="#FF0B74D1"  MouseEnter="RMouserEffectByEnter" MouseLeave="RMouserEffectByLeave" Cursor="Hand">
                         <Image Tag="Close" Name="TClose" Stretch="UniformToFill"   Source="/YDSkyrimToolR;component/Material/TClose.png"  Width="14" Height="13" Opacity="0.8" SnapsToDevicePixels="True"  RenderOptions.BitmapScalingMode="HighQuality">
                         </Image>
                     </Border>
@@ -29,7 +29,14 @@
             </Grid>
             <Border Grid.Row="1" Background="White" CornerRadius="0 0 7 7">
                 <StackPanel Orientation="Vertical" Margin="10">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
+                        <Label>
+                            Thread Limit
+                        </Label>
+                        <TextBox Name= "MaxThreadCount" Width="300" TextChanged="MaxThreadCount_TextChanged" VerticalContentAlignment="Center">
+                        </TextBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
                         <Label>
                             SetUILanguage
                         </Label>
@@ -42,6 +49,11 @@
                         </Label>
                         <TextBox Name= "SkyrimSEPath" Width="300" TextChanged="SkyrimSEPath_TextChanged" VerticalContentAlignment="Center">
                         </TextBox>
+                        <Border  CornerRadius="5" Background="#FF0B74D1" Height="30" Margin="10 0 0 0"  Cursor="Hand" PreviewMouseDown="ShowSkyrimPathConfigHelp">
+                            <Label Padding="10 0 10 0"  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" ToolTip="">
+                                Help
+                            </Label>
+                        </Border>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
                         <Label>

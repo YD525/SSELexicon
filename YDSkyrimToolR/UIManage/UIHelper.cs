@@ -181,7 +181,11 @@ namespace YDSkyrimToolR.UIManage
 
             if (FindDictionary != null)
             {
-                SourceTextBox.Text = FindDictionary.OriginalText;
+                if (FindDictionary.OriginalText.Trim().Length > 0)
+                {
+                    SourceTextBox.Text = FindDictionary.OriginalText;
+                    UIHelper.ModifyCount++;
+                }
             }
             else
             {

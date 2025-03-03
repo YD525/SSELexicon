@@ -77,10 +77,11 @@ namespace YDSkyrimToolR.TranslateManage
 
         public string QuickTrans(string TransSource, Languages FromLang, Languages ToLang)
         {
-            string From = LanguageHelper.GetLanguageString(FromLang);
-            string To = LanguageHelper.GetLanguageString(ToLang);
-
-            var GetTransSource = $"[{TransSource}] []内的话 {From}翻译到{To} 你只需返回结果 不要说其他的任何话 如果内容里出现\"(数值)\"这是填空的括号 不要处理掉这些括号";
+            var GetTransSource = $"{TransSource}\n Translate: {FromLang.ToString()} → {ToLang.ToString()}. Only return the translation.";
+            if (GetTransSource.EndsWith("\n"))
+            {
+                GetTransSource = GetTransSource.Substring(0, GetTransSource.Length - 1);
+            }
             var GetResult = CallAI(GetTransSource);
             if (GetResult != null)
             {

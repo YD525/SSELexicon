@@ -95,6 +95,51 @@ namespace YDSkyrimToolR.TranslateCore
             return ReplaceCount;
         }
 
+        public static void ReSetAllTransText()
+        {
+            for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
+            {
+                Grid MainGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
+                int GetTransHashKey = ConvertHelper.ObjToInt(MainGrid.Tag);
+                var TargetText = ConvertHelper.ObjToStr((MainGrid.Children[4] as TextBox).Text);
+                if (TargetText.Trim().Length > 0)
+                {
+                    Translator.TransData[GetTransHashKey] = string.Empty;
+                    (MainGrid.Children[4] as TextBox).Text = string.Empty;
+                    if (Translator.TransData.ContainsKey(GetTransHashKey))
+                    {
+                        Translator.TransData.Remove(GetTransHashKey);
+                    }
+                    (MainGrid.Children[4] as TextBox).BorderBrush = new SolidColorBrush(Color.FromRgb(76, 76, 76));
+                }
+            }
+            UIHelper.ModifyCount = 0;
+            DeFine.WorkingWin.GetStatistics();
+            DeFine.WorkingWin.Dispatcher.Invoke(new Action(() => {
+                DeFine.WorkingWin.ProcessBar.Width = 0;
+            }));
+        }
+        public static void ReStoreAllTransText()
+        {
+            UIHelper.ModifyCount = 0;
+            for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
+            {
+                Grid MainGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
+                int GetTransHashKey = ConvertHelper.ObjToInt(MainGrid.Tag);
+                var TargetText = ConvertHelper.ObjToStr((MainGrid.Children[4] as TextBox).Text);
+                var GetSourceText = (MainGrid.Children[3] as TextBox).Text.Trim();
+                if (Translator.TransData.ContainsKey(GetTransHashKey))
+                {
+                    Translator.TransData[GetTransHashKey] = GetSourceText;
+                    UIHelper.ModifyCount++;
+                }
+                (MainGrid.Children[4] as TextBox).Text = GetSourceText;
+
+                (MainGrid.Children[4] as TextBox).BorderBrush = new SolidColorBrush(Colors.Green);
+            }
+            DeFine.WorkingWin.GetStatistics();
+        }
+
         public static int ReadDictionary()
         {
             int ReplaceCount = 0;
@@ -133,158 +178,155 @@ namespace YDSkyrimToolR.TranslateCore
             return ReplaceCount;
         }
 
-        public static Thread MainTransThread = null;
-        public static bool LockerAutoTransService = false;
-        public static void StartAutoTransService(bool Check)
-        {
-            if (Check)
-            {
-                if (!LockerAutoTransService)
-                {
-                    LockerAutoTransService = true;
+        //public static Thread MainTransThread = null;
+        //public static bool LockerAutoTransService = false;
+        //public static void StartAutoTransService(bool Check)
+        //{
+        //    if (Check)
+        //    {
+        //        if (!LockerAutoTransService)
+        //        {
+        //            LockerAutoTransService = true;
 
-                    AutoMainTransThread = new CancellationTokenSource();
-                    var Token = AutoMainTransThread.Token;
+        //            AutoMainTransThread = new CancellationTokenSource();
+        //            var Token = AutoMainTransThread.Token;
 
-                    MainTransThread = new Thread(() =>
-                    {
-                        try
-                        {
-                            Task.Delay(200, Token).Wait(Token);
+        //            MainTransThread = new Thread(() =>
+        //            {
+        //                try
+        //                {
+        //                    Task.Delay(200, Token).Wait(Token);
 
-                            LanguageHelper.Init();
+        //                    LanguageHelper.Init();
 
-                            Token.ThrowIfCancellationRequested();
+        //                    Token.ThrowIfCancellationRequested();
 
-                            int GetTransCount = 0;
+        //                    int GetTransCount = 0;
 
-                            DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
-                            {
-                                GetTransCount = DeFine.WorkingWin.TransViewList.Rows;
-                            }));
+        //                    DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
+        //                    {
+        //                        GetTransCount = DeFine.WorkingWin.TransViewList.Rows;
+        //                    }));
 
-                            for (int i = 0; i < GetTransCount; i++)
-                            {
-                                if (!LockerAutoTransService)
-                                {
-                                    MainTransThread = null;
-                                    return;
-                                }
+        //                    for (int i = 0; i < GetTransCount; i++)
+        //                    {
+        //                        if (!LockerAutoTransService)
+        //                        {
+        //                            MainTransThread = null;
+        //                            return;
+        //                        }
 
-                                int GetTransHashKey = 0;
-                                string GetTransText = "";
-                                string GetTag = "";
-                                string GetKey = "";
-                                string GetTilp = "";
-                                string TargetText = "";
+        //                        int GetTransHashKey = 0;
+        //                        string GetTransText = "";
+        //                        string GetTag = "";
+        //                        string GetKey = "";
+        //                        string GetTilp = "";
+        //                        string TargetText = "";
 
-                                Grid MainGrid = null;
-                                DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
-                                {
-                                    MainGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
-                                    GetTilp = ConvertHelper.ObjToStr(MainGrid.ToolTip);
-                                    GetTag = ConvertHelper.ObjToStr((MainGrid.Children[1] as Label).Content);
-                                    GetKey = ConvertHelper.ObjToStr((MainGrid.Children[2] as TextBox).Text);
-                                    TargetText = ConvertHelper.ObjToStr((MainGrid.Children[4] as TextBox).Text);
-                                    if ((MainGrid.Children[4] as TextBox).Text.Trim().Length == 0)
-                                    {
-                                        GetTransText = (MainGrid.Children[3] as TextBox).Text.Trim();
-                                        GetTransHashKey = ConvertHelper.ObjToInt(MainGrid.Tag);
-                                    }
-                                }));
+        //                        Grid MainGrid = null;
+        //                        DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
+        //                        {
+        //                            MainGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
+        //                            GetTilp = ConvertHelper.ObjToStr(MainGrid.ToolTip);
+        //                            GetTag = ConvertHelper.ObjToStr((MainGrid.Children[1] as Label).Content);
+        //                            GetKey = ConvertHelper.ObjToStr((MainGrid.Children[2] as TextBox).Text);
+        //                            TargetText = ConvertHelper.ObjToStr((MainGrid.Children[4] as TextBox).Text);
+        //                            GetTransText = (MainGrid.Children[3] as TextBox).Text.Trim();
+        //                            GetTransHashKey = ConvertHelper.ObjToInt(MainGrid.Tag);
+        //                        }));
 
-                                if (GetTransText.Trim().Length > 0 && GetTransHashKey != 0)
-                                {
-                                    if (GetTilp == "Danger")
-                                    {
-                                        DeFine.WorkingWin.SetLog("Skip dangerous fields:" + GetKey);
-                                    }
-                                    else
-                                    if (GetTag.ToLower() != "book")
-                                    {
-                                        if (TargetText.Trim().Length == 0)
-                                        {
-                                            NextGet:
-                                            if (!LockerAutoTransService)
-                                            {
-                                                MainTransThread = null;
-                                                return;
-                                            }
+        //                        if (GetTransText.Trim().Length > 0 && GetTransHashKey != 0)
+        //                        {
+        //                            if (GetTilp == "Danger")
+        //                            {
+        //                                DeFine.WorkingWin.SetLog("Skip dangerous fields:" + GetKey);
+        //                            }
+        //                            else
+        //                            if (GetTag.ToLower() != "book")
+        //                            {
+        //                                if (TargetText.Trim().Length == 0)
+        //                                {
+        //                                    NextGet:
+        //                                    if (!LockerAutoTransService)
+        //                                    {
+        //                                        MainTransThread = null;
+        //                                        return;
+        //                                    }
 
-                                            List<EngineProcessItem> EngineProcessItems = new List<EngineProcessItem>();
-                                            var GetResult = new WordProcess().ProcessWords(ref EngineProcessItems, GetTransText, DeFine.SourceLanguage, DeFine.TargetLanguage);
-                                            if (GetResult.Trim().Length > 0)
-                                            {
-                                                Translator.TransData[GetTransHashKey] = GetResult;
+        //                                    List<EngineProcessItem> EngineProcessItems = new List<EngineProcessItem>();
+        //                                    var GetResult = new WordProcess().ProcessWords(ref EngineProcessItems, GetTransText, DeFine.SourceLanguage, DeFine.TargetLanguage);
+        //                                    if (GetResult.Trim().Length > 0)
+        //                                    {
+        //                                        Translator.TransData[GetTransHashKey] = GetResult;
 
-                                                DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
-                                                {
-                                                    if (UIHelper.ModifyCount < DeFine.WorkingWin.TransViewList.GetMainGrid().Children.Count)
-                                                    {
-                                                        UIHelper.ModifyCount++;
-                                                    }
+        //                                        DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
+        //                                        {
+        //                                            if (UIHelper.ModifyCount < DeFine.WorkingWin.TransViewList.RealLines.Count)
+        //                                            {
+        //                                                UIHelper.ModifyCount++;
+        //                                            }
 
-                                                    DeFine.WorkingWin.GetStatistics();
+        //                                            DeFine.WorkingWin.GetStatistics();
 
-                                                    (MainGrid.Children[4] as TextBox).Text = GetResult;
-                                                    (MainGrid.Children[4] as TextBox).BorderBrush = new SolidColorBrush(Colors.Green);
-                                                }));
-                                            }
-                                            else
-                                            {
-                                                DeFine.WorkingWin.SetLog("The interface returns empty and requests again.");
-                                                if (!StrChecker.ContainsChinese(GetTransText))
-                                                {
-                                                    Thread.Sleep(new Random(Guid.NewGuid().GetHashCode()).Next(500, 2000));
-                                                    goto NextGet;
-                                                }
-                                            }
-                                        }
-                                        else
-                                        {
-                                            DeFine.WorkingWin.SetLog("Skip the translated content:" + GetTransText);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        DeFine.WorkingWin.SetLog("Skip the translation BOOK field:" + GetKey);
-                                    }
+        //                                            (MainGrid.Children[4] as TextBox).Text = GetResult;
+        //                                            (MainGrid.Children[4] as TextBox).BorderBrush = new SolidColorBrush(Colors.Green);
+        //                                        }));
+        //                                    }
+        //                                    else
+        //                                    {
+        //                                        DeFine.WorkingWin.SetLog("The interface returns empty and requests again.");
+        //                                        if (!StrChecker.ContainsChinese(GetTransText))
+        //                                        {
+        //                                            Thread.Sleep(new Random(Guid.NewGuid().GetHashCode()).Next(500, 2000));
+        //                                            goto NextGet;
+        //                                        }
+        //                                    }
+        //                                }
+        //                                else
+        //                                {
+        //                                    DeFine.WorkingWin.SetLog("Skip the translated content:" + GetTransText);
+        //                                }
+        //                            }
+        //                            else
+        //                            {
+        //                                DeFine.WorkingWin.SetLog("Skip the translation BOOK field:" + GetKey);
+        //                            }
 
-                                }
-                            }
+        //                        }
+        //                    }
 
-                            LockerAutoTransService = false;
-                            MainTransThread = null;
+        //                    LockerAutoTransService = false;
+        //                    MainTransThread = null;
 
-                            DeFine.WorkingWin.SetLog("The current tag translation ends");
+        //                    DeFine.WorkingWin.SetLog("The current tag translation ends");
 
-                            if (DeFine.WorkingWin != null)
-                            {
-                                DeFine.WorkingWin.Dispatcher.Invoke(new Action(() => {
-                                    DeFine.WorkingWin.CheckTransTrdState();
-                                }));
-                            }
-                        }
-                        catch (OperationCanceledException)
-                        {
-                            // 取消时静默处理
-                            DeFine.WorkingWin.SetLog("Cancel Trans");
-                            MainTransThread = null;
-                            DeFine.WorkingWin.Dispatcher.Invoke(new Action(() => {
-                                DeFine.WorkingWin.CheckTransTrdState();
-                            }));
-                        }
-                    });
+        //                    if (DeFine.WorkingWin != null)
+        //                    {
+        //                        DeFine.WorkingWin.Dispatcher.Invoke(new Action(() => {
+        //                            DeFine.WorkingWin.CheckTransTrdState();
+        //                        }));
+        //                    }
+        //                }
+        //                catch (OperationCanceledException)
+        //                {
+        //                    // 取消时静默处理
+        //                    DeFine.WorkingWin.SetLog("Cancel Trans");
+        //                    MainTransThread = null;
+        //                    DeFine.WorkingWin.Dispatcher.Invoke(new Action(() => {
+        //                        DeFine.WorkingWin.CheckTransTrdState();
+        //                    }));
+        //                }
+        //            });
 
-                    MainTransThread.Start();
-                }
-            }
-            else
-            {
-                CancelMainTransThread();
-                LockerAutoTransService = false;
-            }
-        }
+        //            MainTransThread.Start();
+        //        }
+        //    }
+        //    else
+        //    {
+        //        CancelMainTransThread();
+        //        LockerAutoTransService = false;
+        //    }
+        //}
 
         public delegate void TranslateMsg(string EngineName, string Text, string Result);
 
@@ -479,6 +521,43 @@ namespace YDSkyrimToolR.TranslateCore
         }
         public string ProcessContent(string Content)
         {
+
+            return Content;
+        }
+
+        public LanguageHelper CurrentLanguageHelper = new LanguageHelper();
+        public string QuickTrans(string Content, Languages From, Languages To)
+        {
+            if (Content.Trim().Length == 0) return string.Empty;
+
+            string RealContent = Content;
+
+            if (Content.Contains("u200b"))
+            {
+                Content = Content.Replace(@"\u200b", "");
+            }
+
+            Content = Content.Replace("\u200b", "").Replace("\u200B", "");
+
+            Content = CurrentLanguageHelper.TransAny(DeFine.SourceLanguage, DeFine.TargetLanguage,RealContent,Content);
+
+            Content = Content.Replace("“", "'");
+
+            Content = Content.Replace("”", "'");
+
+            Content = Content.Replace("。", ".");
+
+            Content = Content.Replace("！", "!");
+
+            Content = Content.Replace("，", ",");
+
+            Content = Content.Replace("：", ":");
+
+            Content = Content.Replace("？", "?");
+
+            Content = Content.Replace("-", " - ");
+
+            Content = Content.Replace("\u200b", "").Replace("\u200B", "");
 
             return Content;
         }

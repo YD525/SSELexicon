@@ -46,11 +46,11 @@ namespace YDSkyrimToolR
             }
 
             Languages.SelectedValue = DeFine.GlobalLocalSetting.CurrentUILanguage.ToString();
-
             BaiDuAppID.Text = DeFine.GlobalLocalSetting.BaiDuAppID;
             BaiDuKey.Password = DeFine.GlobalLocalSetting.BaiDuSecretKey;
             ChatGptKey.Password = DeFine.GlobalLocalSetting.ChatGptKey;
             DeepSeekKey.Password = DeFine.GlobalLocalSetting.DeepSeekKey;
+            MaxThreadCount.Text = ConvertHelper.ObjToStr(DeFine.GlobalLocalSetting.MaxThreadCount);
         }
 
         private void Languages_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -101,7 +101,7 @@ namespace YDSkyrimToolR
                         Image LockerImg = LockerGrid.Child as Image;
                         LockerImg.Opacity = 0.9;
                     }
-                    LockerGrid.Background = new SolidColorBrush(Color.FromRgb(244, 101, 155));
+                    LockerGrid.Background = DeFine.SelectBackGround;
                 }
             }
         }
@@ -118,7 +118,7 @@ namespace YDSkyrimToolR
                         Image LockerImg = LockerGrid.Child as Image;
                         LockerImg.Opacity = 0.6;
                     }
-                    LockerGrid.Background = new SolidColorBrush(Color.FromRgb(247, 127, 172));
+                    LockerGrid.Background = DeFine.DefBackGround;
                 }
             }
         }
@@ -169,6 +169,16 @@ namespace YDSkyrimToolR
         private void SkyrimSEPath_TextChanged(object sender, TextChangedEventArgs e)
         {
             DeFine.GlobalLocalSetting.SkyrimPath = SkyrimSEPath.Text;
+        }
+
+        private void MaxThreadCount_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            DeFine.GlobalLocalSetting.MaxThreadCount = ConvertHelper.ObjToInt(MaxThreadCount.Text);
+        }
+
+        private void ShowSkyrimPathConfigHelp(object sender, MouseButtonEventArgs e)
+        {
+            ActionWin.Show("SkyrimPathConfigHelpMsg", @"If you have installed CK, there should be a Papyrus Compiler folder in the game root directory, which is necessary for compiling PEX. If you don't have the game installed and haven't downloaded CK, then manually create a folder Skyrim Special Edition in any directory, then create Papyrus Compiler in the directory and put all the associated files in it. After everything is done, there should be PapyrusAssembler.exe and PapyrusCompiler.exe in this directory. Then fill in the text box with your Skyrim Special Edition path.Look Like [C:\xxxx\Skyrim Special] That's it.", MsgAction.Yes, MsgType.Info, 390);
         }
     }
 }
