@@ -6,6 +6,8 @@
 
 #### This project adopts the GPL-3.0-oly license。
 
+#### The icon for the UI interface Note comes from iconfont(https://www.iconfont.cn/)
+
 #### And, some of its logic uses the following open-source frameworks/libraries：
 #### (https://github.com/Mutagen-Modding/Mutagen),
 #### Framework/Library Name：Mutagen.Bethesda，Developed by [Mutagen].
