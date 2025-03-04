@@ -23,11 +23,9 @@
 #### Attribution
 #### You are free to use, share, and modify this software. However, when making modifications, please credit the original author by including my GitHub URL. When sharing the software, Please ensure to provide the original software's NexusMods URL on the project page.
 #### Any version of this project must retain the original author's attribution. Please specify the original author as YD525
-#### Any modified version of this project must retain the original author's attribution, including the name "YD525" and the associated GitHub URL: https://github.com/YD525/YDSkyrimToolR.
-#### GitHub: https://github.com/YD525/YDSkyrimToolR
-#### NexusMods: https://www.nexusmods.com/skyrimspecialedition/mods/143056
 
 #### This project contains third-party libraries licensed under the GPL/LGPL/MIT/BSD-3-Clause. Any modifications or redistributions must comply with their respective licenses.
+
 #### Copyright (C) 2025 YD525  
 #### This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.  
 #### This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.  
