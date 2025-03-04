@@ -20,13 +20,17 @@
 
 #### For more information, please refer to the [License] files of this program and the respective frameworks of the other party.
 
-#### Attribution
-#### You are free to use, share, and modify this software. However, when making modifications, please credit the original author by including my GitHub URL. When sharing the software, Please ensure to provide the original software's NexusMods URL on the project page.
-#### Any version of this project must retain the original author's attribution. Please specify the original author as YD525
+### Attribution
+You are free to use, share, and modify this software under the terms of the GNU General Public License v3.0.
 
-#### This project contains third-party libraries licensed under the GPL/LGPL/MIT/BSD-3-Clause. Any modifications or redistributions must comply with their respective licenses.
+If you make modifications, I would appreciate it if you credit the original author (YD525) by including my GitHub URL.
+If you share this software, it would be great if you could include the original NexusMods URL for reference.
 
-#### Copyright (C) 2025 YD525  
-#### This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.  
-#### This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.  
-#### You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
+This project contains third-party libraries licensed under GPL/LGPL/MIT/BSD-3-Clause. Any modifications or redistributions must comply with their respective licenses.
+
+Copyright (C) 2025 YD525
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/.
