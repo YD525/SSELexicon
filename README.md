@@ -28,4 +28,5 @@
 #### NexusMods: https://www.nexusmods.com/skyrimspecialedition/mods/143056
 
 #### This project contains third-party libraries licensed under the GPL/LGPL/MIT/BSD-3-Clause. Any modifications or redistributions must comply with their respective licenses.
-#### Author YD525. 
+#### Copyright (C) 2025 YD525  
+#### This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.  
