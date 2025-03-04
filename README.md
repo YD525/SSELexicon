@@ -8,15 +8,15 @@
 
 #### And, some of its logic uses the following open-source frameworks/libraries：
 #### (https://github.com/Mutagen-Modding/Mutagen),
-#### Framework/Library Name：Mutagen.Bethesda，Developed by [Mutagen], licensed under [GPL-3.0-oly].
+#### Framework/Library Name：Mutagen.Bethesda，Developed by [Mutagen].
 
 #### And, some of its logic uses the following open-source frameworks/libraries：
 #### (https://github.com/Orvid/Champollion),
-#### Framework/Library Name：Champollion，Developed by [Ovid], licensed under [GPL-3.0-oly].
+#### Framework/Library Name：Champollion，Developed by [Ovid].
 
 #### And all components of GameFinder that have dependencies
 #### (https://github.com/erri120/GameFinder)
-#### Framework/Library Name：erri120.GameFinder，Developed by [erri120], licensed under [GPL-3.0-oly].
+#### Framework/Library Name：erri120.GameFinder，Developed by [erri120].
 
 #### For more information, please refer to the [License] files of this program and the respective frameworks of the other party.
 
