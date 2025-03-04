@@ -127,7 +127,7 @@ namespace YDSkyrimToolR
                         Image LockerImg = LockerGrid.Child as Image;
                         LockerImg.Opacity = 0.9;
                     }
-                    LockerGrid.Background = new SolidColorBrush(Color.FromRgb(244, 101, 155));
+                    LockerGrid.Background = DeFine.SelectBackGround;
                 }
             }
         }
@@ -144,7 +144,7 @@ namespace YDSkyrimToolR
                         Image LockerImg = LockerGrid.Child as Image;
                         LockerImg.Opacity = 0.6;
                     }
-                    LockerGrid.Background = new SolidColorBrush(Color.FromRgb(247, 127, 172));
+                    LockerGrid.Background = DeFine.DefBackGround;
                 }
             }
         }

@@ -345,10 +345,10 @@
 
     <Border MouseLeftButtonDown="WinHead_MouseLeftButtonDown"  Style="{DynamicResource DefWinBackground}" Name="MainBackGround" >
         <Border.Effect>
-            <DropShadowEffect  BlurRadius="10" Direction="1" ShadowDepth="0.7" Color="#FFF77FAC" Opacity="0.8" />
+            <DropShadowEffect  BlurRadius="10" Direction="1" ShadowDepth="0.7" Color="#FF0B74D1" Opacity="0.8" />
         </Border.Effect>
         <Grid>
-            <Border Background="#FFF77FAC" CornerRadius="7" Panel.ZIndex="0" Name="Footer" Margin="0 45 0 0">
+            <Border Background="#FF0B74D1" CornerRadius="7" Panel.ZIndex="0" Name="Footer" Margin="0 45 0 0">
             </Border>
             <Grid Panel.ZIndex="1">
                 <Grid.RowDefinitions>
@@ -362,7 +362,7 @@
                     </Label>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
 
-                        <Border Tag="Close" PreviewMouseDown="Close" CornerRadius="5"  Grid.Column="5" Height="25" Width="25"  Background="#FFF77FAC"  MouseEnter="RMouserEffectByEnter" MouseLeave="RMouserEffectByLeave" Cursor="Hand">
+                        <Border Tag="Close" PreviewMouseDown="Close" CornerRadius="5"  Grid.Column="5" Height="25" Width="25"  Background="#FF0B74D1"  MouseEnter="RMouserEffectByEnter" MouseLeave="RMouserEffectByLeave" Cursor="Hand">
                             <Image Tag="Close" Name="TClose" Stretch="UniformToFill"   Source="/YDSkyrimToolR;component/Material/TClose.png"  Width="14" Height="13" Opacity="0.8" SnapsToDevicePixels="True"  RenderOptions.BitmapScalingMode="HighQuality">
                             </Image>
                         </Border>

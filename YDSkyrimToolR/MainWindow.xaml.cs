@@ -193,10 +193,13 @@ namespace YDSkyrimToolR
             if (!File.Exists(DeFine.GetFullPath(@"Tool\Champollion.exe")))
             {
                 string Msg = "Please manually install the dependent program\n[https://github.com/Orvid/Champollion]\nPlease download the release version and put it in this path\n[" + DeFine.GetFullPath(@"Tool\") + "]\n Path required\n[" + DeFine.GetFullPath(@"Tool\Champollion.exe") + "]";
-                if (ActionWin.Show("HelpMsg", Msg +"\n" + "Do you want to download the Champollion component now", MsgAction.YesNo, MsgType.Info, 500) > 0)
+                ActionWin.Show("HelpMsg", Msg, MsgAction.Yes, MsgType.Info, 500);
+
+                if(ActionWin.Show("HelpMsg", "Do you want to download the Champollion component now?\nIf you need.Click Yes to jump to the URL", MsgAction.YesNo, MsgType.Info, 230)>0)
                 {
                     Process.Start(new ProcessStartInfo("https://github.com/Orvid/Champollion/releases") { UseShellExecute = true });
                 }
+
             }
 
             string CompilerPath = "";
@@ -1247,7 +1250,7 @@ namespace YDSkyrimToolR
 
         private void ReSetTransLang(object sender, MouseButtonEventArgs e)
         {
-            if (!StopAny)
+            if (TransViewList.Rows > 0)
             if (ActionWin.Show("Do you agree?", "This will restore all fields to their initial state.", MsgAction.YesNo, MsgType.Info, 230) > 0)
             {
                 WordProcess.ReSetAllTransText();
@@ -1257,32 +1260,38 @@ namespace YDSkyrimToolR
 
         private void ReStoreTransLang(object sender, MouseButtonEventArgs e)
         {
-            if(!StopAny)
-            if (ActionWin.Show("Do you agree?", "This will revert back to the original file.", MsgAction.YesNo, MsgType.Info, 230) > 0)
+            if (TransViewList.Rows > 0)
             {
-                if (CurrentSelect != ObjSelect.All)
+                string GetModName = YDDictionaryHelper.CurrentModName;
+                string SetPath = DeFine.GetFullPath(@"Librarys\" + GetModName) + ".Json";
+                if (File.Exists(SetPath))
                 {
-                    ClosetTransTrd();
-                    CurrentSelect = ObjSelect.All;
-                    ReloadDataFunc(true);
-                }
-
-                WordProcess.ReStoreAllTransText();
-
-                if (ActionWin.Show("Do you agree?", "Delete dictionary file and save", MsgAction.YesNo, MsgType.Info, 230) > 0)
-                {
-                    string GetModName = YDDictionaryHelper.CurrentModName;
-                    string SetPath = DeFine.GetFullPath(@"Librarys\" + GetModName) + ".Json";
-                    if (File.Exists(SetPath))
+                    if (ActionWin.Show("Do you agree?", "This will revert back to the original file.", MsgAction.YesNo, MsgType.Info, 230) > 0)
                     {
-                        File.Delete(SetPath);
+                        if (CurrentSelect != ObjSelect.All)
+                        {
+                            ClosetTransTrd();
+                            CurrentSelect = ObjSelect.All;
+                            ReloadDataFunc(true);
+                        }
+
+                        WordProcess.ReStoreAllTransText();
+
+                        if (ActionWin.Show("Do you agree?", "Delete dictionary file and save", MsgAction.YesNo, MsgType.Info, 230) > 0)
+                        {
+                            if (File.Exists(SetPath))
+                            {
+                                File.Delete(SetPath);
+                            }
+                            bool BackUPState = DeFine.GlobalLocalSetting.AutoLoadDictionaryFile;
+                            DeFine.GlobalLocalSetting.AutoLoadDictionaryFile = false;
+                            AutoLoadOrSave(LoadFileButton, null);
+                            DeFine.GlobalLocalSetting.AutoLoadDictionaryFile = BackUPState;
+                        }
                     }
-                    bool BackUPState = DeFine.GlobalLocalSetting.AutoLoadDictionaryFile;
-                    DeFine.GlobalLocalSetting.AutoLoadDictionaryFile = false;
-                    AutoLoadOrSave(LoadFileButton, null);
-                    DeFine.GlobalLocalSetting.AutoLoadDictionaryFile = BackUPState;
                 }
             }
+           
         }
     }
 }

@@ -11,6 +11,14 @@
       "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|YDSkyrimToolR\\YDSkyrimToolR.csproj|solutionrelative:ydskyrimtoolr\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|YDSkyrimToolR\\YDSkyrimToolR.csproj|c:\\users\\administrator\\source\\repos\\ydskyrimtoolr\\ydskyrimtoolr\\codeview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|YDSkyrimToolR\\YDSkyrimToolR.csproj|solutionrelative:ydskyrimtoolr\\codeview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|YDSkyrimToolR\\YDSkyrimToolR.csproj|c:\\users\\administrator\\source\\repos\\ydskyrimtoolr\\ydskyrimtoolr\\codeview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|YDSkyrimToolR\\YDSkyrimToolR.csproj|solutionrelative:ydskyrimtoolr\\codeview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|YDSkyrimToolR\\YDSkyrimToolR.csproj|c:\\users\\administrator\\source\\repos\\ydskyrimtoolr\\ydskyrimtoolr\\material\\languages.svg||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
       "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|YDSkyrimToolR\\YDSkyrimToolR.csproj|solutionrelative:ydskyrimtoolr\\material\\languages.svg||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
     },
@@ -89,10 +97,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|YDSkyrimToolR\\YDSkyrimToolR.csproj|c:\\users\\administrator\\source\\repos\\ydskyrimtoolr\\ydskyrimtoolr\\translatemanage\\deepseekapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|YDSkyrimToolR\\YDSkyrimToolR.csproj|solutionrelative:ydskyrimtoolr\\translatemanage\\deepseekapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|YDSkyrimToolR\\YDSkyrimToolR.csproj|c:\\users\\administrator\\source\\repos\\ydskyrimtoolr\\ydskyrimtoolr\\codeview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|YDSkyrimToolR\\YDSkyrimToolR.csproj|solutionrelative:ydskyrimtoolr\\codeview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|YDSkyrimToolR\\YDSkyrimToolR.csproj|c:\\users\\administrator\\source\\repos\\ydskyrimtoolr\\ydskyrimtoolr\\uimanage\\uihelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -234,10 +238,6 @@
       "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|YDSkyrimToolR\\YDSkyrimToolR.csproj|solutionrelative:ydskyrimtoolr\\actionwin.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|YDSkyrimToolR\\YDSkyrimToolR.csproj|c:\\users\\administrator\\source\\repos\\ydskyrimtoolr\\ydskyrimtoolr\\codeview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|YDSkyrimToolR\\YDSkyrimToolR.csproj|solutionrelative:ydskyrimtoolr\\codeview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Administrator\\AppData\\Local\\Temp\\.vsdbgsrc\\df66369a4ba344fd7ddd126131be079c4bbac33b32e806b59c97bf1ca5f34bd3\\DependencyObject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -256,63 +256,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:1:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Conjunction.svg",
-              "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\Material\\Conjunction.svg",
-              "RelativeDocumentMoniker": "YDSkyrimToolR\\Material\\Conjunction.svg",
-              "ToolTip": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\Material\\Conjunction.svg",
-              "RelativeToolTip": "YDSkyrimToolR\\Material\\Conjunction.svg",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAA0BAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-03-03T17:26:20.679Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "CodeView.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\CodeView.xaml.cs",
-              "RelativeDocumentMoniker": "YDSkyrimToolR\\CodeView.xaml.cs",
-              "ToolTip": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\CodeView.xaml.cs",
-              "RelativeToolTip": "YDSkyrimToolR\\CodeView.xaml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAACAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-02T19:41:29.684Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "SettingView.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\SettingView.xaml.cs",
-              "RelativeDocumentMoniker": "YDSkyrimToolR\\SettingView.xaml.cs",
-              "ToolTip": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\SettingView.xaml.cs",
-              "RelativeToolTip": "YDSkyrimToolR\\SettingView.xaml.cs",
-              "ViewState": "AgIAAFoAAAAAAAAAAAAqwGUAAAAQAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-28T21:21:32.242Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "YDListView.cs",
-              "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\UIManage\\YDListView.cs",
-              "RelativeDocumentMoniker": "YDSkyrimToolR\\UIManage\\YDListView.cs",
-              "ToolTip": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\UIManage\\YDListView.cs",
-              "RelativeToolTip": "YDSkyrimToolR\\UIManage\\YDListView.cs",
-              "ViewState": "AgIAACEAAAAAAAAAAAAvwEAAAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-07T03:41:59.166Z",
-              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -328,19 +276,18 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 14,
               "Title": "SettingView.xaml",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\SettingView.xaml",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\SettingView.xaml",
               "ToolTip": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\SettingView.xaml",
               "RelativeToolTip": "YDSkyrimToolR\\SettingView.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-03-01T21:19:06.334Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-01T21:19:06.334Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 24,
               "Title": "UIHelper.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\UIManage\\UIHelper.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\UIManage\\UIHelper.cs",
@@ -348,12 +295,11 @@
               "RelativeToolTip": "YDSkyrimToolR\\UIManage\\UIHelper.cs",
               "ViewState": "AgIAAIMAAAAAAAAAAAAAALsAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-03T03:02:35.537Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-03T03:02:35.537Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 31,
               "Title": "Translator.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\TranslateManage\\Translator.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\TranslateManage\\Translator.cs",
@@ -365,7 +311,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 29,
               "Title": "YDDictionaryHelper.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\SkyrimManage\\YDDictionaryHelper.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\SkyrimManage\\YDDictionaryHelper.cs",
@@ -373,24 +319,22 @@
               "RelativeToolTip": "YDSkyrimToolR\\SkyrimManage\\YDDictionaryHelper.cs",
               "ViewState": "AgIAAEUAAAAAAAAAAAAswF4AAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-03T01:40:57.349Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-03T01:40:57.349Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 17,
               "Title": "ActionWin.xaml",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\ActionWin.xaml",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\ActionWin.xaml",
               "ToolTip": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\ActionWin.xaml",
               "RelativeToolTip": "YDSkyrimToolR\\ActionWin.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-02-07T01:57:32.404Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-07T01:57:32.404Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 23,
               "Title": "DeepSeekApi.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\TranslateManage\\DeepSeekApi.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\TranslateManage\\DeepSeekApi.cs",
@@ -398,24 +342,22 @@
               "RelativeToolTip": "YDSkyrimToolR\\TranslateManage\\DeepSeekApi.cs",
               "ViewState": "AgIAAHYAAAAAAAAAAAAuwJUAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-28T19:40:02.15Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-28T19:40:02.15Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 16,
               "Title": "EngineEditView.xaml",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\EngineEditView.xaml",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\EngineEditView.xaml",
               "ToolTip": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\EngineEditView.xaml",
               "RelativeToolTip": "YDSkyrimToolR\\EngineEditView.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-02-25T21:05:29.47Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-25T21:05:29.47Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 11,
               "Title": "Code.svg",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\Material\\Code.svg",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\Material\\Code.svg",
@@ -423,12 +365,11 @@
               "RelativeToolTip": "YDSkyrimToolR\\Material\\Code.svg",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAABhBQAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-02-28T19:53:50.35Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-28T19:53:50.35Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 13,
               "Title": "Baidu.svg",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\Material\\Baidu.svg",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\Material\\Baidu.svg",
@@ -436,8 +377,7 @@
               "RelativeToolTip": "YDSkyrimToolR\\Material\\Baidu.svg",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAABfCgAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-03-03T17:23:07.246Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-03T17:23:07.246Z"
             },
             {
               "$type": "Document",
@@ -447,26 +387,24 @@
               "RelativeDocumentMoniker": "YDSkyrimToolR\\MainWindow.xaml.cs",
               "ToolTip": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\MainWindow.xaml.cs",
               "RelativeToolTip": "YDSkyrimToolR\\MainWindow.xaml.cs",
-              "ViewState": "AgIAALMCAAAAAAAAAAAMwM0CAABTAAAAAAAAAA==",
+              "ViewState": "AgIAAOcEAAAAAAAAAAAqwAAFAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-03T13:51:25.339Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-03T13:51:25.339Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "DownICO.png",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\Material\\DownICO.png",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\Material\\DownICO.png",
               "ToolTip": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\Material\\DownICO.png",
               "RelativeToolTip": "YDSkyrimToolR\\Material\\DownICO.png",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001533|",
-              "WhenOpened": "2025-03-03T17:26:33.859Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-03T17:26:33.859Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "End.svg",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\Material\\End.svg",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\Material\\End.svg",
@@ -474,12 +412,11 @@
               "RelativeToolTip": "YDSkyrimToolR\\Material\\End.svg",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAA+AgAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-03-03T17:26:42.803Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-03T17:26:42.803Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 19,
               "Title": "WordProcess.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\TranslateManage\\WordProcess.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\TranslateManage\\WordProcess.cs",
@@ -487,24 +424,46 @@
               "RelativeToolTip": "YDSkyrimToolR\\TranslateManage\\WordProcess.cs",
               "ViewState": "AgIAAF8AAAAAAAAAAAAMwIQAAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-03T13:52:02.432Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-03T13:52:02.432Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 18,
               "Title": "SearchText.xaml",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\SearchText.xaml",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\SearchText.xaml",
               "ToolTip": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\SearchText.xaml",
               "RelativeToolTip": "YDSkyrimToolR\\SearchText.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-02-07T01:56:42.264Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-07T01:56:42.264Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
+              "Title": "CodeView.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\CodeView.xaml.cs",
+              "RelativeDocumentMoniker": "YDSkyrimToolR\\CodeView.xaml.cs",
+              "ToolTip": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\CodeView.xaml.cs",
+              "RelativeToolTip": "YDSkyrimToolR\\CodeView.xaml.cs",
+              "ViewState": "AgIAAMMAAAAAAAAAAAAcwJIAAABAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-02T19:41:29.684Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "YDListView.cs",
+              "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\UIManage\\YDListView.cs",
+              "RelativeDocumentMoniker": "YDSkyrimToolR\\UIManage\\YDListView.cs",
+              "ToolTip": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\UIManage\\YDListView.cs",
+              "RelativeToolTip": "YDSkyrimToolR\\UIManage\\YDListView.cs",
+              "ViewState": "AgIAACEAAAAAAAAAAAAvwEAAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-07T03:41:59.166Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "Google.svg",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\Material\\Google.svg",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\Material\\Google.svg",
@@ -512,12 +471,46 @@
               "RelativeToolTip": "YDSkyrimToolR\\Material\\Google.svg",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAABoBAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-03-03T17:27:26.934Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-03T17:27:26.934Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
+              "Title": "CodeView.xaml",
+              "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\CodeView.xaml",
+              "RelativeDocumentMoniker": "YDSkyrimToolR\\CodeView.xaml",
+              "ToolTip": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\CodeView.xaml",
+              "RelativeToolTip": "YDSkyrimToolR\\CodeView.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-02-09T20:12:20.635Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "SettingView.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\SettingView.xaml.cs",
+              "RelativeDocumentMoniker": "YDSkyrimToolR\\SettingView.xaml.cs",
+              "ToolTip": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\SettingView.xaml.cs",
+              "RelativeToolTip": "YDSkyrimToolR\\SettingView.xaml.cs",
+              "ViewState": "AgIAAFoAAAAAAAAAAAAqwGUAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-28T21:21:32.242Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Conjunction.svg",
+              "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\Material\\Conjunction.svg",
+              "RelativeDocumentMoniker": "YDSkyrimToolR\\Material\\Conjunction.svg",
+              "ToolTip": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\Material\\Conjunction.svg",
+              "RelativeToolTip": "YDSkyrimToolR\\Material\\Conjunction.svg",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAA0BAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-03-03T17:26:20.679Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "Languages.svg",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\Material\\Languages.svg",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\Material\\Languages.svg",
@@ -525,12 +518,11 @@
               "RelativeToolTip": "YDSkyrimToolR\\Material\\Languages.svg",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAB3BAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-03-03T17:28:24.508Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-03T17:28:24.508Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "ChatGPT.svg",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\Material\\ChatGPT.svg",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\Material\\ChatGPT.svg",
@@ -538,12 +530,11 @@
               "RelativeToolTip": "YDSkyrimToolR\\Material\\ChatGPT.svg",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAxGgAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-02-28T19:53:48.617Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-28T19:53:48.617Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "Div.svg",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\Material\\Div.svg",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\Material\\Div.svg",
@@ -551,12 +542,11 @@
               "RelativeToolTip": "YDSkyrimToolR\\Material\\Div.svg",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAeAwAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-02-25T20:17:30.571Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-25T20:17:30.571Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 26,
               "Title": "Dispatcher.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\.vsdbgsrc\\8e7b45175a13d1f7af4589433038e1f735a02e48f77e43b730d0496355252562\\Dispatcher.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\AppData\\Local\\Temp\\.vsdbgsrc\\8e7b45175a13d1f7af4589433038e1f735a02e48f77e43b730d0496355252562\\Dispatcher.cs",
@@ -569,7 +559,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "DeepSeek.svg",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\Material\\DeepSeek.svg",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\Material\\DeepSeek.svg",
@@ -577,12 +567,11 @@
               "RelativeToolTip": "YDSkyrimToolR\\Material\\DeepSeek.svg",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAABoDAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-02-25T20:17:44.473Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-25T20:17:44.473Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 21,
               "Title": "BatchTranslationHelper.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\TranslateManage\\BatchTranslationHelper.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\TranslateManage\\BatchTranslationHelper.cs",
@@ -590,12 +579,11 @@
               "RelativeToolTip": "YDSkyrimToolR\\TranslateManage\\BatchTranslationHelper.cs",
               "ViewState": "AgIAABoAAAAAAAAAAAAlwD8AAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-03T13:52:18.39Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-03T13:52:18.39Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 25,
               "Title": "LanguageHelper.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\TranslateManage\\LanguageHelper.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\TranslateManage\\LanguageHelper.cs",
@@ -603,12 +591,11 @@
               "RelativeToolTip": "YDSkyrimToolR\\TranslateManage\\LanguageHelper.cs",
               "ViewState": "AgIAADgBAAAAAAAAAAAuwEwBAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-03T13:57:59.828Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-03T13:57:59.828Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 35,
               "Title": "SearchText.xaml.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\SearchText.xaml.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\SearchText.xaml.cs",
@@ -620,7 +607,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 46,
+              "DocumentIndex": 47,
               "Title": "SkyrimHelper.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\SkyrimModManager\\SkyrimHelper.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\SkyrimModManager\\SkyrimHelper.cs",
@@ -632,7 +619,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 22,
               "Title": "GoogleHelper.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\TranslateManage\\GoogleHelper.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\TranslateManage\\GoogleHelper.cs",
@@ -640,12 +627,11 @@
               "RelativeToolTip": "YDSkyrimToolR\\TranslateManage\\GoogleHelper.cs",
               "ViewState": "AgIAAHUAAAAAAAAAAAAAAIEAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-07T01:50:44.707Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-07T01:50:44.707Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 28,
               "Title": "EngineEditView.xaml.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\EngineEditView.xaml.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\EngineEditView.xaml.cs",
@@ -657,7 +643,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 27,
               "Title": "UILanguageHelper.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\UIManage\\UILanguageHelper.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\UIManage\\UILanguageHelper.cs",
@@ -669,7 +655,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
+              "DocumentIndex": 40,
               "Title": "RichBorderWidthConverter.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\IDEManager\\RichBorderWidthConverter.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\IDEManager\\RichBorderWidthConverter.cs",
@@ -681,7 +667,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 34,
               "Title": "SourceStrBackuper.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\TranslateManage\\SourceStrBackuper.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\TranslateManage\\SourceStrBackuper.cs",
@@ -693,7 +679,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 45,
+              "DocumentIndex": 46,
               "Title": "ModOrganizerHelper.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\SkyrimModManager\\ModOrganizerHelper.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\SkyrimModManager\\ModOrganizerHelper.cs",
@@ -705,7 +691,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 30,
               "Title": "SystemDataWriter.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\UIManage\\SystemDataWriter.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\UIManage\\SystemDataWriter.cs",
@@ -717,7 +703,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 32,
               "Title": "ConvertHelper.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\ConvertManage\\ConvertHelper.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\ConvertManage\\ConvertHelper.cs",
@@ -729,7 +715,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 36,
               "Title": "AssemblyInfo.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\AssemblyInfo.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\AssemblyInfo.cs",
@@ -741,7 +727,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 38,
               "Title": "FileHelper.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\FileManager\\FileHelper.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\FileManager\\FileHelper.cs",
@@ -753,7 +739,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 42,
+              "DocumentIndex": 43,
               "Title": "MCMReader.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\SkyrimManage\\MCMReader.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\SkyrimManage\\MCMReader.cs",
@@ -765,7 +751,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 43,
+              "DocumentIndex": 44,
               "Title": "StrChecker.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\SkyrimManage\\StrChecker.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\SkyrimManage\\StrChecker.cs",
@@ -777,7 +763,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 44,
+              "DocumentIndex": 45,
               "Title": "ModHelper.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\SkyrimModManager\\ModHelper.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\SkyrimModManager\\ModHelper.cs",
@@ -789,7 +775,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 33,
               "Title": "App.xaml.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\App.xaml.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\App.xaml.cs",
@@ -801,7 +787,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
+              "DocumentIndex": 39,
               "Title": "CompletionData.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\IDEManager\\CompletionData.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\IDEManager\\CompletionData.cs",
@@ -813,7 +799,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 47,
+              "DocumentIndex": 48,
               "Title": "PageHelper.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\SqlManager\\PageHelper.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\SqlManager\\PageHelper.cs",
@@ -825,7 +811,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 48,
+              "DocumentIndex": 49,
               "Title": "SqlCore.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\SqlManager\\SqlCore.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\SqlManager\\SqlCore.cs",
@@ -837,7 +823,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 49,
+              "DocumentIndex": 50,
               "Title": "SQLiteHelper.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\SqlManager\\SQLiteHelper.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\SqlManager\\SQLiteHelper.cs",
@@ -849,7 +835,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 50,
+              "DocumentIndex": 51,
               "Title": "AproposHelper.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\TranslateManage\\AproposHelper.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\TranslateManage\\AproposHelper.cs",
@@ -861,7 +847,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 51,
+              "DocumentIndex": 52,
               "Title": "BaiDuApi.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\TranslateManage\\BaiDuApi.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\TranslateManage\\BaiDuApi.cs",
@@ -873,7 +859,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 52,
+              "DocumentIndex": 53,
               "Title": "CodeProcess.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\TranslateManage\\CodeProcess.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\TranslateManage\\CodeProcess.cs",
@@ -885,7 +871,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 53,
+              "DocumentIndex": 54,
               "Title": "ConjunctionHelper.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\TranslateManage\\ConjunctionHelper.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\TranslateManage\\ConjunctionHelper.cs",
@@ -893,12 +879,11 @@
               "RelativeToolTip": "YDSkyrimToolR\\TranslateManage\\ConjunctionHelper.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-09T20:27:59.732Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-09T20:27:59.732Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 37,
               "Title": "DataHelper.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\FileManager\\DataHelper.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\FileManager\\DataHelper.cs",
@@ -910,7 +895,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 54,
+              "DocumentIndex": 55,
               "Title": "DivCacheEngine.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\TranslateManage\\DivCacheEngine.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\TranslateManage\\DivCacheEngine.cs",
@@ -922,7 +907,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 41,
+              "DocumentIndex": 42,
               "Title": "EspReader.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\SkyrimManage\\EspReader.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\SkyrimManage\\EspReader.cs",
@@ -934,7 +919,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 40,
+              "DocumentIndex": 41,
               "Title": "UserInputAction.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\IDEManager\\UserInputAction.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\IDEManager\\UserInputAction.cs",
@@ -946,7 +931,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 55,
+              "DocumentIndex": 56,
               "Title": "HttpHelper.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\TranslateManage\\HttpHelper.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\TranslateManage\\HttpHelper.cs",
@@ -958,7 +943,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 56,
+              "DocumentIndex": 57,
               "Title": "LocalTrans.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\TranslateManage\\LocalTrans.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\TranslateManage\\LocalTrans.cs",
@@ -970,7 +955,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 57,
+              "DocumentIndex": 58,
               "Title": "ActionWin.xaml.cs",
               "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\ActionWin.xaml.cs",
               "RelativeDocumentMoniker": "YDSkyrimToolR\\ActionWin.xaml.cs",
@@ -979,17 +964,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-07T01:58:33.221Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 58,
-              "Title": "CodeView.xaml",
-              "DocumentMoniker": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\CodeView.xaml",
-              "RelativeDocumentMoniker": "YDSkyrimToolR\\CodeView.xaml",
-              "ToolTip": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\CodeView.xaml",
-              "RelativeToolTip": "YDSkyrimToolR\\CodeView.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-02-09T20:12:20.635Z"
             },
             {
               "$type": "Document",
@@ -1013,8 +987,7 @@
               "ToolTip": "C:\\Users\\Administrator\\source\\repos\\YDSkyrimToolR\\YDSkyrimToolR\\YDSkyrimToolR.csproj",
               "RelativeToolTip": "YDSkyrimToolR\\YDSkyrimToolR.csproj",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-02-26T19:25:24.246Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-26T19:25:24.246Z"
             },
             {
               "$type": "Document",
