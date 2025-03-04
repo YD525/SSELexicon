@@ -15,11 +15,11 @@ using static YDSkyrimToolR.TranslateManage.BaiDuApi;
 
 namespace YDSkyrimToolR.TranslateManage
 {
-    /*
-* @Author: YD525
-* @GitHub: https://github.com/YD525/YDSkyrimToolR
-* @Date: 2025-02-06
-*/
+    // Copyright (C) 2025 YD525
+    // Licensed under the GNU GPLv3
+    // See LICENSE for details
+    //https://github.com/YD525/YDSkyrimToolR/
+
     public class DeepSeekItem
     {
         public string model { get; set; }

@@ -8,11 +8,6 @@ using System.Data.SQLite;
 using System.Configuration;//添加.net引用
 namespace YDSkyrimToolR.SQLManager
 {
-    /*
-* @Author: YD525
-* @GitHub: https://github.com/YD525/YDSkyrimToolR
-* @Date: 2025-02-06
-*/
     /// <summary>
     /// 对SQLite操作的类
     /// 引用：System.Data.SQLite.dll【版本：3.6.23.1（原始文件名：SQlite3.DLL）】

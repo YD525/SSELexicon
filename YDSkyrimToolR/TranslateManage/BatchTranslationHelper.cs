@@ -6,11 +6,11 @@ using YDSkyrimToolR.UIManage;
 
 namespace YDSkyrimToolR.TranslateManage
 {
-    /*
-    * @Author: YD525
-    * @GitHub: https://github.com/YD525/YDSkyrimToolR
-    * @Date: 2025-03-03
-    */
+    // Copyright (C) 2025 YD525
+    // Licensed under the GNU GPLv3
+    // See LICENSE for details
+    //https://github.com/YD525/YDSkyrimToolR/
+
     public class TransItem
     {
         public int WorkEnd = 0;

@@ -12,21 +12,18 @@ using System.Threading.Tasks;
 
 namespace YDSkyrimToolR.TranslateManage
 {
-    /// <summary>  
-    /// Http连接操作帮助类  
-    /// </summary>  
     public class HttpHelper
     {
         #region 预定义方变量  
-        //默认的编码  
+   
         private Encoding encoding = Encoding.Default;
-        //Post数据编码  
+       
         private Encoding postencoding = Encoding.Default;
-        //HttpWebRequest对象用来发起请求  
+        
         private HttpWebRequest request = null;
-        //获取影响流的数据对象  
+     
         private HttpWebResponse response = null;
-        //设置本地的出口ip和端口  
+          
         private IPEndPoint _IPEndPoint = null;
         #endregion
 
