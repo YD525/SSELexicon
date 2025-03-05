@@ -26,6 +26,7 @@
 You are free to use, share, and modify this software under the terms of the GNU General Public License v3.0.
 
 If you make modifications, I would appreciate it if you credit the original author (YD525) by including my GitHub URL.
+(I mean modifying the source code of the software itself.)
 If you share this software, it would be great if you could include the original NexusMods URL for reference.
 
 This project contains third-party libraries licensed under GPL/LGPL/MIT/BSD-3-Clause. Any modifications or redistributions must comply with their respective licenses.
