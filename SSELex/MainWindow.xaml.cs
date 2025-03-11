@@ -233,8 +233,6 @@ namespace SSELex
 
             WordProcess.SendTranslateMsg += TranslateMsg;
 
-            SetLog("Author:YD525 OpenSource:https://github.com/YD525/YDSkyrimToolR");
-
             if (DeFine.GlobalLocalSetting.AutoLoadDictionaryFile)
             {
                 UsingDictionary.IsChecked = true;
@@ -276,6 +274,10 @@ namespace SSELex
                         TransViewList.Clear();
                     }
                 }));
+
+                SetLog("OpenSource:https://github.com/YD525/YDSkyrimToolR");
+                Thread.Sleep(3000);
+                SetLog(string.Empty);
             }).Start();
         }
 
@@ -554,6 +556,8 @@ namespace SSELex
                     GetStoryboard.Begin();
                 }
 
+                ShowNavSign.Source = new BitmapImage(new Uri("/Material/WhiteUP.png", UriKind.Relative));
+                ShowNavSign.Visibility = Visibility.Visible;
                 SmallNavState = 1;
             }
             else
@@ -564,6 +568,8 @@ namespace SSELex
                     GetStoryboard.Begin();
                 }
 
+                ShowNavSign.Source = new BitmapImage(new Uri("/Material/WhiteDown.png", UriKind.Relative));
+                ShowNavSign.Visibility = Visibility.Visible;
                 SmallNavState = 0;
             }
         }

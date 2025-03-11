@@ -34,6 +34,7 @@
     <None Remove="Material\TransICO.svg" />
     <None Remove="Material\UnLocker.svg" />
     <None Remove="Material\WhiteDown.png" />
+    <None Remove="Material\WhiteUP.png" />
     <None Remove="Material\YellowState.svg" />
     <None Remove="Material\YouDao.svg" />
     <None Remove="UPICO.png" />
@@ -84,6 +85,7 @@
     <Resource Include="Material\TransICO.svg" />
     <Resource Include="Material\UnLocker.svg" />
     <Resource Include="Material\WhiteDown.png" />
+    <Resource Include="Material\WhiteUP.png" />
     <Resource Include="Material\YellowState.svg" />
     <Resource Include="Material\YouDao.svg" />
     <Resource Include="Material\UPICO.png" />
