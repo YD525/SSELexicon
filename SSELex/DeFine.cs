@@ -14,6 +14,8 @@ using System.Windows.Media;
 using SSELex.SkyrimModManager;
 using SSELex.SQLManager;
 using SSELex.TranslateCore;
+using System.Windows.Threading;
+using System.Windows;
 
 namespace SSELex
 {
@@ -48,6 +50,24 @@ namespace SSELex
         public static TextEditor ActiveIDE = null;
         public static WordProcess WordProcessEngine = null;
 
+        public static void HideCodeView()
+        {
+            CurrentCodeView.Dispatcher.Invoke(new Action(() => {
+                CurrentCodeView.Hide();
+            }));
+        }
+
+        public static void ShowCodeView()
+        {
+            CurrentCodeView.Dispatcher.Invoke(new Action(() => {
+                CurrentCodeView.Show();
+            }));
+            if (DeFine.WorkingWin != null)
+            {
+                DeFine.WorkingWin.SyncCodeViewLocation();
+            }
+        }
+
         public static void ShowSetting()
         {
             if (DeFine.WorkingWin != null)
@@ -74,9 +94,30 @@ namespace SSELex
             WorkingWin = Work;
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             GlobalDB = new SqlCore<SQLiteHelper>(DeFine.GetFullPath(@"\system.db"));
-            CurrentCodeView = new CodeView();
+
+            Thread NewWindowThread = new Thread(() =>
+            {
+                // 创建新的 Dispatcher
+                Dispatcher NewDispatcher = Dispatcher.CurrentDispatcher;
+
+                NewDispatcher.Invoke(() =>
+                {
+                    // 创建窗口
+                    CurrentCodeView = new CodeView();
+
+                    // 显示窗口
+                    CurrentCodeView.Hide();
+                });
+
+                // 启动 Dispatcher 消息循环，保持窗口运行
+                Dispatcher.Run();
+            });
+
+            NewWindowThread.SetApartmentState(ApartmentState.STA); // 设置为单线程单元模式
+            NewWindowThread.Start();
+
             WordProcessEngine = new WordProcess();
-            CurrentCodeView.Hide();
+           
         }
 
         public static void LoadData()

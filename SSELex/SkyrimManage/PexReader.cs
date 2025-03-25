@@ -124,6 +124,7 @@ namespace SSELex.SkyrimManage
 
     public class PexReader
     {
+        public FunctionFinder ?ScriptParser = new FunctionFinder();
         public List<StringParam> StringParams = new List<StringParam>();
         public List<StringParam> SafeStringParams = new List<StringParam>();
         //E:\ModOrganizer\MO2\Mods\mods
@@ -137,9 +138,10 @@ namespace SSELex.SkyrimManage
         }
         public void Close()
         {
+            ScriptParser = null;
             CurrentFileName = string.Empty;
             Translator.ClearCache();
-            DeFine.CurrentCodeView.Hide();
+            DeFine.HideCodeView();
             StringParams.Clear();
             SafeStringParams.Clear();
             PSCContent = string.Empty;
@@ -147,7 +149,7 @@ namespace SSELex.SkyrimManage
             CodeLines.Clear();
         }
 
-        public string Execute(string ExePath, string Args)
+        public string Execute(string ExePath, string Args,ref string OutPutMsg)
         {
             ProcessStartInfo startInfo = new ProcessStartInfo
             {
@@ -165,8 +167,10 @@ namespace SSELex.SkyrimManage
                 {
                     process.StartInfo = startInfo;
                     process.Start();
-
+                    process.StartInfo.StandardOutputEncoding = Encoding.UTF8;
+                    process.StartInfo.StandardErrorEncoding = Encoding.UTF8;
                     string output = process.StandardOutput.ReadToEnd();
+                    OutPutMsg = output.Trim();
                     string error = process.StandardError.ReadToEnd();
                     process.WaitForExit();
 
@@ -295,8 +299,19 @@ namespace SSELex.SkyrimManage
             this.PSCContent = string.Empty;
             if (DeCodeFileToUsing(FilePath))
             {
-                if (GenFileToPAS(FilePath))
+                string OutPutMsg = string.Empty;
+                if (GenFileToPAS(FilePath,ref OutPutMsg))
                 {
+                    if (OutPutMsg.Trim().Length == 0)
+                    {
+                        new Thread(() => 
+                        {
+                            Thread.Sleep(500);
+                            System.Windows.MessageBox.Show("To help you roll back the operation.Reason:Decompilation failed");
+                            DeFine.WorkingWin.CancelAny();
+                        }).Start();
+                        return;
+                    }
                     ProcessCode();
                 }
             }
@@ -347,7 +362,7 @@ namespace SSELex.SkyrimManage
             }
         }
 
-        public bool GenFileToPAS(string FilePath)
+        public bool GenFileToPAS(string FilePath,ref string OutPutMsg)
         {
             string CompilerPath = "";
             if (SkyrimHelper.FindPapyrusCompilerPath(ref CompilerPath))
@@ -368,7 +383,7 @@ namespace SSELex.SkyrimManage
 
                 File.Copy(TempFilePath, DeFine.GetFullPath(@"\") + GetFileName + "." + GetFileType);
 
-                Execute(PapyrusAssembler, GenParam);
+                Execute(PapyrusAssembler, GenParam,ref OutPutMsg);
 
                 Thread.Sleep(500);
 
@@ -487,39 +502,41 @@ namespace SSELex.SkyrimManage
 
         public void SearchAllStr()
         {
-            for (int i = 0; i < DeFine.ActiveIDE.LineCount; i++)
-            {
-                var GetLineStr = DeFine.ActiveIDE.Text.Substring(DeFine.ActiveIDE.Document.Lines[i].Offset, DeFine.ActiveIDE.Document.Lines[i].Length);
-                if (GetLineStr.Contains("\""))
+            DeFine.CurrentCodeView.Dispatcher.Invoke(new Action(() => {
+                for (int i = 0; i < DeFine.ActiveIDE.LineCount; i++)
                 {
-                    if (GetLineStr.Split('\"').Length > 2)
+                    var GetLineStr = DeFine.ActiveIDE.Text.Substring(DeFine.ActiveIDE.Document.Lines[i].Offset, DeFine.ActiveIDE.Document.Lines[i].Length);
+                    if (GetLineStr.Contains("\""))
                     {
-                        string GetString = "\"" + ConvertHelper.StringDivision(GetLineStr, "\"", "\"") + "\"";
-                        int GetOffset = DeFine.ActiveIDE.Document.Lines[i].Offset + GetLineStr.IndexOf(GetString);
-                        int GetLength = GetString.Length;
-                        string TryGetVariableType = "";
-                        string TryGetVariableName = "";
-
-                        int GetDefLineID = 0;
-                        if (GetLineStr.Contains("#DEBUG_LINE_NO:"))
+                        if (GetLineStr.Split('\"').Length > 2)
                         {
-                            var GetCutIDStr = GetLineStr.Substring(GetLineStr.IndexOf("#DEBUG_LINE_NO:") + "#DEBUG_LINE_NO:".Length).Trim();
-                            GetDefLineID = ConvertHelper.ObjToInt(GetCutIDStr);
+                            string GetString = "\"" + ConvertHelper.StringDivision(GetLineStr, "\"", "\"") + "\"";
+                            int GetOffset = DeFine.ActiveIDE.Document.Lines[i].Offset + GetLineStr.IndexOf(GetString);
+                            int GetLength = GetString.Length;
+                            string TryGetVariableType = "";
+                            string TryGetVariableName = "";
+
+                            int GetDefLineID = 0;
+                            if (GetLineStr.Contains("#DEBUG_LINE_NO:"))
+                            {
+                                var GetCutIDStr = GetLineStr.Substring(GetLineStr.IndexOf("#DEBUG_LINE_NO:") + "#DEBUG_LINE_NO:".Length).Trim();
+                                GetDefLineID = ConvertHelper.ObjToInt(GetCutIDStr);
+                            }
+
+                            var SearchLink = TryGetLinks(i, GetOffset, GetLineStr, ref TryGetVariableType, ref TryGetVariableName);
+
+                            StringParam NStringParam = new StringParam(GetLineStr, GetDefLineID, GetOffset, GetLength, i, GetString);
+                            NStringParam.FunctionLinks = SearchLink;
+                            NStringParam.VariableType = TryGetVariableType;
+                            NStringParam.VariableName = TryGetVariableName;
+                            NStringParam.LineID = GetDefLineID;
+                            StringParams.Add(NStringParam);
                         }
-
-                        var SearchLink = TryGetLinks(i, GetOffset, GetLineStr, ref TryGetVariableType, ref TryGetVariableName);
-
-                        StringParam NStringParam = new StringParam(GetLineStr, GetDefLineID, GetOffset, GetLength, i, GetString);
-                        NStringParam.FunctionLinks = SearchLink;
-                        NStringParam.VariableType = TryGetVariableType;
-                        NStringParam.VariableName = TryGetVariableName;
-                        NStringParam.LineID = GetDefLineID;
-                        StringParams.Add(NStringParam);
                     }
                 }
-            }
 
-            StartFilter();
+                StartFilter();
+            }));
         }
 
         public bool CheckCanTransVariableName(string VariableName)
@@ -802,7 +819,7 @@ namespace SSELex.SkyrimManage
 
         public void ProcessCode()
         {
-            DeFine.CurrentCodeView.Show();
+            DeFine.ShowCodeView();
 
             foreach (var GetLine in this.PSCContent.Split('\n'))
             {
@@ -819,7 +836,16 @@ namespace SSELex.SkyrimManage
                 RichText += GetLine.Trim() + "\r\n";
             }
 
-            DeFine.ActiveIDE.Text = RichText;
+            ScriptParser = new FunctionFinder();
+            ScriptParser.FindContent(RichText);
+
+            if (DeFine.CurrentCodeView != null)
+            {
+                DeFine.CurrentCodeView.Dispatcher.Invoke(new Action(() => {
+                    DeFine.ActiveIDE.Text = RichText;
+                    DeFine.CurrentCodeView.ReSetFolding();
+                }));
+            }
 
             SearchAllStr();
         }
@@ -877,6 +903,7 @@ namespace SSELex.SkyrimManage
 
         public void SavePexFile(string OutPutPath)
         {
+            ScriptParser = null;
             Dictionary<string, LinkValue> LinkTexts = new Dictionary<string, LinkValue>();
             foreach (var GetParam in this.StringParams)
             {
@@ -1047,130 +1074,197 @@ namespace SSELex.SkyrimManage
     }
 
 
-    public class ScriptParser
+    public class VariablesFinder
     {
-        private int functionDepth = 0;
-        private List<string> externalVariables = new List<string>();
-        private List<string> internalVariables = new List<string>();
+        private int FunctionDepth = 0;
 
-        public void ProcessScript(string script)
+        public List<string> ProcessScript(string Script)
         {
-            string[] lines = script.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+            List<string> GlobalVariables = new List<string>();
 
-            foreach (string line in lines)
+            string[] Lines = Script.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+
+            foreach (string Line in Lines)
             {
-                var templine = line.Trim();
+                var Templine = Line.Trim();
 
-                // 检查函数定义
-                if (templine.StartsWith(" Function"))
+                if (Templine.Trim().ToLower().StartsWith("function"))
                 {
-                    functionDepth++;
+                    FunctionDepth++;
                     continue;
                 }
 
-                // 检查函数结束
-                else if (templine.StartsWith("EndFunction"))
+                else if (Templine.Trim().ToLower().StartsWith("endfunction"))
                 {
-                    functionDepth--;
+                    FunctionDepth--;
                     continue;
                 }
 
-                // 处理变量定义
-                if (functionDepth > 0)  // 在函数内部
+                if (FunctionDepth <= 0)  
                 {
-                    if (templine.Contains("="))  // 简单判断变量赋值
+                    if (Templine.Contains("=") || Templine.Contains(" Auto"))
                     {
-                        internalVariables.Add(templine);
-                    }
-                }
-                else  // 在外部
-                {
-                    if (templine.Contains("="))  // 简单判断变量赋值
-                    {
-                        externalVariables.Add(templine);
+                        GlobalVariables.Add(Templine);
                     }
                 }
             }
-
-            Console.WriteLine("External Variables:");
-            Console.WriteLine(string.Join("\n", externalVariables));
-            Console.WriteLine("\nInternal Variables:");
-            Console.WriteLine(string.Join("\n", internalVariables));
+            return GlobalVariables;
         }
     }
 
     public class FunctionFinder
     {
-        public static void FindLine()
+        public List<string> GlobalVariables = new List<string>();
+        public List<FunctionType> Functions = new List<FunctionType>();
+
+        public void FindContent(string Content)
         {
-            // 假设你的代码字符串存储在 codeString 变量中
-            string codeString = @"
-Function Log(String msg, Int level, Bool notify)
-Function ecConfigChanged()
-Function ecPage(String page)
-Function ecStartup()
-Int Function ecFlags(Bool disabled)
-Function ecCloseToGame()
-Function ecFillMode(Bool topDown, Bool leftRight)
-Function ecCursor(Int position)
-Function ecEmpty(Int count)
-Function ecHeader(String label, Bool disabled)
-Function ecToggle(String storeKey, String label, Bool default, String desc, Bool disabled, Bool update, Bool saved)
-Function ecSlider(String storeKey, String label, Float default, Float min, Float max, Float step, String format, Int prec, String desc, Bool disabled, Bool update, Bool saved)
-Function ecText(String storeKey, String label, String default, String desc, Bool disabled, Bool update, Bool saved)
-Bool Function ecGetBool(String storeKey)
-Int Function ecGetInt(String storeKey)
-Float Function ecGetFloat(String storeKey)
-String Function ecKey(String S, Int extraOff)
-Function ecExport(String fileName) 
-";
+            this.GlobalVariables = new VariablesFinder().ProcessScript(Content);
+            string CodeString = Content;
 
-            // 正则表达式提取方法名、返回值和参数
-            string pattern = @"(?:Function\s+)?(\w+)\s+(\w+)\(([^)]*)\)";
-            MatchCollection matches = Regex.Matches(codeString, pattern);
+            string Pattern = @"^(.*\b(?:Function\s+)?(\w+)\s+(\w+)\(([^)]*)\).*)$";
+            MatchCollection matches = Regex.Matches(CodeString, Pattern, RegexOptions.Multiline);
 
-            // 转换的结果存储在一个列表中
-            List<FunctionType> methodsInfo = new List<FunctionType>();
+            List<FunctionType> MethodsInfo = new List<FunctionType>();
 
-            foreach (Match match in matches)
+            foreach (Match Match in matches)
             {
-                if (match.Groups.Count == 4)
+                if (Match.Groups.Count > 3)
                 {
-                    string returnType = match.Groups[1].Value;
-                    string methodName = match.Groups[2].Value;
-                    string paramsString = match.Groups[3].Value;
+                    string GetType = Match.Groups[0].Value;
+                    string ReturnType = "";
 
-                    string[] paramList = string.IsNullOrEmpty(paramsString)
-                        ? new string[0]
-                        : paramsString.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-
-                    methodsInfo.Add(new FunctionType
+                    if (GetType.Contains(" "))
                     {
-                        MethodName = methodName,
-                        ReturnType = returnType,
-                        Parameters = Array.ConvertAll(paramList, p => p.Trim())
+                        GetType = GetType.Split(' ')[0];
+                        if (GetType.ToLower() != "function")
+                        {
+                            ReturnType = GetType;
+                        }
+                    }
+
+                    string MethodName = Match.Groups[3].Value;
+                    string ParamsString = Match.Groups[3+1].Value;
+
+                    string[] ParamList = string.IsNullOrEmpty(ParamsString)
+                        ? new string[0]
+                        : ParamsString.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+                    MethodsInfo.Add(new FunctionType
+                    {
+                        MethodName = MethodName,
+                        ReturnType = ReturnType,
+                        Parameters = (Array.ConvertAll(ParamList, P => P.Trim())).ToList()
                     });
                 }
             }
 
-            // 打印结果
-            foreach (var method in methodsInfo)
+            Functions = MethodsInfo;
+            ReadFunctionContent(Content);
+        }
+
+        public void ReadFunctionContent(string Content)
+        {
+            List<string>Lines = Content.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None).ToList();
+            for (int i = 0; i < Functions.Count; i++)
             {
-                Console.WriteLine(method);
+                int LineID = 0;
+                foreach (var GetLine in Lines)
+                {
+                    if (GetLine.Trim().Contains("Function") && GetLine.Contains(Functions[i].MethodName+"("))
+                    {
+                        string GetFunctionContent = ConvertHelper.StringDivision(Content,GetLine,"EndFunction");
+
+                        List<string>TempLines = GetFunctionContent.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None).ToList();
+                        Functions[i].Codes.Clear();
+                        Functions[i].Codes.AddRange(TempLines);
+                        foreach (var GetTempLine in TempLines)
+                        {
+                            string TempLine = GetTempLine.Trim();
+                            if (TempLine.Contains("=") && !TempLine.StartsWith("If") && !TempLine.StartsWith("if") && !TempLine.StartsWith("IF"))
+                            {
+                                Variable NVariable = new Variable();
+
+                                var GetParams = TempLine.Split('=')[0].Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                                if (GetParams.Count > 1)
+                                {
+                                    NVariable.Type = GetParams[0];
+                                    NVariable.Name = GetParams[1];
+                                }
+                                else
+                                {
+                                    NVariable.Name = GetParams[0];
+                                }
+
+                                if (!HeuristicCore.IsIF(TempLine))
+                                {
+                                    var GetValues = TempLine.Split('=')[1].Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                                    if (GetValues.Count > 0)
+                                    {
+                                        NVariable.Value = GetValues[0];
+                                        if (NVariable.Value.Trim().StartsWith("\"") && NVariable.Value.Trim().EndsWith("\""))
+                                        {
+                                            NVariable.IsConst = true;
+                                        }
+                                        else
+                                        {
+                                            NVariable.IsConst = false;
+                                        }
+
+                                        foreach (var GetValue in GetValues)
+                                        {
+                                            if (GetValue.Trim().StartsWith("#DEBUG_LINE_NO:"))
+                                            {
+                                                NVariable.DEBUGLineID = GetValue;
+                                            }
+                                        }
+                                    }
+
+                                    Functions[i].Variables.Add(NVariable);
+                                }
+                            }
+                            else
+                            if (TempLine.Contains("(") && TempLine.Replace(" ","").Contains(");"))
+                            {
+                                CallItem NCallItem = new CallItem();
+                                NCallItem.Call = TempLine;
+                                if (NCallItem.Call.Contains("#DEBUG_LINE_NO:"))
+                                {
+                                    NCallItem.Call = NCallItem.Call.Substring(0, NCallItem.Call.IndexOf("#DEBUG_LINE_NO:"));
+                                    NCallItem.DEBUGLineID = TempLine.Substring(TempLine.IndexOf("#DEBUG_LINE_NO:"));
+                                }
+                                Functions[i].Calls.Add(NCallItem);
+                            }
+                        }
+                    }
+                    LineID++;
+                }
             }
         }
     }
 
     public class FunctionType
     {
-        public string MethodName { get; set; }
-        public string ReturnType { get; set; }
-        public string[] Parameters { get; set; }
-
-        public override string ToString()
-        {
-            return $"Method Name: {MethodName}, Return Type: {ReturnType}, Parameters: {string.Join(", ", Parameters)}";
-        }
+        public string MethodName = "";
+        public string ReturnType = "";
+        public List<string> Parameters = new List<string>();
+        public List<Variable> Variables = new List<Variable>();
+        public List<CallItem> Calls = new List<CallItem>();
+        public List<string> Codes = new List<string>();
+    }
+    
+    public class Variable
+    {
+        public string Type = "";
+        public string Name = "";
+        public bool IsConst = false;
+        public string Value = "";
+        public string DEBUGLineID = "";
     }
 
+    public class CallItem
+    {
+        public string Call = "";
+        public string DEBUGLineID = "";
+    }
 }

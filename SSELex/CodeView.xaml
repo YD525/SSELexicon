@@ -6,7 +6,14 @@
         xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
         xmlns:local="clr-namespace:SSELex"
         mc:Ignorable="d"
-        Title="CodeView" Style="{DynamicResource DefWin}" Height="750" Width="1200" Loaded="Window_Loaded" Closed="Window_Closed" Closing="Window_Closing" KeyDown="Window_KeyDown">
+        Title="CodeView" Background="Transparent"
+        WindowStyle="None"
+        ResizeMode="CanResize"
+        AllowsTransparency="True" Height="750" Width="1200" Loaded="Window_Loaded" Closed="Window_Closed" Closing="Window_Closing" KeyDown="Window_KeyDown">
+    
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0" ResizeBorderThickness="5"/>
+    </WindowChrome.WindowChrome>
     <Window.Resources>
         <local:RichBorderWidthConverter x:Key="RichBorderWidthConverter" ></local:RichBorderWidthConverter>
         <SolidColorBrush x:Key="TextBox.Static.Border" Color="#FFABAdB3"/>
@@ -369,7 +376,7 @@
                     </StackPanel>
                 </Grid>
 
-                <avalonEdit:TextEditor Margin="5"  Name="TextEditor" FontFamily="Consolas" FontSize="16" ShowLineNumbers="True" Background="#FF282828" Foreground="White" Grid.Row="1">
+                <avalonEdit:TextEditor Margin="5" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" IsReadOnly="True" Name="TextEditor" FontFamily="Consolas" FontSize="16" ShowLineNumbers="True" Background="#FF282828" Foreground="White" Grid.Row="1" WordWrap="False" TextOptions.TextFormattingMode="Display">
                     
                 </avalonEdit:TextEditor>
             </Grid>

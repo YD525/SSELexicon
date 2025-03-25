@@ -56,16 +56,8 @@ namespace SSELex
             }
 
             DeFine.ActiveIDE = TextEditor;
-            DeFine.ActiveIDE.TextChanged += ActiveIDE_TextChanged;
 
             FoldingManager = FoldingManager.Install(TextEditor.TextArea); // 安装折叠管理器
-
-            ReSetFolding();
-        }
-
-        private void ActiveIDE_TextChanged(object? sender, EventArgs e)
-        {
-            ReSetFolding();
         }
 
         public void ReSetFolding()
@@ -127,7 +119,7 @@ namespace SSELex
                         Image LockerImg = LockerGrid.Child as Image;
                         LockerImg.Opacity = 0.9;
                     }
-                    LockerGrid.Background = DeFine.SelectBackGround;
+                    LockerGrid.Background = new SolidColorBrush(Color.FromRgb(7, 82, 149));
                 }
             }
         }
@@ -144,7 +136,7 @@ namespace SSELex
                         Image LockerImg = LockerGrid.Child as Image;
                         LockerImg.Opacity = 0.6;
                     }
-                    LockerGrid.Background = DeFine.DefBackGround;
+                    LockerGrid.Background = new SolidColorBrush(Color.FromRgb(11, 116, 209));
                 }
             }
         }

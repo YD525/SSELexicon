@@ -332,6 +332,12 @@
                                             UISettings
                                         </Label>
                                     </Border>
+
+                                    <Border  CornerRadius="5" Background="#FF0B74D1" Height="30" Margin="10 0 0 0" Cursor="Hand" PreviewMouseDown="TestCall">
+                                        <Label  Padding="10 0 10 0" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            TestCall
+                                        </Label>
+                                    </Border>
                                 </StackPanel>
 
                                 <Grid VerticalAlignment="Stretch" Grid.Row="2" Name="TransViewBox" Panel.ZIndex="99999" Width="0">

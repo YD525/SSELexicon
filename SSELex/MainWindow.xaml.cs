@@ -846,29 +846,34 @@ namespace SSELex
                 LoadFileButton.Content = UILanguageHelper.SearchStateChangeStr("LoadFileButton", 0);
             }
         }
+        public void CancelAny()
+        {
+            this.Dispatcher.Invoke(new Action(() => {
+                ClosetTransTrd();
 
+                Caption.Name = "TranslationCore";
+
+                TransViewList.Clear();
+                GlobalEspReader.Close();
+                GlobalMCMReader.Close();
+                GlobalPexReader.Close();
+
+                (StartTransBtn.Child as Label).Content = UILanguageHelper.SearchStateChangeStr("LoadFileButton", 0);
+                LoadSaveState = 0;
+
+                CancelBtn.Opacity = 0.3;
+                CancelBtn.IsEnabled = false;
+
+                TypeSelector.Items.Clear();
+                YDDictionaryHelper.Close();
+
+                UIHelper.ModifyCount = 0;
+                GetStatistics();
+            }));
+        }
         private void CancelTransEsp(object sender, MouseButtonEventArgs e)
         {
-            ClosetTransTrd();
-
-            Caption.Name = "TranslationCore";
-
-            TransViewList.Clear();
-            GlobalEspReader.Close();
-            GlobalMCMReader.Close();
-            GlobalPexReader.Close();
-
-            (StartTransBtn.Child as Label).Content = UILanguageHelper.SearchStateChangeStr("LoadFileButton", 0);
-            LoadSaveState = 0;
-
-            CancelBtn.Opacity = 0.3;
-            CancelBtn.IsEnabled = false;
-
-            TypeSelector.Items.Clear();
-            YDDictionaryHelper.Close();
-
-            UIHelper.ModifyCount = 0;
-            GetStatistics();
+            CancelAny();
         }
 
         public bool IsDragEnter = false;
@@ -950,7 +955,7 @@ namespace SSELex
 
         private void Window_LocationChanged(object sender, EventArgs e)
         {
-
+            SyncCodeViewLocation();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -1235,6 +1240,24 @@ namespace SSELex
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             AutoViewMode();
+            SyncCodeViewLocation();
+        }
+        public void SyncCodeViewLocation()
+        {
+            try {
+            var GetHeight = this.Height;
+            var GetLeft = this.Left;
+            var GetTop = this.Top;
+            if (DeFine.CurrentCodeView != null)
+            {
+                DeFine.CurrentCodeView.Dispatcher.Invoke(new Action(() => {
+                    DeFine.CurrentCodeView.Height = GetHeight;
+                    DeFine.CurrentCodeView.Left = GetLeft - DeFine.CurrentCodeView.Width - 10;
+                    DeFine.CurrentCodeView.Top = GetTop;
+                }));
+            }
+            }
+            catch { }
         }
 
         private void UsingDictionary_Click(object sender, RoutedEventArgs e)
@@ -1310,6 +1333,11 @@ namespace SSELex
                 }
             }
            
+        }
+
+        private void TestCall(object sender, MouseButtonEventArgs e)
+        {
+            HeuristicCore.CheckPexParams(GlobalPexReader);
         }
     }
 }

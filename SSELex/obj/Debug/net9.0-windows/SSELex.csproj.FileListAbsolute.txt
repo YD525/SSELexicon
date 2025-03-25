@@ -97,3 +97,5 @@ C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\obj\Debug\net9.0-window
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\obj\Debug\net9.0-windows\SSELex.pdb
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\obj\Debug\net9.0-windows\SSELex.genruntimeconfig.cache
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\obj\Debug\net9.0-windows\ref\SSELex.dll
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\obj\Debug\net9.0-windows\ParsingLayer.g.cs
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\obj\Debug\net9.0-windows\ParsingLayer.baml

@@ -5,15 +5,9 @@ using Mutagen.Bethesda.Plugins.Records;
 using Mutagen.Bethesda.Skyrim;
 using Mutagen.Bethesda.Strings.DI;
 using Noggog;
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using SSELex.ConvertManager;
 using SSELex.UIManage;
 /*
 * @Author: YD525
