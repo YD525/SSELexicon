@@ -16,6 +16,9 @@
 #### (https://github.com/Orvid/Champollion),
 #### Framework/Library Name：Champollion，Developed by [Ovid].
 
+#### And, some of its logic uses the following open-source frameworks/libraries：
+#### (https://github.com/russo-2025/papyrus-compiler)
+
 #### And all components of GameFinder that have dependencies
 #### (https://github.com/erri120/GameFinder)
 #### Framework/Library Name：erri120.GameFinder，Developed by [erri120].

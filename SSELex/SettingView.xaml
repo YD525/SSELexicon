@@ -49,7 +49,7 @@
                         </Label>
                         <TextBox Name= "SkyrimSEPath" Width="300" TextChanged="SkyrimSEPath_TextChanged" VerticalContentAlignment="Center">
                         </TextBox>
-                        <Border  CornerRadius="5" Background="#FF0B74D1" Height="30" Margin="10 0 0 0"  Cursor="Hand" PreviewMouseDown="ShowSkyrimPathConfigHelp">
+                        <Border  CornerRadius="5" Background="#FF0B74D1" Height="30" Margin="10 0 0 0"  Cursor="Hand" PreviewMouseDown="ShowSkyrimPathConfigHelp" Visibility="Hidden">
                             <Label Padding="10 0 10 0"  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" ToolTip="">
                                 Help
                             </Label>
