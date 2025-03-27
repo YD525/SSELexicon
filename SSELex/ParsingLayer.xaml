@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SSELex"
         mc:Ignorable="d"
-        Title="ParsingLayer" Background="Transparent"
+        Title="Log" Background="Transparent"
         WindowStyle="None"
         ResizeMode="CanResize"
         AllowsTransparency="True"
@@ -30,7 +30,7 @@
 
                 <Grid Grid.Row="0" Name="Header" Margin="10 0 10 0">
                     <Label HorizontalAlignment="Left" Name="MainCaption" Foreground="White" VerticalAlignment="Center">
-                        ParsingLayer
+                        Log
                     </Label>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
 
@@ -42,6 +42,8 @@
                 </Grid>
 
                 <Grid Grid.Row="1" Background="#FF343434">
+                    <TextBox Name="Message" AcceptsReturn="True" TextWrapping="Wrap" Background="{x:Null}" Foreground="White">
+                    </TextBox>
                 </Grid>
 
 

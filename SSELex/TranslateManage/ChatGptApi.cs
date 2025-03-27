@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.Json;
 using SSELex.ConvertManager;
 using SSELex.TranslateCore;
+using static SSELex.TranslateCore.LanguageHelper;
 
 namespace SSELex.TranslateManage
 {
@@ -73,11 +74,32 @@ namespace SSELex.TranslateManage
 
         public string QuickTrans(string TransSource, Languages FromLang, Languages ToLang)
         {
-            var GetTransSource = $"Translate the following text from {FromLang} to {ToLang}: \"\"\"\n{TransSource}\n\"\"\"\n\nRespond in JSON format: {{\"translation\": \"<translated_text>\"}}";
+            List<string> Related = new List<string>();
+            if (DeFine.GlobalLocalSetting.UsingContext)
+            {
+                Related = EngineSelect.AIMemory.FindRelevantTranslations(FromLang, TransSource, 3);
+            }
+
+            var GetTransSource = $"Translate the following text from {FromLang} to {ToLang}:\n\n";
+
+            if (Related.Count > 0)
+            {
+                GetTransSource += "Previous related translations:\n";
+                foreach (var related in Related)
+                {
+                    GetTransSource += $"- {related}\n";
+                }
+                GetTransSource += "\n";
+            }
+
+            GetTransSource += $"\"\"\"\n{TransSource}\n\"\"\"\n\n";
+            GetTransSource += "Respond in JSON format: {\"translation\": \"<translated_text>\"}";
+
             if (GetTransSource.EndsWith("\n"))
             {
                 GetTransSource = GetTransSource.Substring(0, GetTransSource.Length - 1);
             }
+
             var GetResult = CallAI(GetTransSource);
             if (GetResult != null)
             {
@@ -92,7 +114,7 @@ namespace SSELex.TranslateManage
                     {
                         try
                         {
-                            GetStr = ConvertHelper.StringDivision(GetStr, "\"translation\":", "}");
+                            GetStr = ConvertHelper.StringDivision(GetStr, "\"translation\":", "\"}");
 
                             GetStr = GetStr.Trim();
 
@@ -108,6 +130,11 @@ namespace SSELex.TranslateManage
                         catch
                         {
                             return string.Empty;
+                        }
+
+                        if (DeFine.CurrentParsingLayer != null)
+                        {
+                            DeFine.CurrentParsingLayer.SetLog(GetTransSource + "\r\n AI:\r\n" + GetStr);
                         }
 
                         return GetStr;

@@ -10,11 +10,11 @@ none
 false
 TRACE;RELEASE;NET;NET9_0;NETCOREAPP
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\App.xaml
-71237158403
+8-1757419034
 
-49479508543
+50-190729754
 2601064707841
-ActionWin.xaml;CodeView.xaml;EngineEditView.xaml;MainWindow.xaml;SearchText.xaml;SettingView.xaml;Themes\DefStyle.xaml;
+ActionWin.xaml;CodeView.xaml;EngineEditView.xaml;MainWindow.xaml;ParsingLayer.xaml;SearchText.xaml;SettingView.xaml;Themes\DefStyle.xaml;
 
 False
 

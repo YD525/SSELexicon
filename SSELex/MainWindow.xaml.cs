@@ -179,7 +179,7 @@ namespace SSELex
             {
                 Source.Items.Add(Get.ToString());
             }
-           
+
             Source.SelectedValue = DeFine.SourceLanguage.ToString();
 
             Target.Items.Clear();
@@ -200,7 +200,7 @@ namespace SSELex
                 string Msg = "Please manually install the dependent program\n[https://github.com/Orvid/Champollion]\nPlease download the release version and put it in this path\n[" + DeFine.GetFullPath(@"Tool\") + "]\n Path required\n[" + DeFine.GetFullPath(@"Tool\Champollion.exe") + "]";
                 ActionWin.Show("HelpMsg", Msg, MsgAction.Yes, MsgType.Info, 500);
 
-                if(ActionWin.Show("HelpMsg", "Do you want to download the Champollion component now?\nIf you need.Click Yes to jump to the URL", MsgAction.YesNo, MsgType.Info, 230)>0)
+                if (ActionWin.Show("HelpMsg", "Do you want to download the Champollion component now?\nIf you need.Click Yes to jump to the URL", MsgAction.YesNo, MsgType.Info, 230) > 0)
                 {
                     Process.Start(new ProcessStartInfo("https://github.com/Orvid/Champollion/releases") { UseShellExecute = true });
                 }
@@ -213,7 +213,8 @@ namespace SSELex
                 var GetStr = DeFine.GlobalLocalSetting.SkyrimPath + "Papyrus Compiler" + @"\PapyrusAssembler.exe";
                 string Msg = "Please Download CreationKit [" + GetStr + "] Must exist. \n Your Need Configure SkyrimSE path";
                 ActionWin.Show("PEX File lacks support", Msg, MsgAction.Yes, MsgType.Info, 300);
-                this.Dispatcher.Invoke(new Action(() => {
+                this.Dispatcher.Invoke(new Action(() =>
+                {
                     DeFine.ShowSetting();
                 }));
                 State = false;
@@ -238,10 +239,15 @@ namespace SSELex
                 UsingDictionary.IsChecked = true;
             }
 
+            if (DeFine.GlobalLocalSetting.UsingContext)
+            {
+                UsingContext.IsChecked = true;
+            }
+
             new Thread(() =>
             {
                 ShowFrameByTag("LoadingView");
-                
+
                 DeFine.LoadData();
                 //LocalTrans.Init();
 
@@ -297,6 +303,8 @@ namespace SSELex
 
         public void LoadAny(string FilePath)
         {
+            DeFine.ShowParsingLayer();
+            WordProcess.ClearAICache();
             SetLog("Load:" + FilePath);
             ClosetTransTrd();
             if (System.IO.File.Exists(FilePath))
@@ -841,14 +849,15 @@ namespace SSELex
                 {
                     YDDictionaryHelper.Close();
                 }
-                
+
                 CancelTransEsp(null, null);
                 LoadFileButton.Content = UILanguageHelper.SearchStateChangeStr("LoadFileButton", 0);
             }
         }
         public void CancelAny()
         {
-            this.Dispatcher.Invoke(new Action(() => {
+            this.Dispatcher.Invoke(new Action(() =>
+            {
                 ClosetTransTrd();
 
                 Caption.Name = "TranslationCore";
@@ -975,7 +984,7 @@ namespace SSELex
             {
                 DeFine.SourceLanguage = Enum.Parse<Languages>(GetValue);
             }
-            
+
             DeFine.GlobalLocalSetting.SourceLanguage = DeFine.SourceLanguage;
         }
 
@@ -987,12 +996,13 @@ namespace SSELex
             {
                 DeFine.TargetLanguage = Enum.Parse<Languages>(GetValue);
             }
-            
+
             DeFine.GlobalLocalSetting.TargetLanguage = DeFine.TargetLanguage;
         }
 
         private void ClearCache(object sender, MouseButtonEventArgs e)
         {
+            WordProcess.ClearAICache();
             if (ActionWin.Show("Clear the cache for translation?", "Warning: After cleaning up, all content including previous translations will no longer be cached. Translating again will retrieve it from the cloud, which will waste the results of your previous translations and increase word count consumption!", MsgAction.YesNo, MsgType.Info) > 0)
             {
                 string SqlOrder = "Delete From CloudTranslation Where 1=1";
@@ -1244,20 +1254,46 @@ namespace SSELex
         }
         public void SyncCodeViewLocation()
         {
-            try {
-            var GetHeight = this.Height;
-            var GetLeft = this.Left;
-            var GetTop = this.Top;
-            if (DeFine.CurrentCodeView != null)
+            try
             {
-                DeFine.CurrentCodeView.Dispatcher.Invoke(new Action(() => {
-                    DeFine.CurrentCodeView.Height = GetHeight;
-                    DeFine.CurrentCodeView.Left = GetLeft - DeFine.CurrentCodeView.Width - 10;
-                    DeFine.CurrentCodeView.Top = GetTop;
-                }));
-            }
+                if (DeFine.CurrentParsingLayer != null)
+                {
+                    if (DeFine.CurrentParsingLayer.Visibility == Visibility.Visible)
+                    {
+                        DeFine.CurrentParsingLayer.Left = this.Left + this.Width + 5;
+                    }
+                }
             }
             catch { }
+
+            try
+            {
+                var GetHeight = this.Height;
+                var GetLeft = this.Left;
+                var GetTop = this.Top;
+                if (DeFine.CurrentCodeView != null)
+                {
+                    DeFine.CurrentCodeView.Dispatcher.Invoke(new Action(() =>
+                    {
+                        DeFine.CurrentCodeView.Height = GetHeight;
+                        DeFine.CurrentCodeView.Left = GetLeft - DeFine.CurrentCodeView.Width - 10;
+                        DeFine.CurrentCodeView.Top = GetTop;
+                    }));
+                }
+            }
+            catch { }
+        }
+
+        private void UsingContext_Click(object sender, RoutedEventArgs e)
+        {
+            if (UsingContext.IsChecked == true)
+            {
+                DeFine.GlobalLocalSetting.UsingContext = true;
+            }
+            else
+            {
+                DeFine.GlobalLocalSetting.UsingContext = false;
+            }
         }
 
         private void UsingDictionary_Click(object sender, RoutedEventArgs e)
@@ -1292,11 +1328,11 @@ namespace SSELex
         private void ReSetTransLang(object sender, MouseButtonEventArgs e)
         {
             if (TransViewList.Rows > 0)
-            if (ActionWin.Show("Do you agree?", "This will restore all fields to their initial state.", MsgAction.YesNo, MsgType.Info, 230) > 0)
-            {
-                WordProcess.ReSetAllTransText();
-            }
-           
+                if (ActionWin.Show("Do you agree?", "This will restore all fields to their initial state.", MsgAction.YesNo, MsgType.Info, 230) > 0)
+                {
+                    WordProcess.ReSetAllTransText();
+                }
+
         }
 
         private void ReStoreTransLang(object sender, MouseButtonEventArgs e)
@@ -1332,12 +1368,14 @@ namespace SSELex
                     }
                 }
             }
-           
+
         }
 
         private void TestCall(object sender, MouseButtonEventArgs e)
         {
             HeuristicCore.CheckPexParams(GlobalPexReader);
         }
+
+
     }
 }

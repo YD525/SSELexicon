@@ -218,6 +218,8 @@ namespace SSELex.TranslateCore
 
         public class EngineSelect
         {
+            public static AITranslationMemory AIMemory = new AITranslationMemory();
+
             public object Engine = new object();
             public int CurrentCallCount = 0;
             public int MaxUseCount = 0;
@@ -319,6 +321,11 @@ namespace SSELex.TranslateCore
                         {
                             var GetData = (this.Engine as ChatGptApi).QuickTrans(GetSource, Source, Target).Trim();
 
+                            if (GetData.Trim().Length > 0)
+                            {
+                                AIMemory.AddTranslation(Source,GetSource,GetData);
+                            }
+
                             SetTransLine = GetData;
                             this.CurrentCallCount++;
                             WordProcess.SendTranslateMsg("Cloud Engine(ChatGptApi)", GetSource, SetTransLine);
@@ -334,6 +341,11 @@ namespace SSELex.TranslateCore
                         if (DeFine.GlobalLocalSetting.DeepSeekApiUsing)
                         {
                             var GetData = (this.Engine as DeepSeekApi).QuickTrans(GetSource, Source, Target).Trim();
+
+                            if (GetData.Trim().Length > 0)
+                            {
+                                AIMemory.AddTranslation(Source,GetSource, GetData);
+                            }
 
                             SetTransLine = GetData;
                             this.CurrentCallCount++;

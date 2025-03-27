@@ -58,7 +58,7 @@
                 <Grid Grid.Row="0" Name="Header" Margin="10 0 10 0">
                     <StackPanel Orientation="Horizontal">
                         <Label HorizontalAlignment="Left" Name="MainCaption" Foreground="White" VerticalAlignment="Center">
-                            SSELex Gui 1.3.598
+                            SSELex Gui 1.3.608
                         </Label>
                         <Grid Background="#FF014C8F" Width="180" Margin="20 0 0 0" Name="ThreadInFo" Visibility="Collapsed">
                             <Label Foreground="White" FontWeight="Bold" Name="ThreadInFoLog" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
@@ -310,7 +310,11 @@
                                     </Border>
 
                                     <CheckBox Name="UsingDictionary" VerticalAlignment="Center" Margin="10 0 0 0" Click="UsingDictionary_Click">
-                                        Using Dictionary
+                                        Use Dictionary
+                                    </CheckBox>
+
+                                    <CheckBox Name="UsingContext" VerticalAlignment="Center" Margin="10 0 0 0" Click="UsingContext_Click">
+                                        Use Context
                                     </CheckBox>
 
                                     <Label VerticalAlignment="Center" Margin="10 0 0 0">Settings:</Label>
@@ -330,12 +334,6 @@
                                     <Border  CornerRadius="5" Background="#FF0B74D1" Height="30" Margin="10 0 0 0" Cursor="Hand" PreviewMouseDown="OpenSetting">
                                         <Label  Padding="10 0 10 0" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
                                             UISettings
-                                        </Label>
-                                    </Border>
-
-                                    <Border  CornerRadius="5" Background="#FF0B74D1" Height="30" Margin="10 0 0 0" Cursor="Hand" PreviewMouseDown="TestCall">
-                                        <Label  Padding="10 0 10 0" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                            TestCall
                                         </Label>
                                     </Border>
                                 </StackPanel>

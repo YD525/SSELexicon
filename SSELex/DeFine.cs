@@ -40,11 +40,12 @@ namespace SSELex
 
         public static string BackupPath = @"\BackUpData\";//自动备份路径
 
-        public static string CurrentVersion = "3.1.1 Alpha";
+        public static string CurrentVersion = "1.3.608";
         public static LocalSetting GlobalLocalSetting = new LocalSetting();
 
         public static MainWindow WorkingWin = null;
         public static SettingView CurrentSettingView = null;
+        public static ParsingLayer CurrentParsingLayer = null;
         public static SqlCore<SQLiteHelper> GlobalDB = null;
         public static CodeView CurrentCodeView = null;
         public static TextEditor ActiveIDE = null;
@@ -117,7 +118,18 @@ namespace SSELex
             NewWindowThread.Start();
 
             WordProcessEngine = new WordProcess();
-           
+
+            CurrentParsingLayer = new ParsingLayer();
+            CurrentParsingLayer.Hide();
+        }
+
+        public static void ShowParsingLayer()
+        {
+            CurrentParsingLayer.Owner = DeFine.WorkingWin;
+            CurrentParsingLayer.Left = DeFine.WorkingWin.Left + DeFine.WorkingWin.Width + 5;
+            CurrentParsingLayer.Top = DeFine.WorkingWin.Top;
+
+            CurrentParsingLayer.Show();
         }
 
         public static void LoadData()
@@ -153,6 +165,7 @@ namespace SSELex
         public int TransCount { get; set; } = 0;
         public int MaxThreadCount { get; set; } = 0;
         public bool AutoLoadDictionaryFile { get; set; } = false;
+        public bool UsingContext { get; set; } = true;
 
         public void ReadConfig()
         {
@@ -190,6 +203,7 @@ namespace SSELex
                         this.TransCount = GetSetting.TransCount;
                         this.PlaySound = GetSetting.PlaySound;
                         this.BackUpPath = GetSetting.BackUpPath;
+                        this.UsingContext = GetSetting.UsingContext;
                     }
                 }
                 else

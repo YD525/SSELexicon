@@ -18,6 +18,7 @@ namespace SSELex.TranslateManage
         public Thread CurrentTrd;
         public string Key = "";
         public int HashID = 0;
+        public string ItemType = "";
         public string Type = "";
         public string SourceText = "";
         public string TransText = "";
@@ -42,78 +43,84 @@ namespace SSELex.TranslateManage
         public void StartWork()
         {
             WorkEnd = 1;
+            this.Transing = true;
             CurrentTrd = new Thread(() =>
             {
                 TransThreadToken = new CancellationTokenSource();
                 var Token = TransThreadToken.Token;
-
-                Transing = true;
                 try
                 {
-                    try
-                    {
-                        NextGet:
-                        Token.ThrowIfCancellationRequested();
+                    NextGet:
+                    Token.ThrowIfCancellationRequested();
 
-                        if (this.SourceText.Trim().Length > 0)
+                    if (this.SourceText.Trim().Length > 0)
+                    {
+                        if (ItemType.Equals("Book"))
                         {
-                            if (Type.Equals("Danger"))
+                            if (DeFine.WorkingWin != null)
                             {
-                                if (DeFine.WorkingWin != null)
+                                DeFine.WorkingWin.SetLog("Skip Book fields:" + this.Key);
+                            }
+
+                            WorkEnd = 2;
+                        }
+                        else
+                        if (Type.Equals("Danger"))
+                        {
+                            if (DeFine.WorkingWin != null)
+                            {
+                                DeFine.WorkingWin.SetLog("Skip dangerous fields:" + this.Key);
+                            }
+
+                            WorkEnd = 2;
+                        }
+                        else
+                        {
+                            var GetResult = new WordProcess().QuickTrans(this.SourceText, DeFine.SourceLanguage, DeFine.TargetLanguage);
+                            if (GetResult.Trim().Length > 0)
+                            {
+                                TransText = GetResult.Trim();
+
+                                Token.ThrowIfCancellationRequested();
+
+                                TextBoxHandle.Dispatcher.Invoke(new Action(() =>
                                 {
-                                    DeFine.WorkingWin.SetLog("Skip dangerous fields:" + this.Key);
+                                    TextBoxHandle.Text = TransText;
+                                    TextBoxHandle.BorderBrush = new SolidColorBrush(Colors.Green);
+                                }));
+
+                                SyncProgress();
+
+                                if (Translator.TransData.ContainsKey(this.HashID))
+                                {
+                                    Translator.TransData[this.HashID] = GetResult;
                                 }
 
                                 WorkEnd = 2;
                             }
                             else
                             {
-                                var GetResult = new WordProcess().QuickTrans(this.SourceText, DeFine.SourceLanguage, DeFine.TargetLanguage);
-                                if (GetResult.Trim().Length > 0)
-                                {
-                                    TransText = GetResult.Trim();
-
-                                    Token.ThrowIfCancellationRequested();
-
-                                    TextBoxHandle.Dispatcher.Invoke(new Action(() =>
-                                    {
-                                        TextBoxHandle.Text = TransText;
-                                        TextBoxHandle.BorderBrush = new SolidColorBrush(Colors.Green);
-                                    }));
-
-                                    SyncProgress();
-
-                                    if (Translator.TransData.ContainsKey(this.HashID))
-                                    {
-                                        Translator.TransData[this.HashID] = GetResult;
-                                    }
-
-                                    WorkEnd = 2;
-                                }
-                                else
-                                {
-                                    goto NextGet;
-                                }
+                                goto NextGet;
                             }
                         }
-                        else
-                        {
-                            SyncProgress();
-
-                            WorkEnd = 2;
-                        }
                     }
-                    catch { }
+                    else
+                    {
+                        SyncProgress();
 
-                    Transing = false;
-                    CurrentTrd = null;
+                        WorkEnd = 2;
+                    }
                 }
                 catch (OperationCanceledException)
                 {
-                    Transing = false;
-                    CurrentTrd = null;
+                    try {
+                    this.Transing = false;
+                    this.CurrentTrd = null;
+                    }
+                    catch  { }
                 }
-
+                this.Transing = false;
+                this.CurrentTrd = null;
             });
             CurrentTrd.Start();
         }
@@ -124,10 +131,11 @@ namespace SSELex.TranslateManage
             TransThreadToken?.Cancel();
         }
 
-        public TransItem(string Key, int HashID,string Type, string SourceText, string TransText, TextBox TextBoxHandle)
+        public TransItem(string Key, int HashID,string ItemType,string Type, string SourceText, string TransText, TextBox TextBoxHandle)
         {
             this.Key = Key;
             this.HashID = HashID;
+            this.ItemType = ItemType;
             this.Type = Type;
             this.SourceText = SourceText;
             this.TransText = TransText;
@@ -164,10 +172,12 @@ namespace SSELex.TranslateManage
                 string SourceText = "";
                 string TransText = "";
                 string Type = "";
+                string ItemType = "";
                 TextBox TextBoxHandle = null;
 
                 DeFine.WorkingWin.TransViewList.GetMainGrid().Dispatcher.Invoke(new Action(() =>
                 {
+                    ItemType = ConvertHelper.ObjToStr((MainGrid.Children[1] as Label).Content);
                     Type = ConvertHelper.ObjToStr(MainGrid.ToolTip);
                     HashID = ConvertHelper.ObjToInt(MainGrid.Tag);
                     SourceText = (MainGrid.Children[3] as TextBox).Text.Trim();
@@ -176,7 +186,7 @@ namespace SSELex.TranslateManage
                     Key = ConvertHelper.ObjToStr((MainGrid.Children[2] as TextBox).Text);
                     if (TransText.Trim().Length == 0)
                     {
-                        TransItems.Add(new TransItem(Key, HashID,Type, SourceText, TransText, TextBoxHandle));
+                        TransItems.Add(new TransItem(Key, HashID,ItemType,Type, SourceText, TransText, TextBoxHandle));
                     }
                 }));
             }

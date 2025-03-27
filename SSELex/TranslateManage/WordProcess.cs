@@ -16,6 +16,7 @@ using SSELex.SkyrimManage;
 using SSELex.TranslateManage;
 using SSELex.UIManage;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
+using static SSELex.TranslateCore.LanguageHelper;
 
 namespace SSELex.TranslateCore
 {
@@ -522,6 +523,11 @@ namespace SSELex.TranslateCore
         {
 
             return Content;
+        }
+
+        public static void ClearAICache()
+        {
+            EngineSelect.AIMemory.Clear();
         }
 
         public LanguageHelper CurrentLanguageHelper = new LanguageHelper();
