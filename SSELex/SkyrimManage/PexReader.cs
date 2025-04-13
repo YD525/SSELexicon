@@ -907,78 +907,19 @@ namespace SSELex.SkyrimManage
             Dictionary<string, LinkValue> LinkTexts = new Dictionary<string, LinkValue>();
             foreach (var GetParam in this.StringParams)
             {
-                if (GetParam.FunctionLinks.Count > 0)
+                if (Translator.TransData.ContainsKey(GetParam.Key.GetHashCode()))
                 {
-                    string GetFunctionName = GetParam.FunctionLinks[GetParam.FunctionLinks.Count - 1].Split("(")[0];
-                    string ToLowerFunctionName = GetFunctionName.ToLower();
+                    if (!LinkTexts.ContainsKey(GetParam.DefSourceText))
+                        LinkTexts.Add(GetParam.DefSourceText, new LinkValue(Translator.TransData[GetParam.Key.GetHashCode()], GetParam.LineID));
+                }
+            }
 
-                    if (Translator.TransData.ContainsKey(GetParam.Key.GetHashCode()))
-                    {
-                        if (!LinkTexts.ContainsKey(GetParam.DefSourceText))
-                            LinkTexts.Add(GetParam.DefSourceText, new LinkValue(Translator.TransData[GetParam.Key.GetHashCode()], GetParam.LineID));
-                    }
-
-                    if (GetFunctionName.Contains("ecSlider"))
-                    {
-                        int Count = 0;
-                        foreach (var GetLinkText in GetParam.FunctionLinks)
-                        {
-                            Count++;
-                            string TempLink = GetLinkText.Trim();
-
-                            if (TempLink.StartsWith("\"") && TempLink.EndsWith("\""))
-                            {
-                                TempLink = TempLink.Substring(1);
-                                TempLink = TempLink.Substring(0, TempLink.Length - 1);
-                                if (GetParam.DefSourceText != GetLinkText)
-                                {
-                                    if (GetLinkText.Trim().StartsWith("\"") && TempLink.Trim().Length > 0)
-                                    {
-                                        string GetDefLine = GetParam.DefLine;
-                                        var Key = string.Format("{0}-{1}-{2}-{3}", GetParam.Key.Split('-')[0], (int)(ConvertHelper.ObjToInt(GetParam.Key.Split('-')[1]) + ((int)GetDefLine.IndexOf(GetLinkText) - GetParam.DefSourceText.Length)), GetLinkText.Length, Count);
-                                        var SetTKey = SkyrimDataLoader.GenUniqueKey(Key, "Script").GetHashCode();
-                                        if (Translator.TransData.ContainsKey(SetTKey))
-                                        {
-                                            if (!LinkTexts.ContainsKey(GetLinkText.Trim()))
-                                                LinkTexts.Add(GetLinkText.Trim(), new LinkValue(Translator.TransData[SetTKey], GetParam.LineID));
-                                        }
-                                        this.SafeStringParams.Add(new StringParam(GetDefLine, Key, TempLink, GetLinkText.Trim()));
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    if (GetFunctionName.Contains("ecToggle"))
-                    {
-                        int Count = 0;
-                        foreach (var GetLinkText in GetParam.FunctionLinks)
-                        {
-                            Count++;
-                            string TempLink = GetLinkText.Trim();
-
-                            if (TempLink.StartsWith("\"") && TempLink.EndsWith("\""))
-                            {
-                                TempLink = TempLink.Substring(1);
-                                TempLink = TempLink.Substring(0, TempLink.Length - 1);
-                                if (GetParam.DefSourceText != GetLinkText)
-                                {
-                                    if (GetLinkText.Trim().StartsWith("\"") && TempLink.Trim().Length > 0)
-                                    {
-                                        string GetDefLine = GetParam.DefLine;
-                                        var Key = string.Format("{0}-{1}-{2}-{3}", GetParam.Key.Split('-')[0], (int)(ConvertHelper.ObjToInt(GetParam.Key.Split('-')[1]) + ((int)GetDefLine.IndexOf(GetLinkText) - GetParam.DefSourceText.Length)), GetLinkText.Length, Count);
-                                        var SetTKey = SkyrimDataLoader.GenUniqueKey(Key, "Script").GetHashCode();
-                                        if (Translator.TransData.ContainsKey(SetTKey))
-                                        {
-                                            if (!LinkTexts.ContainsKey(GetLinkText.Trim()))
-                                                LinkTexts.Add(GetLinkText.Trim(), new LinkValue(Translator.TransData[SetTKey], GetParam.LineID));
-                                        }
-                                        this.SafeStringParams.Add(new StringParam(GetDefLine, Key, TempLink, GetLinkText.Trim()));
-                                    }
-                                }
-                            }
-                        }
-                    }
-
+            foreach (var GetParam in this.SafeStringParams)
+            {
+                if (Translator.TransData.ContainsKey(GetParam.Key.GetHashCode()))
+                {
+                    if (!LinkTexts.ContainsKey(GetParam.DefSourceText))
+                        LinkTexts.Add(GetParam.DefSourceText, new LinkValue(Translator.TransData[GetParam.Key.GetHashCode()], GetParam.LineID));
                 }
             }
 
@@ -1005,7 +946,10 @@ namespace SSELex.SkyrimManage
                             string CheckID = GetLine.Substring(GetLine.IndexOf("@line") + "@line".Length).Trim();
                             if (CheckID.Equals(GetLinkValue.DefLineID.ToString()))
                             {
-                                Lines[ir] = Lines[ir].Replace(GetKey, "\"" + GetLinkValue.Value + "\"");
+                                if (Lines[ir].Contains(GetKey))
+                                {
+                                    Lines[ir] = Lines[ir].Replace(GetKey, "\"" + GetLinkValue.Value + "\"");
+                                }
                             }
                         }
                     }

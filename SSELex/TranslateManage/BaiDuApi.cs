@@ -21,7 +21,7 @@ namespace SSELex.TranslateManage
     {
         public enum BDLanguages
         {
-            en=0, zh = 1, jp=2, de=3, kor = 5
+            en=0, zh = 1, jp=2, de=3, kor = 5, zh_TW = 6
         }
 
         public string GenerateSignature(string appId, string query, string salt, string secretKey)
@@ -52,46 +52,31 @@ namespace SSELex.TranslateManage
             BDLanguages Target = BDLanguages.zh;
 
             if (FromLang == Languages.English)
-            {
                 Source = BDLanguages.en;
-            }
-            if (FromLang == Languages.Chinese)
-            {
+            else if (FromLang == Languages.SimplifiedChinese)
                 Source = BDLanguages.zh;
-            }
-            if (FromLang == Languages.Japanese)
-            {
+            else if (FromLang == Languages.TraditionalChinese)
+                Source = BDLanguages.zh_TW;
+            else if (FromLang == Languages.Japanese)
                 Source = BDLanguages.jp;
-            }
-            if (FromLang == Languages.German)
-            {
+            else if (FromLang == Languages.German)
                 Source = BDLanguages.de;
-            }
-            if (FromLang == Languages.Korean)
-            {
+            else if (FromLang == Languages.Korean)
                 Source = BDLanguages.kor;
-            }
 
             if (ToLang == Languages.English)
-            {
                 Target = BDLanguages.en;
-            }
-            if (ToLang == Languages.Chinese)
-            {
+            else if (ToLang == Languages.SimplifiedChinese)
                 Target = BDLanguages.zh;
-            }
-            if (ToLang == Languages.Japanese)
-            {
+            else if (ToLang == Languages.TraditionalChinese)
+                Target = BDLanguages.zh_TW;
+            else if (ToLang == Languages.Japanese)
                 Target = BDLanguages.jp;
-            }
-            if (ToLang == Languages.German)
-            {
+            else if (ToLang == Languages.German)
                 Target = BDLanguages.de;
-            }
-            if (ToLang == Languages.Korean)
-            {
+            else if (ToLang == Languages.Korean)
                 Target = BDLanguages.kor;
-            }
+
             return ConstructGetRequestUrl(DeFine.GlobalLocalSetting.BaiDuAppID, Query, Source.ToString(), Target.ToString(), new Random(Guid.NewGuid().GetHashCode()).Next(100, 999).ToString(), DeFine.GlobalLocalSetting.BaiDuSecretKey);
         }
 

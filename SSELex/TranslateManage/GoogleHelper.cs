@@ -21,19 +21,20 @@ namespace SSELex.TranslateManage
 
     public class GoogleHelper
     {
-        public string ToLanguageCode(Languages language)
+        public string ToLanguageCode(Languages Language)
         {
-            return language switch
+            return Language switch
             {
                 Languages.English => "en",
-                Languages.Chinese => "zh-CN",
+                Languages.SimplifiedChinese => "zh-CN",
+                Languages.TraditionalChinese => "zh-TW",
                 Languages.Japanese => "ja",
                 Languages.German => "de",
                 Languages.Korean => "ko",
                 Languages.Turkish => "tr",
                 Languages.Brazilian => "pt-BR",
                 Languages.Russian => "ru",
-                _ => throw new ArgumentOutOfRangeException(nameof(language), "Unsupported language")
+                _ => throw new ArgumentOutOfRangeException(nameof(Language), "Unsupported language")
             };
         }
 

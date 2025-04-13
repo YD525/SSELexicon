@@ -13,6 +13,7 @@ using SSELex.TranslateManage;
 using Noggog;
 using SSELex.ConvertManager;
 using SSELex.SkyrimManage;
+using System.Windows.Media.Animation;
 
 namespace SSELex.UIManage
 {
@@ -472,6 +473,30 @@ namespace SSELex.UIManage
                     catch { }
                 }
             }
+        }
+
+        public static void AnimateCanvasLeft(Grid targetGrid, double targetLeft, double durationInSeconds = 0.1)
+        {
+            // 获取当前 Grid 的左边距
+            double currentLeft = Canvas.GetLeft(targetGrid);
+
+            // 创建一个 DoubleAnimation 动画，目标值是目标 Left 值
+            DoubleAnimation animation = new DoubleAnimation
+            {
+                From = currentLeft,
+                To = targetLeft,
+                Duration = TimeSpan.FromSeconds(durationInSeconds),
+                EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut } // 可选：平滑的缓动
+            };
+
+            // 使用 Storyboard 来应用动画
+            Storyboard storyboard = new Storyboard();
+            storyboard.Children.Add(animation);
+            Storyboard.SetTarget(animation, targetGrid);
+            Storyboard.SetTargetProperty(animation, new PropertyPath("(Canvas.Left)"));
+
+            // 启动动画
+            storyboard.Begin();
         }
     }
 }

@@ -16,7 +16,7 @@
     <Compile Update="EngineEditView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="ParsingLayer.xaml.cs">
+    <Compile Update="LogView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="SearchText.xaml.cs">
@@ -39,7 +39,7 @@
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="ParsingLayer.xaml">
+    <Page Update="LogView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="SearchText.xaml">

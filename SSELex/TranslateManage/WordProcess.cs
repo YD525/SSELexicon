@@ -47,7 +47,14 @@ namespace SSELex.TranslateCore
 
                     if (Regex.IsMatch(GetTransText, "[\u4e00-\u9fff]+"))
                     {
-                        Lang = Languages.Chinese;
+                        if (Regex.IsMatch(GetTransText, "[\uFA0E\uFA0F\uFA11\uFA13\uFA14\uFA1F\uFA21\uFA23\uFA24\uFA27\uFA28\uFA29\u9FA5\u9FD5\u9FFF]"))
+                        {
+                            Lang = Languages.TraditionalChinese;
+                        }
+                        else
+                        {
+                            Lang = Languages.SimplifiedChinese;
+                        }
                     }
                     if (Regex.IsMatch(GetTransText, "[\u3040-\u30ff]+"))
                     {
@@ -730,12 +737,12 @@ namespace SSELex.TranslateCore
                 this.Content = Msg;
             }
 
-            if (DeFine.GlobalLocalSetting.ConjunctionEngineUsing && DeFine.SourceLanguage == Languages.English && DeFine.TargetLanguage == Languages.Chinese)
+            if (DeFine.GlobalLocalSetting.ConjunctionEngineUsing && DeFine.SourceLanguage == Languages.English && (DeFine.TargetLanguage == Languages.SimplifiedChinese || DeFine.TargetLanguage == Languages.TraditionalChinese))
             {
                 this.Content = this.Conjunction.ProcessStr(ref EngineMsgs, this.Content);
             }
 
-            if (DeFine.GlobalLocalSetting.PhraseEngineUsing && DeFine.SourceLanguage == Languages.English && DeFine.TargetLanguage == Languages.Chinese)
+            if (DeFine.GlobalLocalSetting.PhraseEngineUsing && DeFine.SourceLanguage == Languages.English && (DeFine.TargetLanguage == Languages.SimplifiedChinese || DeFine.TargetLanguage == Languages.TraditionalChinese))
             {
                 this.Content = DetachDBWord(this.Content, ref CardItems);
             }

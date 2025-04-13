@@ -97,5 +97,21 @@ C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\obj\Debug\net9.0-window
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\obj\Debug\net9.0-windows\SSELex.pdb
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\obj\Debug\net9.0-windows\SSELex.genruntimeconfig.cache
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\obj\Debug\net9.0-windows\ref\SSELex.dll
-C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\obj\Debug\net9.0-windows\ParsingLayer.g.cs
-C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\obj\Debug\net9.0-windows\ParsingLayer.baml
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Debug\net9.0-windows\LocalDB\system.db
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Debug\net9.0-windows\Tool\Original Compiler\antlr.runtime.dll
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Debug\net9.0-windows\Tool\Original Compiler\Antlr3.Runtime.dll
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Debug\net9.0-windows\Tool\Original Compiler\Antlr3.Utility.dll
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Debug\net9.0-windows\Tool\Original Compiler\PapyrusAssembler.exe
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Debug\net9.0-windows\Tool\Original Compiler\PapyrusCompiler.exe
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Debug\net9.0-windows\Tool\Original Compiler\PCompiler.dll
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Debug\net9.0-windows\Tool\Original Compiler\ScriptCompile.bat
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Debug\net9.0-windows\Tool\Original Compiler\StringTemplate.dll
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Debug\net9.0-windows\Tool\Original Compiler\TESV_Papyrus_Flags.flg
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Debug\net9.0-windows\StrongInject.dll
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Debug\net9.0-windows\System.Collections.Immutable.dll
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Debug\net9.0-windows\System.Text.Encoding.CodePages.dll
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Debug\net9.0-windows\runtimes\win\lib\net9.0\System.Text.Encoding.CodePages.dll
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Debug\net9.0-windows\LICENSE.txt
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Debug\net9.0-windows\README.md
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\obj\Debug\net9.0-windows\LogView.g.cs
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\obj\Debug\net9.0-windows\LogView.baml

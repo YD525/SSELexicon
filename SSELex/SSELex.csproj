@@ -22,16 +22,17 @@
     <None Remove="Material\End.svg" />
     <None Remove="Material\Google.svg" />
     <None Remove="Material\Keep.svg" />
+    <None Remove="Material\Lang.svg" />
     <None Remove="Material\Languages.svg" />
     <None Remove="Material\Locker.svg" />
     <None Remove="Material\MO2ICO.svg" />
+    <None Remove="Material\Setting.svg" />
     <None Remove="Material\SettingICO.svg" />
     <None Remove="Material\Stop.svg" />
     <None Remove="Material\TChangeWin.png" />
     <None Remove="Material\TClose.png" />
     <None Remove="Material\TMenu.png" />
     <None Remove="Material\TMin.png" />
-    <None Remove="Material\TransICO.svg" />
     <None Remove="Material\UnLocker.svg" />
     <None Remove="Material\WhiteDown.png" />
     <None Remove="Material\WhiteUP.png" />
@@ -49,6 +50,7 @@
     <None Include="..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
@@ -62,9 +64,11 @@
     <Resource Include="Material\End.svg" />
     <Resource Include="Material\Google.svg" />
     <Resource Include="Material\Keep.svg" />
+    <Resource Include="Material\Lang.svg" />
     <Resource Include="Material\Languages.svg" />
     <Resource Include="Material\Locker.svg" />
     <Resource Include="Material\MO2ICO.svg" />
+    <Resource Include="Material\Setting.svg" />
     <Resource Include="Material\SettingICO.svg" />
     <Resource Include="Material\Stop.svg" />
   </ItemGroup>
@@ -82,7 +86,6 @@
     <Resource Include="Material\TMin.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Material\TransICO.svg" />
     <Resource Include="Material\UnLocker.svg" />
     <Resource Include="Material\WhiteDown.png" />
     <Resource Include="Material\WhiteUP.png" />
@@ -95,10 +98,57 @@
     <PackageReference Include="AvalonEdit" Version="6.3.0.90" />
     <PackageReference Include="Microsoft-WindowsAPICodePack-Core" Version="1.1.5" />
     <PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.5" />
-    <PackageReference Include="Mutagen.Bethesda" Version="0.48.1" />
+    <PackageReference Include="Mutagen.Bethesda" Version="0.49.0" />
     <PackageReference Include="SharpVectors" Version="1.8.4.2" />
     <PackageReference Include="System.Data.SQLite" Version="1.0.119" />
     <PackageReference Include="System.Drawing.Common" Version="9.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="LICENSE.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="LocalDB\system.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Tool\Original Compiler\antlr.runtime.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Tool\Original Compiler\Antlr3.Runtime.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Tool\Original Compiler\Antlr3.Utility.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Tool\Original Compiler\PapyrusAssembler.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Tool\Original Compiler\PapyrusCompiler.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Tool\Original Compiler\PCompiler.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Tool\Original Compiler\ScriptCompile.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Tool\Original Compiler\StringTemplate.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Tool\Original Compiler\TESV_Papyrus_Flags.flg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>  
+  </ItemGroup>
+
+  <Target Name="RemoveUnusedRuntimes" AfterTargets="Build">
+    <RemoveDir Directories="$(OutputPath)\runtimes\linux-x64" />
+    <RemoveDir Directories="$(OutputPath)\runtimes\osx-x64" />
+    <RemoveDir Directories="$(OutputPath)\runtimes\unix" />
+  </Target>
+
+  <Target Name="RemoveUnusedDll" AfterTargets="Build">
+    <Delete Files="$(OutputPath)\Mutagen.Bethesda.Starfield.dll" />
+    <Delete Files="$(OutputPath)\Mutagen.Bethesda.Oblivion.dll" />
+    <Delete Files="$(OutputPath)\Mutagen.Bethesda.Fallout4.dll" />
+  </Target>
 </Project>

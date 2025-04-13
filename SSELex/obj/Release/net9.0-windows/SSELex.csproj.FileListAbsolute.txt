@@ -1,4 +1,14 @@
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\SSELex.exe
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\LocalDB\system.db
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\Tool\Original Compiler\antlr.runtime.dll
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\Tool\Original Compiler\Antlr3.Runtime.dll
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\Tool\Original Compiler\Antlr3.Utility.dll
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\Tool\Original Compiler\PapyrusAssembler.exe
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\Tool\Original Compiler\PapyrusCompiler.exe
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\Tool\Original Compiler\PCompiler.dll
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\Tool\Original Compiler\ScriptCompile.bat
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\Tool\Original Compiler\StringTemplate.dll
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\Tool\Original Compiler\TESV_Papyrus_Flags.flg
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\SSELex.deps.json
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\SSELex.runtimeconfig.json
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\SSELex.dll
@@ -45,7 +55,9 @@ C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-wind
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\SharpVectors.Rendering.Wpf.dll
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\SharpVectors.Runtime.Wpf.dll
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\ICSharpCode.SharpZipLib.dll
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\StrongInject.dll
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\System.Data.SQLite.dll
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\System.Collections.Immutable.dll
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\System.Data.SqlClient.dll
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\System.Data.SQLite.EF6.dll
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\System.Drawing.Common.dll
@@ -53,6 +65,7 @@ C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-wind
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\System.IO.Abstractions.dll
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\System.Linq.Async.dll
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\System.Reactive.dll
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\System.Text.Encoding.CodePages.dll
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\TestableIO.System.IO.Abstractions.dll
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\TestableIO.System.IO.Abstractions.Wrappers.dll
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\ValveKeyValue.dll
@@ -66,6 +79,7 @@ C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-wind
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\runtimes\win-x86\native\SQLite.Interop.dll
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\runtimes\win\lib\net9.0\System.Text.Encoding.CodePages.dll
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\obj\Release\net9.0-windows\SSELex.csproj.AssemblyReference.cache
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\obj\Release\net9.0-windows\Themes\DefStyle.baml
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\obj\Release\net9.0-windows\ActionWin.g.cs
@@ -97,5 +111,7 @@ C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\obj\Release\net9.0-wind
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\obj\Release\net9.0-windows\SSELex.pdb
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\obj\Release\net9.0-windows\SSELex.genruntimeconfig.cache
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\obj\Release\net9.0-windows\ref\SSELex.dll
-C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\obj\Release\net9.0-windows\ParsingLayer.g.cs
-C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\obj\Release\net9.0-windows\ParsingLayer.baml
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\README.md
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\LICENSE.txt
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\obj\Release\net9.0-windows\LogView.g.cs
+C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\obj\Release\net9.0-windows\LogView.baml

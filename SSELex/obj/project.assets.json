@@ -18,7 +18,7 @@
           "Microsoft.WindowsDesktop.App"
         ]
       },
-      "DynamicData/9.0.4": {
+      "DynamicData/9.1.1": {
         "type": "package",
         "dependencies": {
           "System.Reactive": "6.0.1"
@@ -81,7 +81,7 @@
           }
         }
       },
-      "GameFinder.Common/4.3.3": {
+      "GameFinder.Common/4.4.0": {
         "type": "package",
         "dependencies": {
           "FluentResults": "3.15.2",
@@ -99,7 +99,7 @@
           }
         }
       },
-      "GameFinder.RegistryUtils/4.3.3": {
+      "GameFinder.RegistryUtils/4.4.0": {
         "type": "package",
         "dependencies": {
           "Microsoft.Win32.Registry": "5.0.0"
@@ -115,11 +115,11 @@
           }
         }
       },
-      "GameFinder.StoreHandlers.GOG/4.3.3": {
+      "GameFinder.StoreHandlers.GOG/4.4.0": {
         "type": "package",
         "dependencies": {
-          "GameFinder.Common": "4.3.3",
-          "GameFinder.RegistryUtils": "4.3.3"
+          "GameFinder.Common": "4.4.0",
+          "GameFinder.RegistryUtils": "4.4.0"
         },
         "compile": {
           "lib/net8.0/GameFinder.StoreHandlers.GOG.dll": {
@@ -132,12 +132,12 @@
           }
         }
       },
-      "GameFinder.StoreHandlers.Steam/4.3.3": {
+      "GameFinder.StoreHandlers.Steam/4.4.0": {
         "type": "package",
         "dependencies": {
-          "GameFinder.Common": "4.3.3",
-          "GameFinder.RegistryUtils": "4.3.3",
-          "GameFinder.Wine": "4.3.3",
+          "GameFinder.Common": "4.4.0",
+          "GameFinder.RegistryUtils": "4.4.0",
+          "GameFinder.Wine": "4.4.0",
           "ValveKeyValue": "0.10.0.360"
         },
         "compile": {
@@ -151,10 +151,10 @@
           }
         }
       },
-      "GameFinder.StoreHandlers.Xbox/4.3.3": {
+      "GameFinder.StoreHandlers.Xbox/4.4.0": {
         "type": "package",
         "dependencies": {
-          "GameFinder.Common": "4.3.3"
+          "GameFinder.Common": "4.4.0"
         },
         "compile": {
           "lib/net8.0/GameFinder.StoreHandlers.Xbox.dll": {
@@ -167,11 +167,11 @@
           }
         }
       },
-      "GameFinder.Wine/4.3.3": {
+      "GameFinder.Wine/4.4.0": {
         "type": "package",
         "dependencies": {
-          "GameFinder.Common": "4.3.3",
-          "GameFinder.RegistryUtils": "4.3.3"
+          "GameFinder.Common": "4.4.0",
+          "GameFinder.RegistryUtils": "4.4.0"
         },
         "compile": {
           "lib/net8.0/GameFinder.Wine.dll": {
@@ -241,10 +241,10 @@
           }
         }
       },
-      "Loqui/2.69.0": {
+      "Loqui/2.70.0": {
         "type": "package",
         "dependencies": {
-          "Noggog.CSharpExt": "2.69.0"
+          "Noggog.CSharpExt": "2.70.0"
         },
         "compile": {
           "lib/net9.0/Loqui.dll": {
@@ -409,16 +409,16 @@
           }
         }
       },
-      "Mutagen.Bethesda/0.48.1": {
+      "Mutagen.Bethesda/0.49.0": {
         "type": "package",
         "dependencies": {
-          "Loqui": "[2.69.0]",
-          "Mutagen.Bethesda.Core": "0.48.1",
-          "Mutagen.Bethesda.Fallout4": "0.48.1",
-          "Mutagen.Bethesda.Oblivion": "0.48.1",
-          "Mutagen.Bethesda.Skyrim": "0.48.1",
-          "Mutagen.Bethesda.Starfield": "0.48.1",
-          "Noggog.CSharpExt": "[2.69.0]"
+          "Loqui": "[2.70.0]",
+          "Mutagen.Bethesda.Core": "0.49.0",
+          "Mutagen.Bethesda.Fallout4": "0.49.0",
+          "Mutagen.Bethesda.Oblivion": "0.49.0",
+          "Mutagen.Bethesda.Skyrim": "0.49.0",
+          "Mutagen.Bethesda.Starfield": "0.49.0",
+          "Noggog.CSharpExt": "2.70.0"
         },
         "compile": {
           "lib/net9.0/Mutagen.Bethesda.dll": {
@@ -431,20 +431,21 @@
           }
         }
       },
-      "Mutagen.Bethesda.Core/0.48.1": {
+      "Mutagen.Bethesda.Core/0.49.0": {
         "type": "package",
         "dependencies": {
-          "GameFinder.StoreHandlers.GOG": "4.3.3",
-          "GameFinder.StoreHandlers.Steam": "4.3.3",
-          "GameFinder.StoreHandlers.Xbox": "4.3.3",
+          "GameFinder.StoreHandlers.GOG": "4.4.0",
+          "GameFinder.StoreHandlers.Steam": "4.4.0",
+          "GameFinder.StoreHandlers.Xbox": "4.4.0",
           "K4os.Compression.LZ4.Streams": "1.3.8",
-          "Loqui": "[2.69.0]",
-          "Mutagen.Bethesda.Kernel": "0.48.1",
-          "Noggog.CSharpExt": "[2.69.0]",
+          "Loqui": "[2.70.0]",
+          "Mutagen.Bethesda.Kernel": "0.49.0",
+          "Noggog.CSharpExt": "2.70.0",
           "SharpZipLib": "1.4.2",
-          "System.Collections.Immutable": "9.0.0",
+          "StrongInject": "1.4.4",
+          "System.Collections.Immutable": "9.0.1",
           "System.IO.Compression": "4.3.0",
-          "System.Text.Encoding.CodePages": "9.0.0",
+          "System.Text.Encoding.CodePages": "9.0.1",
           "ini-parser-netstandard": "2.5.2"
         },
         "compile": {
@@ -458,12 +459,12 @@
           }
         }
       },
-      "Mutagen.Bethesda.Fallout4/0.48.1": {
+      "Mutagen.Bethesda.Fallout4/0.49.0": {
         "type": "package",
         "dependencies": {
-          "Loqui": "[2.69.0]",
-          "Mutagen.Bethesda.Core": "0.48.1",
-          "Noggog.CSharpExt": "[2.69.0]"
+          "Loqui": "[2.70.0]",
+          "Mutagen.Bethesda.Core": "0.49.0",
+          "Noggog.CSharpExt": "2.70.0"
         },
         "compile": {
           "lib/net9.0/Mutagen.Bethesda.Fallout4.dll": {
@@ -476,10 +477,10 @@
           }
         }
       },
-      "Mutagen.Bethesda.Kernel/0.48.1": {
+      "Mutagen.Bethesda.Kernel/0.49.0": {
         "type": "package",
         "dependencies": {
-          "Noggog.CSharpExt": "[2.69.0]"
+          "Noggog.CSharpExt": "2.70.0"
         },
         "compile": {
           "lib/net9.0/Mutagen.Bethesda.Kernel.dll": {
@@ -492,12 +493,12 @@
           }
         }
       },
-      "Mutagen.Bethesda.Oblivion/0.48.1": {
+      "Mutagen.Bethesda.Oblivion/0.49.0": {
         "type": "package",
         "dependencies": {
-          "Loqui": "[2.69.0]",
-          "Mutagen.Bethesda.Core": "0.48.1",
-          "Noggog.CSharpExt": "[2.69.0]"
+          "Loqui": "[2.70.0]",
+          "Mutagen.Bethesda.Core": "0.49.0",
+          "Noggog.CSharpExt": "2.70.0"
         },
         "compile": {
           "lib/net9.0/Mutagen.Bethesda.Oblivion.dll": {
@@ -510,12 +511,12 @@
           }
         }
       },
-      "Mutagen.Bethesda.Skyrim/0.48.1": {
+      "Mutagen.Bethesda.Skyrim/0.49.0": {
         "type": "package",
         "dependencies": {
-          "Loqui": "[2.69.0]",
-          "Mutagen.Bethesda.Core": "0.48.1",
-          "Noggog.CSharpExt": "[2.69.0]"
+          "Loqui": "[2.70.0]",
+          "Mutagen.Bethesda.Core": "0.49.0",
+          "Noggog.CSharpExt": "2.70.0"
         },
         "compile": {
           "lib/net9.0/Mutagen.Bethesda.Skyrim.dll": {
@@ -528,12 +529,12 @@
           }
         }
       },
-      "Mutagen.Bethesda.Starfield/0.48.1": {
+      "Mutagen.Bethesda.Starfield/0.49.0": {
         "type": "package",
         "dependencies": {
-          "Loqui": "[2.69.0]",
-          "Mutagen.Bethesda.Core": "0.48.1",
-          "Noggog.CSharpExt": "[2.69.0]"
+          "Loqui": "[2.70.0]",
+          "Mutagen.Bethesda.Core": "0.49.0",
+          "Noggog.CSharpExt": "2.70.0"
         },
         "compile": {
           "lib/net9.0/Mutagen.Bethesda.Starfield.dll": {
@@ -563,11 +564,11 @@
           }
         }
       },
-      "Noggog.CSharpExt/2.69.0": {
+      "Noggog.CSharpExt/2.70.0": {
         "type": "package",
         "dependencies": {
-          "DynamicData": "9.0.4",
-          "System.IO.Abstractions": "21.1.3",
+          "DynamicData": "9.1.1",
+          "System.IO.Abstractions": "21.3.1",
           "System.Linq.Async": "6.0.1"
         },
         "compile": {
@@ -735,6 +736,25 @@
           }
         }
       },
+      "StrongInject/1.4.4": {
+        "type": "package",
+        "dependencies": {
+          "System.Collections.Immutable": "5.0.0"
+        },
+        "compile": {
+          "lib/netstandard2.1/StrongInject.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/StrongInject.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/StrongInject.targets": {}
+        }
+      },
       "Stub.System.Data.SQLite.Core.NetStandard/1.0.119": {
         "type": "package",
         "compile": {
@@ -808,7 +828,7 @@
           }
         }
       },
-      "System.Collections.Immutable/9.0.0": {
+      "System.Collections.Immutable/9.0.1": {
         "type": "package",
         "compile": {
           "lib/net9.0/System.Collections.Immutable.dll": {
@@ -986,11 +1006,11 @@
           }
         }
       },
-      "System.IO.Abstractions/21.1.3": {
+      "System.IO.Abstractions/21.3.1": {
         "type": "package",
         "dependencies": {
-          "TestableIO.System.IO.Abstractions": "21.1.3",
-          "TestableIO.System.IO.Abstractions.Wrappers": "21.1.3"
+          "TestableIO.System.IO.Abstractions": "21.3.1",
+          "TestableIO.System.IO.Abstractions.Wrappers": "21.3.1"
         },
         "compile": {
           "lib/net8.0/System.IO.Abstractions.dll": {
@@ -1276,7 +1296,7 @@
           }
         }
       },
-      "System.Text.Encoding.CodePages/9.0.0": {
+      "System.Text.Encoding.CodePages/9.0.1": {
         "type": "package",
         "compile": {
           "lib/net9.0/System.Text.Encoding.CodePages.dll": {
@@ -1357,31 +1377,31 @@
           }
         }
       },
-      "TestableIO.System.IO.Abstractions/21.1.3": {
+      "TestableIO.System.IO.Abstractions/21.3.1": {
         "type": "package",
         "compile": {
-          "lib/net8.0/TestableIO.System.IO.Abstractions.dll": {
+          "lib/net9.0/TestableIO.System.IO.Abstractions.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net8.0/TestableIO.System.IO.Abstractions.dll": {
+          "lib/net9.0/TestableIO.System.IO.Abstractions.dll": {
             "related": ".xml"
           }
         }
       },
-      "TestableIO.System.IO.Abstractions.Wrappers/21.1.3": {
+      "TestableIO.System.IO.Abstractions.Wrappers/21.3.1": {
         "type": "package",
         "dependencies": {
-          "TestableIO.System.IO.Abstractions": "21.1.3"
+          "TestableIO.System.IO.Abstractions": "21.3.1"
         },
         "compile": {
-          "lib/net8.0/TestableIO.System.IO.Abstractions.Wrappers.dll": {
+          "lib/net9.0/TestableIO.System.IO.Abstractions.Wrappers.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net8.0/TestableIO.System.IO.Abstractions.Wrappers.dll": {
+          "lib/net9.0/TestableIO.System.IO.Abstractions.Wrappers.dll": {
             "related": ".xml"
           }
         }
@@ -1417,16 +1437,16 @@
         "lib/net7.0-windows7.0/ICSharpCode.AvalonEdit.xml"
       ]
     },
-    "DynamicData/9.0.4": {
-      "sha512": "CjJUF3u8V7QseHlumOBajFUYM9YKlI6QhDKz5MMyeckPeU6QyMExDJhGsJqIk6RYYLaPNLsk5qkzxEgDWv/lsg==",
+    "DynamicData/9.1.1": {
+      "sha512": "jQo/L+tKx1uvBNkZsT9VlyEgI0KtBHfT4U2YyVxpq5u/u/AkIyPbHTDHfg4yFI63o2Geb+LQB4wZsRarzFHoJg==",
       "type": "package",
-      "path": "dynamicdata/9.0.4",
+      "path": "dynamicdata/9.1.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE/LICENSE",
         "README.md",
-        "dynamicdata.9.0.4.nupkg.sha512",
+        "dynamicdata.9.1.1.nupkg.sha512",
         "dynamicdata.nuspec",
         "lib/net462/DynamicData.dll",
         "lib/net462/DynamicData.xml",
@@ -1514,85 +1534,85 @@
         "lib/netstandard2.1/FluentResults.xml"
       ]
     },
-    "GameFinder.Common/4.3.3": {
-      "sha512": "R6FEdxe2l17DvcJwC7kI1dVOYqolIFP2Q0ZMWX9nh5JszTHdVXP4M+UlreRl9gmAUqoUnVPuNI5pdxChIiK+gQ==",
+    "GameFinder.Common/4.4.0": {
+      "sha512": "EtFrqjxJEqW+qe8YyEH6l5dv1NFL3hHfSiU1hu37sXFmM1B2o9fQZE/78EjU8IrFcMQEW624alARtbYyooTXKQ==",
       "type": "package",
-      "path": "gamefinder.common/4.3.3",
+      "path": "gamefinder.common/4.4.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "docs/README.md",
-        "gamefinder.common.4.3.3.nupkg.sha512",
+        "gamefinder.common.4.4.0.nupkg.sha512",
         "gamefinder.common.nuspec",
         "lib/net8.0/GameFinder.Common.dll",
         "lib/net8.0/GameFinder.Common.xml"
       ]
     },
-    "GameFinder.RegistryUtils/4.3.3": {
-      "sha512": "6uwZ067P4vIzWCZ3ipuLZs7m75GRInSUl0aMERWHK7/hEnp2QxR0xN31RvCam/ak72WjhYYSPfv9/eqzA0Rpuw==",
+    "GameFinder.RegistryUtils/4.4.0": {
+      "sha512": "Ee1tvQQz/tOnBjkuYbkHAmEx+Atk1v9t8TzhPOomZGKAwkBEvB45AxR3jG/g8kvqxU7l4FQmI48KE2Xel0/usQ==",
       "type": "package",
-      "path": "gamefinder.registryutils/4.3.3",
+      "path": "gamefinder.registryutils/4.4.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "docs/README.md",
-        "gamefinder.registryutils.4.3.3.nupkg.sha512",
+        "gamefinder.registryutils.4.4.0.nupkg.sha512",
         "gamefinder.registryutils.nuspec",
         "lib/net8.0/GameFinder.RegistryUtils.dll",
         "lib/net8.0/GameFinder.RegistryUtils.xml"
       ]
     },
-    "GameFinder.StoreHandlers.GOG/4.3.3": {
-      "sha512": "e/S4qyAgHNKJxYOJft86th1Aq0FpX77DmZUdjiNVq9zYJb+RrfT4Yg6FGTwPRPGFsyOWn/ONp1CoDwMI6mIrig==",
+    "GameFinder.StoreHandlers.GOG/4.4.0": {
+      "sha512": "CMLhj2VjxTqr+xzWYM72bC2hxrSaZLOUWyCTXORMecZDY7ChPsxr/UXkv4mlgfGx22Glla3ICoT7YE+NkSvZcQ==",
       "type": "package",
-      "path": "gamefinder.storehandlers.gog/4.3.3",
+      "path": "gamefinder.storehandlers.gog/4.4.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "docs/README.md",
-        "gamefinder.storehandlers.gog.4.3.3.nupkg.sha512",
+        "gamefinder.storehandlers.gog.4.4.0.nupkg.sha512",
         "gamefinder.storehandlers.gog.nuspec",
         "lib/net8.0/GameFinder.StoreHandlers.GOG.dll",
         "lib/net8.0/GameFinder.StoreHandlers.GOG.xml"
       ]
     },
-    "GameFinder.StoreHandlers.Steam/4.3.3": {
-      "sha512": "3UwEPrHcW8n+0o1UBhQqam/UUdrbSYIyO9ggEmiaMUa251TpUTDxd94oZrOSAf+NDhYS3oTBbTnd54T8VTLVzw==",
+    "GameFinder.StoreHandlers.Steam/4.4.0": {
+      "sha512": "2G82q9O161spLM5A2fLnn/mi8yy+H1uGxep30a58vcHs8hoDuLrhc/s4Fnt2SqxIxhrLSbzJ5Fb6zFvny0PGdw==",
       "type": "package",
-      "path": "gamefinder.storehandlers.steam/4.3.3",
+      "path": "gamefinder.storehandlers.steam/4.4.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "docs/README.md",
-        "gamefinder.storehandlers.steam.4.3.3.nupkg.sha512",
+        "gamefinder.storehandlers.steam.4.4.0.nupkg.sha512",
         "gamefinder.storehandlers.steam.nuspec",
         "lib/net8.0/GameFinder.StoreHandlers.Steam.dll",
         "lib/net8.0/GameFinder.StoreHandlers.Steam.xml"
       ]
     },
-    "GameFinder.StoreHandlers.Xbox/4.3.3": {
-      "sha512": "43kg0TWRrvKrctnrL6IHwkbLXCWnMm50UVnOIlLFtO/7gZqRikIFdF57GiDIMZM8Fri2EISaNi6H+srDW6BXnw==",
+    "GameFinder.StoreHandlers.Xbox/4.4.0": {
+      "sha512": "mgaPtUSjT6NWQy7Eh6EsSxZaElEflvINLDCCKJCM4sFc2DU2rGbRNkAWNI5UzMppZkhwKOTVwPUMVHAzG5HtKw==",
       "type": "package",
-      "path": "gamefinder.storehandlers.xbox/4.3.3",
+      "path": "gamefinder.storehandlers.xbox/4.4.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "docs/README.md",
-        "gamefinder.storehandlers.xbox.4.3.3.nupkg.sha512",
+        "gamefinder.storehandlers.xbox.4.4.0.nupkg.sha512",
         "gamefinder.storehandlers.xbox.nuspec",
         "lib/net8.0/GameFinder.StoreHandlers.Xbox.dll",
         "lib/net8.0/GameFinder.StoreHandlers.Xbox.xml"
       ]
     },
-    "GameFinder.Wine/4.3.3": {
-      "sha512": "Gn1o55urfSzkTz9vtg57ozvjoVsKkqkg+VpWlPgszvM0uxCM1OVCLJlpC1priOsRXERkLLi5xxr70moxLdSaMg==",
+    "GameFinder.Wine/4.4.0": {
+      "sha512": "TJLXs9blC+h4LPJLl5s111WY56BevpRmIAdA3C1emzvpuCmqSPGWEdHWjW12e1j5vFjYF7RJW5h8GQVuKIElOg==",
       "type": "package",
-      "path": "gamefinder.wine/4.3.3",
+      "path": "gamefinder.wine/4.4.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "docs/README.md",
-        "gamefinder.wine.4.3.3.nupkg.sha512",
+        "gamefinder.wine.4.4.0.nupkg.sha512",
         "gamefinder.wine.nuspec",
         "lib/net8.0/GameFinder.Wine.dll",
         "lib/net8.0/GameFinder.Wine.xml"
@@ -1676,10 +1696,10 @@
         "lib/netstandard2.1/K4os.Hash.xxHash.xml"
       ]
     },
-    "Loqui/2.69.0": {
-      "sha512": "PgcIIMl7tCqW/zOLcJMDZdSh6cziV3yoKQpmF4Ta5/ii1XZrGXfuDsaRJk2dDpHJkEr1e4Vuy1JzBpEfJhx5cg==",
+    "Loqui/2.70.0": {
+      "sha512": "5UTLlRj+RANCeizb4y5ZAS+ru7zO0Z+K8kJjShZyaQTCux5cfMCSSq5hJY5GP/rd7b6OE7Yk73GPUx45QSckmw==",
       "type": "package",
-      "path": "loqui/2.69.0",
+      "path": "loqui/2.70.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1689,7 +1709,7 @@
         "lib/net9.0/Loqui.xml",
         "lib/netstandard2.0/Loqui.dll",
         "lib/netstandard2.0/Loqui.xml",
-        "loqui.2.69.0.nupkg.sha512",
+        "loqui.2.70.0.nupkg.sha512",
         "loqui.nuspec"
       ]
     },
@@ -2030,10 +2050,10 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "Mutagen.Bethesda/0.48.1": {
-      "sha512": "KmHu1r8VVFSNTvqziIMxrFBJj2i+BIgvx1oGF7I0TZ0rhzvW56Z+hNKBWHmrSYIwLhVeR5B49DzFAe23djh4bA==",
+    "Mutagen.Bethesda/0.49.0": {
+      "sha512": "ZOYkUo6qXEg+fCtXtVlAI5a7Ajtp2W81uCX1ksz8+El2RHfN73TloWayjpvnWRGfQNTSAoZhtozNTRKG8hhtew==",
       "type": "package",
-      "path": "mutagen.bethesda/0.48.1",
+      "path": "mutagen.bethesda/0.49.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2043,14 +2063,14 @@
         "lib/net9.0/Mutagen.Bethesda.dll",
         "lib/net9.0/Mutagen.Bethesda.pdb",
         "lib/net9.0/Mutagen.Bethesda.xml",
-        "mutagen.bethesda.0.48.1.nupkg.sha512",
+        "mutagen.bethesda.0.49.0.nupkg.sha512",
         "mutagen.bethesda.nuspec"
       ]
     },
-    "Mutagen.Bethesda.Core/0.48.1": {
-      "sha512": "MnxMLP2CI9oL46BUE0pzSyysoTalQWx12m/xgckHXfvaRuhGAv4oL458wGyMJBSuBcBBXEnW7JSqfLZnoeGb/w==",
+    "Mutagen.Bethesda.Core/0.49.0": {
+      "sha512": "pkHrSekjrH8yO7uuiV9/cB9TCtQGj3vxsPR9BaRBLeXI666sWqacfDUpZJsZ5YuzceVGH8JZ693OB06fZV78rw==",
       "type": "package",
-      "path": "mutagen.bethesda.core/0.48.1",
+      "path": "mutagen.bethesda.core/0.49.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2058,14 +2078,14 @@
         "lib/net8.0/Mutagen.Bethesda.Core.xml",
         "lib/net9.0/Mutagen.Bethesda.Core.dll",
         "lib/net9.0/Mutagen.Bethesda.Core.xml",
-        "mutagen.bethesda.core.0.48.1.nupkg.sha512",
+        "mutagen.bethesda.core.0.49.0.nupkg.sha512",
         "mutagen.bethesda.core.nuspec"
       ]
     },
-    "Mutagen.Bethesda.Fallout4/0.48.1": {
-      "sha512": "l6y8cMnr+/3F7XYsOyYySYtWKc9NAJ8zwX/XHqgOjSI3pMlWWxn71sVPfAgBbqZ50RUnLr8fnJ96NMBmwmd/Og==",
+    "Mutagen.Bethesda.Fallout4/0.49.0": {
+      "sha512": "92irPLyjeFLgtTTHECh6DELlwQ8aSetKGGZ253T2zbYzdfzGyGeEn8gcyNGiHLSSfQiiPmmuCOzl4Yt+xOYbYw==",
       "type": "package",
-      "path": "mutagen.bethesda.fallout4/0.48.1",
+      "path": "mutagen.bethesda.fallout4/0.49.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2073,14 +2093,14 @@
         "lib/net8.0/Mutagen.Bethesda.Fallout4.xml",
         "lib/net9.0/Mutagen.Bethesda.Fallout4.dll",
         "lib/net9.0/Mutagen.Bethesda.Fallout4.xml",
-        "mutagen.bethesda.fallout4.0.48.1.nupkg.sha512",
+        "mutagen.bethesda.fallout4.0.49.0.nupkg.sha512",
         "mutagen.bethesda.fallout4.nuspec"
       ]
     },
-    "Mutagen.Bethesda.Kernel/0.48.1": {
-      "sha512": "482uox31E8wymaIvYt/u/09BsTuAifxj0+ts4wfJRfixHeGoBP4Ex/ZmCIKVAvGeofKXzGCHKaBer8+aCXZ/5g==",
+    "Mutagen.Bethesda.Kernel/0.49.0": {
+      "sha512": "rzX6+dDJwVAs6zbJm8wP9cgEkVWNXYmhxXxYhgYJ3xEdONTgFzHqW2+d0GtfvfQIK/4b3ooweow8sDgpmUFetw==",
       "type": "package",
-      "path": "mutagen.bethesda.kernel/0.48.1",
+      "path": "mutagen.bethesda.kernel/0.49.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2088,14 +2108,14 @@
         "lib/net8.0/Mutagen.Bethesda.Kernel.xml",
         "lib/net9.0/Mutagen.Bethesda.Kernel.dll",
         "lib/net9.0/Mutagen.Bethesda.Kernel.xml",
-        "mutagen.bethesda.kernel.0.48.1.nupkg.sha512",
+        "mutagen.bethesda.kernel.0.49.0.nupkg.sha512",
         "mutagen.bethesda.kernel.nuspec"
       ]
     },
-    "Mutagen.Bethesda.Oblivion/0.48.1": {
-      "sha512": "6RNyB/Ijf7zObyHcNe4W8Qmww/sffXJnAgEvzL7Q0zZ2oWGD+ML44AMJO1pSgTsVtD8JwKzy22LRC1rn2/dH5Q==",
+    "Mutagen.Bethesda.Oblivion/0.49.0": {
+      "sha512": "F7ZvI0d3EuIPMukf5Y/QrCJANJa4fEVVxz4p35et4Ta3Hab0nMg3fUPF8QUioA0IPTYZCisQPMllNW01/IPyWQ==",
       "type": "package",
-      "path": "mutagen.bethesda.oblivion/0.48.1",
+      "path": "mutagen.bethesda.oblivion/0.49.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2103,14 +2123,14 @@
         "lib/net8.0/Mutagen.Bethesda.Oblivion.xml",
         "lib/net9.0/Mutagen.Bethesda.Oblivion.dll",
         "lib/net9.0/Mutagen.Bethesda.Oblivion.xml",
-        "mutagen.bethesda.oblivion.0.48.1.nupkg.sha512",
+        "mutagen.bethesda.oblivion.0.49.0.nupkg.sha512",
         "mutagen.bethesda.oblivion.nuspec"
       ]
     },
-    "Mutagen.Bethesda.Skyrim/0.48.1": {
-      "sha512": "iA3BHqqLulPAHkaQSqvChqKldlLn+At/hqc+rKIxDLdWVjZ6Rhj8O2igg284zTpSz3oylhrVZsiiZO4bOWyJSg==",
+    "Mutagen.Bethesda.Skyrim/0.49.0": {
+      "sha512": "JeSV0JcRcyh2wwtZ/yrCJdkWDaiEevatyp6DKxQBGg049Sdq33F5Vn5vKqcl9e5b96rrfrQ0LI3zvysJjhOP+g==",
       "type": "package",
-      "path": "mutagen.bethesda.skyrim/0.48.1",
+      "path": "mutagen.bethesda.skyrim/0.49.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2118,14 +2138,14 @@
         "lib/net8.0/Mutagen.Bethesda.Skyrim.xml",
         "lib/net9.0/Mutagen.Bethesda.Skyrim.dll",
         "lib/net9.0/Mutagen.Bethesda.Skyrim.xml",
-        "mutagen.bethesda.skyrim.0.48.1.nupkg.sha512",
+        "mutagen.bethesda.skyrim.0.49.0.nupkg.sha512",
         "mutagen.bethesda.skyrim.nuspec"
       ]
     },
-    "Mutagen.Bethesda.Starfield/0.48.1": {
-      "sha512": "wZCe0fCteAQEIhHVTScubF5QMJUH2pP0cWA1zvEEMmNhU31G4nBtbwGKk7Kmeonj1c9AdvGOk9QPSRG24GCvVw==",
+    "Mutagen.Bethesda.Starfield/0.49.0": {
+      "sha512": "gCxTabU9IoP+CfgjpsUbl36ILrS9BukpqiEOwpUUH6sTGUNOy9htlV7P2EovSygk9BYfdnIVzS0CQMgbkgZ59w==",
       "type": "package",
-      "path": "mutagen.bethesda.starfield/0.48.1",
+      "path": "mutagen.bethesda.starfield/0.49.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2133,7 +2153,7 @@
         "lib/net8.0/Mutagen.Bethesda.Starfield.xml",
         "lib/net9.0/Mutagen.Bethesda.Starfield.dll",
         "lib/net9.0/Mutagen.Bethesda.Starfield.xml",
-        "mutagen.bethesda.starfield.0.48.1.nupkg.sha512",
+        "mutagen.bethesda.starfield.0.49.0.nupkg.sha512",
         "mutagen.bethesda.starfield.nuspec"
       ]
     },
@@ -2152,10 +2172,10 @@
         "nexusmods.paths.nuspec"
       ]
     },
-    "Noggog.CSharpExt/2.69.0": {
-      "sha512": "3kF1OwCJ+WwaOJN2dMGVIw9t6fCbmrw0Kz5xbEOIMsK+FoKJtPswU+dHeuf7RBzriyn0fJx6Z8kWxhyNn6CErA==",
+    "Noggog.CSharpExt/2.70.0": {
+      "sha512": "VAH/r4S6WYBIA5Q6zK1oorPS88pqGWyZ9St9TwMN5pDS9udfTwGndPn3Iwx4PqEiLoIXR6S9oJeVzyBlaxSSJg==",
       "type": "package",
-      "path": "noggog.csharpext/2.69.0",
+      "path": "noggog.csharpext/2.70.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2165,7 +2185,7 @@
         "lib/net9.0/Noggog.CSharpExt.xml",
         "lib/netstandard2.0/Noggog.CSharpExt.dll",
         "lib/netstandard2.0/Noggog.CSharpExt.xml",
-        "noggog.csharpext.2.69.0.nupkg.sha512",
+        "noggog.csharpext.2.70.0.nupkg.sha512",
         "noggog.csharpext.nuspec"
       ]
     },
@@ -2484,6 +2504,26 @@
         "sharpziplib.nuspec"
       ]
     },
+    "StrongInject/1.4.4": {
+      "sha512": "apRGISKI+xWW0WYQJHXckQpE9fECP//X5PUaY7jA5R6+m59hTIcr0shySR9Bb7cInDG+0fAG6PLjd1SxlLqe6g==",
+      "type": "package",
+      "path": "stronginject/1.4.4",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "analyzers/dotnet/cs/StrongInject.Generator.dll",
+        "analyzers/dotnet/roslyn3.8/cs/StrongInject.Generator.Roslyn38.dll",
+        "analyzers/dotnet/roslyn4.0/cs/StrongInject.Generator.Roslyn40.dll",
+        "buildTransitive/StrongInject.targets",
+        "lib/netstandard2.0/StrongInject.dll",
+        "lib/netstandard2.0/StrongInject.xml",
+        "lib/netstandard2.1/StrongInject.dll",
+        "lib/netstandard2.1/StrongInject.xml",
+        "logo-circle.png",
+        "stronginject.1.4.4.nupkg.sha512",
+        "stronginject.nuspec"
+      ]
+    },
     "Stub.System.Data.SQLite.Core.NetStandard/1.0.119": {
       "sha512": "dI7ngiCNgdm+n00nQvFTa+LbHvE9MIQXwMSLRzJI/KAJ7G1WmCachsvfE1CD6xvb3OXJvYYEfv3+S/LHyhN0Rg==",
       "type": "package",
@@ -2611,10 +2651,10 @@
         "system.collections.nuspec"
       ]
     },
-    "System.Collections.Immutable/9.0.0": {
-      "sha512": "QhkXUl2gNrQtvPmtBTQHb0YsUrDiDQ2QS09YbtTTiSjGcf7NBqtYbrG/BE06zcBPCKEwQGzIv13IVdXNOSub2w==",
+    "System.Collections.Immutable/9.0.1": {
+      "sha512": "qt4+ClsZYKzar/Rw1zbt0t9iuBUCLVNsjXicEuVQyKL7143CwhWzI2gTwzz8AhSaFYVHnpcb8SBGA+zaY4weUg==",
       "type": "package",
-      "path": "system.collections.immutable/9.0.0",
+      "path": "system.collections.immutable/9.0.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2634,7 +2674,7 @@
         "lib/net9.0/System.Collections.Immutable.xml",
         "lib/netstandard2.0/System.Collections.Immutable.dll",
         "lib/netstandard2.0/System.Collections.Immutable.xml",
-        "system.collections.immutable.9.0.0.nupkg.sha512",
+        "system.collections.immutable.9.0.1.nupkg.sha512",
         "system.collections.immutable.nuspec",
         "useSharedDesignerContext.txt"
       ]
@@ -3245,10 +3285,10 @@
         "system.io.nuspec"
       ]
     },
-    "System.IO.Abstractions/21.1.3": {
-      "sha512": "WgLx25YHAepNu5Wym1kBqYLqYMo/lmGakWILFYtpEtuxAVoeWvAj2U6oVfqmikPXVYit19tTGWnfbZhVUNjkrg==",
+    "System.IO.Abstractions/21.3.1": {
+      "sha512": "Gm8HI/AHwoWd1r9IUShekWgAQjJgTM1jmrJHSkxONeuVUQAZdxSKzGYTjReBYgqLvF1Zq1Hcd1qHytrL0HuiBg==",
       "type": "package",
-      "path": "system.io.abstractions/21.1.3",
+      "path": "system.io.abstractions/21.3.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -3266,7 +3306,7 @@
         "lib/netstandard2.0/System.IO.Abstractions.xml",
         "lib/netstandard2.1/System.IO.Abstractions.dll",
         "lib/netstandard2.1/System.IO.Abstractions.xml",
-        "system.io.abstractions.21.1.3.nupkg.sha512",
+        "system.io.abstractions.21.3.1.nupkg.sha512",
         "system.io.abstractions.nuspec"
       ]
     },
@@ -4163,10 +4203,10 @@
         "system.text.encoding.nuspec"
       ]
     },
-    "System.Text.Encoding.CodePages/9.0.0": {
-      "sha512": "GxJTSFPQpoVd0vQRgq8hwesicxgZoHTbYMvR/UMM4IzhkHMT+ebZE11c2C1gUyxz55zWtGCWktMTHvmgLzob9g==",
+    "System.Text.Encoding.CodePages/9.0.1": {
+      "sha512": "7Op2OR5RKJgviMpPsXbcCN5bxew/KmW1AM3bzwFo3kShenYjy9eV5lYYuIxWinhrLMooGu6t2ktMRN9toV7l0Q==",
       "type": "package",
-      "path": "system.text.encoding.codepages/9.0.0",
+      "path": "system.text.encoding.codepages/9.0.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -4196,7 +4236,7 @@
         "runtimes/win/lib/net8.0/System.Text.Encoding.CodePages.xml",
         "runtimes/win/lib/net9.0/System.Text.Encoding.CodePages.dll",
         "runtimes/win/lib/net9.0/System.Text.Encoding.CodePages.xml",
-        "system.text.encoding.codepages.9.0.0.nupkg.sha512",
+        "system.text.encoding.codepages.9.0.1.nupkg.sha512",
         "system.text.encoding.codepages.nuspec",
         "useSharedDesignerContext.txt"
       ]
@@ -4398,10 +4438,10 @@
         "version.txt"
       ]
     },
-    "TestableIO.System.IO.Abstractions/21.1.3": {
-      "sha512": "qe/gIjOPCoyiSCToouJx/vCvcTQXVGj/eJVRK/7s2F8yIv0zvEpjByfXZvS3yqmcpg0/S6x6w7DvNyPrLe/RRw==",
+    "TestableIO.System.IO.Abstractions/21.3.1": {
+      "sha512": "B9USlBOZAiqXss7AI4BH6HVWs+HoHx38OadJjBO0VCzEWgP/u0u52bogmrzDHsyqRv8Yo/xtIMQXgpjLoaAUXw==",
       "type": "package",
-      "path": "testableio.system.io.abstractions/21.1.3",
+      "path": "testableio.system.io.abstractions/21.3.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -4415,18 +4455,20 @@
         "lib/net7.0/TestableIO.System.IO.Abstractions.xml",
         "lib/net8.0/TestableIO.System.IO.Abstractions.dll",
         "lib/net8.0/TestableIO.System.IO.Abstractions.xml",
+        "lib/net9.0/TestableIO.System.IO.Abstractions.dll",
+        "lib/net9.0/TestableIO.System.IO.Abstractions.xml",
         "lib/netstandard2.0/TestableIO.System.IO.Abstractions.dll",
         "lib/netstandard2.0/TestableIO.System.IO.Abstractions.xml",
         "lib/netstandard2.1/TestableIO.System.IO.Abstractions.dll",
         "lib/netstandard2.1/TestableIO.System.IO.Abstractions.xml",
-        "testableio.system.io.abstractions.21.1.3.nupkg.sha512",
+        "testableio.system.io.abstractions.21.3.1.nupkg.sha512",
         "testableio.system.io.abstractions.nuspec"
       ]
     },
-    "TestableIO.System.IO.Abstractions.Wrappers/21.1.3": {
-      "sha512": "5LEVwt5+K5TnL1ekfCbQszlgRnO77plpgQAgkXL7wXKGd0PQWE01eSss0+L7E8GGLGbtD7mzYJVq/bd79ZDBlQ==",
+    "TestableIO.System.IO.Abstractions.Wrappers/21.3.1": {
+      "sha512": "l/xu8G96pntsofFG8vh6BKbVbYWtqYZTpNCcj4jGNwxwSbwY2gvDmkiFmIbWf7lgzPZbopW2FAfaY6m4K/3QJw==",
       "type": "package",
-      "path": "testableio.system.io.abstractions.wrappers/21.1.3",
+      "path": "testableio.system.io.abstractions.wrappers/21.3.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -4440,11 +4482,13 @@
         "lib/net7.0/TestableIO.System.IO.Abstractions.Wrappers.xml",
         "lib/net8.0/TestableIO.System.IO.Abstractions.Wrappers.dll",
         "lib/net8.0/TestableIO.System.IO.Abstractions.Wrappers.xml",
+        "lib/net9.0/TestableIO.System.IO.Abstractions.Wrappers.dll",
+        "lib/net9.0/TestableIO.System.IO.Abstractions.Wrappers.xml",
         "lib/netstandard2.0/TestableIO.System.IO.Abstractions.Wrappers.dll",
         "lib/netstandard2.0/TestableIO.System.IO.Abstractions.Wrappers.xml",
         "lib/netstandard2.1/TestableIO.System.IO.Abstractions.Wrappers.dll",
         "lib/netstandard2.1/TestableIO.System.IO.Abstractions.Wrappers.xml",
-        "testableio.system.io.abstractions.wrappers.21.1.3.nupkg.sha512",
+        "testableio.system.io.abstractions.wrappers.21.3.1.nupkg.sha512",
         "testableio.system.io.abstractions.wrappers.nuspec"
       ]
     },
@@ -4468,7 +4512,7 @@
       "AvalonEdit >= 6.3.0.90",
       "Microsoft-WindowsAPICodePack-Core >= 1.1.5",
       "Microsoft-WindowsAPICodePack-Shell >= 1.1.5",
-      "Mutagen.Bethesda >= 0.48.1",
+      "Mutagen.Bethesda >= 0.49.0",
       "SharpVectors >= 1.8.4.2",
       "System.Data.SQLite >= 1.0.119",
       "System.Drawing.Common >= 9.0.1"
@@ -4539,7 +4583,7 @@
           },
           "Mutagen.Bethesda": {
             "target": "Package",
-            "version": "[0.48.1, )"
+            "version": "[0.49.0, )"
           },
           "SharpVectors": {
             "target": "Package",

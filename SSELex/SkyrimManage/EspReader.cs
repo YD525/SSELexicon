@@ -9,6 +9,9 @@ using System.IO;
 using System.IO.Abstractions;
 using System.Windows;
 using SSELex.UIManage;
+using Mutagen.Bethesda;
+using Mutagen.Bethesda.Strings;
+using SSELex.TranslateCore;
 /*
 * @Author: YD525
 * @GitHub: https://github.com/YD525/YDSkyrimToolR
@@ -261,9 +264,16 @@ namespace SSELex.SkyrimManage
                     FileSystem = GlobalFileSystem,
                     MasterFlagsLookup = FlagsLookup
                 };
-
-                CurrentReadMod = SkyrimMod
-                .CreateFromBinary(FilePath, SkyrimRelease.SkyrimSE, SetParam);
+                if (DeFine.GlobalLocalSetting.SkyrimType == SkyrimType.SkyrimSE)
+                {
+                  CurrentReadMod = SkyrimMod
+                  .CreateFromBinary(FilePath, SkyrimRelease.SkyrimSE, SetParam);
+                }
+                else
+                {
+                  CurrentReadMod = SkyrimMod
+                  .CreateFromBinary(FilePath, SkyrimRelease.SkyrimLE, SetParam);
+                }
 
                 ToRam();
                  
@@ -690,8 +700,69 @@ namespace SSELex.SkyrimManage
             return null;
         }
 
+        public Language GetLang(Languages Lang)
+        {
+            if (Lang == Languages.SimplifiedChinese)
+            {
+                return Language.ChineseSimplified;
+            }
+
+            if (Lang == Languages.TraditionalChinese)
+            {
+                return Language.Chinese;
+            }
+
+            if (Lang == Languages.English)
+            {
+                return Language.English;
+            }
+
+            if (Lang == Languages.Turkish)
+            {
+                return Language.Turkish;
+            }
+
+            if (Lang == Languages.Japanese)
+            {
+                return Language.Japanese;
+            }
+
+            if (Lang == Languages.Brazilian)
+            {
+                return Language.Portuguese_Brazil;
+            }
+
+            if (Lang == Languages.Korean)
+            {
+                return Language.Korean;
+            }
+
+            if (Lang == Languages.Russian)
+            {
+                return Language.Russian;
+            }
+
+            if (Lang == Languages.German)
+            {
+                return Language.German;
+            }
+
+            return  Language.English;
+        }
+
         public bool DefSaveMod(SkyrimMod SourceMod, string OutPutPath)
         {
+            //IMutagenEncoding GetTargetLang = null;
+
+            //if (DeFine.GlobalLocalSetting.SkyrimType == SkyrimType.SkyrimSE)
+            //{
+            //    GetTargetLang = MutagenEncoding.GetEncoding(GameRelease.SkyrimSE, GetLang(DeFine.GlobalLocalSetting.TargetLanguage));
+            //}
+            //else
+            //{
+            //    GetTargetLang = MutagenEncoding.GetEncoding(GameRelease.SkyrimLE, GetLang(DeFine.GlobalLocalSetting.TargetLanguage));
+            //}
+
             return SaveMod(SourceMod, OutPutPath, new EncodingBundle(MutagenEncoding._utf8_1256, MutagenEncoding._utf8_1256));
         }
 

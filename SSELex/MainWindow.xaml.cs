@@ -27,6 +27,9 @@ using SSELex.TranslateManage;
 using SSELex.UIManage;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 using static SSELex.UIManage.SkyrimDataLoader;
+using Microsoft.SqlServer.Server;
+using Mutagen.Bethesda.Strings.DI;
+using Mutagen.Bethesda.Strings;
 
 // Copyright (C) 2025 YD525
 // Licensed under the GNU GPLv3
@@ -215,7 +218,7 @@ namespace SSELex
                 ActionWin.Show("PEX File lacks support", Msg, MsgAction.Yes, MsgType.Info, 300);
                 this.Dispatcher.Invoke(new Action(() =>
                 {
-                    DeFine.ShowSetting();
+                    ShowSettingsView(Settings.Game);
                 }));
                 State = false;
             }
@@ -281,9 +284,17 @@ namespace SSELex
                     }
                 }));
 
+                if (FileAttributesHelper.IsAdministrator())
+                {
+                    this.Dispatcher.Invoke(new Action(() => {
+                        ShowSettingsView(Settings.Game);
+                    }));
+                }
+
                 SetLog("OpenSource:https://github.com/YD525/YDSkyrimToolR");
                 Thread.Sleep(3000);
                 SetLog(string.Empty);
+
             }).Start();
         }
 
@@ -303,14 +314,14 @@ namespace SSELex
 
         public void LoadAny(string FilePath)
         {
-            DeFine.ShowParsingLayer();
+            DeFine.ShowLogView();
             WordProcess.ClearAICache();
             SetLog("Load:" + FilePath);
             ClosetTransTrd();
             if (System.IO.File.Exists(FilePath))
             {
                 string GetFileName = FilePath.Substring(FilePath.LastIndexOf(@"\") + @"\".Length);
-                Caption.Content = GetFileName;
+                Caption.Text = GetFileName;
 
                 string GetModName = GetFileName;
                 if (DeFine.GlobalLocalSetting.AutoLoadDictionaryFile)
@@ -510,7 +521,7 @@ namespace SSELex
                         break;
                     case "Close":
                         {
-                            Application.Current.Shutdown();
+                            DeFine.CloseAny();
                         }
                         break;
                 }
@@ -969,8 +980,7 @@ namespace SSELex
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            DeFine.GlobalLocalSetting.SaveConfig();
-            Environment.Exit(0);
+            DeFine.CloseAny();
         }
 
 
@@ -1103,7 +1113,7 @@ namespace SSELex
 
         private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == System.Windows.Input.Key.F1)
+            if (e.Key == System.Windows.Input.Key.F1 && ConvertHelper.ObjToStr(ViewMode.SelectedValue) == "Normal")
             {
                 if (TransViewList.GetMainGrid().IsHitTestVisible)
                 {
@@ -1116,9 +1126,7 @@ namespace SSELex
         {
             if (Engine is ChatGptApi)
             {
-                var GetResult = (Engine as ChatGptApi).CallAI($"{QuestionStr} ,请用 {LanguageHelper.GetLanguageString(
-                              DeFine.TargetLanguage
-                              )} 回复,能有点猫娘的口吻吗可爱点的.");
+                var GetResult = (Engine as ChatGptApi).CallAI($"{QuestionStr} ,请用 {DeFine.TargetLanguage.ToString()} 回复,能有点猫娘的口吻吗可爱点的.");
 
                 if (GetResult != null)
                 {
@@ -1149,9 +1157,7 @@ namespace SSELex
             else
             if (Engine is DeepSeekApi)
             {
-                var GetResult = (Engine as DeepSeekApi).CallAI($"{QuestionStr} ,请用 {LanguageHelper.GetLanguageString(
-                              DeFine.TargetLanguage
-                              )} 回复,能有点猫娘的口吻吗可爱点的.");
+                var GetResult = (Engine as DeepSeekApi).CallAI($"{QuestionStr} ,请用 {DeFine.TargetLanguage} 回复,能有点猫娘的口吻吗可爱点的.");
 
                 if (GetResult != null)
                 {
@@ -1227,11 +1233,6 @@ namespace SSELex
             }
         }
 
-        private void OpenSetting(object sender, MouseButtonEventArgs e)
-        {
-            DeFine.ShowSetting();
-        }
-
         private void DetectLang(object sender, MouseButtonEventArgs e)
         {
             var GetLang = WordProcess.DetectLanguage();
@@ -1256,11 +1257,14 @@ namespace SSELex
         {
             try
             {
-                if (DeFine.CurrentParsingLayer != null)
+                if (DeFine.GlobalLocalSetting.ShowLog)
                 {
-                    if (DeFine.CurrentParsingLayer.Visibility == Visibility.Visible)
+                    if (DeFine.CurrentLogView != null)
                     {
-                        DeFine.CurrentParsingLayer.Left = this.Left + this.Width + 5;
+                        if (DeFine.CurrentLogView.Visibility == Visibility.Visible)
+                        {
+                            DeFine.CurrentLogView.Left = this.Left + this.Width + 5;
+                        }
                     }
                 }
             }
@@ -1377,5 +1381,321 @@ namespace SSELex
         }
 
 
+
+        private void Nav_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is Image)
+            {
+                string GetTag = ConvertHelper.ObjToStr(((Image)sender).Tag);
+                switch (GetTag)
+                {
+                    case "ModTransView":
+                        {
+                            ShowModTransView();
+                        }
+                        break;
+                    case "SettingView":
+                        {
+                            ShowSettingsView(Settings.ApiKey);
+                        }
+                        break;
+                }
+            }
+        }
+
+        public enum Settings
+        {
+            Software = 0,Game = 2,ApiKey = 3
+        }
+
+        public void ShowModTransView()
+        {
+            ModTransView.Visibility = Visibility.Visible;
+            SettingView.Visibility = Visibility.Hidden;
+            DeFine.GlobalLocalSetting.SaveConfig();
+        }
+
+        public void ShowSettingsView(Settings View)
+        {
+            ModTransView.Visibility = Visibility.Hidden;
+            SettingView.Visibility = Visibility.Visible;
+
+            if (View == Settings.ApiKey)
+            {
+                ApiKeyView.Visibility = Visibility.Visible;
+                SoftView.Visibility = Visibility.Hidden;
+                GameView.Visibility = Visibility.Hidden;
+
+                BaiDuAppID.Text = DeFine.GlobalLocalSetting.BaiDuAppID;
+                BaiDuKey.Password = DeFine.GlobalLocalSetting.BaiDuSecretKey;
+                GoogleKey.Password = DeFine.GlobalLocalSetting.GoogleApiKey;
+                ChatGptKey.Password = DeFine.GlobalLocalSetting.ChatGptKey;
+                DeepSeekKey.Password = DeFine.GlobalLocalSetting.DeepSeekKey;
+
+                UIHelper.AnimateCanvasLeft(SettingBlock, 149);
+            }
+            if (View == Settings.Software)
+            {
+                SoftView.Visibility = Visibility.Visible;
+                ApiKeyView.Visibility = Visibility.Hidden;
+                GameView.Visibility = Visibility.Hidden;
+
+                MaxThreadCount.Text = ConvertHelper.ObjToStr(DeFine.GlobalLocalSetting.MaxThreadCount);
+
+                UILanguages.Items.Clear();
+
+                foreach (var Get in UILanguageHelper.SupportLanguages)
+                {
+                    UILanguages.Items.Add(Get.ToString());
+                }
+
+                UILanguages.SelectedValue = DeFine.GlobalLocalSetting.CurrentUILanguage.ToString();
+
+                if (DeFine.GlobalLocalSetting.ShowLog)
+                {
+                    ShowLog.IsChecked = true;
+                }
+                if (DeFine.GlobalLocalSetting.ShowCode)
+                {
+                    ShowCode.IsChecked = true;
+                }
+
+                UIHelper.AnimateCanvasLeft(SettingBlock, 39);
+            }
+            if (View == Settings.Game)
+            {
+                GameView.Visibility = Visibility.Visible;
+                ApiKeyView.Visibility = Visibility.Hidden;
+                SoftView.Visibility = Visibility.Hidden;
+
+                SkyrimTypes.Items.Clear();
+                SkyrimTypes.Items.Add(SkyrimType.SkyrimSE.ToString());
+                SkyrimTypes.Items.Add(SkyrimType.SkyrimLE.ToString());
+                SkyrimTypes.SelectedValue = DeFine.GlobalLocalSetting.SkyrimType.ToString();
+
+                SkyrimSEPath.Text = DeFine.GlobalLocalSetting.SkyrimPath;
+
+                UIHelper.AnimateCanvasLeft(SettingBlock, 249);
+            }
+        }
+
+        private void ChatGptKey_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            DeFine.GlobalLocalSetting.ChatGptKey = ChatGptKey.Password;
+        }
+
+        private void DeepSeekKey_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            DeFine.GlobalLocalSetting.DeepSeekKey = DeepSeekKey.Password;
+        }
+
+        private void BaiDuAppID_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            DeFine.GlobalLocalSetting.BaiDuAppID = BaiDuAppID.Text;
+        }
+
+        private void BaiDuKey_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            DeFine.GlobalLocalSetting.BaiDuSecretKey = BaiDuKey.Password;
+        }
+
+        private void GoogleKey_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            DeFine.GlobalLocalSetting.GoogleApiKey = GoogleKey.Password;
+        }
+
+        private void StartApiKeyTest(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is Border)
+            {
+                sender = ((Border)sender).Child;
+            }
+            string GetBtnValue = ConvertHelper.ObjToStr(((Label)sender).Content);
+
+            if (GetBtnValue != "Testing...")
+            {
+                KeyTestBtn.Content = "Testing...";
+
+                new Thread(() =>
+                {
+                    string RichText = "";
+                    if (DeFine.GlobalLocalSetting.ChatGptKey.Trim().Length > 0)
+                    {
+                        if (new ChatGptApi().QuickTrans("Test", Languages.English, Languages.TraditionalChinese).Trim().Length == 0)
+                        {
+                            RichText += "ChatGPT API Key configuration is invalid.\r\n";
+                        }
+                    }
+                    if (DeFine.GlobalLocalSetting.DeepSeekKey.Trim().Length > 0)
+                    {
+                        if (new DeepSeekApi().QuickTrans("Test", Languages.English, Languages.TraditionalChinese).Trim().Length == 0)
+                        {
+                            RichText += "DeepSeek API Key configuration is invalid.\r\n";
+                        }
+                    }
+                    if (DeFine.GlobalLocalSetting.GoogleApiKey.Trim().Length > 0)
+                    {
+                        if (new GoogleTransApi().Translate("Test", Languages.English, Languages.TraditionalChinese).Trim().Length == 0)
+                        {
+                            RichText += "Google API Key configuration is invalid.\r\n";
+                        }
+                    }
+                    if (DeFine.GlobalLocalSetting.BaiDuAppID.Trim().Length > 0 && DeFine.GlobalLocalSetting.BaiDuSecretKey.Trim().Length > 0)
+                    {
+                        var GetResult = new BaiDuApi().TransStr("Test", Languages.English, Languages.TraditionalChinese);
+                        if (GetResult != null)
+                        {
+                            if (GetResult.to == null)
+                            {
+                                RichText += "BaiDu API Key configuration is invalid.\r\n";
+                            }
+                        }
+                        else
+                        {
+                            RichText += "BaiDu API Key configuration is invalid.\r\n";
+                        }
+                    }
+
+                    KeyTestBtn.Dispatcher.Invoke(new Action(() => {
+                        KeyTestBtn.Content = "TestKey";
+                    }));
+
+                    if (RichText.Trim().Length > 0)
+                    {
+                        MessageBox.Show(RichText);
+                    }
+                    else
+                    {
+                        MessageBox.Show("No invalid configuration found.");
+                    }
+                }).Start();
+            }
+        }
+
+        private void MaxThreadCount_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            DeFine.GlobalLocalSetting.MaxThreadCount = ConvertHelper.ObjToInt(MaxThreadCount.Text);
+        }
+
+        private void Languages_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string GetValue = ConvertHelper.ObjToStr(UILanguages.SelectedValue);
+            if (GetValue.Trim().Length > 0)
+            {
+                DeFine.GlobalLocalSetting.CurrentUILanguage = Enum.Parse<Languages>(ConvertHelper.ObjToStr(UILanguages.SelectedValue));
+                UILanguageHelper.ChangeLanguage(DeFine.GlobalLocalSetting.CurrentUILanguage);
+
+                if (DeFine.WorkingWin != null)
+                {
+                    if (DeFine.WorkingWin.LoadSaveState == 1)
+                    {
+                        DeFine.WorkingWin.LoadFileButton.Content = UILanguageHelper.SearchStateChangeStr("LoadFileButton", 1);
+                    }
+                }
+            }
+        }
+
+        private void ShowLog_Click(object sender, RoutedEventArgs e)
+        {
+            if (ShowLog.IsChecked == true)
+            {
+                DeFine.GlobalLocalSetting.ShowLog = true;
+            }
+            else
+            {
+                DeFine.GlobalLocalSetting.ShowLog = false;
+            }
+        }
+
+        private void ShowCode_Click(object sender, RoutedEventArgs e)
+        {
+            if (ShowCode.IsChecked == true)
+            {
+                DeFine.GlobalLocalSetting.ShowCode = true;
+            }
+            else
+            {
+                DeFine.GlobalLocalSetting.ShowCode = false;
+            }
+        }
+
+        private void SettingsChild_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is Label)
+            {
+                string GetTag = ConvertHelper.ObjToStr(((Label)sender).Tag);
+                switch (GetTag)
+                {
+                    case "Software":
+                        {
+                            ShowSettingsView(Settings.Software);
+                        }
+                    break;
+                    case "ApiKey":
+                        {
+                            ShowSettingsView(Settings.ApiKey);
+                        }
+                    break;
+                    case "Game":
+                        {
+                            ShowSettingsView(Settings.Game);
+                        }
+                    break;
+                }
+               
+            }
+           
+        }
+
+        private void SkyrimSEPath_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            DeFine.GlobalLocalSetting.SkyrimPath = SkyrimSEPath.Text;
+        }
+
+        private void SkyrimTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string GetSelectValue = ConvertHelper.ObjToStr(SkyrimTypes.SelectedValue);
+            if (GetSelectValue.Trim().Length > 0)
+            {
+                SkyrimType GetType = Enum.Parse<SkyrimType>(GetSelectValue);
+                DeFine.GlobalLocalSetting.SkyrimType = GetType;
+            }
+        }
+
+        private void StartPexFix(object sender, MouseButtonEventArgs e)
+        {
+            string GetInstallPath = DeFine.GetFullPath(@"\");
+
+            if (GetInstallPath.Contains(@"\Desktop"))
+            {
+                MessageBox.Show("Please do not unzip to the desktop or a sub-path of the desktop.");
+            }
+            else
+            if (!File.Exists(DeFine.GetFullPath(@"Tool\Champollion.exe")))
+            {
+                MessageBox.Show("Please Download Champollion.exe");
+            }
+            else
+            {
+                if (FileAttributesHelper.IsAdministrator())
+                {
+                    FileAttributesHelper.UnlockAllFiles(DeFine.GetFullPath(@"Tool\"));
+
+                    FileAttributesHelper.UnlockAllFiles(DeFine.GetFullPath(@"Tool\Original Compiler\"));
+
+                    MessageBox.Show("Repair has been attempted. Please rerun the program.");
+
+                    DeFine.CloseAny();
+                }
+                else
+                {
+                    if (ActionWin.Show("Prompt", "This feature requires administrator privileges. Do you agree to request administrator permissions? After restarting with administrator rights, you will need to click this button again.", MsgAction.YesNo, MsgType.Info, 330) > 0)
+                    {
+                        FileAttributesHelper.RestartAsAdmin();
+                    }
+                }
+            }
+           
+        }
     }
 }

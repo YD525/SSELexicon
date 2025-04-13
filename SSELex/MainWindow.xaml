@@ -58,7 +58,7 @@
                 <Grid Grid.Row="0" Name="Header" Margin="10 0 10 0">
                     <StackPanel Orientation="Horizontal">
                         <Label HorizontalAlignment="Left" Name="MainCaption" Foreground="White" VerticalAlignment="Center">
-                            SSELex Gui 1.3.608
+                            SSELex Gui 1.4.608
                         </Label>
                         <Grid Background="#FF014C8F" Width="180" Margin="20 0 0 0" Name="ThreadInFo" Visibility="Collapsed">
                             <Label Foreground="White" FontWeight="Bold" Name="ThreadInFoLog" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
@@ -186,17 +186,196 @@
                                     </Image>
 
                                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Name="Nav" Margin="0 5 0 0" Opacity="0.8">
-                                        <Grid Width="50" Height="50" Margin="0 0 0 1" Tag="TransView" >
+                                        <Grid Width="35" Height="35" Margin="0 0 0 1" Tag="TransView" >
                                             <Image Panel.ZIndex="999" VerticalAlignment="Top" Margin="0 5 0 0" Cursor="Hand" Source="/SSELex;component/Material/WhiteUP.png" Stretch="UniformToFill" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="HighQuality" Height="15" Width="20">
                                             </Image>
-                                            <!--<Image Source="{svgc:SvgImage ../Material/TransICO.svg}" Height="23" Width="23"  Grid.Column="0" Style="{DynamicResource HighQuality}"/>-->
+                                            
                                         </Grid>
+
+                                        <Image Cursor="Hand" Source="{svgc:SvgImage ../Material/Lang.svg}" Height="23" Width="23"  Grid.Column="0" Style="{DynamicResource HighQuality}" Tag="ModTransView" MouseDown="Nav_MouseDown"/>
+                                        <Image Cursor="Hand" Source="{svgc:SvgImage ../Material/Setting.svg}" Height="23" Width="23"  Grid.Column="0" Margin="0 10 0 0" Style="{DynamicResource HighQuality}" Tag="SettingView" MouseDown="Nav_MouseDown"/>
                                     </StackPanel>
                                 </Grid>
                             </Border>
                         </Grid>
 
-                        <Grid Name="ModTransView">
+                        <Grid Name="SettingView" Visibility="Hidden">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Orientation="Horizontal" Panel.ZIndex="5" Margin="50 0 0 0">
+
+                                <StackPanel Orientation="Horizontal">
+                                    <Grid Background="#FF655B5F" Width="180" Height="35" VerticalAlignment="Top">
+                                        <TextBox CaretBrush="{x:Null}" Background="{x:Null}" BorderBrush="{x:Null}" BorderThickness="0" Foreground="White" VerticalAlignment="Center" FontSize="13" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                                            Settings View
+                                        </TextBox>
+                                    </Grid>
+                                    <Grid  Margin="0 0 0 0" Background="#FF424141" Height="35" VerticalAlignment="Top">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="3"/>
+                                        </Grid.RowDefinitions>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Foreground="White" Cursor="Hand" Margin="5 5 5 0" Background="#FF424141" PreviewMouseDown="SettingsChild_PreviewMouseDown" Tag="Software">
+                                                Software Settings
+                                            </Label>
+                                            <Label Foreground="White" Cursor="Hand" Margin="5 5 5 0" Background="#FF424141" PreviewMouseDown="SettingsChild_PreviewMouseDown" Tag="ApiKey">
+                                                ApiKey Settings
+                                            </Label>
+                                            <Label Foreground="White" Cursor="Hand" Margin="5 5 5 0" Background="#FF424141" PreviewMouseDown="SettingsChild_PreviewMouseDown" Tag="Game">
+                                                Game Settings
+                                            </Label>
+                                        </StackPanel>
+                                        <Canvas Grid.Row="1">
+                                            <Grid Name="SettingBlock" Width="30" Canvas.Left="149" Height="3" Background="#FF1A91F9">
+                                            </Grid>
+                                        </Canvas>
+                                    </Grid>
+                                </StackPanel>
+                               
+                            </StackPanel>
+
+                            <Grid Grid.Row="1" Background="#FFD6D6D6">
+                                <Grid Name="SoftView" Visibility="Hidden">
+                                    <StackPanel Orientation="Vertical"  HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label FontSize="15">
+                                                API Request Cache:
+                                            </Label>
+                                          
+                                        </StackPanel>
+                                        <Border  CornerRadius="5" Background="#FF0B74D1" Height="30" Margin="0 0 0 0"  Cursor="Hand" PreviewMouseDown="ClearCache">
+                                            <Label Padding="10 0 10 0" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                Clear Cache
+                                            </Label>
+                                        </Border>
+                                        
+                                        <StackPanel Orientation="Horizontal" Margin="0 5 0 0">
+                                            <Label FontSize="15">
+                                                Translation Thread Limit:
+                                            </Label>
+                                        </StackPanel>
+                                        
+                                        <TextBox HorizontalContentAlignment="Center" Name= "MaxThreadCount" Width="200" TextChanged="MaxThreadCount_TextChanged" VerticalContentAlignment="Center" Height="35">
+                                        </TextBox>
+
+                                        <StackPanel Orientation="Horizontal" Margin="0 5 0 0">
+                                            <Label FontSize="15">
+                                                Set interface language:
+                                            </Label>
+                                        </StackPanel>
+
+                                        <ComboBox Name="UILanguages" SelectionChanged="Languages_SelectionChanged" Style="{StaticResource WpfComboBoxStyle}">
+                                        </ComboBox>
+
+                                        <StackPanel Orientation="Horizontal" Margin="0 5 0 0">
+                                            <Label FontSize="15">
+                                                UI Extend:
+                                            </Label>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <CheckBox Name="ShowLog" Click="ShowLog_Click">
+                                                ShowLogView
+                                            </CheckBox>
+                                            <CheckBox Name="ShowCode" Margin="5 0 0 0" Click="ShowCode_Click">
+                                                ShowCodeView
+                                            </CheckBox>
+                                        </StackPanel>
+                                       
+
+                                    </StackPanel>
+                                    
+                                </Grid>
+                                <Grid Name="GameView" Visibility="Hidden">
+                                    <StackPanel Orientation="Vertical"  HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
+                                            <Label VerticalAlignment="Center">
+                                                SkyrimLE/SE/AE Path
+                                            </Label>
+                                            <TextBox Name= "SkyrimSEPath" Width="300" TextChanged="SkyrimSEPath_TextChanged" VerticalContentAlignment="Center" Height="35">
+                                            </TextBox>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
+                                            <Label FontSize="15">
+                                                Esp Esm File Type:
+                                            </Label>
+                                        </StackPanel>
+                                        <ComboBox Name="SkyrimTypes" SelectionChanged="SkyrimTypes_SelectionChanged" Style="{StaticResource WpfComboBoxStyle}">
+                                        </ComboBox>
+
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
+                                            <Label FontSize="15">
+                                                PEX Diagnostic Wizard:
+                                            </Label>
+                                        </StackPanel>
+                                        <Border CornerRadius="5" Background="#FF0B74D1" Margin="0 10 0 0" Height="35" PreviewMouseDown="StartPexFix" Cursor="Hand">
+                                            <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                Try to fix the issue
+                                            </Label>
+                                        </Border>
+
+
+                                    </StackPanel>
+                                </Grid>
+                                <Grid Name="ApiKeyView" Visibility="Hidden">
+                                    <StackPanel Orientation="Vertical"  HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                            <Label VerticalAlignment="Center" HorizontalContentAlignment="Left" HorizontalAlignment="Left">
+                                                BaiDuAppID
+                                            </Label>
+                                            <TextBox Name="BaiDuAppID" Width="360" TextChanged="BaiDuAppID_TextChanged" VerticalContentAlignment="Center" Height="35">
+                                            </TextBox>
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
+                                            <Label VerticalAlignment="Center" HorizontalContentAlignment="Left" HorizontalAlignment="Left"> 
+                                                BaiDuKey
+                                            </Label>
+                                            <PasswordBox Name="BaiDuKey" Width="360" PasswordChanged="BaiDuKey_PasswordChanged" VerticalContentAlignment="Center" Height="35">
+                                            </PasswordBox>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
+                                            <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
+                                                GoogleKey
+                                            </Label>
+                                            <PasswordBox Name="GoogleKey" Width="360" VerticalContentAlignment="Center" Height="35" PasswordChanged="GoogleKey_PasswordChanged">
+                                            </PasswordBox>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
+                                            <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
+                                                ChatGptKey
+                                            </Label>
+                                            <PasswordBox Name="ChatGptKey" Width="360" PasswordChanged="ChatGptKey_PasswordChanged" VerticalContentAlignment="Center" Height="35">
+                                            </PasswordBox>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
+                                            <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
+                                                DeepSeekKey
+                                            </Label>
+                                            <PasswordBox Name="DeepSeekKey" Width="360" PasswordChanged="DeepSeekKey_PasswordChanged" VerticalContentAlignment="Center" Height="35">
+                                            </PasswordBox>
+                                        </StackPanel>
+
+                                        <TextBox Margin="0 10 0 0" TextWrapping="Wrap" AcceptsReturn="True" IsReadOnly="True" BorderThickness="0" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Green">
+                                            Support Google free translation,You don't need to enter a Googlekey, just enable the Google icon
+                                        </TextBox>
+
+                                        <Border CornerRadius="5" Background="#FF0B74D1" Margin="0 10 0 0" Height="35" PreviewMouseDown="StartApiKeyTest" Cursor="Hand">
+                                            <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Name="KeyTestBtn">
+                                                TestKey
+                                            </Label>
+                                        </Border>
+                                    </StackPanel>
+                                </Grid>
+                                
+                               
+                            </Grid>
+
+                        </Grid>
+                        <Grid Name="ModTransView" Visibility="Visible">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="50"/>
                                 <RowDefinition Height="1*"/>
@@ -205,9 +384,9 @@
                             <StackPanel Orientation="Horizontal" Panel.ZIndex="5" Margin="50 0 0 0">
 
                                 <Grid Background="#FF655B5F" Width="180" Height="35" VerticalAlignment="Top">
-                                    <Label Foreground="White" VerticalAlignment="Center" FontSize="13" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Name="Caption">
-                                        TranslationCore
-                                    </Label>
+                                    <TextBox CaretBrush="{x:Null}" Background="{x:Null}" BorderBrush="{x:Null}" BorderThickness="0" Foreground="White" VerticalAlignment="Center" FontSize="13" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Name="Caption">
+                                        ModTransView
+                                    </TextBox>
                                 </Grid>
                                 <Grid Background="#FF393939" Width="200" Height="35" VerticalAlignment="Top">
                                     <Label  Foreground="White" VerticalAlignment="Center" FontSize="13" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Name="TransProcess">
@@ -316,26 +495,6 @@
                                     <CheckBox Name="UsingContext" VerticalAlignment="Center" Margin="10 0 0 0" Click="UsingContext_Click">
                                         Use Context
                                     </CheckBox>
-
-                                    <Label VerticalAlignment="Center" Margin="10 0 0 0">Settings:</Label>
-
-                                    <Border  CornerRadius="5" Background="#FF0B74D1" Height="30" Margin="10 0 0 0" Cursor="Hand" PreviewMouseDown="OpenSetting">
-                                        <Label Padding="10 0 10 0"  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                            API Keys
-                                        </Label>
-                                    </Border>
-
-                                    <Border  CornerRadius="5" Background="#FF0B74D1" Height="30" Margin="10 0 0 0"  Cursor="Hand" PreviewMouseDown="ClearCache">
-                                        <Label Padding="10 0 10 0" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                            Clear Cache
-                                        </Label>
-                                    </Border>
-
-                                    <Border  CornerRadius="5" Background="#FF0B74D1" Height="30" Margin="10 0 0 0" Cursor="Hand" PreviewMouseDown="OpenSetting">
-                                        <Label  Padding="10 0 10 0" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                            UISettings
-                                        </Label>
-                                    </Border>
                                 </StackPanel>
 
                                 <Grid VerticalAlignment="Stretch" Grid.Row="2" Name="TransViewBox" Panel.ZIndex="99999" Width="0">

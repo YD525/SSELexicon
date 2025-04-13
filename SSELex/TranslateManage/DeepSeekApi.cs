@@ -124,27 +124,16 @@ namespace SSELex.TranslateManage
                     {
                         try
                         {
-                            GetStr = ConvertHelper.StringDivision(GetStr, "\"translation\":", "\"}");
-
-                            GetStr = GetStr.Trim();
-
-                            if (GetStr.StartsWith("\""))
-                            {
-                                GetStr = GetStr.Substring(1);
-                            }
-                            if (GetStr.EndsWith("\""))
-                            {
-                                GetStr = GetStr.Substring(0, GetStr.Length - 1);
-                            }
+                            GetStr = JsonProcess.GetValue(GetStr);
                         }
                         catch
                         {
                             return string.Empty;
                         }
 
-                        if (DeFine.CurrentParsingLayer != null)
+                        if (DeFine.CurrentLogView != null)
                         {
-                            DeFine.CurrentParsingLayer.SetLog(GetTransSource + "\r\n AI:\r\n" + GetStr);
+                            DeFine.CurrentLogView.SetLog(GetTransSource + "\r\n\r\n AI:\r\n" + GetStr);
                         }
 
                         return GetStr;

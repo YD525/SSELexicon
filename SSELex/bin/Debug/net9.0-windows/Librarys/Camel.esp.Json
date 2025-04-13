@@ -1,0 +1,935 @@
+{
+  "ModName": "Camel.esp",
+  "Dictionarys": [
+    {
+      "Key": "manny_GF_Faction_BenErai(Name)",
+      "OriginalText": "Ben Erai citizens faction",
+      "TransText": "Ben Erai 市民派"
+    },
+    {
+      "Key": "manny_GF_Faction_Duneripper(Name)",
+      "OriginalText": "Duneripper Faction",
+      "TransText": "Duneripper 派"
+    },
+    {
+      "Key": "0_RedguardMerchantFaction(Name)",
+      "OriginalText": "Redguard Merchant Faction",
+      "TransText": "Redguard 商人派"
+    },
+    {
+      "Key": "1_ServicesDhdeVendor(Name)",
+      "OriginalText": "Redguard Services",
+      "TransText": "Redguard 服務"
+    },
+    {
+      "Key": "1_ServicesAhtavarVendor(Name)",
+      "OriginalText": "Redguard Services",
+      "TransText": "Redguard 服務"
+    },
+    {
+      "Key": "1_serpentfaction(Name)",
+      "OriginalText": "Snakes",
+      "TransText": "蛇"
+    },
+    {
+      "Key": "1_ServicesJeaiahVendor(Name)",
+      "OriginalText": "Redguard Services",
+      "TransText": "Redguard 服務"
+    },
+    {
+      "Key": "00_manny_GF_Faction_BenErai(Name)",
+      "OriginalText": "本·埃莱公民派系",
+      "TransText": ""
+    },
+    {
+      "Key": "1_ServicesBorahVendor(Name)",
+      "OriginalText": "红卫队服务",
+      "TransText": ""
+    },
+    {
+      "Key": "1_UkcSouls(Name)",
+      "OriginalText": "Ukc 泥蟹之魂",
+      "TransText": ""
+    },
+    {
+      "Key": "1_UkcSouls(Description)",
+      "OriginalText": "你可以拥有两只生物.",
+      "TransText": ""
+    },
+    {
+      "Key": "6_AlikrDragontail(Name)",
+      "OriginalText": "阿利克'尔龙尾",
+      "TransText": ""
+    },
+    {
+      "Key": "10_ScorpionScimitar(Name)",
+      "OriginalText": "蝎刃",
+      "TransText": ""
+    },
+    {
+      "Key": "8_FalchionRoyalTwohanded(Name)",
+      "OriginalText": "皇家弯刀",
+      "TransText": ""
+    },
+    {
+      "Key": "8_FalchionTwohanded(Name)",
+      "OriginalText": "弯刀",
+      "TransText": ""
+    },
+    {
+      "Key": "8_FalchionRoyalOnehanded(Name)",
+      "OriginalText": "皇家弯刀",
+      "TransText": ""
+    },
+    {
+      "Key": "8_FalchionOnehanded(Name)",
+      "OriginalText": "弯刀",
+      "TransText": ""
+    },
+    {
+      "Key": "11_SandScorpion2h(Name)",
+      "OriginalText": "沙蝎",
+      "TransText": ""
+    },
+    {
+      "Key": "11_SandScorpion1h(Name)",
+      "OriginalText": "沙蝎",
+      "TransText": ""
+    },
+    {
+      "Key": "0_SkinIbex(Name)",
+      "OriginalText": "山羊",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardHood3(Name)",
+      "OriginalText": "阿利克兜帽伦理皮革",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardClothesWinter2(Name)",
+      "OriginalText": "红卫驯鹿服装 B",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardArmorChainMail(Name)",
+      "OriginalText": "落锤护甲 A型",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardClothesMerchant2(Name)",
+      "OriginalText": "落锤省商人服饰",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardHeadwear1(Name)",
+      "OriginalText": "红卫头饰 A",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardHeadwear2(Name)",
+      "OriginalText": "红卫头饰 E",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardHeadwear3(Name)",
+      "OriginalText": "红卫头饰 F",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardHeadwear4(Name)",
+      "OriginalText": "红卫头饰G",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardHeadwear5(Name)",
+      "OriginalText": "红卫头饰 H",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardHeadwear6(Name)",
+      "OriginalText": "红卫头饰 I",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardHeadwear7(Name)",
+      "OriginalText": "红卫头饰 J",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardHeadwear8(Name)",
+      "OriginalText": "红卫头饰 K",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardHeadwear9(Name)",
+      "OriginalText": "红卫头饰 L",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardHeadwear10(Name)",
+      "OriginalText": "红卫头饰 B",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardHeadwear11(Name)",
+      "OriginalText": "红卫头饰 C",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardHeadwear12(Name)",
+      "OriginalText": "红卫头饰 D",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardBootsFurLamellar(Name)",
+      "OriginalText": "红卫靴 A",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardBootsMerchant(Name)",
+      "OriginalText": "红卫靴 B",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardBootsMoro(Name)",
+      "OriginalText": "红卫靴 C",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardShawlIndigo(Name)",
+      "OriginalText": "红卫披肩靛蓝",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardShawlGrey(Name)",
+      "OriginalText": "红色守卫者灰色披肩",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardWinterGauntlets1(Name)",
+      "OriginalText": "红卫兵冬季驯鹿手套",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardWinterGauntlets2(Name)",
+      "OriginalText": "红卫冬用棕色手套",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardOutfitMerchant1NoCloak(Name)",
+      "OriginalText": "落锤省服饰 A",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardOutfitMerchant2NoCloak(Name)",
+      "OriginalText": "落锤省服饰 B",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardOutfitMerchant3NoCloak(Name)",
+      "OriginalText": "落锤省服饰 C",
+      "TransText": ""
+    },
+    {
+      "Key": "RedguardNobleHood(Name)",
+      "OriginalText": "红卫贵族兜帽",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardShawlRawBlanket(Name)",
+      "OriginalText": "红卫披肩毯",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardArmorHornLamellarNoCloak(Name)",
+      "OriginalText": "落锤护甲 B型",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardShawlBlue(Name)",
+      "OriginalText": "红卫披肩 蓝色",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardShawlBlueStripes(Name)",
+      "OriginalText": "Redguard Shawl Blue Stripes",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardHoodArg1(Name)",
+      "OriginalText": "阿利克兜帽 A",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardHoodArg2(Name)",
+      "OriginalText": "阿利克兜帽 B",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardHoodArg3(Name)",
+      "OriginalText": "阿利克兜帽 C",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardHoodArgWinter(Name)",
+      "OriginalText": "Alik'r Hood D",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardHoodKha1(Name)",
+      "OriginalText": "阿利克兜帽 E",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardHoodKha2(Name)",
+      "OriginalText": "Alik'r Hood F",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardHoodKha3(Name)",
+      "OriginalText": "Alik'r Hood G",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardHoodKhaWinter(Name)",
+      "OriginalText": "Alik'r Hood H",
+      "TransText": ""
+    },
+    {
+      "Key": "RedguardNobleArmorBlue(Name)",
+      "OriginalText": "Redguard Noble Armor Blue",
+      "TransText": ""
+    },
+    {
+      "Key": "RedguardNobleHoodBlue(Name)",
+      "OriginalText": "Redguard Noble Hood Blue",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardHood1(Name)",
+      "OriginalText": "Alik'r Hood Ethic A",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardHood2(Name)",
+      "OriginalText": "Alik'r Hood Ethic B",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SkinCamelDromedaryBIS(Name)",
+      "OriginalText": "Camel",
+      "TransText": ""
+    },
+    {
+      "Key": "5_batskinELDER(Name)",
+      "OriginalText": "Bat",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardHoodLeatherStrips(Name)",
+      "OriginalText": "Alik'r Hood Ethic Leatherstrips",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardWinterGauntlets3(Name)",
+      "OriginalText": "Redguard Winter Gauntlets Black",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardClothesWinter3(Name)",
+      "OriginalText": "Redguard Caribou Clothes C",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardHoodLeatherShawlWinter(Name)",
+      "OriginalText": "Alik'r Hood Winter",
+      "TransText": ""
+    },
+    {
+      "Key": "7_Roadrunnerskin(Name)",
+      "OriginalText": "Roadrunner",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardClothesWinter(Name)",
+      "OriginalText": "Redguard Caribou Clothes A",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SkinCamelDromedaryTER(Name)",
+      "OriginalText": "Camel",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SkinCamelQUATER(Name)",
+      "OriginalText": "Camel",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SkinCamelEnvoy(Name)",
+      "OriginalText": "Camel",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SkinCamelKuda(Name)",
+      "OriginalText": "Camel",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SkinDromedarySun(Name)",
+      "OriginalText": "Dromedary",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SkinDromedaryAlikr(Name)",
+      "OriginalText": "Dromedary",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SkinDromedaryTribe(Name)",
+      "OriginalText": "Dromedary",
+      "TransText": ""
+    },
+    {
+      "Key": "RedguardNobleArmor(Name)",
+      "OriginalText": "Redguard Noble Armor",
+      "TransText": ""
+    },
+    {
+      "Key": "0_ArmorGuardShieldCandle(Name)",
+      "OriginalText": "Shield with candle",
+      "TransText": ""
+    },
+    {
+      "Key": "0_ArmorGuardShieldCandleRed(Name)",
+      "OriginalText": "Red Shield with candle",
+      "TransText": ""
+    },
+    {
+      "Key": "0_ArmorGuardShieldMoon(Name)",
+      "OriginalText": "Shield with moon",
+      "TransText": ""
+    },
+    {
+      "Key": "0_ArmorGuardShieldMoonRed(Name)",
+      "OriginalText": "Red Shield with moon",
+      "TransText": ""
+    },
+    {
+      "Key": "0_ArmorGuardShieldScarab(Name)",
+      "OriginalText": "Shield with scarab",
+      "TransText": ""
+    },
+    {
+      "Key": "0_ArmorGuardShieldScarabAbstract(Name)",
+      "OriginalText": "Shield with abstract scarab",
+      "TransText": ""
+    },
+    {
+      "Key": "0_ArmorGuardShieldScarabAbstractRed(Name)",
+      "OriginalText": "Red Shield with abstract scarab",
+      "TransText": ""
+    },
+    {
+      "Key": "0_ArmorGuardShieldScarabRed(Name)",
+      "OriginalText": "Red Shield with scarab",
+      "TransText": ""
+    },
+    {
+      "Key": "3_SkinAddax(Name)",
+      "OriginalText": "Addax",
+      "TransText": ""
+    },
+    {
+      "Key": "5_batskin(Name)",
+      "OriginalText": "Bat",
+      "TransText": ""
+    },
+    {
+      "Key": "0_SkinElephant(Name)",
+      "OriginalText": "Elephant",
+      "TransText": ""
+    },
+    {
+      "Key": "0_SkinElephantCub(Name)",
+      "OriginalText": "Elephant",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardHoodWinter(Name)",
+      "OriginalText": "Alik'r Hood Fur",
+      "TransText": ""
+    },
+    {
+      "Key": "7_hammerfellfowlskin(Name)",
+      "OriginalText": "Hammerfell Fowl",
+      "TransText": ""
+    },
+    {
+      "Key": "RedguardNobleGloves(Name)",
+      "OriginalText": "Redguard Noble Gloves",
+      "TransText": ""
+    },
+    {
+      "Key": "RedguardNobleBoots(Name)",
+      "OriginalText": "Redguard Noble Boots",
+      "TransText": ""
+    },
+    {
+      "Key": "2_SkinCamel(Name)",
+      "OriginalText": "Camel",
+      "TransText": ""
+    },
+    {
+      "Key": "0_SkinBighornSheep(Name)",
+      "OriginalText": "Bighorn Sheep",
+      "TransText": ""
+    },
+    {
+      "Key": "MerchantWhiterunCarlottaChest(Name)",
+      "OriginalText": "Chest",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardMerchantChestArmor(Name)",
+      "OriginalText": "Redguard Trader's Armor and Clothes",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardMerchantChestHeadgear(Name)",
+      "OriginalText": "Redguard Trader's Headgear",
+      "TransText": ""
+    },
+    {
+      "Key": "0_RedguardMerchantChestMisc(Name)",
+      "OriginalText": "Redguard Trader's Misc",
+      "TransText": ""
+    },
+    {
+      "Key": "9_RedguardPedlarChest(Name)",
+      "OriginalText": "Redguard Trader's Borah",
+      "TransText": ""
+    },
+    {
+      "Key": "0_Chest(Name)",
+      "OriginalText": "Chest",
+      "TransText": ""
+    },
+    {
+      "Key": "00_VultureA(NameSkyrim.Activator 00_VultureA 0008E3:Camel.esp)",
+      "OriginalText": "Vulture",
+      "TransText": ""
+    },
+    {
+      "Key": "00_VultureA(ActivateTextOverride)",
+      "OriginalText": "Catch",
+      "TransText": ""
+    },
+    {
+      "Key": "00_VultureB(NameSkyrim.Activator 00_VultureB 0008E4:Camel.esp)",
+      "OriginalText": "Vulture",
+      "TransText": ""
+    },
+    {
+      "Key": "00_VultureB(ActivateTextOverride)",
+      "OriginalText": "Catch",
+      "TransText": ""
+    },
+    {
+      "Key": "00_VultureC(NameSkyrim.Activator 00_VultureC 0008E5:Camel.esp)",
+      "OriginalText": "Vulture",
+      "TransText": ""
+    },
+    {
+      "Key": "00_VultureC(ActivateTextOverride)",
+      "OriginalText": "Catch",
+      "TransText": ""
+    },
+    {
+      "Key": "0_hyenaSpottedPelt(Name)",
+      "OriginalText": "Spotted Hyena Pelt",
+      "TransText": ""
+    },
+    {
+      "Key": "0_HyenaSpottedPeltBis(Name)",
+      "OriginalText": "Spotted Hyena Pelt",
+      "TransText": ""
+    },
+    {
+      "Key": "4_scorpionloot2(Name)",
+      "OriginalText": "Stinger Chitin",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SpellTomeDismissCamel(Name)",
+      "OriginalText": "Spell Tome: Dismiss Summoned Camel",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SpellTomeDismissCamel(BookText)",
+      "OriginalText": "<font face'$HandwrittenFont'><font size='40'><p align='center'>\r\nDismiss Camel",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SpellTomeCamelA(Name)",
+      "OriginalText": "Spell Tome: Conjure a Bactrian camel A",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SpellTomeCamelA(BookText)",
+      "OriginalText": "<font face'$HandwrittenFont'><font size='40'><p align='center'>\r\nConjure Familiar",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SpellTomeDromedaryA(Name)",
+      "OriginalText": "Spell Tome: Conjure a Dromedary A",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SpellTomeDromedaryA(BookText)",
+      "OriginalText": "<font face'$HandwrittenFont'><font size='40'><p align='center'>\r\nConjure Familiar",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SpellTomeTwoCamels(Name)",
+      "OriginalText": "Spell Tome: Conjure Two Bactrian camels",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SpellTomeTwoCamels(BookText)",
+      "OriginalText": "<font face'$HandwrittenFont'><font size='40'><p align='center'>\r\nConjure Camels",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SpellTomeCamelB(Name)",
+      "OriginalText": "Spell Tome: Conjure a Bactrian camel B",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SpellTomeCamelB(BookText)",
+      "OriginalText": "<font face'$HandwrittenFont'><font size='40'><p align='center'>\r\nConjure Familiar",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SpellTomeDromedaryB(Name)",
+      "OriginalText": "Spell Tome: Conjure a Dromedary B",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SpellTomeDromedaryB(BookText)",
+      "OriginalText": "<font face'$HandwrittenFont'><font size='40'><p align='center'>\r\nConjure Familiar",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SpellTomeCamelC(Name)",
+      "OriginalText": "Spell Tome: Conjure a Bactrian camel C",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SpellTomeCamelC(BookText)",
+      "OriginalText": "<font face'$HandwrittenFont'><font size='40'><p align='center'>\r\nConjure Familiar",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SpellTomeDromedaryC(Name)",
+      "OriginalText": "Spell Tome: Conjure a Dromedary C",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SpellTomeDromedaryC(BookText)",
+      "OriginalText": "<font face'$HandwrittenFont'><font size='40'><p align='center'>\r\nConjure Familiar",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SpellTomeTwoDromedaries(Name)",
+      "OriginalText": "Spell Tome: Conjure Two Dromedaries",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SpellTomeTwoDromedaries(BookText)",
+      "OriginalText": "<font face'$HandwrittenFont'><font size='40'><p align='center'>\r\nConjure Dromedaries",
+      "TransText": ""
+    },
+    {
+      "Key": "0_AnimalMessage(Description)",
+      "OriginalText": "The young camel is now following.",
+      "TransText": ""
+    },
+    {
+      "Key": "0_AnimalDismissMessage(Description)",
+      "OriginalText": "Your companion heads home.",
+      "TransText": ""
+    },
+    {
+      "Key": "DialogueFollowerFavorStateTopic(Name)",
+      "OriginalText": "I need you to do something.",
+      "TransText": ""
+    },
+    {
+      "Key": "DialogueFollowerFavorStateTopic(Response[2])",
+      "OriginalText": "Young Camel",
+      "TransText": ""
+    },
+    {
+      "Key": "DialogueFollowerDismissTopic(Name)",
+      "OriginalText": "It's time for us to part ways.",
+      "TransText": ""
+    },
+    {
+      "Key": "DialogueFollowerDismissTopic(Response[2])",
+      "OriginalText": "Young Camel",
+      "TransText": ""
+    },
+    {
+      "Key": "DialogueFollowerTradeTopic(Name)",
+      "OriginalText": "I need to trade some things with you.",
+      "TransText": ""
+    },
+    {
+      "Key": "DialogueFollowerTradeTopic(Response[2])",
+      "OriginalText": "Young Camel",
+      "TransText": ""
+    },
+    {
+      "Key": "DialogueFollowerFollowTopic(Name)",
+      "OriginalText": "Follow me.",
+      "TransText": ""
+    },
+    {
+      "Key": "DialogueFollowerFollowTopic(Response[2])",
+      "OriginalText": "Young Camel",
+      "TransText": ""
+    },
+    {
+      "Key": "DialogueFollowerWaitTopic(Name)",
+      "OriginalText": "Wait here.",
+      "TransText": ""
+    },
+    {
+      "Key": "DialogueFollowerWaitTopic(Response[2])",
+      "OriginalText": "Young Camel",
+      "TransText": ""
+    },
+    {
+      "Key": "1_snakepoison(Name)",
+      "OriginalText": "Alik'r Snake Venom",
+      "TransText": ""
+    },
+    {
+      "Key": "4_scorpionab(Name)",
+      "OriginalText": "Mudcrab abilities",
+      "TransText": ""
+    },
+    {
+      "Key": "1_snakepoisonVIPER(Name)",
+      "OriginalText": "Sand Snake Venom",
+      "TransText": ""
+    },
+    {
+      "Key": "1_snakepoisonRATTLE(Name)",
+      "OriginalText": "Desert Snake Venom",
+      "TransText": ""
+    },
+    {
+      "Key": "1_absnake(Name)",
+      "OriginalText": "Mudcrab abilities",
+      "TransText": ""
+    },
+    {
+      "Key": "4_scorpionpoison2(Name)",
+      "OriginalText": "Stinger Venom",
+      "TransText": ""
+    },
+    {
+      "Key": "4_scorpionpoisonb(Name)",
+      "OriginalText": "Scorpion Venom",
+      "TransText": ""
+    },
+    {
+      "Key": "1_ConjureCamelA(Name)",
+      "OriginalText": "Conjure a Bactrian camel A",
+      "TransText": ""
+    },
+    {
+      "Key": "1_ConjureDromedaryA(Name)",
+      "OriginalText": "Conjure a Dromedary A",
+      "TransText": ""
+    },
+    {
+      "Key": "1_DismissCamelSummonSpell(Name)",
+      "OriginalText": "Dismiss Summoned Camel",
+      "TransText": ""
+    },
+    {
+      "Key": "1_TwoCamelSpell(Name)",
+      "OriginalText": "Conjure Two Bactrian camels",
+      "TransText": ""
+    },
+    {
+      "Key": "1_ConjureCamelB(Name)",
+      "OriginalText": "Conjure a Bactrian camel B",
+      "TransText": ""
+    },
+    {
+      "Key": "1_ConjureDromedaryB(Name)",
+      "OriginalText": "Conjure a Dromedary B",
+      "TransText": ""
+    },
+    {
+      "Key": "1_ConjureCamelC(Name)",
+      "OriginalText": "Conjure a Bactrian camel C",
+      "TransText": ""
+    },
+    {
+      "Key": "1_ConjureDromedaryC(Name)",
+      "OriginalText": "Conjure a Dromedary C",
+      "TransText": ""
+    },
+    {
+      "Key": "1_TwoDromedarySpell(Name)",
+      "OriginalText": "Conjure Two Dromedaries",
+      "TransText": ""
+    },
+    {
+      "Key": "4_scorpionpoison(Name)",
+      "OriginalText": "Scorpion Venom",
+      "TransText": ""
+    },
+    {
+      "Key": "5_abbat(Name)",
+      "OriginalText": "Flame Atronach abilities",
+      "TransText": ""
+    },
+    {
+      "Key": "1_snakebite(Name)",
+      "OriginalText": "Sand Snake Venom",
+      "TransText": ""
+    },
+    {
+      "Key": "1_snakebite(Description)",
+      "OriginalText": "<mag> points of damage for <dur> seconds.",
+      "TransText": ""
+    },
+    {
+      "Key": "4_giantsnakeparalysisfx(Name)",
+      "OriginalText": "Paralyze",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SummonCamelA(Name)",
+      "OriginalText": "Conjure a Bactrian camel A",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SummonCamelA(Description)",
+      "OriginalText": "Summons a Bactrian camel for <dur> seconds wherever the caster is pointing.",
+      "TransText": ""
+    },
+    {
+      "Key": "7_ROADRUNNERSPEED(Name)",
+      "OriginalText": "Fortify Stamina",
+      "TransText": ""
+    },
+    {
+      "Key": "7_ROADRUNNERSPEED(Description)",
+      "OriginalText": "Speed is increased by <mag> points for <dur> seconds.",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SummonDromedaryA(Name)",
+      "OriginalText": "Conjure a Dromedary A",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SummonDromedaryA(Description)",
+      "OriginalText": "Summons a Dromedary for <dur> seconds wherever the caster is pointing.",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SummonCamelE(Name)",
+      "OriginalText": "Bactrian camel",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SummonCamelD(Name)",
+      "OriginalText": "Bactrian camel",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SummonCamelB(Name)",
+      "OriginalText": "Conjure a Bactrian camel B",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SummonCamelB(Description)",
+      "OriginalText": "Summons a Bactrian camel for <dur> seconds wherever the caster is pointing.",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SummonDromedaryB(Name)",
+      "OriginalText": "Conjure a Dromedary B",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SummonDromedaryB(Description)",
+      "OriginalText": "Summons a Dromedary for <dur> seconds wherever the caster is pointing.",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SummonCamelC(Name)",
+      "OriginalText": "Conjure a Bactrian camel C",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SummonCamelC(Description)",
+      "OriginalText": "Summons a Bactrian camel for <dur> seconds wherever the caster is pointing.",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SummonDromedaryC(Name)",
+      "OriginalText": "Conjure a Dromedary C",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SummonDromedaryC(Description)",
+      "OriginalText": "Summons a Dromedary for <dur> seconds wherever the caster is pointing.",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SummonDromedaryD(Name)",
+      "OriginalText": "Dromedary",
+      "TransText": ""
+    },
+    {
+      "Key": "1_SummonDromedaryE(Name)",
+      "OriginalText": "Dromedary",
+      "TransText": ""
+    },
+    {
+      "Key": "4_scorpionpoisonfx(Name)",
+      "OriginalText": "Scorpion Venom",
+      "TransText": ""
+    },
+    {
+      "Key": "4_scorpionpoisonfx(Description)",
+      "OriginalText": "",
+      "TransText": ""
+    },
+    {
+      "Key": "1_DismissSummonCamel(Name)",
+      "OriginalText": "Dismiss Summoned Camel",
+      "TransText": ""
+    },
+    {
+      "Key": "1_DismissSummonCamel(Description)",
+      "OriginalText": "To Dismiss your summoned camel.",
+      "TransText": ""
+    },
+    {
+      "Key": "manny_GF_IntBenEraiBarracksDormitory(Cell[2])",
+      "OriginalText": "Guards' Quarters",
+      "TransText": ""
+    }
+  ]
+}

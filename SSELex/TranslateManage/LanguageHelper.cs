@@ -30,26 +30,12 @@ namespace SSELex.TranslateCore
 
     public enum Languages
     {
-        English = 0, Chinese = 1, Japanese = 2, German = 5, Korean = 6, Turkish = 7 , Brazilian = 8 , Russian = 9
+        English = 0, SimplifiedChinese = 1, Japanese = 2, German = 5, Korean = 6, Turkish = 7 , Brazilian = 8 , Russian = 9 , TraditionalChinese = 10
     }
 
     public class LanguageHelper
     {
-        public static string GetLanguageString(Languages lang)
-        {
-            return lang switch
-            {
-                Languages.English => "英文",
-                Languages.Chinese => "中文",
-                Languages.Japanese => "日文",
-                Languages.German => "德文",
-                Languages.Korean => "韩文",
-                Languages.Turkish => "土耳其文",
-                Languages.Brazilian => "巴西文",
-                Languages.Russian => "俄语",
-              _ => "未知"
-            };
-        }
+       
 
         public static void Shuffle<T>(IList<T> list)
         {
@@ -85,7 +71,14 @@ namespace SSELex.TranslateCore
             if(DeFine.GlobalLocalSetting.GoogleYunApiUsing)
             if (ConvertHelper.ObjToStr(new GoogleHelper().FreeTransStr("Test",DeFine.SourceLanguage,DeFine.TargetLanguage)).Length > 0)
             {
-                EngineSelects.Add(new EngineSelect(new GoogleHelper(), 2));
+                    if (DeFine.GlobalLocalSetting.GoogleApiKey.Trim().Length == 0)
+                    {
+                        EngineSelects.Add(new EngineSelect(new GoogleHelper(), 2));
+                    }
+                    else
+                    {
+                        EngineSelects.Add(new EngineSelect(new GoogleTransApi(), 2));
+                    }
             }
 
             if (DeFine.GlobalLocalSetting.ChatGptApiUsing)
@@ -315,6 +308,22 @@ namespace SSELex.TranslateCore
                         }
                     }
                     else
+                    if (this.Engine is GoogleTransApi)
+                    {
+                        if (DeFine.GlobalLocalSetting.GoogleYunApiUsing)
+                        {
+                            var GetData = ConvertHelper.ObjToStr((this.Engine as GoogleTransApi).Translate(GetSource, Source, Target));
+
+                            SetTransLine = GetData;
+                            this.CurrentCallCount++;
+                            WordProcess.SendTranslateMsg("Cloud Engine(GoogleApi)", GetSource, SetTransLine);
+                        }
+                        else
+                        {
+                            this.CurrentCallCount = this.MaxUseCount;
+                        }
+                    }
+                    else
                     if (this.Engine is ChatGptApi)
                     {
                         if (DeFine.GlobalLocalSetting.ChatGptApiUsing)
@@ -323,7 +332,7 @@ namespace SSELex.TranslateCore
 
                             if (GetData.Trim().Length > 0)
                             {
-                                AIMemory.AddTranslation(Source,GetSource,GetData);
+                                AIMemory.AddTranslation(Source, GetSource, GetData);
                             }
 
                             SetTransLine = GetData;
@@ -344,7 +353,7 @@ namespace SSELex.TranslateCore
 
                             if (GetData.Trim().Length > 0)
                             {
-                                AIMemory.AddTranslation(Source,GetSource, GetData);
+                                AIMemory.AddTranslation(Source, GetSource, GetData);
                             }
 
                             SetTransLine = GetData;
