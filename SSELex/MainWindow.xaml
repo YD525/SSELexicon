@@ -542,7 +542,7 @@
                                     <Grid Name="TransView" Grid.Row="1" Panel.ZIndex="999">
                                     </Grid>
 
-                                    <Grid Grid.Row="2" Name="ExtendBox" Background="#FF333333" Visibility="Hidden">
+                                    <Grid Grid.Row="2" Name="ExtendBox" Background="#FF333333" Visibility="Visible">
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="50"/>
