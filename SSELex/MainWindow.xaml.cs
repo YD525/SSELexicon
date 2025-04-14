@@ -1,35 +1,23 @@
 ﻿using Microsoft.WindowsAPICodePack.Dialogs;
-using Mutagen.Bethesda.Plugins;
-using Mutagen.Bethesda.Starfield;
 using SharpVectors.Converters;
 using System.Diagnostics;
 using System.IO;
-using System.Security.Policy;
-using System.Text;
-using System.Transactions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
-using System.Windows.Media.TextFormatting;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using SSELex.ConvertManager;
 using SSELex.SkyrimManage;
 using SSELex.SkyrimModManager;
 using SSELex.TranslateCore;
 using SSELex.TranslateManage;
 using SSELex.UIManage;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 using static SSELex.UIManage.SkyrimDataLoader;
-using Microsoft.SqlServer.Server;
-using Mutagen.Bethesda.Strings.DI;
-using Mutagen.Bethesda.Strings;
+using ICSharpCode.AvalonEdit.Highlighting.Xshd;
+using ICSharpCode.AvalonEdit.Highlighting;
+using ICSharpCode.AvalonEdit;
 
 // Copyright (C) 2025 YD525
 // Licensed under the GNU GPLv3
@@ -137,10 +125,13 @@ namespace SSELex
 
         public void ReloadData(bool CanReloadCountCache = true)
         {
-            new Thread(() =>
+            if (LoadSaveState == 1)
             {
-                ReloadDataFunc(CanReloadCountCache);
-            }).Start();
+                new Thread(() =>
+                {
+                    ReloadDataFunc(CanReloadCountCache);
+                }).Start();
+            }
         }
 
         public int MaxTransCount = 0;
@@ -229,6 +220,27 @@ namespace SSELex
             SetLog(string.Format("{0}->{1},{2}", EngineName, Text, Result));
         }
 
+        public void InitIDE()
+        {
+            string GetName = "SSELex" + ".IDERule.TextStyle.xshd";
+
+            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+
+            using (System.IO.Stream s = assembly.GetManifestResourceStream(GetName))
+            {
+                using (System.Xml.XmlTextReader reader = new System.Xml.XmlTextReader(s))
+                {
+                    var xshd = HighlightingLoader.LoadXshd(reader);
+
+                    this.Dispatcher.Invoke(new Action(() => {
+                        FromStr.SyntaxHighlighting = HighlightingLoader.Load(xshd, HighlightingManager.Instance);
+                        ToStr.SyntaxHighlighting = HighlightingLoader.Load(xshd, HighlightingManager.Instance);
+                    }));
+                }
+            }
+
+        }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             DeFine.Init(this);
@@ -247,6 +259,13 @@ namespace SSELex
                 UsingContext.IsChecked = true;
             }
 
+            ExportTypes.Items.Clear();
+            ExportTypes.Items.Add(".Json");
+            ExportTypes.Items.Add(".DSD");
+            ExportTypes.Items.Add(".html");
+            ExportTypes.Items.Add(".xaml");
+            ExportTypes.Items.Add(".xlsx");
+
             new Thread(() =>
             {
                 ShowFrameByTag("LoadingView");
@@ -264,6 +283,8 @@ namespace SSELex
                 {
                     UILanguageHelper.ChangeLanguage(DeFine.GlobalLocalSetting.CurrentUILanguage);
                 }));
+
+                InitIDE();
 
                 EndLoadViewEffect();
                 ShowFrameByTag("MainView");
@@ -320,6 +341,9 @@ namespace SSELex
             ClosetTransTrd();
             if (System.IO.File.Exists(FilePath))
             {
+                FromStr.Text = "";
+                ToStr.Text = "";
+
                 string GetFileName = FilePath.Substring(FilePath.LastIndexOf(@"\") + @"\".Length);
                 Caption.Text = GetFileName;
 
@@ -758,6 +782,33 @@ namespace SSELex
             BatchTranslationHelper.Close();
         }
 
+        public bool CheckPlatformStates()
+        {
+            if (DeFine.GlobalLocalSetting.BaiDuYunApiUsing)
+            {
+                if ((DeFine.GlobalLocalSetting.BaiDuAppID.Trim().Length > 0 && DeFine.GlobalLocalSetting.BaiDuSecretKey.Trim().Length > 0)==false)
+                {
+                    return false;
+                }
+            }
+            if (DeFine.GlobalLocalSetting.ChatGptApiUsing)
+            {
+                if ((DeFine.GlobalLocalSetting.ChatGptKey.Trim().Length > 0) == false)
+                {
+                    return false;
+                }
+            }
+            if (DeFine.GlobalLocalSetting.DeepSeekApiUsing)
+            {
+                if ((DeFine.GlobalLocalSetting.DeepSeekKey.Trim().Length > 0) == false)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         public bool StopAny = true;
 
         private void ChangeTransProcessState(object sender, MouseButtonEventArgs e)
@@ -766,11 +817,18 @@ namespace SSELex
             {
                 if (StopAny == true)
                 {
-                    StopAny = false;
-                    AutoKeepTag.Background = new SolidColorBrush(Color.FromRgb(0, 51, 97));
+                    if (CheckPlatformStates())
+                    {
+                        StopAny = false;
+                        AutoKeepTag.Background = new SolidColorBrush(Color.FromRgb(0, 51, 97));
 
-                    AutoKeep.Source = new Uri("pack://application:,,,/SSELex;component/Material/Stop.svg");
-                    BatchTranslationHelper.Start();
+                        AutoKeep.Source = new Uri("pack://application:,,,/SSELex;component/Material/Stop.svg");
+                        BatchTranslationHelper.Start();
+                    }
+                    else
+                    {
+                        MessageBox.Show("ApiKey is not configured or is incorrect.");
+                    }
                 }
                 else
                 {
@@ -829,7 +887,7 @@ namespace SSELex
                                 }
                                 File.Copy(LastSetPath, GetBackUPPath);
                                 File.Delete(LastSetPath);
-                                SystemDataWriter.WriteAllMemoryData(ref GlobalEspReader);
+                                SkyrimDataWriter.WriteAllMemoryData(ref GlobalEspReader);
                                 GlobalEspReader.DefSaveMod(GlobalEspReader.CurrentReadMod, LastSetPath);
                             }
                         }
@@ -1037,15 +1095,21 @@ namespace SSELex
         {
             if (ConvertHelper.ObjToStr(ViewMode.SelectedValue).Equals("Quick"))
             {
-                TransViewBox.Width = double.NaN;
-                TransViewBox.HorizontalAlignment = HorizontalAlignment.Stretch;
+                DeFine.CurrentSearchStr = string.Empty;
+                SearchKey.Text = string.Empty;
+                ExtendFrame.Height = new GridLength(0,GridUnitType.Pixel);
                 ExtendBox.Width = 0;
+
+                DeFine.ViewMode = 0;
+                ReloadData();
             }
             else
             {
-                TransViewBox.Width = this.Width * 0.6;
-                TransViewBox.HorizontalAlignment = HorizontalAlignment.Left;
+                ExtendFrame.Height = new GridLength(1.8, GridUnitType.Star);
                 ExtendBox.Width = this.Width - TransViewBox.Width;
+
+                DeFine.ViewMode = 1;
+                ReloadData();
             }
         }
 
@@ -1054,61 +1118,44 @@ namespace SSELex
             AutoViewMode();
         }
 
-        private void ToStr_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (FromStr.Text.Trim().Length == 0)
-            {
-                return;
-            }
-            if (sender is TextBox)
-            {
-                if ((sender as TextBox).Tag != null)
-                {
-                    int Key = ConvertHelper.ObjToInt((sender as TextBox).Tag);
-                    string GetText = (sender as TextBox).Text;
-                    if (GetText.Trim().Length > 0)
-                    {
-                        (UIHelper.SelectLine.Children[4] as TextBox).Text = GetText;
-                        Translator.TransData[Key] = GetText;
-                    }
-                    else
-                    {
-                        (UIHelper.SelectLine.Children[4] as TextBox).Text = string.Empty;
-                        (UIHelper.SelectLine.Children[4] as TextBox).BorderBrush = new SolidColorBrush(Color.FromRgb(87, 87, 87));
-                        if (Translator.TransData.ContainsKey(Key))
-                        {
-                            Translator.TransData.Remove(Key);
-                        }
-                    }
-                }
-            }
-        }
-
-
         private void TransCurrentItem(object sender, MouseButtonEventArgs e)
         {
-            new Thread(() =>
+            if (DeFine.ViewMode == 1)
             {
-                this.Dispatcher.Invoke(new Action(() =>
+                if (ConvertHelper.ObjToStr(TransBtn.Content).Equals("Translate(F1)"))
                 {
-                    TransViewList.GetMainGrid().IsHitTestVisible = false;
-                }));
-                string GetFromStr = "";
-                this.Dispatcher.Invoke(new Action(() =>
-                {
-                    GetFromStr = FromStr.Text;
-                }));
-                List<EngineProcessItem> EngineProcessItems = new List<EngineProcessItem>();
-                var GetResult = new WordProcess().ProcessWords(ref EngineProcessItems, GetFromStr, DeFine.SourceLanguage, DeFine.TargetLanguage);
-                this.Dispatcher.Invoke(new Action(() =>
-                {
-                    ToStr.Text = GetResult;
-                }));
-                this.Dispatcher.Invoke(new Action(() =>
-                {
-                    TransViewList.GetMainGrid().IsHitTestVisible = true;
-                }));
-            }).Start();
+                    new Thread(() =>
+                    {
+                        this.Dispatcher.Invoke(new Action(() =>
+                        {
+                            TransBtn.Content = "Working..";
+                        }));
+                        this.Dispatcher.Invoke(new Action(() =>
+                        {
+                            TransViewList.GetMainGrid().IsHitTestVisible = false;
+                        }));
+                        string GetFromStr = "";
+                        this.Dispatcher.Invoke(new Action(() =>
+                        {
+                            GetFromStr = FromStr.Text;
+                        }));
+                        List<EngineProcessItem> EngineProcessItems = new List<EngineProcessItem>();
+                        var GetResult = new WordProcess().QuickTrans(GetFromStr, DeFine.SourceLanguage, DeFine.TargetLanguage);
+                        this.Dispatcher.Invoke(new Action(() =>
+                        {
+                            ToStr.Text = GetResult;
+                        }));
+                        this.Dispatcher.Invoke(new Action(() =>
+                        {
+                            TransViewList.GetMainGrid().IsHitTestVisible = true;
+                        }));
+                        this.Dispatcher.Invoke(new Action(() =>
+                        {
+                            TransBtn.Content = "Translate(F1)";
+                        }));
+                    }).Start();
+                }
+            }
         }
 
         private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -1120,122 +1167,129 @@ namespace SSELex
                     TransCurrentItem(null, null);
                 }
             }
+            if (e.Key == System.Windows.Input.Key.F2 && ConvertHelper.ObjToStr(ViewMode.SelectedValue) == "Normal")
+            {
+                if (TransViewList.GetMainGrid().IsHitTestVisible)
+                {
+                    ApplyTransStr(null, null);
+                }
+            }
         }
 
         public void SendQuestionToAI(object Engine, string QuestionStr)
         {
-            if (Engine is ChatGptApi)
-            {
-                var GetResult = (Engine as ChatGptApi).CallAI($"{QuestionStr} ,请用 {DeFine.TargetLanguage.ToString()} 回复,能有点猫娘的口吻吗可爱点的.");
+            //if (Engine is ChatGptApi)
+            //{
+            //    var GetResult = (Engine as ChatGptApi).CallAI($"{QuestionStr} ,请用 {DeFine.TargetLanguage.ToString()} 回复,能有点猫娘的口吻吗可爱点的.");
 
-                if (GetResult != null)
-                {
-                    if (GetResult.choices != null)
-                    {
-                        string CNStr = "";
-                        if (GetResult.choices.Length > 0)
-                        {
-                            CNStr = GetResult.choices[0].message.content.Trim();
-                        }
-                        if (CNStr.Trim().Length > 0)
-                        {
-                            this.Dispatcher.Invoke(new Action(() =>
-                            {
-                                AILog.Text = CNStr;
-                            }));
-                        }
-                        else
-                        {
-                            this.Dispatcher.Invoke(new Action(() =>
-                            {
-                                AILog.Text = string.Empty;
-                            }));
-                        }
-                    }
-                }
-            }
-            else
-            if (Engine is DeepSeekApi)
-            {
-                var GetResult = (Engine as DeepSeekApi).CallAI($"{QuestionStr} ,请用 {DeFine.TargetLanguage} 回复,能有点猫娘的口吻吗可爱点的.");
+            //    if (GetResult != null)
+            //    {
+            //        if (GetResult.choices != null)
+            //        {
+            //            string CNStr = "";
+            //            if (GetResult.choices.Length > 0)
+            //            {
+            //                CNStr = GetResult.choices[0].message.content.Trim();
+            //            }
+            //            if (CNStr.Trim().Length > 0)
+            //            {
+            //                this.Dispatcher.Invoke(new Action(() =>
+            //                {
+            //                    AILog.Text = CNStr;
+            //                }));
+            //            }
+            //            else
+            //            {
+            //                this.Dispatcher.Invoke(new Action(() =>
+            //                {
+            //                    AILog.Text = string.Empty;
+            //                }));
+            //            }
+            //        }
+            //    }
+            //}
+            //else
+            //if (Engine is DeepSeekApi)
+            //{
+            //    var GetResult = (Engine as DeepSeekApi).CallAI($"{QuestionStr} ,请用 {DeFine.TargetLanguage} 回复,能有点猫娘的口吻吗可爱点的.");
 
-                if (GetResult != null)
-                {
-                    if (GetResult.choices != null)
-                    {
-                        string CNStr = "";
-                        if (GetResult.choices.Length > 0)
-                        {
-                            CNStr = GetResult.choices[0].message.content.Trim();
-                        }
-                        if (CNStr.Trim().Length > 0)
-                        {
-                            this.Dispatcher.Invoke(new Action(() =>
-                            {
-                                AILog.Text = CNStr;
-                            }));
-                        }
-                        else
-                        {
-                            this.Dispatcher.Invoke(new Action(() =>
-                            {
-                                AILog.Text = string.Empty;
-                            }));
-                        }
-                    }
-                }
-            }
+            //    if (GetResult != null)
+            //    {
+            //        if (GetResult.choices != null)
+            //        {
+            //            string CNStr = "";
+            //            if (GetResult.choices.Length > 0)
+            //            {
+            //                CNStr = GetResult.choices[0].message.content.Trim();
+            //            }
+            //            if (CNStr.Trim().Length > 0)
+            //            {
+            //                this.Dispatcher.Invoke(new Action(() =>
+            //                {
+            //                    AILog.Text = CNStr;
+            //                }));
+            //            }
+            //            else
+            //            {
+            //                this.Dispatcher.Invoke(new Action(() =>
+            //                {
+            //                    AILog.Text = string.Empty;
+            //                }));
+            //            }
+            //        }
+            //    }
+            //}
         }
 
         private void SendQuestionToAI(object sender, MouseButtonEventArgs e)
         {
-            if (!StopAny)
-            {
-                return;
-            }
-            string GetSendAIText = SendAIText.Text;
-            if (ConvertHelper.ObjToStr(SendQuestionBtn.Content).Equals("SendQuestion"))
-            {
-                new Thread(() =>
-                {
-                    this.Dispatcher.Invoke(new Action(() =>
-                    {
-                        SendQuestionBtn.Content = "AI Thinking...";
-                    }));
+            //if (!StopAny)
+            //{
+            //    return;
+            //}
+            //string GetSendAIText = SendAIText.Text;
+            //if (ConvertHelper.ObjToStr(SendQuestionBtn.Content).Equals("SendQuestion"))
+            //{
+            //    new Thread(() =>
+            //    {
+            //        this.Dispatcher.Invoke(new Action(() =>
+            //        {
+            //            SendQuestionBtn.Content = "AI Thinking...";
+            //        }));
 
-                    List<object> AllEngines = new List<object>();
+            //        List<object> AllEngines = new List<object>();
 
-                    if (DeFine.GlobalLocalSetting.ChatGptApiUsing && DeFine.GlobalLocalSetting.ChatGptKey.Trim().Length > 0)
-                    {
-                        AllEngines.Add(new ChatGptApi());
-                    }
-                    if (DeFine.GlobalLocalSetting.DeepSeekApiUsing && DeFine.GlobalLocalSetting.DeepSeekKey.Trim().Length > 0)
-                    {
-                        AllEngines.Add(new DeepSeekApi());
-                    }
+            //        if (DeFine.GlobalLocalSetting.ChatGptApiUsing && DeFine.GlobalLocalSetting.ChatGptKey.Trim().Length > 0)
+            //        {
+            //            AllEngines.Add(new ChatGptApi());
+            //        }
+            //        if (DeFine.GlobalLocalSetting.DeepSeekApiUsing && DeFine.GlobalLocalSetting.DeepSeekKey.Trim().Length > 0)
+            //        {
+            //            AllEngines.Add(new DeepSeekApi());
+            //        }
 
-                    if (AllEngines.Count == 1)
-                    {
-                        SendQuestionToAI(AllEngines[0], GetSendAIText);
-                    }
-                    else
-                    if (AllEngines.Count > 0)
-                    {
-                        SendQuestionToAI(AllEngines[new Random(Guid.NewGuid().GetHashCode()).Next(0, AllEngines.Count)], GetSendAIText);
-                    }
+            //        if (AllEngines.Count == 1)
+            //        {
+            //            SendQuestionToAI(AllEngines[0], GetSendAIText);
+            //        }
+            //        else
+            //        if (AllEngines.Count > 0)
+            //        {
+            //            SendQuestionToAI(AllEngines[new Random(Guid.NewGuid().GetHashCode()).Next(0, AllEngines.Count)], GetSendAIText);
+            //        }
 
-                    this.Dispatcher.Invoke(new Action(() =>
-                    {
-                        SendQuestionBtn.Content = "SendQuestion";
-                    }));
+            //        this.Dispatcher.Invoke(new Action(() =>
+            //        {
+            //            SendQuestionBtn.Content = "SendQuestion";
+            //        }));
 
-                }).Start();
-            }
+            //    }).Start();
+            //}
         }
 
         private void DetectLang(object sender, MouseButtonEventArgs e)
         {
-            var GetLang = WordProcess.DetectLanguage();
+            var GetLang = LanguageHelper.DetectLanguage();
             DeFine.SourceLanguage = GetLang;
             Source.SelectedValue = GetLang.ToString();
         }
@@ -1475,6 +1529,11 @@ namespace SSELex
 
                 SkyrimSEPath.Text = DeFine.GlobalLocalSetting.SkyrimPath;
 
+                if (DeFine.GlobalLocalSetting.AutoCompress)
+                {
+                    AutoCompress.IsChecked = true;
+                }
+
                 UIHelper.AnimateCanvasLeft(SettingBlock, 249);
             }
         }
@@ -1696,6 +1755,83 @@ namespace SSELex
                 }
             }
            
+        }
+
+        private void ApplyTransStr(object sender, MouseButtonEventArgs e)
+        {
+            if (LoadSaveState != 0)
+            {
+                string TransText = ToStr.Text;
+
+                if (UIHelper.ActiveTextBox != null && FromStr.Text.Trim().Length > 0)
+                {
+                    UIHelper.ActiveTextBox.Text = TransText;
+
+                    Translator.TransData[UIHelper.ActiveKey] = TransText;
+                }
+            }
+        }
+
+        private void ToStr_MouseLeave(object sender, MouseEventArgs e)
+        {
+            ApplyTransStr(null,null);
+        }
+
+        private void ReplaceLine(object sender, MouseButtonEventArgs e)
+        {
+            ToStr.Text = ToStr.Text.Replace(ReplaceKey.Text.Trim(), ReplaceValue.Text.Trim());
+        }
+
+        private void SearchStr(object sender, MouseButtonEventArgs e)
+        {
+            DeFine.CurrentSearchStr = SearchKey.Text.Trim();
+            ReloadData();
+        }
+
+        private void SearchKey_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (LoadSaveState != 0)
+            {
+                if (SearchKey.Text.Trim().Length == 0)
+                {
+                    DeFine.CurrentSearchStr = string.Empty;
+                    ReloadData();
+                }
+            }
+        }
+
+        private void ClearTrans_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            ToStr.Text = "";
+        }
+
+        private void ToStr_TextChanged(object sender, EventArgs e)
+        {
+            if (ToStr.Text.Length == 0)
+            {
+                ClearBtn.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                ClearBtn.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void AutoCompress_Click(object sender, RoutedEventArgs e)
+        {
+            if (AutoCompress.IsChecked == true)
+            {
+                DeFine.GlobalLocalSetting.AutoCompress = true;
+            }
+            else
+            {
+                DeFine.GlobalLocalSetting.AutoCompress = false;
+            }
+        }
+
+        private void SaveAs_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("Still under development with future support expected.");
         }
     }
 }

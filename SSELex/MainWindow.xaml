@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+        xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
         xmlns:local="clr-namespace:SSELex"
         mc:Ignorable="d"
         Title="SSELex" PreviewKeyDown="Window_PreviewKeyDown" Height="850" LocationChanged="Window_LocationChanged" Width="1200" MinWidth="1000" Loaded="Window_Loaded" Style="{DynamicResource DefWin}" WindowStartupLocation="CenterScreen" AllowDrop="True" PreviewDragEnter="ModTransView_DragEnter" PreviewDrop="ModTransView_Drop"  PreviewDragLeave="ModTransView_DragLeave" Closing="Window_Closing" SizeChanged="Window_SizeChanged">
@@ -58,7 +59,7 @@
                 <Grid Grid.Row="0" Name="Header" Margin="10 0 10 0">
                     <StackPanel Orientation="Horizontal">
                         <Label HorizontalAlignment="Left" Name="MainCaption" Foreground="White" VerticalAlignment="Center">
-                            SSELex Gui 1.4.608
+                            SSELex Gui 1.4.618
                         </Label>
                         <Grid Background="#FF014C8F" Width="180" Margin="20 0 0 0" Name="ThreadInFo" Visibility="Collapsed">
                             <Label Foreground="White" FontWeight="Bold" Name="ThreadInFoLog" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
@@ -305,6 +306,9 @@
                                         </StackPanel>
                                         <ComboBox Name="SkyrimTypes" SelectionChanged="SkyrimTypes_SelectionChanged" Style="{StaticResource WpfComboBoxStyle}">
                                         </ComboBox>
+                                        <CheckBox Name="AutoCompress" Click="AutoCompress_Click" Margin="0 5 0 0">
+                                            AutoCompress(If you have problems saving, you can disable this feature)
+                                        </CheckBox>
 
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
                                             <Label FontSize="15">
@@ -495,12 +499,24 @@
                                     <CheckBox Name="UsingContext" VerticalAlignment="Center" Margin="10 0 0 0" Click="UsingContext_Click">
                                         Use Context
                                     </CheckBox>
+
+                                    <Label VerticalAlignment="Center" Margin="5 0 0 0">
+                                        Export to:
+                                    </Label>
+                                    <ComboBox VerticalAlignment="Center" Cursor="Hand" Width="100" Name="ExportTypes" Style="{StaticResource WpfComboBoxStyle}">
+                                    </ComboBox>
+                                    <Border  CornerRadius="5" Background="#FF0B74D1" Height="30" Margin="10 0 0 0"  Cursor="Hand" PreviewMouseDown="SaveAs_PreviewMouseDown">
+                                        <Label Padding="10 0 10 0"  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            Save As
+                                        </Label>
+                                    </Border>
                                 </StackPanel>
 
-                                <Grid VerticalAlignment="Stretch" Grid.Row="2" Name="TransViewBox" Panel.ZIndex="99999" Width="0">
+                                <Grid VerticalAlignment="Stretch" Grid.Row="2" Name="TransViewBox" Panel.ZIndex="99999">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="30"/>
                                         <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*" Name="ExtendFrame"/>
                                     </Grid.RowDefinitions>
 
                                     <Grid Height="30" Background="#FF7B7B7B" VerticalAlignment="Top" Grid.Row="0">
@@ -525,63 +541,130 @@
                                     </Grid>
                                     <Grid Name="TransView" Grid.Row="1" Panel.ZIndex="999">
                                     </Grid>
-                                </Grid>
 
-                                <Grid HorizontalAlignment="Right" Width="0"  Grid.Row="2" Name="ExtendBox" Background="Black">
-                                    <StackPanel Orientation="Vertical" Margin="5">
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                            <Label Foreground="White" VerticalAlignment="Center">
-                                                String Replace->
-                                            </Label>
+                                    <Grid Grid.Row="2" Name="ExtendBox" Background="#FF333333" Visibility="Hidden">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="50"/>
+                                                <RowDefinition Height="1*"/>
+                                                <RowDefinition Height="50"/>
+                                            </Grid.RowDefinitions>
 
-                                            <Label Foreground="White" VerticalAlignment="Center">
-                                                Key
-                                            </Label>
-                                            <TextBox Name="ReplaceKey" Padding="10" MinWidth="50" MaxWidth="110" Background="#FF202020" CaretBrush="Yellow" Foreground="White" BorderThickness="0" BorderBrush="{x:Null}" VerticalAlignment="Center">
-                                            </TextBox>
-                                            <Label Foreground="White" VerticalAlignment="Center">
-                                                Value
-                                            </Label>
-                                            <TextBox Name="ReplaceValue" Padding="10" MinWidth="50" MaxWidth="110" Background="#FF202020" CaretBrush="Yellow" Foreground="White" BorderThickness="0" BorderBrush="{x:Null}" VerticalAlignment="Center">
-                                            </TextBox>
-                                            <Border  Background="#FF076FCB"  Height="30" Margin="10 0 10 0" Cursor="Hand" PreviewMouseDown="ReplaceAllLine">
-                                                <Label Name="ReplaceBtn" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                    Replace
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="0">
+                                                <Label Foreground="White" VerticalAlignment="Center">
+                                                    Request Setting->
                                                 </Label>
-                                            </Border>
-                                        </StackPanel>
+                                                <Border  Background="#FF076FCB"  Height="30" Margin="10 0 10 0" Cursor="Hand" PreviewMouseDown="ClearCache">
+                                                    <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                        ClearCache
+                                                    </Label>
+                                                </Border>
+                                                <Label Foreground="White" VerticalAlignment="Center">
+                                                    TransText Replace->
+                                                </Label>
 
-                                        <Label Foreground="White">
-                                            AI->
-                                        </Label>
-                                        <TextBox Name="SendAIText" Padding="10" FontSize="15" Background="#FF202020" CaretBrush="Yellow" Foreground="White" BorderThickness="0" BorderBrush="{x:Null}"  AcceptsReturn="True" TextWrapping="Wrap" Height="100">
-                                        </TextBox>
-                                        <Border  Background="#FF076FCB"  Height="30" Margin="10 0 10 0" Cursor="Hand" PreviewMouseDown="SendQuestionToAI">
-                                            <Label Name="SendQuestionBtn" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                SendQuestion
-                                            </Label>
-                                        </Border>
-                                        <Label Foreground="White">
-                                            FromStr->
-                                        </Label>
-                                        <TextBox Padding="10" Background="{x:Null}" FontSize="15" IsReadOnly="True"  CaretBrush="Yellow" Name="FromStr" HorizontalContentAlignment="Left" Foreground="White" BorderThickness="0" BorderBrush="{x:Null}" AcceptsReturn="True" TextWrapping="Wrap" Height="100">
-                                        </TextBox>
-                                        <Border ToolTip="HotKey Press F1" Background="#FF076FCB"  Height="30" Margin="10 0 10 0" Cursor="Hand" PreviewMouseDown="TransCurrentItem">
-                                            <Label  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                Translate(F1)
-                                            </Label>
-                                        </Border>
-                                        <Label Foreground="White">
-                                            ToStr->
-                                        </Label>
-                                        <TextBox Padding="10" FontSize="15" Background="#FF202020" CaretBrush="Yellow" Name="ToStr" TextChanged="ToStr_TextChanged" HorizontalContentAlignment="Left" Foreground="White" BorderThickness="0" BorderBrush="{x:Null}" AcceptsReturn="True" TextWrapping="Wrap" Height="100">
-                                        </TextBox>
-                                        <Label Foreground="White">
-                                            AIReply->
-                                        </Label>
-                                        <TextBox IsReadOnly="True" Name="AILog" Padding="10" FontSize="15" Background="{x:Null}" CaretBrush="Yellow" Foreground="White" BorderThickness="0" BorderBrush="{x:Null}"  AcceptsReturn="True" TextWrapping="Wrap" Height="130" VerticalScrollBarVisibility="Auto">
-                                        </TextBox>
-                                    </StackPanel>
+                                                <Label Foreground="White" VerticalAlignment="Center">
+                                                    Key
+                                                </Label>
+                                                <TextBox Name="ReplaceKey" Padding="10" MinWidth="100" MaxWidth="160" Background="#FF202020" CaretBrush="Yellow" Foreground="White" BorderThickness="0" BorderBrush="{x:Null}" VerticalAlignment="Center">
+                                                </TextBox>
+                                                <Label Foreground="White" VerticalAlignment="Center" Margin="10 0 0 0">
+                                                    Value
+                                                </Label>
+                                                <TextBox Name="ReplaceValue" Padding="10" MinWidth="100" MaxWidth="160" Background="#FF202020" CaretBrush="Yellow" Foreground="White" BorderThickness="0" BorderBrush="{x:Null}" VerticalAlignment="Center">
+                                                </TextBox>
+                                                <Border  Background="#FF076FCB"  Height="30" Margin="10 0 5 0" Cursor="Hand" PreviewMouseDown="ReplaceLine">
+                                                    <Label Name="ReplaceCurrentBtn" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                        ReplaceCurrent
+                                                    </Label>
+                                                </Border>
+                                                <Border  Background="#FF076FCB"  Height="30" Margin="5 0 10 0" Cursor="Hand" PreviewMouseDown="ReplaceAllLine">
+                                                    <Label Name="ReplaceBtn" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                        ReplaceAll
+                                                    </Label>
+                                                </Border>
+
+                                                <Label Foreground="White" VerticalAlignment="Center">
+                                                    SourceText Search->
+                                                </Label>
+
+                                                <Label Foreground="White" VerticalAlignment="Center">
+                                                    Key
+                                                </Label>
+                                                <TextBox Name="SearchKey" Padding="10" MinWidth="100" MaxWidth="160" Background="#FF202020" CaretBrush="Yellow" Foreground="White" BorderThickness="0" BorderBrush="{x:Null}" VerticalAlignment="Center" TextChanged="SearchKey_TextChanged">
+                                                </TextBox>
+
+                                                <Border  Background="#FF076FCB"  Height="30" Margin="5 0 10 0" Cursor="Hand" PreviewMouseDown="SearchStr">
+                                                    <Label Name="SearchStrBtn" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                        Search
+                                                    </Label>
+                                                </Border>
+                                            </StackPanel>
+
+                                            <Grid Grid.Row="1">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <ColumnDefinition Width="1*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Grid Grid.Column="0">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="30"/>
+                                                        <RowDefinition Height="1*"/>
+                                                    </Grid.RowDefinitions>
+                                                    <Label Foreground="White">
+                                                        FromStr->
+                                                    </Label>
+
+                                                    <avalonEdit:TextEditor Grid.Row="1" Margin="5" Name="FromStr" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" IsReadOnly="True"  FontFamily="Consolas" FontSize="16" ShowLineNumbers="True" Background="#FF282828" Foreground="White" WordWrap="True" TextOptions.TextFormattingMode="Display">
+
+                                                    </avalonEdit:TextEditor>
+                                                </Grid>
+
+                                                <Grid Grid.Column="1">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="30"/>
+                                                        <RowDefinition Height="1*"/>
+                                                    </Grid.RowDefinitions>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Label Foreground="White">
+                                                            ToStr->
+                                                        </Label>
+                                                        <Border CornerRadius="9" Background="#FFFD970B" Margin="0 5 0 5" Cursor="Hand" PreviewMouseDown="ClearTrans_PreviewMouseDown" Name="ClearBtn" Visibility="Hidden">
+                                                            <Label Foreground="White" VerticalAlignment="Center" FontSize="12" Padding="15 0 15 0">
+                                                                Clear
+                                                            </Label>
+                                                        </Border>
+                                                       
+                                                    </StackPanel>
+                                                  
+
+                                                    <avalonEdit:TextEditor TextChanged="ToStr_TextChanged" MouseLeave="ToStr_MouseLeave" Grid.Row="1" Margin="5" Name="ToStr" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" FontFamily="Consolas" FontSize="16" ShowLineNumbers="True" Background="#FF282828" Foreground="White" WordWrap="True" TextOptions.TextFormattingMode="Display">
+
+                                                    </avalonEdit:TextEditor>
+                                                </Grid>
+                                            </Grid>
+
+                                            <Grid Grid.Row="2">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <ColumnDefinition Width="1*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Border Grid.Column="0" ToolTip="HotKey Press F1" CornerRadius="6" Background="#FF076FCB" Height="30" Margin="10 0 10 0" Cursor="Hand" PreviewMouseDown="TransCurrentItem">
+                                                    <Label  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Name="TransBtn">
+                                                        Translate(F1)
+                                                    </Label>
+                                                </Border>
+                                                <Border Grid.Column="1" ToolTip="HotKey Press F2" CornerRadius="6" Background="#FF076FCB" Height="30" Margin="10 0 10 0" Cursor="Hand" PreviewMouseDown="ApplyTransStr">
+                                                    <Label  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                        Apply(F2)
+                                                    </Label>
+                                                </Border>
+                                            </Grid>
+                                          
+                                        </Grid>
+                                       
+                                    </Grid>
                                 </Grid>
                             </Grid>
                           

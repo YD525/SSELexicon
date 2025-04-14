@@ -112,6 +112,5 @@ C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\obj\Release\net9.0-wind
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\obj\Release\net9.0-windows\SSELex.genruntimeconfig.cache
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\obj\Release\net9.0-windows\ref\SSELex.dll
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\README.md
-C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Release\net9.0-windows\LICENSE.txt
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\obj\Release\net9.0-windows\LogView.g.cs
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\obj\Release\net9.0-windows\LogView.baml

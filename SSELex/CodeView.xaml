@@ -376,7 +376,7 @@
                     </StackPanel>
                 </Grid>
 
-                <avalonEdit:TextEditor Margin="5" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" IsReadOnly="True" Name="TextEditor" FontFamily="Consolas" FontSize="16" ShowLineNumbers="True" Background="#FF282828" Foreground="White" Grid.Row="1" WordWrap="False" TextOptions.TextFormattingMode="Display">
+                <avalonEdit:TextEditor Margin="5" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" IsReadOnly="True" Name="TextEditor" FontFamily="Consolas" FontSize="16" ShowLineNumbers="True" Background="#FF282828" Foreground="White" Grid.Row="1" WordWrap="True" TextOptions.TextFormattingMode="Display">
                     
                 </avalonEdit:TextEditor>
             </Grid>

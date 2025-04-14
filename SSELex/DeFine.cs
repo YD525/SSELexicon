@@ -16,6 +16,7 @@ using SSELex.SQLManager;
 using SSELex.TranslateCore;
 using System.Windows.Threading;
 using System.Windows;
+using SSELex.TranslateManage;
 
 namespace SSELex
 {
@@ -30,6 +31,8 @@ namespace SSELex
     }
     public class DeFine
     {
+        public static int ViewMode = 0;
+
         public static SolidColorBrush DefBackGround = new SolidColorBrush(Color.FromRgb(11, 116, 209));
         public static SolidColorBrush SelectBackGround = new SolidColorBrush(Color.FromRgb(7,82,149));
 
@@ -44,7 +47,7 @@ namespace SSELex
 
         public static string BackupPath = @"\BackUpData\";
 
-        public static string CurrentVersion = "1.4.608";
+        public static string CurrentVersion = "1.4.618";
         public static LocalSetting GlobalLocalSetting = new LocalSetting();
 
         public static MainWindow WorkingWin = null;
@@ -53,6 +56,8 @@ namespace SSELex
         public static CodeView CurrentCodeView = null;
         public static TextEditor ActiveIDE = null;
         public static WordProcess WordProcessEngine = null;
+
+        public static string CurrentSearchStr = "";
 
         public static void CloseAny()
         {
@@ -174,7 +179,7 @@ namespace SSELex
 
         public static void LoadData()
         {
-            LanguageHelper.Init();
+            TransCore.Init();
             ConjunctionHelper.Init();
         }
     }
@@ -208,6 +213,7 @@ namespace SSELex
         public bool UsingContext { get; set; } = false;
         public bool ShowLog { get; set; } = true;
         public bool ShowCode { get; set; } = true;
+        public bool AutoCompress { get; set; } = true;
         public SkyrimType SkyrimType { get; set; } = SkyrimType.SkyrimSE;
 
         public void ReadConfig()
@@ -250,6 +256,7 @@ namespace SSELex
                         this.ShowCode = GetSetting.ShowCode;
                         this.ShowLog = GetSetting.ShowLog;
                         this.SkyrimType = GetSetting.SkyrimType;
+                        this.AutoCompress = GetSetting.AutoCompress;
                     }
                 }
                 else

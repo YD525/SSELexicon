@@ -13,6 +13,7 @@
   <ItemGroup>
     <None Remove="DownICO.png" />
     <None Remove="IDERule\Lua.xshd" />
+    <None Remove="IDERule\TextStyle.xshd" />
     <None Remove="Material\Baidu.svg" />
     <None Remove="Material\ChatGPT.svg" />
     <None Remove="Material\Code.svg" />
@@ -43,6 +44,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="IDERule\Lua.xshd" />
+    <EmbeddedResource Include="IDERule\TextStyle.xshd" />
     <Resource Include="Material\ChatGPT.svg" />
   </ItemGroup>
 
@@ -95,7 +97,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AvalonEdit" Version="6.3.0.90" />
+    <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
     <PackageReference Include="Microsoft-WindowsAPICodePack-Core" Version="1.1.5" />
     <PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.5" />
     <PackageReference Include="Mutagen.Bethesda" Version="0.49.0" />

@@ -111,7 +111,6 @@ C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Debug\net9.0-window
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Debug\net9.0-windows\System.Collections.Immutable.dll
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Debug\net9.0-windows\System.Text.Encoding.CodePages.dll
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Debug\net9.0-windows\runtimes\win\lib\net9.0\System.Text.Encoding.CodePages.dll
-C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Debug\net9.0-windows\LICENSE.txt
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\bin\Debug\net9.0-windows\README.md
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\obj\Debug\net9.0-windows\LogView.g.cs
 C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\obj\Debug\net9.0-windows\LogView.baml

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Data;
+﻿using System.Data;
 using System.Text.RegularExpressions;
 using System.Xml;
 using System.IO;
-using System.Collections;
 using System.Data.SQLite;
-using System.Configuration;//添加.net引用
 namespace SSELex.SQLManager
 {
     /// <summary>

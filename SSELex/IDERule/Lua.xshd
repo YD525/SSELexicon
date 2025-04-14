@@ -16,9 +16,10 @@
   <Color name="TrueFalse" fontWeight="bold" foreground="#ff66cccc" />
   <Color name="System" foreground="#FFF49A0C" />
   <Color name="PapyrusDeFine" foreground="#FF249BE9"/>
-
+  <Color name="SystemDef" foreground="#FF03A9E7" />
+  <Color name="Orange" foreground="#FFA500" />
 	
- <Color name="SystemDef" foreground="#FF03A9E7" />
+
   <RuleSet name="CommentMarkerSet">
     <Keywords fontWeight="bold" foreground="#fff2777a">
       <Word>TODO</Word>
@@ -33,6 +34,16 @@
   <!-- This is the main ruleset. -->
   <RuleSet>
 
+	  <Span color="Orange">
+		  <Begin>\[</Begin>
+		  <End>\]</End>
+	  </Span>
+
+	  <Span color="Orange">
+		  <Begin>&lt;</Begin>
+		  <End>&gt;</End>
+	  </Span>
+	  
     <Span color="Comment">
       <Begin color="XmlDoc/DocComment">---</Begin>
       <RuleSet>
@@ -107,6 +118,7 @@
 		  <Word>Idle</Word>
 		  <Word>Key</Word>
 		  <Word>Message</Word>
+		  <Word>Scene</Word>
 		  <Word>FormList</Word>
 		  <Word>Package</Word>
 		  <Word>Outfit</Word>

@@ -1,0 +1,40 @@
+{
+  "ModName": "zadArmbinderEffect.pex",
+  "Dictionarys": [
+    {
+      "Key": "24-678-0-24(Script)",
+      "OriginalText": "你开始习惯手臂被束缚了.",
+      "TransText": "1"
+    },
+    {
+      "Key": "31-999-0-31(Script)",
+      "OriginalText": "你佩戴的手臂拘束器不再那么疼了.",
+      "TransText": "2"
+    },
+    {
+      "Key": "38-1325-0-38(Script)",
+      "OriginalText": "你不再注意到你的手臂拘束器了.",
+      "TransText": "3"
+    },
+    {
+      "Key": "45-1650-0-45(Script)",
+      "OriginalText": "通过佩戴手臂拘束器使你开始感觉非常舒服!",
+      "TransText": ""
+    },
+    {
+      "Key": "52-1980-0-52(Script)",
+      "OriginalText": "现在佩戴手臂拘束器感觉上已经是完全自然了!",
+      "TransText": ""
+    },
+    {
+      "Key": "65-2432-0-67(Script)",
+      "OriginalText": "123",
+      "TransText": ""
+    },
+    {
+      "Key": "80-3013-0-83(Script)",
+      "OriginalText": "431",
+      "TransText": ""
+    }
+  ]
+}
