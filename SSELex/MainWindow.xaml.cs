@@ -354,7 +354,7 @@ namespace SSELex
                 ProxyCenter.GlobalProxyIP = DeFine.GlobalLocalSetting.ProxyIP;
 
                 //Test
-                //DeFine.GlobalLocalSetting.DeepLKey = "358976f2-bc2a-4215-bb35-c8462d45c5fb:fx";
+                //DeFine.GlobalLocalSetting.DeepLKey = "";
                 //ProxyCenter.GlobalProxyIP = "127.0.0.1:7890";
                 //new DeepLApi().QuickTrans("Test",Languages.English,Languages.SimplifiedChinese);
 
