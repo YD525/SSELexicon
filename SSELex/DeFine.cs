@@ -47,7 +47,7 @@ namespace SSELex
 
         public static string BackupPath = @"\BackUpData\";
 
-        public static string CurrentVersion = "1.4.618";
+        public static string CurrentVersion = "1.4.619";
         public static LocalSetting GlobalLocalSetting = new LocalSetting();
 
         public static MainWindow WorkingWin = null;
@@ -194,6 +194,7 @@ namespace SSELex
         public bool DeepSeekApiUsing { get; set; } = false;
         public bool GoogleYunApiUsing { get; set; } = false;
         public bool DivCacheEngineUsing { get; set; } = false;
+        public bool DeepLApiUsing { get; set; } = false;
         public Languages SourceLanguage { get; set; } = Languages.English;
         public Languages TargetLanguage { get; set; } = Languages.English;
         public Languages CurrentUILanguage { get; set; } = Languages.English;
@@ -206,7 +207,12 @@ namespace SSELex
         public string BaiDuAppID { get; set; } = "";
         public string BaiDuSecretKey { get; set; } = "";
         public string ChatGptKey { get; set; } = "";
+        public string ChatGptModel { get; set; } = "gpt-4o-mini";
         public string DeepSeekKey { get; set; } = "";
+        public string DeepSeekModel{ get; set; } = "deepseek-chat";
+        public string DeepLKey { get; set; } = "";
+        public bool IsFreeDeepL { get; set; } = true;
+        public string ProxyIP { get; set; } = "";
         public int TransCount { get; set; } = 0;
         public int MaxThreadCount { get; set; } = 0;
         public bool AutoLoadDictionaryFile { get; set; } = false;
@@ -215,6 +221,7 @@ namespace SSELex
         public bool ShowCode { get; set; } = true;
         public bool AutoCompress { get; set; } = true;
         public SkyrimType SkyrimType { get; set; } = SkyrimType.SkyrimSE;
+        public string ViewMode { get; set; } = "Normal";
 
         public void ReadConfig()
         {
@@ -234,6 +241,7 @@ namespace SSELex
                         this.BaiDuYunApiUsing = GetSetting.BaiDuYunApiUsing;
                         this.ChatGptApiUsing = GetSetting.ChatGptApiUsing;
                         this.DeepSeekApiUsing = GetSetting.DeepSeekApiUsing;
+                        this.DeepLApiUsing = GetSetting.DeepLApiUsing;
                         this.GoogleYunApiUsing = GetSetting.GoogleYunApiUsing;
                         this.DivCacheEngineUsing = GetSetting.DivCacheEngineUsing;
                         this.SourceLanguage = GetSetting.SourceLanguage;
@@ -248,7 +256,12 @@ namespace SSELex
                         this.BaiDuAppID = GetSetting.BaiDuAppID;
                         this.BaiDuSecretKey = GetSetting.BaiDuSecretKey;
                         this.ChatGptKey = GetSetting.ChatGptKey;
+                        this.ChatGptModel = GetSetting.ChatGptModel;
                         this.DeepSeekKey = GetSetting.DeepSeekKey;
+                        this.DeepSeekModel = GetSetting.DeepSeekModel;
+                        this.DeepLKey = GetSetting.DeepLKey;
+                        this.IsFreeDeepL = GetSetting.IsFreeDeepL;
+                        this.ProxyIP = GetSetting.ProxyIP;
                         this.TransCount = GetSetting.TransCount;
                         this.PlaySound = GetSetting.PlaySound;
                         this.BackUpPath = GetSetting.BackUpPath;
@@ -257,6 +270,7 @@ namespace SSELex
                         this.ShowLog = GetSetting.ShowLog;
                         this.SkyrimType = GetSetting.SkyrimType;
                         this.AutoCompress = GetSetting.AutoCompress;
+                        this.ViewMode = GetSetting.ViewMode;
                     }
                 }
                 else

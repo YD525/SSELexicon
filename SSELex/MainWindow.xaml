@@ -59,7 +59,7 @@
                 <Grid Grid.Row="0" Name="Header" Margin="10 0 10 0">
                     <StackPanel Orientation="Horizontal">
                         <Label HorizontalAlignment="Left" Name="MainCaption" Foreground="White" VerticalAlignment="Center">
-                            SSELex Gui 1.4.618
+                            SSELex Gui
                         </Label>
                         <Grid Background="#FF014C8F" Width="180" Margin="20 0 0 0" Name="ThreadInFo" Visibility="Collapsed">
                             <Label Foreground="White" FontWeight="Bold" Name="ThreadInFoLog" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
@@ -326,7 +326,51 @@
                                 </Grid>
                                 <Grid Name="ApiKeyView" Visibility="Hidden">
                                     <StackPanel Orientation="Vertical"  HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <Label FontSize="15">
+                                            ProxyIP:
+                                        </Label>
+
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                            <Label VerticalAlignment="Center" HorizontalContentAlignment="Left" HorizontalAlignment="Left">
+                                                HttpProxy
+                                            </Label>
+                                            <TextBox Name="HttpProxy" Width="360" TextChanged="HttpProxy_TextChanged" VerticalContentAlignment="Center" Height="35">
+                                            </TextBox>
+                                        </StackPanel>
+
+                                        <Label FontSize="15">
+                                            ApiKeys:
+                                        </Label>
+
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 10 0 0">
+                                            <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
+                                                DeepLKey
+                                            </Label>
+                                            <PasswordBox Name="DeepLKey" Width="360" PasswordChanged="DeepLKey_PasswordChanged" VerticalContentAlignment="Center" Height="35">
+                                            </PasswordBox>
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
+                                            <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
+                                                IsFreeDeepL
+                                            </Label>
+                                            <CheckBox Click="IsFreeDeepL_Click" Name="IsFreeDeepL" VerticalAlignment="Center">
+                                            </CheckBox>
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 10 0 0">
+                                            <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
+                                                GoogleKey
+                                            </Label>
+                                            <PasswordBox Name="GoogleKey" Width="360" VerticalContentAlignment="Center" Height="35" PasswordChanged="GoogleKey_PasswordChanged">
+                                            </PasswordBox>
+                                        </StackPanel>
+
+                                        <TextBox Margin="0 5 0 0" TextWrapping="Wrap" AcceptsReturn="True" IsReadOnly="True" BorderThickness="0" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Green">
+                                            Support Google free translation,You don't need to enter a Googlekey, just enable the Google icon
+                                        </TextBox>
+
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 20 0 0">
                                             <Label VerticalAlignment="Center" HorizontalContentAlignment="Left" HorizontalAlignment="Left">
                                                 BaiDuAppID
                                             </Label>
@@ -335,27 +379,34 @@
                                         </StackPanel>
 
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
-                                            <Label VerticalAlignment="Center" HorizontalContentAlignment="Left" HorizontalAlignment="Left"> 
+                                            <Label VerticalAlignment="Center" HorizontalContentAlignment="Left" HorizontalAlignment="Left">
                                                 BaiDuKey
                                             </Label>
                                             <PasswordBox Name="BaiDuKey" Width="360" PasswordChanged="BaiDuKey_PasswordChanged" VerticalContentAlignment="Center" Height="35">
                                             </PasswordBox>
                                         </StackPanel>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
-                                            <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
-                                                GoogleKey
-                                            </Label>
-                                            <PasswordBox Name="GoogleKey" Width="360" VerticalContentAlignment="Center" Height="35" PasswordChanged="GoogleKey_PasswordChanged">
-                                            </PasswordBox>
-                                        </StackPanel>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
+
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 20 0 0">
                                             <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
                                                 ChatGptKey
                                             </Label>
                                             <PasswordBox Name="ChatGptKey" Width="360" PasswordChanged="ChatGptKey_PasswordChanged" VerticalContentAlignment="Center" Height="35">
                                             </PasswordBox>
                                         </StackPanel>
+                                        
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
+                                            <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
+                                                ChatGptModel
+                                            </Label>
+                                            <ComboBox SelectionChanged="ChatGptModelChange" Name="ChatGptModel" Style="{StaticResource WpfComboBoxStyle}" Width="200">
+                                            </ComboBox>
+                                        </StackPanel>
+
+                                        <TextBox Margin="0 5 0 0" TextWrapping="Wrap" AcceptsReturn="True" IsReadOnly="True" BorderThickness="0" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Green">
+                                            Recommend using ChatGPT (Model:gpt-3.5-turbo should be free)
+                                        </TextBox>
+
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 20 0 0">
                                             <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
                                                 DeepSeekKey
                                             </Label>
@@ -363,11 +414,15 @@
                                             </PasswordBox>
                                         </StackPanel>
 
-                                        <TextBox Margin="0 10 0 0" TextWrapping="Wrap" AcceptsReturn="True" IsReadOnly="True" BorderThickness="0" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Green">
-                                            Support Google free translation,You don't need to enter a Googlekey, just enable the Google icon
-                                        </TextBox>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
+                                            <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
+                                                DeepSeekModel
+                                            </Label>
+                                            <ComboBox Name="DeepSeekModel" SelectionChanged="DeepSeekModelChange" Style="{StaticResource WpfComboBoxStyle}" Width="200">
+                                            </ComboBox>
+                                        </StackPanel>
 
-                                        <Border CornerRadius="5" Background="#FF0B74D1" Margin="0 10 0 0" Height="35" PreviewMouseDown="StartApiKeyTest" Cursor="Hand">
+                                        <Border CornerRadius="5" Background="#FF0B74D1" Margin="0 25 0 0" Height="35" PreviewMouseDown="StartApiKeyTest" Cursor="Hand">
                                             <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Name="KeyTestBtn">
                                                 TestKey
                                             </Label>
@@ -410,10 +465,8 @@
                                         </ComboBox>
                                     </StackPanel>
                                 </Grid>
-                            </StackPanel>
 
-                            <Grid Height="35" Width="210" VerticalAlignment="Top" HorizontalAlignment="Right" Background="#FFE8E8E8" Margin="0 0 280 0" Panel.ZIndex="5">
-                                <StackPanel Orientation="Horizontal" Name="EngineUIs">
+                                <StackPanel Orientation="Horizontal" Name="EngineUIs" Background="#FFE8E8E8" VerticalAlignment="Top"  Height="35">
                                     <Label VerticalAlignment="Center" Margin="10 0 0 0" FontSize="12" Name="Node" ToolTip="Nodes are used to enable and disable the translation platform. If multiple nodes are selected at the same time, load balancing will be applied.">
                                         Node
                                     </Label>
@@ -424,6 +477,8 @@
 
                                     <svgc:SvgViewbox Tag="ConjunctionEngine" Name="ConjunctionEngine" Stretch="UniformToFill" Source="/Material/Conjunction.svg"  Margin="3 0 3 0" Width="17" Panel.ZIndex="900" Height="18" Cursor="Hand" MouseDown="SelectEngine" Opacity="1" Visibility="Collapsed"/>
 
+                                    <svgc:SvgViewbox Tag="DeepLEngine" ToolTip="DeepL"  Name="DeepLEngine" Stretch="UniformToFill" Source="/Material/DeepL.svg"  Margin="3 0 3 0" Width="19" Panel.ZIndex="900" Height="23"  Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
+
                                     <svgc:SvgViewbox Tag="GoogleEngine" Name="GoogleEngine" Stretch="UniformToFill" Source="/Material/Google.svg" Margin="3 0 3 0" Width="17" Panel.ZIndex="900" Height="18" Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
 
                                     <svgc:SvgViewbox Tag="BaiduEngine"  Name="BaiduEngine" Stretch="UniformToFill" Source="/Material/Baidu.svg" Margin="3 0 3 0" Width="17" Panel.ZIndex="900" Height="18" Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
@@ -432,8 +487,12 @@
 
                                     <svgc:SvgViewbox Tag="DeepSeekEngine" Name="DeepSeekEngine" Stretch="UniformToFill" Source="/Material/DeepSeek.svg" Margin="3 0 3 0" Width="20" Panel.ZIndex="900" Height="18" Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
 
-                                    <svgc:SvgViewbox Tag="DivEngine" Name="DivEngine" Stretch="UniformToFill" Source="/Material/Div.svg"  Margin="3 0 3 0" Width="21" Panel.ZIndex="900" Height="18.2" Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
+                                    <svgc:SvgViewbox Tag="DivEngine" Name="DivEngine" Stretch="UniformToFill" Source="/Material/Div.svg"  Margin="3 0 10 0" Width="21" Panel.ZIndex="900" Height="18.2" Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
                                 </StackPanel>
+                            </StackPanel>
+
+                            <Grid  Width="260" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 0 200 0" Panel.ZIndex="5">
+                                
                             </Grid>
 
                             <Grid Height="50" Width="255" VerticalAlignment="Top" HorizontalAlignment="Right" Panel.ZIndex="5">

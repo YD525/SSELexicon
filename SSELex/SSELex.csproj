@@ -8,6 +8,11 @@
     <UseWPF>true</UseWPF>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <Copyright>The copyright of this program belongs to [YD525 &amp; YueDing255 (developer)]. The purpose of this project is to reduce the workload of translators. This project is licensed under the GPL-3.0-only license.</Copyright>
+    <Authors>YD525</Authors>
+    <PackageIcon>Logo.png</PackageIcon>
+    <ApplicationIcon>Logo.ico</ApplicationIcon>
+    <FileVersion>1.4.619</FileVersion>
+    <AssemblyVersion>1.4.619</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,6 +23,7 @@
     <None Remove="Material\ChatGPT.svg" />
     <None Remove="Material\Code.svg" />
     <None Remove="Material\Conjunction.svg" />
+    <None Remove="Material\DeepL.svg" />
     <None Remove="Material\DeepSeek.svg" />
     <None Remove="Material\Div.svg" />
     <None Remove="Material\End.svg" />
@@ -43,12 +49,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Logo.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Include="IDERule\Lua.xshd" />
     <EmbeddedResource Include="IDERule\TextStyle.xshd" />
     <Resource Include="Material\ChatGPT.svg" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\Logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include="..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
@@ -57,6 +71,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Material\DeepL.svg" />
     <Resource Include="Material\DeepSeek.svg" />
     <Resource Include="Material\DownICO.png" />
     <Resource Include="Material\Baidu.svg" />

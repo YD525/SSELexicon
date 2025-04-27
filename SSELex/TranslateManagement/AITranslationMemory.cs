@@ -69,7 +69,7 @@ namespace SSELex.TranslateManage
         /// <summary>
         /// 查询最相关的翻译
         /// </summary>
-        public List<string> FindRelevantTranslations(Languages SourceLang,string query, int maxResults = 5)
+        public List<string> FindRelevantTranslations(Languages SourceLang,string query, int maxResults = 3)
         {
             query = NormalizeText(SourceLang,query);
             Dictionary<string, int> relevanceMap = new Dictionary<string, int>();

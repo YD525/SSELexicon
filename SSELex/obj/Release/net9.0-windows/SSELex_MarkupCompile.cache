@@ -1,19 +1,19 @@
 ﻿SSELex
-
+1.4.619
 
 winexe
 C#
 .cs
-C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\obj\Release\net9.0-windows\
+C:\Users\52508\source\repos\YDSkyrimToolR\SSELex\obj\Release\net9.0-windows\
 SSELex
 none
 false
 TRACE;RELEASE;NET;NET9_0;NETCOREAPP
-C:\Users\Administrator\source\repos\YDSkyrimToolR\SSELex\App.xaml
+C:\Users\52508\source\repos\YDSkyrimToolR\SSELex\App.xaml
 8-2134927014
-
-53-226328197
-261-95199826
+11562051256
+552014730171
+261-1785394004
 ActionWin.xaml;CodeView.xaml;EngineEditView.xaml;LogView.xaml;MainWindow.xaml;SearchText.xaml;SettingView.xaml;Themes\DefStyle.xaml;
 
 False

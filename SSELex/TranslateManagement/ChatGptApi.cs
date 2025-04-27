@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Text.Json;
 using SSELex.TranslateCore;
+using SSELex.TranslateManagement;
 using static SSELex.TranslateManage.TransCore;
 
 namespace SSELex.TranslateManage
@@ -29,7 +30,7 @@ namespace SSELex.TranslateManage
         public ChatGptRootobject CallAI(string Msg)
         {
             ChatGptItem NChatGptItem = new ChatGptItem();
-            NChatGptItem.model = "gpt-4o-mini";
+            NChatGptItem.model = DeFine.GlobalLocalSetting.ChatGptModel;
             NChatGptItem.store = true;
             NChatGptItem.messages = new List<ChatGptMessage>();
             NChatGptItem.messages.Add(new ChatGptMessage("user", Msg));
@@ -51,7 +52,8 @@ namespace SSELex.TranslateManage
                 Postdata = GetJson,
                 Cookie = "",
                 ContentType = "application/json",
-                Timeout = 3000
+                Timeout = 3000,
+                ProxyIp = ProxyCenter.GlobalProxyIP
             };
             try
             {
@@ -62,9 +64,13 @@ namespace SSELex.TranslateManage
             string GetResult = new HttpHelper().GetHtml(Http).Html;
             try
             {
+                DeFine.CurrentLogView.SetLog("ChatGpt:" + GetResult);
                 return JsonSerializer.Deserialize<ChatGptRootobject>(GetResult);
             }
-            catch { return null; }
+            catch 
+            {
+                return null; 
+            }
         }
 
         public string QuickTrans(string TransSource, Languages FromLang, Languages ToLang)
@@ -76,6 +82,8 @@ namespace SSELex.TranslateManage
             }
 
             var GetTransSource = $"Translate the following text from {FromLang} to {ToLang}:\n\n";
+
+            GetTransSource += "Important: When translating, strictly keep any text inside angle brackets (< >) or square brackets ([ ]) unchanged. Do not modify, translate, or remove them.\n\n";
 
             if (Related.Count > 0)
             {

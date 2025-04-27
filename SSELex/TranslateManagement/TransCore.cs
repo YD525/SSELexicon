@@ -1,5 +1,6 @@
 ﻿using SSELex.ConvertManager;
 using SSELex.TranslateCore;
+using SSELex.TranslateManagement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,36 +36,58 @@ namespace SSELex.TranslateManage
         {
             EngineSelects.Clear();
 
+            //Baidu support
             if (DeFine.GlobalLocalSetting.BaiDuYunApiUsing)
+            {
                 if (DeFine.GlobalLocalSetting.BaiDuAppID.Trim().Length > 0)
                 {
                     EngineSelects.Add(new EngineSelect(new BaiDuApi(), 1));
                 }
+            }  
 
+            //Google support
             if (DeFine.GlobalLocalSetting.GoogleYunApiUsing)
-                if (ConvertHelper.ObjToStr(new GoogleHelper().FreeTransStr("Test", DeFine.SourceLanguage, DeFine.TargetLanguage)).Length > 0)
+            {
+                if (DeFine.GlobalLocalSetting.GoogleApiKey.Trim().Length == 0)
                 {
-                    if (DeFine.GlobalLocalSetting.GoogleApiKey.Trim().Length == 0)
+                    if (ConvertHelper.ObjToStr(new GoogleHelper().FreeTransStr("Test", DeFine.SourceLanguage, DeFine.TargetLanguage)).Length > 0)
                     {
-                        EngineSelects.Add(new EngineSelect(new GoogleHelper(), 2));
-                    }
-                    else
-                    {
-                        EngineSelects.Add(new EngineSelect(new GoogleTransApi(), 2));
+                        EngineSelects.Add(new EngineSelect(new GoogleHelper(), 1));
                     }
                 }
+                else
+                {
+                    EngineSelects.Add(new EngineSelect(new GoogleTransApi(), 2));
+                }
+               
+            }
 
+            //ChatGPT support
             if (DeFine.GlobalLocalSetting.ChatGptApiUsing)
+            {
                 if (DeFine.GlobalLocalSetting.ChatGptKey.Trim().Length > 0)
                 {
                     EngineSelects.Add(new EngineSelect(new ChatGptApi(), 6));
                 }
+            }
 
+            //DeepSeek support
             if (DeFine.GlobalLocalSetting.DeepSeekApiUsing)
+            {
                 if (DeFine.GlobalLocalSetting.DeepSeekKey.Trim().Length > 0)
                 {
                     EngineSelects.Add(new EngineSelect(new DeepSeekApi(), 6));
                 }
+            }
+
+            //DeepL support
+            if (DeFine.GlobalLocalSetting.DeepLApiUsing)
+            {
+                if (DeFine.GlobalLocalSetting.DeepLKey.Trim().Length > 0)
+                {
+                    EngineSelects.Add(new EngineSelect(new DeepLApi(), 6));
+                }
+            }
 
             Shuffle<EngineSelect>(EngineSelects);
         }
@@ -320,6 +343,23 @@ namespace SSELex.TranslateManage
                         else
                         {
                             this.CurrentCallCount = this.MaxUseCount;
+                        }
+                    }
+                    else
+                    if (this.Engine is DeepLApi)
+                    {
+                        if (DeFine.GlobalLocalSetting.DeepLApiUsing)
+                        {
+                            var GetData = (this.Engine as DeepLApi).QuickTrans(GetSource, Source, Target).Trim();
+
+                            if (GetData.Trim().Length > 0)
+                            {
+                                AIMemory.AddTranslation(Source, GetSource, GetData);
+                            }
+
+                            SetTransLine = GetData;
+                            this.CurrentCallCount++;
+                            WordProcess.SendTranslateMsg("Cloud Engine(DeepL)", GetSource, SetTransLine);
                         }
                     }
 

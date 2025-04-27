@@ -11,13 +11,13 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("SSELex")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("YD525")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyCopyrightAttribute("The copyright of this program belongs to [YD525 & YueDing255 (developer)]. The pu" +
     "rpose of this project is to reduce the workload of translators. This project is " +
     "licensed under the GPL-3.0-only license.")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ccff5adff7e839d10f49e0036496830f8da4907c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4cadfa863d896697d646288f0e5b345e8b0c6acd")]
 [assembly: System.Reflection.AssemblyProductAttribute("SSELex")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SSELex")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

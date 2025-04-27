@@ -1,4 +1,5 @@
 ﻿using SSELex.TranslateCore;
+using SSELex.TranslateManagement;
 using System.Text.RegularExpressions;
 
 namespace SSELex.TranslateManage
@@ -65,7 +66,8 @@ namespace SSELex.TranslateManage
                     Postdata = "",
                     Cookie = "",
                     ContentType = "application/json",
-                    Timeout = 3000
+                    Timeout = 3000,
+                    ProxyIp = ProxyCenter.GlobalProxyIP
                 };
                 try
                 {
@@ -74,6 +76,8 @@ namespace SSELex.TranslateManage
                 catch { }
 
                 var GetResult = new HttpHelper().GetHtml(Http).Html;
+
+                DeFine.CurrentLogView.SetLog("Google:" + GetResult);
 
                 GetResult = GetResult.Trim(new char[] { '[', ']', '\n', ' ' });
 

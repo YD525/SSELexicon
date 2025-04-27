@@ -26,9 +26,12 @@ namespace SSELex
 
         public void SetLog(string Msg)
         {
+            try { 
             this.Dispatcher.Invoke(new Action(() => {
                 Message.Text = Msg;
             }));
+            }
+            catch { }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

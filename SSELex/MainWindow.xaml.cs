@@ -18,6 +18,7 @@ using static SSELex.UIManage.SkyrimDataLoader;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit;
+using SSELex.TranslateManagement;
 
 // Copyright (C) 2025 YD525
 // Licensed under the GNU GPLv3
@@ -162,8 +163,9 @@ namespace SSELex
             ViewMode.Items.Clear();
             ViewMode.Items.Add("Quick");
             ViewMode.Items.Add("Normal");
+            
 
-            ViewMode.SelectedValue = ViewMode.Items[0];
+            ViewMode.SelectedValue = DeFine.GlobalLocalSetting.ViewMode;
         }
 
         public void ReloadLanguageMode()
@@ -246,6 +248,7 @@ namespace SSELex
             DeFine.Init(this);
             ReloadViewMode();
             ReloadLanguageMode();
+            this.MainCaption.Content = string.Format("SSELex Gui {0}", DeFine.CurrentVersion);
 
             WordProcess.SendTranslateMsg += TranslateMsg;
 
@@ -315,6 +318,45 @@ namespace SSELex
                 SetLog("OpenSource:https://github.com/YD525/YDSkyrimToolR");
                 Thread.Sleep(3000);
                 SetLog(string.Empty);
+
+                this.Dispatcher.Invoke(new Action(() =>
+                {
+                    this.ChatGptModel.Items.Clear();
+
+                    this.ChatGptModel.Items.Add("gpt-3.5-turbo-0613");
+                    this.ChatGptModel.Items.Add("gpt-3.5-turbo");
+                    this.ChatGptModel.Items.Add("gpt-3.5-turbo-1106");
+                    this.ChatGptModel.Items.Add("gpt-4o");
+                    this.ChatGptModel.Items.Add("gpt-4o-mini");
+                    this.ChatGptModel.Items.Add("gpt-4-turbo");
+
+                    if (DeFine.GlobalLocalSetting.ChatGptModel.Trim().Length > 0)
+                    {
+                        this.ChatGptModel.SelectedValue = DeFine.GlobalLocalSetting.ChatGptModel;
+                    }
+                    else
+                    {
+                        this.ChatGptModel.SelectedValue = "gpt-4o-mini";
+                    }
+
+                    this.DeepSeekModel.Items.Clear();
+                    this.DeepSeekModel.Items.Add("deepseek-chat");
+                    if (DeFine.GlobalLocalSetting.DeepSeekModel.Trim().Length > 0)
+                    {
+                        this.DeepSeekModel.SelectedValue = DeFine.GlobalLocalSetting.DeepSeekModel;
+                    }
+                    else
+                    {
+                        this.DeepSeekModel.SelectedValue = "deepseek-chat";
+                    }
+                }));
+
+                ProxyCenter.GlobalProxyIP = DeFine.GlobalLocalSetting.ProxyIP;
+
+                //Test
+                //DeFine.GlobalLocalSetting.DeepLKey = "358976f2-bc2a-4215-bb35-c8462d45c5fb:fx";
+                //ProxyCenter.GlobalProxyIP = "127.0.0.1:7890";
+                //new DeepLApi().QuickTrans("Test",Languages.English,Languages.SimplifiedChinese);
 
             }).Start();
         }
@@ -685,6 +727,14 @@ namespace SSELex
                                     }
                                 }
                                 break;
+                            case "DeepLEngine":
+                                {
+                                    if (!DeFine.GlobalLocalSetting.DeepLApiUsing)
+                                    {
+                                        (GetEngine as SvgViewbox).Opacity = 0.15;
+                                    }
+                                }
+                                break;
                             case "DivEngine":
                                 {
                                     if (!DeFine.GlobalLocalSetting.DivCacheEngineUsing)
@@ -753,6 +803,11 @@ namespace SSELex
                 case "DeepSeekEngine":
                     {
                         DeFine.GlobalLocalSetting.DeepSeekApiUsing = OneState;
+                    }
+                    break;
+                case "DeepLEngine":
+                    {
+                        DeFine.GlobalLocalSetting.DeepLApiUsing = OneState;
                     }
                     break;
                 case "DivEngine":
@@ -1102,6 +1157,7 @@ namespace SSELex
 
                 DeFine.ViewMode = 0;
                 ReloadData();
+                DeFine.GlobalLocalSetting.ViewMode = "Quick";
             }
             else
             {
@@ -1110,6 +1166,7 @@ namespace SSELex
 
                 DeFine.ViewMode = 1;
                 ReloadData();
+                DeFine.GlobalLocalSetting.ViewMode = "Normal";
             }
         }
 
@@ -1480,11 +1537,31 @@ namespace SSELex
                 SoftView.Visibility = Visibility.Hidden;
                 GameView.Visibility = Visibility.Hidden;
 
+                HttpProxy.Text = DeFine.GlobalLocalSetting.ProxyIP;
+
                 BaiDuAppID.Text = DeFine.GlobalLocalSetting.BaiDuAppID;
                 BaiDuKey.Password = DeFine.GlobalLocalSetting.BaiDuSecretKey;
+
                 GoogleKey.Password = DeFine.GlobalLocalSetting.GoogleApiKey;
                 ChatGptKey.Password = DeFine.GlobalLocalSetting.ChatGptKey;
                 DeepSeekKey.Password = DeFine.GlobalLocalSetting.DeepSeekKey;
+
+                if (DeFine.GlobalLocalSetting.DeepSeekModel.Trim().Length > 0)
+                {
+                    DeepSeekModel.SelectedValue = DeFine.GlobalLocalSetting.DeepSeekModel;
+                }
+
+                if (DeFine.GlobalLocalSetting.ChatGptModel.Trim().Length > 0)
+                {
+                    ChatGptModel.SelectedValue = DeFine.GlobalLocalSetting.ChatGptModel;
+                }
+
+                DeepLKey.Password = DeFine.GlobalLocalSetting.DeepLKey;
+
+                if (DeFine.GlobalLocalSetting.IsFreeDeepL)
+                {
+                    IsFreeDeepL.IsChecked = true;
+                }
 
                 UIHelper.AnimateCanvasLeft(SettingBlock, 149);
             }
@@ -1538,9 +1615,22 @@ namespace SSELex
             }
         }
 
+        private void HttpProxy_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            DeFine.GlobalLocalSetting.ProxyIP = HttpProxy.Text.Trim();
+        }
         private void ChatGptKey_PasswordChanged(object sender, RoutedEventArgs e)
         {
             DeFine.GlobalLocalSetting.ChatGptKey = ChatGptKey.Password;
+        }
+
+        private void ChatGptModelChange(object sender, SelectionChangedEventArgs e)
+        {
+            string GetModel = ConvertHelper.ObjToStr(ChatGptModel.SelectedValue);
+            if (GetModel.Trim().Length > 0)
+            { 
+               DeFine.GlobalLocalSetting.ChatGptModel = GetModel;
+            }
         }
 
         private void DeepSeekKey_PasswordChanged(object sender, RoutedEventArgs e)
@@ -1548,6 +1638,31 @@ namespace SSELex
             DeFine.GlobalLocalSetting.DeepSeekKey = DeepSeekKey.Password;
         }
 
+        private void DeepSeekModelChange(object sender, SelectionChangedEventArgs e)
+        {
+            string GetModel = ConvertHelper.ObjToStr(DeepSeekModel.SelectedValue);
+            if (GetModel.Trim().Length > 0)
+            {
+                DeFine.GlobalLocalSetting.DeepSeekModel = GetModel;
+            }
+        }
+
+        private void DeepLKey_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            DeFine.GlobalLocalSetting.DeepLKey = DeepLKey.Password;
+        }
+
+        private void IsFreeDeepL_Click(object sender, RoutedEventArgs e)
+        {
+            if (IsFreeDeepL.IsChecked == true)
+            {
+                DeFine.GlobalLocalSetting.IsFreeDeepL = true;
+            }
+            else
+            {
+                DeFine.GlobalLocalSetting.IsFreeDeepL = false;
+            }
+        }
         private void BaiDuAppID_TextChanged(object sender, TextChangedEventArgs e)
         {
             DeFine.GlobalLocalSetting.BaiDuAppID = BaiDuAppID.Text;
@@ -1578,40 +1693,60 @@ namespace SSELex
                 new Thread(() =>
                 {
                     string RichText = "";
+                    if (DeFine.GlobalLocalSetting.ChatGptApiUsing && DeFine.GlobalLocalSetting.ChatGptKey.Trim().Length == 0)
+                    {
+                        RichText += "Please configure ChatGPT key\r\n";
+                    }
+                    if (DeFine.GlobalLocalSetting.DeepSeekApiUsing && DeFine.GlobalLocalSetting.DeepSeekKey.Trim().Length == 0)
+                    {
+                        RichText += "Please configure DeepSeek key\r\n";
+                    }
+                    if (DeFine.GlobalLocalSetting.DeepLApiUsing && DeFine.GlobalLocalSetting.DeepLKey.Trim().Length == 0)
+                    {
+                        RichText += "Please configure DeepL key\r\n";
+                    }
+
+                    if (DeFine.GlobalLocalSetting.DeepLKey.Trim().Length > 0)
+                    {
+                        if (new DeepLApi().QuickTrans("Test", Languages.English, Languages.Japanese).Trim().Length == 0)
+                        {
+                            RichText += "DeepL API Key is not configured correctly.\r\n";
+                        }
+                    }
                     if (DeFine.GlobalLocalSetting.ChatGptKey.Trim().Length > 0)
                     {
-                        if (new ChatGptApi().QuickTrans("Test", Languages.English, Languages.TraditionalChinese).Trim().Length == 0)
+                        if (new ChatGptApi().QuickTrans("Test", Languages.English, Languages.Japanese).Trim().Length == 0)
                         {
-                            RichText += "ChatGPT API Key configuration is invalid.\r\n";
+                            RichText += "ChatGPT API Key is not configured correctly.\r\n";
                         }
                     }
                     if (DeFine.GlobalLocalSetting.DeepSeekKey.Trim().Length > 0)
                     {
-                        if (new DeepSeekApi().QuickTrans("Test", Languages.English, Languages.TraditionalChinese).Trim().Length == 0)
+                        if (new DeepSeekApi().QuickTrans("Test", Languages.English, Languages.SimplifiedChinese).Trim().Length == 0)
                         {
-                            RichText += "DeepSeek API Key configuration is invalid.\r\n";
+                            RichText += "DeepSeek API Key is not configured correctly.\r\n";
                         }
                     }
                     if (DeFine.GlobalLocalSetting.GoogleApiKey.Trim().Length > 0)
                     {
-                        if (new GoogleTransApi().Translate("Test", Languages.English, Languages.TraditionalChinese).Trim().Length == 0)
+                        if (new GoogleTransApi().Translate("Test", Languages.English, Languages.Japanese).Trim().Length == 0)
                         {
-                            RichText += "Google API Key configuration is invalid.\r\n";
+                            RichText += "Google API Key is not configured correctly.\r\n";
                         }
                     }
                     if (DeFine.GlobalLocalSetting.BaiDuAppID.Trim().Length > 0 && DeFine.GlobalLocalSetting.BaiDuSecretKey.Trim().Length > 0)
                     {
-                        var GetResult = new BaiDuApi().TransStr("Test", Languages.English, Languages.TraditionalChinese);
+                        var GetResult = new BaiDuApi().TransStr("Test", Languages.English, Languages.SimplifiedChinese);
                         if (GetResult != null)
                         {
                             if (GetResult.to == null)
                             {
-                                RichText += "BaiDu API Key configuration is invalid.\r\n";
+                                RichText += "BaiDu API Key is not configured correctly.\r\n";
                             }
                         }
                         else
                         {
-                            RichText += "BaiDu API Key configuration is invalid.\r\n";
+                            RichText += "BaiDu API Key is not configured correctly.\r\n";
                         }
                     }
 
@@ -1833,5 +1968,7 @@ namespace SSELex
         {
             MessageBox.Show("Still under development with future support expected.");
         }
+
+       
     }
 }

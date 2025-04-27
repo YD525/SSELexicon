@@ -4,6 +4,7 @@ using System.Text;
 using System.Text.Json;
 using System.Web;
 using SSELex.TranslateCore;
+using SSELex.TranslateManagement;
 
 namespace SSELex.TranslateManage
 {
@@ -93,7 +94,8 @@ namespace SSELex.TranslateManage
                 Postdata = "",
                 Cookie = "",
                 ContentType = "application/json; charset=utf-8",
-                Timeout = 3000
+                Timeout = 3000,
+                ProxyIp = ProxyCenter.GlobalProxyIP
             };
             try
             {
@@ -102,6 +104,8 @@ namespace SSELex.TranslateManage
             catch { }
 
             var GetResult = new HttpHelper().GetHtml(Http).Html;
+
+            DeFine.CurrentLogView.SetLog("Baidu:" + GetResult);
 
             if (GetResult != null)
             {

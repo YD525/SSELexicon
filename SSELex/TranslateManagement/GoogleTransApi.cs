@@ -43,6 +43,8 @@ namespace SSELex.TranslateManage
 
             string json = response.Content.ReadAsStringAsync().Result;
 
+            DeFine.CurrentLogView.SetLog("GoogleApi:" + json);
+
             using JsonDocument doc = JsonDocument.Parse(json);
 
             if (doc.RootElement.TryGetProperty("data", out JsonElement dataElem) &&
