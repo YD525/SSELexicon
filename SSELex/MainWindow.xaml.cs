@@ -319,6 +319,8 @@ namespace SSELex
                 Thread.Sleep(3000);
                 SetLog(string.Empty);
 
+                ProxyCenter.GlobalProxyIP = DeFine.GlobalLocalSetting.ProxyIP;
+
                 this.Dispatcher.Invoke(new Action(() =>
                 {
                     this.ChatGptModel.Items.Clear();
@@ -351,8 +353,7 @@ namespace SSELex
                     }
                 }));
 
-                ProxyCenter.GlobalProxyIP = DeFine.GlobalLocalSetting.ProxyIP;
-
+               
                 //Test
                 //DeFine.GlobalLocalSetting.DeepLKey = "";
                 //ProxyCenter.GlobalProxyIP = "127.0.0.1:7890";
