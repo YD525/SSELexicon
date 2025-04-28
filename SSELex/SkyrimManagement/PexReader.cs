@@ -374,7 +374,7 @@ namespace SSELex.SkyrimManage
 
                 string PapyrusAssembler = CompilerPath;
                 string GetWorkPath = FilePath.Substring(0, FilePath.LastIndexOf(@"\"));
-                string GenParam = string.Format("\"{0}\" -D\n{1}", GetFileName, GetWorkPath + @"\");
+                string GenParam = string.Format("\"{0}\" -D\n\"{1}\"", GetFileName, GetWorkPath + @"\");
 
                 if (File.Exists(DeFine.GetFullPath(@"\") + GetFileName + "." + GetFileType))
                 {

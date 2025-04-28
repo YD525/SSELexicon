@@ -60,7 +60,7 @@ namespace SSELex {
             
             #line default
             #line hidden
-            System.Uri resourceLocater = new System.Uri("/SSELex;component/app.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/SSELex;V1.4.619;component/app.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\App.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

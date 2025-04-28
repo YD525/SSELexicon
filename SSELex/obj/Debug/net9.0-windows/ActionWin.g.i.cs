@@ -94,7 +94,7 @@ namespace SSELex {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/SSELex;component/actionwin.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/SSELex;V1.4.619;component/actionwin.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\ActionWin.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

@@ -70,7 +70,7 @@ namespace SSELex {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/SSELex;component/engineeditview.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/SSELex;V1.4.619;component/engineeditview.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\EngineEditView.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

@@ -150,7 +150,7 @@ namespace SSELex {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/SSELex;component/settingview.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/SSELex;V1.4.619;component/settingview.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\SettingView.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
