@@ -20,7 +20,8 @@ namespace SSELex.SkyrimManage
         public FileSystem GlobalFileSystem = null;
 
         public SkyrimMod? CurrentReadMod = null;
-        
+
+        public Dictionary<string, Worldspace> Worldspaces = new Dictionary<string, Worldspace>();
         public Dictionary<string, Quest> Quests = new Dictionary<string, Quest>();
         public Dictionary<string, Faction> Factions = new Dictionary<string, Faction>();
         public Dictionary<string, Perk> Perks = new Dictionary<string, Perk>();
@@ -38,7 +39,7 @@ namespace SSELex.SkyrimManage
         public Dictionary<string, ObjectEffect> ObjectEffects = new Dictionary<string, ObjectEffect>();
         public Dictionary<string, CellBlock> Cells = new Dictionary<string, CellBlock>();
         public Dictionary<string, Container> Containers = new Dictionary<string, Container>();
-        
+
         //...
 
         public EspReader()
@@ -48,6 +49,7 @@ namespace SSELex.SkyrimManage
 
         public void ClearRam()
         {
+            Worldspaces.Clear();
             Quests.Clear();
             Factions.Clear();
             Perks.Clear();
@@ -82,6 +84,14 @@ namespace SSELex.SkyrimManage
 
             if (CurrentReadMod != null)
             {
+                foreach (var Get in this.CurrentReadMod.Worldspaces.ToList())
+                {
+                    if (Get.EditorID != null)
+                    {
+                        Worldspaces.Add(Get.EditorID, Get);
+                    }
+                }
+
                 foreach (var Get in this.CurrentReadMod.Quests.ToList())
                 {
                     if (Get.EditorID != null)

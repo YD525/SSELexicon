@@ -9,12 +9,17 @@ namespace SSELex.UIManage
     {
         public enum ObjSelect
         { 
-           Null = 99, All = 0, Quests = 1, Factions = 2, Perks = 3, Weapons = 5, SoulGems = 6, Armors = 7, Keys = 8, Containers = 9, Activators = 10, MiscItems = 11, Books = 12, Messages = 13, DialogTopics = 16, Spells = 17, MagicEffects = 18, ObjectEffects = 19, Cells = 20
+           Null = 99, All = 0, Worldspaces = 1, Quests = 2, Factions = 3, Perks = 5, Weapons = 6, SoulGems = 7, Armors = 8, Keys = 9, Containers = 10, Activators = 11, MiscItems = 12, Books = 13, Messages = 15, DialogTopics = 16, Spells = 17, MagicEffects = 18, ObjectEffects = 19, Cells = 20
         }
 
         public static List<ObjSelect> QueryParams(EspReader Reader)
         {
             List<ObjSelect> ObjSelects = new List<ObjSelect>();
+            if (Reader.Worldspaces.Count > 0)
+            {
+                ObjSelects.Add(ObjSelect.Worldspaces);
+            }
+
             if (Reader.Quests.Count > 0)
             {
                 ObjSelects.Add(ObjSelect.Quests);
@@ -117,6 +122,12 @@ namespace SSELex.UIManage
                 LoadAll(Reader, View);
                 return;
             }
+
+            if (Type == ObjSelect.Worldspaces)
+            {
+                LoadWorldspaces(Reader,View);
+            }
+            else
             if (Type == ObjSelect.Quests)
             {
                 LoadQuests(Reader, View);
@@ -206,6 +217,7 @@ namespace SSELex.UIManage
 
         public static void LoadAll(EspReader Reader, YDListView View)
         {
+            LoadWorldspaces(Reader, View);
             LoadQuests(Reader, View);
             LoadFactions(Reader, View);
             LoadPerks(Reader, View);
@@ -240,6 +252,28 @@ namespace SSELex.UIManage
             return string.Empty;
         }
 
+        public static void LoadWorldspaces(EspReader Reader, YDListView View)
+        {
+            for (int i = 0; i < Reader.Worldspaces.Count; i++)
+            {
+                string GetTransStr = "";
+
+                var GetHashKey = Reader.Worldspaces.ElementAt(i).Key;
+                var GetWorldspaceItem = Reader.Worldspaces[GetHashKey];
+
+                var GetName = ConvertHelper.ObjToStr(GetWorldspaceItem.Name);
+                if (GetName.Length > 0)
+                {
+                    Application.Current.Dispatcher.Invoke(new Action(() =>
+                    {
+                        string SetType = "Name";
+                        GetTransStr = TryGetTransData(GetWorldspaceItem.EditorID, SetType);
+                        View.AddRowR(UIHelper.CreatLine("Worldspace", GetHashKey.ToString(), GenUniqueKey(GetWorldspaceItem.EditorID, SetType), GetName, GetTransStr, false));
+                    }));
+                }
+            }
+        }
+
         public static void LoadQuests(EspReader Reader, YDListView View)
         {
             for (int i = 0; i < Reader.Quests.Count; i++)
@@ -268,6 +302,51 @@ namespace SSELex.UIManage
                         GetTransStr = TryGetTransData(GetQuestItem.EditorID, SetType);
                         View.AddRowR(UIHelper.CreatLine("Quest", GetHashKey.ToString(), GenUniqueKey(GetQuestItem.EditorID,SetType).ToString(), GetDescription, GetTransStr,false));
                     }));
+                }
+
+                if (GetQuestItem.Objectives.Count > 0)
+                {
+                    int CountObjective = 0;
+                    for (int ir = 0; ir < GetQuestItem.Objectives.Count; ir++)
+                    {
+                        CountObjective++;
+                        var GetObjectiveItem = GetQuestItem.Objectives[ir];
+                        var GetDisplayText = ConvertHelper.ObjToStr(GetObjectiveItem.DisplayText);
+                        if (GetDisplayText.Length > 0)
+                        {
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                string SetType = string.Format("DisplayText[{0}]", CountObjective);
+                                GetTransStr = TryGetTransData(GetQuestItem.EditorID, SetType);
+                                View.AddRowR(UIHelper.CreatLine("Quest", GetHashKey.ToString(), GenUniqueKey(GetQuestItem.EditorID, SetType).ToString(), GetDisplayText, GetTransStr, false));
+                            }));
+                        }
+                    }
+                }
+
+                if (GetQuestItem.Stages.Count > 0)
+                {
+                    int CountStage = 0;
+                    for (int ii =0; ii < GetQuestItem.Stages.Count; ii++)
+                    {
+                        CountStage++;
+                        for (int iii = 0; iii < GetQuestItem.Stages[ii].LogEntries.Count;iii++)
+                        {
+                            CountStage++;
+                            var GetLogEntrieItem = GetQuestItem.Stages[ii].LogEntries[iii];
+
+                            var GetEntry = ConvertHelper.ObjToStr(GetLogEntrieItem.Entry);
+                            if (GetEntry.Length > 0)
+                            {
+                                Application.Current.Dispatcher.Invoke(new Action(() =>
+                                {
+                                    string SetType = string.Format("Entry[{0}]", CountStage);
+                                    GetTransStr = TryGetTransData(GetQuestItem.EditorID, SetType);
+                                    View.AddRowR(UIHelper.CreatLine("Quest", GetHashKey.ToString(), GenUniqueKey(GetQuestItem.EditorID, SetType).ToString(), GetEntry, GetTransStr, false));
+                                }));
+                            }
+                        }
+                    }
                 }
             }
         }

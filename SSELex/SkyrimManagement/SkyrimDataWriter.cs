@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using System.Windows.Forms;
 using SSELex.ConvertManager;
 using SSELex.SkyrimManage;
 using SSELex.TranslateManage;
@@ -64,6 +65,7 @@ namespace SSELex.UIManage
 
         public static void ReplaceAllToMemory(ref EspReader Writer)
         {
+            SetWorldspaces(ref Writer);
             SetQuests(ref Writer);
             SetFactions(ref Writer);
             SetPerks(ref Writer);
@@ -82,6 +84,29 @@ namespace SSELex.UIManage
             SetMagicEffects(ref Writer);
             SetObjectEffects(ref Writer);
             SetCells(ref Writer);
+        }
+
+        public static void SetWorldspaces(ref EspReader Writer)
+        {
+            string SetType = "";
+            for (int i = 0; i < Writer.Worldspaces.Count; i++)
+            {
+                string GetTransStr = "";
+
+                var GetHashKey = Writer.Worldspaces.ElementAt(i).Key;
+                var GetWorldspaceItem = Writer.Worldspaces[GetHashKey];
+
+                var GetName = ConvertHelper.ObjToStr(GetWorldspaceItem.Name);
+
+                SetType = "Name";
+                GetTransStr = GetTransData(GetWorldspaceItem.EditorID, SetType);
+                if (GetTransStr.Length > 0)
+                {
+                    GetWorldspaceItem.Name = GetTransStr;
+                }
+
+                Writer.Worldspaces[GetHashKey] = GetWorldspaceItem;
+            }
         }
 
         public static void SetQuests(ref EspReader Writer)
@@ -110,6 +135,51 @@ namespace SSELex.UIManage
                 if (GetTransStr.Length > 0)
                 {
                     GetQuestItem.Description = GetTransStr;
+                }
+
+                if (GetQuestItem.Objectives.Count > 0)
+                {
+                    int CountObjective = 0;
+                    for (int ir = 0; ir < GetQuestItem.Objectives.Count; ir++)
+                    {
+                        CountObjective++;
+                        var GetObjectiveItem = GetQuestItem.Objectives[ir];
+                        var GetDisplayText = ConvertHelper.ObjToStr(GetObjectiveItem.DisplayText);
+                        if (GetDisplayText.Length > 0)
+                        {
+                            SetType = string.Format("DisplayText[{0}]", CountObjective);
+                            GetTransStr = GetTransData(GetQuestItem.EditorID, SetType);
+                            if (GetTransStr.Trim().Length > 0)
+                            {
+                                GetQuestItem.Objectives[ir].DisplayText = GetTransStr;
+                            }
+                        }
+                    }
+                }
+
+                if (GetQuestItem.Stages.Count > 0)
+                {
+                    int CountStage = 0;
+                    for (int ii = 0; ii < GetQuestItem.Stages.Count; ii++)
+                    {
+                        CountStage++;
+                        for (int iii = 0; iii < GetQuestItem.Stages[ii].LogEntries.Count; iii++)
+                        {
+                            CountStage++;
+                            var GetLogEntrieItem = GetQuestItem.Stages[ii].LogEntries[iii];
+
+                            var GetEntry = ConvertHelper.ObjToStr(GetLogEntrieItem.Entry);
+                            if (GetEntry.Length > 0)
+                            {
+                                SetType = string.Format("Entry[{0}]", CountStage);
+                                GetTransStr = GetTransData(GetQuestItem.EditorID, SetType);
+                                if (GetTransStr.Trim().Length > 0)
+                                {
+                                    GetQuestItem.Stages[ii].LogEntries[iii].Entry = GetTransStr;
+                                }
+                            }
+                        }
+                    }
                 }
 
                 Writer.Quests[GetHashKey] = GetQuestItem;

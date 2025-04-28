@@ -10,7 +10,7 @@ namespace SSELex.SkyrimManage
     {
         public string editor_id { get; set; } = "";
         public string form_id { get; set; } = "";
-        public object index { get; set; } = null;
+        public int index { get; set; } = 1;
         public string type { get; set; } = "";
         public string original { get; set; } = "";
         public string @string { get; set; } = "";

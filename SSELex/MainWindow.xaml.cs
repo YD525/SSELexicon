@@ -19,6 +19,9 @@ using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit;
 using SSELex.TranslateManagement;
+using SSELex.SkyrimManagement;
+using System.Text.Json;
+using System.Text;
 
 // Copyright (C) 2025 YD525
 // Licensed under the GNU GPLv3
@@ -263,11 +266,9 @@ namespace SSELex
             }
 
             ExportTypes.Items.Clear();
-            ExportTypes.Items.Add(".Json");
-            ExportTypes.Items.Add(".DSD");
-            ExportTypes.Items.Add(".html");
-            ExportTypes.Items.Add(".xaml");
-            ExportTypes.Items.Add(".xlsx");
+            ExportTypes.Items.Add("Json(Dynamic String Distributor)");
+            ExportTypes.Items.Add("Json(SSELex)");
+            ExportTypes.Items.Add("Html");
 
             new Thread(() =>
             {
@@ -373,6 +374,8 @@ namespace SSELex
         }
 
         public int CurrentTransType = 0;
+        public string FModName = "";
+        public string LModName = "";
 
         string LastSetPath = "";
 
@@ -391,6 +394,12 @@ namespace SSELex
                 Caption.Text = GetFileName;
 
                 string GetModName = GetFileName;
+                FModName = LModName = GetModName;
+                if (LModName.Contains("."))
+                {
+                    LModName = LModName.Substring(0, LModName.LastIndexOf("."));
+                }
+
                 if (DeFine.GlobalLocalSetting.AutoLoadDictionaryFile)
                 {
                     YDDictionaryHelper.ReadDictionary(GetModName);
@@ -889,6 +898,131 @@ namespace SSELex
                 else
                 {
                     ClosetTransTrd();
+                }
+            }
+        }
+
+        public void ExportHtml()
+        {
+            var GetData = SkyrimDataConvert.GenDictionary(FModName);
+            string GenHtml = "<html><tittle>{0}</tittle>\n<body>\n{1}\n</body>\n</html>";
+            string GenLine = "<li><span><a>{0}</a>|<a>{1}</a>|<a>{2}</a></span></li>\n";
+            string BodyContent = "";
+            foreach (var Get in GetData.Dictionarys)
+            {
+                string GetLine = string.Format(GenLine,Get.Key,Get.OriginalText,Get.TransText);
+                BodyContent += GetLine;
+            }
+            GenHtml = string.Format(GenHtml, FModName, BodyContent);
+            var GetWritePath = DataHelper.ShowSaveFileDialog(LModName + ".html", "html (*.html)|*.html");
+            if (GetWritePath != null)
+            {
+                if (GetWritePath.Trim().Length > 0)
+                {
+                    if (File.Exists(GetWritePath))
+                    {
+                        File.Delete(GetWritePath);
+                    }
+                    DataHelper.WriteFile(GetWritePath, Encoding.UTF8.GetBytes(GenHtml));
+                }
+            }
+        }
+        public void ExportJson()
+        {
+            var JsonOptions = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+            };
+            var GetData = SkyrimDataConvert.GenDictionary(FModName);
+            string GetJson = JsonSerializer.Serialize(GetData, JsonOptions);
+
+            var GetWritePath = DataHelper.ShowSaveFileDialog(LModName + ".json", "SSELex (*.json)|*.json");
+            if (GetWritePath!=null)
+            {
+                if (GetWritePath.Trim().Length > 0)
+                {
+                    if (File.Exists(GetWritePath))
+                    {
+                        File.Delete(GetWritePath);
+                    }
+                    DataHelper.WriteFile(GetWritePath, Encoding.UTF8.GetBytes(GetJson));
+                }
+            }
+        }
+        public void ExportAs()
+        {
+            string GetNeedType = ConvertHelper.ObjToStr(ExportTypes.SelectedValue);
+
+            if (CurrentTransType == 3)
+            {
+                if (GetNeedType.Equals("Json(Dynamic String Distributor)"))
+                {
+                    MessageBox.Show("Conversion of PEX, MCM. files to DSD is not supported");
+                }
+                else
+                if (GetNeedType.Equals("Json(SSELex)"))
+                {
+                    ExportJson();
+                }
+                else
+                if (GetNeedType.Equals("Html"))
+                {
+                    ExportHtml();
+                }
+            }
+            if (CurrentTransType == 2)
+            {
+                if (GetNeedType.Equals("Json(Dynamic String Distributor)"))
+                {
+                    var JsonOptions = new JsonSerializerOptions
+                    {
+                        WriteIndented = true,
+                        Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+                    };
+                    //Json(Dynamic String Distributor)
+                    var GetData = SkyrimDataDSDConvert.EspExportAllByDSD(GlobalEspReader);
+                    string GetJson = JsonSerializer.Serialize(GetData, JsonOptions);
+                    var GetWritePath = DataHelper.ShowSaveFileDialog(LModName + ".json", "DSD (*.json)|*.json");
+                    if (GetWritePath != null)
+                    {
+                        if (GetWritePath.Trim().Length > 0)
+                        {
+                            if (File.Exists(GetWritePath))
+                            {
+                                File.Delete(GetWritePath);
+                            }
+                            DataHelper.WriteFile(GetWritePath, Encoding.UTF8.GetBytes(GetJson));
+                        }
+                    }
+                }
+                else
+                if (GetNeedType.Equals("Json(SSELex)"))
+                {
+                    ExportJson();
+                }
+                else
+                if (GetNeedType.Equals("Html"))
+                {
+                    ExportHtml();
+                }
+            }
+            else
+            if (CurrentTransType == 1)
+            {
+                if (GetNeedType.Equals("Json(Dynamic String Distributor)"))
+                {
+                    MessageBox.Show("Conversion of ESP, ESM, ESL. files to DSD is not supported");
+                }
+                else
+                if (GetNeedType.Equals("Json(SSELex)"))
+                {
+                    ExportJson();
+                }
+                else
+                if (GetNeedType.Equals("Html"))
+                {
+                    ExportHtml();
                 }
             }
         }
@@ -1967,7 +2101,7 @@ namespace SSELex
 
         private void SaveAs_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            MessageBox.Show("Still under development with future support expected.");
+            ExportAs();
         }
 
        

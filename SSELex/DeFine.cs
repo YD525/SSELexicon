@@ -47,7 +47,7 @@ namespace SSELex
 
         public static string BackupPath = @"\BackUpData\";
 
-        public static string CurrentVersion = "1.4.620";
+        public static string CurrentVersion = "1.4.63";
         public static LocalSetting GlobalLocalSetting = new LocalSetting();
 
         public static MainWindow WorkingWin = null;

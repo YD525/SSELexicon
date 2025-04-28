@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using SSELex.ConvertManager;
+using System.Windows.Forms;
 
 namespace SSELex.SkyrimModManager
 {
@@ -17,6 +18,24 @@ namespace SSELex.SkyrimModManager
 
     public class DataHelper
     {
+        public static string ShowSaveFileDialog(string defaultFileName, string filter = "所有文件 (*.*)|*.*")
+        {
+            using (var saveFileDialog = new System.Windows.Forms.SaveFileDialog())
+            {
+                saveFileDialog.FileName = defaultFileName;
+                saveFileDialog.Filter = filter;
+                saveFileDialog.RestoreDirectory = true;
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    return saveFileDialog.FileName;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
         public static void DeleteDirectory(string path)
         {
             DirectoryInfo dir = new DirectoryInfo(path);
@@ -145,7 +164,7 @@ namespace SSELex.SkyrimModManager
         public static string ShowFileDialog(string SelectType,string Text)
         {
             try { 
-            OpenFileDialog FileDialog = new OpenFileDialog();
+            Microsoft.Win32.OpenFileDialog FileDialog = new Microsoft.Win32.OpenFileDialog();
             FileDialog.Filter = SelectType;
             FileDialog.Title = Text;
             if (FileDialog.ShowDialog() == true)
