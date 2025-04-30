@@ -3,7 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Mutagen.Bethesda;
 using Mutagen.Bethesda.Plugins;
+using Mutagen.Bethesda.Plugins.Masters;
+using Mutagen.Bethesda.Plugins.Records;
+using NexusMods.Paths.Trees;
+using NexusMods.Paths.Trees.Traits;
 using OneOf.Types;
 using SSELex.ConvertManager;
 using SSELex.SkyrimManage;
@@ -58,24 +63,25 @@ namespace SSELex.SkyrimManagement
             return (num & 0xFF).ToString("X2");
         }
         public static int AutoNumber = 0;
-        public static string GenFormID(FormKey OneKey)
+
+        public static string GenFormID(FormKey Key)
         {
-            Next:
-            if (AutoNumber < 255)
+            //An example FormKey string might be 123456:Skyrim.esm
+            //The numbers are the last 6 digits of a FormID(with no mod index), followed by the string name of the mod that originally defined it
+            string GetKey = Key.ToString();
+            if (GetKey.Contains(":"))
             {
-                AutoNumber++;
+                string GetFormID = GetKey.Split(':')[0];
+                string GetModName = GetKey.Split(":")[1];
+                //The first two digits are the index
+                return GenFormID(GetFormID, GetModName);
             }
-            else
-            {
-                AutoNumber = 0;
-                goto Next;
-            }
-
-            string GetCount = IntToHex(AutoNumber);
-
-            string GetID = OneKey.ToString().Replace(":", "|");
-            GetID = string.Format("{0}{1}",GetCount,GetID);
-            return GetID;
+            return "";
+        }
+        public static string GenFormID(string FormID,string ModName)
+        {
+            string PaddedID = FormID.PadLeft(8, '0');
+            return $"{PaddedID}|{ModName}";
         }
 
         public static List<DSDItem> GetWorldspaces(EspReader Writer)
