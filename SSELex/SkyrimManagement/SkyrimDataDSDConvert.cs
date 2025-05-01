@@ -31,6 +31,7 @@ namespace SSELex.SkyrimManagement
     {
         public List<DSDItem> DSDItems = new List<DSDItem>();
     }
+
     public class SkyrimDataDSDConvert
     {
         public static string GetTransData(string EditorID, string SetType)
@@ -45,7 +46,6 @@ namespace SSELex.SkyrimManagement
                 return string.Empty;
             }
         }
-
 
         public static List<DSDItem> EspExportAllByDSD(EspReader Reader)
         {
@@ -122,7 +122,6 @@ namespace SSELex.SkyrimManagement
                     NDSDItem.original = GetName;
                     NDSDItem.@string = GetTransStr;
                     DSDItems.Add(NDSDItem);
-                    //GetWorldspaceItem.Name = GetTransStr;
                 }
             }
             return DSDItems;
@@ -152,7 +151,6 @@ namespace SSELex.SkyrimManagement
                     NDSDItem.original = GetName;
                     NDSDItem.@string = GetTransStr;
                     DSDItems.Add(NDSDItem);
-                    //GetQuestItem.Name = GetTransStr;
                 }
 
                 var GetDescription = ConvertHelper.ObjToStr(GetQuestItem.Description);
@@ -168,7 +166,6 @@ namespace SSELex.SkyrimManagement
                     NDSDItem.original = GetDescription;
                     NDSDItem.@string = GetTransStr;
                     DSDItems.Add(NDSDItem);
-                    //GetQuestItem.Description = GetTransStr;
                 }
 
                 if (GetQuestItem.Objectives.Count > 0)
@@ -189,10 +186,10 @@ namespace SSELex.SkyrimManagement
                                 NDSDItem.editor_id = GetQuestItem.EditorID;
                                 NDSDItem.form_id = GenFormID(GetQuestItem.FormKey);
                                 NDSDItem.type = "QUST NNAM";
+                                NDSDItem.index = CountObjective;
                                 NDSDItem.original = GetDisplayText;
                                 NDSDItem.@string = GetTransStr;
                                 DSDItems.Add(NDSDItem);
-                                //GetQuestItem.Objectives[ir].DisplayText = GetTransStr;
                             }
                         }
                     }
@@ -221,10 +218,10 @@ namespace SSELex.SkyrimManagement
                                     NDSDItem.editor_id = GetQuestItem.EditorID;
                                     NDSDItem.form_id = GenFormID(GetQuestItem.FormKey);
                                     NDSDItem.type = "QUST CNAM";
+                                    NDSDItem.index = CountStage;
                                     NDSDItem.original = GetEntry;
                                     NDSDItem.@string = GetTransStr;
                                     DSDItems.Add(NDSDItem);
-                                    //GetQuestItem.Stages[ii].LogEntries[iii].Entry = GetTransStr;
                                 }
                             }
                         }
@@ -258,7 +255,6 @@ namespace SSELex.SkyrimManagement
                     NDSDItem.original = GetName;
                     NDSDItem.@string = GetTransStr;
                     DSDItems.Add(NDSDItem);
-                    //GetFactionItem.Name = GetTransStr;
                 }
 
                 if (GetFactionItem.Ranks.Count > 0)
@@ -282,7 +278,6 @@ namespace SSELex.SkyrimManagement
                                 NDSDItem.original = GetFemale;
                                 NDSDItem.@string = GetTransStr;
                                 DSDItems.Add(NDSDItem);
-                                //GetFactionItem.Ranks[ii].Title.Female = GetTransStr;
                             }
 
                             SetType = string.Format("Male[{0}]", CountRank);
@@ -296,7 +291,6 @@ namespace SSELex.SkyrimManagement
                                 NDSDItem.original = GetMale;
                                 NDSDItem.@string = GetTransStr;
                                 DSDItems.Add(NDSDItem);
-                                //GetFactionItem.Ranks[ii].Title.Male = GetTransStr;
                             }
                         }
                 }
@@ -327,7 +321,6 @@ namespace SSELex.SkyrimManagement
                     NDSDItem.original = GetName;
                     NDSDItem.@string = GetTransStr;
                     DSDItems.Add(NDSDItem);
-                    //GetPerkItem.Name = GetTransStr;
                 }
 
                 var GetDescription = ConvertHelper.ObjToStr(GetPerkItem.Description);
@@ -342,7 +335,6 @@ namespace SSELex.SkyrimManagement
                     NDSDItem.original = GetDescription;
                     NDSDItem.@string = GetTransStr;
                     DSDItems.Add(NDSDItem);
-                    //GetPerkItem.Description = GetTransStr;
                 }
             }
             return DSDItems;
@@ -371,7 +363,6 @@ namespace SSELex.SkyrimManagement
                     NDSDItem.original = GetName;
                     NDSDItem.@string = GetTransStr;
                     DSDItems.Add(NDSDItem);
-                    //GetWeapon.Name = GetTransStr;
                 }
 
                 var GetDescription = ConvertHelper.ObjToStr(GetWeapon.Description);
@@ -386,7 +377,6 @@ namespace SSELex.SkyrimManagement
                     NDSDItem.original = GetDescription;
                     NDSDItem.@string = GetTransStr;
                     DSDItems.Add(NDSDItem);
-                    //GetWeapon.Description = GetTransStr;
                 }
             }
             return DSDItems;
@@ -415,7 +405,6 @@ namespace SSELex.SkyrimManagement
                     NDSDItem.original = GetName;
                     NDSDItem.@string = GetTransStr;
                     DSDItems.Add(NDSDItem);
-                    //GetSoulGem.Name = GetTransStr;
                 }
             }
             return DSDItems;
@@ -444,7 +433,6 @@ namespace SSELex.SkyrimManagement
                     NDSDItem.original = GetName;
                     NDSDItem.@string = GetTransStr;
                     DSDItems.Add(NDSDItem);
-                    //GetArmor.Name = GetTransStr;
                 }
 
                 var GetDescription = ConvertHelper.ObjToStr(GetArmor.Description);
@@ -459,7 +447,6 @@ namespace SSELex.SkyrimManagement
                     NDSDItem.original = GetDescription;
                     NDSDItem.@string = GetTransStr;
                     DSDItems.Add(NDSDItem);
-                    //GetArmor.Description = GetTransStr;
                 }
             }
             return DSDItems;
@@ -488,7 +475,6 @@ namespace SSELex.SkyrimManagement
                     NDSDItem.original = GetName;
                     NDSDItem.@string = GetTransStr;
                     DSDItems.Add(NDSDItem);
-                    //GetKey.Name = GetTransStr;
                 }
             }
             return DSDItems;
@@ -517,7 +503,6 @@ namespace SSELex.SkyrimManagement
                     NDSDItem.original = GetName;
                     NDSDItem.@string = GetTransStr;
                     DSDItems.Add(NDSDItem);
-                    //GetContainer.Name = GetTransStr;
                 }
             }
             return DSDItems;
@@ -546,7 +531,6 @@ namespace SSELex.SkyrimManagement
                     NDSDItem.original = GetName;
                     NDSDItem.@string = GetTransStr;
                     DSDItems.Add(NDSDItem);
-                    //GetActivator.Name = GetTransStr;
                 }
 
                 var GetActivateTextOverride = ConvertHelper.ObjToStr(GetActivator.ActivateTextOverride);
@@ -563,7 +547,6 @@ namespace SSELex.SkyrimManagement
                         NDSDItem.original = GetActivateTextOverride;
                         NDSDItem.@string = GetTransStr;
                         DSDItems.Add(NDSDItem);
-                        //GetActivator.ActivateTextOverride = GetTransStr;
                     }
                 }
             }
@@ -593,7 +576,6 @@ namespace SSELex.SkyrimManagement
                     NDSDItem.original = GetName;
                     NDSDItem.@string = GetTransStr;
                     DSDItems.Add(NDSDItem);
-                    //GetMiscItem.Name = GetTransStr;
                 }
             }
             return DSDItems;
@@ -622,7 +604,6 @@ namespace SSELex.SkyrimManagement
                     NDSDItem.original = GetName;
                     NDSDItem.@string = GetTransStr;
                     DSDItems.Add(NDSDItem);
-                    //Books.Name = GetTransStr;
                 }
 
                 var GetDescription = ConvertHelper.ObjToStr(Books.Description);
@@ -637,7 +618,6 @@ namespace SSELex.SkyrimManagement
                     NDSDItem.original = GetDescription;
                     NDSDItem.@string = GetTransStr;
                     DSDItems.Add(NDSDItem);
-                    //Books.Description = GetTransStr;
                 }
 
                 var GetBookText = ConvertHelper.ObjToStr(Books.BookText);
@@ -652,7 +632,6 @@ namespace SSELex.SkyrimManagement
                     NDSDItem.original = GetBookText;
                     NDSDItem.@string = GetTransStr;
                     DSDItems.Add(NDSDItem);
-                    //Books.BookText = GetTransStr;
                 }
             }
             return DSDItems;
@@ -681,7 +660,6 @@ namespace SSELex.SkyrimManagement
                     NDSDItem.original = GetName;
                     NDSDItem.@string = GetTransStr;
                     DSDItems.Add(NDSDItem);
-                    //GetMessageItem.Name = GetTransStr;
                 }
 
                 var GetDescription = ConvertHelper.ObjToStr(GetMessageItem.Description);
@@ -696,7 +674,6 @@ namespace SSELex.SkyrimManagement
                     NDSDItem.original = GetDescription;
                     NDSDItem.@string = GetTransStr;
                     DSDItems.Add(NDSDItem);
-                    //GetMessageItem.Description = GetTransStr;
                 }
             }
             return DSDItems;
@@ -725,14 +702,14 @@ namespace SSELex.SkyrimManagement
                             if (GetTransStr.Length > 0)
                             {
                                 //??????????????????????????
-                                DSDItem NDSDItem = new DSDItem();
-                                NDSDItem.editor_id = GetMessageItem.EditorID;
-                                NDSDItem.form_id = GenFormID(GetMessageItem.FormKey);
-                                NDSDItem.type = "MESG ITXT";
-                                NDSDItem.original = GetButton;
-                                NDSDItem.@string = GetTransStr;
-                                DSDItems.Add(NDSDItem);
-                                //GetMessageItem.MenuButtons[ir].Text = GetTransStr;
+                                //DSDItem NDSDItem = new DSDItem();
+                                //NDSDItem.editor_id = GetMessageItem.EditorID;
+                                //NDSDItem.form_id = GenFormID(GetMessageItem.FormKey);
+                                //NDSDItem.type = "MESG ITXT";
+                                //NDSDItem.index = ir;
+                                //NDSDItem.original = GetButton;
+                                //NDSDItem.@string = GetTransStr;
+                                //DSDItems.Add(NDSDItem);
                             }
                         }
                     }
@@ -766,7 +743,6 @@ namespace SSELex.SkyrimManagement
                         NDSDItem.original = GetName;
                         NDSDItem.@string = GetTransStr;
                         DSDItems.Add(NDSDItem);
-                        //GetDialogTopicItem.Name = GetTransStr;
                     }
                 }
 
@@ -790,10 +766,10 @@ namespace SSELex.SkyrimManagement
                                     NDSDItem.editor_id = GetDialogTopicItem.EditorID;
                                     NDSDItem.form_id = GenFormID(GetDialogTopicItem.FormKey);
                                     NDSDItem.type = "INFO NAM1";
+                                    NDSDItem.index = ForCount;
                                     NDSDItem.original = GetValue;
                                     NDSDItem.@string = GetTransStr;
                                     DSDItems.Add(NDSDItem);
-                                    //GetDialogTopicItem.Responses[ii].Responses[iii].Text = GetTransStr;
                                 }
                             }
                     }
@@ -824,7 +800,6 @@ namespace SSELex.SkyrimManagement
                     NDSDItem.original = GetName;
                     NDSDItem.@string = GetTransStr;
                     DSDItems.Add(NDSDItem);
-                    //GetSpellItem.Name = GetTransStr;
                 }
             }
             return DSDItems;
@@ -855,7 +830,6 @@ namespace SSELex.SkyrimManagement
                     NDSDItem.original = GetName;
                     NDSDItem.@string = GetTransStr;
                     DSDItems.Add(NDSDItem);
-                    //GetObjectEffect.Name = GetTransStr;
                 }
             }
             return DSDItems;
@@ -884,7 +858,6 @@ namespace SSELex.SkyrimManagement
                     NDSDItem.original = GetName;
                     NDSDItem.@string = GetTransStr;
                     DSDItems.Add(NDSDItem);
-                    //GetMagicEffect.Name = GetTransStr;
                 }
 
                 var GetDescription = ConvertHelper.ObjToStr(GetMagicEffect.Description);
@@ -899,7 +872,6 @@ namespace SSELex.SkyrimManagement
                     NDSDItem.original = GetDescription;
                     NDSDItem.@string = GetTransStr;
                     DSDItems.Add(NDSDItem);
-                    //GetMagicEffect.Description = GetTransStr;
                 }
             }
             return DSDItems;
@@ -933,10 +905,10 @@ namespace SSELex.SkyrimManagement
                                     NDSDItem.editor_id = GetCell.SubBlocks[ii].Cells[iii].EditorID;
                                     NDSDItem.form_id = GenFormID(GetCell.SubBlocks[ii].Cells[iii].FormKey);
                                     NDSDItem.type = "CELL FULL";
+                                    NDSDItem.index = ForID;
                                     NDSDItem.original = GetName;
                                     NDSDItem.@string = GetTransStr;
                                     DSDItems.Add(NDSDItem);
-                                    //GetCell.SubBlocks[ii].Cells[iii].Name = GetTransStr;
                                 }
                             }
                     }
