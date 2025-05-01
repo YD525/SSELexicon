@@ -15,17 +15,15 @@ namespace SSELex.TranslateManage
     //https://github.com/YD525/YDSkyrimToolR/
     public class TransCore
     {
-        public static void Shuffle<T>(IList<T> list)
+        private static readonly object _SortLock = new object();
+
+        public static void SortByCallCountDescending(ref List<EngineSelect> Array)
         {
-            Random rng = new Random();
-            int n = list.Count;
-            while (n > 1)
+            if (Array == null) return;
+
+            lock (_SortLock)
             {
-                n--;
-                int k = rng.Next(n + 1);
-                T value = list[k];
-                list[k] = list[n];
-                list[n] = value;
+                Array = Array.OrderByDescending(e => e.CurrentCallCount).ToList();
             }
         }
 
@@ -92,8 +90,6 @@ namespace SSELex.TranslateManage
                     EngineSelects.Add(new EngineSelect(new DeepLApi(), 6));
                 }
             }
-
-            Shuffle<EngineSelect>(EngineSelects);
         }
 
         public string TransAny(Languages Source, Languages Target,string SourceStr)
@@ -101,6 +97,10 @@ namespace SSELex.TranslateManage
             if (SourceStr == "")
             {
                 return "";
+            }
+            if (Source.Equals(Target))
+            {
+                return SourceStr;
             }
 
             string GetCacheStr = TranslateDBCache.FindCache(SourceStr, (int)Source, (int)Target);
@@ -119,10 +119,10 @@ namespace SSELex.TranslateManage
                 if (TransCore.EngineSelects[i].CurrentCallCount < TransCore.EngineSelects[i].MaxUseCount)
                 {
                     string GetTrans = TransCore.EngineSelects[i].Call(Source, Target, SourceStr);
-                    if (GetTrans.Trim().Length > 0)
-                    {
-                        return GetTrans;
-                    }
+
+                    SortByCallCountDescending(ref EngineSelects);
+
+                    return GetTrans;
                 }
                 else
                 {
@@ -153,18 +153,7 @@ namespace SSELex.TranslateManage
                 this.Engine = Engine;
                 this.MaxUseCount = MaxUseCount;
             }
-            public void ProcessEmptyEndLine(ref string TransText)
-            {
-                if (TransText.EndsWith("\r\n"))
-                {
-                    TransText = TransText.Substring(0, TransText.Length - "\r\n".Length);
-                }
-                else
-                if (TransText.EndsWith("\n"))
-                {
-                    TransText = TransText.Substring(0, TransText.Length - "\n".Length);
-                }
-            }
+            
             public string Call(Languages Source, Languages Target, string SourceStr)
             {
                 string GetSource = SourceStr.Trim();
@@ -172,11 +161,6 @@ namespace SSELex.TranslateManage
 
                 if (GetSource.Length > 0)
                 {
-                    if (Source.Equals(Target))
-                    {
-                        return TransText;
-                    }
-
                     if (this.Engine is BaiDuApi)
                     {
                         if (DeFine.GlobalLocalSetting.BaiDuYunApiUsing)
@@ -312,8 +296,6 @@ namespace SSELex.TranslateManage
                     }
 
                     TransText = TransText.Trim();
-
-                    ProcessEmptyEndLine(ref TransText);
 
                     if (TransText.Length > 0)
                     {

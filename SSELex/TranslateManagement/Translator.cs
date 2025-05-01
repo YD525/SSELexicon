@@ -5,6 +5,7 @@ using SSELex.TranslateCore;
 using static SSELex.TranslateManage.TransCore;
 using SSELex.UIManage;
 using System.Windows.Media;
+using SSELex.TranslateManagement;
 
 namespace SSELex.TranslateManage
 {
@@ -32,31 +33,33 @@ namespace SSELex.TranslateManage
 
         public static TransCore CurrentTransCore = new TransCore();
 
+        public static string ReturnStr(string Str)
+        {
+            if (string.IsNullOrWhiteSpace(Str.Replace("　", "")))
+            {
+                return string.Empty;
+            }
+            else
+            {
+                return Str.Trim();
+            }
+        }
         public static string QuickTrans(string Content, Languages From, Languages To)
         {
             if (Content.Trim().Length == 0) return string.Empty;
 
-            Content = Content.Replace("\u200b", "").Replace("\u200B", "");
+            TranslationPreprocessor.RemoveInvisibleCharacters(ref Content);
 
             Content = CurrentTransCore.TransAny(DeFine.SourceLanguage, DeFine.TargetLanguage, Content);
+            Content = Content.Trim();
 
-            Content = Content.Replace("“", "'");
-
-            Content = Content.Replace("”", "'");
-
-            Content = Content.Replace("。", ".");
-
-            Content = Content.Replace("！", "!");
-
-            Content = Content.Replace("，", ",");
-
-            Content = Content.Replace("：", ":");
-
-            Content = Content.Replace("？", "?");
+            TranslationPreprocessor.NormalizePunctuation(ref Content);
+            TranslationPreprocessor.ProcessEmptyEndLine(ref Content);
+            TranslationPreprocessor.RemoveInvisibleCharacters(ref Content);
 
             Content = Content.Replace("\u200b", "").Replace("\u200B", "");
 
-            return Content;
+            return ReturnStr(Content);
         }
 
         public static int WriteDictionary()
