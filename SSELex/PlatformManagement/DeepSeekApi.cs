@@ -70,17 +70,21 @@ namespace SSELex.PlatformManagement
 
     public class DeepSeekApi
     {
-        public string QuickTrans(string TransSource, Languages FromLang, Languages ToLang)
+        //"Important: When translating, strictly keep any text inside angle brackets (< >) or square brackets ([ ]) unchanged. Do not modify, translate, or remove them.\n\n"
+        public string QuickTrans(string TransSource, Languages FromLang, Languages ToLang,bool UseAIMemory,int AIMemoryCountLimit, string Param)
         {
             List<string> Related = new List<string>();
-            if (DeFine.GlobalLocalSetting.UsingContext)
+            if (DeFine.GlobalLocalSetting.UsingContext && UseAIMemory)
             {
-                Related = EngineSelect.AIMemory.FindRelevantTranslations(FromLang, TransSource, 3);
+                Related = EngineSelect.AIMemory.FindRelevantTranslations(FromLang, TransSource, AIMemoryCountLimit);
             }
 
             var GetTransSource = $"Translate the following text from {FromLang} to {ToLang}:\n\n";
 
-            GetTransSource += "Important: When translating, strictly keep any text inside angle brackets (< >) or square brackets ([ ]) unchanged. Do not modify, translate, or remove them.\n\n";
+            if (Param.Trim().Length > 0)
+            {
+                GetTransSource += Param;
+            }
 
             if (Related.Count > 0)
             {

@@ -44,13 +44,13 @@ namespace SSELex.TranslateManage
                 return Str.Trim();
             }
         }
-        public static string QuickTrans(string Content, Languages From, Languages To)
+        public static string QuickTrans(string Content, Languages From, Languages To,bool IsBook = false)
         {
             if (Content.Trim().Length == 0) return string.Empty;
 
             TranslationPreprocessor.RemoveInvisibleCharacters(ref Content);
 
-            Content = CurrentTransCore.TransAny(DeFine.SourceLanguage, DeFine.TargetLanguage, Content);
+            Content = CurrentTransCore.TransAny(DeFine.SourceLanguage, DeFine.TargetLanguage, Content,IsBook);
             Content = Content.Trim();
 
             TranslationPreprocessor.NormalizePunctuation(ref Content);

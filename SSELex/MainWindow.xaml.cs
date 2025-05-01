@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text;
 using SSELex.PlatformManagement;
 using SSELex.RequestManagement;
+using SSELex.TranslateManagement;
 
 // Copyright (C) 2025 YD525
 // Licensed under the GNU GPLv3
@@ -1309,19 +1310,21 @@ namespace SSELex
         {
             AutoViewMode();
         }
-
+        private CancellationTokenSource MainTransTrdToken;
+        private Thread MainTransTrd = null;
         private void TransCurrentItem(object sender, MouseButtonEventArgs e)
         {
             if (DeFine.ViewMode == 1)
             {
                 if (ConvertHelper.ObjToStr(TransBtn.Content).Equals("Translate(F1)"))
                 {
-                    new Thread(() =>
+                    TextSegmentTranslator SegmentTranslator = null;
+                    MainTransTrd = new Thread(() =>
                     {
-                        this.Dispatcher.Invoke(new Action(() =>
-                        {
-                            TransBtn.Content = "Working..";
-                        }));
+                        MainTransTrdToken = new CancellationTokenSource();
+                        var Token = MainTransTrdToken.Token;
+
+                       
                         this.Dispatcher.Invoke(new Action(() =>
                         {
                             TransViewList.GetMainGrid().IsHitTestVisible = false;
@@ -1331,13 +1334,33 @@ namespace SSELex
                         {
                             GetFromStr = FromStr.Text;
                         }));
-                        
-                        var GetResult = Translator.QuickTrans(GetFromStr, DeFine.SourceLanguage, DeFine.TargetLanguage);
 
                         this.Dispatcher.Invoke(new Action(() =>
                         {
-                            ToStr.Text = GetResult;
+                            TransBtn.Content = "Processing...";
                         }));
+
+                        Token.ThrowIfCancellationRequested();
+
+                        if (UIHelper.ActiveKey.EndsWith("(BookText)") && UIHelper.ActiveType.Equals("Book"))
+                        {
+                            this.Dispatcher.Invoke(new Action(() =>
+                            {
+                                SegmentTranslator = new TextSegmentTranslator(ToStr, TransBtn);
+                            }));
+
+                            SegmentTranslator.TransBook(GetFromStr, Token);
+                        }
+                        else
+                        {
+                            var GetResult = Translator.QuickTrans(GetFromStr, DeFine.SourceLanguage, DeFine.TargetLanguage);
+
+                            this.Dispatcher.Invoke(new Action(() =>
+                            {
+                                ToStr.Text = GetResult;
+                            }));
+                        }
+
                         this.Dispatcher.Invoke(new Action(() =>
                         {
                             TransViewList.GetMainGrid().IsHitTestVisible = true;
@@ -1346,7 +1369,13 @@ namespace SSELex
                         {
                             TransBtn.Content = "Translate(F1)";
                         }));
-                    }).Start();
+
+                    });
+                    MainTransTrd.Start();
+                }
+                else
+                {
+                    MainTransTrdToken.Cancel();
                 }
             }
         }
@@ -1850,14 +1879,14 @@ namespace SSELex
                     }
                     if (DeFine.GlobalLocalSetting.ChatGptKey.Trim().Length > 0)
                     {
-                        if (new ChatGptApi().QuickTrans("Test", Languages.English, Languages.Japanese).Trim().Length == 0)
+                        if (new ChatGptApi().QuickTrans("Test", Languages.English, Languages.Japanese,false,1,string.Empty).Trim().Length == 0)
                         {
                             RichText += "ChatGPT API Key is not configured correctly.\r\n";
                         }
                     }
                     if (DeFine.GlobalLocalSetting.DeepSeekKey.Trim().Length > 0)
                     {
-                        if (new DeepSeekApi().QuickTrans("Test", Languages.English, Languages.SimplifiedChinese).Trim().Length == 0)
+                        if (new DeepSeekApi().QuickTrans("Test", Languages.English, Languages.SimplifiedChinese,false,1,string.Empty).Trim().Length == 0)
                         {
                             RichText += "DeepSeek API Key is not configured correctly.\r\n";
                         }
@@ -2033,18 +2062,16 @@ namespace SSELex
             {
                 string TransText = ToStr.Text;
 
-                if (UIHelper.ActiveTextBox != null && FromStr.Text.Trim().Length > 0)
+                if (TransText.Trim().Length > 0)
                 {
-                    UIHelper.ActiveTextBox.Text = TransText;
+                    if (UIHelper.ActiveTextBox != null && FromStr.Text.Trim().Length > 0)
+                    {
+                        UIHelper.ActiveTextBox.Text = TransText;
 
-                    Translator.TransData[UIHelper.ActiveKey] = TransText;
+                        Translator.TransData[UIHelper.ActiveKey] = TransText;
+                    }
                 }
             }
-        }
-
-        private void ToStr_MouseLeave(object sender, MouseEventArgs e)
-        {
-            ApplyTransStr(null,null);
         }
 
         private void ReplaceLine(object sender, MouseButtonEventArgs e)

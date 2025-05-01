@@ -698,7 +698,7 @@
                                                     </StackPanel>
                                                   
 
-                                                    <avalonEdit:TextEditor TextChanged="ToStr_TextChanged" MouseLeave="ToStr_MouseLeave" Grid.Row="1" Margin="5" Name="ToStr" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" FontFamily="Consolas" FontSize="16" ShowLineNumbers="True" Background="#FF282828" Foreground="White" WordWrap="True" TextOptions.TextFormattingMode="Display">
+                                                    <avalonEdit:TextEditor TextChanged="ToStr_TextChanged" Grid.Row="1" Margin="5" Name="ToStr" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" FontFamily="Consolas" FontSize="16" ShowLineNumbers="True" Background="#FF282828" Foreground="White" WordWrap="True" TextOptions.TextFormattingMode="Display">
 
                                                     </avalonEdit:TextEditor>
                                                 </Grid>

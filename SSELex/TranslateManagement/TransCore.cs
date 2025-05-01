@@ -54,7 +54,7 @@ namespace SSELex.TranslateManage
                 }
                 else
                 {
-                    EngineSelects.Add(new EngineSelect(new GoogleTransApi(), 3));
+                    EngineSelects.Add(new EngineSelect(new GoogleTransApi(), 1));
                 }
 
             }
@@ -89,6 +89,8 @@ namespace SSELex.TranslateManage
 
         public static object SwitchLocker = new object();
 
+
+        public static string AIParam = "Important: When translating, strictly keep any text inside angle brackets (< >) or square brackets ([ ]) unchanged. Do not modify, translate, or remove them.\n\n";
         /// <summary>
         /// Multithreaded translation entry
         /// </summary>
@@ -96,7 +98,7 @@ namespace SSELex.TranslateManage
         /// <param name="Target"></param>
         /// <param name="SourceStr"></param>
         /// <returns></returns>
-        public string TransAny(Languages Source, Languages Target,string SourceStr)
+        public string TransAny(Languages Source, Languages Target,string SourceStr,bool IsBook)
         {
             if (SourceStr == "")
             {
@@ -136,7 +138,16 @@ namespace SSELex.TranslateManage
 
                 if (CurrentEngine != null)
                 {
-                    string GetTrans = CurrentEngine.Call(Source, Target, SourceStr);
+                    string GetTrans = "";
+                    if (!IsBook)
+                    {
+                        CurrentEngine.Call(Source, Target, SourceStr, true, 3, AIParam);
+                    }
+                    else
+                    {
+                        CurrentEngine.Call(Source, Target, SourceStr, false, 1, string.Empty);
+                    }
+                  
                     CurrentEngine.BeginSleep();
                     return GetTrans;
                 }
@@ -182,7 +193,7 @@ namespace SSELex.TranslateManage
                 }
             }
 
-            public string Call(Languages Source, Languages Target, string SourceStr)
+            public string Call(Languages Source, Languages Target, string SourceStr,bool UseAIMemory,int AIMemoryCountLimit,string Param)
             {
                 string GetSource = SourceStr.Trim();
                 string TransText = string.Empty;
@@ -254,9 +265,9 @@ namespace SSELex.TranslateManage
                     {
                         if (DeFine.GlobalLocalSetting.ChatGptApiUsing)
                         {
-                            var GetData = ((ChatGptApi)this.Engine).QuickTrans(GetSource, Source, Target).Trim();
+                            var GetData = ((ChatGptApi)this.Engine).QuickTrans(GetSource, Source, Target,UseAIMemory,AIMemoryCountLimit,Param).Trim();
 
-                            if (GetData.Trim().Length > 0)
+                            if (GetData.Trim().Length > 0 && UseAIMemory)
                             {
                                 AIMemory.AddTranslation(Source, GetSource, GetData);
                             }
@@ -273,9 +284,9 @@ namespace SSELex.TranslateManage
                     {
                         if (DeFine.GlobalLocalSetting.DeepSeekApiUsing)
                         {
-                            var GetData = ((DeepSeekApi)this.Engine).QuickTrans(GetSource, Source, Target).Trim();
+                            var GetData = ((DeepSeekApi)this.Engine).QuickTrans(GetSource, Source, Target,UseAIMemory,AIMemoryCountLimit,Param).Trim();
 
-                            if (GetData.Trim().Length > 0)
+                            if (GetData.Trim().Length > 0 && UseAIMemory)
                             {
                                 AIMemory.AddTranslation(Source, GetSource, GetData);
                             }
@@ -294,7 +305,7 @@ namespace SSELex.TranslateManage
                         {
                             var GetData = ((DeepLApi)this.Engine).QuickTrans(GetSource, Source, Target).Trim();
 
-                            if (GetData.Trim().Length > 0)
+                            if (GetData.Trim().Length > 0 && UseAIMemory)
                             {
                                 AIMemory.AddTranslation(Source, GetSource, GetData);
                             }

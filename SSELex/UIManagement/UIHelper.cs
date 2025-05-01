@@ -262,6 +262,7 @@ namespace SSELex.UIManage
             return MainGrid;
         }
 
+        public static string ActiveType = "";
         public static string ActiveKey = "";
         public static TextBox ActiveTextBox = null;
         private static Grid LastSetGrid = null;
@@ -285,6 +286,7 @@ namespace SSELex.UIManage
 
                     ActiveTextBox = (MainGrid.Children[4] as TextBox);
                     ActiveKey = GetKey;
+                    ActiveType = GetTag;
                     try
                     {
                         if (LastSetGrid != null)

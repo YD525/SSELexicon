@@ -54,7 +54,7 @@ namespace SSELex.TranslateManage
 
                     if (this.SourceText.Trim().Length > 0)
                     {
-                        if (ItemType.Equals("Book"))
+                        if (ItemType.Equals("Book")&&(!Key.EndsWith("(Description)")&&!Key.EndsWith("(Name)")))
                         {
                             if (DeFine.WorkingWin != null)
                             {
