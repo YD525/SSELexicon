@@ -17,13 +17,11 @@ namespace SSELex.TranslateManage
     {
         private static readonly object _SortLock = new object();
 
-        public static void SortByCallCountDescending(ref List<EngineSelect> Array)
+        public static void SortByCallCountDescending()
         {
-            if (Array == null) return;
-
             lock (_SortLock)
             {
-                Array = Array.OrderByDescending(e => e.CurrentCallCount).ToList();
+                EngineSelects.Sort((a, b) => b.CallCountDown.CompareTo(a.CallCountDown));
             }
         }
 
@@ -52,14 +50,11 @@ namespace SSELex.TranslateManage
             {
                 if (DeFine.GlobalLocalSetting.GoogleApiKey.Trim().Length == 0)
                 {
-                    if (ConvertHelper.ObjToStr(new GoogleHelper().FreeTransStr("Test", DeFine.SourceLanguage, DeFine.TargetLanguage)).Length > 0)
-                    {
-                        EngineSelects.Add(new EngineSelect(new GoogleHelper(), 1,3));
-                    }
+                    EngineSelects.Add(new EngineSelect(new GoogleHelper(), 1, 1));
                 }
                 else
                 {
-                    EngineSelects.Add(new EngineSelect(new GoogleTransApi(), 2));
+                    EngineSelects.Add(new EngineSelect(new GoogleTransApi(), 3));
                 }
 
             }
@@ -120,34 +115,35 @@ namespace SSELex.TranslateManage
                 return GetCacheStr;
             }
 
-            GoBack:
+            EngineSelect? CurrentEngine = null;
 
-            EngineSelect ?CurrentEngine = null;
-
-            lock (SwitchLocker) 
+            while (CurrentEngine == null)
             {
-                for (int i = 0; i < TransCore.EngineSelects.Count; i++)
+                lock (SwitchLocker)
                 {
-                    if (TransCore.EngineSelects[i].CurrentCallCount < TransCore.EngineSelects[i].MaxCallCount)
+                    for (int i = 0; i < TransCore.EngineSelects.Count; i++)
                     {
-                        TransCore.EngineSelects[i].CurrentCallCount++;
+                        if (TransCore.EngineSelects[i].CallCountDown > 0)
+                        {
+                            TransCore.EngineSelects[i].CallCountDown--;
 
-                        CurrentEngine = TransCore.EngineSelects[i];
+                            CurrentEngine = TransCore.EngineSelects[i];
 
-                        SortByCallCountDescending(ref EngineSelects);
+                            SortByCallCountDescending();
+                        }
                     }
                 }
-            }
 
-            if (CurrentEngine != null)
-            {
-                string GetTrans = CurrentEngine.Call(Source, Target, SourceStr);
-                CurrentEngine.BeginSleep();
-                return GetTrans;
-            }
+                if (CurrentEngine != null)
+                {
+                    string GetTrans = CurrentEngine.Call(Source, Target, SourceStr);
+                    CurrentEngine.BeginSleep();
+                    return GetTrans;
+                }
 
-            ReloadEngine();
-            goto GoBack;
+                ReloadEngine();
+            }
+            return string.Empty;
         }
 
         public class EngineSelect
@@ -155,7 +151,7 @@ namespace SSELex.TranslateManage
             public static AITranslationMemory AIMemory = new AITranslationMemory();
 
             public object Engine = new object();
-            public int CurrentCallCount = 0;
+            public int CallCountDown = 0;
             public int MaxCallCount = 0;
 
             public int SleepBySec = 0;
@@ -164,6 +160,8 @@ namespace SSELex.TranslateManage
             {
                 this.Engine = Engine;
                 this.MaxCallCount = MaxCallCount;
+                this.CallCountDown = this.MaxCallCount;
+
                 this.SleepBySec = 1;
             }
 
@@ -171,6 +169,8 @@ namespace SSELex.TranslateManage
             {
                 this.Engine = Engine;
                 this.MaxCallCount = MaxCallCount;
+                this.CallCountDown = this.MaxCallCount;
+
                 this.SleepBySec = SleepBySec;
             }
 
@@ -178,7 +178,7 @@ namespace SSELex.TranslateManage
             {
                 for (int i = 0; i < SleepBySec; i++)
                 {
-                    Thread.Sleep(1000);
+                    Task.Delay(1000);
                 }
             }
 
@@ -193,6 +193,7 @@ namespace SSELex.TranslateManage
                     {
                         if (DeFine.GlobalLocalSetting.BaiDuYunApiUsing)
                         {
+                            bool Sucess = false;
                             var GetData = ((BaiDuApi)this.Engine).TransStr(GetSource, Source, Target);
                             if (GetData != null)
                             {
@@ -205,25 +206,19 @@ namespace SSELex.TranslateManage
                                             TransText += GetLine.dst + "\r\n";
                                         }
                                         Translator.SendTranslateMsg("Cloud Engine(BaiDu)", GetSource, TransText);
+                                        Sucess = true;
                                     }
-                                    else
-                                    {
-                                        this.CurrentCallCount = this.MaxCallCount;
-                                    }
-                                }
-                                else
-                                {
-                                    this.CurrentCallCount = this.MaxCallCount;
                                 }
                             }
-                            else
+
+                            if (!Sucess)
                             {
-                                this.CurrentCallCount = this.MaxCallCount;
+                                this.CallCountDown = 0;
                             }
                         }
                         else
                         {
-                            this.CurrentCallCount = this.MaxCallCount;
+                            this.CallCountDown = 0;
                         }
                     }
                     else
@@ -237,7 +232,7 @@ namespace SSELex.TranslateManage
                         }
                         else
                         {
-                            this.CurrentCallCount = this.MaxCallCount;
+                            this.CallCountDown = 0;
                         }
                     }
                     else
@@ -251,7 +246,7 @@ namespace SSELex.TranslateManage
                         }
                         else
                         {
-                            this.CurrentCallCount = this.MaxCallCount;
+                            this.CallCountDown = 0;
                         }
                     }
                     else
@@ -270,7 +265,7 @@ namespace SSELex.TranslateManage
                         }
                         else
                         {
-                            this.CurrentCallCount = this.MaxCallCount;
+                            this.CallCountDown = 0;
                         }
                     }
                     else
@@ -289,7 +284,7 @@ namespace SSELex.TranslateManage
                         }
                         else
                         {
-                            this.CurrentCallCount = this.MaxCallCount;
+                            this.CallCountDown = 0;
                         }
                     }
                     else
@@ -308,7 +303,7 @@ namespace SSELex.TranslateManage
                         }
                         else
                         {
-                            this.CurrentCallCount = this.MaxCallCount;
+                            this.CallCountDown = 0;
                         }
                     }
 
