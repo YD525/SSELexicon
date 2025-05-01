@@ -31,7 +31,7 @@ namespace SSELex.SkyrimManagement
 
                     if (GetContent == "")
                     {
-                        GC.Collect();
+                        //GC.Collect();
                     }
 
                     GetContent = ProcessAproposCode(Get.FileName, GetContent);

@@ -43,7 +43,7 @@ namespace SSELex.TranslateManage
             {
                 if (DeFine.GlobalLocalSetting.BaiDuAppID.Trim().Length > 0)
                 {
-                    EngineSelects.Add(new EngineSelect(new BaiDuApi(), 1));
+                    EngineSelects.Add(new EngineSelect(new BaiDuApi(), 1, 2));
                 }
             }
 
@@ -54,7 +54,7 @@ namespace SSELex.TranslateManage
                 {
                     if (ConvertHelper.ObjToStr(new GoogleHelper().FreeTransStr("Test", DeFine.SourceLanguage, DeFine.TargetLanguage)).Length > 0)
                     {
-                        EngineSelects.Add(new EngineSelect(new GoogleHelper(), 1));
+                        EngineSelects.Add(new EngineSelect(new GoogleHelper(), 1,3));
                     }
                 }
                 else
@@ -92,6 +92,15 @@ namespace SSELex.TranslateManage
             }
         }
 
+        public static object SwitchLocker = new object();
+
+        /// <summary>
+        /// Multithreaded translation entry
+        /// </summary>
+        /// <param name="Source"></param>
+        /// <param name="Target"></param>
+        /// <param name="SourceStr"></param>
+        /// <returns></returns>
         public string TransAny(Languages Source, Languages Target,string SourceStr)
         {
             if (SourceStr == "")
@@ -111,33 +120,34 @@ namespace SSELex.TranslateManage
                 return GetCacheStr;
             }
 
-            NextSet:
+            GoBack:
 
-            int LimitCount = 0;
-            for (int i = 0; i < TransCore.EngineSelects.Count; i++)
+            EngineSelect ?CurrentEngine = null;
+
+            lock (SwitchLocker) 
             {
-                if (TransCore.EngineSelects[i].CurrentCallCount < TransCore.EngineSelects[i].MaxUseCount)
+                for (int i = 0; i < TransCore.EngineSelects.Count; i++)
                 {
-                    string GetTrans = TransCore.EngineSelects[i].Call(Source, Target, SourceStr);
+                    if (TransCore.EngineSelects[i].CurrentCallCount < TransCore.EngineSelects[i].MaxCallCount)
+                    {
+                        TransCore.EngineSelects[i].CurrentCallCount++;
 
-                    SortByCallCountDescending(ref EngineSelects);
+                        CurrentEngine = TransCore.EngineSelects[i];
 
-                    return GetTrans;
-                }
-                else
-                {
-                    LimitCount++;
+                        SortByCallCountDescending(ref EngineSelects);
+                    }
                 }
             }
 
-            if (LimitCount == TransCore.EngineSelects.Count)
+            if (CurrentEngine != null)
             {
-                Thread.Sleep(5);
-                ReloadEngine();
-                goto NextSet;
+                string GetTrans = CurrentEngine.Call(Source, Target, SourceStr);
+                CurrentEngine.BeginSleep();
+                return GetTrans;
             }
 
-            return string.Empty;
+            ReloadEngine();
+            goto GoBack;
         }
 
         public class EngineSelect
@@ -146,14 +156,32 @@ namespace SSELex.TranslateManage
 
             public object Engine = new object();
             public int CurrentCallCount = 0;
-            public int MaxUseCount = 0;
+            public int MaxCallCount = 0;
 
-            public EngineSelect(object Engine, int MaxUseCount)
+            public int SleepBySec = 0;
+
+            public EngineSelect(object Engine, int MaxCallCount)
             {
                 this.Engine = Engine;
-                this.MaxUseCount = MaxUseCount;
+                this.MaxCallCount = MaxCallCount;
+                this.SleepBySec = 1;
             }
-            
+
+            public EngineSelect(object Engine, int MaxCallCount,int SleepBySec)
+            {
+                this.Engine = Engine;
+                this.MaxCallCount = MaxCallCount;
+                this.SleepBySec = SleepBySec;
+            }
+
+            public void BeginSleep()
+            {
+                for (int i = 0; i < SleepBySec; i++)
+                {
+                    Thread.Sleep(1000);
+                }
+            }
+
             public string Call(Languages Source, Languages Target, string SourceStr)
             {
                 string GetSource = SourceStr.Trim();
@@ -165,42 +193,37 @@ namespace SSELex.TranslateManage
                     {
                         if (DeFine.GlobalLocalSetting.BaiDuYunApiUsing)
                         {
-                            if (this.CurrentCallCount < this.MaxUseCount)
+                            var GetData = ((BaiDuApi)this.Engine).TransStr(GetSource, Source, Target);
+                            if (GetData != null)
                             {
-                                var GetData = (this.Engine as BaiDuApi).TransStr(GetSource, Source, Target);
-                                if (GetData != null)
+                                if (GetData.trans_result != null)
                                 {
-                                    if (GetData.trans_result != null)
+                                    if (GetData.trans_result.Length > 0)
                                     {
-                                        if (GetData.trans_result.Length > 0)
+                                        foreach (var GetLine in GetData.trans_result)
                                         {
-                                            foreach (var GetLine in GetData.trans_result)
-                                            {
-                                                TransText += GetLine.dst + "\r\n";
-                                            }
-
-                                            this.CurrentCallCount++;
-                                            Translator.SendTranslateMsg("Cloud Engine(BaiDu)", GetSource, TransText);
+                                            TransText += GetLine.dst + "\r\n";
                                         }
-                                        else
-                                        {
-                                            this.CurrentCallCount = this.MaxUseCount;
-                                        }
+                                        Translator.SendTranslateMsg("Cloud Engine(BaiDu)", GetSource, TransText);
                                     }
                                     else
                                     {
-                                        this.CurrentCallCount = this.MaxUseCount;
+                                        this.CurrentCallCount = this.MaxCallCount;
                                     }
                                 }
                                 else
                                 {
-                                    this.CurrentCallCount = this.MaxUseCount;
+                                    this.CurrentCallCount = this.MaxCallCount;
                                 }
+                            }
+                            else
+                            {
+                                this.CurrentCallCount = this.MaxCallCount;
                             }
                         }
                         else
                         {
-                            this.CurrentCallCount = this.MaxUseCount;
+                            this.CurrentCallCount = this.MaxCallCount;
                         }
                     }
                     else
@@ -208,15 +231,13 @@ namespace SSELex.TranslateManage
                     {
                         if (DeFine.GlobalLocalSetting.GoogleYunApiUsing)
                         {
-                            var GetData = ConvertHelper.ObjToStr((this.Engine as GoogleHelper).FreeTransStr(GetSource, Source, Target));
-
+                            var GetData = ConvertHelper.ObjToStr(((GoogleHelper)this.Engine).FreeTransStr(GetSource, Source, Target));
                             TransText = GetData;
-                            this.CurrentCallCount++;
                             Translator.SendTranslateMsg("Cloud Engine(Google)", GetSource, TransText);
                         }
                         else
                         {
-                            this.CurrentCallCount = this.MaxUseCount;
+                            this.CurrentCallCount = this.MaxCallCount;
                         }
                     }
                     else
@@ -224,15 +245,13 @@ namespace SSELex.TranslateManage
                     {
                         if (DeFine.GlobalLocalSetting.GoogleYunApiUsing)
                         {
-                            var GetData = ConvertHelper.ObjToStr((this.Engine as GoogleTransApi).Translate(GetSource, Source, Target));
-
+                            var GetData = ConvertHelper.ObjToStr(((GoogleTransApi)this.Engine).Translate(GetSource, Source, Target));
                             TransText = GetData;
-                            this.CurrentCallCount++;
                             Translator.SendTranslateMsg("Cloud Engine(GoogleApi)", GetSource, TransText);
                         }
                         else
                         {
-                            this.CurrentCallCount = this.MaxUseCount;
+                            this.CurrentCallCount = this.MaxCallCount;
                         }
                     }
                     else
@@ -240,20 +259,18 @@ namespace SSELex.TranslateManage
                     {
                         if (DeFine.GlobalLocalSetting.ChatGptApiUsing)
                         {
-                            var GetData = (this.Engine as ChatGptApi).QuickTrans(GetSource, Source, Target).Trim();
+                            var GetData = ((ChatGptApi)this.Engine).QuickTrans(GetSource, Source, Target).Trim();
 
                             if (GetData.Trim().Length > 0)
                             {
                                 AIMemory.AddTranslation(Source, GetSource, GetData);
                             }
-
                             TransText = GetData;
-                            this.CurrentCallCount++;
                             Translator.SendTranslateMsg("Cloud Engine(ChatGptApi)", GetSource, TransText);
                         }
                         else
                         {
-                            this.CurrentCallCount = this.MaxUseCount;
+                            this.CurrentCallCount = this.MaxCallCount;
                         }
                     }
                     else
@@ -261,20 +278,18 @@ namespace SSELex.TranslateManage
                     {
                         if (DeFine.GlobalLocalSetting.DeepSeekApiUsing)
                         {
-                            var GetData = (this.Engine as DeepSeekApi).QuickTrans(GetSource, Source, Target).Trim();
+                            var GetData = ((DeepSeekApi)this.Engine).QuickTrans(GetSource, Source, Target).Trim();
 
                             if (GetData.Trim().Length > 0)
                             {
                                 AIMemory.AddTranslation(Source, GetSource, GetData);
                             }
-
                             TransText = GetData;
-                            this.CurrentCallCount++;
                             Translator.SendTranslateMsg("Cloud Engine(DeepSeek)", GetSource, TransText);
                         }
                         else
                         {
-                            this.CurrentCallCount = this.MaxUseCount;
+                            this.CurrentCallCount = this.MaxCallCount;
                         }
                     }
                     else
@@ -282,16 +297,18 @@ namespace SSELex.TranslateManage
                     {
                         if (DeFine.GlobalLocalSetting.DeepLApiUsing)
                         {
-                            var GetData = (this.Engine as DeepLApi).QuickTrans(GetSource, Source, Target).Trim();
+                            var GetData = ((DeepLApi)this.Engine).QuickTrans(GetSource, Source, Target).Trim();
 
                             if (GetData.Trim().Length > 0)
                             {
                                 AIMemory.AddTranslation(Source, GetSource, GetData);
                             }
-
                             TransText = GetData;
-                            this.CurrentCallCount++;
                             Translator.SendTranslateMsg("Cloud Engine(DeepL)", GetSource, TransText);
+                        }
+                        else
+                        {
+                            this.CurrentCallCount = this.MaxCallCount;
                         }
                     }
 
