@@ -1,8 +1,4 @@
-﻿// Copyright (C) 2025 YD525
-// Licensed under the GNU GPLv3
-// See LICENSE for details
-//https://github.com/YD525/YDSkyrimToolR/
-using SSELex.ConvertManager;
+﻿using SSELex.ConvertManager;
 using SSELex.SkyrimManage;
 using System.Windows.Controls;
 using SSELex.TranslateCore;
@@ -12,6 +8,10 @@ using System.Windows.Media;
 
 namespace SSELex.TranslateManage
 {
+    // Copyright (C) 2025 YD525
+    // Licensed under the GNU GPLv3
+    // See LICENSE for details
+    //https://github.com/YD525/YDSkyrimToolR/
     public class Translator
     {
         public delegate void TranslateMsg(string EngineName, string Text, string Result);

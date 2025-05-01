@@ -3,16 +3,56 @@
   "WorkspaceRootPath": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\translatemanagement\\aitranslationmemory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\translatemanagement\\aitranslationmemory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\translatemanagement\\batchtranslationhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\translatemanagement\\batchtranslationhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\translatemanagement\\codeprocess.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\translatemanagement\\codeprocess.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\translatemanagement\\divcacheengine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\translatemanagement\\divcacheengine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\translatemanagement\\jsongeter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\translatemanagement\\jsongeter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\translatemanagement\\languagehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\translatemanagement\\languagehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\translatemanagement\\localtrans.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\translatemanagement\\localtrans.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\translatemanagement\\translatedbcache.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\translatemanagement\\translatedbcache.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\translatemanagement\\transcore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\translatemanagement\\transcore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\translatemanagement\\translationpreprocessor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\translatemanagement\\translationpreprocessor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\translatemanagement\\translator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\translatemanagement\\translator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\skyrimmanagement\\aproposreader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\skyrimmanagement\\aproposreader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\skyrimmanagement\\skyrimdatadsdconvert.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\skyrimmanagement\\skyrimdatadsdconvert.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\translatemanagement\\aitranslationmemory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\translatemanagement\\aitranslationmemory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\platformmanagement\\baiduapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -35,36 +75,12 @@
       "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\platformmanagement\\deepseekapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\translatemanagement\\jsongeter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\translatemanagement\\jsongeter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\translatemanagement\\languagehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\translatemanagement\\languagehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\requestmanagement\\proxycenter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\requestmanagement\\proxycenter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\translatemanagement\\transcore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\translatemanagement\\transcore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\translatemanagement\\localtrans.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\translatemanagement\\localtrans.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\translatemanagement\\divcacheengine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\translatemanagement\\divcacheengine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\translatemanagement\\codeprocess.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\translatemanagement\\codeprocess.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\platformmanagement\\googletransapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -75,16 +91,8 @@
       "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\platformmanagement\\deeplapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\translatemanagement\\translator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\translatemanagement\\translator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\engineeditview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\engineeditview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\translatemanagement\\batchtranslationhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\translatemanagement\\batchtranslationhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\skyrimmanagement\\espreader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -207,20 +215,12 @@
       "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\uimanagement\\uilanguagehelper.cs||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\translatemanagement\\translationpreprocessor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\translatemanagement\\translationpreprocessor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\sqlmanagement\\pagehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\sqlmanagement\\pagehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\sqlmanagement\\sqlcore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\sqlmanagement\\sqlcore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\translatemanagement\\translatedbcache.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\translatemanagement\\translatedbcache.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\settingview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -253,76 +253,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 17,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "MainWindow.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\MainWindow.xaml.cs",
-              "RelativeDocumentMoniker": "SSELex\\MainWindow.xaml.cs",
-              "ToolTip": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\MainWindow.xaml.cs",
-              "RelativeToolTip": "SSELex\\MainWindow.xaml.cs",
-              "ViewState": "AgIAAFoHAAAAAAAAAADwvzUHAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-01T04:06:22.053Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "TransCore.cs",
-              "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\TranslateManagement\\TransCore.cs",
-              "RelativeDocumentMoniker": "SSELex\\TranslateManagement\\TransCore.cs",
-              "ToolTip": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\TranslateManagement\\TransCore.cs",
-              "RelativeToolTip": "SSELex\\TranslateManagement\\TransCore.cs",
-              "ViewState": "AgIAAHQAAAAAAAAAAAAuwJEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-01T03:51:33.098Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "EngineEditView.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\EngineEditView.xaml.cs",
-              "RelativeDocumentMoniker": "SSELex\\EngineEditView.xaml.cs",
-              "ToolTip": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\EngineEditView.xaml.cs",
-              "RelativeToolTip": "SSELex\\EngineEditView.xaml.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAAAEwCIAAAALAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-01T03:51:13.061Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "ChatGptApi.cs",
-              "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\PlatformManagement\\ChatGptApi.cs",
-              "RelativeDocumentMoniker": "SSELex\\PlatformManagement\\ChatGptApi.cs",
-              "ToolTip": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\PlatformManagement\\ChatGptApi.cs",
-              "RelativeToolTip": "SSELex\\PlatformManagement\\ChatGptApi.cs",
-              "ViewState": "AgIAADEAAAAAAAAAAAAuwHgAAAAuAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-27T07:51:06.66Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "BaiDuApi.cs",
-              "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\PlatformManagement\\BaiDuApi.cs",
-              "RelativeDocumentMoniker": "SSELex\\PlatformManagement\\BaiDuApi.cs",
-              "ToolTip": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\PlatformManagement\\BaiDuApi.cs",
-              "RelativeToolTip": "SSELex\\PlatformManagement\\BaiDuApi.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-12T22:09:00.983Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 21,
               "Title": "DeepLApi.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\PlatformManagement\\DeepLApi.cs",
               "RelativeDocumentMoniker": "SSELex\\PlatformManagement\\DeepLApi.cs",
@@ -330,12 +265,11 @@
               "RelativeToolTip": "SSELex\\PlatformManagement\\DeepLApi.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-27T08:05:22.38Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-27T08:05:22.38Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 15,
               "Title": "DeFine.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\DeFine.cs",
               "RelativeDocumentMoniker": "SSELex\\DeFine.cs",
@@ -343,51 +277,50 @@
               "RelativeToolTip": "SSELex\\DeFine.cs",
               "ViewState": "AgIAADQAAAAAAAAAAAAYwDEAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-27T07:00:11.841Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-27T07:00:11.841Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 2,
               "Title": "CodeProcess.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\TranslateManagement\\CodeProcess.cs",
               "RelativeDocumentMoniker": "SSELex\\TranslateManagement\\CodeProcess.cs",
               "ToolTip": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\TranslateManagement\\CodeProcess.cs",
               "RelativeToolTip": "SSELex\\TranslateManagement\\CodeProcess.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAEYAAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEYAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-13T16:24:13.007Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 3,
               "Title": "DivCacheEngine.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\TranslateManagement\\DivCacheEngine.cs",
               "RelativeDocumentMoniker": "SSELex\\TranslateManagement\\DivCacheEngine.cs",
               "ToolTip": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\TranslateManagement\\DivCacheEngine.cs",
               "RelativeToolTip": "SSELex\\TranslateManagement\\DivCacheEngine.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAIwAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-13T16:25:11.949Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 10,
               "Title": "Translator.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\TranslateManagement\\Translator.cs",
               "RelativeDocumentMoniker": "SSELex\\TranslateManagement\\Translator.cs",
               "ToolTip": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\TranslateManagement\\Translator.cs",
               "RelativeToolTip": "SSELex\\TranslateManagement\\Translator.cs",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAuwKIAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAA0AAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-01T03:46:17.106Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 11,
               "Title": "AproposReader.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\SkyrimManagement\\AproposReader.cs",
               "RelativeDocumentMoniker": "SSELex\\SkyrimManagement\\AproposReader.cs",
@@ -400,7 +333,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 17,
               "Title": "DeepSeekApi.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\PlatformManagement\\DeepSeekApi.cs",
               "RelativeDocumentMoniker": "SSELex\\PlatformManagement\\DeepSeekApi.cs",
@@ -408,12 +341,11 @@
               "RelativeToolTip": "SSELex\\PlatformManagement\\DeepSeekApi.cs",
               "ViewState": "AgIAAEMAAAAAAAAAAAAowHQAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-27T08:04:52.656Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-27T08:04:52.656Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 20,
               "Title": "GoogleTransApi.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\PlatformManagement\\GoogleTransApi.cs",
               "RelativeDocumentMoniker": "SSELex\\PlatformManagement\\GoogleTransApi.cs",
@@ -421,12 +353,11 @@
               "RelativeToolTip": "SSELex\\PlatformManagement\\GoogleTransApi.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAC0AAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-12T22:03:53.638Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-12T22:03:53.638Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 14,
               "Title": "HttpHelper.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\RequestManagement\\HttpHelper.cs",
               "RelativeDocumentMoniker": "SSELex\\RequestManagement\\HttpHelper.cs",
@@ -434,12 +365,11 @@
               "RelativeToolTip": "SSELex\\RequestManagement\\HttpHelper.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-13T16:24:18.205Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-13T16:24:18.205Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 4,
               "Title": "JsonGeter.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\TranslateManagement\\JsonGeter.cs",
               "RelativeDocumentMoniker": "SSELex\\TranslateManagement\\JsonGeter.cs",
@@ -452,33 +382,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 5,
               "Title": "LanguageHelper.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\TranslateManagement\\LanguageHelper.cs",
               "RelativeDocumentMoniker": "SSELex\\TranslateManagement\\LanguageHelper.cs",
               "ToolTip": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\TranslateManagement\\LanguageHelper.cs",
               "RelativeToolTip": "SSELex\\TranslateManagement\\LanguageHelper.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAGkAAAARAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAGkAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-13T18:36:01.882Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 6,
               "Title": "LocalTrans.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\TranslateManagement\\LocalTrans.cs",
               "RelativeDocumentMoniker": "SSELex\\TranslateManagement\\LocalTrans.cs",
               "ToolTip": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\TranslateManagement\\LocalTrans.cs",
               "RelativeToolTip": "SSELex\\TranslateManagement\\LocalTrans.cs",
-              "ViewState": "AgIAACEAAAAAAAAAAAAjwDIAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADIAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-13T16:23:34.756Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 18,
               "Title": "ProxyCenter.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\RequestManagement\\ProxyCenter.cs",
               "RelativeDocumentMoniker": "SSELex\\RequestManagement\\ProxyCenter.cs",
@@ -486,12 +416,11 @@
               "RelativeToolTip": "SSELex\\RequestManagement\\ProxyCenter.cs",
               "ViewState": "AgIAAAYAAAAAAAAAAAAAAAgAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-27T05:40:49.271Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-27T05:40:49.271Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 12,
               "Title": "SkyrimDataDSDConvert.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\SkyrimManagement\\SkyrimDataDSDConvert.cs",
               "RelativeDocumentMoniker": "SSELex\\SkyrimManagement\\SkyrimDataDSDConvert.cs",
@@ -499,38 +428,124 @@
               "RelativeToolTip": "SSELex\\SkyrimManagement\\SkyrimDataDSDConvert.cs",
               "ViewState": "AgIAAAUAAAAAAAAAAAAAwCAAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-28T17:57:04.019Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-28T17:57:04.019Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 1,
               "Title": "BatchTranslationHelper.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\TranslateManagement\\BatchTranslationHelper.cs",
               "RelativeDocumentMoniker": "SSELex\\TranslateManagement\\BatchTranslationHelper.cs",
               "ToolTip": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\TranslateManagement\\BatchTranslationHelper.cs",
               "RelativeToolTip": "SSELex\\TranslateManagement\\BatchTranslationHelper.cs",
-              "ViewState": "AgIAAEIAAAAAAAAAAAAEwE0AAAA2AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAE0AAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-01T03:45:23.715Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 9,
+              "Title": "TranslationPreprocessor.cs",
+              "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\TranslateManagement\\TranslationPreprocessor.cs",
+              "RelativeDocumentMoniker": "SSELex\\TranslateManagement\\TranslationPreprocessor.cs",
+              "ToolTip": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\TranslateManagement\\TranslationPreprocessor.cs",
+              "RelativeToolTip": "SSELex\\TranslateManagement\\TranslationPreprocessor.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-13T17:22:41.585Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "TranslateDBCache.cs",
+              "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\TranslateManagement\\TranslateDBCache.cs",
+              "RelativeDocumentMoniker": "SSELex\\TranslateManagement\\TranslateDBCache.cs",
+              "ToolTip": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\TranslateManagement\\TranslateDBCache.cs",
+              "RelativeToolTip": "SSELex\\TranslateManagement\\TranslateDBCache.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-13T16:23:16.173Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
               "Title": "AITranslationMemory.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\TranslateManagement\\AITranslationMemory.cs",
               "RelativeDocumentMoniker": "SSELex\\TranslateManagement\\AITranslationMemory.cs",
               "ToolTip": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\TranslateManagement\\AITranslationMemory.cs",
               "RelativeToolTip": "SSELex\\TranslateManagement\\AITranslationMemory.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-13T16:26:58.68Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 8,
+              "Title": "TransCore.cs",
+              "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\TranslateManagement\\TransCore.cs",
+              "RelativeDocumentMoniker": "SSELex\\TranslateManagement\\TransCore.cs",
+              "ToolTip": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\TranslateManagement\\TransCore.cs",
+              "RelativeToolTip": "SSELex\\TranslateManagement\\TransCore.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA4AAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-01T03:51:33.098Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "BaiDuApi.cs",
+              "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\PlatformManagement\\BaiDuApi.cs",
+              "RelativeDocumentMoniker": "SSELex\\PlatformManagement\\BaiDuApi.cs",
+              "ToolTip": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\PlatformManagement\\BaiDuApi.cs",
+              "RelativeToolTip": "SSELex\\PlatformManagement\\BaiDuApi.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-12T22:09:00.983Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "ChatGptApi.cs",
+              "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\PlatformManagement\\ChatGptApi.cs",
+              "RelativeDocumentMoniker": "SSELex\\PlatformManagement\\ChatGptApi.cs",
+              "ToolTip": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\PlatformManagement\\ChatGptApi.cs",
+              "RelativeToolTip": "SSELex\\PlatformManagement\\ChatGptApi.cs",
+              "ViewState": "AgIAADEAAAAAAAAAAAAuwHgAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-27T07:51:06.66Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "EngineEditView.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\EngineEditView.xaml.cs",
+              "RelativeDocumentMoniker": "SSELex\\EngineEditView.xaml.cs",
+              "ToolTip": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\EngineEditView.xaml.cs",
+              "RelativeToolTip": "SSELex\\EngineEditView.xaml.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAEwCIAAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-01T03:51:13.061Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "SSELex\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\MainWindow.xaml.cs",
+              "RelativeToolTip": "SSELex\\MainWindow.xaml.cs",
+              "ViewState": "AgIAAFoHAAAAAAAAAADwvzUHAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-01T04:06:22.053Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
               "Title": "YDDictionaryHelper.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\SkyrimManagement\\YDDictionaryHelper.cs",
               "RelativeDocumentMoniker": "SSELex\\SkyrimManagement\\YDDictionaryHelper.cs",
@@ -542,7 +557,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 34,
               "Title": "GoogleHelper.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\PlatformManagement\\GoogleHelper.cs",
               "RelativeDocumentMoniker": "SSELex\\PlatformManagement\\GoogleHelper.cs",
@@ -550,12 +565,11 @@
               "RelativeToolTip": "SSELex\\PlatformManagement\\GoogleHelper.cs",
               "ViewState": "AgIAADMAAAAAAAAAAAAiwEUAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-12T22:11:21.698Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-12T22:11:21.698Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 26,
               "Title": "SkyrimDataWriter.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\SkyrimManagement\\SkyrimDataWriter.cs",
               "RelativeDocumentMoniker": "SSELex\\SkyrimManagement\\SkyrimDataWriter.cs",
@@ -567,7 +581,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 33,
               "Title": "SSELex",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\SSELex.csproj",
               "RelativeDocumentMoniker": "SSELex\\SSELex.csproj",
@@ -578,7 +592,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 30,
               "Title": "UIHelper.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\UIManagement\\UIHelper.cs",
               "RelativeDocumentMoniker": "SSELex\\UIManagement\\UIHelper.cs",
@@ -590,7 +604,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 27,
               "Title": "MainWindow.xaml",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\MainWindow.xaml",
               "RelativeDocumentMoniker": "SSELex\\MainWindow.xaml",
@@ -601,7 +615,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 23,
               "Title": "EspReader.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\SkyrimManagement\\EspReader.cs",
               "RelativeDocumentMoniker": "SSELex\\SkyrimManagement\\EspReader.cs",
@@ -613,7 +627,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 37,
               "Title": "DeepSeek.svg",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\Material\\DeepSeek.svg",
               "RelativeDocumentMoniker": "SSELex\\Material\\DeepSeek.svg",
@@ -625,7 +639,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 24,
               "Title": "SkyrimDataLoader.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\SkyrimManagement\\SkyrimDataLoader.cs",
               "RelativeDocumentMoniker": "SSELex\\SkyrimManagement\\SkyrimDataLoader.cs",
@@ -637,7 +651,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 25,
               "Title": "SkyrimDataConvert.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\SkyrimManagement\\SkyrimDataConvert.cs",
               "RelativeDocumentMoniker": "SSELex\\SkyrimManagement\\SkyrimDataConvert.cs",
@@ -649,7 +663,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 32,
               "Title": "LogView.xaml",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\LogView.xaml",
               "RelativeDocumentMoniker": "SSELex\\LogView.xaml",
@@ -660,7 +674,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 29,
               "Title": "DataHelper.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\FileManagement\\DataHelper.cs",
               "RelativeDocumentMoniker": "SSELex\\FileManagement\\DataHelper.cs",
@@ -672,7 +686,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 35,
               "Title": "LogView.xaml.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\LogView.xaml.cs",
               "RelativeDocumentMoniker": "SSELex\\LogView.xaml.cs",
@@ -684,7 +698,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 31,
               "Title": "DeepL.svg",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\Material\\DeepL.svg",
               "RelativeDocumentMoniker": "SSELex\\Material\\DeepL.svg",
@@ -696,7 +710,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 36,
               "Title": "YellowState.svg",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\Material\\YellowState.svg",
               "RelativeDocumentMoniker": "SSELex\\Material\\YellowState.svg",
@@ -708,7 +722,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 38,
               "Title": "SettingView.xaml",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\SettingView.xaml",
               "RelativeDocumentMoniker": "SSELex\\SettingView.xaml",
@@ -719,7 +733,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 43,
+              "DocumentIndex": 45,
               "Title": "Lua.xshd",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\IDERule\\Lua.xshd",
               "RelativeDocumentMoniker": "SSELex\\IDERule\\Lua.xshd",
@@ -731,7 +745,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
+              "DocumentIndex": 41,
               "Title": "FileAttributesHelper.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\SkyrimManagement\\FileAttributesHelper.cs",
               "RelativeDocumentMoniker": "SSELex\\SkyrimManagement\\FileAttributesHelper.cs",
@@ -743,7 +757,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 40,
+              "DocumentIndex": 42,
               "Title": "RichBorderWidthConverter.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\IDEManagement\\RichBorderWidthConverter.cs",
               "RelativeDocumentMoniker": "SSELex\\IDEManagement\\RichBorderWidthConverter.cs",
@@ -755,7 +769,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 39,
               "Title": "SQLiteHelper.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\SQLManagement\\SQLiteHelper.cs",
               "RelativeDocumentMoniker": "SSELex\\SQLManagement\\SQLiteHelper.cs",
@@ -767,7 +781,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
+              "DocumentIndex": 40,
               "Title": "HeuristicCore.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\SkyrimManagement\\HeuristicCore.cs",
               "RelativeDocumentMoniker": "SSELex\\SkyrimManagement\\HeuristicCore.cs",
@@ -779,7 +793,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 44,
+              "DocumentIndex": 46,
               "Title": "ModHelper.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\SkyrimModManagement\\ModHelper.cs",
               "RelativeDocumentMoniker": "SSELex\\SkyrimModManagement\\ModHelper.cs",
@@ -791,7 +805,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 46,
+              "DocumentIndex": 48,
               "Title": "MCMReader.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\SkyrimManagement\\MCMReader.cs",
               "RelativeDocumentMoniker": "SSELex\\SkyrimManagement\\MCMReader.cs",
@@ -803,7 +817,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 42,
+              "DocumentIndex": 44,
               "Title": "ConvertHelper.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\ConvertManagement\\ConvertHelper.cs",
               "RelativeDocumentMoniker": "SSELex\\ConvertManagement\\ConvertHelper.cs",
@@ -815,7 +829,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 41,
+              "DocumentIndex": 43,
               "Title": "FileHelper.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\FileManagement\\FileHelper.cs",
               "RelativeDocumentMoniker": "SSELex\\FileManagement\\FileHelper.cs",
@@ -827,7 +841,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 45,
+              "DocumentIndex": 47,
               "Title": "CodeView.xaml",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\CodeView.xaml",
               "RelativeDocumentMoniker": "SSELex\\CodeView.xaml",
@@ -838,7 +852,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 49,
+              "DocumentIndex": 51,
               "Title": "ModOrganizerHelper.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\SkyrimModManagement\\ModOrganizerHelper.cs",
               "RelativeDocumentMoniker": "SSELex\\SkyrimModManagement\\ModOrganizerHelper.cs",
@@ -850,7 +864,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 48,
+              "DocumentIndex": 50,
               "Title": "CodeView.xaml.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\CodeView.xaml.cs",
               "RelativeDocumentMoniker": "SSELex\\CodeView.xaml.cs",
@@ -862,7 +876,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 47,
+              "DocumentIndex": 49,
               "Title": "TextStyle.xshd",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\IDERule\\TextStyle.xshd",
               "RelativeDocumentMoniker": "SSELex\\IDERule\\TextStyle.xshd",
@@ -874,7 +888,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 52,
+              "DocumentIndex": 53,
               "Title": "PageHelper.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\SQLManagement\\PageHelper.cs",
               "RelativeDocumentMoniker": "SSELex\\SQLManagement\\PageHelper.cs",
@@ -886,7 +900,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 50,
+              "DocumentIndex": 52,
               "Title": "UILanguageHelper.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\UIManagement\\UILanguageHelper.cs",
               "RelativeDocumentMoniker": "SSELex\\UIManagement\\UILanguageHelper.cs",
@@ -898,19 +912,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 51,
-              "Title": "TranslationPreprocessor.cs",
-              "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\TranslateManagement\\TranslationPreprocessor.cs",
-              "RelativeDocumentMoniker": "SSELex\\TranslateManagement\\TranslationPreprocessor.cs",
-              "ToolTip": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\TranslateManagement\\TranslationPreprocessor.cs",
-              "RelativeToolTip": "SSELex\\TranslateManagement\\TranslationPreprocessor.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-13T17:22:41.585Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 53,
+              "DocumentIndex": 54,
               "Title": "SqlCore.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\SQLManagement\\SqlCore.cs",
               "RelativeDocumentMoniker": "SSELex\\SQLManagement\\SqlCore.cs",
@@ -942,18 +944,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-13T16:21:47.615Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 54,
-              "Title": "TranslateDBCache.cs",
-              "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\TranslateManagement\\TranslateDBCache.cs",
-              "RelativeDocumentMoniker": "SSELex\\TranslateManagement\\TranslateDBCache.cs",
-              "ToolTip": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\TranslateManagement\\TranslateDBCache.cs",
-              "RelativeToolTip": "SSELex\\TranslateManagement\\TranslateDBCache.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-13T16:23:16.173Z"
             },
             {
               "$type": "Document",

@@ -4,6 +4,10 @@ using System.Text.RegularExpressions;
 
 namespace SSELex.TranslateManage
 {
+    // Copyright (C) 2025 YD525
+    // Licensed under the GNU GPLv3
+    // See LICENSE for details
+    //https://github.com/YD525/YDSkyrimToolR/
     public class AITranslationMemory
     {
         private const int MAX_BYTE_COUNT = 500;
