@@ -47,7 +47,7 @@ namespace SSELex
 
         public static string BackupPath = @"\BackUpData\";
 
-        public static string CurrentVersion = "1.4.63";
+        public static string CurrentVersion = "1.4.65";
         public static LocalSetting GlobalLocalSetting = new LocalSetting();
 
         public static MainWindow WorkingWin = null;
@@ -55,7 +55,6 @@ namespace SSELex
         public static SqlCore<SQLiteHelper> GlobalDB = null;
         public static CodeView CurrentCodeView = null;
         public static TextEditor ActiveIDE = null;
-        public static WordProcess WordProcessEngine = null;
 
         public static string CurrentSearchStr = "";
 
@@ -159,8 +158,6 @@ namespace SSELex
             NewWindowThread.SetApartmentState(ApartmentState.STA);
             NewWindowThread.Start();
 
-            WordProcessEngine = new WordProcess();
-
             CurrentLogView = new LogView();
             CurrentLogView.Hide();
         }
@@ -180,7 +177,6 @@ namespace SSELex
         public static void LoadData()
         {
             TransCore.Init();
-            ConjunctionHelper.Init();
         }
     }
 

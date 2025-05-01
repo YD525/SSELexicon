@@ -32,14 +32,7 @@ namespace SSELex
 
         private void StartTestTrans(object sender, RoutedEventArgs e)
         {
-            string GetSourceStr = Source.Text.Trim();
-            new Thread(() => { 
-                List<EngineProcessItem> EngineProcessItems = new List<EngineProcessItem>();
-                var GetResult = new WordProcess().ProcessWords(ref EngineProcessItems,GetSourceStr, DeFine.SourceLanguage, DeFine.TargetLanguage);
-                this.Dispatcher.Invoke(new Action(() => {
-                    TargetStr.Text = GetResult;
-                }));
-            }).Start();
+           
            
         }
     }

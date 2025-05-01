@@ -4,95 +4,91 @@ using System.Text.RegularExpressions;
 
 namespace SSELex.TranslateManage
 {
-    public class AITranslationCache
-    {
-        AITranslationMemory Memory = new AITranslationMemory();
-    }
     public class AITranslationMemory
     {
         private const int MAX_BYTE_COUNT = 500;
 
-        private readonly Dictionary<string, string> _translationDictionary = new Dictionary<string, string>();
-        private readonly Dictionary<string, HashSet<string>> _wordIndex = new Dictionary<string, HashSet<string>>();
+        private readonly Dictionary<string, string> _TranslationDictionary = new Dictionary<string, string>();
+        private readonly Dictionary<string, HashSet<string>> _WordIndex = new Dictionary<string, HashSet<string>>();
 
         public void Clear()
         {
-            _translationDictionary.Clear();
-            _wordIndex.Clear();
+            _TranslationDictionary.Clear();
+            _WordIndex.Clear();
         }
 
         /// <summary>
-        /// 添加翻译，并建立索引（过滤超长文本）
+        /// Add translation and create index (filter out long text)
         /// </summary>
-        public void AddTranslation(Languages SourceLang,string original, string translated)
+        public void AddTranslation(Languages SourceLang,string Original, string Translated)
         {
-            int byteSize = Encoding.UTF8.GetByteCount(original);
+            int ByteSize = Encoding.UTF8.GetByteCount(Original);
 
-            if (byteSize > MAX_BYTE_COUNT)
+            if (ByteSize > MAX_BYTE_COUNT)
             {
                 return;
             }
 
-            string normalized = NormalizeText(SourceLang,original);
-            if (!_translationDictionary.ContainsKey(original))
+            string Normalized = NormalizeText(SourceLang,Original);
+            if (!_TranslationDictionary.ContainsKey(Original))
             {
-                _translationDictionary[original] = translated;
+                _TranslationDictionary[Original] = Translated;
 
-                string[] words = normalized.Split(' ');
-                foreach (string word in words)
+                string[] Words = Normalized.Split(' ');
+                foreach (string Word in Words)
                 {
-                    string key = word.ToLower();
-                    if (!_wordIndex.ContainsKey(key))
+                    string Key = Word.ToLower();
+                    if (!_WordIndex.ContainsKey(Key))
                     {
-                        _wordIndex[key] = new HashSet<string>();
+                        _WordIndex[Key] = new HashSet<string>();
                     }
-                    _wordIndex[key].Add(original);
+                    _WordIndex[Key].Add(Original);
                 }
             }
         }
 
         /// <summary>
-        /// 规范化文本，支持驼峰拆分、下划线转换
+        /// Normalize text, support camel case splitting and underline conversion
         /// </summary>
-        private string NormalizeText(Languages SourceLang,string text)
+        private string NormalizeText(Languages SourceLang,string Text)
         {
-            text = text.Replace('_', ' ').Replace('-', ' ');
+            Text = Text.Replace('_', ' ').Replace('-', ' ');
 
             if (SourceLang == Languages.English)
             {
-                text = Regex.Replace(text, "(?<!^)([A-Z])", " $1");
+                Text = Regex.Replace(Text, "(?<!^)([A-Z])", " $1");
             }
            
-            return text;
+            return Text;
         }
 
         /// <summary>
-        /// 查询最相关的翻译
+        /// Find the most relevant translations
         /// </summary>
-        public List<string> FindRelevantTranslations(Languages SourceLang,string query, int maxResults = 3)
+        public List<string> FindRelevantTranslations(Languages SourceLang,string Query, int MaxResults = 3)
         {
-            query = NormalizeText(SourceLang,query);
-            Dictionary<string, int> relevanceMap = new Dictionary<string, int>();
-            string[] words = query.Split(' ');
+            Query = NormalizeText(SourceLang,Query);
+            Dictionary<string, int> RelevanceMap = new Dictionary<string, int>();
+            string[] Words = Query.Split(' ');
 
-            foreach (string word in words)
+            foreach (string Word in Words)
             {
-                string key = word.ToLower();
-                if (_wordIndex.ContainsKey(key))
+                string Key = Word.ToLower();
+                if (_WordIndex.ContainsKey(Key))
                 {
-                    foreach (var sentence in _wordIndex[key])
+                    foreach (var Sentence in _WordIndex[Key])
                     {
-                        if (!relevanceMap.ContainsKey(sentence))
-                            relevanceMap[sentence] = 0;
+                        if (!RelevanceMap.ContainsKey(Sentence))
+                            RelevanceMap[Sentence] = 0;
 
-                        relevanceMap[sentence]++;
+                        RelevanceMap[Sentence]++;
                     }
                 }
             }
 
-            return relevanceMap.OrderByDescending(kvp => kvp.Value)
-                               .Take(maxResults)
-                               .Select(kvp => $"{kvp.Key} -> {_translationDictionary[kvp.Key]}")
+            return RelevanceMap.OrderByDescending(KVP => KVP.Value)
+                               .Take(MaxResults)
+                               .Select(KVP => $"{KVP.Key} -> {_TranslationDictionary[KVP.Key]}")
                                .ToList();
         }
     }

@@ -17,11 +17,11 @@ using SSELex.UIManage;
 using static SSELex.UIManage.SkyrimDataLoader;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using ICSharpCode.AvalonEdit.Highlighting;
-using ICSharpCode.AvalonEdit;
-using SSELex.TranslateManagement;
 using SSELex.SkyrimManagement;
 using System.Text.Json;
 using System.Text;
+using SSELex.PlatformManagement;
+using SSELex.RequestManagement;
 
 // Copyright (C) 2025 YD525
 // Licensed under the GNU GPLv3
@@ -253,7 +253,7 @@ namespace SSELex
             ReloadLanguageMode();
             this.MainCaption.Content = string.Format("SSELex Gui {0}", DeFine.CurrentVersion);
 
-            WordProcess.SendTranslateMsg += TranslateMsg;
+            Translator.SendTranslateMsg += TranslateMsg;
 
             if (DeFine.GlobalLocalSetting.AutoLoadDictionaryFile)
             {
@@ -382,7 +382,7 @@ namespace SSELex
         public void LoadAny(string FilePath)
         {
             DeFine.ShowLogView();
-            WordProcess.ClearAICache();
+            Translator.ClearAICache();
             SetLog("Load:" + FilePath);
             ClosetTransTrd();
             if (System.IO.File.Exists(FilePath))
@@ -1101,7 +1101,7 @@ namespace SSELex
                 }
                 if (DeFine.GlobalLocalSetting.AutoLoadDictionaryFile)
                 {
-                    WordProcess.WriteDictionary();
+                    Translator.WriteDictionary();
                     YDDictionaryHelper.CreatDictionary();
                 }
                 else
@@ -1260,7 +1260,7 @@ namespace SSELex
 
         private void ClearCache(object sender, MouseButtonEventArgs e)
         {
-            WordProcess.ClearAICache();
+            Translator.ClearAICache();
             if (ActionWin.Show("Clear the cache for translation?", "Warning: After cleaning up, all content including previous translations will no longer be cached. Translating again will retrieve it from the cloud, which will waste the results of your previous translations and increase word count consumption!", MsgAction.YesNo, MsgType.Info) > 0)
             {
                 string SqlOrder = "Delete From CloudTranslation Where 1=1";
@@ -1331,8 +1331,9 @@ namespace SSELex
                         {
                             GetFromStr = FromStr.Text;
                         }));
-                        List<EngineProcessItem> EngineProcessItems = new List<EngineProcessItem>();
-                        var GetResult = new WordProcess().QuickTrans(GetFromStr, DeFine.SourceLanguage, DeFine.TargetLanguage);
+                        
+                        var GetResult = Translator.QuickTrans(GetFromStr, DeFine.SourceLanguage, DeFine.TargetLanguage);
+
                         this.Dispatcher.Invoke(new Action(() =>
                         {
                             ToStr.Text = GetResult;
@@ -1490,7 +1491,7 @@ namespace SSELex
         {
             if (ActionWin.Show("Do you agree?", $"This will replace the contents of all rows. \"{ReplaceKey.Text}\"->\"{ReplaceValue.Text}\"", MsgAction.YesNo, MsgType.Info, 230) > 0)
             {
-                WordProcess.ReplaceAllLine(ReplaceKey.Text.Trim(), ReplaceValue.Text.Trim());
+                Translator.ReplaceAllLine(ReplaceKey.Text.Trim(), ReplaceValue.Text.Trim());
             }
         }
 
@@ -1580,9 +1581,8 @@ namespace SSELex
             if (TransViewList.Rows > 0)
                 if (ActionWin.Show("Do you agree?", "This will restore all fields to their initial state.", MsgAction.YesNo, MsgType.Info, 230) > 0)
                 {
-                    WordProcess.ReSetAllTransText();
+                    Translator.ReSetAllTransText();
                 }
-
         }
 
         private void ReStoreTransLang(object sender, MouseButtonEventArgs e)
@@ -1602,7 +1602,7 @@ namespace SSELex
                             ReloadDataFunc(true);
                         }
 
-                        WordProcess.ReStoreAllTransText();
+                        Translator.ReStoreAllTransText();
 
                         if (ActionWin.Show("Do you agree?", "Delete dictionary file and save", MsgAction.YesNo, MsgType.Info, 230) > 0)
                         {

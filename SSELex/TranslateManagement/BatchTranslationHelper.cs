@@ -75,7 +75,7 @@ namespace SSELex.TranslateManage
                         }
                         else
                         {
-                            var GetResult = new WordProcess().QuickTrans(this.SourceText, DeFine.SourceLanguage, DeFine.TargetLanguage);
+                            var GetResult = Translator.QuickTrans(this.SourceText, DeFine.SourceLanguage, DeFine.TargetLanguage);
                             if (GetResult.Trim().Length > 0)
                             {
                                 TransText = GetResult.Trim();
