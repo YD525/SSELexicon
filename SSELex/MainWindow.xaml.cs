@@ -79,11 +79,13 @@ namespace SSELex
         public ObjSelect CurrentSelect = ObjSelect.Null;
 
         public object LockerAddTrd = new object();
-
+        public bool ReadTrdWorkState = false;
         public void ReloadDataFunc(bool CanReloadCountCache = true)
         {
             lock (LockerAddTrd)
             {
+                ReadTrdWorkState = true;
+
                 GC.Collect();
 
                 if (CanReloadCountCache)
@@ -110,7 +112,6 @@ namespace SSELex
                         {
                             TransViewList.AddRowR(UIHelper.CreatLine(GetItem.Type, GetItem.EditorID, GetItem.Key, GetItem.SourceText, GetItem.GetTextIfTransR(), false));
                         }));
-
                     }
                 }
                 if (CurrentTransType == 3)
@@ -123,6 +124,8 @@ namespace SSELex
                         }));
                     }
                 }
+
+                ReadTrdWorkState = false;
 
                 GetStatistics();
             }
@@ -158,7 +161,15 @@ namespace SSELex
                     ProcessBar.Width = 1;
                 }
                 MaxTransCount = TransViewList.Rows;
-                TransProcess.Content = string.Format("STRINGS({0}/{1})", UIHelper.ModifyCount, MaxTransCount);
+
+                if (ReadTrdWorkState)
+                {
+                    TransProcess.Content = string.Format("Loading({0}/{1})", UIHelper.ModifyCount, MaxTransCount);
+                }
+                else
+                {
+                    TransProcess.Content = string.Format("STRINGS({0}/{1})", UIHelper.ModifyCount, MaxTransCount);
+                }
             }));
         }
 
@@ -270,6 +281,20 @@ namespace SSELex
             ExportTypes.Items.Add("Json(Dynamic String Distributor)");
             ExportTypes.Items.Add("Json(SSELex)");
             ExportTypes.Items.Add("Html");
+
+            new Thread(() => {
+                while (true)
+                {
+                    Thread.Sleep(2000);
+                    if (ReadTrdWorkState)
+                    {
+                        try { 
+                        GetStatistics();
+                        }
+                        catch { }
+                    }
+                }
+            }).Start();
 
             new Thread(() =>
             {
@@ -500,7 +525,6 @@ namespace SSELex
                     }));
 
                     ReSetTransTargetType();
-                    ReloadData();
                 }
             }
         }
@@ -1288,11 +1312,19 @@ namespace SSELex
             {
                 DeFine.CurrentSearchStr = string.Empty;
                 SearchKey.Text = string.Empty;
-                ExtendFrame.Height = new GridLength(0,GridUnitType.Pixel);
+                ExtendFrame.Height = new GridLength(0, GridUnitType.Pixel);
                 ExtendBox.Width = 0;
 
                 DeFine.ViewMode = 0;
-                ReloadData();
+
+                if (TransViewList != null)
+                {
+                    if (TransViewList.RealLines != null)
+                    {
+                        ReloadData();
+                    }
+                }
+               
                 DeFine.GlobalLocalSetting.ViewMode = "Quick";
             }
             else
@@ -1301,7 +1333,15 @@ namespace SSELex
                 ExtendBox.Width = this.Width - TransViewBox.Width;
 
                 DeFine.ViewMode = 1;
-                ReloadData();
+
+                if (TransViewList != null)
+                {
+                    if (TransViewList.RealLines != null)
+                    {
+                        ReloadData();
+                    }
+                }
+
                 DeFine.GlobalLocalSetting.ViewMode = "Normal";
             }
         }
@@ -1604,7 +1644,23 @@ namespace SSELex
                 DeFine.GlobalLocalSetting.SaveConfig();
             }
         }
+        private void TestAll(object sender, MouseButtonEventArgs e)
+        {
+            for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
+            {
+                Grid MainGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
+                string GetKey = ConvertHelper.ObjToStr(MainGrid.Tag);
+                Translator.TransData[GetKey] = i.ToString();
+                (MainGrid.Children[4] as TextBox).Text = i.ToString();
 
+                (MainGrid.Children[4] as TextBox).BorderBrush = new SolidColorBrush(Color.FromRgb(76, 76, 76));
+            }
+            UIHelper.ModifyCount = DeFine.WorkingWin.TransViewList.RealLines.Count;
+            DeFine.WorkingWin.GetStatistics();
+            DeFine.WorkingWin.Dispatcher.Invoke(new Action(() => {
+                DeFine.WorkingWin.ProcessBar.Width = 0;
+            }));
+        }
         private void ReSetTransLang(object sender, MouseButtonEventArgs e)
         {
             if (TransViewList.Rows > 0)

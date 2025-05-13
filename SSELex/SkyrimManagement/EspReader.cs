@@ -98,6 +98,10 @@ namespace SSELex.SkyrimManage
                     {
                         Quests.Add(Get.EditorID, Get);
                     }
+                    //else
+                    //{
+                    //    Quests.Add(Get.FormKey.ToString(), Get);
+                    //}
                 }
 
                 foreach (var Get in this.CurrentReadMod.Factions.ToList())
@@ -194,6 +198,10 @@ namespace SSELex.SkyrimManage
                     {
                         DialogTopics.Add(Get.EditorID, Get);
                     }
+                    else
+                    {
+                        DialogTopics.Add(Get.FormKey.ToString(), Get);
+                    }
                 }
 
                 foreach (var Get in this.CurrentReadMod.Spells.ToList())
@@ -260,7 +268,14 @@ namespace SSELex.SkyrimManage
                 }
 
                 ToRam();
-                 
+                foreach (var Item in CurrentReadMod.EnumerateMajorRecords())
+                {
+                    if (Item.FormKey.ToString().Contains("74295"))
+                    { 
+                    
+                    }
+                }
+
                 //foreach (var Get in this.CurrentReadMod.Keywords.ToList())
                 //{
 
@@ -272,7 +287,7 @@ namespace SSELex.SkyrimManage
                 //    {
                 //        if (Item.EditorID.Contains("zadc_BondagePole"))
                 //        { 
-                        
+
                 //        }
 
                 //        if (Item is ActionRecord)

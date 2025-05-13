@@ -122,6 +122,7 @@ namespace SSELex.TranslateManage
 
         public static void ReSetAllTransText()
         {
+            string EMP = "";
             for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
             {
                 Grid MainGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
@@ -129,8 +130,8 @@ namespace SSELex.TranslateManage
                 var TargetText = ConvertHelper.ObjToStr((MainGrid.Children[4] as TextBox).Text);
                 if (TargetText.Trim().Length > 0)
                 {
-                    Translator.TransData[GetKey] = string.Empty;
-                    (MainGrid.Children[4] as TextBox).Text = string.Empty;
+                    Translator.TransData[GetKey] = EMP;
+                    (MainGrid.Children[4] as TextBox).Text = EMP;
                     if (Translator.TransData.ContainsKey(GetKey))
                     {
                         Translator.TransData.Remove(GetKey);

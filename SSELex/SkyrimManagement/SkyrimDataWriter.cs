@@ -212,21 +212,24 @@ namespace SSELex.UIManage
                         for (int ii = 0; ii < GetFactionItem.Ranks.Count; ii++)
                         {
                             CountRank++;
-                            string GetFemale = ConvertHelper.ObjToStr(GetFactionItem.Ranks[ii].Title.Female);
-                            string GetMale = ConvertHelper.ObjToStr(GetFactionItem.Ranks[ii].Title.Male);
-
-                            SetType = string.Format("Female[{0}]", CountRank);
-                            GetTransStr = GetTransData(GetFactionItem.EditorID, SetType);
-                            if (GetTransStr.Trim().Length > 0)
+                            if (GetFactionItem.Ranks[ii].Title != null)
                             {
-                                GetFactionItem.Ranks[ii].Title.Female = GetTransStr;
-                            }
+                                string GetFemale = ConvertHelper.ObjToStr(GetFactionItem.Ranks[ii].Title.Female);
+                                string GetMale = ConvertHelper.ObjToStr(GetFactionItem.Ranks[ii].Title.Male);
 
-                            SetType = string.Format("Male[{0}]", CountRank);
-                            GetTransStr = GetTransData(GetFactionItem.EditorID, SetType);
-                            if (GetTransStr.Trim().Length > 0)
-                            {
-                                GetFactionItem.Ranks[ii].Title.Male = GetTransStr;
+                                SetType = string.Format("Female[{0}]", CountRank);
+                                GetTransStr = GetTransData(GetFactionItem.EditorID, SetType);
+                                if (GetTransStr.Trim().Length > 0)
+                                {
+                                    GetFactionItem.Ranks[ii].Title.Female = GetTransStr;
+                                }
+
+                                SetType = string.Format("Male[{0}]", CountRank);
+                                GetTransStr = GetTransData(GetFactionItem.EditorID, SetType);
+                                if (GetTransStr.Trim().Length > 0)
+                                {
+                                    GetFactionItem.Ranks[ii].Title.Male = GetTransStr;
+                                }
                             }
                         }
                 }
@@ -551,11 +554,24 @@ namespace SSELex.UIManage
                 var GetHashKey = Writer.DialogTopics.ElementAt(i).Key;
                 var GetDialogTopicItem = Writer.DialogTopics[GetHashKey];
 
+                string AutoKey = "";
+                if (GetDialogTopicItem.EditorID != null)
+                {
+                    AutoKey = GetDialogTopicItem.EditorID;
+                }
+                else
+                {
+                    if (GetDialogTopicItem.FormKey != null)
+                    {
+                        AutoKey = GetDialogTopicItem.FormKey.ToString();
+                    }
+                }
+
                 var GetName = ConvertHelper.ObjToStr(GetDialogTopicItem.Name);
                 if (GetName.Length > 0)
                 {
                     SetType = "Name";
-                    GetTransStr = GetTransData(GetDialogTopicItem.EditorID, SetType);
+                    GetTransStr = GetTransData(AutoKey, SetType);
                     if (GetTransStr.Length > 0)
                     {
                         GetDialogTopicItem.Name = GetTransStr;
@@ -567,6 +583,16 @@ namespace SSELex.UIManage
                     for (int ii = 0; ii < GetDialogTopicItem.Responses.Count; ii++)
                     {
                         ForCount++;
+                        string GetPrompt = ConvertHelper.ObjToStr(GetDialogTopicItem.Responses[ii].Prompt);
+                        if (GetPrompt.Length > 0)
+                        {
+                            SetType = string.Format("ResponsePrompt[{0}]", ForCount);
+                            GetTransStr = GetTransData(AutoKey, SetType);
+                            if (GetTransStr.Length > 0)
+                            {
+                                GetDialogTopicItem.Responses[ii].Prompt = GetTransStr;
+                            }
+                        }
                         if (GetDialogTopicItem.Responses[ii].Responses != null)
                             for (int iii = 0; iii < GetDialogTopicItem.Responses[ii].Responses.Count; iii++)
                             {
@@ -574,7 +600,7 @@ namespace SSELex.UIManage
 
                                 string GetValue = ConvertHelper.ObjToStr(GetDialogTopicItem.Responses[ii].Responses[iii].Text);
                                 SetType = string.Format("Response[{0}]", ForCount);
-                                GetTransStr = GetTransData(GetDialogTopicItem.EditorID, SetType);
+                                GetTransStr = GetTransData(AutoKey, SetType);
                                 if (GetTransStr.Length > 0)
                                 {
                                     GetDialogTopicItem.Responses[ii].Responses[iii].Text = GetTransStr;

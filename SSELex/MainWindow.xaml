@@ -539,6 +539,12 @@
                                     <ComboBox VerticalAlignment="Center" Cursor="Hand" Width="100" Name="Target" Style="{StaticResource WpfComboBoxStyle}" SelectionChanged="Target_SelectionChanged">
                                     </ComboBox>
 
+                                    <!--<Border  CornerRadius="5" Background="#FF0B74D1" Height="30" Margin="10 0 0 0"  Cursor="Hand" PreviewMouseDown="TestAll">
+                                        <Label Padding="10 0 10 0"  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            TestAll
+                                        </Label>
+                                    </Border>-->
+                                    
                                     <Border  CornerRadius="5" Background="#FF0B74D1" Height="30" Margin="10 0 0 0"  Cursor="Hand" PreviewMouseDown="ReSetTransLang">
                                         <Label Padding="10 0 10 0"  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
                                             ReSet
