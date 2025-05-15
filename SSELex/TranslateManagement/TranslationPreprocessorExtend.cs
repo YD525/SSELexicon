@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace SSELex.TranslateManagement
@@ -25,7 +26,7 @@ namespace SSELex.TranslateManagement
                 return;
             }
             //Remove common "invisible" characters
-            var InvisibleChars = new[] { '\u200B', '\u200C', '\u200D', '\uFEFF', '\u00A0' };
+            var InvisibleChars = new[] { '\u200B', '\u200C', '\u200D', '\uFEFF', '\u00A0', '\u200b' };
             foreach (var Char in InvisibleChars)
             {
                 Input = Input.Replace(Char.ToString(), "");
@@ -57,6 +58,8 @@ namespace SSELex.TranslateManagement
         /// <param name="Str">The string to normalize (passed by reference).</param>
         public static void NormalizePunctuation(ref string Str)
         {
+            Str = Str.Replace("‘", "'");
+
             Str = Str.Replace("“", "\"");
 
             Str = Str.Replace("”", "\"");
@@ -70,6 +73,31 @@ namespace SSELex.TranslateManagement
             Str = Str.Replace("：", ":");
 
             Str = Str.Replace("？", "?");
+        }
+
+        public static string StripOuterQuotes(string Input)
+        {
+            Input = Regex.Replace(Input, @"^[\\/]*[\""\u201C\u201D]+", "");
+
+            Input = Regex.Replace(Input, @"[\""\u201C\u201D]+$", "");
+
+            return Input;
+        }
+
+        public static bool HasOuterQuotes(string Input)
+        {
+            if (string.IsNullOrEmpty(Input) || Input.Length < 2)
+                return false;
+
+            char First = Input[0];
+            char Last = Input[Input.Length - 1];
+
+            return (IsQuote(First) && IsQuote(Last));
+        }
+
+        static bool IsQuote(char c)
+        {
+            return c == '"' || c == '“' || c == '”';
         }
 
     }

@@ -23,6 +23,7 @@ using System.Text;
 using SSELex.PlatformManagement;
 using SSELex.RequestManagement;
 using SSELex.TranslateManagement;
+using System.Windows.Threading;
 
 // Copyright (C) 2025 YD525
 // Licensed under the GNU GPLv3
@@ -80,19 +81,13 @@ namespace SSELex
 
         public object LockerAddTrd = new object();
         public bool ReadTrdWorkState = false;
-        public void ReloadDataFunc(bool CanReloadCountCache = true)
+        public void ReloadDataFunc()
         {
             lock (LockerAddTrd)
             {
                 ReadTrdWorkState = true;
 
                 GC.Collect();
-
-                if (CanReloadCountCache)
-                {
-                    UIHelper.ModifyCountCache.Clear();
-                }
-                UIHelper.ModifyCount = 0;
 
                 this.Dispatcher.Invoke(new Action(() =>
                 {
@@ -130,21 +125,48 @@ namespace SSELex
                 GetStatistics();
             }
         }
-
-        public void ReloadData(bool CanReloadCountCache = true)
+        public void ReloadData()
         {
             if (LoadSaveState == 1)
             {
                 new Thread(() =>
-                {
-                    ReloadDataFunc(CanReloadCountCache);
+                {  
+                    ReloadDataFunc();
                 }).Start();
             }
         }
 
-        public int MaxTransCount = 0;
+        private System.Timers.Timer DebounceTimer;
         public void GetStatistics()
         {
+            this.Dispatcher.Invoke(new Action(() => {
+
+                if (DebounceTimer == null)
+                {
+                    DebounceTimer = new System.Timers.Timer(2000);
+                    DebounceTimer.AutoReset = false;
+                    DebounceTimer.Elapsed += (s, e) =>
+                    {
+                        this.Dispatcher.Invoke(() => CalcStatistics());
+                    };
+                }
+                DebounceTimer.Stop();
+                DebounceTimer.Start();
+            }));
+           
+        }
+
+        public int MaxTransCount = 0;
+        public void CalcStatistics()
+        {
+            try 
+            { 
+                int ModifyCount = Translator.TransData.Count(kvp => !string.IsNullOrWhiteSpace(kvp.Value));
+          
+                UIHelper.ModifyCount = ModifyCount;
+            }
+            catch { }
+
             this.Dispatcher.Invoke(new Action(() =>
             {
                 double GetRate = ((double)UIHelper.ModifyCount / (double)TransViewList.Rows);
@@ -257,10 +279,13 @@ namespace SSELex
             }
 
         }
-
+        public DispatcherTimer ResizeDebounceTimer;
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             DeFine.Init(this);
+            this.Width = DeFine.GlobalLocalSetting.FormWidth;
+            this.Height = DeFine.GlobalLocalSetting.FormHeight;
+
             ReloadViewMode();
             ReloadLanguageMode();
             this.MainCaption.Content = string.Format("SSELex Gui {0}", DeFine.CurrentVersion);
@@ -276,6 +301,8 @@ namespace SSELex
             {
                 UsingContext.IsChecked = true;
             }
+
+          
 
             ExportTypes.Items.Clear();
             ExportTypes.Items.Add("Json(Dynamic String Distributor)");
@@ -343,13 +370,21 @@ namespace SSELex
                 }
 
                 SetLog("OpenSource:https://github.com/YD525/YDSkyrimToolR");
-                Thread.Sleep(3000);
+                Thread.Sleep(1000);
                 SetLog(string.Empty);
 
                 ProxyCenter.GlobalProxyIP = DeFine.GlobalLocalSetting.ProxyIP;
 
                 this.Dispatcher.Invoke(new Action(() =>
                 {
+                    ResizeDebounceTimer = new DispatcherTimer();
+                    ResizeDebounceTimer.Interval = TimeSpan.FromMilliseconds(300);
+                    ResizeDebounceTimer.Tick += (s, e) =>
+                    {
+                        AutoViewMode();
+                        ResizeDebounceTimer.Stop();
+                    };
+
                     this.ChatGptModel.Items.Clear();
 
                     this.ChatGptModel.Items.Add("gpt-3.5-turbo-0613");
@@ -1310,9 +1345,13 @@ namespace SSELex
         {
             if (ConvertHelper.ObjToStr(ViewMode.SelectedValue).Equals("Quick"))
             {
+                CaptionRow.Height = new GridLength(30, GridUnitType.Pixel);
+                DefRow.Height = new GridLength(1, GridUnitType.Star);
+                ExtendRowA.Height = new GridLength(0, GridUnitType.Pixel);
+                ExtendRowB.Height = new GridLength(0, GridUnitType.Star);
+
                 DeFine.CurrentSearchStr = string.Empty;
                 SearchKey.Text = string.Empty;
-                ExtendFrame.Height = new GridLength(0, GridUnitType.Pixel);
                 ExtendBox.Width = 0;
 
                 DeFine.ViewMode = 0;
@@ -1329,7 +1368,10 @@ namespace SSELex
             }
             else
             {
-                ExtendFrame.Height = new GridLength(1.8, GridUnitType.Star);
+                CaptionRow.Height = new GridLength(30, GridUnitType.Pixel);
+                DefRow.Height = new GridLength(1, GridUnitType.Star);
+                ExtendRowB.Height = new GridLength(0.7, GridUnitType.Star);
+                ExtendRowA.Height = new GridLength(3, GridUnitType.Pixel);
                 ExtendBox.Width = this.Width - TransViewBox.Width;
 
                 DeFine.ViewMode = 1;
@@ -1367,7 +1409,7 @@ namespace SSELex
                        
                         this.Dispatcher.Invoke(new Action(() =>
                         {
-                            TransViewList.GetMainGrid().IsHitTestVisible = false;
+                            TransViewList.GetMainCanvas().IsHitTestVisible = false;
                         }));
                         string GetFromStr = "";
                         this.Dispatcher.Invoke(new Action(() =>
@@ -1393,7 +1435,8 @@ namespace SSELex
                         }
                         else
                         {
-                            var GetResult = Translator.QuickTrans(GetFromStr, DeFine.SourceLanguage, DeFine.TargetLanguage);
+                            bool CanSleep = true;
+                            var GetResult = Translator.QuickTrans(GetFromStr, DeFine.SourceLanguage, DeFine.TargetLanguage,ref CanSleep);
 
                             this.Dispatcher.Invoke(new Action(() =>
                             {
@@ -1403,7 +1446,7 @@ namespace SSELex
 
                         this.Dispatcher.Invoke(new Action(() =>
                         {
-                            TransViewList.GetMainGrid().IsHitTestVisible = true;
+                            TransViewList.GetMainCanvas().IsHitTestVisible = true;
                         }));
                         this.Dispatcher.Invoke(new Action(() =>
                         {
@@ -1424,14 +1467,14 @@ namespace SSELex
         {
             if (e.Key == System.Windows.Input.Key.F1 && ConvertHelper.ObjToStr(ViewMode.SelectedValue) == "Normal")
             {
-                if (TransViewList.GetMainGrid().IsHitTestVisible)
+                if (TransViewList.GetMainCanvas().IsHitTestVisible)
                 {
                     TransCurrentItem(null, null);
                 }
             }
             if (e.Key == System.Windows.Input.Key.F2 && ConvertHelper.ObjToStr(ViewMode.SelectedValue) == "Normal")
             {
-                if (TransViewList.GetMainGrid().IsHitTestVisible)
+                if (TransViewList.GetMainCanvas().IsHitTestVisible)
                 {
                     ApplyTransStr(null, null);
                 }
@@ -1566,7 +1609,18 @@ namespace SSELex
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            AutoViewMode();
+            if (this.ActualHeight > 200 && this.ActualWidth > 200)
+            {
+                DeFine.GlobalLocalSetting.FormHeight = this.ActualHeight;
+                DeFine.GlobalLocalSetting.FormWidth = this.ActualWidth;
+            }
+
+            if (ResizeDebounceTimer != null)
+            {
+                ResizeDebounceTimer.Stop();
+                ResizeDebounceTimer.Start();
+            }
+           
             SyncCodeViewLocation();
         }
         public void SyncCodeViewLocation()
@@ -1684,7 +1738,7 @@ namespace SSELex
                         {
                             ClosetTransTrd();
                             CurrentSelect = ObjSelect.All;
-                            ReloadDataFunc(true);
+                            ReloadDataFunc();
                         }
 
                         Translator.ReStoreAllTransText();
@@ -2118,14 +2172,19 @@ namespace SSELex
             {
                 string TransText = ToStr.Text;
 
-                if (TransText.Trim().Length > 0)
+                if (UIHelper.ActiveTextBox != null)
                 {
-                    if (UIHelper.ActiveTextBox != null && FromStr.Text.Trim().Length > 0)
-                    {
-                        UIHelper.ActiveTextBox.Text = TransText;
+                    UIHelper.ActiveTextBox.Text = TransText;
+                    UIHelper.ActiveTextBox.BorderBrush = new SolidColorBrush(Colors.Green);
 
-                        Translator.TransData[UIHelper.ActiveKey] = TransText;
-                    }
+                    Translator.TransData[UIHelper.ActiveKey] = TransText;
+
+                    GetStatistics();
+                }
+
+                if (TransText.Trim().Length == 0)
+                {
+                    UIHelper.ActiveTextBox.BorderBrush = new SolidColorBrush(Color.FromRgb(87, 87, 87));
                 }
             }
         }
@@ -2187,6 +2246,9 @@ namespace SSELex
             ExportAs();
         }
 
-       
+        private void GridSplitter_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
+        {
+           
+        }
     }
 }

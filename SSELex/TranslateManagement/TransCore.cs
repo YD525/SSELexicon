@@ -98,7 +98,7 @@ namespace SSELex.TranslateManage
         /// <param name="Target"></param>
         /// <param name="SourceStr"></param>
         /// <returns></returns>
-        public string TransAny(Languages Source, Languages Target,string SourceStr,bool IsBook)
+        public string TransAny(Languages Source, Languages Target,string SourceStr,bool IsBook,ref bool CanAddCache,ref bool CanSleep)
         {
             if (SourceStr == "")
             {
@@ -114,6 +114,7 @@ namespace SSELex.TranslateManage
             if (GetCacheStr.Trim().Length > 0)
             {
                 Translator.SendTranslateMsg("Cache From Database", SourceStr, GetCacheStr);
+                CanSleep = false;
                 return GetCacheStr;
             }
 
@@ -141,14 +142,18 @@ namespace SSELex.TranslateManage
                     string GetTrans = "";
                     if (!IsBook)
                     {
-                        CurrentEngine.Call(Source, Target, SourceStr, true, 3, AIParam);
+                        GetTrans = CurrentEngine.Call(Source, Target, SourceStr, true, 3, AIParam,ref CanAddCache);
                     }
                     else
                     {
-                        CurrentEngine.Call(Source, Target, SourceStr, false, 1, string.Empty);
+                        GetTrans = CurrentEngine.Call(Source, Target, SourceStr, false, 1, string.Empty,ref CanAddCache);
                     }
-                  
-                    CurrentEngine.BeginSleep();
+
+                    if (CanSleep)
+                    {
+                        CurrentEngine.BeginSleep();
+                    }
+                    
                     return GetTrans;
                 }
 
@@ -193,7 +198,7 @@ namespace SSELex.TranslateManage
                 }
             }
 
-            public string Call(Languages Source, Languages Target, string SourceStr,bool UseAIMemory,int AIMemoryCountLimit,string Param)
+            public string Call(Languages Source, Languages Target, string SourceStr,bool UseAIMemory,int AIMemoryCountLimit,string Param,ref bool CanAddCache)
             {
                 string GetSource = SourceStr.Trim();
                 string TransText = string.Empty;
@@ -217,6 +222,7 @@ namespace SSELex.TranslateManage
                                             TransText += GetLine.dst + "\r\n";
                                         }
                                         Translator.SendTranslateMsg("Cloud Engine(BaiDu)", GetSource, TransText);
+                                        CanAddCache = false;
                                         Sucess = true;
                                     }
                                 }
@@ -240,6 +246,8 @@ namespace SSELex.TranslateManage
                             var GetData = ConvertHelper.ObjToStr(((GoogleHelper)this.Engine).FreeTransStr(GetSource, Source, Target));
                             TransText = GetData;
                             Translator.SendTranslateMsg("Cloud Engine(Google)", GetSource, TransText);
+
+                            CanAddCache = false;
                         }
                         else
                         {
@@ -319,11 +327,6 @@ namespace SSELex.TranslateManage
                     }
 
                     TransText = TransText.Trim();
-
-                    if (TransText.Length > 0)
-                    {
-                        TranslateDBCache.AddCache(SourceStr, (int)Source, (int)Target, TransText);
-                    }
 
                     return TransText;
                 }

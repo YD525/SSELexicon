@@ -29,7 +29,7 @@ namespace SSELex.SkyrimManagement
                 string Type = "";
                 string ItemType = "";
 
-                DeFine.WorkingWin.TransViewList.GetMainGrid().Dispatcher.Invoke(new Action(() =>
+                DeFine.WorkingWin.TransViewList.GetMainCanvas().Dispatcher.Invoke(new Action(() =>
                 {
                     ItemType = ConvertHelper.ObjToStr((MainGrid.Children[1] as Label).Content);
                     Type = ConvertHelper.ObjToStr(MainGrid.ToolTip);

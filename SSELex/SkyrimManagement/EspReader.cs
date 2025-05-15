@@ -71,7 +71,6 @@ namespace SSELex.SkyrimManage
 
         public void Close()
         {
-            UIHelper.ModifyCountCache.Clear();
             UIHelper.ModifyCount = 0;
 
             ClearRam();

@@ -7,6 +7,7 @@ using SSELex.SkyrimManage;
 using System.Windows.Media.Animation;
 using SSELex.TranslateCore;
 using System.Windows.Documents;
+using System.Windows.Input;
 
 namespace SSELex.UIManage
 {
@@ -20,7 +21,7 @@ namespace SSELex.UIManage
         public static Grid SelectLine = null;
         public static int ModifyCount = 0;
         public static double DefFontSize = 15;
-        public static double DefLineHeight = 40;
+        public static double DefLineHeight = 42;
         public static SolidColorBrush DefHeightBackground = new SolidColorBrush(Color.FromRgb(15, 15, 15));
         public static SolidColorBrush ExtendHeightBackground = new SolidColorBrush(Color.FromRgb(40, 40, 40));
 
@@ -57,7 +58,7 @@ namespace SSELex.UIManage
             var GetTextSize = (SourceText.Length * TempFontSize);
             if (GetTextSize > GetTextWidthRange)
             {
-                MainGrid.Height = 80;
+                MainGrid.Height = 82;
                 MainGrid.Background = ExtendHeightBackground;
             }
             else
@@ -74,7 +75,7 @@ namespace SSELex.UIManage
             RowDefinition Row1st = new RowDefinition();
             Row1st.Height = new GridLength(1, GridUnitType.Star);
             RowDefinition Row2nd = new RowDefinition();
-            Row2nd.Height = new GridLength(1, GridUnitType.Pixel);
+            Row2nd.Height = new GridLength(2, GridUnitType.Pixel);
 
             MainGrid.RowDefinitions.Add(Row1st);
             MainGrid.RowDefinitions.Add(Row2nd);
@@ -153,6 +154,7 @@ namespace SSELex.UIManage
             KeyBox.CaretBrush = new SolidColorBrush(Colors.White);
             KeyBox.AcceptsReturn = true;
             KeyBox.TextWrapping = TextWrapping.Wrap;
+            KeyBox.IsHitTestVisible = false;
             KeyBox.Text = Key;
             Grid.SetRow(KeyBox, 0);
             Grid.SetColumn(KeyBox, 1);
@@ -177,7 +179,14 @@ namespace SSELex.UIManage
             SourceTextBox.AcceptsReturn = true;
             SourceTextBox.TextWrapping = TextWrapping.Wrap;
             SourceTextBox.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+            SourceTextBox.FocusVisualStyle = null;
             SourceTextBox.PreviewMouseDown += SourceTextBox_PreviewMouseDown;
+
+            if (DeFine.ViewMode == 1)
+            {
+                SourceTextBox.IsHitTestVisible = false;
+                MainGrid.Cursor = Cursors.Hand;
+            }
 
             var FindDictionary = YDDictionaryHelper.CheckDictionary(Key);
 
@@ -186,10 +195,6 @@ namespace SSELex.UIManage
                 if (FindDictionary.OriginalText.Trim().Length > 0)
                 {
                     SourceTextBox.Text = FindDictionary.OriginalText;
-                    if (FindDictionary.TransText.Trim().Length > 0)
-                    {
-                        UIHelper.ModifyCount++;
-                    }
                 }
             }
             else
@@ -210,10 +215,6 @@ namespace SSELex.UIManage
             if (TransText.Length > 0)
             {
                 TransTextBox.BorderBrush = new SolidColorBrush(Colors.Green);
-                if (UIHelper.ModifyCount < DeFine.WorkingWin.MaxTransCount)
-                {
-                    ModifyCount++;
-                }
             }
             TransTextBox.Background = null;
             TransTextBox.SelectionBrush = new SolidColorBrush(Color.FromRgb(17, 145, 243));
@@ -225,7 +226,7 @@ namespace SSELex.UIManage
             TransTextBox.AcceptsReturn = true;
             TransTextBox.TextWrapping = TextWrapping.Wrap;
             TransTextBox.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
-
+            TransTextBox.FocusVisualStyle = null;
             if (TransText.Trim().Length == 0)
             {
                 if (FindDictionary != null)
@@ -252,6 +253,7 @@ namespace SSELex.UIManage
             if (DeFine.ViewMode == 1)
             {
                 TransTextBox.IsReadOnly = true;
+                TransTextBox.IsHitTestVisible = false;
                 TransTextBox.Cursor = System.Windows.Input.Cursors.Hand;
             }
 
@@ -328,7 +330,7 @@ namespace SSELex.UIManage
             AutoSetTransData(GetKey, GetTextBox.Text);
         }
 
-        public static Dictionary<string, int> ModifyCountCache = new Dictionary<string, int>();
+   
 
         private static void TransTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
@@ -341,39 +343,14 @@ namespace SSELex.UIManage
                 if ((sender as TextBox).BorderBrush != new SolidColorBrush(Colors.BlueViolet))
                     (sender as TextBox).BorderBrush = new SolidColorBrush(Colors.Green);
 
-                int GetGridModifyCount = 0;
-
-                if (!ModifyCountCache.ContainsKey(GetKey))
+                if (DeFine.WorkingWin != null)
                 {
-                    ModifyCountCache.Add(GetKey, 1);
-                    GetGridModifyCount = 1;
-                }
-
-                if (GetGridModifyCount > 0)
-                {
-                    if (UIHelper.ModifyCount < DeFine.WorkingWin.MaxTransCount)
-                    {
-                        UIHelper.ModifyCount++;
-                    }
-
-                    if (DeFine.WorkingWin != null)
-                    {
-                        DeFine.WorkingWin.GetStatistics();
-                    }
-                }
-                else
-                {
-
+                    DeFine.WorkingWin.GetStatistics();
                 }
             }
             else
             {
-                if (ModifyCountCache.ContainsKey(GetKey))
-                {
-                    ModifyCountCache.Remove(GetKey);
-                    UIHelper.ModifyCount--;
-                    DeFine.WorkingWin.GetStatistics();
-                }
+                DeFine.WorkingWin.GetStatistics();
 
                 (sender as TextBox).BorderBrush = new SolidColorBrush(Color.FromRgb(87, 87, 87));
             }
@@ -431,12 +408,7 @@ namespace SSELex.UIManage
 
                 if ((sender as TextBox).Text.Length == 0)
                 {
-                    if (ModifyCountCache.ContainsKey(GetKey))
-                    {
-                        ModifyCountCache.Remove(GetKey);
-                        UIHelper.ModifyCount--;
-                        DeFine.WorkingWin.GetStatistics();
-                    }
+                    DeFine.WorkingWin.GetStatistics();
                 }
                 string Text = (sender as TextBox).Text;
                 if (Text.Trim().Length > 0)

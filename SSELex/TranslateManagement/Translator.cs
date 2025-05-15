@@ -6,6 +6,8 @@ using static SSELex.TranslateManage.TransCore;
 using SSELex.UIManage;
 using System.Windows.Media;
 using SSELex.TranslateManagement;
+using Mutagen.Bethesda.Starfield;
+using Reloaded.Memory.Pointers.Sourced;
 
 namespace SSELex.TranslateManage
 {
@@ -41,25 +43,43 @@ namespace SSELex.TranslateManage
             }
             else
             {
-                return Str.Trim();
+                return Str;
             }
         }
-        public static string QuickTrans(string Content, Languages From, Languages To,bool IsBook = false)
+        public static string QuickTrans(string Content, Languages From, Languages To,ref bool CanSleep, bool IsBook = false)
         {
             if (Content.Trim().Length == 0) return string.Empty;
 
+            string GetSourceStr = Content;
+
+            bool CanAddCache = true;
+
+            bool HasOuterQuotes = TranslationPreprocessor.HasOuterQuotes(Content.Trim());
+
             TranslationPreprocessor.RemoveInvisibleCharacters(ref Content);
 
-            Content = CurrentTransCore.TransAny(DeFine.SourceLanguage, DeFine.TargetLanguage, Content,IsBook);
-            Content = Content.Trim();
+            Content = CurrentTransCore.TransAny(DeFine.SourceLanguage, DeFine.TargetLanguage, Content,IsBook,ref CanAddCache,ref CanSleep);
 
             TranslationPreprocessor.NormalizePunctuation(ref Content);
             TranslationPreprocessor.ProcessEmptyEndLine(ref Content);
             TranslationPreprocessor.RemoveInvisibleCharacters(ref Content);
 
-            Content = Content.Replace("\u200b", "").Replace("\u200B", "");
+            TranslationPreprocessor.StripOuterQuotes(Content);
+            Content = Content.Trim();
 
-            return ReturnStr(Content);
+            if (HasOuterQuotes)
+            {
+                Content = "\"" + HasOuterQuotes + "\"";
+            }
+
+            Content = ReturnStr(Content);
+
+            if (CanAddCache)
+            {
+                TranslateDBCache.AddCache(GetSourceStr, (int)From, (int)To, Content);
+            }
+
+            return Content;
         }
 
         public static int WriteDictionary()
@@ -101,7 +121,6 @@ namespace SSELex.TranslateManage
 
         public static void ReStoreAllTransText()
         {
-            UIHelper.ModifyCount = 0;
             for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
             {
                 Grid MainGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
@@ -111,7 +130,6 @@ namespace SSELex.TranslateManage
                 if (Translator.TransData.ContainsKey(GetKey))
                 {
                     Translator.TransData[GetKey] = GetSourceText;
-                    UIHelper.ModifyCount++;
                 }
                 (MainGrid.Children[4] as TextBox).Text = GetSourceText;
 
@@ -139,7 +157,6 @@ namespace SSELex.TranslateManage
                     (MainGrid.Children[4] as TextBox).BorderBrush = new SolidColorBrush(Color.FromRgb(76, 76, 76));
                 }
             }
-            UIHelper.ModifyCount = 0;
             DeFine.WorkingWin.GetStatistics();
             DeFine.WorkingWin.Dispatcher.Invoke(new Action(() => {
                 DeFine.WorkingWin.ProcessBar.Width = 0;

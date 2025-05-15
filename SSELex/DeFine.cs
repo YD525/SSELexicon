@@ -47,7 +47,7 @@ namespace SSELex
 
         public static string BackupPath = @"\BackUpData\";
 
-        public static string CurrentVersion = "1.5.65b";
+        public static string CurrentVersion = "1.5.66b";
         public static LocalSetting GlobalLocalSetting = new LocalSetting();
 
         public static MainWindow WorkingWin = null;
@@ -182,6 +182,8 @@ namespace SSELex
 
     public class LocalSetting
     {
+        public double FormHeight { get; set; } = 850;
+        public double FormWidth { get; set; } = 1200;
         public bool PhraseEngineUsing { get; set; } = false;
         public bool CodeParsingEngineUsing { get; set; } = true;
         public bool ConjunctionEngineUsing { get; set; } = false;
@@ -221,6 +223,7 @@ namespace SSELex
 
         public void ReadConfig()
         {
+            try { 
             if (File.Exists(DeFine.GetFullPath(@"\setting.config")))
             {
                 var GetStr = FileHelper.ReadFileByStr(DeFine.GetFullPath(@"\setting.config"), Encoding.UTF8);
@@ -229,6 +232,8 @@ namespace SSELex
                     var GetSetting = JsonSerializer.Deserialize<LocalSetting>(GetStr);
                     if (GetSetting != null)
                     {
+                        this.FormHeight = GetSetting.FormHeight;
+                        this.FormWidth = GetSetting.FormWidth;
                         this.MaxThreadCount = GetSetting.MaxThreadCount;
                         this.AutoLoadDictionaryFile = GetSetting.AutoLoadDictionaryFile;
                         this.PhraseEngineUsing = GetSetting.PhraseEngineUsing;
@@ -277,6 +282,8 @@ namespace SSELex
                     FileHelper.WriteFile(DeFine.GetFullPath(@"\setting.config"), GetSettingContent, Encoding.UTF8);
                 }
             }
+            }
+            catch { }
         }
 
         public void SaveConfig()

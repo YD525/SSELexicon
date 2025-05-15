@@ -7,11 +7,12 @@ using SSELex;
 // See LICENSE for details
 //https://github.com/YD525/YDSkyrimToolR/
 
+//R2
 public class YDListView
 {
     private Grid Parent = null;
     private ScrollViewer Scroll = null;
-    private Grid MainGrid;
+    private Canvas MainCanvas;
 
     public Thread UpdateTrd = null;
 
@@ -28,13 +29,16 @@ public class YDListView
 
     public YDListView(Grid Parent)
     {
-        this.MainGrid = new Grid();
-        this.MainGrid.Background = null;
-
+        this.MainCanvas = new Canvas();
+        this.MainCanvas.Background = null;
+        this.MainCanvas.VerticalAlignment = VerticalAlignment.Top;
+        this.MainCanvas.SnapsToDevicePixels = true;
+        this.MainCanvas.UseLayoutRounding = true;
+        this.MainCanvas.IsItemsHost = false;
         ScrollViewer OneScroll = new ScrollViewer();
         OneScroll.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
         OneScroll.HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled;
-        OneScroll.Content = MainGrid;
+        OneScroll.Content = MainCanvas;
         OneScroll.ScrollChanged += OnScrollChanged; // 监听滚动
 
         this.Scroll = OneScroll;
@@ -61,16 +65,16 @@ public class YDListView
         UpdateTrd.Start();
     }
 
-    public Grid GetMainGrid()
+    public Canvas GetMainCanvas()
     {
-        return this.MainGrid;
+        return this.MainCanvas;
     }
 
     public void Clear()
     {
         this.RealLines.Clear();
-        this.MainGrid.Children.Clear();
-        this.MainGrid.RowDefinitions.Clear();
+        this.MainCanvas.Children.Clear();
+        this.MainCanvas.Height = 0;
         this.Scroll.ScrollToTop();
     }
 
@@ -144,7 +148,7 @@ public class YDListView
 
         int FirstVisibleRowWithBuffer = Math.Max(0, FirstVisibleRow - BufferRows);
 
-        MainGrid.Children.Clear();
+        MainCanvas.Children.Clear();
 
         if (ScrollTop + ViewHeight >= ScrollHeight - 100)
         {
@@ -152,9 +156,7 @@ public class YDListView
             {
                 if (i >= FirstVisibleRowWithBuffer)
                 {
-                    MainGrid.Children.Add(this.RealLines[i]);
-
-                    Grid.SetRow(this.RealLines[i], i);
+                    MainCanvas.Children.Add(this.RealLines[i]);
 
                     VisibleRows.Add(this.RealLines[i]);
                 }
@@ -166,9 +168,7 @@ public class YDListView
             {
                 if (i >= FirstVisibleRowWithBuffer && i <= LastVisibleRow)
                 {
-                    MainGrid.Children.Add(this.RealLines[i]);
-
-                    Grid.SetRow(this.RealLines[i], i);
+                    MainCanvas.Children.Add(this.RealLines[i]);
 
                     VisibleRows.Add(this.RealLines[i]);
                 }
@@ -185,19 +185,28 @@ public class YDListView
     {
         if (Item == null) return 0;
 
+        if (Parent != null)
+        {
+            Item.Width = Parent.ActualWidth - 15;
+        }
+
         this.RealLines.Add(Item);
 
-        RowDefinition RowDef = new RowDefinition();
-        RowDef.Height = new GridLength(Item.Height, GridUnitType.Pixel);
-        this.MainGrid.RowDefinitions.Add(RowDef);
+        Canvas.SetTop(Item, MainCanvas.Height);
+        Canvas.SetLeft(Item, 0);
+
+        MainCanvas.Height += Item.Height;
 
         return this.RealLines.Count;
     }
 
     public void DeleteRow(int Offset)
     {
-        this.MainGrid.RowDefinitions.RemoveAt(Offset);
-        this.MainGrid.Children.RemoveAt(Offset);
+        var GetGridHeight = (this.MainCanvas.Children[Offset] as Grid).Height;
+        this.MainCanvas.Children.RemoveAt(Offset);
+
+        this.MainCanvas.Height -= GetGridHeight;
+
         this.RealLines.RemoveAt(Offset);
 
         UpdateVisibleRows();

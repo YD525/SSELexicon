@@ -22,6 +22,7 @@ namespace SSELex.TranslateManage
         public string SourceText = "";
         public string TransText = "";
         public TextBox TextBoxHandle = null;
+        public bool IsDuplicateSource = false;
 
         public bool Transing = false;
 
@@ -30,17 +31,25 @@ namespace SSELex.TranslateManage
         public void SyncProgress()
         {
             Application.Current.Dispatcher.Invoke(new Action(() => {
-                if (UIHelper.ModifyCount < DeFine.WorkingWin.TransViewList.RealLines.Count)
-                {
-                    UIHelper.ModifyCount++;
-                }
-
                 DeFine.WorkingWin.GetStatistics();
             }));
         }
 
         public void StartWork()
         {
+            if (this.IsDuplicateSource)
+            {
+                if (!BatchTranslationHelper.SameItems.ContainsKey(this.SourceText))
+                {
+                    BatchTranslationHelper.SameItems.Add(this.SourceText, string.Empty);
+                }
+                else
+                {
+                    this.Transing = false;
+                    WorkEnd = 2;
+                    return;
+                }
+            }
             WorkEnd = 1;
             this.Transing = true;
             CurrentTrd = new Thread(() =>
@@ -75,7 +84,8 @@ namespace SSELex.TranslateManage
                         }
                         else
                         {
-                            var GetResult = Translator.QuickTrans(this.SourceText, DeFine.SourceLanguage, DeFine.TargetLanguage);
+                            bool CanSleep = true;
+                            var GetResult = Translator.QuickTrans(this.SourceText, DeFine.SourceLanguage, DeFine.TargetLanguage,ref CanSleep);
                             if (GetResult.Trim().Length > 0)
                             {
                                 TransText = GetResult.Trim();
@@ -97,6 +107,14 @@ namespace SSELex.TranslateManage
                                 else
                                 {
                                     Translator.TransData.Add(this.Key, GetResult);
+                                }
+
+                                if (this.IsDuplicateSource)
+                                {
+                                    if (BatchTranslationHelper.SameItems.ContainsKey(this.SourceText))
+                                    {
+                                        BatchTranslationHelper.SameItems[this.SourceText] = GetResult;
+                                    }
                                 }
 
                                 WorkEnd = 2;
@@ -144,9 +162,32 @@ namespace SSELex.TranslateManage
             this.TextBoxHandle = TextBoxHandle;
         }
     }
+
+        
     public class BatchTranslationHelper
     {
+        public static Dictionary<string, string> SameItems = new Dictionary<string, string>();
         public static List<TransItem> TransItems = new List<TransItem>();
+
+        public static void MarkDuplicates(List<TransItem> Items)
+        {
+            var CountDict = new Dictionary<string, int>();
+
+            foreach (var Item in Items)
+            {
+                string Key = Item.SourceText ?? "";
+                if (CountDict.ContainsKey(Key))
+                    CountDict[Key]++;
+                else
+                    CountDict[Key] = 1;
+            }
+
+            foreach (var Item in Items)
+            {
+                string Key = Item.SourceText ?? "";
+                Item.IsDuplicateSource = CountDict[Key] > 1;
+            }
+        }
 
         public static int GetWorkCount()
         {
@@ -163,6 +204,7 @@ namespace SSELex.TranslateManage
 
         public static void Init()
         {
+            SameItems.Clear();
             TransItems.Clear();
 
             for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
@@ -177,7 +219,7 @@ namespace SSELex.TranslateManage
                 string ItemType = "";
                 TextBox TextBoxHandle = null;
 
-                DeFine.WorkingWin.TransViewList.GetMainGrid().Dispatcher.Invoke(new Action(() =>
+                DeFine.WorkingWin.TransViewList.GetMainCanvas().Dispatcher.Invoke(new Action(() =>
                 {
                     ItemType = ConvertHelper.ObjToStr((MainGrid.Children[1] as Label).Content);
                     Type = ConvertHelper.ObjToStr(MainGrid.ToolTip);
@@ -186,12 +228,14 @@ namespace SSELex.TranslateManage
                     TransText = ConvertHelper.ObjToStr((MainGrid.Children[4] as TextBox).Text);
                     TextBoxHandle = (MainGrid.Children[4] as TextBox);
                     Key = ConvertHelper.ObjToStr((MainGrid.Children[2] as TextBox).Text);
-                    if (TransText.Trim().Length == 0)
+                    if (SourceText.Trim().Length > 0 && TransText.Trim().Length == 0)
                     {
                         TransItems.Add(new TransItem(Key, HashID,ItemType,Type, SourceText, TransText, TextBoxHandle));
                     }
                 }));
             }
+
+            MarkDuplicates(TransItems);
         }
 
         public static CancellationTokenSource TransMainTrdCancel = null;
@@ -204,6 +248,30 @@ namespace SSELex.TranslateManage
             TransMainTrdCancel?.Cancel();
         }
         public static int AutoSleep = 1;
+
+        public static void SetDuplicateSource(string GetKey)
+        {
+            for (int ir = 0; ir < TransItems.Count; ir++)
+            {
+                if (TransItems[ir].SourceText.Equals(GetKey))
+                {
+                    TransItems[ir].TextBoxHandle.Dispatcher.Invoke(new Action(() =>
+                    {
+                        TransItems[ir].TextBoxHandle.Text = SameItems[GetKey];
+                        TransItems[ir].TextBoxHandle.BorderBrush = new SolidColorBrush(Colors.Green);
+                    }));
+
+                    if (Translator.TransData.ContainsKey(TransItems[ir].Key))
+                    {
+                        Translator.TransData[TransItems[ir].Key] = SameItems[GetKey];
+                    }
+                    else
+                    {
+                        Translator.TransData.Add(TransItems[ir].Key, SameItems[GetKey]);
+                    }
+                }
+            }
+        }
         public static void Start()
         {
             AutoSleep = 1;
@@ -250,7 +318,7 @@ namespace SSELex.TranslateManage
                             }
                             if (CurrentTrds > DeFine.GlobalLocalSetting.MaxThreadCount / 2)
                             {
-                                AutoSleep = 600;
+                                AutoSleep = 500;
                             }
                             Thread.Sleep(AutoSleep);
                         }
@@ -267,6 +335,20 @@ namespace SSELex.TranslateManage
                             }
                             if (SucessCount == TransItems.Count)
                             {
+                                if (SameItems != null)
+                                {
+                                    if (SameItems.Count > 0)
+                                    {
+                                        for (int i = 0; i < SameItems.Count; i++)
+                                        {
+                                            string GetKey = SameItems.ElementAt(i).Key;
+                                            SetDuplicateSource(GetKey);
+                                        }
+                                    }
+                                }
+
+                                DeFine.WorkingWin.GetStatistics();
+
                                 DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
                                 {
                                     DeFine.WorkingWin.ClosetTransTrd();

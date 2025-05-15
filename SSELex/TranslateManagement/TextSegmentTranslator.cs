@@ -192,12 +192,38 @@ weqqwewe...";
         {
             List<Segment> Segments = new List<Segment>();
 
-            var Matches = Regex.Matches(Input, @"(\[[^\]]+\])\s*([\s\S]*?)(?=(\[[^\]]+\])|$)");
+            var Matches = Regex.Matches(Input,
+                @"(\[[^\]]+\])\s*([\s\S]*?)(?=(\[[^\]]+\])|<[^<>]+>|$)" +            
+                @"|<([a-zA-Z0-9]+(?:\s[^<>]*?)?)>([\s\S]*?)</\4>" +                 
+                @"|^([\s\S]+?)(?=(\[[^\]]+\])|<[^<>]+>|$)",                         
+                RegexOptions.Compiled);
 
             foreach (Match Match in Matches)
             {
-                string Tag = Match.Groups[1].Value.Trim();
-                string Content = Match.Groups[2].Value.Trim();
+                string Tag = "";
+                string Content = "";
+
+                if (!string.IsNullOrEmpty(Match.Groups[1].Value)) 
+                {
+                    Tag = Match.Groups[1].Value.Trim();
+                    Content = Match.Groups[2].Value.Trim();
+                }
+                else if (!string.IsNullOrEmpty(Match.Groups[4].Value)) 
+                {
+                    string tagFull = Match.Groups[4].Value.Trim();                      
+                    string inner = Match.Groups[5].Value;
+                    string tagName = tagFull.Split(' ')[0];                            
+                    string openTag = $"<{tagFull}>";
+                    string closeTag = $"</{tagName}>";
+
+                    Tag = openTag;
+                    Content = (openTag + inner + closeTag).Trim();
+                }
+                else if (!string.IsNullOrEmpty(Match.Groups[6].Value))
+                {
+                    Tag = "";
+                    Content = Match.Groups[6].Value.Trim();
+                }
 
                 string TextOnly = StripHtmlTags(Content).Trim();
 
@@ -212,18 +238,13 @@ weqqwewe...";
             return Segments;
         }
 
-        public void ApplyAllLine()
+        public void ApplyAllLine(string Source)
         {
-            string RichText = "";
-            for (int i = 0; i < Content.Count; i++)
-            {
-                RichText += Content[i].RawContent;
-            }
             if (this.LockerTextHandle != null)
             {
                 this.LockerTextHandle.Dispatcher.Invoke(new Action(() =>
                 {
-                    this.LockerTextHandle.Text = RichText;
+                    this.LockerTextHandle.Text = Source;
                 }));
             }
             if (this.ProcessTagHandle != null)
@@ -269,13 +290,14 @@ weqqwewe...";
                                 Token.ThrowIfCancellationRequested();
                             }
                             catch { return; }
-                            var GetTransLine = Translator.QuickTrans(GetSourceLine, DeFine.SourceLanguage, DeFine.TargetLanguage);
+                            bool CanSleep = false;
+                            var GetTransLine = Translator.QuickTrans(GetSourceLine, DeFine.SourceLanguage, DeFine.TargetLanguage,ref CanSleep,true);
 
                             if (GetTransLine.Trim().Length > 0)
                             {
-                                GetSegments[i].RawContent = GetSegments[i].RawContent.Replace(GetSourceLine, GetTransLine);
+                                Source = ReplaceFirst(Source,GetSourceLine, GetTransLine);
                                 CurrentTransCount++;
-                                ApplyAllLine();
+                                ApplyAllLine(Source);
                             }
                             else
                             {
@@ -285,5 +307,13 @@ weqqwewe...";
                     }
             }
         }
+
+        public static string ReplaceFirst(string text, string search, string replace)
+        {
+            int pos = text.IndexOf(search);
+            if (pos < 0) return text;
+            return text.Substring(0, pos) + replace + text.Substring(pos + search.Length);
+        }
+
     }
 }
