@@ -105,39 +105,10 @@ namespace SSELex.SkyrimManage
             }
         }
 
-        public static string ConvertPexKey(string Key)
-        {
-            if (Key.Contains("-"))
-            {
-                string[] GetParams = Key.Split('-');
-                if (GetParams.Length > 2)
-                {
-                    GetParams[2] = "0";
-                }
-                string TempKey = "";
-                foreach (var Get in GetParams)
-                {
-                    TempKey += Get + "-";
-                }
-                if (TempKey.EndsWith("-"))
-                {
-                    TempKey = TempKey.Substring(0, TempKey.Length - 1);
-                }
-                return TempKey;
-            }
-            return Key;
-        }
+       
 
         public static YDDictionary CheckDictionary(string Key)
         {
-            if (DeFine.WorkingWin != null)
-            {
-                if (DeFine.WorkingWin.CurrentTransType == 3)
-                {
-                    Key = ConvertPexKey(Key);
-                }
-            }
-            
             if (Dictionarys.ContainsKey(Key))
             { 
                return Dictionarys[Key];
@@ -147,15 +118,7 @@ namespace SSELex.SkyrimManage
         }
 
         public static int UPDateTransText(string Key,string OriginalText, string TransText)
-        {
-            if (DeFine.WorkingWin != null)
-            {
-                if (DeFine.WorkingWin.CurrentTransType == 3)
-                {
-                    Key = ConvertPexKey(Key);
-                }
-            }
-               
+        {   
             if (Dictionarys.ContainsKey(Key))
             {
                 Dictionarys[Key].TransText = TransText;

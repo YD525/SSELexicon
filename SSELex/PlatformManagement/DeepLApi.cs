@@ -55,6 +55,16 @@ namespace SSELex.PlatformManagement
                     return "RU";
                 case Languages.TraditionalChinese:
                     return "ZH-TW";
+                case Languages.Italian:
+                    return "IT"; 
+                case Languages.Spanish:
+                    return "ES"; 
+                case Languages.Hindi:       
+                    return "HI";
+                case Languages.Urdu:        
+                    return "UR";
+                case Languages.Indonesian:
+                    return "ID";
                 default:
                     throw new ArgumentOutOfRangeException(nameof(language), "Unknown language");
             }

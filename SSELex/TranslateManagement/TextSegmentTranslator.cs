@@ -291,7 +291,7 @@ weqqwewe...";
                             }
                             catch { return; }
                             bool CanSleep = false;
-                            var GetTransLine = Translator.QuickTrans(GetSourceLine, DeFine.SourceLanguage, DeFine.TargetLanguage,ref CanSleep,true);
+                            var GetTransLine = Translator.QuickTrans(GetSourceLine,DeFine.TargetLanguage,ref CanSleep,true);
 
                             if (GetTransLine.Trim().Length > 0)
                             {

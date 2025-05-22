@@ -73,19 +73,30 @@ namespace SSELex.TranslateManage
                             WorkEnd = 2;
                         }
                         else
-                        if (Type.Equals("Danger"))
+                        if (this.Key.Contains("Score:") && this.Key.Contains(","))
                         {
-                            if (DeFine.WorkingWin != null)
+                            string []Params = this.Key.Split(',');
+                            if (Params.Length > 1)
                             {
-                                DeFine.WorkingWin.SetLog("Skip dangerous fields:" + this.Key);
+                                if (Params[Params.Length - 1].Contains("Score:"))
+                                {
+                                    double GetScore = ConvertHelper.ObjToDouble(Params[Params.Length - 1].Substring(Params[Params.Length - 1].IndexOf("Score:") + "Score:".Length));
+                                    if (GetScore < 5)
+                                    {
+                                        if (DeFine.WorkingWin != null)
+                                        {
+                                            DeFine.WorkingWin.SetLog("Skip dangerous fields:" + this.Key);
+                                        }
+                                        WorkEnd = 2;
+                                    }
+                                }
                             }
-
-                            WorkEnd = 2;
                         }
-                        else
+
+                        if (WorkEnd != 2)
                         {
                             bool CanSleep = true;
-                            var GetResult = Translator.QuickTrans(this.SourceText, DeFine.SourceLanguage, DeFine.TargetLanguage,ref CanSleep);
+                            var GetResult = Translator.QuickTrans(this.SourceText, DeFine.TargetLanguage, ref CanSleep);
                             if (GetResult.Trim().Length > 0)
                             {
                                 TransText = GetResult.Trim();
@@ -124,6 +135,7 @@ namespace SSELex.TranslateManage
                                 goto NextGet;
                             }
                         }
+                       
                     }
                     else
                     {

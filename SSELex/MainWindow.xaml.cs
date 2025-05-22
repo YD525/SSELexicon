@@ -24,6 +24,7 @@ using SSELex.PlatformManagement;
 using SSELex.RequestManagement;
 using SSELex.TranslateManagement;
 using System.Windows.Threading;
+using Mutagen.Bethesda.Starfield;
 
 // Copyright (C) 2025 YD525
 // Licensed under the GNU GPLv3
@@ -105,17 +106,17 @@ namespace SSELex
                     {
                         this.Dispatcher.Invoke(new Action(() =>
                         {
-                            TransViewList.AddRowR(UIHelper.CreatLine(GetItem.Type, GetItem.EditorID, GetItem.Key, GetItem.SourceText, GetItem.GetTextIfTransR(), false));
+                            TransViewList.AddRowR(UIHelper.CreatLine(GetItem.Type, GetItem.EditorID, GetItem.Key, GetItem.SourceText, GetItem.GetTextIfTransR(), 999));
                         }));
                     }
                 }
                 if (CurrentTransType == 3)
                 {
-                    foreach (var GetItem in GlobalPexReader.SafeStringParams)
+                    foreach (var GetItem in GlobalPexReader.Strings)
                     {
                         this.Dispatcher.Invoke(new Action(() =>
                         {
-                            TransViewList.AddRowR(UIHelper.CreatLine(GetItem.Type, GetItem.EditorID, GetItem.Key, GetItem.SourceText, GetItem.GetTextIfTransR(), GetItem.Danger));
+                            TransViewList.AddRowR(UIHelper.CreatLine(GetItem.Type, GetItem.EditorID, GetItem.Key, GetItem.SourceText, GetItem.GetTextIfTransR(), GetItem.TranslationSafetyScore));
                         }));
                     }
                 }
@@ -143,7 +144,7 @@ namespace SSELex
 
                 if (DebounceTimer == null)
                 {
-                    DebounceTimer = new System.Timers.Timer(2000);
+                    DebounceTimer = new System.Timers.Timer(1000);
                     DebounceTimer.AutoReset = false;
                     DebounceTimer.Elapsed += (s, e) =>
                     {
@@ -207,14 +208,6 @@ namespace SSELex
 
         public void ReloadLanguageMode()
         {
-            Source.Items.Clear();
-            foreach (var Get in UILanguageHelper.SupportLanguages)
-            {
-                Source.Items.Add(Get.ToString());
-            }
-
-            Source.SelectedValue = DeFine.SourceLanguage.ToString();
-
             Target.Items.Clear();
             foreach (var Get in UILanguageHelper.SupportLanguages)
             {
@@ -369,8 +362,6 @@ namespace SSELex
                     }));
                 }
 
-                SetLog("OpenSource:https://github.com/YD525/YDSkyrimToolR");
-                Thread.Sleep(1000);
                 SetLog(string.Empty);
 
                 ProxyCenter.GlobalProxyIP = DeFine.GlobalLocalSetting.ProxyIP;
@@ -384,6 +375,9 @@ namespace SSELex
                         AutoViewMode();
                         ResizeDebounceTimer.Stop();
                     };
+                    this.GeminiModel.Items.Clear();
+                    this.GeminiModel.Items.Add("gemini-2.0-flash");
+
 
                     this.ChatGptModel.Items.Clear();
 
@@ -415,7 +409,9 @@ namespace SSELex
                     }
                 }));
 
-               
+                //DeFine.GlobalLocalSetting.GeminiKey = "";
+                //var Get = new GeminiApi().QuickTrans("TestStr", Languages.English, Languages.SimplifiedChinese, false, 3, "");
+
                 //Test
                 //DeFine.GlobalLocalSetting.DeepLKey = "";
                 //ProxyCenter.GlobalProxyIP = "127.0.0.1:7890";
@@ -427,7 +423,7 @@ namespace SSELex
         public void LoadAny()
         {
             CommonOpenFileDialog Dialog = new CommonOpenFileDialog();
-            Dialog.IsFolderPicker = false;   //设置为选择文件夹
+            Dialog.IsFolderPicker = false;
             if (Dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
                 LoadAny(Dialog.FileName);
@@ -789,6 +785,14 @@ namespace SSELex
                                     }
                                 }
                                 break;
+                            case "GeminiEngine":
+                                {
+                                    if (!DeFine.GlobalLocalSetting.GeminiApiUsing)
+                                    {
+                                        (GetEngine as SvgViewbox).Opacity = 0.15;
+                                    }
+                                }
+                                break;
                             case "DeepSeekEngine":
                                 {
                                     if (!DeFine.GlobalLocalSetting.DeepSeekApiUsing)
@@ -865,6 +869,11 @@ namespace SSELex
                         DeFine.GlobalLocalSetting.BaiDuYunApiUsing = OneState;
                     }
                     break;
+                case "GeminiEngine":
+                    {
+                        DeFine.GlobalLocalSetting.GeminiApiUsing = OneState;
+                    }
+                    break;
                 case "ChatGptEngine":
                     {
                         DeFine.GlobalLocalSetting.ChatGptApiUsing = OneState;
@@ -907,32 +916,7 @@ namespace SSELex
             BatchTranslationHelper.Close();
         }
 
-        public bool CheckPlatformStates()
-        {
-            if (DeFine.GlobalLocalSetting.BaiDuYunApiUsing)
-            {
-                if ((DeFine.GlobalLocalSetting.BaiDuAppID.Trim().Length > 0 && DeFine.GlobalLocalSetting.BaiDuSecretKey.Trim().Length > 0)==false)
-                {
-                    return false;
-                }
-            }
-            if (DeFine.GlobalLocalSetting.ChatGptApiUsing)
-            {
-                if ((DeFine.GlobalLocalSetting.ChatGptKey.Trim().Length > 0) == false)
-                {
-                    return false;
-                }
-            }
-            if (DeFine.GlobalLocalSetting.DeepSeekApiUsing)
-            {
-                if ((DeFine.GlobalLocalSetting.DeepSeekKey.Trim().Length > 0) == false)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
+       
 
         public bool StopAny = true;
 
@@ -942,18 +926,47 @@ namespace SSELex
             {
                 if (StopAny == true)
                 {
-                    if (CheckPlatformStates())
-                    {
-                        StopAny = false;
-                        AutoKeepTag.Background = new SolidColorBrush(Color.FromRgb(0, 51, 97));
+                    StopAny = false;
+                    AutoKeepTag.Background = new SolidColorBrush(Color.FromRgb(0, 51, 97));
 
-                        AutoKeep.Source = new Uri("pack://application:,,,/SSELex;component/Material/Stop.svg");
-                        BatchTranslationHelper.Start();
-                    }
-                    else
+                    AutoKeep.Source = new Uri("pack://application:,,,/SSELex;component/Material/Stop.svg");
+                    if (DeFine.GlobalLocalSetting.AutoSetThreadLimit)
                     {
-                        MessageBox.Show("ApiKey is not configured or is incorrect.");
+                        DeFine.GlobalLocalSetting.MaxThreadCount = 0;
+                        if (DeFine.GlobalLocalSetting.BaiDuYunApiUsing && DeFine.GlobalLocalSetting.BaiDuSecretKey.Trim().Length>0)
+                        {
+                            DeFine.GlobalLocalSetting.MaxThreadCount++;
+                        }
+                        if (DeFine.GlobalLocalSetting.GoogleYunApiUsing && DeFine.GlobalLocalSetting.GoogleApiKey.Trim().Length > 0)
+                        {
+                            DeFine.GlobalLocalSetting.MaxThreadCount++;
+                        }
+                        if (DeFine.GlobalLocalSetting.DeepLApiUsing && DeFine.GlobalLocalSetting.DeepLKey.Trim().Length > 0)
+                        {
+                            DeFine.GlobalLocalSetting.MaxThreadCount++;
+                        }
+                        if (DeFine.GlobalLocalSetting.ChatGptApiUsing && DeFine.GlobalLocalSetting.ChatGptKey.Trim().Length > 0)
+                        {
+                            DeFine.GlobalLocalSetting.MaxThreadCount++;
+                        }
+                        if (DeFine.GlobalLocalSetting.GeminiApiUsing && DeFine.GlobalLocalSetting.GeminiKey.Trim().Length > 0)
+                        {
+                            DeFine.GlobalLocalSetting.MaxThreadCount++;
+                        }
+                        if (DeFine.GlobalLocalSetting.DeepSeekApiUsing && DeFine.GlobalLocalSetting.DeepSeekKey.Trim().Length > 0)
+                        {
+                            DeFine.GlobalLocalSetting.MaxThreadCount++;
+                        }
+                        if (DeFine.GlobalLocalSetting.MaxThreadCount == 1)
+                        {
+                            DeFine.GlobalLocalSetting.MaxThreadCount = 2;
+                        }
+                        if (DeFine.GlobalLocalSetting.MaxThreadCount == 0)
+                        {
+                            DeFine.GlobalLocalSetting.MaxThreadCount = 1;
+                        }
                     }
+                    BatchTranslationHelper.Start();
                 }
                 else
                 {
@@ -1098,6 +1111,8 @@ namespace SSELex
             }
             else
             {
+                CalcStatistics();
+
                 LoadSaveState = 0;
 
                 Caption.Name = "TranslationCore";
@@ -1114,7 +1129,10 @@ namespace SSELex
                     if (UIHelper.ModifyCount > 0)
                         if (GlobalPexReader != null)
                         {
-                            GlobalPexReader.SavePexFile(LastSetPath);
+                            if (!GlobalPexReader.SavePexFile(LastSetPath))
+                            {
+                                MessageBox.Show("Build Script Error!");
+                            }
                         }
                 }
                 if (CurrentTransType == 2)
@@ -1291,21 +1309,6 @@ namespace SSELex
             DeFine.CloseAny();
         }
 
-
-
-        private void Source_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //  English = 0, Chinese = 1, Japanese = 2, German = 5, Korean = 6
-            string GetValue = ConvertHelper.ObjToStr(Source.SelectedValue);
-
-            if (GetValue.Trim().Length > 0)
-            {
-                DeFine.SourceLanguage = Enum.Parse<Languages>(GetValue);
-            }
-
-            DeFine.GlobalLocalSetting.SourceLanguage = DeFine.SourceLanguage;
-        }
-
         private void Target_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             string GetValue = ConvertHelper.ObjToStr(Target.SelectedValue);
@@ -1436,7 +1439,7 @@ namespace SSELex
                         else
                         {
                             bool CanSleep = true;
-                            var GetResult = Translator.QuickTrans(GetFromStr, DeFine.SourceLanguage, DeFine.TargetLanguage,ref CanSleep);
+                            var GetResult = Translator.QuickTrans(GetFromStr,DeFine.TargetLanguage,ref CanSleep);
 
                             this.Dispatcher.Invoke(new Action(() =>
                             {
@@ -1595,8 +1598,6 @@ namespace SSELex
         private void DetectLang(object sender, MouseButtonEventArgs e)
         {
             var GetLang = LanguageHelper.DetectLanguage();
-            DeFine.SourceLanguage = GetLang;
-            Source.SelectedValue = GetLang.ToString();
         }
 
         private void ReplaceAllLine(object sender, MouseButtonEventArgs e)
@@ -1762,7 +1763,7 @@ namespace SSELex
 
         private void TestCall(object sender, MouseButtonEventArgs e)
         {
-            HeuristicCore.CheckPexParams(GlobalPexReader);
+            //HeuristicCore.CheckPexParams(GlobalPexReader);
         }
 
 
@@ -1790,7 +1791,7 @@ namespace SSELex
 
         public enum Settings
         {
-            Software = 0,Game = 2,ApiKey = 3
+            Software = 0,Game = 2,ApiKey = 3,AI = 5, LocalEngine = 6
         }
 
         public void ShowModTransView()
@@ -1810,6 +1811,8 @@ namespace SSELex
                 ApiKeyView.Visibility = Visibility.Visible;
                 SoftView.Visibility = Visibility.Hidden;
                 GameView.Visibility = Visibility.Hidden;
+                AIView.Visibility = Visibility.Hidden;
+                EngineConfigView.Visibility = Visibility.Hidden;
 
                 HttpProxy.Text = DeFine.GlobalLocalSetting.ProxyIP;
 
@@ -1817,8 +1820,15 @@ namespace SSELex
                 BaiDuKey.Password = DeFine.GlobalLocalSetting.BaiDuSecretKey;
 
                 GoogleKey.Password = DeFine.GlobalLocalSetting.GoogleApiKey;
+
+                GeminiKey.Password = DeFine.GlobalLocalSetting.GeminiKey;
                 ChatGptKey.Password = DeFine.GlobalLocalSetting.ChatGptKey;
                 DeepSeekKey.Password = DeFine.GlobalLocalSetting.DeepSeekKey;
+
+                if (DeFine.GlobalLocalSetting.GeminiModel.Trim().Length > 0)
+                {
+                    GeminiModel.SelectedValue = DeFine.GlobalLocalSetting.GeminiModel;
+                }
 
                 if (DeFine.GlobalLocalSetting.DeepSeekModel.Trim().Length > 0)
                 {
@@ -1830,6 +1840,7 @@ namespace SSELex
                     ChatGptModel.SelectedValue = DeFine.GlobalLocalSetting.ChatGptModel;
                 }
 
+
                 DeepLKey.Password = DeFine.GlobalLocalSetting.DeepLKey;
 
                 if (DeFine.GlobalLocalSetting.IsFreeDeepL)
@@ -1837,13 +1848,15 @@ namespace SSELex
                     IsFreeDeepL.IsChecked = true;
                 }
 
-                UIHelper.AnimateCanvasLeft(SettingBlock, 149);
+                UIHelper.AnimateCanvasLeft(SettingBlock, 139);
             }
             if (View == Settings.Software)
             {
                 SoftView.Visibility = Visibility.Visible;
                 ApiKeyView.Visibility = Visibility.Hidden;
                 GameView.Visibility = Visibility.Hidden;
+                AIView.Visibility = Visibility.Hidden;
+                EngineConfigView.Visibility = Visibility.Hidden;
 
                 MaxThreadCount.Text = ConvertHelper.ObjToStr(DeFine.GlobalLocalSetting.MaxThreadCount);
 
@@ -1856,6 +1869,10 @@ namespace SSELex
 
                 UILanguages.SelectedValue = DeFine.GlobalLocalSetting.CurrentUILanguage.ToString();
 
+                if (DeFine.GlobalLocalSetting.AutoSetThreadLimit)
+                {
+                    AutoSetThreadLimit.IsChecked = true;
+                }
                 if (DeFine.GlobalLocalSetting.ShowLog)
                 {
                     ShowLog.IsChecked = true;
@@ -1872,6 +1889,8 @@ namespace SSELex
                 GameView.Visibility = Visibility.Visible;
                 ApiKeyView.Visibility = Visibility.Hidden;
                 SoftView.Visibility = Visibility.Hidden;
+                AIView.Visibility = Visibility.Hidden;
+                EngineConfigView.Visibility = Visibility.Hidden;
 
                 SkyrimTypes.Items.Clear();
                 SkyrimTypes.Items.Add(SkyrimType.SkyrimSE.ToString());
@@ -1885,7 +1904,27 @@ namespace SSELex
                     AutoCompress.IsChecked = true;
                 }
 
-                UIHelper.AnimateCanvasLeft(SettingBlock, 249);
+                UIHelper.AnimateCanvasLeft(SettingBlock, 229);
+            }
+            if (View == Settings.AI)
+            {
+                GameView.Visibility = Visibility.Hidden;
+                ApiKeyView.Visibility = Visibility.Hidden;
+                SoftView.Visibility = Visibility.Hidden;
+                AIView.Visibility = Visibility.Visible;
+                EngineConfigView.Visibility = Visibility.Hidden;
+
+                UIHelper.AnimateCanvasLeft(SettingBlock, 312);
+            }
+            if (View == Settings.LocalEngine)
+            {
+                GameView.Visibility = Visibility.Hidden;
+                ApiKeyView.Visibility = Visibility.Hidden;
+                SoftView.Visibility = Visibility.Hidden;
+                AIView.Visibility = Visibility.Hidden;
+                EngineConfigView.Visibility = Visibility.Visible;
+
+                UIHelper.AnimateCanvasLeft(SettingBlock, 399);
             }
         }
 
@@ -1897,7 +1936,7 @@ namespace SSELex
         {
             DeFine.GlobalLocalSetting.ChatGptKey = ChatGptKey.Password;
         }
-
+       
         private void ChatGptModelChange(object sender, SelectionChangedEventArgs e)
         {
             string GetModel = ConvertHelper.ObjToStr(ChatGptModel.SelectedValue);
@@ -1906,7 +1945,19 @@ namespace SSELex
                DeFine.GlobalLocalSetting.ChatGptModel = GetModel;
             }
         }
+        private void Gemini_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            DeFine.GlobalLocalSetting.GeminiKey = GeminiKey.Password;
+        }
 
+        private void GeminiModelChange(object sender, SelectionChangedEventArgs e)
+        {
+            string GetModel = ConvertHelper.ObjToStr(GeminiModel.SelectedValue);
+            if (GetModel.Trim().Length > 0)
+            {
+                DeFine.GlobalLocalSetting.GeminiModel = GetModel;
+            }
+        }
         private void DeepSeekKey_PasswordChanged(object sender, RoutedEventArgs e)
         {
             DeFine.GlobalLocalSetting.DeepSeekKey = DeepSeekKey.Password;
@@ -2109,6 +2160,16 @@ namespace SSELex
                             ShowSettingsView(Settings.Game);
                         }
                     break;
+                    case "AI":
+                        {
+                            ShowSettingsView(Settings.AI);
+                        }
+                        break;
+                    case "LocalEngine":
+                        {
+                            ShowSettingsView(Settings.LocalEngine);
+                        }
+                    break;
                 }
                
             }
@@ -2250,5 +2311,35 @@ namespace SSELex
         {
            
         }
+
+        private void TransView_MouseLeave(object sender, MouseEventArgs e)
+        {
+            DeFine.WorkingWin.HiddenFocusTarget.Focus();
+        }
+
+        private void AutoSetThreadLimit_Click(object sender, RoutedEventArgs e)
+        {
+            if (AutoSetThreadLimit.IsChecked == true)
+            {
+                DeFine.GlobalLocalSetting.AutoSetThreadLimit = true;
+            }
+            else
+            {
+                DeFine.GlobalLocalSetting.AutoSetThreadLimit = false;
+            }
+        }
+
+        private void Publishedon_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (ActionWin.Show("HelpMsg", "Do you want to visit this website?\nIf you need.Click Yes to jump to the URL", MsgAction.YesNo, MsgType.Info, 230) > 0)
+                Process.Start(new ProcessStartInfo("https://www.nexusmods.com/skyrimspecialedition/mods/143056") { UseShellExecute = true });
+        }
+
+        private void OpenSource_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (ActionWin.Show("HelpMsg", "Do you want to visit this website?\nIf you need.Click Yes to jump to the URL", MsgAction.YesNo, MsgType.Info, 230) > 0)
+                Process.Start(new ProcessStartInfo("https://github.com/YD525/YDSkyrimToolR") { UseShellExecute = true });
+        }
+
     }
 }

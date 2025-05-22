@@ -17,7 +17,7 @@ namespace SSELex.PlatformManagement
     {
         public enum BDLanguages
         {
-            en=0, zh = 1, jp=2, de=3, kor = 5, zh_TW = 6
+            en=0, zh = 1, jp=2, de=3, kor = 5, zh_TW = 6, hi = 7, ur = 8, id = 9,it = 10,es = 11
         }
 
         public string GenerateSignature(string appId, string query, string salt, string secretKey)
@@ -68,6 +68,16 @@ namespace SSELex.PlatformManagement
                 Target = BDLanguages.de;
             else if (ToLang == Languages.Korean)
                 Target = BDLanguages.kor;
+            else if (FromLang == Languages.Italian)
+                Source = BDLanguages.it;
+            else if (FromLang == Languages.Spanish)
+                Source = BDLanguages.es;
+            else if (FromLang == Languages.Hindi)       
+                Source = BDLanguages.hi;
+            else if (FromLang == Languages.Urdu)         
+                Source = BDLanguages.ur;
+            else if (FromLang == Languages.Indonesian) 
+                Source = BDLanguages.id;
 
             return ConstructGetRequestUrl(DeFine.GlobalLocalSetting.BaiDuAppID, Query, Source.ToString(), Target.ToString(), new Random(Guid.NewGuid().GetHashCode()).Next(100, 999).ToString(), DeFine.GlobalLocalSetting.BaiDuSecretKey);
         }

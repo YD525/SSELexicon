@@ -46,7 +46,7 @@ namespace SSELex.TranslateManage
                 return Str;
             }
         }
-        public static string QuickTrans(string Content, Languages From, Languages To,ref bool CanSleep, bool IsBook = false)
+        public static string QuickTrans(string Content,Languages To,ref bool CanSleep, bool IsBook = false)
         {
             if (Content.Trim().Length == 0) return string.Empty;
 
@@ -58,7 +58,8 @@ namespace SSELex.TranslateManage
 
             TranslationPreprocessor.RemoveInvisibleCharacters(ref Content);
 
-            Content = CurrentTransCore.TransAny(DeFine.SourceLanguage, DeFine.TargetLanguage, Content,IsBook,ref CanAddCache,ref CanSleep);
+            Languages SourceLanguage = LanguageHelper.DetectLanguageByLine(Content);
+            Content = CurrentTransCore.TransAny(SourceLanguage, To, Content,IsBook,ref CanAddCache,ref CanSleep);
 
             TranslationPreprocessor.NormalizePunctuation(ref Content);
             TranslationPreprocessor.ProcessEmptyEndLine(ref Content);
@@ -76,7 +77,7 @@ namespace SSELex.TranslateManage
 
             if (CanAddCache)
             {
-                TranslateDBCache.AddCache(GetSourceStr, (int)From, (int)To, Content);
+                TranslateDBCache.AddCache(GetSourceStr, (int)SourceLanguage, (int)To, Content);
             }
 
             return Content;

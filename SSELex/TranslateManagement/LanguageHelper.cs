@@ -14,7 +14,7 @@ namespace SSELex.TranslateCore
 
     public enum Languages
     {
-        English = 0, SimplifiedChinese = 1, Japanese = 2, German = 5, Korean = 6, Turkish = 7 , Brazilian = 8 , Russian = 9 , TraditionalChinese = 10
+        English = 0, SimplifiedChinese = 1, Japanese = 2, German = 5, Korean = 6, Turkish = 7 , Brazilian = 8 , Russian = 9 , TraditionalChinese = 10, Italian = 11, Spanish = 12, Hindi = 13, Urdu = 15, Indonesian = 16
     }
 
     public class LanguageHelper
@@ -26,6 +26,11 @@ namespace SSELex.TranslateCore
         private static readonly Regex GermanRegex = new Regex("[\u00C0-\u017F]+", RegexOptions.Compiled);
         private static readonly Regex TurkishRegex = new Regex("[\u0400-\u04FF]+", RegexOptions.Compiled);
         private static readonly Regex BrazilianRegex = new Regex("[\u00C0-\u00FF]+|[a-zA-Z]+", RegexOptions.Compiled);
+        private static readonly Regex ItalianRegex = new Regex(@"\b(il|la|e|di|che|per|un|una|non|sono|da|con)\b", RegexOptions.IgnoreCase);
+        private static readonly Regex SpanishRegex = new Regex(@"\b(el|la|y|de|que|en|un|una|no|soy|con|por)\b", RegexOptions.IgnoreCase);
+        private static readonly Regex HindiRegex = new Regex(@"\p{IsDevanagari}", RegexOptions.Compiled);
+        private static readonly Regex UrduRegex = new Regex(@"[\u0600-\u06FF]", RegexOptions.Compiled);
+        private static readonly Regex IndonesianRegex = new Regex(@"\b(atau|dan|dari|ke|di|ini|itu|untuk)\b", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex EnglishRegex = new Regex("^[a-zA-Z0-9\\s\\p{P}]+$", RegexOptions.Compiled);
 
         public class LanguageDetect
@@ -87,6 +92,26 @@ namespace SSELex.TranslateCore
             else if (BrazilianRegex.IsMatch(Str) && (Str.Contains("ã") || Str.Contains("õ")))
             {
                 OneDetect.Add(Languages.Brazilian);
+            }
+            else if (ItalianRegex.IsMatch(Str)) 
+            {
+                OneDetect.Add(Languages.Italian);
+            }
+            else if (SpanishRegex.IsMatch(Str))
+            {
+                OneDetect.Add(Languages.Spanish);
+            }
+            else if (HindiRegex.IsMatch(Str)) 
+            {
+                OneDetect.Add(Languages.Hindi);
+            }
+            else if (UrduRegex.IsMatch(Str))  
+            {
+                OneDetect.Add(Languages.Urdu);
+            }
+            else if (IndonesianRegex.IsMatch(Str)) 
+            {
+                OneDetect.Add(Languages.Indonesian);
             }
             else if (EnglishRegex.IsMatch(Str))
             {

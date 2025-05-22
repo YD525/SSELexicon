@@ -56,7 +56,6 @@ namespace SSELex.TranslateManage
                 {
                     EngineSelects.Add(new EngineSelect(new GoogleTransApi(), 1));
                 }
-
             }
 
             //ChatGPT support
@@ -65,6 +64,15 @@ namespace SSELex.TranslateManage
                 if (DeFine.GlobalLocalSetting.ChatGptKey.Trim().Length > 0)
                 {
                     EngineSelects.Add(new EngineSelect(new ChatGptApi(), 6));
+                }
+            }
+
+            //Gemini support
+            if (DeFine.GlobalLocalSetting.GeminiApiUsing)
+            {
+                if (DeFine.GlobalLocalSetting.GeminiKey.Trim().Length > 0)
+                {
+                    EngineSelects.Add(new EngineSelect(new GeminiApi(), 6));
                 }
             }
 
@@ -273,7 +281,7 @@ namespace SSELex.TranslateManage
                     {
                         if (DeFine.GlobalLocalSetting.ChatGptApiUsing)
                         {
-                            var GetData = ((ChatGptApi)this.Engine).QuickTrans(GetSource, Source, Target,UseAIMemory,AIMemoryCountLimit,Param).Trim();
+                            var GetData = ((ChatGptApi)this.Engine).QuickTrans(GetSource, Source, Target,UseAIMemory,AIMemoryCountLimit, Param).Trim();
 
                             if (GetData.Trim().Length > 0 && UseAIMemory)
                             {
@@ -287,12 +295,30 @@ namespace SSELex.TranslateManage
                             this.CallCountDown = 0;
                         }
                     }
+                    if (this.Engine is GeminiApi)
+                    {
+                        if (DeFine.GlobalLocalSetting.GeminiApiUsing)
+                        {
+                            var GetData = ((GeminiApi)this.Engine).QuickTrans(GetSource, Source, Target, UseAIMemory, AIMemoryCountLimit, Param).Trim();
+
+                            if (GetData.Trim().Length > 0 && UseAIMemory)
+                            {
+                                AIMemory.AddTranslation(Source, GetSource, GetData);
+                            }
+                            TransText = GetData;
+                            Translator.SendTranslateMsg("Cloud Engine(GeminiApi)", GetSource, TransText);
+                        }
+                        else
+                        {
+                            this.CallCountDown = 0;
+                        }
+                    }
                     else
                     if (this.Engine is DeepSeekApi)
                     {
                         if (DeFine.GlobalLocalSetting.DeepSeekApiUsing)
                         {
-                            var GetData = ((DeepSeekApi)this.Engine).QuickTrans(GetSource, Source, Target,UseAIMemory,AIMemoryCountLimit,Param).Trim();
+                            var GetData = ((DeepSeekApi)this.Engine).QuickTrans(GetSource, Source, Target, UseAIMemory, AIMemoryCountLimit, Param).Trim();
 
                             if (GetData.Trim().Length > 0 && UseAIMemory)
                             {

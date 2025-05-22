@@ -272,7 +272,7 @@ namespace SSELex.UIManage
 
                         Application.Current.Dispatcher.Invoke(new Action(() =>
                         {
-                            View.AddRowR(UIHelper.CreatLine("Worldspace", GetHashKey, GetUniqueKey, GetName, GetTransStr, false));
+                            View.AddRowR(UIHelper.CreatLine("Worldspace", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                         }));
                     }
                 }
@@ -297,7 +297,7 @@ namespace SSELex.UIManage
 
                         Application.Current.Dispatcher.Invoke(new Action(() =>
                         {
-                            View.AddRowR(UIHelper.CreatLine("Quest", GetHashKey, GetUniqueKey, GetName, GetTransStr, false));
+                            View.AddRowR(UIHelper.CreatLine("Quest", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                         }));
                     }
                     var GetDescription = ConvertHelper.ObjToStr(GetQuestItem.Description);
@@ -309,7 +309,7 @@ namespace SSELex.UIManage
 
                         Application.Current.Dispatcher.Invoke(new Action(() =>
                         {
-                            View.AddRowR(UIHelper.CreatLine("Quest", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, false));
+                            View.AddRowR(UIHelper.CreatLine("Quest", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, 999));
                         }));
                     }
 
@@ -330,7 +330,7 @@ namespace SSELex.UIManage
 
                                     Application.Current.Dispatcher.Invoke(new Action(() =>
                                     {
-                                        View.AddRowR(UIHelper.CreatLine("Quest", GetHashKey, GetUniqueKey, GetDisplayText, GetTransStr, false));
+                                        View.AddRowR(UIHelper.CreatLine("Quest", GetHashKey, GetUniqueKey, GetDisplayText, GetTransStr, 999));
                                     }));
                                 }
                             }
@@ -357,7 +357,7 @@ namespace SSELex.UIManage
 
                                         Application.Current.Dispatcher.Invoke(new Action(() =>
                                         {
-                                            View.AddRowR(UIHelper.CreatLine("Quest", GetHashKey, GetUniqueKey, GetEntry, GetTransStr, false));
+                                            View.AddRowR(UIHelper.CreatLine("Quest", GetHashKey, GetUniqueKey, GetEntry, GetTransStr, 999));
                                         }));
                                     }
                                 }
@@ -385,7 +385,7 @@ namespace SSELex.UIManage
 
                         Application.Current.Dispatcher.Invoke(new Action(() =>
                         {
-                            View.AddRowR(UIHelper.CreatLine("Faction", GetHashKey, GetUniqueKey, GetName, GetTransStr, false));
+                            View.AddRowR(UIHelper.CreatLine("Faction", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                         }));
                     }
 
@@ -410,7 +410,7 @@ namespace SSELex.UIManage
 
                                             Application.Current.Dispatcher.Invoke(new Action(() =>
                                             {
-                                                View.AddRowR(UIHelper.CreatLine("Faction", GetHashKey, GetUniqueKey, GetFemale, GetTransStr, false));
+                                                View.AddRowR(UIHelper.CreatLine("Faction", GetHashKey, GetUniqueKey, GetFemale, GetTransStr, 999));
                                             }));
                                         }
                                         if (GetMale.Trim().Length > 0)
@@ -421,7 +421,7 @@ namespace SSELex.UIManage
 
                                             Application.Current.Dispatcher.Invoke(new Action(() =>
                                             {
-                                                View.AddRowR(UIHelper.CreatLine("Faction", GetHashKey, GetUniqueKey, GetMale, GetTransStr, false));
+                                                View.AddRowR(UIHelper.CreatLine("Faction", GetHashKey, GetUniqueKey, GetMale, GetTransStr, 999));
                                             }));
                                         }
                                     }
@@ -455,7 +455,7 @@ namespace SSELex.UIManage
 
                         Application.Current.Dispatcher.Invoke(new Action(() =>
                         {
-                            View.AddRowR(UIHelper.CreatLine("Perk", GetHashKey, GetUniqueKey, GetName, GetTransStr, false));
+                            View.AddRowR(UIHelper.CreatLine("Perk", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                         }));
                     }
 
@@ -468,7 +468,7 @@ namespace SSELex.UIManage
 
                         Application.Current.Dispatcher.Invoke(new Action(() =>
                         {
-                            View.AddRowR(UIHelper.CreatLine("Perk", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, false));
+                            View.AddRowR(UIHelper.CreatLine("Perk", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, 999));
                         }));
                     }
                 }
@@ -493,7 +493,7 @@ namespace SSELex.UIManage
 
                         Application.Current.Dispatcher.Invoke(new Action(() =>
                         {
-                            View.AddRowR(UIHelper.CreatLine("Weapon", GetHashKey, GetUniqueKey, GetName, GetTransStr, false));
+                            View.AddRowR(UIHelper.CreatLine("Weapon", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                         }));
                     }
 
@@ -506,7 +506,7 @@ namespace SSELex.UIManage
 
                         Application.Current.Dispatcher.Invoke(new Action(() =>
                         {
-                            View.AddRowR(UIHelper.CreatLine("Weapon", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, false));
+                            View.AddRowR(UIHelper.CreatLine("Weapon", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, 999));
                         }));
                     }
                 }
@@ -531,7 +531,7 @@ namespace SSELex.UIManage
 
                         Application.Current.Dispatcher.Invoke(new Action(() =>
                         {
-                            View.AddRowR(UIHelper.CreatLine("SoulGem", GetHashKey, GetUniqueKey, GetName, GetTransStr, false));
+                            View.AddRowR(UIHelper.CreatLine("SoulGem", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                         }));
                     }
                 }
@@ -556,7 +556,7 @@ namespace SSELex.UIManage
 
                         Application.Current.Dispatcher.Invoke(new Action(() =>
                         {
-                            View.AddRowR(UIHelper.CreatLine("Armor", GetHashKey, GetUniqueKey, GetName, GetTransStr, false));
+                            View.AddRowR(UIHelper.CreatLine("Armor", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                         }));
                     }
 
@@ -569,7 +569,7 @@ namespace SSELex.UIManage
 
                         Application.Current.Dispatcher.Invoke(new Action(() =>
                         {
-                            View.AddRowR(UIHelper.CreatLine("Armor", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, false));
+                            View.AddRowR(UIHelper.CreatLine("Armor", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, 999));
                         }));
                     }
                 }
@@ -594,7 +594,7 @@ namespace SSELex.UIManage
 
                         Application.Current.Dispatcher.Invoke(new Action(() =>
                         {
-                            View.AddRowR(UIHelper.CreatLine("Key", GetHashKey, GetUniqueKey, GetName, GetTransStr, false));
+                            View.AddRowR(UIHelper.CreatLine("Key", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                         }));
                     }
                 }
@@ -619,7 +619,7 @@ namespace SSELex.UIManage
 
                         Application.Current.Dispatcher.Invoke(new Action(() =>
                         {
-                            View.AddRowR(UIHelper.CreatLine("Container", GetHashKey, GetUniqueKey, GetName, GetTransStr, false));
+                            View.AddRowR(UIHelper.CreatLine("Container", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                         }));
                     }
                 }
@@ -644,7 +644,7 @@ namespace SSELex.UIManage
 
                         Application.Current.Dispatcher.Invoke(new Action(() =>
                         {
-                            View.AddRowR(UIHelper.CreatLine("Activator", GetHashKey, GetUniqueKey, GetName, GetTransStr, false));
+                            View.AddRowR(UIHelper.CreatLine("Activator", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                         }));
                     }
 
@@ -657,7 +657,7 @@ namespace SSELex.UIManage
 
                         Application.Current.Dispatcher.Invoke(new Action(() =>
                         {
-                            View.AddRowR(UIHelper.CreatLine("Activator", GetHashKey, GetUniqueKey, GetActivateTextOverride, GetTransStr, false));
+                            View.AddRowR(UIHelper.CreatLine("Activator", GetHashKey, GetUniqueKey, GetActivateTextOverride, GetTransStr, 999));
                         }));
                     }
                 }
@@ -682,7 +682,7 @@ namespace SSELex.UIManage
 
                         Application.Current.Dispatcher.Invoke(new Action(() =>
                         {
-                            View.AddRowR(UIHelper.CreatLine("MiscItem", GetHashKey, GetUniqueKey, GetName, GetTransStr, false));
+                            View.AddRowR(UIHelper.CreatLine("MiscItem", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                         }));
                     }
 
@@ -711,7 +711,7 @@ namespace SSELex.UIManage
 
                         Application.Current.Dispatcher.Invoke(new Action(() =>
                         {
-                            View.AddRowR(UIHelper.CreatLine("Book", GetHashKey, GetUniqueKey, GetName, GetTransStr, false));
+                            View.AddRowR(UIHelper.CreatLine("Book", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                         }));
                     }
 
@@ -724,7 +724,7 @@ namespace SSELex.UIManage
 
                         Application.Current.Dispatcher.Invoke(new Action(() =>
                         {
-                            View.AddRowR(UIHelper.CreatLine("Book", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, false));
+                            View.AddRowR(UIHelper.CreatLine("Book", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, 999));
                         }));
                     }
 
@@ -737,7 +737,7 @@ namespace SSELex.UIManage
 
                         Application.Current.Dispatcher.Invoke(new Action(() =>
                         {
-                            View.AddRowR(UIHelper.CreatLine("Book", GetHashKey, GetUniqueKey, GetBookText, GetTransStr, false));
+                            View.AddRowR(UIHelper.CreatLine("Book", GetHashKey, GetUniqueKey, GetBookText, GetTransStr, 999));
                         }));
                     }
                 }
@@ -762,7 +762,7 @@ namespace SSELex.UIManage
 
                         Application.Current.Dispatcher.Invoke(new Action(() =>
                         {
-                            View.AddRowR(UIHelper.CreatLine("Message", GetHashKey, GetUniqueKey, GetName, GetTransStr, false));
+                            View.AddRowR(UIHelper.CreatLine("Message", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                         }));
                     }
 
@@ -775,7 +775,7 @@ namespace SSELex.UIManage
 
                         Application.Current.Dispatcher.Invoke(new Action(() =>
                         {
-                            View.AddRowR(UIHelper.CreatLine("Message", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, false));
+                            View.AddRowR(UIHelper.CreatLine("Message", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, 999));
                         }));
                     }
                 }
@@ -807,7 +807,7 @@ namespace SSELex.UIManage
 
                                     Application.Current.Dispatcher.Invoke(new Action(() =>
                                     {
-                                        View.AddRowR(UIHelper.CreatLine("Button", GetHashKey, GetUniqueKey, GetButton, GetTransStr, false));
+                                        View.AddRowR(UIHelper.CreatLine("Button", GetHashKey, GetUniqueKey, GetButton, GetTransStr, 999));
                                     }));
                                 }
                             }
@@ -848,7 +848,7 @@ namespace SSELex.UIManage
 
                         Application.Current.Dispatcher.Invoke(new Action(() =>
                         {
-                            View.AddRowR(UIHelper.CreatLine("DialogTopic", GetHashKey, GetUniqueKey, GetName, GetTransStr, false));
+                            View.AddRowR(UIHelper.CreatLine("DialogTopic", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                         }));
                     }
 
@@ -867,7 +867,7 @@ namespace SSELex.UIManage
 
                                 Application.Current.Dispatcher.Invoke(new Action(() =>
                                 {
-                                    View.AddRowR(UIHelper.CreatLine("DialogTopic", GetHashKey, GetUniqueKey, GetPrompt, GetTransStr, false));
+                                    View.AddRowR(UIHelper.CreatLine("DialogTopic", GetHashKey, GetUniqueKey, GetPrompt, GetTransStr, 999));
                                 }));
                             }
 
@@ -885,7 +885,7 @@ namespace SSELex.UIManage
 
                                         Application.Current.Dispatcher.Invoke(new Action(() =>
                                         {
-                                            View.AddRowR(UIHelper.CreatLine("DialogTopic", GetHashKey, GetUniqueKey, GetValue, GetTransStr, false));
+                                            View.AddRowR(UIHelper.CreatLine("DialogTopic", GetHashKey, GetUniqueKey, GetValue, GetTransStr, 999));
                                         }));
                                     }
                                 }
@@ -913,7 +913,7 @@ namespace SSELex.UIManage
 
                         Application.Current.Dispatcher.Invoke(new Action(() =>
                         {
-                            View.AddRowR(UIHelper.CreatLine("Spell", GetHashKey, GetUniqueKey, GetName, GetTransStr, false));
+                            View.AddRowR(UIHelper.CreatLine("Spell", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                         }));
                     }
                 }
@@ -938,7 +938,7 @@ namespace SSELex.UIManage
 
                         Application.Current.Dispatcher.Invoke(new Action(() =>
                         {
-                            View.AddRowR(UIHelper.CreatLine("ObjectEffect", GetHashKey, GetUniqueKey, GetName, GetTransStr, false));
+                            View.AddRowR(UIHelper.CreatLine("ObjectEffect", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                         }));
                     }
                 }
@@ -963,7 +963,7 @@ namespace SSELex.UIManage
 
                         Application.Current.Dispatcher.Invoke(new Action(() =>
                         {
-                            View.AddRowR(UIHelper.CreatLine("MagicEffect", GetHashKey, GetUniqueKey, GetName, GetTransStr, false));
+                            View.AddRowR(UIHelper.CreatLine("MagicEffect", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                         }));
                     }
 
@@ -976,7 +976,7 @@ namespace SSELex.UIManage
 
                         Application.Current.Dispatcher.Invoke(new Action(() =>
                         {
-                            View.AddRowR(UIHelper.CreatLine("MagicEffect", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, false));
+                            View.AddRowR(UIHelper.CreatLine("MagicEffect", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, 999));
                         }));
                     }
                 }
@@ -1009,7 +1009,7 @@ namespace SSELex.UIManage
 
                                         Application.Current.Dispatcher.Invoke(new Action(() =>
                                         {
-                                            View.AddRowR(UIHelper.CreatLine("Cell", GetHashKey, GetUniqueKey, GetName, GetTransStr, false));
+                                            View.AddRowR(UIHelper.CreatLine("Cell", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                                         }));
                                     }
                                 }

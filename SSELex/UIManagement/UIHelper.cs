@@ -8,6 +8,8 @@ using System.Windows.Media.Animation;
 using SSELex.TranslateCore;
 using System.Windows.Documents;
 using System.Windows.Input;
+using ICSharpCode.AvalonEdit;
+using System.Windows.Media.TextFormatting;
 
 namespace SSELex.UIManage
 {
@@ -26,7 +28,7 @@ namespace SSELex.UIManage
         public static SolidColorBrush ExtendHeightBackground = new SolidColorBrush(Color.FromRgb(40, 40, 40));
 
 
-        public static Grid CreatLine(string Type, string EditorID, string Key, string SourceText, string TransText, bool Danger)
+        public static Grid CreatLine(string Type, string EditorID, string Key, string SourceText, string TransText, double Score)
         {
             if (DeFine.CurrentSearchStr.Length > 0)
             {
@@ -64,12 +66,6 @@ namespace SSELex.UIManage
             else
             {
                 MainGrid.Background = DefHeightBackground;
-            }
-
-            if (Danger)
-            {
-                MainGrid.Background = new SolidColorBrush(Colors.Red);
-                MainGrid.ToolTip = "Danger";
             }
 
             RowDefinition Row1st = new RowDefinition();
@@ -250,6 +246,18 @@ namespace SSELex.UIManage
 
             TransTextBox.MouseLeave += TransTextBox_MouseLeave1;
 
+
+            if (Score < 0)
+            {
+                TransTextBox.Background = new SolidColorBrush(Colors.Red);
+                TransTextBox.IsReadOnly = true;
+            }
+            else
+            if (Score < 5)
+            {
+                TransTextBox.Background = new SolidColorBrush(Colors.IndianRed);
+            }
+
             if (DeFine.ViewMode == 1)
             {
                 TransTextBox.IsReadOnly = true;
@@ -317,6 +325,18 @@ namespace SSELex.UIManage
                         }
                     }
                     catch { }
+
+                    if (DeFine.WorkingWin.CurrentTransType == 3)
+                    {
+                        if (DeFine.GlobalLocalSetting.ShowCode)
+                        {
+                            try
+                            {
+                                SelectLineFromIDE(GetKey);
+                            }
+                            catch { }
+                        }
+                    }
                 }
             }
 
@@ -328,6 +348,11 @@ namespace SSELex.UIManage
             var GetKey = ConvertHelper.ObjToStr((GetTextBox.Tag as Grid).Tag);
 
             AutoSetTransData(GetKey, GetTextBox.Text);
+
+            if (GetTextBox.Text.Trim().Length > 0)
+            {
+                GetTextBox.BorderBrush = new SolidColorBrush(Colors.Green);
+            }
         }
 
    
@@ -424,6 +449,64 @@ namespace SSELex.UIManage
             AutoCancelSelectIDETrd?.Cancel();
         }
 
+        public static void SelectLineFromIDE(string GetKey)
+        {
+            try
+            {
+                if (AutoSelectIDETrd != null)
+                {
+                    CancelAutoSelect();
+                }
+            }
+            catch { }
+
+            AutoCancelSelectIDETrd = new CancellationTokenSource();
+            var Token = AutoCancelSelectIDETrd.Token;
+
+            AutoSelectIDETrd = new Thread(() =>
+            {
+                try
+                {
+                    string []Params = GetKey.Split(',');
+                    if (Params.Length > 1)
+                    {
+                        Task.Delay(200, Token).Wait(Token);
+
+                        Token.ThrowIfCancellationRequested();
+
+                        foreach (var Item in DeFine.WorkingWin.GlobalPexReader.HeuristicEngine.DStringItems)
+                        {
+                            if (Item.Key.Contains(","))
+                            {
+                                if (Item.Key.Equals(Params[0]+","+ Params[1]))
+                                {
+                                    DeFine.ActiveIDE.Dispatcher.Invoke(() =>
+                                    {
+                                        int lineOffset = DeFine.ActiveIDE.Document.Text.IndexOf(Item.SourceLine);
+                                        if (lineOffset == -1) return;
+
+                                        int relativeOffset = Item.SourceLine.IndexOf(Item.Str);
+                                        if (relativeOffset == -1) return;
+
+                                        int absoluteOffset = lineOffset + relativeOffset;
+                                        DeFine.ActiveIDE.ScrollToLine(DeFine.ActiveIDE.Document.GetLineByOffset(absoluteOffset).LineNumber);
+                                        DeFine.ActiveIDE.Select(absoluteOffset, Item.Str.Length);
+                                    });
+                                }
+                            }
+                           
+                        }
+                    }
+                }
+                catch (OperationCanceledException)
+                {
+                    
+                }
+            });
+
+            AutoSelectIDETrd.Start();
+        }
+
         public static bool ExitAny = true;
         public static Thread AutoSelectIDETrd = null;
         private static void TransTextBox_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
@@ -437,69 +520,13 @@ namespace SSELex.UIManage
 
                 if (GetToolTipStr.Length == 0)
                     LockerGrid.Background = new SolidColorBrush(Color.FromRgb(55, 55, 55));
-
-                if (DeFine.WorkingWin.CurrentTransType == 3)
-                {
-                    if (DeFine.GlobalLocalSetting.ShowCode)
-                    {
-                        try
-                        {
-                            string GetKey = ConvertHelper.ObjToStr((LockerGrid.Children[2] as TextBox).Text);
-                            if (GetKey.Contains("-"))
-                            {
-                                var GetStr = GetKey.Split('-')[3];
-                                if (GetStr.Contains("("))
-                                {
-                                    GetStr = GetStr.Split("(")[0];
-                                }
-                                try
-                                {
-                                    if (AutoSelectIDETrd != null)
-                                    {
-                                        CancelAutoSelect();
-                                    }
-                                }
-                                catch { }
-
-                                AutoCancelSelectIDETrd = new CancellationTokenSource();
-                                var Token = AutoCancelSelectIDETrd.Token;
-
-                                AutoSelectIDETrd = new Thread(() =>
-                                {
-                                    try
-                                    {
-                                        // 可取消的等待（替代 Thread.Sleep）
-                                        Task.Delay(200, Token).Wait(Token);
-
-                                        Token.ThrowIfCancellationRequested();
-
-                                        DeFine.ActiveIDE.Dispatcher.Invoke(() =>
-                                        {
-                                            DeFine.ActiveIDE.ScrollToLine(ConvertHelper.ObjToInt(GetStr));
-                                            DeFine.ActiveIDE.Select(ConvertHelper.ObjToInt(GetKey.Split('-')[1]), ConvertHelper.ObjToInt(GetKey.Split('-')[2].Split('(')[0]));
-                                        });
-                                    }
-                                    catch (OperationCanceledException)
-                                    {
-                                        // 取消时静默处理
-                                    }
-                                });
-
-                                AutoSelectIDETrd.Start();
-                            }
-                        }
-                        catch { }
-                    }
-                }
             }
         }
 
         public static void AnimateCanvasLeft(Grid targetGrid, double targetLeft, double durationInSeconds = 0.1)
         {
-            // 获取当前 Grid 的左边距
             double currentLeft = Canvas.GetLeft(targetGrid);
 
-            // 创建一个 DoubleAnimation 动画，目标值是目标 Left 值
             DoubleAnimation animation = new DoubleAnimation
             {
                 From = currentLeft,
@@ -508,13 +535,11 @@ namespace SSELex.UIManage
                 EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut } // 可选：平滑的缓动
             };
 
-            // 使用 Storyboard 来应用动画
             Storyboard storyboard = new Storyboard();
             storyboard.Children.Add(animation);
             Storyboard.SetTarget(animation, targetGrid);
             Storyboard.SetTargetProperty(animation, new PropertyPath("(Canvas.Left)"));
 
-            // 启动动画
             storyboard.Begin();
         }
     }

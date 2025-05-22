@@ -102,7 +102,7 @@ namespace SSELex.UIManage
         public static List<UIItem> UIItems = new List<UIItem>();
 
         public static List<Languages> SupportLanguages = new List<Languages> { Languages.English,Languages.Japanese,
-        Languages.SimplifiedChinese,Languages.TraditionalChinese,Languages.Korean,Languages.German,Languages.Turkish,Languages.Brazilian,Languages.Russian };
+        Languages.SimplifiedChinese,Languages.TraditionalChinese,Languages.Korean,Languages.German,Languages.Turkish,Languages.Brazilian,Languages.Russian,Languages.Italian,Languages.Spanish,Languages.Hindi,Languages.Urdu,Languages.Indonesian};
 
 
         public static string DBQueryStr(Languages Type, string Key, string Name)

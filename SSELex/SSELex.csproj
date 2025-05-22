@@ -7,8 +7,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <Copyright>The copyright of this program belongs to [YD525 &amp; YueDing255 (developer)]. The purpose of this project is to reduce the workload of translators. This project is licensed under the GPL-3.0-only license.</Copyright>
-    <Authors>YD525</Authors>
+    <Copyright>The copyright of this program belongs to [YD525(developer)]. The purpose of this project is to reduce the workload of translators. This project is licensed under the GPL-3.0-only license.</Copyright>
+    <Authors></Authors>
     <PackageIcon>Logo.png</PackageIcon>
     <ApplicationIcon>Logo.ico</ApplicationIcon>
     <FileVersion>1.4.619</FileVersion>
@@ -27,6 +27,7 @@
     <None Remove="Material\DeepSeek.svg" />
     <None Remove="Material\Div.svg" />
     <None Remove="Material\End.svg" />
+    <None Remove="Material\Gemini.svg" />
     <None Remove="Material\Google.svg" />
     <None Remove="Material\Keep.svg" />
     <None Remove="Material\Lang.svg" />
@@ -79,6 +80,7 @@
     <Resource Include="Material\Conjunction.svg" />
     <Resource Include="Material\Div.svg" />
     <Resource Include="Material\End.svg" />
+    <Resource Include="Material\Gemini.svg" />
     <Resource Include="Material\Google.svg" />
     <Resource Include="Material\Keep.svg" />
     <Resource Include="Material\Lang.svg" />

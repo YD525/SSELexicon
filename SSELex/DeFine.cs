@@ -38,7 +38,6 @@ namespace SSELex
 
         public static string PapyrusCompilerPath = "";
 
-        public static Languages SourceLanguage = Languages.English;
         public static Languages TargetLanguage = Languages.English;
 
         public static int DefPageSize = 100;
@@ -47,7 +46,7 @@ namespace SSELex
 
         public static string BackupPath = @"\BackUpData\";
 
-        public static string CurrentVersion = "1.5.66b";
+        public static string CurrentVersion = "1.6.67";
         public static LocalSetting GlobalLocalSetting = new LocalSetting();
 
         public static MainWindow WorkingWin = null;
@@ -100,6 +99,13 @@ namespace SSELex
         public static string GetFullPath(string Path)
         {
             string GetShellPath = System.Windows.Forms.Application.StartupPath;
+            if (GetShellPath.EndsWith(@"\"))
+            {
+                if (Path.StartsWith(@"\"))
+                {
+                    Path = Path.Substring(1);
+                }
+            }
             return GetShellPath + Path;
         }
 
@@ -189,11 +195,11 @@ namespace SSELex
         public bool ConjunctionEngineUsing { get; set; } = false;
         public bool BaiDuYunApiUsing { get; set; } = false;
         public bool ChatGptApiUsing { get; set; } = false;
+        public bool GeminiApiUsing { get; set; } = false;
         public bool DeepSeekApiUsing { get; set; } = false;
         public bool GoogleYunApiUsing { get; set; } = false;
         public bool DivCacheEngineUsing { get; set; } = false;
         public bool DeepLApiUsing { get; set; } = false;
-        public Languages SourceLanguage { get; set; } = Languages.English;
         public Languages TargetLanguage { get; set; } = Languages.English;
         public Languages CurrentUILanguage { get; set; } = Languages.English;
         public string BackUpPath { get; set; } = "";
@@ -206,6 +212,8 @@ namespace SSELex
         public string BaiDuSecretKey { get; set; } = "";
         public string ChatGptKey { get; set; } = "";
         public string ChatGptModel { get; set; } = "gpt-4o-mini";
+        public string GeminiKey { get; set; } = "";
+        public string GeminiModel { get; set; } = "gemini-2.0-flash";
         public string DeepSeekKey { get; set; } = "";
         public string DeepSeekModel{ get; set; } = "deepseek-chat";
         public string DeepLKey { get; set; } = "";
@@ -213,6 +221,7 @@ namespace SSELex
         public string ProxyIP { get; set; } = "";
         public int TransCount { get; set; } = 0;
         public int MaxThreadCount { get; set; } = 0;
+        public bool AutoSetThreadLimit { get; set; } = true;
         public bool AutoLoadDictionaryFile { get; set; } = false;
         public bool UsingContext { get; set; } = false;
         public bool ShowLog { get; set; } = true;
@@ -235,19 +244,19 @@ namespace SSELex
                         this.FormHeight = GetSetting.FormHeight;
                         this.FormWidth = GetSetting.FormWidth;
                         this.MaxThreadCount = GetSetting.MaxThreadCount;
+                        this.AutoSetThreadLimit = GetSetting.AutoSetThreadLimit;
                         this.AutoLoadDictionaryFile = GetSetting.AutoLoadDictionaryFile;
                         this.PhraseEngineUsing = GetSetting.PhraseEngineUsing;
                         this.CodeParsingEngineUsing = GetSetting.CodeParsingEngineUsing;
                         this.ConjunctionEngineUsing = GetSetting.ConjunctionEngineUsing;
                         this.BaiDuYunApiUsing = GetSetting.BaiDuYunApiUsing;
                         this.ChatGptApiUsing = GetSetting.ChatGptApiUsing;
+                        this.GeminiApiUsing = GetSetting.GeminiApiUsing;
                         this.DeepSeekApiUsing = GetSetting.DeepSeekApiUsing;
                         this.DeepLApiUsing = GetSetting.DeepLApiUsing;
                         this.GoogleYunApiUsing = GetSetting.GoogleYunApiUsing;
                         this.DivCacheEngineUsing = GetSetting.DivCacheEngineUsing;
-                        this.SourceLanguage = GetSetting.SourceLanguage;
                         this.TargetLanguage = GetSetting.TargetLanguage;
-                        DeFine.SourceLanguage = GetSetting.SourceLanguage;
                         DeFine.TargetLanguage = GetSetting.TargetLanguage;
                         this.CurrentUILanguage = GetSetting.CurrentUILanguage;
                         this.APath = GetSetting.APath;
@@ -258,6 +267,8 @@ namespace SSELex
                         this.BaiDuSecretKey = GetSetting.BaiDuSecretKey;
                         this.ChatGptKey = GetSetting.ChatGptKey;
                         this.ChatGptModel = GetSetting.ChatGptModel;
+                        this.GeminiKey = GetSetting.GeminiKey;
+                        this.GeminiModel = GetSetting.GeminiModel;
                         this.DeepSeekKey = GetSetting.DeepSeekKey;
                         this.DeepSeekModel = GetSetting.DeepSeekModel;
                         this.DeepLKey = GetSetting.DeepLKey;
