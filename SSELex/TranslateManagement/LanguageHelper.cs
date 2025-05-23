@@ -21,11 +21,18 @@ namespace SSELex.TranslateCore
     {
         private static readonly Regex SimplifiedChineseRegex = new Regex("[\u4e00-\u9fff]+", RegexOptions.Compiled);
         private static readonly Regex TraditionalChineseRegex = new Regex("[\uFA0E\uFA0F\uFA11\uFA13\uFA14\uFA1F\uFA21\uFA23\uFA24\uFA27\uFA28\uFA29\u9FA5\u9FD5\u9FFF]", RegexOptions.Compiled);
-        private static readonly Regex JapaneseRegex = new Regex("[\u3040-\u30ff]+", RegexOptions.Compiled);
+        private static readonly Regex JapaneseRegex = new Regex(
+    @"[\u3040-\u30FF\u31F0-\u31FF\uFF66-\uFF9F一-龯々〆ヵヶ]|\b(です|ます|する|した|して|いる|いない|から|まで|だけ|そして|しかし|など|という|こと|もの|よう|それ|これ|あれ|どれ|なに|なん|はい|いいえ)\b",
+    RegexOptions.Compiled
+);
         private static readonly Regex KoreanRegex = new Regex("[\uac00-\ud7af]+", RegexOptions.Compiled);
-        private static readonly Regex GermanRegex = new Regex("[\u00C0-\u017F]+", RegexOptions.Compiled);
-        private static readonly Regex TurkishRegex = new Regex("[\u0400-\u04FF]+", RegexOptions.Compiled);
-        private static readonly Regex BrazilianRegex = new Regex("[\u00C0-\u00FF]+|[a-zA-Z]+", RegexOptions.Compiled);
+        private static readonly Regex GermanRegex = new Regex(
+    @"[äöüß]|\b(der|die|das|und|ich|nicht|du|er|sie|es|wir|ihr|sie|ist|bin|bist|sind|seid|war|waren|habe|hat|haben|sein|kann|können|muss|müssen|soll|sollen|will|wollen|ein|eine|einer|eines|dem|den|des|mit|für|auf|in|an|zu|von|über|unter|um|aber|oder|wenn|weil|dass|was|wer|wie|wo|da|hier|dort|jetzt|dann|nur|schon|noch|mehr|als|auch)\b",
+    RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex TurkishRegex = new Regex(@"\b(ve|bir|bu|çok|ama|değil|için|ile|sen|ben|mı|mu|mi|mü|şu)\b", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex BrazilianRegex = new Regex(
+    @"\b(o|a|os|as|de|do|da|dos|das|que|e|em|por|para|com|como|mas|se|foi|sou|está|estão|ser|estar|ter|tem|não|sim|eu|você|ele|ela|nós|eles|elas|um|uma|uns|umas|há|vai|vou|fui|tive|também|muito|mais|menos)\b",
+    RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex ItalianRegex = new Regex(@"\b(il|la|e|di|che|per|un|una|non|sono|da|con)\b", RegexOptions.IgnoreCase);
         private static readonly Regex SpanishRegex = new Regex(@"\b(el|la|y|de|que|en|un|una|no|soy|con|por)\b", RegexOptions.IgnoreCase);
         private static readonly Regex HindiRegex = new Regex(@"\p{IsDevanagari}", RegexOptions.Compiled);

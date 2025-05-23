@@ -46,7 +46,7 @@ namespace SSELex
 
         public static string BackupPath = @"\BackUpData\";
 
-        public static string CurrentVersion = "1.6.67";
+        public static string CurrentVersion = "1.6.68";
         public static LocalSetting GlobalLocalSetting = new LocalSetting();
 
         public static MainWindow WorkingWin = null;
@@ -217,6 +217,7 @@ namespace SSELex
         public string DeepSeekKey { get; set; } = "";
         public string DeepSeekModel{ get; set; } = "deepseek-chat";
         public string DeepLKey { get; set; } = "";
+        public string UserCustomAIPrompt { get; set; } = "";
         public bool IsFreeDeepL { get; set; } = true;
         public string ProxyIP { get; set; } = "";
         public int TransCount { get; set; } = 0;
@@ -273,6 +274,7 @@ namespace SSELex
                         this.DeepSeekModel = GetSetting.DeepSeekModel;
                         this.DeepLKey = GetSetting.DeepLKey;
                         this.IsFreeDeepL = GetSetting.IsFreeDeepL;
+                        this.UserCustomAIPrompt = GetSetting.UserCustomAIPrompt;
                         this.ProxyIP = GetSetting.ProxyIP;
                         this.TransCount = GetSetting.TransCount;
                         this.PlaySound = GetSetting.PlaySound;

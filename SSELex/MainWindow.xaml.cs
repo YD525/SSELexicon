@@ -1914,6 +1914,8 @@ namespace SSELex
                 AIView.Visibility = Visibility.Visible;
                 EngineConfigView.Visibility = Visibility.Hidden;
 
+                CustomAIPrompt.Text = DeFine.GlobalLocalSetting.UserCustomAIPrompt;
+
                 UIHelper.AnimateCanvasLeft(SettingBlock, 312);
             }
             if (View == Settings.LocalEngine)
@@ -2235,6 +2237,14 @@ namespace SSELex
 
                 if (UIHelper.ActiveTextBox != null)
                 {
+                    if (UIHelper.ActiveKey.Contains("Score:"))
+                    {
+                        double GetScore = ConvertHelper.ObjToDouble(UIHelper.ActiveKey.Substring(UIHelper.ActiveKey.IndexOf("Score:")+ "Score:".Length).Trim());
+                        if (GetScore < 0)
+                        {
+                            return;
+                        }
+                    }
                     UIHelper.ActiveTextBox.Text = TransText;
                     UIHelper.ActiveTextBox.BorderBrush = new SolidColorBrush(Colors.Green);
 
@@ -2341,5 +2351,9 @@ namespace SSELex
                 Process.Start(new ProcessStartInfo("https://github.com/YD525/YDSkyrimToolR") { UseShellExecute = true });
         }
 
+        private void CustomAIPrompt_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            DeFine.GlobalLocalSetting.UserCustomAIPrompt = CustomAIPrompt.Text.Trim();
+        }
     }
 }

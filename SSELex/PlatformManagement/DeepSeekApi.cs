@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Text.Json;
+using SSELex.ConvertManager;
 using SSELex.RequestManagement;
 using SSELex.TranslateCore;
 using SSELex.TranslateManage;
@@ -84,6 +85,11 @@ namespace SSELex.PlatformManagement
             if (Param.Trim().Length > 0)
             {
                 GetTransSource += Param;
+            }
+
+            if (ConvertHelper.ObjToStr(DeFine.GlobalLocalSetting.UserCustomAIPrompt).Trim().Length > 0)
+            {
+                GetTransSource += DeFine.GlobalLocalSetting.UserCustomAIPrompt + "\n\n";
             }
 
             if (Related.Count > 0)

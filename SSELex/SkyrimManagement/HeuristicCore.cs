@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System.IO;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Media.TextFormatting;
@@ -161,139 +162,52 @@ namespace SSELex.SkyrimManage
         public List<string> GlobalVariables = new List<string>();
         public List<FunctionType> Functions = new List<FunctionType>();
 
-        public void FindContent(string Content)
+        public void FindContent(string content)
         {
-            this.GlobalVariables = new VariablesFinder().ProcessScript(Content);
-            string CodeString = Content;
+            GlobalVariables = new VariablesFinder().ProcessScript(content);
 
-            string Pattern = @"^(.*\b(?:Function\s+)?(\w+)\s+(\w+)\(([^)]*)\).*)$";
-            MatchCollection matches = Regex.Matches(CodeString, Pattern, RegexOptions.Multiline);
+            string pattern = @"(?i)(?:(\w+)\s+)?(Function|Event)\s+(\w+)\s*\(([^)]*)\)[\r\n]+(.*?)^\s*End(Function|Event)";
+            var matches = Regex.Matches(content, pattern, RegexOptions.Singleline | RegexOptions.Multiline);
 
-            List<FunctionType> MethodsInfo = new List<FunctionType>();
+            List<FunctionType> methodsInfo = new List<FunctionType>();
 
-            foreach (Match Match in matches)
+            foreach (Match match in matches)
             {
-                if (Match.Groups.Count > 3)
+                if (match.Groups.Count >= 7)
                 {
-                    string GetType = Match.Groups[0].Value;
-                    string ReturnType = "";
+                    string returnType = match.Groups[1].Success ? match.Groups[1].Value.Trim() : "";
+                    string funcType = match.Groups[2].Value.Trim(); 
+                    string methodName = match.Groups[3].Value.Trim();
+                    string parameters = match.Groups[4].Value.Trim();
+                    string body = match.Groups[5].Value.Trim();
 
-                    if (GetType.Contains(" "))
+                    string[] paramList = string.IsNullOrEmpty(parameters)
+                        ? Array.Empty<string>()
+                        : parameters.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+                    methodsInfo.Add(new FunctionType
                     {
-                        GetType = GetType.Split(' ')[0];
-                        if (GetType.ToLower() != "function")
-                        {
-                            ReturnType = GetType;
-                        }
-                    }
-
-                    string MethodName = Match.Groups[3].Value;
-                    string ParamsString = Match.Groups[3 + 1].Value;
-
-                    string[] ParamList = string.IsNullOrEmpty(ParamsString)
-                        ? new string[0]
-                        : ParamsString.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-
-                    MethodsInfo.Add(new FunctionType
-                    {
-                        MethodName = MethodName,
-                        ReturnType = ReturnType,
-                        Parameters = (Array.ConvertAll(ParamList, P => P.Trim())).ToList()
+                        MethodName = methodName,
+                        ReturnType = returnType,
+                        Parameters = paramList.Select(p => p.Trim()).ToList(),
+                        Body = body,
+                        IsEvent = funcType.Equals("Event", StringComparison.OrdinalIgnoreCase)
                     });
                 }
             }
 
-            Functions = MethodsInfo;
-            ReadFunctionContent(Content);
+            Functions = methodsInfo;
         }
 
-        public void ReadFunctionContent(string Content)
-        {
-            List<string> Lines = Content.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None).ToList();
-            for (int i = 0; i < Functions.Count; i++)
-            {
-                int LineID = 0;
-                foreach (var GetLine in Lines)
-                {
-                    if (GetLine.Trim().Contains("Function") && GetLine.Contains(Functions[i].MethodName + "("))
-                    {
-                        string GetFunctionContent = ConvertHelper.StringDivision(Content, GetLine, "EndFunction");
 
-                        List<string> TempLines = GetFunctionContent.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None).ToList();
-                        Functions[i].Codes.Clear();
-                        Functions[i].Codes.AddRange(TempLines);
-                        foreach (var GetTempLine in TempLines)
-                        {
-                            string TempLine = GetTempLine.Trim();
-                            if (TempLine.Contains("=") && !TempLine.StartsWith("If") && !TempLine.StartsWith("if") && !TempLine.StartsWith("IF"))
-                            {
-                                TrackedVariable NVariable = new TrackedVariable();
-
-                                var GetParams = TempLine.Split('=')[0].Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries).ToList();
-                                if (GetParams.Count > 1)
-                                {
-                                    NVariable.Type = GetParams[0];
-                                    NVariable.Name = GetParams[1];
-                                }
-                                else
-                                {
-                                    NVariable.Name = GetParams[0];
-                                }
-
-                                if (!HeuristicCore.IsIf(TempLine))
-                                {
-                                    var GetValues = TempLine.Split('=')[1].Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries).ToList();
-                                    if (GetValues.Count > 0)
-                                    {
-                                        NVariable.Value = GetValues[0];
-                                        if (NVariable.Value.Trim().StartsWith("\"") && NVariable.Value.Trim().EndsWith("\""))
-                                        {
-                                            NVariable.IsConst = true;
-                                        }
-                                        else
-                                        {
-                                            NVariable.IsConst = false;
-                                        }
-
-                                        foreach (var GetValue in GetValues)
-                                        {
-                                            if (GetValue.Trim().StartsWith("#DEBUG_LINE_NO:"))
-                                            {
-                                                NVariable.DEBUGLineID = GetValue;
-                                            }
-                                        }
-                                    }
-
-                                    Functions[i].Variables.Add(NVariable);
-                                }
-                            }
-                            else
-                            if (TempLine.Contains("(") && TempLine.Replace(" ", "").Contains(");"))
-                            {
-                                CallItem NCallItem = new CallItem();
-                                NCallItem.Call = TempLine;
-                                if (NCallItem.Call.Contains("#DEBUG_LINE_NO:"))
-                                {
-                                    NCallItem.Call = NCallItem.Call.Substring(0, NCallItem.Call.IndexOf("#DEBUG_LINE_NO:"));
-                                    NCallItem.DEBUGLineID = TempLine.Substring(TempLine.IndexOf("#DEBUG_LINE_NO:"));
-                                }
-                                Functions[i].Calls.Add(NCallItem);
-                            }
-                        }
-                    }
-                    LineID++;
-                }
-            }
-        }
     }
     public class FunctionType
     {
         public string MethodName = "";
         public string ReturnType = "";
         public List<string> Parameters = new List<string>();
-        public List<TrackedVariable> Variables = new List<TrackedVariable>();
-        public List<CallItem> Calls = new List<CallItem>();
-        public List<string> Codes = new List<string>();
+        public string Body = "";
+        public bool IsEvent = true;
     }
     public class FunctionLink
     {
@@ -356,7 +270,7 @@ namespace SSELex.SkyrimManage
     }
     public class HeuristicCore
     {
-        public static string Version = "1.0Alpha";
+        public static string Version = "1.1Alpha";
         public List<ParsingItem> ParsingItems = new();
         public FunctionFinder CurrentFunctionFinder = new FunctionFinder();
         public static List<string> SafePapyrusFuncs = new List<string>() { "SetInfoText", "NotifyActor", "Warn", "messageBox", "messagebox", "Messagebox","Log", "NotifyPlayer", "Message", "ecSlider", "ecToggle", "TextUpdate" };
@@ -588,80 +502,6 @@ namespace SSELex.SkyrimManage
             return string.Empty;
         }
 
-        public void DeepSearchFunctions(
-            PexReader Reader,
-            string SourceText,
-            string TargetFunctionName,
-            FunctionType FromFunc,
-            ref List<TrackedVariable> VariableLinks,
-            ref List<FunctionLink> FuncLinks)
-        {
-            foreach (var Function in CurrentFunctionFinder.Functions)
-            {
-                if (FromFunc.MethodName == Function.MethodName)
-                    continue;
-
-                foreach (var Line in Function.Codes)
-                {
-                    if (Line.Contains(FromFunc.MethodName + "("))
-                    {
-                        bool NotSelfCall = !(Line.ToLower().Contains("." + FromFunc.MethodName.ToLower() + "(") &&
-                                             !Line.ToLower().Contains("self." + FromFunc.MethodName.ToLower() + "("));
-
-                        if (NotSelfCall)
-                        {
-                            FunctionLink NewLink = new()
-                            {
-                                FunctionName = Function.MethodName,
-                                VariableName = TargetFunctionName
-                            };
-                            FuncLinks.Add(NewLink);
-
-                            // 递归继续向上找调用者
-                            DeepSearchFunctions(Reader, SourceText, Function.MethodName, Function, ref VariableLinks, ref FuncLinks);
-                        }
-                    }
-                }
-            }
-        }
-
-        public void DeepSearchVariable(
-            PexReader Reader,
-            string SourceText,
-            string VariableName,
-            FunctionType FromFunc,
-            ref List<TrackedVariable> VariableLinks,
-            ref List<FunctionLink> FuncLinks)
-        {
-            string Resolved = GetParentVariable(VariableName, FromFunc.Variables, ref VariableLinks);
-            if (!string.IsNullOrEmpty(Resolved))
-            {
-                foreach (var Link in VariableLinks)
-                {
-                    if (Link.Name == Resolved && !Link.Value.Trim().StartsWith("\""))
-                    {
-                        VariableName = Link.Value;
-                        return;
-                    }
-                }
-            }
-
-            foreach (var Param in FromFunc.Parameters)
-            {
-                if (Param.Contains(" " + VariableName))
-                {
-                    FunctionLink NewLink = new()
-                    {
-                        FunctionName = FromFunc.MethodName,
-                        VariableName = VariableName
-                    };
-                    FuncLinks.Add(NewLink);
-
-                    DeepSearchFunctions(Reader, SourceText, FromFunc.MethodName, FromFunc, ref VariableLinks, ref FuncLinks);
-                }
-            }
-        }
-
         public static List<string> ExtractValidStrings(string Line)
         {
             var Results = new List<string>();
@@ -883,7 +723,14 @@ namespace SSELex.SkyrimManage
             }
         }
 
-       
+        public bool CheckExists(int Offset,string Reason, string SourceLine)
+        {
+            bool AlreadyAdded = DStringItems[Offset].TranslationScoreDetails
+            .Any(D => D.Reason == Reason && D.DefLine == SourceLine);
+            return AlreadyAdded;
+        }
+
+
 
         public void AnalyzeCodeLine(List<string> Lines)
         {
@@ -894,11 +741,12 @@ namespace SSELex.SkyrimManage
             {
                 RichText += GetLine + "\r\n";
             }
+
             CurrentFunctionFinder.FindContent(RichText);
 
             foreach (var GetFunc in CurrentFunctionFinder.Functions)
             {
-                foreach (var CodeLine in GetFunc.Codes)
+                foreach (var CodeLine in GetFunc.Body.Split(new char[2] { '\r', '\n' }))
                 {
                     List<string> FindStrs = ExtractValidStrings(CodeLine);
                     if (FindStrs.Count > 0 && ContainsDebugLineNoAtEnd(CodeLine))
@@ -914,6 +762,19 @@ namespace SSELex.SkyrimManage
                             DStringItems.Add(NDStringItem);
                         }
                     }
+                    else
+                    {
+                        foreach (var GetStr in FindStrs)
+                        {
+                            DStringItem NDStringItem = new DStringItem();
+                            NDStringItem.Str = GetStr;
+                            NDStringItem.SourceLine = CodeLine;
+                            NDStringItem.ParentFunctionName = GetFunc.MethodName;
+                            NDStringItem.TranslationSafetyScore = 0;
+                            NDStringItem.LineID = -1;
+                            DStringItems.Add(NDStringItem);
+                        }
+                    }
                 }
             }
 
@@ -923,6 +784,22 @@ namespace SSELex.SkyrimManage
                 string FormattedLine = FormatLine(SourceLine);
                 DStringItems[i].Feature += DStringItems[i].ParentFunctionName + ">";
 
+                if (DStringItems[i].Str.Trim().StartsWith("$"))
+                {
+                    DStringItems[i].Feature += "Is MCM Link";
+
+                    var DetailMessage = "These are the entries/terminologies used in MCM.";
+                    if (!CheckExists(i, DetailMessage, SourceLine))
+                    {
+                        DStringItems[i].TranslationScoreDetails.Add(
+                        new TranslationScoreDetail(
+                        SourceLine,
+                        DetailMessage,
+                        -20
+                        ));
+                    }
+                }
+                
                 if (!IsFunction(FormattedLine))
                 {
                     if (IsIf(FormattedLine))
@@ -951,7 +828,7 @@ namespace SSELex.SkyrimManage
                                 if (GetFunc.MethodName.Equals(DStringItems[i].ParentFunctionName))
                                 {
                                     bool FindVariableLocation = false;
-                                    foreach (var GetLine in GetFunc.Codes)
+                                    foreach (var GetLine in GetFunc.Body.Split(new char[2] {'\r','\n'}))
                                     {
                                         if (GetLine.Trim().Length > 0)
                                         {
@@ -982,17 +859,15 @@ namespace SSELex.SkyrimManage
                                         {
                                             DStringItems[i].Feature += "NotFind>";
 
-                                            var DetailMessage = "Unresolved variable reference — likely a class variable or out-of-scope. Conservative penalty applied.";
-                                            bool AlreadyAdded = DStringItems[i].TranslationScoreDetails
-                                                .Any(d => d.Reason == DetailMessage && d.DefLine == SourceLine);
-                                            if (!AlreadyAdded)
+                                            var DetailMessage = "Unresolved variable reference — likely a class variable or out-of-scope. Conservative penalty applied.";     
+                                            if (!CheckExists(i,DetailMessage,SourceLine))
                                             {
-                                               DStringItems[i].TranslationScoreDetails.Add(
-                                               new TranslationScoreDetail(
-                                               SourceLine,
-                                               "Unresolved variable reference — likely a class variable or out-of-scope. Conservative penalty applied.",
-                                               -20
-                                               ));
+                                                DStringItems[i].TranslationScoreDetails.Add(
+                                                new TranslationScoreDetail(
+                                                SourceLine,
+                                                DetailMessage,
+                                                -20
+                                                ));
                                             }
                                         }
 
@@ -1014,7 +889,7 @@ namespace SSELex.SkyrimManage
                         {
                             if (GetFunc.MethodName.Equals(DStringItems[i].ParentFunctionName))
                             {
-                                foreach (var GetLine in GetFunc.Codes)
+                                foreach (var GetLine in GetFunc.Body.Split(new char[2] { '\r', '\n' }))
                                 {
                                     if (GetLine.Trim().Length > 0)
                                     {

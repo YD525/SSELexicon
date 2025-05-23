@@ -150,7 +150,7 @@ namespace SSELex.SkyrimManage
             TempFilePath = string.Empty;
             CodeLines.Clear();
         }
-      
+
         #region ExecuteFunc
         public string Execute(string ExePath, string Args, ref string OutPutMsg)
         {
@@ -282,15 +282,17 @@ namespace SSELex.SkyrimManage
                 }
                 catch { }
 
-                try {
-                File.Delete(GetFilePath + GetFileName + ".pas");
-                File.Delete(GetFilePath + GetFileName + ".psc");
-                File.Delete(GetFilePath + GetFileName + ".pex");
+                try
+                {
+                    File.Delete(GetFilePath + GetFileName + ".pas");
+                    File.Delete(GetFilePath + GetFileName + ".psc");
+                    File.Delete(GetFilePath + GetFileName + ".pex");
 
-                //CleanTempFile
-                Directory.Delete(NTempPathWrapper.TempRoot);
+                    //CleanTempFile
+                    Directory.Delete(NTempPathWrapper.TempRoot);
                 }
-                catch(Exception Ex) {
+                catch (Exception Ex)
+                {
                 }
             }
 
@@ -300,7 +302,7 @@ namespace SSELex.SkyrimManage
         public void LoadPexFile(string FilePath)
         {
             Close();
-            
+
             HeuristicEngine = new HeuristicCore();
 
             foreach (var GetFile in DataHelper.GetAllFile(DeFine.GetFullPath(@"Cache\")))
@@ -447,7 +449,7 @@ namespace SSELex.SkyrimManage
                 SourceStr = sourceStr;
             }
         }
-       
+
         public void ProcessCode()
         {
             DeFine.ShowCodeView();
@@ -478,7 +480,7 @@ namespace SSELex.SkyrimManage
             HeuristicEngine.AnalyzeCodeLine(this.CodeLines);
             for (int i = 0; i < HeuristicEngine.DStringItems.Count; i++)
             {
-                if (HeuristicEngine.DStringItems[i].LineID > 0 && HeuristicEngine.DStringItems[i].Str.Trim().Length > 0)
+                if ((HeuristicEngine.DStringItems[i].LineID > 0 || HeuristicEngine.DStringItems[i].LineID == -1) && HeuristicEngine.DStringItems[i].Str.Trim().Length > 0)
                 {
                     StringParam NStringParam = new StringParam();
                     NStringParam.DefLine = HeuristicEngine.DStringItems[i].SourceLine;
@@ -497,10 +499,12 @@ namespace SSELex.SkyrimManage
         {
             public string Value = "";
             public int DefLineID = 0;
-            public LinkValue(string Value, int DefLineID)
+            public string DefKey = "";
+            public LinkValue(string Value, int DefLineID,string DefKey)
             {
                 this.Value = Value;
                 this.DefLineID = DefLineID;
+                this.DefKey = DefKey;
             }
         }
 
@@ -553,7 +557,7 @@ namespace SSELex.SkyrimManage
                 if (Translator.TransData.ContainsKey(GetParam.Key))
                 {
                     if (!LinkTexts.ContainsKey(GetParam.SourceText))
-                        LinkTexts.Add(GetParam.SourceText, new LinkValue(Translator.TransData[GetParam.Key], GetParam.LineID));
+                        LinkTexts.Add(GetParam.SourceText, new LinkValue(Translator.TransData[GetParam.Key], GetParam.LineID, GetParam.Key));
                 }
             }
 
@@ -574,17 +578,54 @@ namespace SSELex.SkyrimManage
 
                     for (int ir = 0; ir < Lines.Count; ir++)
                     {
-                        string GetLine = Lines[ir];
-                        if (GetLine.Contains("@line") && GetLinkValue.Value.Trim().Length > 0)
+                        try
                         {
-                            string CheckID = GetLine.Substring(GetLine.IndexOf("@line") + "@line".Length).Trim();
-                            if (CheckID.Equals(GetLinkValue.DefLineID.ToString()))
+                            string GetLine = Lines[ir];
+                            if (GetLine.Contains("@line") && GetLinkValue.Value.Trim().Length > 0)
                             {
-                                if (Lines[ir].Contains(GetKey))
+                                string CheckID = GetLine.Substring(GetLine.IndexOf("@line") + "@line".Length).Trim();
+                                if (CheckID.Equals(GetLinkValue.DefLineID.ToString()))
                                 {
-                                    Lines[ir] = Lines[ir].Replace("\"" + GetKey + "\"", "\"" + GetLinkValue.Value + "\"");
+                                    if (Lines[ir].Contains(GetKey))
+                                    {
+                                        Lines[ir] = Lines[ir].Replace("\"" + GetKey + "\"", "\"" + GetLinkValue.Value + "\"");
+                                    }
+                                }
+                                else
+                                {
+                                    if (Lines[ir].Contains(GetKey))
+                                    {
+                                        string QueryKey = LinkTexts[GetKey].DefKey;
+                                        QueryKey = QueryKey.Substring(0,QueryKey.LastIndexOf(","));
+
+                                        foreach (var GetItem in HeuristicEngine.DStringItems)
+                                        {
+                                            if (GetItem.Key.Equals(QueryKey))
+                                            {
+                                                int CheckFunc = 0;
+                                                foreach (var GetParam in GetItem.Feature.Split('>'))
+                                                {
+                                                    if (GetParam.Trim().Length > 0)
+                                                    {
+                                                        if (GetLine.Contains(GetParam.Trim()))
+                                                        {
+                                                            CheckFunc++;
+                                                        }
+                                                    }
+                                                }
+                                                if (CheckFunc > 0)
+                                                {
+                                                    Lines[ir] = Lines[ir].Replace("\"" + GetKey + "\"", "\"" + GetLinkValue.Value + "\"");
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             }
+                        }
+                        catch (Exception Ex)
+                        {
+
                         }
                     }
                 }
@@ -648,9 +689,9 @@ namespace SSELex.SkyrimManage
                 }
                 else
                 {
-                    try 
+                    try
                     {
-                        File.Copy(OutPutPath + ".backup",OutPutPath);
+                        File.Copy(OutPutPath + ".backup", OutPutPath);
                     }
                     catch { }
                 }
@@ -667,7 +708,7 @@ namespace SSELex.SkyrimManage
     }
 
 
-    
+
     public class CallItem
     {
         public string Call = "";

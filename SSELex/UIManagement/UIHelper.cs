@@ -485,12 +485,12 @@ namespace SSELex.UIManage
                                         int lineOffset = DeFine.ActiveIDE.Document.Text.IndexOf(Item.SourceLine);
                                         if (lineOffset == -1) return;
 
-                                        int relativeOffset = Item.SourceLine.IndexOf(Item.Str);
+                                        int relativeOffset = Item.SourceLine.IndexOf("\"" + Item.Str + "\"");
                                         if (relativeOffset == -1) return;
 
                                         int absoluteOffset = lineOffset + relativeOffset;
                                         DeFine.ActiveIDE.ScrollToLine(DeFine.ActiveIDE.Document.GetLineByOffset(absoluteOffset).LineNumber);
-                                        DeFine.ActiveIDE.Select(absoluteOffset, Item.Str.Length);
+                                        DeFine.ActiveIDE.Select(absoluteOffset, ("\"" + Item.Str + "\"").Length);
                                     });
                                 }
                             }
