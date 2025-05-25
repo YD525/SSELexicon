@@ -8,6 +8,7 @@ using System.Windows.Media;
 using SSELex.TranslateManagement;
 using Mutagen.Bethesda.Starfield;
 using Reloaded.Memory.Pointers.Sourced;
+using System.Text.RegularExpressions;
 
 namespace SSELex.TranslateManage
 {
@@ -46,26 +47,46 @@ namespace SSELex.TranslateManage
                 return Str;
             }
         }
+
+        public static bool IsOnlySymbolsAndSpaces(string Input)
+        {
+            return Regex.IsMatch(Input, @"^[\p{P}\p{S}\s]+$");
+        }
+
         public static string QuickTrans(string Content,Languages To,ref bool CanSleep, bool IsBook = false)
         {
-            if (Content.Trim().Length == 0) return string.Empty;
-
             string GetSourceStr = Content;
 
-            bool CanAddCache = true;
+            if (IsOnlySymbolsAndSpaces(GetSourceStr))
+            {
+                return GetSourceStr;
+            }
 
-            bool HasOuterQuotes = TranslationPreprocessor.HasOuterQuotes(Content.Trim());
+            if (GetSourceStr.Trim().Length == 0)
+            {
+                return GetSourceStr;
+            } 
 
+            bool HasOuterQuotes = TranslationPreprocessor.HasOuterQuotes(GetSourceStr.Trim());
+
+            TranslationPreprocessor.ConditionalSplitCamelCase(ref Content);
             TranslationPreprocessor.RemoveInvisibleCharacters(ref Content);
 
             Languages SourceLanguage = LanguageHelper.DetectLanguageByLine(Content);
+            if (SourceLanguage == To)
+            {
+                return GetSourceStr;
+            }
+
+            bool CanAddCache = true;
             Content = CurrentTransCore.TransAny(SourceLanguage, To, Content,IsBook,ref CanAddCache,ref CanSleep);
 
             TranslationPreprocessor.NormalizePunctuation(ref Content);
             TranslationPreprocessor.ProcessEmptyEndLine(ref Content);
             TranslationPreprocessor.RemoveInvisibleCharacters(ref Content);
 
-            TranslationPreprocessor.StripOuterQuotes(Content);
+            TranslationPreprocessor.StripOuterQuotes(ref Content);
+
             Content = Content.Trim();
 
             if (HasOuterQuotes)
@@ -75,9 +96,9 @@ namespace SSELex.TranslateManage
 
             Content = ReturnStr(Content);
 
-            if (CanAddCache)
+            if (CanAddCache && Content.Trim().Length>0)
             {
-                TranslateDBCache.AddCache(GetSourceStr, (int)SourceLanguage, (int)To, Content);
+                TranslateDBCache.AddCache(DeFine.CurrentModName, GetSourceStr, (int)SourceLanguage, (int)To, Content);
             }
 
             return Content;

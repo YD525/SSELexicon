@@ -10,12 +10,12 @@ namespace SSELex.TranslateCore
 
     public class TranslateDBCache
     {
-        public static string FindCache(string Text,int From,int To)
+        public static string FindCache(string ModName,string Text,int From,int To)
         {
             try { 
-            string SqlOrder = "Select Result From CloudTranslation Where [Text] = '{0}' And [From] = {1} And [To] = {2}";
+            string SqlOrder = "Select Result From CloudTranslation Where [ModName] = '{0}' And [Text] = '{1}' And [From] = {2} And [To] = {3}";
 
-            string GetResult = ConvertHelper.ObjToStr(DeFine.GlobalDB.ExecuteScalar(string.Format(SqlOrder, System.Web.HttpUtility.HtmlEncode(Text), From,To)));
+            string GetResult = ConvertHelper.ObjToStr(DeFine.GlobalDB.ExecuteScalar(string.Format(SqlOrder, ModName, System.Web.HttpUtility.HtmlEncode(Text),From,To)));
 
             if (GetResult.Trim().Length > 0)
             {
@@ -27,16 +27,16 @@ namespace SSELex.TranslateCore
             catch { return string.Empty; }
         }
 
-        public static bool AddCache(string Text, int From, int To,string Result)
+        public static bool AddCache(string ModName, string Text, int From, int To,string Result)
         {
             try {
-            int GetRowID = ConvertHelper.ObjToInt(DeFine.GlobalDB.ExecuteScalar(String.Format("Select Rowid From CloudTranslation Where [Text] = '{0}' And [From] = {1} And [To] = {2}", System.Web.HttpUtility.HtmlEncode(Text), From,To)));
+            int GetRowID = ConvertHelper.ObjToInt(DeFine.GlobalDB.ExecuteScalar(String.Format("Select Rowid From CloudTranslation Where [ModName] = '{0}' And [Text] = '{1}' And [From] = {2} And [To] = {3}",ModName, System.Web.HttpUtility.HtmlEncode(Text),From,To)));
 
             if (GetRowID < 0)
             {
-                string SqlOrder = "Insert Into CloudTranslation([Text],[From],[To],[Result])Values('{0}',{1},{2},'{3}')";
+                string SqlOrder = "Insert Into CloudTranslation([ModName],[Text],[From],[To],[Result])Values('{0}','{1}',{2},{3},'{4}')";
 
-                int State = DeFine.GlobalDB.ExecuteNonQuery(string.Format(SqlOrder, System.Web.HttpUtility.HtmlEncode(Text), From, To, System.Web.HttpUtility.HtmlEncode(Result)));
+                int State = DeFine.GlobalDB.ExecuteNonQuery(string.Format(SqlOrder,ModName,System.Web.HttpUtility.HtmlEncode(Text), From, To, System.Web.HttpUtility.HtmlEncode(Result)));
 
                 if (State != 0)
                 {
@@ -52,12 +52,12 @@ namespace SSELex.TranslateCore
         }
 
 
-        public static string FindCacheAndID(string Text,ref int ID, int From, int To)
+        public static string FindCacheAndID(string ModName,string Text,ref int ID, int From, int To)
         {
             try { 
-            string SqlOrder = "Select Rowid,Result From CloudTranslation Where [Text] = '{0}' And [From] = {1} And [To] = {2}";
+            string SqlOrder = "Select Rowid,Result From CloudTranslation Where [ModName] = '{0}' And [Text] = '{1}' And [From] = {2} And [To] = {3}";
 
-            DataTable GetResult = DeFine.GlobalDB.ExecuteQuery(string.Format(SqlOrder, System.Web.HttpUtility.HtmlEncode(Text), From, To));
+            DataTable GetResult = DeFine.GlobalDB.ExecuteQuery(string.Format(SqlOrder,ModName,System.Web.HttpUtility.HtmlEncode(Text), From, To));
 
             if (GetResult.Rows.Count > 0)
             {

@@ -117,7 +117,7 @@ namespace SSELex.TranslateManage
                 return SourceStr;
             }
 
-            string GetCacheStr = TranslateDBCache.FindCache(SourceStr, (int)Source, (int)Target);
+            string GetCacheStr = TranslateDBCache.FindCache(DeFine.CurrentModName,SourceStr, (int)Source, (int)Target);
 
             if (GetCacheStr.Trim().Length > 0)
             {
@@ -150,11 +150,11 @@ namespace SSELex.TranslateManage
                     string GetTrans = "";
                     if (!IsBook)
                     {
-                        GetTrans = CurrentEngine.Call(Source, Target, SourceStr, true, 3, AIParam,ref CanAddCache);
+                        GetTrans = CurrentEngine.Call(Source, Target, SourceStr, true, 3, string.Empty,ref CanAddCache);
                     }
                     else
                     {
-                        GetTrans = CurrentEngine.Call(Source, Target, SourceStr, false, 1, string.Empty,ref CanAddCache);
+                        GetTrans = CurrentEngine.Call(Source, Target, SourceStr, false, 1, AIParam, ref CanAddCache);
                     }
 
                     if (CanSleep)
@@ -202,7 +202,7 @@ namespace SSELex.TranslateManage
             {
                 for (int i = 0; i < SleepBySec; i++)
                 {
-                    Task.Delay(1000);
+                    Thread.Sleep(1000);
                 }
             }
 
@@ -270,6 +270,11 @@ namespace SSELex.TranslateManage
                             var GetData = ConvertHelper.ObjToStr(((GoogleTransApi)this.Engine).Translate(GetSource, Source, Target));
                             TransText = GetData;
                             Translator.SendTranslateMsg("Cloud Engine(GoogleApi)", GetSource, TransText);
+
+                            if (GetData.Trim().Length == 0)
+                            {
+                                this.CallCountDown = 0;
+                            }
                         }
                         else
                         {
@@ -289,6 +294,11 @@ namespace SSELex.TranslateManage
                             }
                             TransText = GetData;
                             Translator.SendTranslateMsg("Cloud Engine(ChatGptApi)", GetSource, TransText);
+
+                            if (GetData.Trim().Length == 0)
+                            {
+                                this.CallCountDown = 0;
+                            }
                         }
                         else
                         {
@@ -307,6 +317,11 @@ namespace SSELex.TranslateManage
                             }
                             TransText = GetData;
                             Translator.SendTranslateMsg("Cloud Engine(GeminiApi)", GetSource, TransText);
+
+                            if (GetData.Trim().Length == 0)
+                            {
+                                this.CallCountDown = 0;
+                            }
                         }
                         else
                         {
@@ -326,6 +341,11 @@ namespace SSELex.TranslateManage
                             }
                             TransText = GetData;
                             Translator.SendTranslateMsg("Cloud Engine(DeepSeek)", GetSource, TransText);
+
+                            if (GetData.Trim().Length == 0)
+                            {
+                                this.CallCountDown = 0;
+                            }
                         }
                         else
                         {
@@ -345,6 +365,11 @@ namespace SSELex.TranslateManage
                             }
                             TransText = GetData;
                             Translator.SendTranslateMsg("Cloud Engine(DeepL)", GetSource, TransText);
+
+                            if (GetData.Trim().Length == 0)
+                            {
+                                this.CallCountDown = 0;
+                            }
                         }
                         else
                         {

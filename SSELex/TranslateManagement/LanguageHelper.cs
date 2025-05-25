@@ -73,14 +73,7 @@ namespace SSELex.TranslateCore
             if (string.IsNullOrWhiteSpace(Str))
                 return;
 
-            if (SimplifiedChineseRegex.IsMatch(Str))
-            {
-                if (TraditionalChineseRegex.IsMatch(Str))
-                    OneDetect.Add(Languages.TraditionalChinese);
-                else
-                    OneDetect.Add(Languages.SimplifiedChinese);
-            }
-            else if (JapaneseRegex.IsMatch(Str))
+            if (JapaneseRegex.IsMatch(Str))
             {
                 OneDetect.Add(Languages.Japanese);
             }
@@ -88,6 +81,23 @@ namespace SSELex.TranslateCore
             {
                 OneDetect.Add(Languages.Korean);
             }
+            else if (HindiRegex.IsMatch(Str))
+            {
+                OneDetect.Add(Languages.Hindi);
+            }
+            else if (UrduRegex.IsMatch(Str))
+            {
+                OneDetect.Add(Languages.Urdu);
+            }
+            
+            else if (SimplifiedChineseRegex.IsMatch(Str))
+            {
+                if (TraditionalChineseRegex.IsMatch(Str))
+                    OneDetect.Add(Languages.TraditionalChinese);
+                else
+                    OneDetect.Add(Languages.SimplifiedChinese);
+            }
+            
             else if (GermanRegex.IsMatch(Str))
             {
                 OneDetect.Add(Languages.German);
@@ -100,7 +110,7 @@ namespace SSELex.TranslateCore
             {
                 OneDetect.Add(Languages.Brazilian);
             }
-            else if (ItalianRegex.IsMatch(Str)) 
+            else if (ItalianRegex.IsMatch(Str))
             {
                 OneDetect.Add(Languages.Italian);
             }
@@ -108,15 +118,7 @@ namespace SSELex.TranslateCore
             {
                 OneDetect.Add(Languages.Spanish);
             }
-            else if (HindiRegex.IsMatch(Str)) 
-            {
-                OneDetect.Add(Languages.Hindi);
-            }
-            else if (UrduRegex.IsMatch(Str))  
-            {
-                OneDetect.Add(Languages.Urdu);
-            }
-            else if (IndonesianRegex.IsMatch(Str)) 
+            else if (IndonesianRegex.IsMatch(Str))
             {
                 OneDetect.Add(Languages.Indonesian);
             }

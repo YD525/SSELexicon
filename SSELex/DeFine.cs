@@ -31,6 +31,7 @@ namespace SSELex
     }
     public class DeFine
     {
+        public static string CurrentModName = "";
         public static int ViewMode = 0;
 
         public static SolidColorBrush DefBackGround = new SolidColorBrush(Color.FromRgb(11, 116, 209));
@@ -46,7 +47,7 @@ namespace SSELex
 
         public static string BackupPath = @"\BackUpData\";
 
-        public static string CurrentVersion = "1.6.68";
+        public static string CurrentVersion = "1.6.78";
         public static LocalSetting GlobalLocalSetting = new LocalSetting();
 
         public static MainWindow WorkingWin = null;

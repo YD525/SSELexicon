@@ -32,7 +32,7 @@ namespace SSELex.UIManage
         {
             if (DeFine.CurrentSearchStr.Length > 0)
             {
-                if (!SourceText.Contains(DeFine.CurrentSearchStr))
+                if (!SourceText.Contains(DeFine.CurrentSearchStr,StringComparison.OrdinalIgnoreCase))
                 {
                     return null;
                 }

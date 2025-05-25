@@ -88,8 +88,6 @@ namespace SSELex
             {
                 ReadTrdWorkState = true;
 
-                GC.Collect();
-
                 this.Dispatcher.Invoke(new Action(() =>
                 {
                     TransViewList.Clear();
@@ -136,6 +134,24 @@ namespace SSELex
                 }).Start();
             }
         }
+        private System.Timers.Timer SearchTimer;
+        public void StartSearch()
+        {
+            this.Dispatcher.Invoke(new Action(() => {
+
+                if (SearchTimer == null)
+                {
+                    SearchTimer = new System.Timers.Timer(500);
+                    SearchTimer.AutoReset = false;
+                    SearchTimer.Elapsed += (s, e) =>
+                    {
+                        this.Dispatcher.Invoke(() => ReloadData());
+                    };
+                }
+                SearchTimer.Stop();
+                SearchTimer.Start();
+            }));
+        }
 
         private System.Timers.Timer DebounceTimer;
         public void GetStatistics()
@@ -154,7 +170,6 @@ namespace SSELex
                 DebounceTimer.Stop();
                 DebounceTimer.Start();
             }));
-           
         }
 
         public int MaxTransCount = 0;
@@ -449,6 +464,8 @@ namespace SSELex
 
                 string GetFileName = FilePath.Substring(FilePath.LastIndexOf(@"\") + @"\".Length);
                 Caption.Text = GetFileName;
+
+                DeFine.CurrentModName = GetFileName;
 
                 string GetModName = GetFileName;
                 FModName = LModName = GetModName;
@@ -1193,6 +1210,8 @@ namespace SSELex
         }
         public void CancelAny()
         {
+            DeFine.CurrentModName = string.Empty;
+
             this.Dispatcher.Invoke(new Action(() =>
             {
                 ClosetTransTrd();
@@ -1354,7 +1373,7 @@ namespace SSELex
                 ExtendRowB.Height = new GridLength(0, GridUnitType.Star);
 
                 DeFine.CurrentSearchStr = string.Empty;
-                SearchKey.Text = string.Empty;
+                SearchBox.Text = string.Empty;
                 ExtendBox.Width = 0;
 
                 DeFine.ViewMode = 0;
@@ -2265,17 +2284,11 @@ namespace SSELex
             ToStr.Text = ToStr.Text.Replace(ReplaceKey.Text.Trim(), ReplaceValue.Text.Trim());
         }
 
-        private void SearchStr(object sender, MouseButtonEventArgs e)
-        {
-            DeFine.CurrentSearchStr = SearchKey.Text.Trim();
-            ReloadData();
-        }
-
         private void SearchKey_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (LoadSaveState != 0)
             {
-                if (SearchKey.Text.Trim().Length == 0)
+                if (SearchBox.Text.Trim().Length == 0)
                 {
                     DeFine.CurrentSearchStr = string.Empty;
                     ReloadData();
@@ -2354,6 +2367,20 @@ namespace SSELex
         private void CustomAIPrompt_TextChanged(object sender, TextChangedEventArgs e)
         {
             DeFine.GlobalLocalSetting.UserCustomAIPrompt = CustomAIPrompt.Text.Trim();
+        }
+
+        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            DeFine.CurrentSearchStr = SearchBox.Text.Trim();
+            StartSearch();
+        }
+        private void CancelSelect(object sender, MouseButtonEventArgs e)
+        {
+            UIHelper.ActiveKey = string.Empty;
+            UIHelper.ActiveTextBox = null;
+            UIHelper.ActiveType = string.Empty;
+            FromStr.Text = string.Empty;
+            ToStr.Text = string.Empty;
         }
     }
 }

@@ -40,15 +40,7 @@ namespace SSELex.TranslateManagement
         /// <param name="TransText">The translated text to process (passed by reference).</param>
         public static void ProcessEmptyEndLine(ref string TransText)
         {
-            if (TransText.EndsWith("\r\n"))
-            {
-                TransText = TransText.Substring(0, TransText.Length - "\r\n".Length);
-            }
-            else
-            if (TransText.EndsWith("\n"))
-            {
-                TransText = TransText.Substring(0, TransText.Length - "\n".Length);
-            }
+            TransText = Regex.Replace(TransText, @"((\r\n)|\n|\\n)+$", "");
         }
 
         /// <summary>
@@ -58,30 +50,54 @@ namespace SSELex.TranslateManagement
         /// <param name="Str">The string to normalize (passed by reference).</param>
         public static void NormalizePunctuation(ref string Str)
         {
+            Str = Str.Replace("（", "(");
+            Str = Str.Replace("）", ")");
+            Str = Str.Replace("【", "[");
+            Str = Str.Replace("】", "]");
+            Str = Str.Replace("《", "<");
+            Str = Str.Replace("》", ">");
+            Str = Str.Replace("｛", "{");
+            Str = Str.Replace("｝", "}");
+            Str = Str.Replace("［", "[");
+            Str = Str.Replace("］", "]");
             Str = Str.Replace("‘", "'");
-
+            Str = Str.Replace("’", "'");
             Str = Str.Replace("“", "\"");
-
             Str = Str.Replace("”", "\"");
-
+            Str = Str.Replace("＂", "\""); 
             Str = Str.Replace("。", ".");
-
-            Str = Str.Replace("！", "!");
-
             Str = Str.Replace("，", ",");
-
             Str = Str.Replace("：", ":");
-
+            Str = Str.Replace("；", ";");
             Str = Str.Replace("？", "?");
+            Str = Str.Replace("！", "!");
+            Str = Str.Replace("、", ",");
+            Str = Str.Replace("·", ".");
+            Str = Str.Replace("——", "--");
+            Str = Str.Replace("—", "-");
+            Str = Str.Replace("…", "...");
+            Str = Str.Replace("　", " ");
         }
 
-        public static string StripOuterQuotes(string Input)
+        public static void StripOuterQuotes(ref string Input)
         {
-            Input = Regex.Replace(Input, @"^[\\/]*[\""\u201C\u201D]+", "");
+            if (Input.Trim().Length == 0)
+            {
+                return;
+            }
+            int Start = 0;
+            while (Start < Input.Length && (Input[Start] == '\\' || Input[Start] == '/' || Input[Start] == '"' || Input[Start] == '“' || Input[Start] == '”'))
+            {
+                Start++;
+            }
 
-            Input = Regex.Replace(Input, @"[\""\u201C\u201D]+$", "");
+            int End = Input.Length - 1;
+            while (End >= Start && (Input[End] == '"' || Input[End] == '“' || Input[End] == '”'))
+            {
+                End--;
+            }
 
-            return Input;
+            Input = Input.Substring(Start, End - Start + 1);
         }
 
         public static bool HasOuterQuotes(string Input)
@@ -100,5 +116,21 @@ namespace SSELex.TranslateManagement
             return c == '"' || c == '“' || c == '”';
         }
 
+        public static void ConditionalSplitCamelCase(ref string Input)
+        {
+            if (string.IsNullOrWhiteSpace(Input))
+                return;
+
+            if (!Input.Contains(' '))
+            {
+                Input = Regex.Replace(Input, @"([a-z])([A-Z])", "$1 $2");
+                Input = Regex.Replace(Input, @"([a-zA-Z])([0-9])", "$1 $2");
+                Input = Regex.Replace(Input, @"\s+", " ");
+
+                Input = Input.Trim();
+            }
+
+            return;
+        }
     }
 }
