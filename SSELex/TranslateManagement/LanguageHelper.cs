@@ -155,9 +155,9 @@ namespace SSELex.TranslateCore
             LanguageDetect OneDetect = new LanguageDetect();
             for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
             {
-                Grid MainGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
+                FakeGrid MainGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
 
-                var GetSourceText = (MainGrid.Children[3] as TextBox).Text.Trim();
+                var GetSourceText = MainGrid.SourceText.Trim();
                 DetectLanguage(ref OneDetect, GetSourceText);
             }
 

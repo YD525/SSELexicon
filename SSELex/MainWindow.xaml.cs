@@ -25,6 +25,7 @@ using SSELex.RequestManagement;
 using SSELex.TranslateManagement;
 using System.Windows.Threading;
 using Mutagen.Bethesda.Starfield;
+using SSELex.UIManagement;
 
 // Copyright (C) 2025 YD525
 // Licensed under the GNU GPLv3
@@ -82,40 +83,53 @@ namespace SSELex
 
         public object LockerAddTrd = new object();
         public bool ReadTrdWorkState = false;
-        public void ReloadDataFunc()
+        public void ReloadDataFunc(bool UseHotReload = false)
         {
             lock (LockerAddTrd)
             {
                 ReadTrdWorkState = true;
 
-                this.Dispatcher.Invoke(new Action(() =>
+                if (!UseHotReload)
                 {
-                    TransViewList.Clear();
-                }));
-
-                if (CurrentTransType == 2)
-                {
-                    SkyrimDataLoader.Load(CurrentSelect, GlobalEspReader, TransViewList);
+                    this.Dispatcher.Invoke(new Action(() =>
+                    {
+                        TransViewList.Clear();
+                    }));
                 }
                 else
-                if (CurrentTransType == 1)
                 {
-                    foreach (var GetItem in GlobalMCMReader.MCMItems)
+                    this.Dispatcher.Invoke(new Action(() =>
                     {
-                        this.Dispatcher.Invoke(new Action(() =>
-                        {
-                            TransViewList.AddRowR(UIHelper.CreatLine(GetItem.Type, GetItem.EditorID, GetItem.Key, GetItem.SourceText, GetItem.GetTextIfTransR(), 999));
-                        }));
-                    }
+                        TransViewList.HotReload();
+                    }));
                 }
-                if (CurrentTransType == 3)
+
+                if (!UseHotReload)
                 {
-                    foreach (var GetItem in GlobalPexReader.Strings)
+                    if (CurrentTransType == 2)
                     {
-                        this.Dispatcher.Invoke(new Action(() =>
+                        SkyrimDataLoader.Load(CurrentSelect, GlobalEspReader, TransViewList);
+                    }
+                    else
+                   if (CurrentTransType == 1)
+                    {
+                        foreach (var GetItem in GlobalMCMReader.MCMItems)
                         {
-                            TransViewList.AddRowR(UIHelper.CreatLine(GetItem.Type, GetItem.EditorID, GetItem.Key, GetItem.SourceText, GetItem.GetTextIfTransR(), GetItem.TranslationSafetyScore));
-                        }));
+                            this.Dispatcher.Invoke(new Action(() =>
+                            {
+                                TransViewList.AddRowR(LineRenderer.CreatLine(GetItem.Type, GetItem.EditorID, GetItem.Key, GetItem.SourceText, GetItem.GetTextIfTransR(), 999));
+                            }));
+                        }
+                    }
+                    if (CurrentTransType == 3)
+                    {
+                        foreach (var GetItem in GlobalPexReader.Strings)
+                        {
+                            this.Dispatcher.Invoke(new Action(() =>
+                            {
+                                TransViewList.AddRowR(LineRenderer.CreatLine(GetItem.Type, GetItem.EditorID, GetItem.Key, GetItem.SourceText, GetItem.GetTextIfTransR(), GetItem.TranslationSafetyScore));
+                            }));
+                        }
                     }
                 }
 
@@ -124,13 +138,13 @@ namespace SSELex
                 GetStatistics();
             }
         }
-        public void ReloadData()
+        public void ReloadData(bool UseHotReload = false)
         {
             if (LoadSaveState == 1)
             {
                 new Thread(() =>
                 {  
-                    ReloadDataFunc();
+                    ReloadDataFunc(UseHotReload);
                 }).Start();
             }
         }
@@ -287,7 +301,6 @@ namespace SSELex
             }
 
         }
-        public DispatcherTimer ResizeDebounceTimer;
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             DeFine.Init(this);
@@ -383,13 +396,6 @@ namespace SSELex
 
                 this.Dispatcher.Invoke(new Action(() =>
                 {
-                    ResizeDebounceTimer = new DispatcherTimer();
-                    ResizeDebounceTimer.Interval = TimeSpan.FromMilliseconds(300);
-                    ResizeDebounceTimer.Tick += (s, e) =>
-                    {
-                        AutoViewMode();
-                        ResizeDebounceTimer.Stop();
-                    };
                     this.GeminiModel.Items.Clear();
                     this.GeminiModel.Items.Add("gemini-2.0-flash");
 
@@ -1382,7 +1388,7 @@ namespace SSELex
                 {
                     if (TransViewList.RealLines != null)
                     {
-                        ReloadData();
+                        ReloadData(true);
                     }
                 }
                
@@ -1402,7 +1408,7 @@ namespace SSELex
                 {
                     if (TransViewList.RealLines != null)
                     {
-                        ReloadData();
+                        ReloadData(true);
                     }
                 }
 
@@ -1635,11 +1641,7 @@ namespace SSELex
                 DeFine.GlobalLocalSetting.FormWidth = this.ActualWidth;
             }
 
-            if (ResizeDebounceTimer != null)
-            {
-                ResizeDebounceTimer.Stop();
-                ResizeDebounceTimer.Start();
-            }
+            AutoViewMode();
            
             SyncCodeViewLocation();
         }
@@ -1718,23 +1720,7 @@ namespace SSELex
                 DeFine.GlobalLocalSetting.SaveConfig();
             }
         }
-        private void TestAll(object sender, MouseButtonEventArgs e)
-        {
-            for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
-            {
-                Grid MainGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
-                string GetKey = ConvertHelper.ObjToStr(MainGrid.Tag);
-                Translator.TransData[GetKey] = i.ToString();
-                (MainGrid.Children[4] as TextBox).Text = i.ToString();
-
-                (MainGrid.Children[4] as TextBox).BorderBrush = new SolidColorBrush(Color.FromRgb(76, 76, 76));
-            }
-            UIHelper.ModifyCount = DeFine.WorkingWin.TransViewList.RealLines.Count;
-            DeFine.WorkingWin.GetStatistics();
-            DeFine.WorkingWin.Dispatcher.Invoke(new Action(() => {
-                DeFine.WorkingWin.ProcessBar.Width = 0;
-            }));
-        }
+      
         private void ReSetTransLang(object sender, MouseButtonEventArgs e)
         {
             if (TransViewList.Rows > 0)

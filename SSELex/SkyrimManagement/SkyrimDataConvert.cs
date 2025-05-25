@@ -20,24 +20,11 @@ namespace SSELex.SkyrimManagement
            
             for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
             {
-                Grid MainGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
+                FakeGrid MainGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
 
-                int HashID = 0;
-                string Key = "";
-                string SourceText = "";
-                string TransText = "";
-                string Type = "";
-                string ItemType = "";
-
-                DeFine.WorkingWin.TransViewList.GetMainCanvas().Dispatcher.Invoke(new Action(() =>
-                {
-                    ItemType = ConvertHelper.ObjToStr((MainGrid.Children[1] as Label).Content);
-                    Type = ConvertHelper.ObjToStr(MainGrid.ToolTip);
-                    HashID = ConvertHelper.ObjToInt(MainGrid.Tag);
-                    SourceText = (MainGrid.Children[3] as TextBox).Text.Trim();
-                    TransText = ConvertHelper.ObjToStr((MainGrid.Children[4] as TextBox).Text);
-                    Key = ConvertHelper.ObjToStr((MainGrid.Children[2] as TextBox).Text);
-                }));
+                string Key = MainGrid.Key;
+                string SourceText = MainGrid.SourceText;
+                string TransText = MainGrid.TransText;
 
                 YDDictionary NYDDictionary = new YDDictionary();
                 NYDDictionary.Key = Key;

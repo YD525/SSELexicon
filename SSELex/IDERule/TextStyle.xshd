@@ -5,7 +5,7 @@
   <Color name="String" foreground="#fff99157" />
   <Color name="Function" foreground="#FF2EE84B" />
 
-  <Color name="StringDSP" foreground="#FF7A7878" />
+  <Color name="StringDSP" foreground="#ffcc99cc" />
   <Color name="Punctuation" />
   <Color name="MethodCall" foreground="#ffffcc66"/>
   <Color name="NumberLiteral" foreground="#ff99cc99"/>

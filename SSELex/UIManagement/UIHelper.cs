@@ -10,6 +10,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using ICSharpCode.AvalonEdit;
 using System.Windows.Media.TextFormatting;
+using NexusMods.Paths.Trees;
 
 namespace SSELex.UIManage
 {
@@ -22,51 +23,80 @@ namespace SSELex.UIManage
     {
         public static Grid SelectLine = null;
         public static int ModifyCount = 0;
-        public static double DefFontSize = 15;
         public static double DefLineHeight = 42;
         public static SolidColorBrush DefHeightBackground = new SolidColorBrush(Color.FromRgb(15, 15, 15));
         public static SolidColorBrush ExtendHeightBackground = new SolidColorBrush(Color.FromRgb(40, 40, 40));
+        public static double DefFontSize = 15;
 
 
-        public static Grid CreatLine(string Type, string EditorID, string Key, string SourceText, string TransText, double Score)
+        public static double MeasureTextWidth(string Text, double FontSize, FontFamily FontFamily)
+        {
+            var Typeface = new Typeface(FontFamily, FontStyles.Normal, FontWeights.Normal, FontStretches.Normal);
+
+            var FormattedText = new FormattedText(
+                Text,
+                System.Globalization.CultureInfo.CurrentCulture,
+                FlowDirection.LeftToRight,
+                Typeface,
+                FontSize,
+                Brushes.Black,
+                new NumberSubstitution(),
+                1);
+
+            return FormattedText.Width;
+        }
+
+        public static TextBox FakeTextBox = new TextBox();
+        public static FakeGrid CreatFakeLine(string Type, string EditorID, string Key, string SourceText, string TransText, double Score)
         {
             if (DeFine.CurrentSearchStr.Length > 0)
             {
-                if (!SourceText.Contains(DeFine.CurrentSearchStr,StringComparison.OrdinalIgnoreCase))
+                int Find = 2;
+                if (!SourceText.Contains(DeFine.CurrentSearchStr, StringComparison.OrdinalIgnoreCase))
+                {
+                    Find--;
+                }
+                if (!TransText.Contains(DeFine.CurrentSearchStr, StringComparison.OrdinalIgnoreCase))
+                {
+                    Find--;
+                }
+                if (Find == 0)
                 {
                     return null;
                 }
             }
 
+            double AutoHeight = DefLineHeight;
+
+            FontFamily FontFamily = FakeTextBox.FontFamily;
+
+            double ActualTextWidth = MeasureTextWidth(SourceText, FakeTextBox.FontSize, FontFamily);
+
+            var GetTextWidthRange = (DeFine.WorkingWin.ActualWidth / 3) - 50;
+
+            if (ActualTextWidth > GetTextWidthRange)
+            {
+                AutoHeight = 82;
+            }
+
+            return new FakeGrid(AutoHeight,Type, EditorID, Key, SourceText, TransText, Score);
+        }
+        public static Grid CreatLine(FakeGrid Item)
+        {
+            Item.UPDataThis();
+            return CreatLine(Item.Height, Item.Type, Item.EditorID, Item.Key, Item.SourceText, Item.TransText, Item.Score);
+        }
+        public static Grid CreatLine(double Height,string Type, string EditorID, string Key, string SourceText, string TransText, double Score)
+        {
             Grid MainGrid = new Grid();
 
             MainGrid.Tag = Key.ToString();
 
-            MainGrid.Height = DefLineHeight;
+            MainGrid.Height = Height;
             //Calc FontSize For Auto Height
             //Margin 25
 
             MainGrid.PreviewMouseDown += MainGrid_PreviewMouseDown;
-
-            double TempFontSize = DefFontSize;
-
-            var GetTextWidthRange = (DeFine.WorkingWin.ActualWidth / 3) - 25;
-
-            var GetLang = LanguageHelper.DetectLanguageByLine(SourceText);
-            if (GetLang != Languages.SimplifiedChinese && GetLang != Languages.TraditionalChinese)
-            {
-                TempFontSize = 8;
-            }
-            var GetTextSize = (SourceText.Length * TempFontSize);
-            if (GetTextSize > GetTextWidthRange)
-            {
-                MainGrid.Height = 82;
-                MainGrid.Background = ExtendHeightBackground;
-            }
-            else
-            {
-                MainGrid.Background = DefHeightBackground;
-            }
 
             RowDefinition Row1st = new RowDefinition();
             Row1st.Height = new GridLength(1, GridUnitType.Star);
@@ -118,22 +148,6 @@ namespace SSELex.UIManage
             Grid.SetColumn(TypeBox, 0);
             MainGrid.Children.Add(TypeBox);
 
-            //Label EditorIDBox = new Label();
-            //EditorIDBox.Height = 30;
-            //EditorIDBox.Margin = new Thickness(10, 0, 10, 0);
-            //EditorIDBox.FontSize = DefFontSize;
-            //EditorIDBox.VerticalAlignment = VerticalAlignment.Center;
-            //EditorIDBox.BorderBrush = new SolidColorBrush(Color.FromRgb(76, 76, 76));
-            //EditorIDBox.Background = null;
-            //EditorIDBox.BorderThickness = new Thickness(1);
-            //EditorIDBox.Foreground = new SolidColorBrush(Colors.White);
-            //EditorIDBox.VerticalContentAlignment = VerticalAlignment.Center;
-            //EditorIDBox.HorizontalContentAlignment = HorizontalAlignment.Center;
-            //EditorIDBox.Content = EditorID;
-            //Grid.SetRow(EditorIDBox, 0);
-            //Grid.SetColumn(EditorIDBox, 1);
-            //MainGrid.Children.Add(EditorIDBox);
-
             TextBox KeyBox = new TextBox();
             KeyBox.IsReadOnly = true;
             KeyBox.IsTabStop = false;
@@ -177,6 +191,15 @@ namespace SSELex.UIManage
             SourceTextBox.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
             SourceTextBox.FocusVisualStyle = null;
             SourceTextBox.PreviewMouseDown += SourceTextBox_PreviewMouseDown;
+
+            if (Height == 82)
+            {
+                MainGrid.Background = ExtendHeightBackground;
+            }
+            else
+            {
+                MainGrid.Background = DefHeightBackground;
+            }
 
             if (DeFine.ViewMode == 1)
             {

@@ -70,10 +70,6 @@
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
 
-                        <Label VerticalAlignment="Center" Margin="10 0 1 0" FontSize="12" Name="Node" Foreground="White" ToolTip="Nodes are used to enable and disable the translation platform. If multiple nodes are selected at the same time, load balancing will be applied.">
-                            Node
-                        </Label>
-
                         <StackPanel Margin="5 0 10 0" Orientation="Horizontal" Name="EngineUIs"  VerticalAlignment="Top" Height="35" Background="#FFADCFED">
                             <Grid Width="10">
                             </Grid>
@@ -768,7 +764,7 @@
                                                 </Border>
                                             </StackPanel>
                                             <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
-                                                <Border ToolTip="HotKey Press F1" CornerRadius="6" Background="#FF802206" Height="30" Padding="10 0 10 0" Margin="5 0 5 0" Cursor="Hand" PreviewMouseDown="CancelSelect">
+                                                <Border ToolTip="HotKey Press F1" CornerRadius="6" Background="#FF4493E4" Height="30" Padding="10 0 10 0" Margin="5 0 5 0" Cursor="Hand" PreviewMouseDown="CancelSelect">
                                                     <Label  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Name="CancelSelectBtn">
                                                         Cancel
                                                     </Label>

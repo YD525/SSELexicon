@@ -9,6 +9,7 @@ using SSELex.TranslateManagement;
 using Mutagen.Bethesda.Starfield;
 using Reloaded.Memory.Pointers.Sourced;
 using System.Text.RegularExpressions;
+using System.Windows.Input;
 
 namespace SSELex.TranslateManage
 {
@@ -109,13 +110,13 @@ namespace SSELex.TranslateManage
             int ReplaceCount = 0;
             for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
             {
-                Grid MainGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
-                int GetTransHashKey = ConvertHelper.ObjToInt(MainGrid.Tag);
-                string GetKey = ConvertHelper.ObjToStr((MainGrid.Children[2] as TextBox).Text);
-                var TargetText = ConvertHelper.ObjToStr((MainGrid.Children[4] as TextBox).Text);
-                string GetTransText = (MainGrid.Children[3] as TextBox).Text.Trim();
+                FakeGrid GetFakeGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
 
-                YDDictionaryHelper.UPDateTransText(GetKey, GetTransText, TargetText);
+                string GetKey = GetFakeGrid.Key;
+                string GetSourceText = GetFakeGrid.SourceText;
+                var TargetText = GetFakeGrid.TransText;
+
+                YDDictionaryHelper.UPDateTransText(GetKey, GetSourceText, TargetText);
             }
 
             return ReplaceCount;
@@ -125,16 +126,16 @@ namespace SSELex.TranslateManage
             int ReplaceCount = 0;
             for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
             {
-                Grid MainGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
-                int GetTransHashKey = ConvertHelper.ObjToInt(MainGrid.Tag);
-                string GetKey = ConvertHelper.ObjToStr((MainGrid.Children[2] as TextBox).Text);
-                var TargetText = ConvertHelper.ObjToStr((MainGrid.Children[4] as TextBox).Text);
+                FakeGrid GetFakeGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
+                string GetTransKey = GetFakeGrid.Key;
+              
+                var TargetText = DeFine.WorkingWin.TransViewList.RealLines[i].TransText;
 
-                var GetData = YDDictionaryHelper.CheckDictionary(GetKey);
+                var GetData = YDDictionaryHelper.CheckDictionary(GetTransKey);
 
-                if (GetData != null)
+                if (GetData != null && TargetText.Length == 0)
                 {
-                    (MainGrid.Children[4] as TextBox).Text = GetData.TransText;
+                    DeFine.WorkingWin.TransViewList.RealLines[i].TransText = GetData.TransText;
                 }
             }
 
@@ -145,17 +146,18 @@ namespace SSELex.TranslateManage
         {
             for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
             {
-                Grid MainGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
-                string GetKey = ConvertHelper.ObjToStr(MainGrid.Tag);
-                var TargetText = ConvertHelper.ObjToStr((MainGrid.Children[4] as TextBox).Text);
-                var GetSourceText = (MainGrid.Children[3] as TextBox).Text.Trim();
+                FakeGrid GetFakeGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
+                string GetKey = GetFakeGrid.Key;
+                var TargetText = GetFakeGrid.TransText;
+
+                var GetSourceText = GetFakeGrid.SourceText;
                 if (Translator.TransData.ContainsKey(GetKey))
                 {
                     Translator.TransData[GetKey] = GetSourceText;
                 }
-                (MainGrid.Children[4] as TextBox).Text = GetSourceText;
+                DeFine.WorkingWin.TransViewList.RealLines[i].TransText = GetSourceText;
 
-                (MainGrid.Children[4] as TextBox).BorderBrush = new SolidColorBrush(Colors.Green);
+                DeFine.WorkingWin.TransViewList.RealLines[i].BorderColor = Colors.Green;
             }
             DeFine.WorkingWin.GetStatistics();
         }
@@ -163,20 +165,25 @@ namespace SSELex.TranslateManage
         public static void ReSetAllTransText()
         {
             string EMP = "";
-            for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
+            for (int i = 0; i < DeFine.WorkingWin.TransViewList.RealLines.Count; i++)
             {
-                Grid MainGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
-                string GetKey = ConvertHelper.ObjToStr(MainGrid.Tag);
-                var TargetText = ConvertHelper.ObjToStr((MainGrid.Children[4] as TextBox).Text);
-                if (TargetText.Trim().Length > 0)
+                FakeGrid GetFakeGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
+                string GetKey = GetFakeGrid.Key;
+                var TargetText = GetFakeGrid.TransText;
+
+                DeFine.WorkingWin.TransViewList.RealLines[i].TransText = string.Empty;
+
+                if (Translator.TransData.ContainsKey(GetKey))
                 {
                     Translator.TransData[GetKey] = EMP;
-                    (MainGrid.Children[4] as TextBox).Text = EMP;
+                    DeFine.WorkingWin.TransViewList.RealLines[i].TransText = EMP;
                     if (Translator.TransData.ContainsKey(GetKey))
                     {
                         Translator.TransData.Remove(GetKey);
                     }
-                    (MainGrid.Children[4] as TextBox).BorderBrush = new SolidColorBrush(Color.FromRgb(76, 76, 76));
+                    DeFine.WorkingWin.TransViewList.RealLines[i].BorderColor = Color.FromRgb(76, 76, 76);
+
+                    DeFine.WorkingWin.TransViewList.RealLines[i].UPDateView();
                 }
             }
             DeFine.WorkingWin.GetStatistics();
@@ -190,19 +197,41 @@ namespace SSELex.TranslateManage
             int ReplaceCount = 0;
             for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
             {
-                Grid MainGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
-                string GetKey = ConvertHelper.ObjToStr(MainGrid.Tag);
-                var TargetText = ConvertHelper.ObjToStr((MainGrid.Children[4] as TextBox).Text);
+                FakeGrid GetFakeGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
+                string GetKey = ConvertHelper.ObjToStr(GetFakeGrid.Key);
+                var TargetText = GetFakeGrid.TransText;
                 if (TargetText.Trim().Length > 0)
                 {
                     TargetText = TargetText.Replace(Key, Value);
                     Translator.TransData[GetKey] = TargetText;
-                    (MainGrid.Children[4] as TextBox).Text = TargetText;
+                    DeFine.WorkingWin.TransViewList.RealLines[i].TransText = TargetText;
+
+                    DeFine.WorkingWin.TransViewList.RealLines[i].UPDateView();
                     ReplaceCount++;
                 }
             }
 
             return ReplaceCount;
+        }
+
+        private void TestAll(object sender, MouseButtonEventArgs e)
+        {
+            for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
+            {
+                FakeGrid GetFakeGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
+                string GetKey = GetFakeGrid.Key;
+                Translator.TransData[GetKey] = i.ToString();
+
+                DeFine.WorkingWin.TransViewList.RealLines[i].TransText = i.ToString();
+                DeFine.WorkingWin.TransViewList.RealLines[i].BorderColor = Color.FromRgb(76, 76, 76);
+
+                DeFine.WorkingWin.TransViewList.RealLines[i].UPDateView();
+            }
+            UIHelper.ModifyCount = DeFine.WorkingWin.TransViewList.RealLines.Count;
+            DeFine.WorkingWin.GetStatistics();
+            DeFine.WorkingWin.Dispatcher.Invoke(new Action(() => {
+                DeFine.WorkingWin.ProcessBar.Width = 0;
+            }));
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Security.Policy;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using SSELex.ConvertManager;
@@ -17,11 +18,10 @@ namespace SSELex.TranslateManage
         public int WorkEnd = 0;
         public Thread CurrentTrd;
         public string Key = "";
-        public string ItemType = "";
         public string Type = "";
         public string SourceText = "";
         public string TransText = "";
-        public TextBox TextBoxHandle = null;
+        public FakeGrid Handle = null;
         public bool IsDuplicateSource = false;
 
         public bool Transing = false;
@@ -63,7 +63,7 @@ namespace SSELex.TranslateManage
 
                     if (this.SourceText.Trim().Length > 0)
                     {
-                        if (ItemType.Equals("Book")&&(!Key.EndsWith("(Description)")&&!Key.EndsWith("(Name)")))
+                        if (this.Type.Equals("Book")&&(!Key.EndsWith("(Description)")&&!Key.EndsWith("(Name)")))
                         {
                             if (DeFine.WorkingWin != null)
                             {
@@ -103,11 +103,9 @@ namespace SSELex.TranslateManage
 
                                 Token.ThrowIfCancellationRequested();
 
-                                TextBoxHandle.Dispatcher.Invoke(new Action(() =>
-                                {
-                                    TextBoxHandle.Text = TransText;
-                                    TextBoxHandle.BorderBrush = new SolidColorBrush(Colors.Green);
-                                }));
+                                this.Handle.TransText = TransText;
+                                this.Handle.BorderColor = Colors.Green;
+                                this.Handle.UPDateView();
 
                                 SyncProgress();
 
@@ -164,14 +162,13 @@ namespace SSELex.TranslateManage
             TransThreadToken?.Cancel();
         }
 
-        public TransItem(string Key, int HashID,string ItemType,string Type, string SourceText, string TransText, TextBox TextBoxHandle)
+        public TransItem(string Key,string Type, string SourceText, string TransText, FakeGrid Handle)
         {
             this.Key = Key;
-            this.ItemType = ItemType;
             this.Type = Type;
             this.SourceText = SourceText;
             this.TransText = TransText;
-            this.TextBoxHandle = TextBoxHandle;
+            this.Handle = Handle;
         }
     }
 
@@ -221,30 +218,9 @@ namespace SSELex.TranslateManage
 
             for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
             {
-                Grid MainGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
+                FakeGrid MainGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
 
-                int HashID = 0;
-                string Key = "";
-                string SourceText = "";
-                string TransText = "";
-                string Type = "";
-                string ItemType = "";
-                TextBox TextBoxHandle = null;
-
-                DeFine.WorkingWin.TransViewList.GetMainCanvas().Dispatcher.Invoke(new Action(() =>
-                {
-                    ItemType = ConvertHelper.ObjToStr((MainGrid.Children[1] as Label).Content);
-                    Type = ConvertHelper.ObjToStr(MainGrid.ToolTip);
-                    HashID = ConvertHelper.ObjToInt(MainGrid.Tag);
-                    SourceText = (MainGrid.Children[3] as TextBox).Text.Trim();
-                    TransText = ConvertHelper.ObjToStr((MainGrid.Children[4] as TextBox).Text);
-                    TextBoxHandle = (MainGrid.Children[4] as TextBox);
-                    Key = ConvertHelper.ObjToStr((MainGrid.Children[2] as TextBox).Text);
-                    if (SourceText.Trim().Length > 0 && TransText.Trim().Length == 0)
-                    {
-                        TransItems.Add(new TransItem(Key, HashID,ItemType,Type, SourceText, TransText, TextBoxHandle));
-                    }
-                }));
+                TransItems.Add(new TransItem(MainGrid.Key, MainGrid.Type, MainGrid.SourceText, MainGrid.TransText, MainGrid));
             }
 
             MarkDuplicates(TransItems);
@@ -267,11 +243,9 @@ namespace SSELex.TranslateManage
             {
                 if (TransItems[ir].SourceText.Equals(GetKey))
                 {
-                    TransItems[ir].TextBoxHandle.Dispatcher.Invoke(new Action(() =>
-                    {
-                        TransItems[ir].TextBoxHandle.Text = SameItems[GetKey];
-                        TransItems[ir].TextBoxHandle.BorderBrush = new SolidColorBrush(Colors.Green);
-                    }));
+                    TransItems[ir].Handle.TransText = SameItems[GetKey];
+                    TransItems[ir].Handle.BorderColor = Colors.Green;
+                    TransItems[ir].Handle.UPDateView();
 
                     if (Translator.TransData.ContainsKey(TransItems[ir].Key))
                     {

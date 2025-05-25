@@ -1,22 +1,108 @@
 ﻿using System.Windows.Controls;
 using System.Windows;
 using SSELex;
+using SSELex.UIManage;
+using System.Windows.Media;
+using SSELex.ConvertManager;
+using Loqui.Translators;
+using SSELex.TranslateManage;
 
 // Copyright (C) 2025 YD525
 // Licensed under the GNU GPLv3
 // See LICENSE for details
 //https://github.com/YD525/YDSkyrimToolR/
 
-//R2
+//R3
+
+public class FakeGrid
+{
+    public double Height = 0;
+    public string Type = "";
+    public string EditorID = "";
+    public string Key = "";
+    public string SourceText = "";
+    public string TransText = "";
+    public Color BorderColor;
+    public Color FontColor;
+    public double Score = 0;
+
+    public FakeGrid(double Height,string Type, string EditorID, string Key, string SourceText, string TransText, double Score)
+    {
+        this.Height = Height;
+        this.Type = Type;
+        this.EditorID = EditorID;
+        this.Key = Key;
+        this.SourceText = SourceText;
+        this.TransText = TransText;
+        this.Score = Score;
+    }
+
+    public void UPDataThis()
+    {
+        if (Translator.TransData.ContainsKey(this.Key))
+        {
+            string GetStr = Translator.TransData[this.Key];
+            if (GetStr.Length > 0)
+            {
+                this.TransText = GetStr;
+            }
+            else
+            {
+                this.TransText = string.Empty;
+            }
+        }
+    }
+
+    public void UPDateView()
+    {
+        if (DeFine.WorkingWin != null)
+        {
+            for (int i = 0; i < DeFine.WorkingWin.TransViewList.VisibleRows.Count; i++)
+            {
+                object SelectItem = DeFine.WorkingWin.TransViewList.VisibleRows[i];
+
+                if (SelectItem is Grid MainGrid)
+                {
+                    string GetKey = ConvertHelper.ObjToStr((MainGrid.Children[2] as TextBox).Text);
+
+                    if (GetKey.Equals(this.Key))
+                    {
+                        Grid NewGrid = UIHelper.CreatLine(this);
+                        NewGrid.Width = DeFine.WorkingWin.TransViewList.Parent.ActualWidth - 15;
+                        NewGrid.Tag = MainGrid.Tag; 
+                        double Top = Canvas.GetTop(MainGrid);
+                        double Left = Canvas.GetLeft(MainGrid);
+
+                        DeFine.WorkingWin.TransViewList.VisibleRows[i] = NewGrid;
+
+                        for (int ir = 0; ir < DeFine.WorkingWin.TransViewList.MainCanvas.Children.Count; ir++)
+                        {
+                            if (DeFine.WorkingWin.TransViewList.MainCanvas.Children[ir] is Grid GridInCanvas &&
+                                GridInCanvas.Equals(MainGrid))
+                            {
+                                DeFine.WorkingWin.TransViewList.MainCanvas.Children.RemoveAt(ir);
+                                Canvas.SetTop(NewGrid, Top);
+                                Canvas.SetLeft(NewGrid, Left);
+                                DeFine.WorkingWin.TransViewList.MainCanvas.Children.Insert(ir, NewGrid);
+                                break; 
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 public class YDListView
 {
-    private Grid Parent = null;
+    public Grid Parent = null;
     private ScrollViewer Scroll = null;
-    private Canvas MainCanvas;
+    public Canvas MainCanvas;
 
     public Thread UpdateTrd = null;
 
-    public List<Grid> RealLines = new List<Grid>();
+    public List<FakeGrid> RealLines = new List<FakeGrid>();
     public List<Grid> VisibleRows = new List<Grid>();
 
     public int Rows { get { return GetRows(); } }
@@ -70,130 +156,132 @@ public class YDListView
         return this.MainCanvas;
     }
 
+    public void HotReload()
+    {
+        this.MainCanvas.Children.Clear();
+        UpdateVisibleRows();
+    }
+
     public void Clear()
     {
         this.RealLines.Clear();
         this.MainCanvas.Children.Clear();
         this.MainCanvas.Height = 0;
         this.Scroll.ScrollToTop();
+        GC.SuppressFinalize(this);
+        GC.Collect();
     }
 
     private bool CanUpDate = false;
     private void OnScrollChanged(object sender, ScrollChangedEventArgs e)
     {
-        // 使用 Dispatcher 在主线程中处理更新，避免直接在滚动事件中处理
         CanUpDate = true;
-    }
-
-    public double GetHight(Grid Grid)
-    {
-        if (!double.IsNaN(Grid.ActualHeight))
-        {
-            if (Grid.ActualHeight > 0)
-            {
-                return Grid.ActualHeight;
-            }
-        }
-        return Grid.Height;
     }
 
     public void UpdateVisibleRows()
     {
-        if (CanUpDate)
-        {
-            CanUpDate = false;
-        }
-        else
-        {
+        if (!CanUpDate)
             return;
-        }
-        VisibleRows.Clear();
+
+        CanUpDate = false;
 
         double ScrollTop = this.Scroll.VerticalOffset;
         double ScrollHeight = this.Scroll.ExtentHeight;
         double ViewHeight = this.Scroll.ViewportHeight;
+
         double AccumulatedHeight = 0;
         int FirstVisibleRow = 0;
 
-        // 计算第一条可见行
-        for (int i = 0; i < this.RealLines.Count; i++)
+        for (int I = 0; I < RealLines.Count; I++)
         {
             if (AccumulatedHeight >= ScrollTop)
             {
-                FirstVisibleRow = i;
+                FirstVisibleRow = I;
                 break;
             }
-            AccumulatedHeight += GetHight(this.RealLines[i]);
+            AccumulatedHeight += RealLines[I].Height;
         }
 
-        // 计算最后一条可见行
         double VisibleHeight = 0;
         int LastVisibleRow = FirstVisibleRow;
 
-        for (int i = FirstVisibleRow; i < this.RealLines.Count; i++)
+        for (int I = FirstVisibleRow; I < RealLines.Count; I++)
         {
-            VisibleHeight += GetHight(this.RealLines[i]);
+            VisibleHeight += RealLines[I].Height;
             if (VisibleHeight >= ViewHeight)
             {
-                LastVisibleRow = i;
+                LastVisibleRow = I;
                 break;
             }
         }
 
-        LastVisibleRow += BufferRows; // 额外缓存行
+        LastVisibleRow += BufferRows;
         if (LastVisibleRow >= GetRows())
-        {
             LastVisibleRow = GetRows() - 1;
-        }
 
         int FirstVisibleRowWithBuffer = Math.Max(0, FirstVisibleRow - BufferRows);
 
-        MainCanvas.Children.Clear();
+        HashSet<int> NewVisibleIndices = new();
+        for (int I = FirstVisibleRowWithBuffer; I <= LastVisibleRow; I++)
+            NewVisibleIndices.Add(I);
 
-        if (ScrollTop + ViewHeight >= ScrollHeight - 100)
+        for (int I = MainCanvas.Children.Count - 1; I >= 0; I--)
         {
-            for (int i = 0; i < this.RealLines.Count; i++)
+            UIElement Child = MainCanvas.Children[I];
+            if (Child is FrameworkElement Fe && Fe.Tag is int RowIndex && !NewVisibleIndices.Contains(RowIndex))
             {
-                if (i >= FirstVisibleRowWithBuffer)
-                {
-                    MainCanvas.Children.Add(this.RealLines[i]);
-
-                    VisibleRows.Add(this.RealLines[i]);
-                }
+                MainCanvas.Children.RemoveAt(I);
             }
         }
-        else
-        {
-            for (int i = 0; i < this.RealLines.Count; i++)
-            {
-                if (i >= FirstVisibleRowWithBuffer && i <= LastVisibleRow)
-                {
-                    MainCanvas.Children.Add(this.RealLines[i]);
 
-                    VisibleRows.Add(this.RealLines[i]);
+        double CurrentTop = 0;
+        for (int I = 0; I < RealLines.Count; I++)
+        {
+            var Row = RealLines[I];
+
+            bool InView = NewVisibleIndices.Contains(I) ||
+                          (ScrollTop + ViewHeight >= ScrollHeight - 100 && I >= FirstVisibleRowWithBuffer);
+
+            if (InView)
+            {
+                bool AlreadyExists = false;
+                foreach (UIElement Child in MainCanvas.Children)
+                {
+                    if (Child is FrameworkElement Fe && Fe.Tag is int TagIndex && TagIndex == I)
+                    {
+                        AlreadyExists = true;
+                        break;
+                    }
+                }
+
+                if (!AlreadyExists)
+                {
+                    Grid Grid = UIHelper.CreatLine(Row);
+                    Grid.Tag = I;
+                    Grid.Width = this.Parent.ActualWidth - 15;
+                    Canvas.SetTop(Grid, CurrentTop);
+                    Canvas.SetLeft(Grid, 0);
+                    MainCanvas.Children.Add(Grid);
                 }
             }
+
+            CurrentTop += Row.Height;
+        }
+
+        VisibleRows.Clear();
+        foreach (UIElement Child in MainCanvas.Children)
+        {
+            if (Child is Grid G)
+                VisibleRows.Add(G);
         }
     }
 
-    public int AddRowR(Grid Item)
-    {
-        return AddRow(Item);
-    }
 
-    public int AddRow(Grid Item)
+    public int AddRowR(FakeGrid? Item)
     {
         if (Item == null) return 0;
 
-        if (Parent != null)
-        {
-            Item.Width = Parent.ActualWidth - 15;
-        }
-
         this.RealLines.Add(Item);
-
-        Canvas.SetTop(Item, MainCanvas.Height);
-        Canvas.SetLeft(Item, 0);
 
         MainCanvas.Height += Item.Height;
 
@@ -212,4 +300,208 @@ public class YDListView
         UpdateVisibleRows();
     }
 }
+
+
+//public class YDListView
+//{
+//    private Grid Parent = null;
+//    private ScrollViewer Scroll = null;
+//    private Canvas MainCanvas;
+
+//    public Thread UpdateTrd = null;
+
+//    public List<Grid> RealLines = new List<Grid>();
+//    public List<Grid> VisibleRows = new List<Grid>();
+
+//    public int Rows { get { return GetRows(); } }
+//    public int BufferRows = 3;
+
+//    private int GetRows()
+//    {
+//        return this.RealLines.Count;
+//    }
+
+//    public YDListView(Grid Parent)
+//    {
+//        this.MainCanvas = new Canvas();
+//        this.MainCanvas.Background = null;
+//        this.MainCanvas.VerticalAlignment = VerticalAlignment.Top;
+//        this.MainCanvas.SnapsToDevicePixels = true;
+//        this.MainCanvas.UseLayoutRounding = true;
+//        this.MainCanvas.IsItemsHost = false;
+//        ScrollViewer OneScroll = new ScrollViewer();
+//        OneScroll.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+//        OneScroll.HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled;
+//        OneScroll.Content = MainCanvas;
+//        OneScroll.ScrollChanged += OnScrollChanged; // 监听滚动
+
+//        this.Scroll = OneScroll;
+
+//        Parent.Children.Add(OneScroll);
+//        this.Parent = Parent;
+
+//        UpdateTrd = new Thread(() =>
+//        {
+//            while (true)
+//            {
+//                Thread.Sleep(200);
+//                try
+//                {
+//                    DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
+//                    {
+//                        UpdateVisibleRows();
+//                    }));
+//                }
+//                catch { }
+//            }
+
+//        });
+//        UpdateTrd.Start();
+//    }
+
+//    public Canvas GetMainCanvas()
+//    {
+//        return this.MainCanvas;
+//    }
+
+//    public void Clear()
+//    {
+//        this.RealLines.Clear();
+//        this.MainCanvas.Children.Clear();
+//        this.MainCanvas.Height = 0;
+//        this.Scroll.ScrollToTop();
+//    }
+
+//    private bool CanUpDate = false;
+//    private void OnScrollChanged(object sender, ScrollChangedEventArgs e)
+//    {
+//        // 使用 Dispatcher 在主线程中处理更新，避免直接在滚动事件中处理
+//        CanUpDate = true;
+//    }
+
+//    public double GetHight(Grid Grid)
+//    {
+//        if (!double.IsNaN(Grid.ActualHeight))
+//        {
+//            if (Grid.ActualHeight > 0)
+//            {
+//                return Grid.ActualHeight;
+//            }
+//        }
+//        return Grid.Height;
+//    }
+
+//    public void UpdateVisibleRows()
+//    {
+//        if (CanUpDate)
+//        {
+//            CanUpDate = false;
+//        }
+//        else
+//        {
+//            return;
+//        }
+//        VisibleRows.Clear();
+
+//        double ScrollTop = this.Scroll.VerticalOffset;
+//        double ScrollHeight = this.Scroll.ExtentHeight;
+//        double ViewHeight = this.Scroll.ViewportHeight;
+//        double AccumulatedHeight = 0;
+//        int FirstVisibleRow = 0;
+
+//        for (int i = 0; i < this.RealLines.Count; i++)
+//        {
+//            if (AccumulatedHeight >= ScrollTop)
+//            {
+//                FirstVisibleRow = i;
+//                break;
+//            }
+//            AccumulatedHeight += GetHight(this.RealLines[i]);
+//        }
+
+//        double VisibleHeight = 0;
+//        int LastVisibleRow = FirstVisibleRow;
+
+//        for (int i = FirstVisibleRow; i < this.RealLines.Count; i++)
+//        {
+//            VisibleHeight += GetHight(this.RealLines[i]);
+//            if (VisibleHeight >= ViewHeight)
+//            {
+//                LastVisibleRow = i;
+//                break;
+//            }
+//        }
+
+//        LastVisibleRow += BufferRows;
+//        if (LastVisibleRow >= GetRows())
+//        {
+//            LastVisibleRow = GetRows() - 1;
+//        }
+
+//        int FirstVisibleRowWithBuffer = Math.Max(0, FirstVisibleRow - BufferRows);
+
+//        MainCanvas.Children.Clear();
+
+//        if (ScrollTop + ViewHeight >= ScrollHeight - 100)
+//        {
+//            for (int i = 0; i < this.RealLines.Count; i++)
+//            {
+//                if (i >= FirstVisibleRowWithBuffer)
+//                {
+//                    MainCanvas.Children.Add(this.RealLines[i]);
+
+//                    VisibleRows.Add(this.RealLines[i]);
+//                }
+//            }
+//        }
+//        else
+//        {
+//            for (int i = 0; i < this.RealLines.Count; i++)
+//            {
+//                if (i >= FirstVisibleRowWithBuffer && i <= LastVisibleRow)
+//                {
+//                    MainCanvas.Children.Add(this.RealLines[i]);
+
+//                    VisibleRows.Add(this.RealLines[i]);
+//                }
+//            }
+//        }
+//    }
+
+//    public int AddRowR(Grid Item)
+//    {
+//        return AddRow(Item);
+//    }
+
+//    public int AddRow(Grid Item)
+//    {
+//        if (Item == null) return 0;
+
+//        if (Parent != null)
+//        {
+//            Item.Width = Parent.ActualWidth - 15;
+//        }
+
+//        this.RealLines.Add(Item);
+
+//        Canvas.SetTop(Item, MainCanvas.Height);
+//        Canvas.SetLeft(Item, 0);
+
+//        MainCanvas.Height += Item.Height;
+
+//        return this.RealLines.Count;
+//    }
+
+//    public void DeleteRow(int Offset)
+//    {
+//        var GetGridHeight = (this.MainCanvas.Children[Offset] as Grid).Height;
+//        this.MainCanvas.Children.RemoveAt(Offset);
+
+//        this.MainCanvas.Height -= GetGridHeight;
+
+//        this.RealLines.RemoveAt(Offset);
+
+//        UpdateVisibleRows();
+//    }
+//}
 
