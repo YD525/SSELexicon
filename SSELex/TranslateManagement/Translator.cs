@@ -10,6 +10,7 @@ using Mutagen.Bethesda.Starfield;
 using Reloaded.Memory.Pointers.Sourced;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
+using System.Diagnostics;
 
 namespace SSELex.TranslateManage
 {
@@ -147,36 +148,63 @@ namespace SSELex.TranslateManage
 
         public static void ReStoreAllTransText()
         {
+            ReSetAllTransText();
+
             for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
             {
                 FakeGrid GetFakeGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
                 GetFakeGrid.UPDataThis();
 
                 string GetKey = GetFakeGrid.Key;
-                var TargetText = GetFakeGrid.TransText;
 
-                var GetSourceText = GetFakeGrid.SourceText;
+                var FindDictionary = YDDictionaryHelper.CheckDictionary(GetKey);
+                
+                string GetSourceText = GetFakeGrid.SourceText;
+
+                if (FindDictionary != null)
+                {
+                    GetSourceText = FindDictionary.OriginalText;
+                }
+
                 if (Translator.TransData.ContainsKey(GetKey))
                 {
                     Translator.TransData[GetKey] = GetSourceText;
                 }
+                else
+                {
+                    Translator.TransData[GetKey] = GetSourceText;
+                }
+
                 DeFine.WorkingWin.TransViewList.RealLines[i].TransText = GetSourceText;
 
                 DeFine.WorkingWin.TransViewList.RealLines[i].BorderColor = Colors.Green;
+                GetFakeGrid.TransText = GetSourceText;
+                GetFakeGrid.UPDateView();
             }
+
+            DeFine.WorkingWin.ReloadData();
+
             DeFine.WorkingWin.GetStatistics();
         }
 
         public static void ReSetAllTransText()
         {
+            DeFine.WorkingWin.Dispatcher.Invoke(new Action(() => {
+                DeFine.WorkingWin.TransViewList.MainCanvas.Visibility = System.Windows.Visibility.Collapsed;
+            }));
+
             string EMP = "";
             for (int i = 0; i < DeFine.WorkingWin.TransViewList.RealLines.Count; i++)
             {
                 FakeGrid GetFakeGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
                 GetFakeGrid.UPDataThis();
-
                 string GetKey = GetFakeGrid.Key;
                 var TargetText = GetFakeGrid.TransText;
+
+                if (TargetText.Trim().Length > 0)
+                {
+                    LocalTransCache.DeleteCacheByResult(TargetText);
+                }
 
                 DeFine.WorkingWin.TransViewList.RealLines[i].TransText = string.Empty;
 
@@ -192,10 +220,18 @@ namespace SSELex.TranslateManage
 
                     DeFine.WorkingWin.TransViewList.RealLines[i].UPDateView();
                 }
+
+                GetFakeGrid.UPDateView();
             }
+
+            DeFine.WorkingWin.ReloadData();
+
             DeFine.WorkingWin.GetStatistics();
             DeFine.WorkingWin.Dispatcher.Invoke(new Action(() => {
                 DeFine.WorkingWin.ProcessBar.Width = 0;
+            }));
+            DeFine.WorkingWin.Dispatcher.Invoke(new Action(() => {
+                DeFine.WorkingWin.TransViewList.MainCanvas.Visibility = System.Windows.Visibility.Visible;
             }));
         }
 

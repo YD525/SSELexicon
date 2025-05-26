@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Windows.Forms;
 using SSELex.ConvertManager;
 
 namespace SSELex.TranslateCore
@@ -10,6 +11,27 @@ namespace SSELex.TranslateCore
 
     public class TranslateDBCache
     {
+        public static bool DeleteCache(string Text)
+        {
+            try
+            {
+                string SqlOrder = "Delete From CloudTranslation Where [ModName] = '{0}' And [Text] = '{1}' And [From] = {2} And [To] = {3}";
+
+                int State = DeFine.GlobalDB.ExecuteNonQuery(string.Format(SqlOrder,DeFine.CurrentModName, System.Web.HttpUtility.HtmlEncode(Text),(int)LanguageHelper.DetectLanguageByLine(Text),(int)DeFine.TargetLanguage));
+
+                if (State!=0)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+            catch { return false; }
+        }
+        public static string FindCache(string Text)
+        {
+            return FindCache(DeFine.CurrentModName,Text,(int)LanguageHelper.DetectLanguageByLine(Text),(int)DeFine.TargetLanguage);
+        }
         public static string FindCache(string ModName,string Text,int From,int To)
         {
             try { 

@@ -485,14 +485,7 @@ namespace SSELex
                     LModName = LModName.Substring(0, LModName.LastIndexOf("."));
                 }
 
-                if (DeFine.GlobalLocalSetting.AutoLoadDictionaryFile)
-                {
-                    YDDictionaryHelper.ReadDictionary(GetModName);
-                }
-                else
-                {
-                    YDDictionaryHelper.Close();
-                }
+                YDDictionaryHelper.ReadDictionary(GetModName);
 
                 if (FilePath.ToLower().EndsWith(".pex"))
                 {
@@ -1205,15 +1198,9 @@ namespace SSELex
                             GlobalMCMReader.SaveMCMConfig(LastSetPath);
                         }
                 }
-                if (DeFine.GlobalLocalSetting.AutoLoadDictionaryFile)
-                {
-                    Translator.WriteDictionary();
-                    YDDictionaryHelper.CreatDictionary();
-                }
-                else
-                {
-                    YDDictionaryHelper.Close();
-                }
+
+                Translator.WriteDictionary();
+                YDDictionaryHelper.CreatDictionary();
 
                 CancelTransEsp(null, null);
                 LoadFileButton.Content = UILanguageHelper.SearchStateChangeStr("LoadFileButton", 0);
@@ -1354,18 +1341,21 @@ namespace SSELex
         private void ClearCache(object sender, MouseButtonEventArgs e)
         {
             Translator.ClearAICache();
-            if (ActionWin.Show("Clear the cache for translation?", "Warning: After cleaning up, all content including previous translations will no longer be cached. Translating again will retrieve it from the cloud, which will waste the results of your previous translations and increase word count consumption!", MsgAction.YesNo, MsgType.Info) > 0)
+            if (ActionWin.Show("Clear the cache for translation?", "Warning: After cleanup, all current content (including previous translations) will no longer be cached. Translating again will retrieve data from the cloud, which may waste your previous translation work and increase word count consumption.", MsgAction.YesNo, MsgType.Info) > 0)
             {
-                string SqlOrder = "Delete From CloudTranslation Where 1=1";
-                int State = DeFine.GlobalDB.ExecuteNonQuery(SqlOrder);
-                if (State != 0)
+                if (DeFine.CurrentModName.Trim().Length > 0)
                 {
-                    ActionWin.Show("DBMsg", "Done!", MsgAction.Yes, MsgType.Info);
-                    DeFine.GlobalDB.ExecuteNonQuery("vacuum");
-                }
-                else
-                {
+                    string SqlOrder = "Delete From CloudTranslation Where ModName = '" + DeFine.CurrentModName + "'";
+                    int State = DeFine.GlobalDB.ExecuteNonQuery(SqlOrder);
+                    if (State != 0)
+                    {
+                        ActionWin.Show("DBMsg", "Done!", MsgAction.Yes, MsgType.Info);
+                        DeFine.GlobalDB.ExecuteNonQuery("vacuum");
+                    }
+                    else
+                    {
 
+                    }
                 }
             }
             else
@@ -1754,16 +1744,14 @@ namespace SSELex
 
                         Translator.ReStoreAllTransText();
 
-                        if (ActionWin.Show("Do you agree?", "Delete dictionary file and save", MsgAction.YesNo, MsgType.Info, 230) > 0)
+                        if (ActionWin.Show("Do you agree?", "Delete DataBase and save", MsgAction.YesNo, MsgType.Info, 230) > 0)
                         {
-                            if (File.Exists(SetPath))
+                            string SqlOrder = "Delete From CloudTranslation Where ModName = '" + DeFine.CurrentModName + "'";
+                            int State = DeFine.GlobalDB.ExecuteNonQuery(SqlOrder);
+                            if (State != 0)
                             {
-                                File.Delete(SetPath);
+                                DeFine.GlobalDB.ExecuteNonQuery("vacuum");
                             }
-                            bool BackUPState = DeFine.GlobalLocalSetting.AutoLoadDictionaryFile;
-                            DeFine.GlobalLocalSetting.AutoLoadDictionaryFile = false;
-                            AutoLoadOrSave(LoadFileButton, null);
-                            DeFine.GlobalLocalSetting.AutoLoadDictionaryFile = BackUPState;
                         }
                     }
                 }
@@ -2259,6 +2247,8 @@ namespace SSELex
                     UIHelper.ActiveTextBox.BorderBrush = new SolidColorBrush(Colors.Green);
 
                     Translator.TransData[UIHelper.ActiveKey] = TransText;
+
+                    LocalTransCache.UPDateLocalTransItem(new LocalTransItem(FromStr.Text,ToStr.Text));
 
                     GetStatistics();
                 }

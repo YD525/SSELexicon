@@ -26,7 +26,7 @@ public class FakeGrid
     public Color FontColor;
     public double Score = 0;
 
-    public FakeGrid(double Height,string Type, string EditorID, string Key, string SourceText, string TransText, double Score)
+    public FakeGrid(double Height, string Type, string EditorID, string Key, string SourceText, string TransText, double Score)
     {
         this.Height = Height;
         this.Type = Type;
@@ -63,30 +63,37 @@ public class FakeGrid
 
                 if (SelectItem is Grid MainGrid)
                 {
-                    string GetKey = ConvertHelper.ObjToStr((MainGrid.Children[2] as TextBox).Text);
+                    string GetKey = "";
+                    DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
+                    {
+                        GetKey = UIHelper.GetMainGridKey(MainGrid);
+                    }));
 
                     if (GetKey.Equals(this.Key))
                     {
-                        Grid NewGrid = UIHelper.CreatLine(this);
-                        NewGrid.Width = DeFine.WorkingWin.TransViewList.Parent.ActualWidth - 15;
-                        NewGrid.Tag = MainGrid.Tag; 
-                        double Top = Canvas.GetTop(MainGrid);
-                        double Left = Canvas.GetLeft(MainGrid);
-
-                        DeFine.WorkingWin.TransViewList.VisibleRows[i] = NewGrid;
-
-                        for (int ir = 0; ir < DeFine.WorkingWin.TransViewList.MainCanvas.Children.Count; ir++)
+                        DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
                         {
-                            if (DeFine.WorkingWin.TransViewList.MainCanvas.Children[ir] is Grid GridInCanvas &&
-                                GridInCanvas.Equals(MainGrid))
+                            Grid NewGrid = UIHelper.CreatLine(this);
+                            NewGrid.Width = DeFine.WorkingWin.TransViewList.Parent.ActualWidth - 15;
+                            NewGrid.Tag = MainGrid.Tag;
+                            double Top = Canvas.GetTop(MainGrid);
+                            double Left = Canvas.GetLeft(MainGrid);
+
+                            DeFine.WorkingWin.TransViewList.VisibleRows[i] = NewGrid;
+
+                            for (int ir = 0; ir < DeFine.WorkingWin.TransViewList.MainCanvas.Children.Count; ir++)
                             {
-                                DeFine.WorkingWin.TransViewList.MainCanvas.Children.RemoveAt(ir);
-                                Canvas.SetTop(NewGrid, Top);
-                                Canvas.SetLeft(NewGrid, Left);
-                                DeFine.WorkingWin.TransViewList.MainCanvas.Children.Insert(ir, NewGrid);
-                                break; 
+                                if (DeFine.WorkingWin.TransViewList.MainCanvas.Children[ir] is Grid GridInCanvas &&
+                                    GridInCanvas.Equals(MainGrid))
+                                {
+                                    DeFine.WorkingWin.TransViewList.MainCanvas.Children.RemoveAt(ir);
+                                    Canvas.SetTop(NewGrid, Top);
+                                    Canvas.SetLeft(NewGrid, Left);
+                                    DeFine.WorkingWin.TransViewList.MainCanvas.Children.Insert(ir, NewGrid);
+                                    break;
+                                }
                             }
-                        }
+                        }));
                     }
                 }
             }
@@ -132,12 +139,12 @@ public class YDListView
         Parent.Children.Add(OneScroll);
         this.Parent = Parent;
 
-        UpdateTrd = new Thread(() => 
+        UpdateTrd = new Thread(() =>
         {
             while (true)
             {
                 Thread.Sleep(200);
-                try 
+                try
                 {
                     DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
                     {
@@ -146,7 +153,7 @@ public class YDListView
                 }
                 catch { }
             }
-            
+
         });
         UpdateTrd.Start();
     }
@@ -302,24 +309,25 @@ public class YDListView
 
     public void DeleteRow(int Offset)
     {
-        try {
-        var GetGridHeight = (this.MainCanvas.Children[Offset] as Grid).Height;
-
-        var GetGrid = (this.MainCanvas.Children[Offset] as Grid);
-        this.MainCanvas.Children.RemoveAt(Offset);
-
-        this.MainCanvas.Height -= GetGridHeight;
-
-        foreach (var GetLine in this.RealLines)
+        try
         {
-            if (GetLine.Key.Equals((GetGrid.Children[2] as TextBox).Text))
-            {
-                this.RealLines.Remove(GetLine);
-                break;
-            }
-        }
+            var GetGridHeight = (this.MainCanvas.Children[Offset] as Grid).Height;
 
-        UpdateVisibleRows();
+            var GetGrid = (this.MainCanvas.Children[Offset] as Grid);
+            this.MainCanvas.Children.RemoveAt(Offset);
+
+            this.MainCanvas.Height -= GetGridHeight;
+
+            foreach (var GetLine in this.RealLines)
+            {
+                if (GetLine.Key.Equals((GetGrid.Children[2] as TextBox).Text))
+                {
+                    this.RealLines.Remove(GetLine);
+                    break;
+                }
+            }
+
+            UpdateVisibleRows();
         }
         catch { }
     }
