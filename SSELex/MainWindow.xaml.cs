@@ -179,7 +179,7 @@ namespace SSELex
 
                 if (DebounceTimer == null)
                 {
-                    DebounceTimer = new System.Timers.Timer(1000);
+                    DebounceTimer = new System.Timers.Timer(500);
                     DebounceTimer.AutoReset = false;
                     DebounceTimer.Elapsed += (s, e) =>
                     {
@@ -196,7 +196,7 @@ namespace SSELex
         {
             try 
             { 
-                int ModifyCount = Translator.TransData.Count(kvp => !string.IsNullOrWhiteSpace(kvp.Value));
+                int ModifyCount = this.TransViewList.RealLines.Count(kvp => !string.IsNullOrWhiteSpace(kvp.TransText));
           
                 UIHelper.ModifyCount = ModifyCount;
             }
@@ -327,8 +327,6 @@ namespace SSELex
             {
                 UsingContext.IsChecked = true;
             }
-
-          
 
             ExportTypes.Items.Clear();
             ExportTypes.Items.Add("Json(Dynamic String Distributor)");
@@ -483,6 +481,15 @@ namespace SSELex
                 if (LModName.Contains("."))
                 {
                     LModName = LModName.Substring(0, LModName.LastIndexOf("."));
+                }
+
+                if (!CheckDictionary())
+                {
+                    DeleteDictionaryBtn.Opacity = 0.3;
+                }
+                else
+                {
+                    DeleteDictionaryBtn.Opacity = 1;
                 }
 
                 YDDictionaryHelper.ReadDictionary(GetModName);
@@ -2250,6 +2257,8 @@ namespace SSELex
 
                     LocalTransCache.UPDateLocalTransItem(new LocalTransItem(FromStr.Text,ToStr.Text));
 
+                    UIHelper.MainGrid_MouseLeave(UIHelper.ActiveTextBox.Tag,null);
+
                     GetStatistics();
                 }
 
@@ -2362,6 +2371,29 @@ namespace SSELex
             UIHelper.ActiveType = string.Empty;
             FromStr.Text = string.Empty;
             ToStr.Text = string.Empty;
+        }
+        public bool CheckDictionary()
+        {
+            string SetPath = DeFine.GetFullPath(@"\Librarys\" + DeFine.CurrentModName + ".Json");
+            if (File.Exists(SetPath))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private void DeleteDictionary(object sender, MouseButtonEventArgs e)
+        {
+            if (DeFine.CurrentModName.Trim().Length > 0)
+            {
+                string SetPath = DeFine.GetFullPath(@"\Librarys\" + DeFine.CurrentModName + ".Json");
+                if (File.Exists(SetPath))
+                {
+                    File.Delete(SetPath);
+                    MessageBox.Show("Done!");
+                }
+            }
+           
         }
     }
 }

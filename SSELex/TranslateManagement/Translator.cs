@@ -279,5 +279,133 @@ namespace SSELex.TranslateManage
                 DeFine.WorkingWin.ProcessBar.Width = 0;
             }));
         }
+
+        public class QueryTransItem
+        {
+            public string Key = "";
+            public string TransText = "";
+            public Color Color;
+            public int State = 0;
+        }
+
+        public class SetTransItem
+        {
+            public string Key = "";
+            public Color Color;
+            public int State = 0;
+        }
+
+        public static Color DefTransTextBorder = Color.FromRgb(87, 87, 87);
+        public static QueryTransItem QueryTransData(string Key,string SourceText)
+        {
+            QueryTransItem NQueryTransItem = new QueryTransItem();
+
+            string TransText = "";
+            Color Color = DefTransTextBorder;
+
+            string GetRamSource = "";
+            if (Translator.TransData.ContainsKey(Key))
+            {
+                GetRamSource = Translator.TransData[Key];
+            }
+
+            var FindDictionary = YDDictionaryHelper.CheckDictionary(Key);
+
+            if (GetRamSource.Trim().Length == 0)
+            {
+                TransText = LocalTransCache.GetCacheText(SourceText);
+
+                if (TransText.Trim().Length > 0)
+                {
+                    Color = Colors.Green;
+                }
+                else
+                {
+                    TransText = TranslateDBCache.FindCache(SourceText);
+
+                    if (TransText.Trim().Length > 0)
+                    {
+                        Color = Colors.DarkOliveGreen;
+                    }
+                }
+
+                if (DeFine.GlobalLocalSetting.AutoLoadDictionaryFile)
+                {
+                    if (FindDictionary != null)
+                    {
+                        if (FindDictionary.TransText.Trim().Length > 0)
+                        {
+                            TransText = FindDictionary.TransText;
+                            Color = Colors.Green;
+                        }
+                    }
+                }
+                NQueryTransItem.State = 1;
+            }
+            else
+            {
+                var GetStr = TranslateDBCache.FindCache(SourceText);
+                TransText = GetRamSource;
+                if (GetStr.Equals(GetRamSource))
+                {
+                    Color = Colors.DarkOliveGreen;
+                }
+                else
+                {
+                    Color = Colors.Green;
+                }
+                NQueryTransItem.State = 0;
+            }
+
+         
+            NQueryTransItem.Key = Key;
+            NQueryTransItem.TransText = TransText;
+            NQueryTransItem.Color = Color;
+            return NQueryTransItem;
+        }
+
+        public static SetTransItem SetTransData(string Key,string SourceText, string TransText)
+        {
+            SetTransItem NSetTransItem = new SetTransItem();
+            NSetTransItem.Color = DefTransTextBorder;
+
+            UIHelper.AutoSetTransData(SourceText,Key,TransText);
+
+            bool CanUPDate = true;
+            var FindDictionary = YDDictionaryHelper.CheckDictionary(Key);
+            if (FindDictionary != null)
+            {
+                if (FindDictionary.TransText.Equals(TransText))
+                {
+                    LocalTransCache.DeleteCache(SourceText);
+                    CanUPDate = false;
+                }
+                NSetTransItem.State = 0;
+            }
+
+            if (CanUPDate)
+            {
+                LocalTransCache.UPDateLocalTransItem(new LocalTransItem(SourceText, TransText));
+                NSetTransItem.State = 1;
+            }
+
+            if (TransText.Trim().Length == 0)
+            {
+                NSetTransItem.Color = DefTransTextBorder;
+            }
+            else
+            {
+                if (TransText.Equals(TranslateDBCache.FindCache(SourceText)))
+                {
+                    NSetTransItem.Color = Colors.DarkOliveGreen;
+                }
+                else
+                {
+                    NSetTransItem.Color = Colors.Green;
+                }
+            }
+
+            return NSetTransItem;
+        }
     }
 }

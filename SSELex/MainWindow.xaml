@@ -644,6 +644,12 @@
                                         Use Dictionary
                                     </CheckBox>
 
+                                    <Border Name="DeleteDictionaryBtn" CornerRadius="5" Background="#FF0B74D1" Height="30" Margin="10 0 0 0" Opacity="0.3" Cursor="Hand" PreviewMouseDown="DeleteDictionary">
+                                        <Label Padding="10 0 10 0"  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            Delete
+                                        </Label>
+                                    </Border>
+
                                     <CheckBox Name="UsingContext" VerticalAlignment="Center" Margin="10 0 0 0" Click="UsingContext_Click">
                                         Use Context
                                     </CheckBox>
@@ -679,6 +685,21 @@
                                         </Label>
                                     </Grid>
                                     <Grid Name="TransView" Grid.Row="1" Panel.ZIndex="999" Background="#FF282828" MouseLeave="TransView_MouseLeave">
+                                        <Grid.ContextMenu>
+                                            <ContextMenu BorderThickness="0">
+                                                <MenuItem Header="Change Font Size">
+                                                    <MenuItem Header="Big"  Tag="Big"/>
+                                                    <MenuItem Header="Normal"  Tag="Normal"/>
+                                                    <MenuItem Header="Small" Tag="Small"/>
+                                                </MenuItem>
+                                                <Separator/>
+                                                <MenuItem Header="Font Color">
+                                                    <MenuItem Header="Red"  Tag="Red"/>
+                                                    <MenuItem Header="Green" Tag="Green"/>
+                                                    <MenuItem Header="Blue"  Tag="Blue"/>
+                                                </MenuItem>
+                                            </ContextMenu>
+                                        </Grid.ContextMenu>
                                     </Grid>
 
                                     <GridSplitter Grid.Row="2" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="Gray" ResizeDirection="Rows" ResizeBehavior="PreviousAndNext" ShowsPreview="True" DragCompleted="GridSplitter_DragCompleted"/>

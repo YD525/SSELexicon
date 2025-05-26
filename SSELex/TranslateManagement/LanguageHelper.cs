@@ -68,12 +68,21 @@ namespace SSELex.TranslateCore
             }
         }
 
+        private static bool ContainsKana(string Input)
+        {
+            // 平假名范围：U+3040–U+309F
+            // 片假名范围：U+30A0–U+30FF
+            // 片假名扩展：U+31F0–U+31FF
+            // 半角片假名：U+FF66–U+FF9F
+            return Regex.IsMatch(Input, "[\u3040-\u30FF\u31F0-\u31FF\uFF66-\uFF9F]");
+        }
+
         public static void DetectLanguage(ref LanguageDetect OneDetect, string Str)
         {
             if (string.IsNullOrWhiteSpace(Str))
                 return;
 
-            if (JapaneseRegex.IsMatch(Str))
+            if (JapaneseRegex.IsMatch(Str) && ContainsKana(Str))
             {
                 OneDetect.Add(Languages.Japanese);
             }

@@ -39,22 +39,16 @@ public class FakeGrid
 
     public void UPDataThis()
     {
-        if (Translator.TransData.ContainsKey(this.Key))
-        {
-            string GetStr = Translator.TransData[this.Key];
-            if (GetStr.Length > 0)
-            {
-                this.TransText = GetStr;
-            }
-            else
-            {
-                this.TransText = string.Empty;
-            }
-        }
+        var QueryData = Translator.QueryTransData(this.Key,this.SourceText);
+        this.BorderColor = QueryData.Color;
+        this.TransText = QueryData.TransText;
     }
 
     public void UPDateView()
     {
+        var GetResult = Translator.SetTransData(this.Key, this.SourceText, this.TransText);
+        this.BorderColor = GetResult.Color;
+
         if (DeFine.WorkingWin != null)
         {
             for (int i = 0; i < DeFine.WorkingWin.TransViewList.VisibleRows.Count; i++)

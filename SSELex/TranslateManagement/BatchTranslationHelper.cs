@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using SSELex.ConvertManager;
+using SSELex.SkyrimManage;
 using SSELex.TranslateCore;
 using SSELex.UIManage;
 
@@ -178,26 +179,6 @@ namespace SSELex.TranslateManage
         public static Dictionary<string, string> SameItems = new Dictionary<string, string>();
         public static List<TransItem> TransItems = new List<TransItem>();
 
-        public static void MarkDuplicates(List<TransItem> Items)
-        {
-            var CountDict = new Dictionary<string, int>();
-
-            foreach (var Item in Items)
-            {
-                string Key = Item.SourceText ?? "";
-                if (CountDict.ContainsKey(Key))
-                    CountDict[Key]++;
-                else
-                    CountDict[Key] = 1;
-            }
-
-            foreach (var Item in Items)
-            {
-                string Key = Item.SourceText ?? "";
-                Item.IsDuplicateSource = CountDict[Key] > 1;
-            }
-        }
-
         public static int GetWorkCount()
         {
             int WorkCount = 0;
@@ -219,11 +200,18 @@ namespace SSELex.TranslateManage
             for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
             {
                 FakeGrid MainGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
+                MainGrid.UPDataThis();
+
+                var FindDictionary = YDDictionaryHelper.CheckDictionary(MainGrid.Key);
+
+                if (FindDictionary != null)
+                {
+                    MainGrid.SourceText = FindDictionary.OriginalText;
+                }
 
                 TransItems.Add(new TransItem(MainGrid.Key, MainGrid.Type, MainGrid.SourceText, MainGrid.TransText, MainGrid));
             }
-
-            MarkDuplicates(TransItems);
+            GC.Collect();
         }
 
         public static CancellationTokenSource TransMainTrdCancel = null;

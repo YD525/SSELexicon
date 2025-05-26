@@ -51,6 +51,10 @@ namespace SSELex.TranslateCore
 
         public static bool AddCache(string ModName, string Text, int From, int To,string Result)
         {
+            if (ModName.Trim().Length == 0)
+            {
+               return false;
+            }
             try {
             int GetRowID = ConvertHelper.ObjToInt(DeFine.GlobalDB.ExecuteScalar(String.Format("Select Rowid From CloudTranslation Where [ModName] = '{0}' And [Text] = '{1}' And [From] = {2} And [To] = {3}",ModName, System.Web.HttpUtility.HtmlEncode(Text),From,To)));
 

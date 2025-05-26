@@ -12,6 +12,9 @@ using ICSharpCode.AvalonEdit;
 using System.Windows.Media.TextFormatting;
 using NexusMods.Paths.Trees;
 using SSELex.TranslateManagement;
+using System.Windows.Shapes;
+using static SSELex.TranslateManage.Translator;
+using Reloaded.Memory.Streams;
 
 namespace SSELex.UIManage
 {
@@ -73,7 +76,7 @@ namespace SSELex.UIManage
 
             double ActualTextWidth = MeasureTextWidth(SourceText, FakeTextBox.FontSize, FontFamily);
 
-            var GetTextWidthRange = (DeFine.WorkingWin.ActualWidth / 3) - 120;
+            var GetTextWidthRange = (DeFine.WorkingWin.ActualWidth / 3) - 235;
 
             if (ActualTextWidth > GetTextWidthRange)
             {
@@ -118,12 +121,16 @@ namespace SSELex.UIManage
             Column5th.Width = new GridLength(1, GridUnitType.Star);
             ColumnDefinition Column6th = new ColumnDefinition();
             Column6th.Width = new GridLength(1, GridUnitType.Star);
+            ColumnDefinition Column7th = new ColumnDefinition();
+            Column7th.Width = new GridLength(35, GridUnitType.Pixel);
 
             MainGrid.ColumnDefinitions.Add(Column1st);
             //MainGrid.ColumnDefinitions.Add(Column2nd);
             MainGrid.ColumnDefinitions.Add(Column3rd);
             MainGrid.ColumnDefinitions.Add(Column5th);
             MainGrid.ColumnDefinitions.Add(Column6th);
+
+            MainGrid.ColumnDefinitions.Add(Column7th);
 
             Grid Footer = new Grid();
             Footer.Height = 0.8;
@@ -201,6 +208,7 @@ namespace SSELex.UIManage
             SourceTextBox.TextWrapping = TextWrapping.Wrap;
             SourceTextBox.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
             SourceTextBox.FocusVisualStyle = null;
+            SourceTextBox.Tag = SourceText;
 
             if (Height == 82)
             {
@@ -240,7 +248,7 @@ namespace SSELex.UIManage
             TransTextBox.Margin = new Thickness(10, 0, 10, 0);
             TransTextBox.FontSize = DefFontSize;
             TransTextBox.VerticalAlignment = VerticalAlignment.Center;
-            TransTextBox.BorderBrush = new SolidColorBrush(Color.FromRgb(87, 87, 87));
+            TransTextBox.BorderBrush = new SolidColorBrush(DefTransTextBorder);
             TransTextBox.Background = null;
             TransTextBox.SelectionBrush = new SolidColorBrush(Color.FromRgb(17, 145, 243));
             TransTextBox.BorderThickness = new Thickness(1);
@@ -286,6 +294,23 @@ namespace SSELex.UIManage
             Grid.SetColumn(TransTextBox, 3);
             MainGrid.Children.Add(TransTextBox);
 
+            Ellipse StateEllipse = new Ellipse();
+            StateEllipse.Width = 10;
+            StateEllipse.Height = 10;
+            StateEllipse.HorizontalAlignment = HorizontalAlignment.Center;
+            StateEllipse.VerticalAlignment = VerticalAlignment.Center;
+            StateEllipse.Margin = new Thickness(0,0,13,0);
+            StateEllipse.Fill = new SolidColorBrush(Colors.BlanchedAlmond);
+
+            if (SourceText.Equals(TransText)||ConvertHelper.ObjToStr(SourceTextBox.Tag).Equals(TransText))
+            {
+                StateEllipse.Fill = new SolidColorBrush(Colors.Green);
+            }
+
+            Grid.SetRow(StateEllipse, 0);
+            Grid.SetColumn(StateEllipse, 4);
+            MainGrid.Children.Add(StateEllipse);
+
             return MainGrid;
         }
 
@@ -299,103 +324,52 @@ namespace SSELex.UIManage
                 string SourceText = GetSourceText(GetMainGrid);
                 TextBox TransTextBox = (TextBox)GetMainGrid.Children[4];
 
-                string GetRamSource = "";
-                if (Translator.TransData.ContainsKey(GetKey))
-                {
-                    GetRamSource = Translator.TransData[GetKey];
-                }
+                Ellipse GetState = GetTransState(GetMainGrid);
 
-                if (GetRamSource.Trim().Length == 0)
+                var QueryData = Translator.QueryTransData(GetKey, SourceText);
+                TransTextBox.Text = QueryData.TransText;
+                TransTextBox.BorderBrush = new SolidColorBrush(QueryData.Color);
+                if (QueryData.State == 1)
                 {
-                    var FindDictionary = YDDictionaryHelper.CheckDictionary(GetKey);
-                  
-                    TransTextBox.Text = LocalTransCache.GetCacheText(SourceText);
-
-                    if (TransTextBox.Text.Trim().Length > 0)
+                    if (GetOriginalText(GetMainGrid).Equals(TransTextBox.Text) || SourceText.Equals(TransTextBox.Text))
                     {
-                        TransTextBox.BorderBrush = new SolidColorBrush(Colors.Green);
+                        GetState.Fill = new SolidColorBrush(Colors.Green);
                     }
                     else
                     {
-                        TransTextBox.Text = TranslateDBCache.FindCache(SourceText);
-
-                        if (TransTextBox.Text.Trim().Length > 0)
-                        {
-                            TransTextBox.BorderBrush = new SolidColorBrush(Colors.YellowGreen);
-                        }
-                    }
-
-                    if (DeFine.GlobalLocalSetting.AutoLoadDictionaryFile)
-                    {
-                        if (FindDictionary != null)
-                        {
-                            if (FindDictionary.TransText.Trim().Length > 0)
-                            {
-                                TransTextBox.Text = FindDictionary.TransText;
-                                TransTextBox.BorderBrush = new SolidColorBrush(Colors.Green);
-                            }
-                        }
+                        GetState.Fill = new SolidColorBrush(Colors.BlanchedAlmond);
                     }
                 }
-                else
+                if (DeFine.WorkingWin != null)
                 {
-                    var GetStr = TranslateDBCache.FindCache(SourceText);
-                    TransTextBox.Text = GetRamSource;
-                    if (GetStr.Equals(GetRamSource))
-                    {
-                        TransTextBox.BorderBrush = new SolidColorBrush(Colors.YellowGreen);
-                    }
-                    else
-                    {
-                        TransTextBox.BorderBrush = new SolidColorBrush(Colors.Green);
-                    }
+                    DeFine.WorkingWin.GetStatistics();
                 }
             }
         }
 
-        private static void MainGrid_MouseLeave(object sender, MouseEventArgs e)
+        public static void MainGrid_MouseLeave(object sender, MouseEventArgs e)
         {
             if (sender is Grid)
             {
                 Grid MainGrid = (Grid)sender;
-                TextBox GetTextBox = (TextBox)MainGrid.Children[4];
+                TextBox GetTransTextBox = (TextBox)MainGrid.Children[4];
                 string GetKey = GetMainGridKey(MainGrid);
                 string SourceText = GetSourceText(MainGrid);
 
-                AutoSetTransData(SourceText, GetMainGridKey(MainGrid), GetTransText(MainGrid));
+                var GetResult = SetTransData(GetKey,SourceText,GetTransTextBox.Text);
+                GetTransTextBox.BorderBrush = new SolidColorBrush(GetResult.Color);
 
-                DeFine.WorkingWin.GetStatistics();
-
-                bool CanUPDate = true;
-                var FindDictionary = YDDictionaryHelper.CheckDictionary(GetKey);
-                if (FindDictionary != null)
+                Ellipse GetState = GetTransState(MainGrid);
+                if (GetOriginalText(MainGrid).Equals(GetTransText(MainGrid)) || SourceText.Equals(GetTransText(MainGrid)))
                 {
-                    if (FindDictionary.TransText.Equals(GetTextBox.Text))
-                    {
-                        CanUPDate = false;
-                    }
-                }
-
-                if (CanUPDate)
-                {
-                    LocalTransCache.UPDateLocalTransItem(new LocalTransItem(SourceText, GetTransText(MainGrid)));
-                }
-
-                if (GetTextBox.Text.Trim().Length == 0)
-                {
-                    GetTextBox.BorderBrush = new SolidColorBrush(Color.FromRgb(87, 87, 87));
+                    GetState.Fill = new SolidColorBrush(Colors.Green);
                 }
                 else
                 {
-                    if (GetTextBox.Text.Equals(TranslateDBCache.FindCache(SourceText)))
-                    {
-                        GetTextBox.BorderBrush = new SolidColorBrush(Colors.YellowGreen);
-                    }
-                    else
-                    {
-                        GetTextBox.BorderBrush = new SolidColorBrush(Colors.Green);
-                    }
+                    GetState.Fill = new SolidColorBrush(Colors.BlanchedAlmond);
                 }
+
+                DeFine.WorkingWin.GetStatistics();
             }
         }
 
@@ -431,6 +405,13 @@ namespace SSELex.UIManage
             return GetKey;
         }
 
+        public static string GetOriginalText(Grid Sender)
+        {
+            Grid LockerGrid = Sender;
+            TextBox GetText = (TextBox)LockerGrid.Children[3];
+            return ConvertHelper.ObjToStr(GetText.Tag);
+        }
+
         public static string GetSourceText(Grid Sender)
         {
             Grid LockerGrid = Sender;
@@ -444,7 +425,13 @@ namespace SSELex.UIManage
             TextBox TransText = (TextBox)LockerGrid.Children[4];
             return TransText.Text;
         }
-    
+
+        public static Ellipse GetTransState(Grid Sender)
+        {
+            Grid LockerGrid = Sender;
+            Ellipse TransState = (Ellipse)LockerGrid.Children[5];
+            return TransState;
+        }
 
         public static string ActiveType = "";
         public static string ActiveKey = "";
@@ -498,8 +485,24 @@ namespace SSELex.UIManage
             if (GetTextBox.Tag is Grid)
             {
                 Grid MainGrid = (Grid)GetTextBox.Tag;
+                TextBox GetTransTextBox = (TextBox)MainGrid.Children[4];
+                string GetKey = GetMainGridKey(MainGrid);
+                string SourceText = GetSourceText(MainGrid);
 
-                AutoSetTransData(GetSourceText(MainGrid),GetMainGridKey(MainGrid), GetTransText(MainGrid));
+                var GetResult = SetTransData(GetKey, SourceText, GetTransTextBox.Text);
+                GetTransTextBox.BorderBrush = new SolidColorBrush(GetResult.Color);
+
+                Ellipse GetState = GetTransState(MainGrid);
+                if (GetOriginalText(MainGrid).Equals(GetTransText(MainGrid)))
+                {
+                    GetState.Fill = new SolidColorBrush(Colors.Green);
+                }
+                else
+                {
+                    GetState.Fill = new SolidColorBrush(Colors.BlanchedAlmond);
+                }
+
+                DeFine.WorkingWin.GetStatistics();
             }
         }
 

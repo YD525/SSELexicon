@@ -135,11 +135,16 @@ namespace SSELex.TranslateManagement
 
         public static bool UPDateLocalTransItem(LocalTransItem Item)
         {
+            if (Item.ModName.Trim().Length == 0)
+            {
+                return false;
+            }
             string FindCache = TranslateDBCache.FindCache(Item.ModName, Item.Text, Item.From, Item.To);
             if (FindCache.Trim().Length > 0)
             {
                 if (FindCache.Equals(Item.Result))
                 {
+                    DeleteCache(Item.Text);
                     return false;
                 }
             }

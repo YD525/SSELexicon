@@ -105,8 +105,6 @@ namespace SSELex.SkyrimManage
             }
         }
 
-       
-
         public static YDDictionary CheckDictionary(string Key)
         {
             if (Dictionarys.ContainsKey(Key))
