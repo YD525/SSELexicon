@@ -1,6 +1,6 @@
-# SSELexicon
+# SSE Lexicon
 
-SSELexicon is an open-source and free translation tool for Skyrim Mod, intended to significantly reduce the workload of Sinicizers.
+SSE Lexicon is an open-source and free translation tool for Skyrim Mod, intended to significantly reduce the workload of Sinicizers.
 
 Published at: https://www.nexusmods.com/skyrimspecialedition/mods/143056
 
