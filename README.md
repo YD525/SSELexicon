@@ -1,6 +1,6 @@
-# SSELex
+# SSELexicon
 
-SSELex is an open-source and free translation tool for Skyrim SE Mod, intended to significantly reduce the workload of Sinicizers.
+SSELexicon is an open-source and free translation tool for Skyrim Mod, intended to significantly reduce the workload of Sinicizers.
 
 Published at: https://www.nexusmods.com/skyrimspecialedition/mods/143056
 
