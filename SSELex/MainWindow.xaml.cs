@@ -2318,7 +2318,7 @@ namespace SSELex
 
         private void TransView_MouseLeave(object sender, MouseEventArgs e)
         {
-            DeFine.WorkingWin.HiddenFocusTarget.Focus();
+            
         }
 
         private void AutoSetThreadLimit_Click(object sender, RoutedEventArgs e)

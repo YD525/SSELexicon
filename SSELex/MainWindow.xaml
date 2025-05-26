@@ -802,10 +802,7 @@
 
                     </TextBox>
 
-                    <TextBox x:Name="HiddenFocusTarget"
-        Width="0" Height="0"
-        Focusable="True"
-        IsTabStop="False"/>
+                  
                 </Grid>
 
             </Grid>
