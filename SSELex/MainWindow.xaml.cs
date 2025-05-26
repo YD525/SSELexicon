@@ -2351,7 +2351,7 @@ namespace SSELex
         private void OpenSource_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (ActionWin.Show("HelpMsg", "Do you want to visit this website?\nIf you need.Click Yes to jump to the URL", MsgAction.YesNo, MsgType.Info, 230) > 0)
-                Process.Start(new ProcessStartInfo("https://github.com/YD525/YDSkyrimToolR") { UseShellExecute = true });
+                Process.Start(new ProcessStartInfo("https://github.com/YD525/SSELexicon") { UseShellExecute = true });
         }
 
         private void CustomAIPrompt_TextChanged(object sender, TextChangedEventArgs e)

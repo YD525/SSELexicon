@@ -340,7 +340,7 @@
                                         <StackPanel Orientation="Horizontal">
                                             <Label>Open sourced at</Label>
                                             <Label Foreground="Green" Cursor="Hand" MouseDown="OpenSource_MouseDown">
-                                                https://github.com/YD525/YDSkyrimToolR
+                                                https://github.com/YD525/SSELexicon
                                             </Label>
                                         </StackPanel>
                                         <StackPanel Margin="0,10,0,0">
