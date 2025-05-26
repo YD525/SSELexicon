@@ -111,6 +111,7 @@ namespace SSELex.TranslateManage
             for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
             {
                 FakeGrid GetFakeGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
+                GetFakeGrid.UPDataThis();
 
                 string GetKey = GetFakeGrid.Key;
                 string GetSourceText = GetFakeGrid.SourceText;
@@ -127,6 +128,8 @@ namespace SSELex.TranslateManage
             for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
             {
                 FakeGrid GetFakeGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
+                GetFakeGrid.UPDataThis();
+
                 string GetTransKey = GetFakeGrid.Key;
               
                 var TargetText = DeFine.WorkingWin.TransViewList.RealLines[i].TransText;
@@ -147,6 +150,8 @@ namespace SSELex.TranslateManage
             for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
             {
                 FakeGrid GetFakeGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
+                GetFakeGrid.UPDataThis();
+
                 string GetKey = GetFakeGrid.Key;
                 var TargetText = GetFakeGrid.TransText;
 
@@ -168,6 +173,8 @@ namespace SSELex.TranslateManage
             for (int i = 0; i < DeFine.WorkingWin.TransViewList.RealLines.Count; i++)
             {
                 FakeGrid GetFakeGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
+                GetFakeGrid.UPDataThis();
+
                 string GetKey = GetFakeGrid.Key;
                 var TargetText = GetFakeGrid.TransText;
 
@@ -198,6 +205,8 @@ namespace SSELex.TranslateManage
             for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
             {
                 FakeGrid GetFakeGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
+                GetFakeGrid.UPDataThis();
+
                 string GetKey = ConvertHelper.ObjToStr(GetFakeGrid.Key);
                 var TargetText = GetFakeGrid.TransText;
                 if (TargetText.Trim().Length > 0)
@@ -219,6 +228,7 @@ namespace SSELex.TranslateManage
             for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
             {
                 FakeGrid GetFakeGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
+                GetFakeGrid.UPDataThis();
                 string GetKey = GetFakeGrid.Key;
                 Translator.TransData[GetKey] = i.ToString();
 

@@ -178,8 +178,13 @@ public class YDListView
         CanUpDate = true;
     }
 
-    public void UpdateVisibleRows()
+    public void UpdateVisibleRows(bool ForceUPDate = false)
     {
+        if (ForceUPDate)
+        {
+            CanUpDate = true;
+        }
+
         if (!CanUpDate)
             return;
 
@@ -221,9 +226,19 @@ public class YDListView
 
         int FirstVisibleRowWithBuffer = Math.Max(0, FirstVisibleRow - BufferRows);
 
+        bool IsNearBottom = ScrollTop + ViewHeight >= ScrollHeight - 150;
+
         HashSet<int> NewVisibleIndices = new();
-        for (int I = FirstVisibleRowWithBuffer; I <= LastVisibleRow; I++)
-            NewVisibleIndices.Add(I);
+        if (IsNearBottom)
+        {
+            for (int I = FirstVisibleRowWithBuffer; I < RealLines.Count; I++)
+                NewVisibleIndices.Add(I);
+        }
+        else
+        {
+            for (int I = FirstVisibleRowWithBuffer; I <= LastVisibleRow; I++)
+                NewVisibleIndices.Add(I);
+        }
 
         for (int I = MainCanvas.Children.Count - 1; I >= 0; I--)
         {
@@ -239,10 +254,7 @@ public class YDListView
         {
             var Row = RealLines[I];
 
-            bool InView = NewVisibleIndices.Contains(I) ||
-                          (ScrollTop + ViewHeight >= ScrollHeight - 100 && I >= FirstVisibleRowWithBuffer);
-
-            if (InView)
+            if (NewVisibleIndices.Contains(I))
             {
                 bool AlreadyExists = false;
                 foreach (UIElement Child in MainCanvas.Children)
@@ -290,14 +302,26 @@ public class YDListView
 
     public void DeleteRow(int Offset)
     {
+        try {
         var GetGridHeight = (this.MainCanvas.Children[Offset] as Grid).Height;
+
+        var GetGrid = (this.MainCanvas.Children[Offset] as Grid);
         this.MainCanvas.Children.RemoveAt(Offset);
 
         this.MainCanvas.Height -= GetGridHeight;
 
-        this.RealLines.RemoveAt(Offset);
+        foreach (var GetLine in this.RealLines)
+        {
+            if (GetLine.Key.Equals((GetGrid.Children[2] as TextBox).Text))
+            {
+                this.RealLines.Remove(GetLine);
+                break;
+            }
+        }
 
         UpdateVisibleRows();
+        }
+        catch { }
     }
 }
 

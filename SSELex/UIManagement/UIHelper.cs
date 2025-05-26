@@ -72,7 +72,7 @@ namespace SSELex.UIManage
 
             double ActualTextWidth = MeasureTextWidth(SourceText, FakeTextBox.FontSize, FontFamily);
 
-            var GetTextWidthRange = (DeFine.WorkingWin.ActualWidth / 3) - 50;
+            var GetTextWidthRange = (DeFine.WorkingWin.ActualWidth / 3) - 120;
 
             if (ActualTextWidth > GetTextWidthRange)
             {
@@ -86,16 +86,16 @@ namespace SSELex.UIManage
             Item.UPDataThis();
             return CreatLine(Item.Height, Item.Type, Item.EditorID, Item.Key, Item.SourceText, Item.TransText, Item.Score);
         }
+        public static SolidColorBrush NoSelect = new SolidColorBrush(Color.FromRgb(30, 30, 30));
+        public static SolidColorBrush Select = new SolidColorBrush(Color.FromRgb(68, 147, 228));
         public static Grid CreatLine(double Height,string Type, string EditorID, string Key, string SourceText, string TransText, double Score)
         {
             Grid MainGrid = new Grid();
 
-            MainGrid.Tag = Key.ToString();
-
             MainGrid.Height = Height;
             //Calc FontSize For Auto Height
             //Margin 25
-
+            MainGrid.MouseLeave += MainGrid_MouseLeave;
             MainGrid.PreviewMouseDown += MainGrid_PreviewMouseDown;
 
             RowDefinition Row1st = new RowDefinition();
@@ -126,7 +126,16 @@ namespace SSELex.UIManage
             Grid Footer = new Grid();
             Footer.Height = 0.8;
             Footer.Opacity = 0.9;
-            Footer.Background = new SolidColorBrush(Color.FromRgb(30, 30, 30));
+            Footer.Tag = Key;
+            if (!ActiveKey.Equals(Key))
+            {
+                Footer.Background = NoSelect;
+            }
+            else
+            {
+                Footer.Background = Select;
+            }
+
             Grid.SetColumn(Footer, 0);
             Grid.SetColumnSpan(Footer, 5);
             Grid.SetRow(Footer, 1);
@@ -190,7 +199,6 @@ namespace SSELex.UIManage
             SourceTextBox.TextWrapping = TextWrapping.Wrap;
             SourceTextBox.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
             SourceTextBox.FocusVisualStyle = null;
-            SourceTextBox.PreviewMouseDown += SourceTextBox_PreviewMouseDown;
 
             if (Height == 82)
             {
@@ -262,13 +270,8 @@ namespace SSELex.UIManage
                 TransTextBox.Text = TransText;
             }
 
-            TransTextBox.MouseEnter += TransTextBox_MouseEnter;
             TransTextBox.MouseLeave += TransTextBox_MouseLeave;
-            TransTextBox.LostFocus += TransTextBox_LostFocus;
             TransTextBox.Tag = MainGrid;
-
-            TransTextBox.MouseLeave += TransTextBox_MouseLeave1;
-
 
             if (Score < 0)
             {
@@ -295,6 +298,64 @@ namespace SSELex.UIManage
             return MainGrid;
         }
 
+        private static void MainGrid_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (sender is Grid)
+            {
+                Grid MainGrid = (Grid)sender;
+                AutoSetTransData(GetMainGridKey(MainGrid), GetTransText(MainGrid));
+
+                DeFine.WorkingWin.GetStatistics();
+            }
+        }
+
+        public static void SetSelectLine(string Key)
+        {
+            if (DeFine.WorkingWin != null)
+            {
+                //DeFine.WorkingWin.TransViewList.VisibleRows
+                for (int i=0;i< DeFine.WorkingWin.TransViewList.VisibleRows.Count;i++)
+                {
+                    Grid MainGrid = (Grid)DeFine.WorkingWin.TransViewList.VisibleRows[i];
+                    Grid GetFooter = (Grid)MainGrid.Children[0];
+                    string GetKey = ConvertHelper.ObjToStr(GetFooter.Tag);
+                    if (GetKey.Equals(Key))
+                    {
+                        GetFooter.Background = Select;
+                    }
+                    else
+                    {
+                        GetFooter.Background = NoSelect;
+                    }
+                }
+            }
+         
+        }
+
+        public static string GetMainGridKey(Grid Sender)
+        {
+            Grid LockerGrid = Sender;
+            Grid GetFooter = (Grid)LockerGrid.Children[0];
+            string GetKey = ConvertHelper.ObjToStr(GetFooter.Tag);
+
+            return GetKey;
+        }
+
+        public static string GetSourceText(Grid Sender)
+        {
+            Grid LockerGrid = Sender;
+            TextBox GetText = (TextBox)LockerGrid.Children[3];
+            return GetText.Text;
+        }
+
+        public static string GetTransText(Grid Sender)
+        {
+            Grid LockerGrid = Sender;
+            TextBox TransText = (TextBox)LockerGrid.Children[4];
+            return TransText.Text;
+        }
+    
+
         public static string ActiveType = "";
         public static string ActiveKey = "";
         public static TextBox ActiveTextBox = null;
@@ -308,46 +369,22 @@ namespace SSELex.UIManage
                 {
                     UIHelper.SelectLine = LockerGrid;
                     var MainGrid = LockerGrid;
-                    var GetTilp = ConvertHelper.ObjToStr(MainGrid.ToolTip);
+
                     var GetTag = ConvertHelper.ObjToStr((MainGrid.Children[1] as Label).Content);
-                    var GetKey = ConvertHelper.ObjToStr((MainGrid.Children[2] as TextBox).Text);
-                    var GetSourceText = (MainGrid.Children[3] as TextBox).Text.Trim();
-                    var TransText = ConvertHelper.ObjToStr((MainGrid.Children[4] as TextBox).Text);
-                    DeFine.WorkingWin.FromStr.Text = GetSourceText;
+
+                    var GetKey = GetMainGridKey(LockerGrid);
+                    var SourceText = GetSourceText(LockerGrid);
+                    var TransText = GetTransText(LockerGrid);
+
+                    DeFine.WorkingWin.FromStr.Text = SourceText;
                     DeFine.WorkingWin.ToStr.Text = TransText;
                     DeFine.WorkingWin.ToStr.Tag = ConvertHelper.ObjToInt(MainGrid.Tag);
 
                     ActiveTextBox = (MainGrid.Children[4] as TextBox);
                     ActiveKey = GetKey;
                     ActiveType = GetTag;
-                    try
-                    {
-                        if (LastSetGrid != null)
-                        {
-                            if (LastSetGrid.Children.Count > 0)
-                            {
-                                if (LastSetGrid.Children[0] is Grid)
-                                {
-                                    Grid GetFooter = ((Grid)LastSetGrid.Children[0]);
-                                    GetFooter.Opacity = 0.9;
-                                    GetFooter.Background = new SolidColorBrush(Color.FromRgb(30, 30, 30));
-                                }
-                            }
-                        }
 
-                        if (LockerGrid.Children.Count > 0)
-                        {
-                            if (LockerGrid.Children[0] is Grid)
-                            {
-                                Grid GetFooter = ((Grid)LockerGrid.Children[0]);
-                                GetFooter.Opacity = 1;
-                                GetFooter.Background = new SolidColorBrush(Colors.Yellow);
-
-                                LastSetGrid = LockerGrid;
-                            }
-                        }
-                    }
-                    catch { }
+                    SetSelectLine(GetKey);
 
                     if (DeFine.WorkingWin.CurrentTransType == 3)
                     {
@@ -365,42 +402,14 @@ namespace SSELex.UIManage
 
         }
 
-        private static void TransTextBox_MouseLeave1(object sender, System.Windows.Input.MouseEventArgs e)
+        private static void TransTextBox_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
         {
             var GetTextBox = (sender as TextBox);
-            var GetKey = ConvertHelper.ObjToStr((GetTextBox.Tag as Grid).Tag);
-
-            AutoSetTransData(GetKey, GetTextBox.Text);
-
-            if (GetTextBox.Text.Trim().Length > 0)
+            if (GetTextBox.Tag is Grid)
             {
-                GetTextBox.BorderBrush = new SolidColorBrush(Colors.Green);
-            }
-        }
+                Grid MainGrid = (Grid)GetTextBox.Tag;
 
-   
-
-        private static void TransTextBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            var GetKey = ConvertHelper.ObjToStr(((sender as TextBox).Tag as Grid).Tag);
-
-            if ((sender as TextBox).Text.Length > 0)
-            {
-                AutoSetTransData(GetKey, (sender as TextBox).Text);
-
-                if ((sender as TextBox).BorderBrush != new SolidColorBrush(Colors.BlueViolet))
-                    (sender as TextBox).BorderBrush = new SolidColorBrush(Colors.Green);
-
-                if (DeFine.WorkingWin != null)
-                {
-                    DeFine.WorkingWin.GetStatistics();
-                }
-            }
-            else
-            {
-                DeFine.WorkingWin.GetStatistics();
-
-                (sender as TextBox).BorderBrush = new SolidColorBrush(Color.FromRgb(87, 87, 87));
+                AutoSetTransData(GetMainGridKey(MainGrid), GetTransText(MainGrid));
             }
         }
 
@@ -415,53 +424,6 @@ namespace SSELex.UIManage
                 if (Translator.TransData.ContainsKey(Key))
                 {
                     Translator.TransData.Remove(Key);
-                }
-            }
-        }
-
-        private static void SourceTextBox_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-
-        }
-
-        private static void TransTextBox_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            if (sender is TextBox)
-            {
-                var GetKey = ConvertHelper.ObjToStr(((sender as TextBox).Tag as Grid).Tag);
-                var GetToolTipStr = ConvertHelper.ObjToStr((sender as TextBox).Tag as Grid);
-                var LockerGrid = ((sender as TextBox).Tag as Grid);
-                (sender as TextBox).Foreground = new SolidColorBrush(Colors.White);
-                (LockerGrid.Children[3] as TextBox).Foreground = new SolidColorBrush(Colors.White);
-
-                if (LockerGrid.Height != DefLineHeight)
-                {
-                    if (GetToolTipStr.Length == 0)
-                        LockerGrid.Background = ExtendHeightBackground;
-                }
-                else
-                {
-                    if (GetToolTipStr.Length == 0)
-                        LockerGrid.Background = DefHeightBackground;
-                }
-
-                if ((sender as TextBox).Text.Length > 0)
-                {
-                    (sender as TextBox).BorderBrush = new SolidColorBrush(Colors.Green);
-                }
-                else
-                {
-                    (sender as TextBox).BorderBrush = new SolidColorBrush(Color.FromRgb(87, 87, 87));
-                }
-
-                if ((sender as TextBox).Text.Length == 0)
-                {
-                    DeFine.WorkingWin.GetStatistics();
-                }
-                string Text = (sender as TextBox).Text;
-                if (Text.Trim().Length > 0)
-                {
-                    AutoSetTransData(GetKey, Text);
                 }
             }
         }
@@ -532,20 +494,6 @@ namespace SSELex.UIManage
 
         public static bool ExitAny = true;
         public static Thread AutoSelectIDETrd = null;
-        private static void TransTextBox_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            if (sender is TextBox)
-            {
-                var LockerGrid = ((sender as TextBox).Tag as Grid);
-                var GetToolTipStr = ConvertHelper.ObjToStr(((sender as TextBox).Tag as Grid));
-                (sender as TextBox).Foreground = new SolidColorBrush(Colors.Orange);
-                (LockerGrid.Children[3] as TextBox).Foreground = new SolidColorBrush(Colors.Yellow);
-
-                if (GetToolTipStr.Length == 0)
-                    LockerGrid.Background = new SolidColorBrush(Color.FromRgb(55, 55, 55));
-            }
-        }
-
         public static void AnimateCanvasLeft(Grid targetGrid, double targetLeft, double durationInSeconds = 0.1)
         {
             double currentLeft = Canvas.GetLeft(targetGrid);
@@ -555,7 +503,7 @@ namespace SSELex.UIManage
                 From = currentLeft,
                 To = targetLeft,
                 Duration = TimeSpan.FromSeconds(durationInSeconds),
-                EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut } // 可选：平滑的缓动
+                EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut } 
             };
 
             Storyboard storyboard = new Storyboard();

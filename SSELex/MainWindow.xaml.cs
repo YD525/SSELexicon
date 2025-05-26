@@ -136,6 +136,11 @@ namespace SSELex
                 ReadTrdWorkState = false;
 
                 GetStatistics();
+
+                this.Dispatcher.Invoke(new Action(() =>
+                {
+                    TransViewList.UpdateVisibleRows(true);
+                }));
             }
         }
         public void ReloadData(bool UseHotReload = false)
