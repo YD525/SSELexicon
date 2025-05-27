@@ -300,6 +300,19 @@ namespace SSELex.UIManage
                     var GetHashKey = Reader.Races.ElementAt(i).Key;
                     var GetRaceItem = Reader.Races[GetHashKey];
 
+                    var GetName = ConvertHelper.ObjToStr(GetRaceItem.Name);
+                    if (GetName.Length > 0)
+                    {
+                        string SetType = "Name";
+                        GetTransStr = TryGetTransData(GetRaceItem.EditorID, SetType);
+                        string GetUniqueKey = GenUniqueKey(GetRaceItem.EditorID, SetType);
+
+                        Application.Current.Dispatcher.Invoke(new Action(() =>
+                        {
+                            View.AddRowR(LineRenderer.CreatLine("Race", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
+                        }));
+                    }
+
                     var GetDescription = ConvertHelper.ObjToStr(GetRaceItem.Description);
                     if (GetDescription.Length > 0)
                     {

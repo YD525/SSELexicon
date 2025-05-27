@@ -122,6 +122,13 @@ namespace SSELex.UIManage
 
                 var GetDescription = ConvertHelper.ObjToStr(GetRaceItem.Description);
 
+                SetType = "Name";
+                GetTransStr = GetTransData(GetRaceItem.EditorID, SetType);
+                if (GetTransStr.Length > 0)
+                {
+                    GetRaceItem.Name = GetTransStr;
+                }
+
                 SetType = "Description";
                 GetTransStr = GetTransData(GetRaceItem.EditorID, SetType);
                 if (GetTransStr.Length > 0)

@@ -203,7 +203,7 @@ namespace SSELex.TranslateManage
 
                 if (TargetText.Trim().Length > 0)
                 {
-                    LocalTransCache.DeleteCacheByResult(TargetText);
+                    LocalTransCache.DeleteCacheByResult(GetKey,TargetText);
                 }
 
                 DeFine.WorkingWin.TransViewList.RealLines[i].TransText = string.Empty;
@@ -313,7 +313,7 @@ namespace SSELex.TranslateManage
 
             if (GetRamSource.Trim().Length == 0)
             {
-                TransText = LocalTransCache.GetCacheText(SourceText);
+                TransText = LocalTransCache.GetCacheText(Key,SourceText);
 
                 if (TransText.Trim().Length > 0)
                 {
@@ -377,7 +377,7 @@ namespace SSELex.TranslateManage
             {
                 if (FindDictionary.TransText.Equals(TransText))
                 {
-                    LocalTransCache.DeleteCache(SourceText);
+                    LocalTransCache.DeleteCache(Key,SourceText);
                     CanUPDate = false;
                 }
                 NSetTransItem.State = 0;
@@ -385,7 +385,7 @@ namespace SSELex.TranslateManage
 
             if (CanUPDate)
             {
-                LocalTransCache.UPDateLocalTransItem(new LocalTransItem(SourceText, TransText));
+                LocalTransCache.UPDateLocalTransItem(new LocalTransItem(Key,SourceText, TransText));
                 NSetTransItem.State = 1;
             }
 

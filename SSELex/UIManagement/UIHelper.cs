@@ -326,20 +326,24 @@ namespace SSELex.UIManage
 
                 Ellipse GetState = GetTransState(GetMainGrid);
 
-                var QueryData = Translator.QueryTransData(GetKey, SourceText);
-                TransTextBox.Text = QueryData.TransText;
-                TransTextBox.BorderBrush = new SolidColorBrush(QueryData.Color);
-                if (QueryData.State == 1)
+                if (TransTextBox.Text.Trim().Length == 0)
                 {
-                    if (GetOriginalText(GetMainGrid).Equals(TransTextBox.Text) || SourceText.Equals(TransTextBox.Text))
+                    var QueryData = Translator.QueryTransData(GetKey, SourceText);
+                    TransTextBox.Text = QueryData.TransText;
+                    TransTextBox.BorderBrush = new SolidColorBrush(QueryData.Color);
+                    if (QueryData.State == 1)
                     {
-                        GetState.Fill = new SolidColorBrush(Colors.Green);
-                    }
-                    else
-                    {
-                        GetState.Fill = new SolidColorBrush(Colors.BlanchedAlmond);
+                        if (GetOriginalText(GetMainGrid).Equals(TransTextBox.Text) || SourceText.Equals(TransTextBox.Text))
+                        {
+                            GetState.Fill = new SolidColorBrush(Colors.Green);
+                        }
+                        else
+                        {
+                            GetState.Fill = new SolidColorBrush(Colors.BlanchedAlmond);
+                        }
                     }
                 }
+               
                 if (DeFine.WorkingWin != null)
                 {
                     DeFine.WorkingWin.GetStatistics();

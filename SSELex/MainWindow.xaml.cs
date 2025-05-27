@@ -2255,7 +2255,7 @@ namespace SSELex
 
                     Translator.TransData[UIHelper.ActiveKey] = TransText;
 
-                    LocalTransCache.UPDateLocalTransItem(new LocalTransItem(FromStr.Text,ToStr.Text));
+                    LocalTransCache.UPDateLocalTransItem(new LocalTransItem(UIHelper.ActiveKey, FromStr.Text,ToStr.Text));
 
                     UIHelper.MainGrid_MouseLeave(UIHelper.ActiveTextBox.Tag,null);
 
