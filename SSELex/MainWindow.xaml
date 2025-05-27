@@ -444,10 +444,6 @@
                                             </PasswordBox>
                                         </StackPanel>
 
-                                        <TextBox Margin="0 5 0 0" TextWrapping="Wrap" AcceptsReturn="True" IsReadOnly="True" BorderThickness="0" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Green">
-                                            Support Google free translation,You don't need to enter a Googlekey, just enable the Google icon
-                                        </TextBox>
-
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 20 0 0">
                                             <Label VerticalAlignment="Center" HorizontalContentAlignment="Left" HorizontalAlignment="Left">
                                                 BaiDuAppID

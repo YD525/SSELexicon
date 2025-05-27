@@ -285,6 +285,7 @@ namespace SSELex.TranslateManage
                             this.CallCountDown = 0;
                         }
                     }
+                    else
                     if (this.Engine is GeminiApi)
                     {
                         if (DeFine.GlobalLocalSetting.GeminiApiUsing)
