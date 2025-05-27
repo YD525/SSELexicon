@@ -48,11 +48,7 @@ namespace SSELex.TranslateManage
             //Google support
             if (DeFine.GlobalLocalSetting.GoogleYunApiUsing)
             {
-                if (DeFine.GlobalLocalSetting.GoogleApiKey.Trim().Length == 0)
-                {
-                    EngineSelects.Add(new EngineSelect(new GoogleHelper(), 1, 1));
-                }
-                else
+                if (DeFine.GlobalLocalSetting.GoogleApiKey.Trim().Length > 0)
                 {
                     EngineSelects.Add(new EngineSelect(new GoogleTransApi(), 1));
                 }
@@ -240,22 +236,6 @@ namespace SSELex.TranslateManage
                             {
                                 this.CallCountDown = 0;
                             }
-                        }
-                        else
-                        {
-                            this.CallCountDown = 0;
-                        }
-                    }
-                    else
-                    if (this.Engine is GoogleHelper)
-                    {
-                        if (DeFine.GlobalLocalSetting.GoogleYunApiUsing)
-                        {
-                            var GetData = ConvertHelper.ObjToStr(((GoogleHelper)this.Engine).FreeTransStr(GetSource, Source, Target));
-                            TransText = GetData;
-                            Translator.SendTranslateMsg("Cloud Engine(Google)", GetSource, TransText);
-
-                            CanAddCache = false;
                         }
                         else
                         {
