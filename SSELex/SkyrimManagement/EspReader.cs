@@ -22,6 +22,7 @@ namespace SSELex.SkyrimManage
         public SkyrimMod? CurrentReadMod = null;
 
         public Dictionary<string, Worldspace> Worldspaces = new Dictionary<string, Worldspace>();
+        public Dictionary<string, Race> Races = new Dictionary<string, Race>();
         public Dictionary<string, Quest> Quests = new Dictionary<string, Quest>();
         public Dictionary<string, Faction> Factions = new Dictionary<string, Faction>();
         public Dictionary<string, Perk> Perks = new Dictionary<string, Perk>();
@@ -50,6 +51,7 @@ namespace SSELex.SkyrimManage
         public void ClearRam()
         {
             Worldspaces.Clear();
+            Races.Clear();
             Quests.Clear();
             Factions.Clear();
             Perks.Clear();
@@ -88,6 +90,14 @@ namespace SSELex.SkyrimManage
                     if (Get.EditorID != null)
                     {
                         Worldspaces.Add(Get.EditorID, Get);
+                    }
+                }
+
+                foreach (var Get in this.CurrentReadMod.Races.ToList())
+                {
+                    if (Get.EditorID != null)
+                    {
+                        Races.Add(Get.EditorID, Get);
                     }
                 }
 

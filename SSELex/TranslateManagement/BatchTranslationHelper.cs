@@ -191,7 +191,25 @@ namespace SSELex.TranslateManage
             }
             return WorkCount;
         }
+        public static void MarkDuplicates(List<TransItem> Items)
+        {
+            var CountDict = new Dictionary<string, int>();
 
+            foreach (var Item in Items)
+            {
+                string Key = Item.SourceText ?? "";
+                if (CountDict.ContainsKey(Key))
+                    CountDict[Key]++;
+                else
+                    CountDict[Key] = 1;
+            }
+
+            foreach (var Item in Items)
+            {
+                string Key = Item.SourceText ?? "";
+                Item.IsDuplicateSource = CountDict[Key] > 1;
+            }
+        }
         public static void Init()
         {
             SameItems.Clear();
@@ -211,7 +229,8 @@ namespace SSELex.TranslateManage
 
                 TransItems.Add(new TransItem(MainGrid.Key, MainGrid.Type, MainGrid.SourceText, MainGrid.TransText, MainGrid));
             }
-            GC.Collect();
+
+            MarkDuplicates(TransItems);
         }
 
         public static CancellationTokenSource TransMainTrdCancel = null;
@@ -246,6 +265,8 @@ namespace SSELex.TranslateManage
                 }
             }
         }
+
+        public static bool IsWork = false;
         public static void Start()
         {
             AutoSleep = 1;
@@ -263,6 +284,7 @@ namespace SSELex.TranslateManage
 
             TransMainTrd = new Thread(() =>
             {
+                IsWork = true;
                 TransMainTrdCancel = new CancellationTokenSource();
                 var Token = TransMainTrdCancel.Token;
 
@@ -323,6 +345,8 @@ namespace SSELex.TranslateManage
 
                                 DeFine.WorkingWin.GetStatistics();
 
+                                IsWork = false;
+
                                 DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
                                 {
                                     DeFine.WorkingWin.ClosetTransTrd();
@@ -338,6 +362,7 @@ namespace SSELex.TranslateManage
                     }
                     catch(OperationCanceledException) 
                     {
+                        IsWork = false;
                         TransMainTrd = null;
                         return;
                     }

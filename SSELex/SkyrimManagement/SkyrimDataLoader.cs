@@ -11,7 +11,7 @@ namespace SSELex.UIManage
     {
         public enum ObjSelect
         {
-            Null = 99, All = 0, Worldspaces = 1, Quests = 2, Factions = 3, Perks = 5, Weapons = 6, SoulGems = 7, Armors = 8, Keys = 9, Containers = 10, Activators = 11, MiscItems = 12, Books = 13, Messages = 15, DialogTopics = 16, Spells = 17, MagicEffects = 18, ObjectEffects = 19, Cells = 20
+            Null = 99, All = 0, Worldspaces = 1, Quests = 2, Factions = 3, Perks = 5, Weapons = 6, SoulGems = 7, Armors = 8, Keys = 9, Containers = 10, Activators = 11, MiscItems = 12, Books = 13, Messages = 15, DialogTopics = 16, Spells = 17, MagicEffects = 18, ObjectEffects = 19, Cells = 20,Races = 21
         }
 
         public static List<ObjSelect> QueryParams(EspReader Reader)
@@ -20,6 +20,11 @@ namespace SSELex.UIManage
             if (Reader.Worldspaces.Count > 0)
             {
                 ObjSelects.Add(ObjSelect.Worldspaces);
+            }
+
+            if (Reader.Races.Count > 0)
+            {
+                ObjSelects.Add(ObjSelect.Races);
             }
 
             if (Reader.Quests.Count > 0)
@@ -130,6 +135,11 @@ namespace SSELex.UIManage
                 LoadWorldspaces(Reader, View);
             }
             else
+             if (Type == ObjSelect.Races)
+            {
+                LoadRaces(Reader, View);
+            }
+            else
             if (Type == ObjSelect.Quests)
             {
                 LoadQuests(Reader, View);
@@ -220,6 +230,7 @@ namespace SSELex.UIManage
         public static void LoadAll(EspReader Reader, YDListView View)
         {
             LoadWorldspaces(Reader, View);
+            LoadRaces(Reader, View);
             LoadQuests(Reader, View);
             LoadFactions(Reader, View);
             LoadPerks(Reader, View);
@@ -274,6 +285,31 @@ namespace SSELex.UIManage
                         Application.Current.Dispatcher.Invoke(new Action(() =>
                         {
                             View.AddRowR(LineRenderer.CreatLine("Worldspace", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
+                        }));
+                    }
+                }
+        }
+
+        public static void LoadRaces(EspReader Reader, YDListView View)
+        {
+            if (Reader.Races != null)
+                for (int i = 0; i < Reader.Races.Count; i++)
+                {
+                    string GetTransStr = "";
+
+                    var GetHashKey = Reader.Races.ElementAt(i).Key;
+                    var GetRaceItem = Reader.Races[GetHashKey];
+
+                    var GetDescription = ConvertHelper.ObjToStr(GetRaceItem.Description);
+                    if (GetDescription.Length > 0)
+                    {
+                        string SetType = "Description";
+                        GetTransStr = TryGetTransData(GetRaceItem.EditorID, SetType);
+                        string GetUniqueKey = GenUniqueKey(GetRaceItem.EditorID, SetType);
+
+                        Application.Current.Dispatcher.Invoke(new Action(() =>
+                        {
+                            View.AddRowR(LineRenderer.CreatLine("Race", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, 999));
                         }));
                     }
                 }
@@ -915,6 +951,19 @@ namespace SSELex.UIManage
                         Application.Current.Dispatcher.Invoke(new Action(() =>
                         {
                             View.AddRowR(LineRenderer.CreatLine("Spell", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
+                        }));
+                    }
+
+                    var GetDescription = ConvertHelper.ObjToStr(GetSpellItem.Description);
+                    if (GetDescription.Length > 0)
+                    {
+                        string SetType = "Description";
+                        GetTransStr = TryGetTransData(GetSpellItem.EditorID, SetType);
+                        string GetUniqueKey = GenUniqueKey(GetSpellItem.EditorID, SetType);
+
+                        Application.Current.Dispatcher.Invoke(new Action(() =>
+                        {
+                            View.AddRowR(LineRenderer.CreatLine("Spell", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, 999));
                         }));
                     }
                 }

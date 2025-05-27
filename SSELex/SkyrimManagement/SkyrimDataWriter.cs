@@ -66,6 +66,7 @@ namespace SSELex.UIManage
         public static void ReplaceAllToMemory(ref EspReader Writer)
         {
             SetWorldspaces(ref Writer);
+            SetRaces(ref Writer);
             SetQuests(ref Writer);
             SetFactions(ref Writer);
             SetPerks(ref Writer);
@@ -106,6 +107,29 @@ namespace SSELex.UIManage
                 }
 
                 Writer.Worldspaces[GetHashKey] = GetWorldspaceItem;
+            }
+        }
+
+        public static void SetRaces(ref EspReader Writer)
+        {
+            string SetType = "";
+            for (int i = 0; i < Writer.Races.Count; i++)
+            {
+                string GetTransStr = "";
+
+                var GetHashKey = Writer.Races.ElementAt(i).Key;
+                var GetRaceItem = Writer.Races[GetHashKey];
+
+                var GetDescription = ConvertHelper.ObjToStr(GetRaceItem.Description);
+
+                SetType = "Description";
+                GetTransStr = GetTransData(GetRaceItem.EditorID, SetType);
+                if (GetTransStr.Length > 0)
+                {
+                    GetRaceItem.Description = GetTransStr;
+                }
+
+                Writer.Races[GetHashKey] = GetRaceItem;
             }
         }
 
@@ -628,6 +652,15 @@ namespace SSELex.UIManage
                 {
                     GetSpellItem.Name = GetTransStr;
                 }
+
+                var GetDescription = ConvertHelper.ObjToStr(GetSpellItem.Description);
+                SetType = "Description";
+                GetTransStr = GetTransData(GetSpellItem.EditorID, SetType);
+                if (GetTransStr.Length > 0)
+                {
+                    GetSpellItem.Description = GetTransStr;
+                }
+
                 Writer.Spells[GetHashKey] = GetSpellItem;
             }
         }
