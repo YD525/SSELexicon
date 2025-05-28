@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\define.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\define.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\define.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\define.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\ydskyrimtoolr\\sselex\\settingview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
@@ -150,7 +150,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 19,
+          "SelectedChildIndex": 14,
           "Children": [
             {
               "$type": "Document",
@@ -161,8 +161,7 @@
               "ToolTip": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\SettingView.xaml",
               "RelativeToolTip": "SSELex\\SettingView.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-05-27T06:27:59.295Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-27T06:27:59.295Z"
             },
             {
               "$type": "Document",
@@ -294,8 +293,7 @@
               "RelativeToolTip": "SSELex\\TranslateManagement\\TransCore.cs",
               "ViewState": "AgIAAMQAAAAAAAAAAAAuwGsBAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-22T05:50:51.119Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-22T05:50:51.119Z"
             },
             {
               "$type": "Document",
@@ -323,7 +321,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "MainWindow.xaml",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\MainWindow.xaml",
               "RelativeDocumentMoniker": "SSELex\\MainWindow.xaml",
@@ -383,13 +381,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "DeFine.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\DeFine.cs",
               "RelativeDocumentMoniker": "SSELex\\DeFine.cs",
               "ToolTip": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\DeFine.cs",
               "RelativeToolTip": "SSELex\\DeFine.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAADEAAAA1AAAAAAAAAA==",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAADEAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-23T00:47:17.076Z",
               "EditorCaption": ""
