@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "PlaFRy1wxu4=",
+  "dgSpecHash": "t+Axk/UBzp4=",
   "success": true,
-  "projectFilePath": "C:\\Users\\52508\\source\\repos\\YDSkyrimToolR\\SSELex\\SSELex.csproj",
+  "projectFilePath": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\SSELex.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\52508\\.nuget\\packages\\avalonedit\\6.3.1.120\\avalonedit.6.3.1.120.nupkg.sha512",
     "C:\\Users\\52508\\.nuget\\packages\\dynamicdata\\9.1.1\\dynamicdata.9.1.1.nupkg.sha512",

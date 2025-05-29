@@ -38,6 +38,14 @@ namespace SSELex.TranslateManage
 
         public void StartWork()
         {
+            UPDataThis();
+
+            if (this.TransText.Trim().Length > 0)
+            {
+                WorkEnd = 2;
+                return;
+            }
+
             if (this.IsDuplicateSource)
             {
                 if (!BatchTranslationHelper.SameItems.ContainsKey(this.SourceText))
@@ -163,6 +171,23 @@ namespace SSELex.TranslateManage
             TransThreadToken?.Cancel();
         }
 
+        public void UPDataThis()
+        {
+            if (DeFine.WorkingWin != null)
+            {
+                DeFine.WorkingWin.Dispatcher.Invoke(new Action(() => {
+                    this.Handle.UPDataThis();
+                }));
+
+                this.Key = this.Handle.Key;
+                this.Type = this.Handle.Type;
+
+                this.SourceText = this.Handle.SourceText;
+                this.TransText = this.Handle.TransText;
+            }
+            
+        }
+
         public TransItem(string Key,string Type, string SourceText, string TransText, FakeGrid Handle)
         {
             this.Key = Key;
@@ -218,7 +243,6 @@ namespace SSELex.TranslateManage
             for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
             {
                 FakeGrid MainGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
-                MainGrid.UPDataThis();
 
                 var FindDictionary = YDDictionaryHelper.CheckDictionary(MainGrid.Key);
 

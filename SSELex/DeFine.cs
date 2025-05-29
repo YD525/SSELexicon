@@ -31,6 +31,7 @@ namespace SSELex
     }
     public class DeFine
     {
+        public static int GlobalRequestTimeOut = 10000;
         public static string CurrentModName = "";
         public static int ViewMode = 0;
 
@@ -47,7 +48,7 @@ namespace SSELex
 
         public static string BackupPath = @"\BackUpData\";
 
-        public static string CurrentVersion = "2.6.13";
+        public static string CurrentVersion = "2.6.23";
         public static LocalSetting GlobalLocalSetting = new LocalSetting();
 
         public static MainWindow WorkingWin = null;
@@ -225,7 +226,7 @@ namespace SSELex
         public int MaxThreadCount { get; set; } = 0;
         public bool AutoSetThreadLimit { get; set; } = true;
         public bool AutoLoadDictionaryFile { get; set; } = false;
-        public bool UsingContext { get; set; } = false;
+        public bool UsingContext { get; set; } = true;
         public bool ShowLog { get; set; } = true;
         public bool ShowCode { get; set; } = true;
         public bool AutoCompress { get; set; } = true;

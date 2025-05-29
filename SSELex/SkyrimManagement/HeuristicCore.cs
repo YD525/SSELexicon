@@ -268,14 +268,26 @@ namespace SSELex.SkyrimManage
         public List<TranslationScoreDetail> TranslationScoreDetails = new List<TranslationScoreDetail>();
         public string Feature = "";
     }
+    public class MethodParam
+    {
+        public string FunctionName = "";
+        public int Index = 0;
+
+        public MethodParam(string FunctionName,int Index)
+        {
+            this.FunctionName = FunctionName;
+            this.Index = Index;
+        }
+    }
     public class HeuristicCore
     {
-        public static string Version = "1.1Alpha";
+        public static string Version = "1.2Alpha";
         public List<ParsingItem> ParsingItems = new();
         public FunctionFinder CurrentFunctionFinder = new FunctionFinder();
         public static List<string> SafePapyrusFuncs = new List<string>() { "SetInfoText", "NotifyActor", "Warn", "messageBox", "messagebox", "Messagebox","Log", "NotifyPlayer", "Message", "ecSlider", "ecToggle", "TextUpdate" };
         public static List<string> DangerPapyrusFuncs = new List<string>
 {
+    "SendModEvent",
     "AddTag",
     "AddPositionStage",
     "advanceskill",
@@ -428,7 +440,15 @@ namespace SSELex.SkyrimManage
     "Output", "output",
     "Error","error"
 };
-
+        public static List<MethodParam> MethodSafeParams = new List<MethodParam>()
+        {
+           new MethodParam("AddSliderOption",0),//MCM Func
+           new MethodParam("AddSliderOptionST",1),//MCM Func
+           new MethodParam("AddTextOption",0),//MCM Func
+           new MethodParam("AddTextOptionST",1),//MCM Func
+           new MethodParam("AddToggleOption",0),//MCM Func
+           new MethodParam("AddToggleOptionST",1)//MCM Func
+        };
 
         public List<DStringItem> DStringItems = new List<DStringItem>();
         public static string FormatLine(string Line)
@@ -675,18 +695,87 @@ namespace SSELex.SkyrimManage
             return string.Empty;
         }
 
-        public void DetectFunction(string SourceLine, string FunctionName, int Offset)
+        public static int FindParameterPosition(string CodeLine, string ParamToFind)
+        {
+            int Start = CodeLine.IndexOf('(');
+            int End = CodeLine.LastIndexOf(')');
+            if (Start < 0 || End < 0 || End <= Start)
+                return -1;
+
+            string ParamsStr = CodeLine.Substring(Start + 1, End - Start - 1).Trim();
+
+            var Parameters = SplitParameters(ParamsStr);
+
+            for (int i = 0; i < Parameters.Count; i++)
+            {
+                if (Parameters[i].Trim() == ParamToFind)
+                    return i; 
+            }
+            return -1; 
+        }
+
+        public static List<string> SplitParameters(string Input)
+        {
+            List<string> Result = new List<string>();
+            bool InQuotes = false;
+            char QuoteChar = '\0';
+            int LastPos = 0;
+
+            for (int i = 0; i < Input.Length; i++)
+            {
+                char C = Input[i];
+                if (C == '"' || C == '\'')
+                {
+                    if (!InQuotes)
+                    {
+                        InQuotes = true;
+                        QuoteChar = C;
+                    }
+                    else if (QuoteChar == C)
+                    {
+                        InQuotes = false;
+                    }
+                }
+                else if (C == ',' && !InQuotes)
+                {
+                    Result.Add(Input.Substring(LastPos, i - LastPos).Trim());
+                    LastPos = i + 1;
+                }
+            }
+
+            if (LastPos < Input.Length)
+            {
+                Result.Add(Input.Substring(LastPos).Trim());
+            }
+            return Result;
+        }
+
+        public bool IsSafeParam(string FunctionName, int Index)
+        {
+            return MethodSafeParams.Any(P => P.FunctionName == FunctionName && P.Index == Index);
+        }
+
+        public void DetectFunction(string SourceLine, string FunctionName, int Offset,string SourceStr)
         {
             bool IsNativeFunction = false;
 
-            var details = DStringItems[Offset].TranslationScoreDetails;
+            var Details = DStringItems[Offset].TranslationScoreDetails;
 
             void AddIfNotExists(string defLine, string reason, double value)
             {
-                if (!details.Any(d => d.DefLine == defLine && d.Reason == reason && d.Value == value))
+                if (!Details.Any(d => d.DefLine == defLine && d.Reason == reason && d.Value == value))
                 {
-                    details.Add(new TranslationScoreDetail(defLine, reason, value));
+                    Details.Add(new TranslationScoreDetail(defLine, reason, value));
                 }
+            }
+
+            int GetIndex = FindParameterPosition(SourceLine,"\"" + SourceStr + "\"");
+            DStringItems[Offset].Feature += "[" + GetIndex.ToString() + "]";
+
+            if (IsSafeParam(FunctionName, GetIndex))
+            {
+                AddIfNotExists(SourceLine, $"Detected safe function '{FunctionName}'", 20);
+                IsNativeFunction = true;
             }
 
             if (SafePapyrusFuncs.Contains(FunctionName))
@@ -730,7 +819,21 @@ namespace SSELex.SkyrimManage
             return AlreadyAdded;
         }
 
+        // HashSet 自动忽略大小写（使用 OrdinalIgnoreCase）
+        private static readonly HashSet<string> ValidExtensions = new(StringComparer.OrdinalIgnoreCase)
+        {
+        ".dsd", ".txt", ".json", ".esl", ".esm", ".esp", ".pex",".dds"
+        };
 
+        public static bool LooksLikePath(string Input)
+        {
+            if (string.IsNullOrWhiteSpace(Input))
+                return false;
+
+            string Ext = Path.GetExtension(Input);
+            return !string.IsNullOrEmpty(Ext) && ValidExtensions.Contains(Ext);
+        }
+       
 
         public void AnalyzeCodeLine(List<string> Lines)
         {
@@ -799,7 +902,23 @@ namespace SSELex.SkyrimManage
                         ));
                     }
                 }
-                
+                else
+                if (LooksLikePath(DStringItems[i].Str.Trim()))
+                {
+                    DStringItems[i].Feature += "Is LooksLikePath";
+
+                    var DetailMessage = "String looks like a file path (based on extension).";
+                    if (!CheckExists(i, DetailMessage, SourceLine))
+                    {
+                        DStringItems[i].TranslationScoreDetails.Add(
+                        new TranslationScoreDetail(
+                        SourceLine,
+                        DetailMessage,
+                        -10
+                        ));
+                    }
+                }
+
                 if (!IsFunction(FormattedLine))
                 {
                     if (IsIf(FormattedLine))
@@ -815,7 +934,7 @@ namespace SSELex.SkyrimManage
                             DStringItems[i].Feature += "IsMethod True>";
                             string GetFunctionName = Result.Name;
                             DStringItems[i].Feature += GetFunctionName + ">";
-                            DetectFunction(SourceLine, GetFunctionName, i);
+                            DetectFunction(SourceLine, GetFunctionName, i, DStringItems[i].Str);
                         }
                         else
                         {
@@ -828,7 +947,7 @@ namespace SSELex.SkyrimManage
                                 if (GetFunc.MethodName.Equals(DStringItems[i].ParentFunctionName))
                                 {
                                     bool FindVariableLocation = false;
-                                    foreach (var GetLine in GetFunc.Body.Split(new char[2] {'\r','\n'}))
+                                    foreach (var GetLine in GetFunc.Body.Split(new char[2] { '\r', '\n' }))
                                     {
                                         if (GetLine.Trim().Length > 0)
                                         {
@@ -849,7 +968,7 @@ namespace SSELex.SkyrimManage
                                                     //Is Function
                                                     string TryGetFunctionName = OuterMethodOrReturn;
                                                     DStringItems[i].Feature += TryGetFunctionName + ">";
-                                                    DetectFunction(GetLine, TryGetFunctionName, i);
+                                                    DetectFunction(GetLine, TryGetFunctionName, i, DStringItems[i].Str);
                                                     FindVariableLocation = true;
                                                 }
                                             }
@@ -859,8 +978,8 @@ namespace SSELex.SkyrimManage
                                         {
                                             DStringItems[i].Feature += "NotFind>";
 
-                                            var DetailMessage = "Unresolved variable reference — likely a class variable or out-of-scope. Conservative penalty applied.";     
-                                            if (!CheckExists(i,DetailMessage,SourceLine))
+                                            var DetailMessage = "Unresolved variable reference — likely a class variable or out-of-scope. Conservative penalty applied.";
+                                            if (!CheckExists(i, DetailMessage, SourceLine))
                                             {
                                                 DStringItems[i].TranslationScoreDetails.Add(
                                                 new TranslationScoreDetail(
@@ -910,7 +1029,7 @@ namespace SSELex.SkyrimManage
                                                 string TryGetFunctionName = OuterMethodOrReturn;
                                                 DStringItems[i].Feature += TryGetFunctionName + ">";
 
-                                                DetectFunction(GetLine, TryGetFunctionName, i);
+                                                DetectFunction(GetLine, TryGetFunctionName, i, DStringItems[i].Str);
                                             }
                                         }
                                     }
@@ -929,7 +1048,7 @@ namespace SSELex.SkyrimManage
                     DStringItems[i].Feature += TryGetFunctionName + ">";
                     DStringItems[i].IdentifierName = TryGetFunctionName;
 
-                    DetectFunction(SourceLine, TryGetFunctionName, i);
+                    DetectFunction(SourceLine, TryGetFunctionName, i, DStringItems[i].Str);
                 }
             }
 
@@ -942,6 +1061,8 @@ namespace SSELex.SkyrimManage
 
                 DStringItems[i].Key = Crc32Helper.ComputeCrc32(DStringItems[i].Feature) + "," + i.ToString();
             }
+
+            this.DStringItems = DStringItems.OrderByDescending(Item => Item.TranslationSafetyScore).ToList();
         }
     }
 }

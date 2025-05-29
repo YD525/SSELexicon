@@ -630,19 +630,13 @@
                                         </Label>
                                     </Border>
 
-                                    <Border  CornerRadius="5" Background="#FF0B74D1" Height="30" Margin="10 0 0 0"  Cursor="Hand" PreviewMouseDown="ReStoreTransLang">
-                                        <Label Padding="10 0 10 0"  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                            ReStore
-                                        </Label>
-                                    </Border>
-
-                                    <CheckBox Name="UsingDictionary" VerticalAlignment="Center" Margin="10 0 0 0" Click="UsingDictionary_Click">
+                                    <CheckBox Name="UsingDictionary" VerticalAlignment="Center" Margin="10 0 0 0" Click="UsingDictionary_Click" Visibility="Collapsed">
                                         Use Dictionary
                                     </CheckBox>
 
-                                    <Border Name="DeleteDictionaryBtn" CornerRadius="5" Background="#FF0B74D1" Height="30" Margin="10 0 0 0" Opacity="0.3" Cursor="Hand" PreviewMouseDown="DeleteDictionary">
+                                    <Border ToolTip="After clicking, the source text will be reloaded from the original data source to synchronize or refresh the content." Name="DeleteDictionaryBtn" CornerRadius="5" Background="#FF0B74D1" Height="30" Margin="10 0 0 0" Opacity="0.3" Cursor="Hand" PreviewMouseDown="DeleteDictionary">
                                         <Label Padding="10 0 10 0"  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                            Delete
+                                            RefreshSourceText
                                         </Label>
                                     </Border>
 
@@ -650,6 +644,11 @@
                                         Use Context
                                     </CheckBox>
 
+                                    <Border  CornerRadius="5" Background="#FF0B74D1" Height="30" Margin="10 0 0 0"  Cursor="Hand" PreviewMouseDown="ReStoreTransLang" Visibility="Collapsed">
+                                        <Label Padding="10 0 10 0"  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            ReStore
+                                        </Label>
+                                    </Border>
                                 </StackPanel>
 
                                 <Grid VerticalAlignment="Stretch" Grid.Row="2" Name="TransViewBox" Panel.ZIndex="99999">
@@ -681,7 +680,7 @@
                                         </Label>
                                     </Grid>
                                     <Grid Name="TransView" Grid.Row="1" Panel.ZIndex="999" Background="#FF282828" MouseLeave="TransView_MouseLeave">
-                                        <Grid.ContextMenu>
+                                        <!--<Grid.ContextMenu>
                                             <ContextMenu BorderThickness="0">
                                                 <MenuItem Header="Change Font Size">
                                                     <MenuItem Header="Big"  Tag="Big"/>
@@ -695,7 +694,7 @@
                                                     <MenuItem Header="Blue"  Tag="Blue"/>
                                                 </MenuItem>
                                             </ContextMenu>
-                                        </Grid.ContextMenu>
+                                        </Grid.ContextMenu>-->
                                     </Grid>
 
                                     <GridSplitter Grid.Row="2" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="Gray" ResizeDirection="Rows" ResizeBehavior="PreviousAndNext" ShowsPreview="True" DragCompleted="GridSplitter_DragCompleted"/>

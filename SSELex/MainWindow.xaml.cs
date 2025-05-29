@@ -468,6 +468,7 @@ namespace SSELex
             ClosetTransTrd();
             if (System.IO.File.Exists(FilePath))
             {
+                DeFine.GlobalLocalSetting.AutoLoadDictionaryFile = false;
                 FromStr.Text = "";
                 ToStr.Text = "";
 
@@ -1177,14 +1178,26 @@ namespace SSELex
                                 }
 
                                 string GetBackUPPath = GetFilePath + GetFileFullName + ".backup";
+
                                 if (File.Exists(GetBackUPPath))
                                 {
                                     File.Delete(GetBackUPPath);
                                 }
-                                File.Copy(LastSetPath, GetBackUPPath);
-                                File.Delete(LastSetPath);
+
+                                if (File.Exists(LastSetPath))
+                                {
+                                    File.Copy(LastSetPath, GetBackUPPath);
+                                    File.Delete(LastSetPath);
+                                }
+                                
                                 SkyrimDataWriter.WriteAllMemoryData(ref GlobalEspReader);
                                 GlobalEspReader.DefSaveMod(GlobalEspReader.CurrentReadMod, LastSetPath);
+
+                                if (!File.Exists(LastSetPath))
+                                {
+                                    MessageBox.Show("Save File Error!");
+                                    File.Copy(GetBackUPPath, LastSetPath);
+                                }
                             }
                         }
                 }
@@ -1195,14 +1208,25 @@ namespace SSELex
                         if (GlobalMCMReader != null)
                         {
                             string GetBackUPPath = GetFilePath + GetFileFullName + ".backup";
+
                             if (File.Exists(GetBackUPPath))
                             {
                                 File.Delete(GetBackUPPath);
                             }
-                            File.Copy(LastSetPath, GetBackUPPath);
-                            File.Delete(LastSetPath);
+
+                            if (File.Exists(LastSetPath))
+                            {
+                                File.Copy(LastSetPath, GetBackUPPath);
+                                File.Delete(LastSetPath);
+                            }
 
                             GlobalMCMReader.SaveMCMConfig(LastSetPath);
+
+                            if (!File.Exists(LastSetPath))
+                            {
+                                MessageBox.Show("Save File Error!");
+                                File.Copy(GetBackUPPath, LastSetPath);
+                            }
                         }
                 }
 

@@ -104,7 +104,7 @@ namespace SSELex.PlatformManagement
                 Postdata = "",
                 Cookie = "",
                 ContentType = "application/json; charset=utf-8",
-                Timeout = 3000,
+                Timeout = DeFine.GlobalRequestTimeOut,
                 ProxyIp = ProxyCenter.GlobalProxyIP
             };
             try

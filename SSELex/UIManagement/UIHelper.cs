@@ -83,7 +83,7 @@ namespace SSELex.UIManage
                 AutoHeight = 82;
             }
 
-            return new FakeGrid(AutoHeight,Type, EditorID, Key, SourceText, TransText, Score);
+            return new FakeGrid(AutoHeight, Type, EditorID, Key, SourceText, TransText, Score);
         }
         public static Grid CreatLine(FakeGrid Item)
         {
@@ -92,7 +92,7 @@ namespace SSELex.UIManage
         }
         public static SolidColorBrush NoSelect = new SolidColorBrush(Color.FromRgb(30, 30, 30));
         public static SolidColorBrush Select = new SolidColorBrush(Color.FromRgb(68, 147, 228));
-        public static Grid CreatLine(double Height,string Type, string EditorID, string Key, string SourceText, string TransText, double Score)
+        public static Grid CreatLine(double Height, string Type, string EditorID, string Key, string SourceText, string TransText, double Score)
         {
             Grid MainGrid = new Grid();
 
@@ -262,7 +262,7 @@ namespace SSELex.UIManage
             TransTextBox.FocusVisualStyle = null;
             if (TransText.Trim().Length == 0)
             {
-                
+
             }
             else
             {
@@ -299,10 +299,10 @@ namespace SSELex.UIManage
             StateEllipse.Height = 10;
             StateEllipse.HorizontalAlignment = HorizontalAlignment.Center;
             StateEllipse.VerticalAlignment = VerticalAlignment.Center;
-            StateEllipse.Margin = new Thickness(0,0,13,0);
+            StateEllipse.Margin = new Thickness(0, 0, 13, 0);
             StateEllipse.Fill = new SolidColorBrush(Colors.BlanchedAlmond);
 
-            if (SourceText.Equals(TransText)||ConvertHelper.ObjToStr(SourceTextBox.Tag).Equals(TransText))
+            if (SourceText.Equals(TransText) || ConvertHelper.ObjToStr(SourceTextBox.Tag).Equals(TransText))
             {
                 StateEllipse.Fill = new SolidColorBrush(Colors.Green);
             }
@@ -343,7 +343,7 @@ namespace SSELex.UIManage
                         }
                     }
                 }
-               
+
                 if (DeFine.WorkingWin != null)
                 {
                     DeFine.WorkingWin.GetStatistics();
@@ -360,7 +360,7 @@ namespace SSELex.UIManage
                 string GetKey = GetMainGridKey(MainGrid);
                 string SourceText = GetSourceText(MainGrid);
 
-                var GetResult = SetTransData(GetKey,SourceText,GetTransTextBox.Text);
+                var GetResult = SetTransData(GetKey, SourceText, GetTransTextBox.Text);
                 GetTransTextBox.BorderBrush = new SolidColorBrush(GetResult.Color);
 
                 Ellipse GetState = GetTransState(MainGrid);
@@ -382,7 +382,7 @@ namespace SSELex.UIManage
             if (DeFine.WorkingWin != null)
             {
                 //DeFine.WorkingWin.TransViewList.VisibleRows
-                for (int i=0;i< DeFine.WorkingWin.TransViewList.VisibleRows.Count;i++)
+                for (int i = 0; i < DeFine.WorkingWin.TransViewList.VisibleRows.Count; i++)
                 {
                     Grid MainGrid = (Grid)DeFine.WorkingWin.TransViewList.VisibleRows[i];
                     Grid GetFooter = (Grid)MainGrid.Children[0];
@@ -397,7 +397,7 @@ namespace SSELex.UIManage
                     }
                 }
             }
-         
+
         }
 
         public static string GetMainGridKey(Grid Sender)
@@ -477,6 +477,37 @@ namespace SSELex.UIManage
                             }
                             catch { }
                         }
+                        if (DeFine.WorkingWin.GlobalPexReader != null)
+                        {
+                            if (DeFine.WorkingWin.GlobalPexReader.HeuristicEngine != null)
+                            {
+                                try
+                                {
+                                    string RichText = "";
+                                    string CreatRealKey = GetKey;
+                                    if (CreatRealKey.Contains(","))
+                                    {
+                                        CreatRealKey = CreatRealKey.Substring(0, CreatRealKey.LastIndexOf(","));
+                                    }
+                                    var FindFrist = DeFine.WorkingWin.GlobalPexReader.HeuristicEngine.DStringItems.FirstOrDefault(X => X.Key == CreatRealKey);
+                                    if (FindFrist != null)
+                                    {
+                                        RichText += FindFrist.ParentFunctionName + "->" + "\r\n";
+                                        RichText += FindFrist.SourceLine + "\r\n";
+                                        RichText += "\r\n";
+                                        foreach (var Get in FindFrist.TranslationScoreDetails)
+                                        {
+                                            RichText += Get.Reason + "(" + Get.Value + ")" + "\r\n";
+                                        }
+                                        RichText += "\r\n";
+                                        RichText += FindFrist.Feature;
+                                        DeFine.CurrentLogView.SetLog(RichText);
+                                    }
+                                }
+                                catch { }
+                            }
+                        }
+
                     }
                 }
             }
@@ -510,7 +541,7 @@ namespace SSELex.UIManage
             }
         }
 
-        public static void AutoSetTransData(string SourceText,string Key, string Data)
+        public static void AutoSetTransData(string SourceText, string Key, string Data)
         {
             if (Data.Trim().Length > 0)
             {
@@ -551,7 +582,7 @@ namespace SSELex.UIManage
             {
                 try
                 {
-                    string []Params = GetKey.Split(',');
+                    string[] Params = GetKey.Split(',');
                     if (Params.Length > 1)
                     {
                         Task.Delay(200, Token).Wait(Token);
@@ -562,7 +593,7 @@ namespace SSELex.UIManage
                         {
                             if (Item.Key.Contains(","))
                             {
-                                if (Item.Key.Equals(Params[0]+","+ Params[1]))
+                                if (Item.Key.Equals(Params[0] + "," + Params[1]))
                                 {
                                     DeFine.ActiveIDE.Dispatcher.Invoke(() =>
                                     {
@@ -578,13 +609,13 @@ namespace SSELex.UIManage
                                     });
                                 }
                             }
-                           
+
                         }
                     }
                 }
                 catch (OperationCanceledException)
                 {
-                    
+
                 }
             });
 
@@ -602,7 +633,7 @@ namespace SSELex.UIManage
                 From = currentLeft,
                 To = targetLeft,
                 Duration = TimeSpan.FromSeconds(durationInSeconds),
-                EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut } 
+                EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut }
             };
 
             Storyboard storyboard = new Storyboard();
