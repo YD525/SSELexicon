@@ -13,23 +13,26 @@ namespace SSELex.TranslateManage
         public static bool IsSpaceDelimitedLanguage(this Languages Lang)
         {
             return Lang == Languages.English ||
-                   Lang == Languages.German ||
-                   Lang == Languages.Turkish ||
-                   Lang == Languages.Brazilian ||
-                   Lang == Languages.Russian ||
-                   Lang == Languages.Italian ||
-                   Lang == Languages.Spanish ||
-                   Lang == Languages.Indonesian ||
-                   Lang == Languages.Hindi ||
-                   Lang == Languages.Urdu;
+            Lang == Languages.German ||
+            Lang == Languages.Turkish ||
+            Lang == Languages.Brazilian ||
+            Lang == Languages.Russian ||
+            Lang == Languages.Italian ||
+            Lang == Languages.Spanish ||
+            Lang == Languages.Indonesian ||
+            Lang == Languages.Hindi ||
+            Lang == Languages.Urdu ||
+            Lang == Languages.French ||
+            Lang == Languages.Vietnamese ||
+            Lang == Languages.Polish;
         }
 
         public static bool IsNoSpaceLanguage(this Languages Lang)
         {
             return Lang == Languages.SimplifiedChinese ||
-                   Lang == Languages.TraditionalChinese ||
-                   Lang == Languages.Japanese ||
-                   Lang == Languages.Korean;
+            Lang == Languages.TraditionalChinese ||
+            Lang == Languages.Japanese ||
+            Lang == Languages.Korean;
         }
     }
 

@@ -34,8 +34,10 @@
     <None Remove="Material\Languages.svg" />
     <None Remove="Material\Locker.svg" />
     <None Remove="Material\MO2ICO.svg" />
+    <None Remove="Material\Replace.svg" />
     <None Remove="Material\Setting.svg" />
     <None Remove="Material\SettingICO.svg" />
+    <None Remove="Material\Speaker.svg" />
     <None Remove="Material\Stop.svg" />
     <None Remove="Material\TChangeWin.png" />
     <None Remove="Material\TClose.png" />
@@ -87,8 +89,10 @@
     <Resource Include="Material\Languages.svg" />
     <Resource Include="Material\Locker.svg" />
     <Resource Include="Material\MO2ICO.svg" />
+    <Resource Include="Material\Replace.svg" />
     <Resource Include="Material\Setting.svg" />
     <Resource Include="Material\SettingICO.svg" />
+    <Resource Include="Material\Speaker.svg" />
     <Resource Include="Material\Stop.svg" />
   </ItemGroup>
 

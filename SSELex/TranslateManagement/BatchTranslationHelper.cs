@@ -29,13 +29,6 @@ namespace SSELex.TranslateManage
 
         private CancellationTokenSource TransThreadToken;
 
-        public void SyncProgress()
-        {
-            Application.Current.Dispatcher.Invoke(new Action(() => {
-                DeFine.WorkingWin.GetStatistics();
-            }));
-        }
-
         public void StartWork()
         {
             UPDataThis();
@@ -116,8 +109,6 @@ namespace SSELex.TranslateManage
                                 this.Handle.BorderColor = Colors.Green;
                                 this.Handle.UPDateView();
 
-                                SyncProgress();
-
                                 if (Translator.TransData.ContainsKey(this.Key))
                                 {
                                     Translator.TransData[this.Key] = GetResult;
@@ -146,8 +137,6 @@ namespace SSELex.TranslateManage
                     }
                     else
                     {
-                        SyncProgress();
-
                         WorkEnd = 2;
                     }
                 }
@@ -366,8 +355,6 @@ namespace SSELex.TranslateManage
                                         }
                                     }
                                 }
-
-                                DeFine.WorkingWin.GetStatistics();
 
                                 IsWork = false;
 

@@ -108,6 +108,7 @@ public class YDListView
 
     public int Rows { get { return GetRows(); } }
     public int BufferRows = 3;
+    public bool CanSet = true;
 
     private int GetRows()
     {
@@ -138,14 +139,22 @@ public class YDListView
             while (true)
             {
                 Thread.Sleep(200);
-                try
+
+                if (CanSet)
                 {
-                    DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
+                    try
                     {
-                        UpdateVisibleRows();
-                    }));
+                        DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
+                        {
+                            UpdateVisibleRows();
+                        }));
+                    }
+                    catch { }
                 }
-                catch { }
+                else
+                {
+                    Thread.Sleep(500);
+                }
             }
 
         });
@@ -159,18 +168,24 @@ public class YDListView
 
     public void HotReload()
     {
+        this.CanSet = false;
         this.MainCanvas.Children.Clear();
+        this.VisibleRows.Clear();
         UpdateVisibleRows();
+        this.CanSet = true;
     }
 
     public void Clear()
     {
+        this.CanSet = false;
+        this.VisibleRows.Clear();
         this.RealLines.Clear();
         this.MainCanvas.Children.Clear();
         this.MainCanvas.Height = 0;
         this.Scroll.ScrollToTop();
         GC.SuppressFinalize(this);
         GC.Collect();
+        this.CanSet = true;
     }
 
     private bool CanUpDate = false;

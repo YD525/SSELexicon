@@ -101,9 +101,26 @@ namespace SSELex.UIManage
     {
         public static List<UIItem> UIItems = new List<UIItem>();
 
-        public static List<Languages> SupportLanguages = new List<Languages> { Languages.English,Languages.Japanese,
-        Languages.SimplifiedChinese,Languages.TraditionalChinese,Languages.Korean,Languages.German,Languages.Turkish,Languages.Brazilian,Languages.Russian,Languages.Italian,Languages.Spanish,Languages.Hindi,Languages.Urdu,Languages.Indonesian};
-
+        public static List<Languages> SupportLanguages = new List<Languages>
+        {
+            Languages.English,
+            Languages.Japanese,
+            Languages.German,
+            Languages.SimplifiedChinese,
+            Languages.Korean,
+            Languages.Turkish,
+            Languages.Brazilian,
+            Languages.Russian,
+            Languages.TraditionalChinese,
+            Languages.Italian,
+            Languages.Spanish,
+            Languages.Hindi,
+            Languages.Urdu,
+            Languages.Indonesian,
+            Languages.French,
+            Languages.Vietnamese,
+            Languages.Polish
+        };
 
         public static string DBQueryStr(Languages Type, string Key, string Name)
         {
@@ -116,10 +133,10 @@ namespace SSELex.UIManage
             return ConvertHelper.ObjToStr(GetResult);
         }
 
-        public static string SearchStateChangeStr(string Name,int ID)
+        public static string SearchStateChangeStr(string Name, int ID)
         {
             string SqlOrder = "Select Str From UILanguages Where Name = '{0}' And LangType = '{1}'";
-            string GetResult = ConvertHelper.ObjToStr(DeFine.GlobalDB.ExecuteScalar(string.Format(SqlOrder,Name,DeFine.GlobalLocalSetting.CurrentUILanguage.ToString())));
+            string GetResult = ConvertHelper.ObjToStr(DeFine.GlobalDB.ExecuteScalar(string.Format(SqlOrder, Name, DeFine.GlobalLocalSetting.CurrentUILanguage.ToString())));
             if (GetResult.Contains(">"))
             {
                 GetResult = GetResult.Split('>')[ID];
@@ -127,7 +144,7 @@ namespace SSELex.UIManage
             return ConvertHelper.ObjToStr(GetResult);
         }
 
-        public static Dictionary<Languages, string> QueryLanguageStr(string Name,string Key)
+        public static Dictionary<Languages, string> QueryLanguageStr(string Name, string Key)
         {
             Dictionary<Languages, string> SetHashMap = new Dictionary<Languages, string>();
 

@@ -46,6 +46,24 @@ namespace SSELex.TranslateManagement
     }
     public class LocalTransCache
     {
+        public static bool DeleteCacheByModName()
+        {
+            try
+            {
+                string SqlOrder = "Delete From LocalTranslation Where [ModName] = '{0}'";
+
+                int State = DeFine.GlobalDB.ExecuteNonQuery(string.Format(SqlOrder, DeFine.CurrentModName));
+
+                if (State != 0)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+            catch { return false; }
+        }
+
         public static bool DeleteCacheByResult(string Key,string ResultText)
         {
             try

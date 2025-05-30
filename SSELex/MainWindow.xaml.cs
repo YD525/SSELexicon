@@ -135,8 +135,6 @@ namespace SSELex
 
                 ReadTrdWorkState = false;
 
-                GetStatistics();
-
                 this.Dispatcher.Invoke(new Action(() =>
                 {
                     TransViewList.UpdateVisibleRows(true);
@@ -148,7 +146,7 @@ namespace SSELex
             if (LoadSaveState == 1)
             {
                 new Thread(() =>
-                {  
+                {
                     ReloadDataFunc(UseHotReload);
                 }).Start();
             }
@@ -156,7 +154,8 @@ namespace SSELex
         private System.Timers.Timer SearchTimer;
         public void StartSearch()
         {
-            this.Dispatcher.Invoke(new Action(() => {
+            this.Dispatcher.Invoke(new Action(() =>
+            {
 
                 if (SearchTimer == null)
                 {
@@ -173,37 +172,30 @@ namespace SSELex
         }
 
         private System.Timers.Timer DebounceTimer;
-        public void GetStatistics()
+        public void GetStatisticsR()
         {
-            this.Dispatcher.Invoke(new Action(() => {
-
-                if (DebounceTimer == null)
-                {
-                    DebounceTimer = new System.Timers.Timer(500);
-                    DebounceTimer.AutoReset = false;
-                    DebounceTimer.Elapsed += (s, e) =>
-                    {
-                        this.Dispatcher.Invoke(() => CalcStatistics());
-                    };
-                }
-                DebounceTimer.Stop();
-                DebounceTimer.Start();
+            this.Dispatcher.Invoke(new Action(() =>
+            {
+                CalcStatistics();
             }));
         }
+
+        public int EffectStart = 0;
 
         public int MaxTransCount = 0;
         public void CalcStatistics()
         {
-            try 
-            { 
+            try
+            {
                 int ModifyCount = this.TransViewList.RealLines.Count(kvp => !string.IsNullOrWhiteSpace(kvp.TransText));
-          
+
                 UIHelper.ModifyCount = ModifyCount;
             }
             catch { }
 
             this.Dispatcher.Invoke(new Action(() =>
             {
+                var Storyboard = (Storyboard)ProcessBar.Resources["BarEffect"];
                 double GetRate = ((double)UIHelper.ModifyCount / (double)TransViewList.Rows);
                 if (GetRate > 0)
                 {
@@ -212,10 +204,33 @@ namespace SSELex
                         ProcessBar.Width = ProcessBarFrame.ActualWidth * GetRate;
                     }
                     catch { }
+
+                    try
+                    {
+                        if (Storyboard != null)
+                        {
+                            if (EffectStart == 0)
+                            {
+                                EffectStart = 1;
+                                Storyboard.Begin();
+                            }
+                        }
+                    }
+                    catch { }
                 }
                 else
                 {
-                    ProcessBar.Width = 1;
+                    try
+                    {
+                        ProcessBar.Width = 1;
+
+                        if (Storyboard != null)
+                        {
+                            Storyboard.Stop();
+                            EffectStart = 0;
+                        }
+                    }
+                    catch { }
                 }
                 MaxTransCount = TransViewList.Rows;
 
@@ -235,7 +250,7 @@ namespace SSELex
             ViewMode.Items.Clear();
             ViewMode.Items.Add("Quick");
             ViewMode.Items.Add("Normal");
-            
+
 
             ViewMode.SelectedValue = DeFine.GlobalLocalSetting.ViewMode;
         }
@@ -298,7 +313,8 @@ namespace SSELex
                 {
                     var xshd = HighlightingLoader.LoadXshd(reader);
 
-                    this.Dispatcher.Invoke(new Action(() => {
+                    this.Dispatcher.Invoke(new Action(() =>
+                    {
                         FromStr.SyntaxHighlighting = HighlightingLoader.Load(xshd, HighlightingManager.Instance);
                         ToStr.SyntaxHighlighting = HighlightingLoader.Load(xshd, HighlightingManager.Instance);
                     }));
@@ -314,7 +330,16 @@ namespace SSELex
 
             ReloadViewMode();
             ReloadLanguageMode();
-            this.MainCaption.Content = string.Format("SSELex XT {0}", DeFine.CurrentVersion);
+            this.MainCaption.Content = string.Format("SSELex {0}", DeFine.CurrentVersion);
+
+            ReplaceMode.Items.Clear();
+            ReplaceMode.Items.Add("Current");
+            ReplaceMode.Items.Add("ALL");
+
+            if (ReplaceMode.Items.Count > 0)
+            {
+                ReplaceMode.SelectedValue = ReplaceMode.Items[0];
+            }
 
             Translator.SendTranslateMsg += TranslateMsg;
 
@@ -333,17 +358,16 @@ namespace SSELex
             ExportTypes.Items.Add("Json(SSELex)");
             ExportTypes.Items.Add("Html");
 
-            new Thread(() => {
+            new Thread(() =>
+            {
                 while (true)
                 {
-                    Thread.Sleep(2000);
-                    if (ReadTrdWorkState)
+                    Thread.Sleep(1000);
+                    try
                     {
-                        try { 
-                        GetStatistics();
-                        }
-                        catch { }
+                        GetStatisticsR();
                     }
+                    catch { }
                 }
             }).Start();
 
@@ -388,7 +412,8 @@ namespace SSELex
 
                 if (FileAttributesHelper.IsAdministrator())
                 {
-                    this.Dispatcher.Invoke(new Action(() => {
+                    this.Dispatcher.Invoke(new Action(() =>
+                    {
                         ShowSettingsView(Settings.Game);
                     }));
                 }
@@ -945,7 +970,7 @@ namespace SSELex
             BatchTranslationHelper.Close();
         }
 
-       
+
 
         public bool StopAny = true;
 
@@ -962,7 +987,7 @@ namespace SSELex
                     if (DeFine.GlobalLocalSetting.AutoSetThreadLimit)
                     {
                         DeFine.GlobalLocalSetting.MaxThreadCount = 0;
-                        if (DeFine.GlobalLocalSetting.BaiDuYunApiUsing && DeFine.GlobalLocalSetting.BaiDuSecretKey.Trim().Length>0)
+                        if (DeFine.GlobalLocalSetting.BaiDuYunApiUsing && DeFine.GlobalLocalSetting.BaiDuSecretKey.Trim().Length > 0)
                         {
                             DeFine.GlobalLocalSetting.MaxThreadCount++;
                         }
@@ -1012,7 +1037,7 @@ namespace SSELex
             string BodyContent = "";
             foreach (var Get in GetData.Dictionarys)
             {
-                string GetLine = string.Format(GenLine,Get.Key,Get.OriginalText,Get.TransText);
+                string GetLine = string.Format(GenLine, Get.Key, Get.OriginalText, Get.TransText);
                 BodyContent += GetLine;
             }
             GenHtml = string.Format(GenHtml, FModName, BodyContent);
@@ -1040,7 +1065,7 @@ namespace SSELex
             string GetJson = JsonSerializer.Serialize(GetData, JsonOptions);
 
             var GetWritePath = DataHelper.ShowSaveFileDialog(LModName + ".json", "SSELex (*.json)|*.json");
-            if (GetWritePath!=null)
+            if (GetWritePath != null)
             {
                 if (GetWritePath.Trim().Length > 0)
                 {
@@ -1189,7 +1214,7 @@ namespace SSELex
                                     File.Copy(LastSetPath, GetBackUPPath);
                                     File.Delete(LastSetPath);
                                 }
-                                
+
                                 SkyrimDataWriter.WriteAllMemoryData(ref GlobalEspReader);
                                 GlobalEspReader.DefSaveMod(GlobalEspReader.CurrentReadMod, LastSetPath);
 
@@ -1262,7 +1287,7 @@ namespace SSELex
                 YDDictionaryHelper.Close();
 
                 UIHelper.ModifyCount = 0;
-                GetStatistics();
+                
                 Caption.Text = "ModTransView";
             }));
         }
@@ -1383,6 +1408,7 @@ namespace SSELex
                     {
                         ActionWin.Show("DBMsg", "Done!", MsgAction.Yes, MsgType.Info);
                         DeFine.GlobalDB.ExecuteNonQuery("vacuum");
+                        DeFine.WorkingWin.ReloadData();
                     }
                     else
                     {
@@ -1418,7 +1444,7 @@ namespace SSELex
                         ReloadData(true);
                     }
                 }
-               
+
                 DeFine.GlobalLocalSetting.ViewMode = "Quick";
             }
             else
@@ -1461,7 +1487,7 @@ namespace SSELex
                         MainTransTrdToken = new CancellationTokenSource();
                         var Token = MainTransTrdToken.Token;
 
-                       
+
                         this.Dispatcher.Invoke(new Action(() =>
                         {
                             TransViewList.GetMainCanvas().IsHitTestVisible = false;
@@ -1491,7 +1517,7 @@ namespace SSELex
                         else
                         {
                             bool CanSleep = true;
-                            var GetResult = Translator.QuickTrans(GetFromStr,DeFine.TargetLanguage,ref CanSleep);
+                            var GetResult = Translator.QuickTrans(GetFromStr, DeFine.TargetLanguage, ref CanSleep);
 
                             this.Dispatcher.Invoke(new Action(() =>
                             {
@@ -1652,13 +1678,7 @@ namespace SSELex
             var GetLang = LanguageHelper.DetectLanguage();
         }
 
-        private void ReplaceAllLine(object sender, MouseButtonEventArgs e)
-        {
-            if (ActionWin.Show("Do you agree?", $"This will replace the contents of all rows. \"{ReplaceKey.Text}\"->\"{ReplaceValue.Text}\"", MsgAction.YesNo, MsgType.Info, 230) > 0)
-            {
-                Translator.ReplaceAllLine(ReplaceKey.Text.Trim(), ReplaceValue.Text.Trim());
-            }
-        }
+
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
@@ -1669,7 +1689,7 @@ namespace SSELex
             }
 
             AutoViewMode();
-           
+
             SyncCodeViewLocation();
         }
         public void SyncCodeViewLocation()
@@ -1747,7 +1767,7 @@ namespace SSELex
                 DeFine.GlobalLocalSetting.SaveConfig();
             }
         }
-      
+
         private void ReSetTransLang(object sender, MouseButtonEventArgs e)
         {
             if (TransViewList.Rows > 0)
@@ -1821,7 +1841,7 @@ namespace SSELex
 
         public enum Settings
         {
-            Software = 0,Game = 2,ApiKey = 3,AI = 5, LocalEngine = 6
+            Software = 0, Game = 2, ApiKey = 3, AI = 5, LocalEngine = 6
         }
 
         public void ShowModTransView()
@@ -1968,13 +1988,13 @@ namespace SSELex
         {
             DeFine.GlobalLocalSetting.ChatGptKey = ChatGptKey.Password;
         }
-       
+
         private void ChatGptModelChange(object sender, SelectionChangedEventArgs e)
         {
             string GetModel = ConvertHelper.ObjToStr(ChatGptModel.SelectedValue);
             if (GetModel.Trim().Length > 0)
-            { 
-               DeFine.GlobalLocalSetting.ChatGptModel = GetModel;
+            {
+                DeFine.GlobalLocalSetting.ChatGptModel = GetModel;
             }
         }
         private void Gemini_PasswordChanged(object sender, RoutedEventArgs e)
@@ -2072,14 +2092,14 @@ namespace SSELex
                     }
                     if (DeFine.GlobalLocalSetting.ChatGptKey.Trim().Length > 0)
                     {
-                        if (new ChatGptApi().QuickTrans("Test", Languages.English, Languages.Japanese,false,1,string.Empty).Trim().Length == 0)
+                        if (new ChatGptApi().QuickTrans("Test", Languages.English, Languages.Japanese, false, 1, string.Empty).Trim().Length == 0)
                         {
                             RichText += "ChatGPT API Key is not configured correctly.\r\n";
                         }
                     }
                     if (DeFine.GlobalLocalSetting.DeepSeekKey.Trim().Length > 0)
                     {
-                        if (new DeepSeekApi().QuickTrans("Test", Languages.English, Languages.SimplifiedChinese,false,1,string.Empty).Trim().Length == 0)
+                        if (new DeepSeekApi().QuickTrans("Test", Languages.English, Languages.SimplifiedChinese, false, 1, string.Empty).Trim().Length == 0)
                         {
                             RichText += "DeepSeek API Key is not configured correctly.\r\n";
                         }
@@ -2107,7 +2127,8 @@ namespace SSELex
                         }
                     }
 
-                    KeyTestBtn.Dispatcher.Invoke(new Action(() => {
+                    KeyTestBtn.Dispatcher.Invoke(new Action(() =>
+                    {
                         KeyTestBtn.Content = "TestKey";
                     }));
 
@@ -2181,31 +2202,26 @@ namespace SSELex
                         {
                             ShowSettingsView(Settings.Software);
                         }
-                    break;
+                        break;
                     case "ApiKey":
                         {
                             ShowSettingsView(Settings.ApiKey);
                         }
-                    break;
+                        break;
                     case "Game":
                         {
                             ShowSettingsView(Settings.Game);
                         }
-                    break;
+                        break;
                     case "AI":
                         {
                             ShowSettingsView(Settings.AI);
                         }
                         break;
-                    case "LocalEngine":
-                        {
-                            ShowSettingsView(Settings.LocalEngine);
-                        }
-                    break;
                 }
-               
+
             }
-           
+
         }
 
         private void SkyrimSEPath_TextChanged(object sender, TextChangedEventArgs e)
@@ -2256,7 +2272,7 @@ namespace SSELex
                     }
                 }
             }
-           
+
         }
 
         private void ApplyTransStr(object sender, MouseButtonEventArgs e)
@@ -2269,7 +2285,7 @@ namespace SSELex
                 {
                     if (UIHelper.ActiveKey.Contains("Score:"))
                     {
-                        double GetScore = ConvertHelper.ObjToDouble(UIHelper.ActiveKey.Substring(UIHelper.ActiveKey.IndexOf("Score:")+ "Score:".Length).Trim());
+                        double GetScore = ConvertHelper.ObjToDouble(UIHelper.ActiveKey.Substring(UIHelper.ActiveKey.IndexOf("Score:") + "Score:".Length).Trim());
                         if (GetScore < 0)
                         {
                             return;
@@ -2280,11 +2296,9 @@ namespace SSELex
 
                     Translator.TransData[UIHelper.ActiveKey] = TransText;
 
-                    LocalTransCache.UPDateLocalTransItem(new LocalTransItem(UIHelper.ActiveKey, FromStr.Text,ToStr.Text));
+                    LocalTransCache.UPDateLocalTransItem(new LocalTransItem(UIHelper.ActiveKey, FromStr.Text, ToStr.Text));
 
-                    UIHelper.MainGrid_MouseLeave(UIHelper.ActiveTextBox.Tag,null);
-
-                    GetStatistics();
+                    UIHelper.MainGrid_MouseLeave(UIHelper.ActiveTextBox.Tag, null);
                 }
 
                 if (TransText.Trim().Length == 0)
@@ -2294,10 +2308,6 @@ namespace SSELex
             }
         }
 
-        private void ReplaceLine(object sender, MouseButtonEventArgs e)
-        {
-            ToStr.Text = ToStr.Text.Replace(ReplaceKey.Text.Trim(), ReplaceValue.Text.Trim());
-        }
 
         private void SearchKey_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -2308,23 +2318,6 @@ namespace SSELex
                     DeFine.CurrentSearchStr = string.Empty;
                     ReloadData();
                 }
-            }
-        }
-
-        private void ClearTrans_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            ToStr.Text = "";
-        }
-
-        private void ToStr_TextChanged(object sender, EventArgs e)
-        {
-            if (ToStr.Text.Length == 0)
-            {
-                ClearBtn.Visibility = Visibility.Hidden;
-            }
-            else
-            {
-                ClearBtn.Visibility = Visibility.Visible;
             }
         }
 
@@ -2347,12 +2340,12 @@ namespace SSELex
 
         private void GridSplitter_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
         {
-           
+
         }
 
         private void TransView_MouseLeave(object sender, MouseEventArgs e)
         {
-            
+
         }
 
         private void AutoSetThreadLimit_Click(object sender, RoutedEventArgs e)
@@ -2396,6 +2389,8 @@ namespace SSELex
             UIHelper.ActiveType = string.Empty;
             FromStr.Text = string.Empty;
             ToStr.Text = string.Empty;
+            ReplaceKeyBox.Text = string.Empty;
+            ReplaceValueBox.Text = string.Empty;
         }
         public bool CheckDictionary()
         {
@@ -2418,12 +2413,34 @@ namespace SSELex
                     MessageBox.Show("Done!");
                 }
             }
-           
+
         }
 
-        private void Label_MouseDown(object sender, MouseButtonEventArgs e)
+        private void SpeakFromStr(object sender, MouseButtonEventArgs e)
         {
             SpeechHelper.TryPlaySound(FromStr.Text);
+        }
+
+        private void SpeakToStr(object sender, MouseButtonEventArgs e)
+        {
+            SpeechHelper.TryPlaySound(ToStr.Text);
+        }
+
+        private void ReplaceStr(object sender, MouseButtonEventArgs e)
+        {
+            string GetSelectMode = ConvertHelper.ObjToStr(ReplaceMode.SelectedValue);
+
+            if (GetSelectMode.Trim().Equals("Current"))
+            {
+                ToStr.Text = ToStr.Text.Replace(ReplaceKeyBox.Text.Trim(), ReplaceValueBox.Text.Trim());
+            }
+            else
+            {
+                if (ActionWin.Show("Do you agree?", $"This will replace the contents of all rows. \"{ReplaceKeyBox.Text}\"->\"{ReplaceValueBox.Text}\"", MsgAction.YesNo, MsgType.Info, 230) > 0)
+                {
+                    Translator.ReplaceAllLine(ReplaceKeyBox.Text.Trim(), ReplaceValueBox.Text.Trim());
+                }
+            }
         }
     }
 }

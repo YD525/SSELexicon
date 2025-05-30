@@ -183,8 +183,6 @@ namespace SSELex.TranslateManage
             }
 
             DeFine.WorkingWin.ReloadData();
-
-            DeFine.WorkingWin.GetStatistics();
         }
 
         public static void ReSetAllTransText()
@@ -193,40 +191,10 @@ namespace SSELex.TranslateManage
                 DeFine.WorkingWin.TransViewList.MainCanvas.Visibility = System.Windows.Visibility.Collapsed;
             }));
 
-            string EMP = "";
-            for (int i = 0; i < DeFine.WorkingWin.TransViewList.RealLines.Count; i++)
-            {
-                FakeGrid GetFakeGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
-                GetFakeGrid.UPDataThis();
-                string GetKey = GetFakeGrid.Key;
-                var TargetText = GetFakeGrid.TransText;
-
-                if (TargetText.Trim().Length > 0)
-                {
-                    LocalTransCache.DeleteCacheByResult(GetKey,TargetText);
-                }
-
-                DeFine.WorkingWin.TransViewList.RealLines[i].TransText = string.Empty;
-
-                if (Translator.TransData.ContainsKey(GetKey))
-                {
-                    Translator.TransData[GetKey] = EMP;
-                    DeFine.WorkingWin.TransViewList.RealLines[i].TransText = EMP;
-                    if (Translator.TransData.ContainsKey(GetKey))
-                    {
-                        Translator.TransData.Remove(GetKey);
-                    }
-                    DeFine.WorkingWin.TransViewList.RealLines[i].BorderColor = Color.FromRgb(76, 76, 76);
-
-                    DeFine.WorkingWin.TransViewList.RealLines[i].UPDateView();
-                }
-
-                GetFakeGrid.UPDateView();
-            }
-
+            LocalTransCache.DeleteCacheByModName();
+            TransData.Clear();
             DeFine.WorkingWin.ReloadData();
 
-            DeFine.WorkingWin.GetStatistics();
             DeFine.WorkingWin.Dispatcher.Invoke(new Action(() => {
                 DeFine.WorkingWin.ProcessBar.Width = 0;
             }));
@@ -274,7 +242,7 @@ namespace SSELex.TranslateManage
                 DeFine.WorkingWin.TransViewList.RealLines[i].UPDateView();
             }
             UIHelper.ModifyCount = DeFine.WorkingWin.TransViewList.RealLines.Count;
-            DeFine.WorkingWin.GetStatistics();
+            
             DeFine.WorkingWin.Dispatcher.Invoke(new Action(() => {
                 DeFine.WorkingWin.ProcessBar.Width = 0;
             }));

@@ -326,27 +326,19 @@ namespace SSELex.UIManage
 
                 Ellipse GetState = GetTransState(GetMainGrid);
 
-                if (TransTextBox.Text.Trim().Length == 0)
+                var QueryData = Translator.QueryTransData(GetKey, SourceText);
+                TransTextBox.Text = QueryData.TransText;
+                TransTextBox.BorderBrush = new SolidColorBrush(QueryData.Color);
+                if (QueryData.State == 1)
                 {
-                    var QueryData = Translator.QueryTransData(GetKey, SourceText);
-                    TransTextBox.Text = QueryData.TransText;
-                    TransTextBox.BorderBrush = new SolidColorBrush(QueryData.Color);
-                    if (QueryData.State == 1)
+                    if (GetOriginalText(GetMainGrid).Equals(TransTextBox.Text) || SourceText.Equals(TransTextBox.Text))
                     {
-                        if (GetOriginalText(GetMainGrid).Equals(TransTextBox.Text) || SourceText.Equals(TransTextBox.Text))
-                        {
-                            GetState.Fill = new SolidColorBrush(Colors.Green);
-                        }
-                        else
-                        {
-                            GetState.Fill = new SolidColorBrush(Colors.BlanchedAlmond);
-                        }
+                        GetState.Fill = new SolidColorBrush(Colors.Green);
                     }
-                }
-
-                if (DeFine.WorkingWin != null)
-                {
-                    DeFine.WorkingWin.GetStatistics();
+                    else
+                    {
+                        GetState.Fill = new SolidColorBrush(Colors.BlanchedAlmond);
+                    }
                 }
             }
         }
@@ -372,8 +364,6 @@ namespace SSELex.UIManage
                 {
                     GetState.Fill = new SolidColorBrush(Colors.BlanchedAlmond);
                 }
-
-                DeFine.WorkingWin.GetStatistics();
             }
         }
 
@@ -460,6 +450,8 @@ namespace SSELex.UIManage
                     DeFine.WorkingWin.FromStr.Text = SourceText;
                     DeFine.WorkingWin.ToStr.Text = TransText;
                     DeFine.WorkingWin.ToStr.Tag = ConvertHelper.ObjToInt(MainGrid.Tag);
+                    DeFine.WorkingWin.ReplaceKeyBox.Text = string.Empty;
+                    DeFine.WorkingWin.ReplaceValueBox.Text = string.Empty;
 
                     ActiveTextBox = (MainGrid.Children[4] as TextBox);
                     ActiveKey = GetKey;
@@ -536,8 +528,6 @@ namespace SSELex.UIManage
                 {
                     GetState.Fill = new SolidColorBrush(Colors.BlanchedAlmond);
                 }
-
-                DeFine.WorkingWin.GetStatistics();
             }
         }
 

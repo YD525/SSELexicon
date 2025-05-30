@@ -41,6 +41,8 @@ namespace SSELex.PlatformManagement
                     return "EN";
                 case Languages.SimplifiedChinese:
                     return "ZH";
+                case Languages.TraditionalChinese:
+                    return "ZH-TW";
                 case Languages.Japanese:
                     return "JA";
                 case Languages.German:
@@ -49,22 +51,26 @@ namespace SSELex.PlatformManagement
                     return "KO";
                 case Languages.Turkish:
                     return "TR";
-                case Languages.Brazilian: // Should be Portuguese for Brazil
-                    return "PT";
+                case Languages.Brazilian:
+                    return "PT-BR"; // DeepL uses "PT-BR" for Brazilian Portuguese
                 case Languages.Russian:
                     return "RU";
-                case Languages.TraditionalChinese:
-                    return "ZH-TW";
                 case Languages.Italian:
-                    return "IT"; 
+                    return "IT";
                 case Languages.Spanish:
-                    return "ES"; 
-                case Languages.Hindi:       
+                    return "ES";
+                case Languages.Hindi:
                     return "HI";
-                case Languages.Urdu:        
+                case Languages.Urdu:
                     return "UR";
                 case Languages.Indonesian:
                     return "ID";
+                case Languages.French:
+                    return "FR";
+                case Languages.Vietnamese:
+                    return "VI";
+                case Languages.Polish:
+                    return "PL";
                 default:
                     throw new ArgumentOutOfRangeException(nameof(language), "Unknown language");
             }

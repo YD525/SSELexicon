@@ -17,9 +17,48 @@ namespace SSELex.PlatformManagement
     {
         public enum BDLanguages
         {
-            en=0, zh = 1, jp=2, de=3, kor = 5, zh_TW = 6, hi = 7, ur = 8, id = 9,it = 10,es = 11
+            en = 0,
+            zh = 1,
+            jp = 2,
+            de = 3,
+            kor = 5,
+            zh_TW = 6,
+            hi = 7,
+            ur = 8,
+            id = 9,
+            it = 10,
+            es = 11,
+            fr = 12,
+            ru = 13,
+            vie = 14,
+            th = 15,
+            pl = 16,
+            pt = 17,
+            nl = 18
         }
-
+        public BDLanguages MapToBDLanguage(Languages lang)
+        {
+            return lang switch
+            {
+                Languages.English => BDLanguages.en,
+                Languages.SimplifiedChinese => BDLanguages.zh,
+                Languages.TraditionalChinese => BDLanguages.zh_TW,
+                Languages.Japanese => BDLanguages.jp,
+                Languages.German => BDLanguages.de,
+                Languages.Korean => BDLanguages.kor,
+                Languages.Italian => BDLanguages.it,
+                Languages.Spanish => BDLanguages.es,
+                Languages.Hindi => BDLanguages.hi,
+                Languages.Urdu => BDLanguages.ur,
+                Languages.Indonesian => BDLanguages.id,
+                Languages.French => BDLanguages.fr,
+                Languages.Russian => BDLanguages.ru,
+                Languages.Vietnamese => BDLanguages.vie,
+                Languages.Polish => BDLanguages.pl,
+                Languages.Brazilian => BDLanguages.pt,
+                _ => BDLanguages.en 
+            };
+        }
         public string GenerateSignature(string appId, string query, string salt, string secretKey)
         {
             string rawString = appId + query + salt + secretKey;
@@ -40,46 +79,17 @@ namespace SSELex.PlatformManagement
 
         public BaiduTransResult? TransStr(string Query,Languages FromLang, Languages ToLang)
         {
-            BDLanguages Source = BDLanguages.en;
-            BDLanguages Target = BDLanguages.zh;
+            BDLanguages Source = MapToBDLanguage(FromLang);
+            BDLanguages Target = MapToBDLanguage(ToLang);
 
-            if (FromLang == Languages.English)
-                Source = BDLanguages.en;
-            else if (FromLang == Languages.SimplifiedChinese)
-                Source = BDLanguages.zh;
-            else if (FromLang == Languages.TraditionalChinese)
-                Source = BDLanguages.zh_TW;
-            else if (FromLang == Languages.Japanese)
-                Source = BDLanguages.jp;
-            else if (FromLang == Languages.German)
-                Source = BDLanguages.de;
-            else if (FromLang == Languages.Korean)
-                Source = BDLanguages.kor;
-
-            if (ToLang == Languages.English)
-                Target = BDLanguages.en;
-            else if (ToLang == Languages.SimplifiedChinese)
-                Target = BDLanguages.zh;
-            else if (ToLang == Languages.TraditionalChinese)
-                Target = BDLanguages.zh_TW;
-            else if (ToLang == Languages.Japanese)
-                Target = BDLanguages.jp;
-            else if (ToLang == Languages.German)
-                Target = BDLanguages.de;
-            else if (ToLang == Languages.Korean)
-                Target = BDLanguages.kor;
-            else if (FromLang == Languages.Italian)
-                Source = BDLanguages.it;
-            else if (FromLang == Languages.Spanish)
-                Source = BDLanguages.es;
-            else if (FromLang == Languages.Hindi)       
-                Source = BDLanguages.hi;
-            else if (FromLang == Languages.Urdu)         
-                Source = BDLanguages.ur;
-            else if (FromLang == Languages.Indonesian) 
-                Source = BDLanguages.id;
-
-            return ConstructGetRequestUrl(DeFine.GlobalLocalSetting.BaiDuAppID, Query, Source.ToString(), Target.ToString(), new Random(Guid.NewGuid().GetHashCode()).Next(100, 999).ToString(), DeFine.GlobalLocalSetting.BaiDuSecretKey);
+            return ConstructGetRequestUrl(
+                DeFine.GlobalLocalSetting.BaiDuAppID,
+                Query,
+                Source.ToString(),
+                Target.ToString(),
+                new Random(Guid.NewGuid().GetHashCode()).Next(100, 999).ToString(),
+                DeFine.GlobalLocalSetting.BaiDuSecretKey
+            );
         }
 
         public string Host = "https://fanyi-api.baidu.com";

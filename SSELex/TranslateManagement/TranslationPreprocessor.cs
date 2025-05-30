@@ -93,10 +93,7 @@ namespace SSELex.TranslateManage
             ReplaceTags.Clear();
             HasPlaceholder = false;
 
-            bool UseWordBoundary = From == Languages.English ||
-                                   From == Languages.German ||
-                                   From == Languages.Italian ||
-                                   From == Languages.Spanish;
+            bool UseWordBoundary = LanguageExtensions.IsSpaceDelimitedLanguage(From);
 
             for (int i = 0; i < Datas.Count; i++)
             {
