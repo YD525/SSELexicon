@@ -59,7 +59,7 @@
                 <Grid Grid.Row="0" Name="Header" Margin="10 0 10 0">
                     <StackPanel Orientation="Horizontal">
                         <Label HorizontalAlignment="Left" Name="MainCaption" Foreground="White" VerticalAlignment="Center">
-                            SSELex Gui
+                            SSELex XT
                         </Label>
                         <Grid Background="#FF014C8F" Width="180" Margin="20 0 0 0" Name="ThreadInFo" Visibility="Collapsed">
                             <Label Foreground="White" FontWeight="Bold" Name="ThreadInFoLog" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
@@ -716,10 +716,16 @@
                                                     <RowDefinition Height="30"/>
                                                     <RowDefinition Height="1*"/>
                                                 </Grid.RowDefinitions>
-                                                <Label Foreground="White">
-                                                    SourceText->
-                                                </Label>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Foreground="White">
+                                                        SourceText->
+                                                    </Label>
+                                                    <Label MouseDown="Label_MouseDown" Foreground="White">
+                                                        PlaySound
+                                                    </Label>
 
+                                                </StackPanel>
+                                              
                                                 <avalonEdit:TextEditor Grid.Row="1" Margin="5" Name="FromStr" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" IsReadOnly="True"  FontFamily="Consolas" FontSize="16" ShowLineNumbers="True" Background="#FF282828" Foreground="White" WordWrap="True" TextOptions.TextFormattingMode="Display">
 
                                                 </avalonEdit:TextEditor>

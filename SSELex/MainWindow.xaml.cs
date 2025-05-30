@@ -314,7 +314,7 @@ namespace SSELex
 
             ReloadViewMode();
             ReloadLanguageMode();
-            this.MainCaption.Content = string.Format("SSELex Gui {0}", DeFine.CurrentVersion);
+            this.MainCaption.Content = string.Format("SSELex XT {0}", DeFine.CurrentVersion);
 
             Translator.SendTranslateMsg += TranslateMsg;
 
@@ -1263,6 +1263,7 @@ namespace SSELex
 
                 UIHelper.ModifyCount = 0;
                 GetStatistics();
+                Caption.Text = "ModTransView";
             }));
         }
         private void CancelTransEsp(object sender, MouseButtonEventArgs e)
@@ -2418,6 +2419,11 @@ namespace SSELex
                 }
             }
            
+        }
+
+        private void Label_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            SpeechHelper.TryPlaySound(FromStr.Text);
         }
     }
 }
