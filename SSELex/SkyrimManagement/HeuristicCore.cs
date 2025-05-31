@@ -281,145 +281,28 @@ namespace SSELex.SkyrimManage
     }
     public class HeuristicCore
     {
-        public static string Version = "1.2Alpha";
+        public static string Version = "1.3Alpha";
         public List<ParsingItem> ParsingItems = new();
         public FunctionFinder CurrentFunctionFinder = new FunctionFinder();
-        public static List<string> SafePapyrusFuncs = new List<string>() { "SetInfoText", "NotifyActor", "Warn", "messageBox", "messagebox", "Messagebox","Log", "NotifyPlayer", "Message", "ecSlider", "ecToggle", "TextUpdate" };
+        public static List<string> SafePapyrusFuncs = new List<string>() { "SetInfoText", "NotifyActor", "Warn", "messageBox", "messagebox", "Messagebox","Log", "NotifyPlayer", "NotifyNPC", "Message", "ecSlider", "ecToggle", "TextUpdate" };
+
+        //https://ck.uesp.net/wiki/Category:Papyrus Game Api Doc
+
         public static List<string> DangerPapyrusFuncs = new List<string>
-{
-    "SendModEvent",
-    "AddTag",
-    "AddPositionStage",
-    "advanceskill",
-    "centeroncell",
-    "centeroncellandwait",
-    "closeuserlog",
-    "damageactorvalue",
-    "damageav",
-    "forceactorvalue",
-    "forceav",
-    "getactorvalue",
-    "getactorvaluepercentage",
-    "getaliasbyname",
-    "getanimationvariablebool",
-    "getanimationvariablefloat",
-    "getanimationvariableint",
-    "getav",
-    "getavpercentage",
-    "getbaseactorvalue",
-    "getbaseav",
-    "getformfromfile",
-    "getgamesettingfloat",
-    "getgamesettingint",
-    "getgamesettingstring",
-    "getinibool",
-    "getinifloat",
-    "getiniint",
-    "getinistring",
-    "getkeyword",
-    "getmappedkey",
-    "getmodbyname",
-    "getnodepositionx",
-    "getnodepositiony",
-    "getnodepositionz",
-    "getnodescale",
-    "getrace",
-    "gotostate",
-    "haskeywordstring",
-    "hasnode",
-    "incrementskill",
-    "incrementskillby",
-    "incrementstat",
-    "ismenuopen",
-    "loadcustomcontent",
-    "modactorvalue",
-    "modav",
-    "movetonode",
-    "onanimationevent",
-    "onanimationeventunregistered",
-    "onmenuclose",
-    "onmenuopen",
-    "onstoryincreaseskill",
-    "ontrackedstatsevent",
-    "openuserlog",
-    "playanimation",
-    "playanimationandwait",
-    "playbink",
-    "playermovetoandwait",
-    "playgamebryoanimation",
-    "playimpacteffect",
-    "playsubgraphanimation",
-    "playsyncedanimationandwaitss",
-    "playsyncedanimationss",
-    "playterraineffect",
-    "querystat",
-    "registerforanimationevent",
-    "RegisterForCustomEvent",
-    "registerforcontrol",
-    "registerformenu",
-    "registerformodevent",
-    "removehavokconstraints",
-    "requestmodel",
-    "restoreactorvalue",
-    "restoreav",
-    "sendanimationevent",
-    "sendmodevent",
-    "setactorvalue",
-    "setanimationvariablebool",
-    "setanimationvariablefloat",
-    "setanimationvariableint",
-    "setav",
-    "setgamesettingbool",
-    "setgamesettingfloat",
-    "setgamesettingint",
-    "setgamesettingstring",
-    "seticonpath",
-    "setmessageiconpath",
-    "setmiscstat",
-    "setmodelpath",
-    "setnodescale",
-    "setnodetextureset",
-    "setnthtexturepath",
-    "setnthtintmasktexturepath",
-    "setsubgraphfloatvariable",
-    "settintmasktexturepath",
-    "splinetranslatetorefnode",
-    "startscriptprofiling",
-    "starttitlesequence",
-    "stopscriptprofiling",
-    "syncedanimationandwaitss",
-    "syncedanimationss",
-    "unregisterforanimationevent",
-    "unregisterforcontrol",
-    "unregisterformenu",
-    "unregisterformodevent",
-    "waitforanimationevent",
-    "setbool",
-    "setint",
-    "setfloat",
-    "setnumber",
-    "invoke",
-    "invokebool",
-    "RegisterForMenuOpenCloseEvent",
-    "UnRegisterForRemoteEvent",
-    "RegisterForRemoteEvent",
-    "UnregisterForTutorialEvent",
-    "RegisterForTutorialEvent",
-    "SendCustomEvent",
-    "ShowAsHelpMessage",
-    "CastAs",
-    "AddTextReplacementData",
-    "CallFunction",
-    "CallFunctionNoWait",
-    "CallGlobalFunction",
-    "CallGlobalFunctionNoWait",
-    "SetINIBool",
-    "PlaceAtNode",
-    "RegisterForTrackedStatsEvent",
-    "Dismember",
-    "HasDirectLOS",
-    "PlayAnimOrIdle"
-};
+        {
+            "DamageActorValue",//Game Api https://ck.uesp.net/wiki/DamageActorValue
+            "AttrDrain",//??? Api ?? maybe SkSE
+            "RandomExpressionByTag",//SexLab Api
+            "SendDeviceEvent",//DD Api
+            "SendModEvent",//Game Api https://ck.uesp.net/wiki/SendModEvent
+            "UnSetFormValue",//storageutil Api ?? maybe SkSE
+            "AnimSwitchKeyword",//Game Api ?? maybe SkSE 
+            "StartThirdPersonAnimation",//Game Api ?? maybe SkSE 
+            "SendAnimationEvent",//Game Api https://ck.uesp.net/wiki/SendAnimationEvent_-_Debug
+            "SetInstanceVolume",//Game Sound Api https://ck.uesp.net/wiki/SetInstanceVolume_-_Sound
+            "Create",//Game ModEvent Api https://ck.uesp.net/wiki/ModEvent_Script
+
+        };
         public static List<string> UserDefinedSafeFuncs = new List<string>() {
     "Notify", "notify",
     "Log", "log",
@@ -442,12 +325,15 @@ namespace SSELex.SkyrimManage
 };
         public static List<MethodParam> MethodSafeParams = new List<MethodParam>()
         {
-           new MethodParam("AddSliderOption",0),//MCM Func
-           new MethodParam("AddSliderOptionST",1),//MCM Func
-           new MethodParam("AddTextOption",0),//MCM Func
-           new MethodParam("AddTextOptionST",1),//MCM Func
-           new MethodParam("AddToggleOption",0),//MCM Func
-           new MethodParam("AddToggleOptionST",1)//MCM Func
+           new MethodParam("NotifyPlayer",0),//DD Api
+           new MethodParam("NotifyNPC",0),//DD Api
+           new MethodParam("AddSliderOption",0),//SkyUI Api
+           new MethodParam("AddSliderOptionST",1),//SkyUI Api
+           new MethodParam("AddTextOption",0),//SkyUI Api
+           new MethodParam("AddTextOptionST",1),//SkyUI Api
+           new MethodParam("AddToggleOption",0),//SkyUI Api
+           new MethodParam("AddToggleOptionST",1),//SkyUI Api
+           new MethodParam("SetGameSettingString",1)//?? Api
         };
 
         public List<DStringItem> DStringItems = new List<DStringItem>();
@@ -819,7 +705,6 @@ namespace SSELex.SkyrimManage
             return AlreadyAdded;
         }
 
-        // HashSet 自动忽略大小写（使用 OrdinalIgnoreCase）
         private static readonly HashSet<string> ValidExtensions = new(StringComparer.OrdinalIgnoreCase)
         {
         ".dsd", ".txt", ".json", ".esl", ".esm", ".esp", ".pex",".dds"
@@ -884,6 +769,7 @@ namespace SSELex.SkyrimManage
             for (int i = 0; i < DStringItems.Count; i++)
             {
                 string SourceLine = DStringItems[i].SourceLine;
+
                 string FormattedLine = FormatLine(SourceLine);
                 DStringItems[i].Feature += DStringItems[i].ParentFunctionName + ">";
 
@@ -957,7 +843,7 @@ namespace SSELex.SkyrimManage
                                             {
                                                 if (OuterMethodOrReturn.ToLower().Equals("return"))
                                                 {
-                                                    DStringItems[i].Feature += "DeepSearch>";
+                                                    DStringItems[i].Feature += "Return>";
                                                     //Need DeepSearch
                                                     //[V2 Enhancement] Planned: Implement function chain resolution for deep variable/method tracing.
                                                     FindVariableLocation = true;
@@ -1018,7 +904,7 @@ namespace SSELex.SkyrimManage
                                         {
                                             if (OuterMethodOrReturn.ToLower().Equals("return"))
                                             {
-                                                DStringItems[i].Feature += "DeepSearch>";
+                                                DStringItems[i].Feature += "Return>";
                                                 //Need DeepSearch
                                                 //[V2 Enhancement] Planned: Implement function chain resolution for deep variable/method tracing.
                                             }
@@ -1041,6 +927,10 @@ namespace SSELex.SkyrimManage
                 }
                 else
                 {
+                    if (SourceLine.Contains("UnSetFormValue"))
+                    { 
+                    
+                    }
                     //Is Function
                     DStringItems[i].Feature += "Is Function>";
                     DStringItems[i].ItemType = DStringItemType.FunctionCall;

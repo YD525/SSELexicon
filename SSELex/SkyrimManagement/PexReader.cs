@@ -316,10 +316,10 @@ namespace SSELex.SkyrimManage
             this.PSCContent = string.Empty;
             if (DeCodeFileToUsing(FilePath))
             {
-                string OutPutMsg = string.Empty;
-                if (GenFileToPAS(FilePath, ref OutPutMsg))
+                bool HaveError = false;
+                if (GenFileToPAS(FilePath, ref HaveError))
                 {
-                    if (OutPutMsg.Trim().Length == 0)
+                    if (HaveError)
                     {
                         new Thread(() =>
                         {
@@ -379,7 +379,7 @@ namespace SSELex.SkyrimManage
             }
         }
 
-        public bool GenFileToPAS(string FilePath, ref string OutPutMsg)
+        public bool GenFileToPAS(string FilePath, ref bool HaveError)
         {
             string CompilerPath = "";
             if (SkyrimHelper.FindPapyrusCompilerPath(ref CompilerPath))
@@ -391,7 +391,8 @@ namespace SSELex.SkyrimManage
 
                 string PapyrusAssembler = CompilerPath;
                 string GetWorkPath = FilePath.Substring(0, FilePath.LastIndexOf(@"\"));
-                string GenParam = string.Format("\"{0}\" -D\n\"{1}\"", GetFileName, GetWorkPath + @"\");
+                string GenParam = string.Format("\"{0}\" -D -Q", GetFileName);
+                //string GenParam = string.Format("\"{0}\" -D\n\"{1}\"", GetFileName, GetWorkPath + @"\");
 
                 if (File.Exists(DeFine.GetFullPath(@"\") + GetFileName + "." + GetFileType))
                 {
@@ -399,6 +400,8 @@ namespace SSELex.SkyrimManage
                 }
 
                 File.Copy(TempFilePath, DeFine.GetFullPath(@"\") + GetFileName + "." + GetFileType);
+
+                string OutPutMsg = "";
 
                 Execute(PapyrusAssembler, GenParam, ref OutPutMsg);
 
@@ -428,11 +431,14 @@ namespace SSELex.SkyrimManage
                         if (TempFilePath.Contains(DeFine.GetFullPath(@"\Cache\")))
                         {
                             File.Delete(TempFilePath);
+
+                            HaveError = false;
                             return true;
                         }
                     }
                 }
             }
+            HaveError = true;
             return false;
         }
 
