@@ -15,287 +15,23 @@ namespace SSELex.SkyrimManage
     // Some logic in this file was developed with the assistance of ChatGPT, an AI model by OpenAI.
     // This code aims to parse and analyze conditional expressions in Papyrus scripts,
     // particularly to trace whether string values are passed through functions or are part of variable chains.
-
-    public static class Crc32Helper
-    {
-        private static readonly uint[] Table;
-
-        static Crc32Helper()
-        {
-            uint poly = 0xEDB88320;
-            Table = new uint[256];
-            for (uint i = 0; i < Table.Length; ++i)
-            {
-                uint temp = i;
-                for (int j = 0; j < 8; ++j)
-                {
-                    if ((temp & 1) == 1)
-                    {
-                        temp = (temp >> 1) ^ poly;
-                    }
-                    else
-                    {
-                        temp >>= 1;
-                    }
-                }
-                Table[i] = temp;
-            }
-        }
-
-        public static string ComputeCrc32(string input)
-        {
-            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(input);
-            uint crc = 0xFFFFFFFF;
-
-            foreach (byte b in bytes)
-            {
-                byte index = (byte)((crc & 0xFF) ^ b);
-                crc = (crc >> 8) ^ Table[index];
-            }
-
-            crc ^= 0xFFFFFFFF;
-            return crc.ToString("X8"); 
-        }
-    }
-    public static class ConditionHelper
-    {
-        // Given a condition line and a target string, find the variable or method related to that string.
-        // Example:
-        //   Line = If Anim != None && Anim.Name != "DDZapArmbDoggy01" ; #DEBUG_LINE_NO:86
-        //   Target = DDZapArmbDoggy01
-        // Returns: "Anim.Name" (IsMethod = false)
-        public static (string Name, bool IsMethod) FindVariableOrMethodForString(string line, string targetString)
-        {
-            if (string.IsNullOrEmpty(line) || string.IsNullOrEmpty(targetString))
-                return (string.Empty, false);
-
-            string trimmedLine = line.Trim();
-            if (trimmedLine.StartsWith("If ", StringComparison.OrdinalIgnoreCase))
-                trimmedLine = trimmedLine.Substring(3).Trim();
-
-            int commentIndex = trimmedLine.IndexOf(';');
-            if (commentIndex >= 0)
-                trimmedLine = trimmedLine.Substring(0, commentIndex).Trim();
-
-            string quotedTarget = $"\"{targetString}\"";
-            int foundIndex = trimmedLine.IndexOf(quotedTarget, StringComparison.Ordinal);
-            if (foundIndex == -1)
-                return (string.Empty, false);
-
-            // Step backward to find the variable or method left of '!=' or '='
-            int opIndex = trimmedLine.LastIndexOf("!=", foundIndex);
-            if (opIndex == -1)
-                opIndex = trimmedLine.LastIndexOf("=", foundIndex);
-            if (opIndex == -1)
-                return (string.Empty, false);
-
-            // Move left from operator to find the full expression
-            int end = opIndex - 1;
-            while (end >= 0 && char.IsWhiteSpace(trimmedLine[end])) end--;
-            if (end < 0) return (string.Empty, false);
-
-            int start = end;
-            while (start >= 0 && (char.IsLetterOrDigit(trimmedLine[start]) || trimmedLine[start] == '_' || trimmedLine[start] == '.'))
-                start--;
-            start++;
-
-            if (start > end) return (string.Empty, false);
-
-            string candidate = trimmedLine.Substring(start, end - start + 1);
-
-            // Detect method
-            bool isMethod = false;
-            int lookahead = end + 1;
-            while (lookahead < trimmedLine.Length && char.IsWhiteSpace(trimmedLine[lookahead]))
-                lookahead++;
-            if (lookahead < trimmedLine.Length && trimmedLine[lookahead] == '(')
-                isMethod = true;
-
-            return (candidate, isMethod);
-        }
-
-    }
-
-
-
-
-    public class VariablesFinder
-    {
-        private int FunctionDepth = 0;
-
-        public List<string> GlobalVariables = new List<string>();
-        public List<string> ProcessScript(string Script)
-        {
-            GlobalVariables.Clear();
-
-            string[] Lines = Script.Split(new string[] { "\r\n" }, StringSplitOptions.None);
-
-            foreach (string Line in Lines)
-            {
-                var Templine = Line.Trim();
-
-                if (Templine.Trim().ToLower().StartsWith("function"))
-                {
-                    FunctionDepth++;
-                    continue;
-                }
-
-                else if (Templine.Trim().ToLower().StartsWith("endfunction"))
-                {
-                    FunctionDepth--;
-                    continue;
-                }
-
-                if (FunctionDepth <= 0)
-                {
-                    if (Templine.Contains("=") || Templine.Contains(" Auto"))
-                    {
-                        GlobalVariables.Add(Templine);
-                    }
-                }
-            }
-            return GlobalVariables;
-        }
-    }
-    public class FunctionFinder
-    {
-        public List<string> GlobalVariables = new List<string>();
-        public List<FunctionType> Functions = new List<FunctionType>();
-
-        public void FindContent(string content)
-        {
-            GlobalVariables = new VariablesFinder().ProcessScript(content);
-
-            string pattern = @"(?i)(?:(\w+)\s+)?(Function|Event)\s+(\w+)\s*\(([^)]*)\)[\r\n]+(.*?)^\s*End(Function|Event)";
-            var matches = Regex.Matches(content, pattern, RegexOptions.Singleline | RegexOptions.Multiline);
-
-            List<FunctionType> methodsInfo = new List<FunctionType>();
-
-            foreach (Match match in matches)
-            {
-                if (match.Groups.Count >= 7)
-                {
-                    string returnType = match.Groups[1].Success ? match.Groups[1].Value.Trim() : "";
-                    string funcType = match.Groups[2].Value.Trim(); 
-                    string methodName = match.Groups[3].Value.Trim();
-                    string parameters = match.Groups[4].Value.Trim();
-                    string body = match.Groups[5].Value.Trim();
-
-                    string[] paramList = string.IsNullOrEmpty(parameters)
-                        ? Array.Empty<string>()
-                        : parameters.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-
-                    methodsInfo.Add(new FunctionType
-                    {
-                        MethodName = methodName,
-                        ReturnType = returnType,
-                        Parameters = paramList.Select(p => p.Trim()).ToList(),
-                        Body = body,
-                        IsEvent = funcType.Equals("Event", StringComparison.OrdinalIgnoreCase)
-                    });
-                }
-            }
-
-            Functions = methodsInfo;
-        }
-
-
-    }
-    public class FunctionType
-    {
-        public string MethodName = "";
-        public string ReturnType = "";
-        public List<string> Parameters = new List<string>();
-        public string Body = "";
-        public bool IsEvent = true;
-    }
-    public class FunctionLink
-    {
-        public string FunctionName = string.Empty;
-        public string VariableName = string.Empty;
-        public FunctionLink Next;
-    }
-    public class TrackedVariable
-    {
-        public string Name;
-        public string Type;
-        public bool IsConst = false;
-        public string Value;
-        public string DEBUGLineID = "";
-    }
-    public class ParsingItem
-    {
-        public string MainFunctionName = string.Empty;
-        public string FindLine = string.Empty;
-        public bool IsFinalCall = false;
-        public int DebugLineId = 0;
-        public int Point = 0;
-        public List<TrackedVariable> VariableLinks = new();
-        public FunctionLink FuncLinks = new();
-    }
-
-    public class TranslationScoreDetail
-    {
-        public string DefLine = "";
-        public string Reason = "";
-        public double Value = 0;
-
-        public TranslationScoreDetail(string DefLine, string Reason, double Value)
-        {
-            this.DefLine = DefLine;
-            this.Reason = Reason;
-            this.Value = Value;
-        }
-    }
-    public enum DStringItemType
-    {
-        Unknown,
-        IfCondition,
-        FunctionCall,
-        VariableAssignment
-    }
-
-    public class DStringItem
-    {
-        public string Key = "";
-        public string Str = "";
-        public int LineID = 0;
-        public string SourceLine = "";
-        public string ParentFunctionName = "";
-        public double TranslationSafetyScore = 0;
-        public string IdentifierName = "";
-        public DStringItemType ItemType = DStringItemType.Unknown;
-        public List<TranslationScoreDetail> TranslationScoreDetails = new List<TranslationScoreDetail>();
-        public string Feature = "";
-    }
-    public class MethodParam
-    {
-        public string FunctionName = "";
-        public int Index = 0;
-
-        public MethodParam(string FunctionName,int Index)
-        {
-            this.FunctionName = FunctionName;
-            this.Index = Index;
-        }
-    }
     public class HeuristicCore
     {
         public static string Version = "1.3Alpha";
         public List<ParsingItem> ParsingItems = new();
         public FunctionFinder CurrentFunctionFinder = new FunctionFinder();
-        public static List<string> SafePapyrusFuncs = new List<string>() { "SetInfoText", "NotifyActor", "Warn", "messageBox", "messagebox", "Messagebox","Log", "NotifyPlayer", "NotifyNPC", "Message", "ecSlider", "ecToggle", "TextUpdate" };
+        public static List<string> SafePapyrusFuncs = new List<string>() { "SetInfoText", "NotifyActor", "Warn", "messageBox", "messagebox", "Messagebox", "Log", "NotifyPlayer", "NotifyNPC", "Message", "ecSlider", "ecToggle", "TextUpdate" };
 
         //https://ck.uesp.net/wiki/Category:Papyrus Game Api Doc
 
         public static List<string> DangerPapyrusFuncs = new List<string>
         {
             "DamageActorValue",//Game Api https://ck.uesp.net/wiki/DamageActorValue
-            "AttrDrain",//??? Api ?? maybe SkSE
+            "AttrDrain",//Game Api ?? maybe SkSE
             "RandomExpressionByTag",//SexLab Api
             "SendDeviceEvent",//DD Api
             "SendModEvent",//Game Api https://ck.uesp.net/wiki/SendModEvent
-            "UnSetFormValue",//storageutil Api ?? maybe SkSE
+            "UnSetFormValue",//storageutil Api
             "AnimSwitchKeyword",//Game Api ?? maybe SkSE 
             "StartThirdPersonAnimation",//Game Api ?? maybe SkSE 
             "SendAnimationEvent",//Game Api https://ck.uesp.net/wiki/SendAnimationEvent_-_Debug
@@ -304,25 +40,23 @@ namespace SSELex.SkyrimManage
 
         };
         public static List<string> UserDefinedSafeFuncs = new List<string>() {
-    "Notify", "notify",
-    "Log", "log",
-    "Msg", "msg", "MSG",
-    "Message", "message",
-    "ShowMessage", "showMessage", "ShowMsg", "showMsg",
-    "Display", "display",
-    "Print", "print",
-    "Alert", "alert",
-    "Popup", "popup", "PopUp", "popUp",
-    "Toast", "toast",
-    "DebugLog", "debugLog", "Debug", "debug",
-    "WriteLine", "writeline", "Write", "write",
-    "ShowNotification", "showNotification", "Notification", "notification",
-    "ShowInfo", "showInfo", "Info", "info",
-    "ShowText", "showText",
-    "ConsoleLog", "consoleLog",
-    "Output", "output",
-    "Error","error"
-};
+        "Notify", "notify",
+        "Log", "log",
+        "Msg", "msg", "MSG",
+        "Message", "message",
+        "ShowMessage", "showMessage", "ShowMsg", "showMsg",
+        "Display", "display",
+        "Print", "print",
+        "Alert", "alert",
+        "Popup", "popup", "PopUp", "popUp",
+        "Toast", "toast",
+        "DebugLog", "debugLog", "Debug", "debug",
+        "WriteLine", "writeline", "Write", "write",
+        "ShowNotification", "showNotification", "Notification", "notification",
+        "ShowInfo", "showInfo", "Info", "info",
+        "ShowText", "showText",
+        "ConsoleLog", "consoleLog",
+        };
         public static List<MethodParam> MethodSafeParams = new List<MethodParam>()
         {
            new MethodParam("NotifyPlayer",0),//DD Api
@@ -595,9 +329,9 @@ namespace SSELex.SkyrimManage
             for (int i = 0; i < Parameters.Count; i++)
             {
                 if (Parameters[i].Trim() == ParamToFind)
-                    return i; 
+                    return i;
             }
-            return -1; 
+            return -1;
         }
 
         public static List<string> SplitParameters(string Input)
@@ -641,7 +375,7 @@ namespace SSELex.SkyrimManage
             return MethodSafeParams.Any(P => P.FunctionName == FunctionName && P.Index == Index);
         }
 
-        public void DetectFunction(string SourceLine, string FunctionName, int Offset,string SourceStr)
+        public void DetectFunction(string SourceLine, string FunctionName, int Offset, string SourceStr)
         {
             bool IsNativeFunction = false;
 
@@ -655,7 +389,7 @@ namespace SSELex.SkyrimManage
                 }
             }
 
-            int GetIndex = FindParameterPosition(SourceLine,"\"" + SourceStr + "\"");
+            int GetIndex = FindParameterPosition(SourceLine, "\"" + SourceStr + "\"");
             DStringItems[Offset].Feature += "[" + GetIndex.ToString() + "]";
 
             if (IsSafeParam(FunctionName, GetIndex))
@@ -698,7 +432,7 @@ namespace SSELex.SkyrimManage
             }
         }
 
-        public bool CheckExists(int Offset,string Reason, string SourceLine)
+        public bool CheckExists(int Offset, string Reason, string SourceLine)
         {
             bool AlreadyAdded = DStringItems[Offset].TranslationScoreDetails
             .Any(D => D.Reason == Reason && D.DefLine == SourceLine);
@@ -718,7 +452,7 @@ namespace SSELex.SkyrimManage
             string Ext = Path.GetExtension(Input);
             return !string.IsNullOrEmpty(Ext) && ValidExtensions.Contains(Ext);
         }
-       
+
 
         public void AnalyzeCodeLine(List<string> Lines)
         {
@@ -928,8 +662,8 @@ namespace SSELex.SkyrimManage
                 else
                 {
                     if (SourceLine.Contains("UnSetFormValue"))
-                    { 
-                    
+                    {
+
                     }
                     //Is Function
                     DStringItems[i].Feature += "Is Function>";
@@ -953,6 +687,270 @@ namespace SSELex.SkyrimManage
             }
 
             this.DStringItems = DStringItems.OrderByDescending(Item => Item.TranslationSafetyScore).ToList();
+        }
+    }
+
+    public static class Crc32Helper
+    {
+        private static readonly uint[] Table;
+
+        static Crc32Helper()
+        {
+            uint poly = 0xEDB88320;
+            Table = new uint[256];
+            for (uint i = 0; i < Table.Length; ++i)
+            {
+                uint temp = i;
+                for (int j = 0; j < 8; ++j)
+                {
+                    if ((temp & 1) == 1)
+                    {
+                        temp = (temp >> 1) ^ poly;
+                    }
+                    else
+                    {
+                        temp >>= 1;
+                    }
+                }
+                Table[i] = temp;
+            }
+        }
+
+        public static string ComputeCrc32(string input)
+        {
+            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(input);
+            uint crc = 0xFFFFFFFF;
+
+            foreach (byte b in bytes)
+            {
+                byte index = (byte)((crc & 0xFF) ^ b);
+                crc = (crc >> 8) ^ Table[index];
+            }
+
+            crc ^= 0xFFFFFFFF;
+            return crc.ToString("X8");
+        }
+    }
+    public static class ConditionHelper
+    {
+        // Given a condition line and a target string, find the variable or method related to that string.
+        // Example:
+        //   Line = If Anim != None && Anim.Name != "DDZapArmbDoggy01" ; #DEBUG_LINE_NO:86
+        //   Target = DDZapArmbDoggy01
+        // Returns: "Anim.Name" (IsMethod = false)
+        public static (string Name, bool IsMethod) FindVariableOrMethodForString(string line, string targetString)
+        {
+            if (string.IsNullOrEmpty(line) || string.IsNullOrEmpty(targetString))
+                return (string.Empty, false);
+
+            string trimmedLine = line.Trim();
+            if (trimmedLine.StartsWith("If ", StringComparison.OrdinalIgnoreCase))
+                trimmedLine = trimmedLine.Substring(3).Trim();
+
+            int commentIndex = trimmedLine.IndexOf(';');
+            if (commentIndex >= 0)
+                trimmedLine = trimmedLine.Substring(0, commentIndex).Trim();
+
+            string quotedTarget = $"\"{targetString}\"";
+            int foundIndex = trimmedLine.IndexOf(quotedTarget, StringComparison.Ordinal);
+            if (foundIndex == -1)
+                return (string.Empty, false);
+
+            // Step backward to find the variable or method left of '!=' or '='
+            int opIndex = trimmedLine.LastIndexOf("!=", foundIndex);
+            if (opIndex == -1)
+                opIndex = trimmedLine.LastIndexOf("=", foundIndex);
+            if (opIndex == -1)
+                return (string.Empty, false);
+
+            // Move left from operator to find the full expression
+            int end = opIndex - 1;
+            while (end >= 0 && char.IsWhiteSpace(trimmedLine[end])) end--;
+            if (end < 0) return (string.Empty, false);
+
+            int start = end;
+            while (start >= 0 && (char.IsLetterOrDigit(trimmedLine[start]) || trimmedLine[start] == '_' || trimmedLine[start] == '.'))
+                start--;
+            start++;
+
+            if (start > end) return (string.Empty, false);
+
+            string candidate = trimmedLine.Substring(start, end - start + 1);
+
+            // Detect method
+            bool isMethod = false;
+            int lookahead = end + 1;
+            while (lookahead < trimmedLine.Length && char.IsWhiteSpace(trimmedLine[lookahead]))
+                lookahead++;
+            if (lookahead < trimmedLine.Length && trimmedLine[lookahead] == '(')
+                isMethod = true;
+
+            return (candidate, isMethod);
+        }
+
+    }
+
+
+
+
+    public class VariablesFinder
+    {
+        private int FunctionDepth = 0;
+
+        public List<string> GlobalVariables = new List<string>();
+        public List<string> ProcessScript(string Script)
+        {
+            GlobalVariables.Clear();
+
+            string[] Lines = Script.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+
+            foreach (string Line in Lines)
+            {
+                var Templine = Line.Trim();
+
+                if (Templine.Trim().ToLower().StartsWith("function"))
+                {
+                    FunctionDepth++;
+                    continue;
+                }
+
+                else if (Templine.Trim().ToLower().StartsWith("endfunction"))
+                {
+                    FunctionDepth--;
+                    continue;
+                }
+
+                if (FunctionDepth <= 0)
+                {
+                    if (Templine.Contains("=") || Templine.Contains(" Auto"))
+                    {
+                        GlobalVariables.Add(Templine);
+                    }
+                }
+            }
+            return GlobalVariables;
+        }
+    }
+    public class FunctionFinder
+    {
+        public List<string> GlobalVariables = new List<string>();
+        public List<FunctionType> Functions = new List<FunctionType>();
+
+        public void FindContent(string content)
+        {
+            GlobalVariables = new VariablesFinder().ProcessScript(content);
+
+            string pattern = @"(?i)(?:(\w+)\s+)?(Function|Event)\s+(\w+)\s*\(([^)]*)\)[\r\n]+(.*?)^\s*End(Function|Event)";
+            var matches = Regex.Matches(content, pattern, RegexOptions.Singleline | RegexOptions.Multiline);
+
+            List<FunctionType> methodsInfo = new List<FunctionType>();
+
+            foreach (Match match in matches)
+            {
+                if (match.Groups.Count >= 7)
+                {
+                    string returnType = match.Groups[1].Success ? match.Groups[1].Value.Trim() : "";
+                    string funcType = match.Groups[2].Value.Trim();
+                    string methodName = match.Groups[3].Value.Trim();
+                    string parameters = match.Groups[4].Value.Trim();
+                    string body = match.Groups[5].Value.Trim();
+
+                    string[] paramList = string.IsNullOrEmpty(parameters)
+                        ? Array.Empty<string>()
+                        : parameters.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+                    methodsInfo.Add(new FunctionType
+                    {
+                        MethodName = methodName,
+                        ReturnType = returnType,
+                        Parameters = paramList.Select(p => p.Trim()).ToList(),
+                        Body = body,
+                        IsEvent = funcType.Equals("Event", StringComparison.OrdinalIgnoreCase)
+                    });
+                }
+            }
+
+            Functions = methodsInfo;
+        }
+
+
+    }
+    public class FunctionType
+    {
+        public string MethodName = "";
+        public string ReturnType = "";
+        public List<string> Parameters = new List<string>();
+        public string Body = "";
+        public bool IsEvent = true;
+    }
+    public class FunctionLink
+    {
+        public string FunctionName = string.Empty;
+        public string VariableName = string.Empty;
+        public FunctionLink Next;
+    }
+    public class TrackedVariable
+    {
+        public string Name;
+        public string Type;
+        public bool IsConst = false;
+        public string Value;
+        public string DEBUGLineID = "";
+    }
+    public class ParsingItem
+    {
+        public string MainFunctionName = string.Empty;
+        public string FindLine = string.Empty;
+        public bool IsFinalCall = false;
+        public int DebugLineId = 0;
+        public int Point = 0;
+        public List<TrackedVariable> VariableLinks = new();
+        public FunctionLink FuncLinks = new();
+    }
+
+    public class TranslationScoreDetail
+    {
+        public string DefLine = "";
+        public string Reason = "";
+        public double Value = 0;
+
+        public TranslationScoreDetail(string DefLine, string Reason, double Value)
+        {
+            this.DefLine = DefLine;
+            this.Reason = Reason;
+            this.Value = Value;
+        }
+    }
+    public enum DStringItemType
+    {
+        Unknown,
+        IfCondition,
+        FunctionCall,
+        VariableAssignment
+    }
+
+    public class DStringItem
+    {
+        public string Key = "";
+        public string Str = "";
+        public int LineID = 0;
+        public string SourceLine = "";
+        public string ParentFunctionName = "";
+        public double TranslationSafetyScore = 0;
+        public string IdentifierName = "";
+        public DStringItemType ItemType = DStringItemType.Unknown;
+        public List<TranslationScoreDetail> TranslationScoreDetails = new List<TranslationScoreDetail>();
+        public string Feature = "";
+    }
+    public class MethodParam
+    {
+        public string FunctionName = "";
+        public int Index = 0;
+
+        public MethodParam(string FunctionName, int Index)
+        {
+            this.FunctionName = FunctionName;
+            this.Index = Index;
         }
     }
 }
