@@ -56,17 +56,31 @@ By doing so, I want users to feel completely confident that this tool is absolut
 
 # ❤️ Personal Note from the Developer
 
-_As an open-source developer, the only real motivation I have to keep improving this project is seeing the download numbers on the release platforms._
+*As an open-source developer, the only real motivation I have to keep improving this project is seeing the download numbers on the release platforms.*
 
 You may have noticed that I once planned to improve the logic related to PEX handling and validation — but lately, I’ve lost the motivation to continue.
 
-To be honest, I sometimes feel ashamed when I see how low the download count is.  
+To be honest, I sometimes feel **ashamed** when I see how low the download count is.  
 What still supports me are a few kind and encouraging comments from users on the forums.  
 That’s all I have left — and I’m truly, deeply moved by their support.
 
-**9DM has at least 3,000 downloads, but on Nexus, it only shows 490 unique downloads.**  
-**It's already been updated from version 1.0 to 2.0, and a month has passed.**  
-**I can't hold on any longer.**
+> **9DM has at least 3,000 downloads, but on Nexus, it only shows 490 unique downloads.**  
+> **It's already been updated from version 1.0 to 2.0, and a month has passed.**  
+> **I can't hold on any longer.**
+
+I don’t expect to gain anything from **SSELex** — not donations, not fame.  
+I created it because I wanted to contribute something truly useful to the modding community, especially for **international users**.
+
+In fact, I prioritize solving problems reported by **non-Chinese users** first.  
+I genuinely enjoy communicating across cultures, and I believe that if more users download and use this tool, it will open up more opportunities for **exchange, discussion, and collaboration**.  
+That’s what keeps me going.
+
+Maybe I’m a fool — a big one — for caring this much.  
+But still, I hope this little project can become a **small bridge** between modders from all over the world.
+
+If you’re using **SSELex**, even silently —  
+**thank you.**  
+You’re already part of the reason I keep working on it.
 
 ## 🖼️ UI Icon
 
