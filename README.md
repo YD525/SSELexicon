@@ -54,6 +54,17 @@ By doing so, I want users to feel completely confident that this tool is absolut
 
 ---
 
+## ❤️ Personal Note from the Developer
+
+As an open-source developer, the only real motivation I have to keep improving this project is seeing the download numbers on the release platforms.  
+You may have noticed that I once planned to improve the logic related to PEX handling and validation — but lately, I’ve lost the motivation to continue.
+
+To be honest, I sometimes feel ashamed when I see how low the download count is.  
+What still supports me are a few kind and encouraging comments from users on the forums.  
+That’s all I have left — and I’m truly, deeply moved by their support.
+
+---
+
 ## 🖼️ UI Icon
 
 The icon used in the UI interface (**"Note"**) is sourced from **Iconfont**.
