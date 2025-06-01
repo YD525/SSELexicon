@@ -17,12 +17,12 @@ This project makes use of the following key open-source libraries/frameworks:
 - [Champollion](https://github.com/Orvid/Champollion) – developed by [Orvid], for decompiling Papyrus compiled scripts.
 - [Papyrus-compiler](https://github.com/russo-2025/papyrus-compiler) – used to compile .pas script files.
 
+Other dependencies (such as **AvalonEdit**, various helper libraries, etc.) are also used.  
+Please refer to their respective LICENSE files for further information.
+
 ### 🙏 Special Thanks
 
 I would like to give special thanks to the developers of the three key frameworks above. Their excellent libraries provide SSE Lexicon with a stable and solid foundation, allowing us to focus more on developing the translation features.
-
-Other dependencies (such as **AvalonEdit**, various helper libraries, etc.) are also used.  
-Please refer to their respective LICENSE files for further information.
 
 ---
 
