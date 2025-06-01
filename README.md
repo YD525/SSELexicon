@@ -1,7 +1,7 @@
 # SSE Lexicon
 
 SSE Lexicon is an open-source and free translation tool for Skyrim Mod, intended to significantly reduce the workload of Sinicizers.  
-Published at: [Nexusmods](https://www.nexusmods.com/skyrimspecialedition/mods/143056)  
+Published at: [https://www.nexusmods.com/skyrimspecialedition/mods/143056](https://www.nexusmods.com/skyrimspecialedition/mods/143056)  
 Additionally, we hope everyone can download it from Nexusmods.
 
 ## 📄 License
@@ -17,9 +17,12 @@ This project makes use of the following key open-source libraries/frameworks:
 - [Champollion](https://github.com/Orvid/Champollion) – developed by [Orvid], for decompiling Papyrus compiled scripts.
 - [Papyrus-compiler](https://github.com/russo-2025/papyrus-compiler) – used to compile .pas script files.
 
+I would like to give special thanks to the developers of the three key frameworks above.  
+Their excellent libraries provide SSE Lexicon with a stable and solid foundation,  
+allowing us to focus more on developing the translation features.
+
 Other dependencies (such as **AvalonEdit**, various helper libraries, etc.) are also used.  
 Please refer to their respective LICENSE files for further information.
-
 ---
 
 ## 🖼️ UI Icon
