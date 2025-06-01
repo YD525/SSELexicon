@@ -66,7 +66,6 @@ That’s all I have left — and I’m truly, deeply moved by their support.
 
 > **9DM has at least 3,000 downloads, but on Nexus, it only shows 490 unique downloads.**  
 > **It's already been updated from version 1.0 to 2.0, and a month has passed.**  
-> **I can't hold on any longer.**
 
 I don’t expect to gain anything from **SSELex** — not donations, not fame.  
 I created it because I wanted to contribute something truly useful to the modding community, especially for **international users**.
@@ -81,6 +80,7 @@ But still, I hope this little project can become a **small bridge** between modd
 If you’re using **SSELex**, even silently —  
 **thank you.**  
 You’re already part of the reason I keep working on it.
+But with the support from even a small number of users, I believe that's already enough. I will keep going. Thank you all—much appreciated!
 
 ## 🖼️ UI Icon
 
