@@ -1,8 +1,9 @@
 # SSE Lexicon
 
-SSE Lexicon is an open-source and free translation tool for Skyrim Mod, intended to significantly reduce the workload of Sinicizers.  
+SSELex is a fully open-source and free tool created to assist with Skyrim mod translation. It supports multiple file formats, including PEX, ESM, ESP, and MCM, offering enhanced convenience and flexibility for translators.  
+By utilizing advanced string processing and optional online translation integration, SSELex helps streamline translation tasks and improve overall efficiency.  
 Published at: [https://www.nexusmods.com/skyrimspecialedition/mods/143056](https://www.nexusmods.com/skyrimspecialedition/mods/143056)  
-Additionally, we hope everyone can download it from Nexusmods.
+Additionally, I hope everyone can download it from Nexusmods.
 
 ## 📄 License
 
