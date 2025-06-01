@@ -5,8 +5,8 @@ By utilizing advanced string processing and optional online translation integrat
 
 Published at:  
 - [https://www.nexusmods.com/skyrimspecialedition/mods/143056](https://www.nexusmods.com/skyrimspecialedition/mods/143056)  
-- [http://www.9dmgamemod.com/thread-325140-1-1.html](http://www.9dmgamemod.com/thread-325140-1-1.html)  
 - [https://skyrimspecialedition.2game.info/detail.php?id=143056](https://skyrimspecialedition.2game.info/detail.php?id=143056)
+- [http://www.9dmgamemod.com/thread-325140-1-1.html](http://www.9dmgamemod.com/thread-325140-1-1.html) 
 ---
 
 ## 📄 License
