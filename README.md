@@ -54,16 +54,19 @@ By doing so, I want users to feel completely confident that this tool is absolut
 
 ---
 
-## ❤️ Personal Note from the Developer
+# ❤️ Personal Note from the Developer
 
-As an open-source developer, the only real motivation I have to keep improving this project is seeing the download numbers on the release platforms.  
+_As an open-source developer, the only real motivation I have to keep improving this project is seeing the download numbers on the release platforms._
+
 You may have noticed that I once planned to improve the logic related to PEX handling and validation — but lately, I’ve lost the motivation to continue.
 
 To be honest, I sometimes feel ashamed when I see how low the download count is.  
 What still supports me are a few kind and encouraging comments from users on the forums.  
 That’s all I have left — and I’m truly, deeply moved by their support.
-9DM has at least 3,000 downloads, but on Nexus, it only shows 490 unique downloads. It's already been updated from version 1.0 to 2.0, and a month has passed. I can't hold on any longer.
----
+
+**9DM has at least 3,000 downloads, but on Nexus, it only shows 490 unique downloads.**  
+**It's already been updated from version 1.0 to 2.0, and a month has passed.**  
+**I can't hold on any longer.**
 
 ## 🖼️ UI Icon
 
