@@ -37,6 +37,8 @@ I would like to give special thanks to the developers of
 
 Their excellent libraries provide SSE Lexicon with a stable and solid foundation, allowing us to focus more on developing the translation features.
 
+I would also like to thank 9DM And 泰姆瑞尔MOD组 for recognizing my identity as a MOD developer.
+
 ---
 
 ## 🖼️ UI Icon
