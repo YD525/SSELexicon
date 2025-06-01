@@ -62,7 +62,6 @@ You may have noticed that I once planned to improve the logic related to PEX han
 To be honest, I sometimes feel ashamed when I see how low the download count is.  
 What still supports me are a few kind and encouraging comments from users on the forums.  
 That’s all I have left — and I’m truly, deeply moved by their support.
-
 9DM has at least 3,000 downloads, but on Nexus, it only shows 490 unique downloads. It's already been updated from version 1.0 to 2.0, and a month has passed. I can't hold on any longer.
 ---
 
