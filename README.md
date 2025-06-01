@@ -3,10 +3,13 @@
 **SSELex** is a fully open-source and free tool created to assist with Skyrim mod translation. It supports multiple file formats, including PEX, ESM, ESP, and MCM, offering enhanced convenience and flexibility for translators.  
 By utilizing advanced string processing and optional online translation integration, SSELex helps streamline translation tasks and improve overall efficiency.  
 
-Thanks to the following websites for kindly featuring my project SSELex. You can download it from them, or build the project yourself:
-- [https://www.nexusmods.com/skyrimspecialedition/mods/143056](https://www.nexusmods.com/skyrimspecialedition/mods/143056)  
-- [https://skyrimspecialedition.2game.info/detail.php?id=143056](https://skyrimspecialedition.2game.info/detail.php?id=143056)
-- [http://www.9dmgamemod.com/thread-325140-1-1.html](http://www.9dmgamemod.com/thread-325140-1-1.html) 
+I'm grateful to the following websites for kindly featuring **SSELex**.  
+You can download it from any of them, or build the project yourself —  
+but knowing that you downloaded it makes me even happier!
+
+- [Nexus Mods (for international users)](https://www.nexusmods.com/skyrimspecialedition/mods/143056)  
+- [2Game.info (for Japanese users)](https://skyrimspecialedition.2game.info/detail.php?id=143056)  
+- [9DM Game Mod (for Chinese users)](http://www.9dmgamemod.com/thread-325140-1-1.html)
 ---
 
 ## 📄 License
