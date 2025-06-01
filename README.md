@@ -44,6 +44,16 @@ I would also like to thank 9DM And 泰姆瑞尔MOD组 for recognizing my identit
 
 ---
 
+## 🔐 About Open Source
+
+Although **SSELex** is fully open-source, the code itself is carefully structured into well-defined layers.  
+If I wished, I could easily open-source only selected parts — I have both the technical means and the design to support such modular openness.
+
+However, I chose to make the entire project open-source to ensure maximum transparency and trust.  
+By doing so, I want users to feel completely confident that this tool is absolutely safe to use.
+
+---
+
 ## 🖼️ UI Icon
 
 The icon used in the UI interface (**"Note"**) is sourced from **Iconfont**.
