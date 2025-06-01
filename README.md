@@ -22,7 +22,8 @@ Please refer to their respective LICENSE files for further information.
 
 ### 🙏 Special Thanks
 
-I would like to give special thanks to the developers of the three key frameworks above. Their excellent libraries provide SSE Lexicon with a stable and solid foundation, allowing us to focus more on developing the translation features.
+I would like to give special thanks to the developers of [Mutagen.Bethesda](https://github.com/Mutagen-Modding/Mutagen) and [Champollion](https://github.com/Orvid/Champollion).  
+Their excellent libraries provide SSE Lexicon with a stable and solid foundation, allowing us to focus more on developing the translation features.
 
 ---
 
