@@ -80,7 +80,11 @@ But still, I hope this little project can become a **small bridge** between modd
 If you’re using **SSELex**, even silently —  
 **thank you.**  
 You’re already part of the reason I keep working on it.
-But with the support from even a small number of users, I believe that's already enough. I will keep going. Thank you all—much appreciated!
+
+---
+
+But with the support from even a small number of users, I believe that's already enough.  
+**I will keep going. Thank you all — much appreciated!**
 
 ## 🖼️ UI Icon
 
