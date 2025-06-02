@@ -119,12 +119,22 @@
 
   <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
-    <PackageReference Include="Microsoft-WindowsAPICodePack-Core" Version="1.1.5" />
-    <PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.5" />
-    <PackageReference Include="Mutagen.Bethesda" Version="0.50.2" />
+    <PackageReference Include="Mutagen.Bethesda.Skyrim" Version="0.50.2" />
     <PackageReference Include="SharpVectors" Version="1.8.4.2" />
     <PackageReference Include="System.Data.SQLite" Version="1.0.119" />
     <PackageReference Include="System.Drawing.Common" Version="9.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Mutagen.Bethesda.Core">
+      <HintPath>..\ForkMutagen\Mutagen.Bethesda.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Mutagen.Bethesda.Kernel">
+      <HintPath>..\ForkMutagen\Mutagen.Bethesda.Kernel.dll</HintPath>
+    </Reference>
+    <Reference Include="Mutagen.Bethesda.Skyrim">
+      <HintPath>..\..\..\..\Downloads\TestFrameWork\Mutagen\Mutagen.Bethesda.Skyrim\bin\Debug\net8.0\Mutagen.Bethesda.Skyrim.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

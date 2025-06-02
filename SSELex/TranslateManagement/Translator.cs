@@ -6,11 +6,7 @@ using static SSELex.TranslateManage.TransCore;
 using SSELex.UIManage;
 using System.Windows.Media;
 using SSELex.TranslateManagement;
-using Mutagen.Bethesda.Starfield;
-using Reloaded.Memory.Pointers.Sourced;
 using System.Text.RegularExpressions;
-using System.Windows.Input;
-using System.Diagnostics;
 
 namespace SSELex.TranslateManage
 {

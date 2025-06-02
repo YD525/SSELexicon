@@ -1,26 +1,9 @@
-﻿using DynamicData;
-using Mutagen.Bethesda.Skyrim;
-using Noggog;
-using Reloaded.Memory.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows.Documents;
 using SSELex.ConvertManager;
 using SSELex.SkyrimModManager;
 using SSELex.TranslateManage;
-using SSELex.UIManage;
-using static Microsoft.WindowsAPICodePack.Shell.PropertySystem.SystemProperties.System;
-using System.Runtime.InteropServices;
-using Microsoft.VisualBasic;
 
 namespace SSELex.SkyrimManage
 {

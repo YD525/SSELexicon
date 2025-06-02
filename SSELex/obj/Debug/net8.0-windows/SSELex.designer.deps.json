@@ -177,25 +177,6 @@
           }
         }
       },
-      "Microsoft-WindowsAPICodePack-Core/1.1.5": {
-        "runtime": {
-          "lib/net7.0-windows7.0/Microsoft.WindowsAPICodePack.dll": {
-            "assemblyVersion": "1.1.5.0",
-            "fileVersion": "1.1.5.0"
-          }
-        }
-      },
-      "Microsoft-WindowsAPICodePack-Shell/1.1.5": {
-        "dependencies": {
-          "Microsoft-WindowsAPICodePack-Core": "1.1.5"
-        },
-        "runtime": {
-          "lib/net7.0-windows7.0/Microsoft.WindowsAPICodePack.Shell.dll": {
-            "assemblyVersion": "1.1.5.0",
-            "fileVersion": "1.1.5.0"
-          }
-        }
-      },
       "Microsoft.Bcl.AsyncInterfaces/6.0.0": {
         "runtime": {
           "lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll": {
@@ -259,23 +240,6 @@
           }
         }
       },
-      "Mutagen.Bethesda/0.50.2": {
-        "dependencies": {
-          "Loqui": "2.71.0-alpha.1",
-          "Mutagen.Bethesda.Core": "0.50.2",
-          "Mutagen.Bethesda.Fallout4": "0.50.2",
-          "Mutagen.Bethesda.Oblivion": "0.50.2",
-          "Mutagen.Bethesda.Skyrim": "0.50.2",
-          "Mutagen.Bethesda.Starfield": "0.50.2",
-          "Noggog.CSharpExt": "2.71.0"
-        },
-        "runtime": {
-          "lib/net8.0/Mutagen.Bethesda.dll": {
-            "assemblyVersion": "0.50.2.0",
-            "fileVersion": "0.50.2.0"
-          }
-        }
-      },
       "Mutagen.Bethesda.Core/0.50.2": {
         "dependencies": {
           "GameFinder.StoreHandlers.GOG": "4.4.0",
@@ -299,38 +263,12 @@
           }
         }
       },
-      "Mutagen.Bethesda.Fallout4/0.50.2": {
-        "dependencies": {
-          "Loqui": "2.71.0-alpha.1",
-          "Mutagen.Bethesda.Core": "0.50.2",
-          "Noggog.CSharpExt": "2.71.0"
-        },
-        "runtime": {
-          "lib/net8.0/Mutagen.Bethesda.Fallout4.dll": {
-            "assemblyVersion": "0.50.2.0",
-            "fileVersion": "0.50.2.0"
-          }
-        }
-      },
       "Mutagen.Bethesda.Kernel/0.50.2": {
         "dependencies": {
           "Noggog.CSharpExt": "2.71.0"
         },
         "runtime": {
           "lib/net8.0/Mutagen.Bethesda.Kernel.dll": {
-            "assemblyVersion": "0.50.2.0",
-            "fileVersion": "0.50.2.0"
-          }
-        }
-      },
-      "Mutagen.Bethesda.Oblivion/0.50.2": {
-        "dependencies": {
-          "Loqui": "2.71.0-alpha.1",
-          "Mutagen.Bethesda.Core": "0.50.2",
-          "Noggog.CSharpExt": "2.71.0"
-        },
-        "runtime": {
-          "lib/net8.0/Mutagen.Bethesda.Oblivion.dll": {
             "assemblyVersion": "0.50.2.0",
             "fileVersion": "0.50.2.0"
           }
@@ -344,19 +282,6 @@
         },
         "runtime": {
           "lib/net8.0/Mutagen.Bethesda.Skyrim.dll": {
-            "assemblyVersion": "0.50.2.0",
-            "fileVersion": "0.50.2.0"
-          }
-        }
-      },
-      "Mutagen.Bethesda.Starfield/0.50.2": {
-        "dependencies": {
-          "Loqui": "2.71.0-alpha.1",
-          "Mutagen.Bethesda.Core": "0.50.2",
-          "Noggog.CSharpExt": "2.71.0"
-        },
-        "runtime": {
-          "lib/net8.0/Mutagen.Bethesda.Starfield.dll": {
             "assemblyVersion": "0.50.2.0",
             "fileVersion": "0.50.2.0"
           }
@@ -1080,20 +1005,6 @@
       "path": "loqui/2.71.0-alpha.1",
       "hashPath": "loqui.2.71.0-alpha.1.nupkg.sha512"
     },
-    "Microsoft-WindowsAPICodePack-Core/1.1.5": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-3feeT5wxrH/T4YmoZwCglVrUw6aS4+WJLA3FRADLVT2J85/zjptrCikvGNcLI1+gDeoI1AZ4w45gF2FvBv6eQw==",
-      "path": "microsoft-windowsapicodepack-core/1.1.5",
-      "hashPath": "microsoft-windowsapicodepack-core.1.1.5.nupkg.sha512"
-    },
-    "Microsoft-WindowsAPICodePack-Shell/1.1.5": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-lZ+oIxvTp1Ph0YrzFl3AKcrry7OCfi0awf43nrGwodWqDlFASktZ+pN532rbU/5o09irYjxVu1m3UxO5L1H8fw==",
-      "path": "microsoft-windowsapicodepack-shell/1.1.5",
-      "hashPath": "microsoft-windowsapicodepack-shell.1.1.5.nupkg.sha512"
-    },
     "Microsoft.Bcl.AsyncInterfaces/6.0.0": {
       "type": "package",
       "serviceable": true,
@@ -1150,26 +1061,12 @@
       "path": "microsoft.win32.systemevents/9.0.1",
       "hashPath": "microsoft.win32.systemevents.9.0.1.nupkg.sha512"
     },
-    "Mutagen.Bethesda/0.50.2": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-hrTPUUAHM/mZnT5kCAjvlY4UVCPvjDJqYW/f+uC2cWIJn+45VlpABSwrfhd9FJzxUnaKxeo14bAsTnoWPJbD9A==",
-      "path": "mutagen.bethesda/0.50.2",
-      "hashPath": "mutagen.bethesda.0.50.2.nupkg.sha512"
-    },
     "Mutagen.Bethesda.Core/0.50.2": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-JggXJivMgVQ/xq2Cfz3Xwx5CEpNjlw3wlZLRVhKV5wrGFv8il34qaiOzwJXzmYN4A+3sSda2C5nHbJw0Nx1L5g==",
       "path": "mutagen.bethesda.core/0.50.2",
       "hashPath": "mutagen.bethesda.core.0.50.2.nupkg.sha512"
-    },
-    "Mutagen.Bethesda.Fallout4/0.50.2": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-+0RZaD0dwKhMcL1gKg073DOG/0gMHBYlKTZfOJBe5O0qX93ak3vC8gNPDfBxV3iuTVMvHDCl+x3fnDQm9E1EDQ==",
-      "path": "mutagen.bethesda.fallout4/0.50.2",
-      "hashPath": "mutagen.bethesda.fallout4.0.50.2.nupkg.sha512"
     },
     "Mutagen.Bethesda.Kernel/0.50.2": {
       "type": "package",
@@ -1178,26 +1075,12 @@
       "path": "mutagen.bethesda.kernel/0.50.2",
       "hashPath": "mutagen.bethesda.kernel.0.50.2.nupkg.sha512"
     },
-    "Mutagen.Bethesda.Oblivion/0.50.2": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-WYMTd5DJdVnwUp+k3SoJKlEY83Exnygy89Ihilczu1AfeYui8CQvOf9VtVTP6zIxFzUhSpqZk8BTm81h9QAP+g==",
-      "path": "mutagen.bethesda.oblivion/0.50.2",
-      "hashPath": "mutagen.bethesda.oblivion.0.50.2.nupkg.sha512"
-    },
     "Mutagen.Bethesda.Skyrim/0.50.2": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-qoW0hcZChKCoOVWi0fGjV+NeOVLGU2JxNzn9pOOboNXZdciIq1c3DY1kqz8Qex4sCnca3ZhObQOfxeX61GzvUQ==",
       "path": "mutagen.bethesda.skyrim/0.50.2",
       "hashPath": "mutagen.bethesda.skyrim.0.50.2.nupkg.sha512"
-    },
-    "Mutagen.Bethesda.Starfield/0.50.2": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-HIiRqckCHhXpBlgOPMDFAdQ3FK7skftTeXlM0P+89PfsFv1DY9owsAjAiU8ZX0ysMSU+xQa9QjO51SvJy9b4/Q==",
-      "path": "mutagen.bethesda.starfield/0.50.2",
-      "hashPath": "mutagen.bethesda.starfield.0.50.2.nupkg.sha512"
     },
     "NexusMods.Paths/0.10.0": {
       "type": "package",

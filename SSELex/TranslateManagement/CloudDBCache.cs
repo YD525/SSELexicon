@@ -1,6 +1,4 @@
 ﻿using System.Data;
-using System.Windows.Forms;
-using Mutagen.Bethesda.Oblivion;
 using SSELex.ConvertManager;
 
 namespace SSELex.TranslateCore

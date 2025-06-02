@@ -1,5 +1,4 @@
-﻿using Microsoft.WindowsAPICodePack.Dialogs;
-using SharpVectors.Converters;
+﻿using SharpVectors.Converters;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
@@ -23,8 +22,6 @@ using System.Text;
 using SSELex.PlatformManagement;
 using SSELex.RequestManagement;
 using SSELex.TranslateManagement;
-using System.Windows.Threading;
-using Mutagen.Bethesda.Starfield;
 using SSELex.UIManagement;
 using static SSELex.SkyrimManage.EspReader;
 
@@ -498,11 +495,15 @@ namespace SSELex
 
         public void LoadAny()
         {
-            CommonOpenFileDialog Dialog = new CommonOpenFileDialog();
-            Dialog.IsFolderPicker = false;
-            if (Dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            var Dialog = new System.Windows.Forms.OpenFileDialog();
+            Dialog.Title = "Please select a file";
+            Dialog.Filter = "All files|*.*";
+            Dialog.Multiselect = false;
+
+            if (Dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                LoadAny(Dialog.FileName);
+                string SelectedFile = Dialog.FileName;
+                LoadAny(SelectedFile);
             }
         }
 

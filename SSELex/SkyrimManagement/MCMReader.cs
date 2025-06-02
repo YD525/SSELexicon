@@ -1,12 +1,5 @@
-﻿using Mutagen.Bethesda.Fallout4;
-using Mutagen.Bethesda.Oblivion;
-using Mutagen.Bethesda.Skyrim;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 using SSELex.SkyrimModManager;
 using SSELex.TranslateManage;
 using SSELex.UIManage;

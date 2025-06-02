@@ -257,41 +257,6 @@
           }
         }
       },
-      "Microsoft-WindowsAPICodePack-Core/1.1.5": {
-        "type": "package",
-        "compile": {
-          "lib/net7.0-windows7.0/Microsoft.WindowsAPICodePack.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net7.0-windows7.0/Microsoft.WindowsAPICodePack.dll": {
-            "related": ".xml"
-          }
-        },
-        "frameworkReferences": [
-          "Microsoft.WindowsDesktop.App.WindowsForms"
-        ]
-      },
-      "Microsoft-WindowsAPICodePack-Shell/1.1.5": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft-WindowsAPICodePack-Core": "1.1.5"
-        },
-        "compile": {
-          "lib/net7.0-windows7.0/Microsoft.WindowsAPICodePack.Shell.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net7.0-windows7.0/Microsoft.WindowsAPICodePack.Shell.dll": {
-            "related": ".xml"
-          }
-        },
-        "frameworkReferences": [
-          "Microsoft.WindowsDesktop.App"
-        ]
-      },
       "Microsoft.Bcl.AsyncInterfaces/6.0.0": {
         "type": "package",
         "compile": {
@@ -409,28 +374,6 @@
           }
         }
       },
-      "Mutagen.Bethesda/0.50.2": {
-        "type": "package",
-        "dependencies": {
-          "Loqui": "[2.71.0-alpha.1]",
-          "Mutagen.Bethesda.Core": "0.50.2",
-          "Mutagen.Bethesda.Fallout4": "0.50.2",
-          "Mutagen.Bethesda.Oblivion": "0.50.2",
-          "Mutagen.Bethesda.Skyrim": "0.50.2",
-          "Mutagen.Bethesda.Starfield": "0.50.2",
-          "Noggog.CSharpExt": "2.71.0"
-        },
-        "compile": {
-          "lib/net8.0/Mutagen.Bethesda.dll": {
-            "related": ".pdb;.xml"
-          }
-        },
-        "runtime": {
-          "lib/net8.0/Mutagen.Bethesda.dll": {
-            "related": ".pdb;.xml"
-          }
-        }
-      },
       "Mutagen.Bethesda.Core/0.50.2": {
         "type": "package",
         "dependencies": {
@@ -459,24 +402,6 @@
           }
         }
       },
-      "Mutagen.Bethesda.Fallout4/0.50.2": {
-        "type": "package",
-        "dependencies": {
-          "Loqui": "[2.71.0-alpha.1]",
-          "Mutagen.Bethesda.Core": "0.50.2",
-          "Noggog.CSharpExt": "2.71.0"
-        },
-        "compile": {
-          "lib/net8.0/Mutagen.Bethesda.Fallout4.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net8.0/Mutagen.Bethesda.Fallout4.dll": {
-            "related": ".xml"
-          }
-        }
-      },
       "Mutagen.Bethesda.Kernel/0.50.2": {
         "type": "package",
         "dependencies": {
@@ -489,24 +414,6 @@
         },
         "runtime": {
           "lib/net8.0/Mutagen.Bethesda.Kernel.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "Mutagen.Bethesda.Oblivion/0.50.2": {
-        "type": "package",
-        "dependencies": {
-          "Loqui": "[2.71.0-alpha.1]",
-          "Mutagen.Bethesda.Core": "0.50.2",
-          "Noggog.CSharpExt": "2.71.0"
-        },
-        "compile": {
-          "lib/net8.0/Mutagen.Bethesda.Oblivion.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net8.0/Mutagen.Bethesda.Oblivion.dll": {
             "related": ".xml"
           }
         }
@@ -525,24 +432,6 @@
         },
         "runtime": {
           "lib/net8.0/Mutagen.Bethesda.Skyrim.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "Mutagen.Bethesda.Starfield/0.50.2": {
-        "type": "package",
-        "dependencies": {
-          "Loqui": "[2.71.0-alpha.1]",
-          "Mutagen.Bethesda.Core": "0.50.2",
-          "Noggog.CSharpExt": "2.71.0"
-        },
-        "compile": {
-          "lib/net8.0/Mutagen.Bethesda.Starfield.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net8.0/Mutagen.Bethesda.Starfield.dll": {
             "related": ".xml"
           }
         }
@@ -1713,60 +1602,6 @@
         "loqui.nuspec"
       ]
     },
-    "Microsoft-WindowsAPICodePack-Core/1.1.5": {
-      "sha512": "3feeT5wxrH/T4YmoZwCglVrUw6aS4+WJLA3FRADLVT2J85/zjptrCikvGNcLI1+gDeoI1AZ4w45gF2FvBv6eQw==",
-      "type": "package",
-      "path": "microsoft-windowsapicodepack-core/1.1.5",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "lib/net452/Microsoft.WindowsAPICodePack.dll",
-        "lib/net452/Microsoft.WindowsAPICodePack.xml",
-        "lib/net462/Microsoft.WindowsAPICodePack.dll",
-        "lib/net462/Microsoft.WindowsAPICodePack.xml",
-        "lib/net472/Microsoft.WindowsAPICodePack.dll",
-        "lib/net472/Microsoft.WindowsAPICodePack.xml",
-        "lib/net48/Microsoft.WindowsAPICodePack.dll",
-        "lib/net48/Microsoft.WindowsAPICodePack.xml",
-        "lib/net481/Microsoft.WindowsAPICodePack.dll",
-        "lib/net481/Microsoft.WindowsAPICodePack.xml",
-        "lib/net6.0-windows7.0/Microsoft.WindowsAPICodePack.dll",
-        "lib/net6.0-windows7.0/Microsoft.WindowsAPICodePack.xml",
-        "lib/net7.0-windows7.0/Microsoft.WindowsAPICodePack.dll",
-        "lib/net7.0-windows7.0/Microsoft.WindowsAPICodePack.xml",
-        "lib/netcoreapp3.1/Microsoft.WindowsAPICodePack.dll",
-        "lib/netcoreapp3.1/Microsoft.WindowsAPICodePack.xml",
-        "microsoft-windowsapicodepack-core.1.1.5.nupkg.sha512",
-        "microsoft-windowsapicodepack-core.nuspec"
-      ]
-    },
-    "Microsoft-WindowsAPICodePack-Shell/1.1.5": {
-      "sha512": "lZ+oIxvTp1Ph0YrzFl3AKcrry7OCfi0awf43nrGwodWqDlFASktZ+pN532rbU/5o09irYjxVu1m3UxO5L1H8fw==",
-      "type": "package",
-      "path": "microsoft-windowsapicodepack-shell/1.1.5",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "lib/net452/Microsoft.WindowsAPICodePack.Shell.dll",
-        "lib/net452/Microsoft.WindowsAPICodePack.Shell.xml",
-        "lib/net462/Microsoft.WindowsAPICodePack.Shell.dll",
-        "lib/net462/Microsoft.WindowsAPICodePack.Shell.xml",
-        "lib/net472/Microsoft.WindowsAPICodePack.Shell.dll",
-        "lib/net472/Microsoft.WindowsAPICodePack.Shell.xml",
-        "lib/net48/Microsoft.WindowsAPICodePack.Shell.dll",
-        "lib/net48/Microsoft.WindowsAPICodePack.Shell.xml",
-        "lib/net481/Microsoft.WindowsAPICodePack.Shell.dll",
-        "lib/net481/Microsoft.WindowsAPICodePack.Shell.xml",
-        "lib/net6.0-windows7.0/Microsoft.WindowsAPICodePack.Shell.dll",
-        "lib/net6.0-windows7.0/Microsoft.WindowsAPICodePack.Shell.xml",
-        "lib/net7.0-windows7.0/Microsoft.WindowsAPICodePack.Shell.dll",
-        "lib/net7.0-windows7.0/Microsoft.WindowsAPICodePack.Shell.xml",
-        "lib/netcoreapp3.1/Microsoft.WindowsAPICodePack.Shell.dll",
-        "lib/netcoreapp3.1/Microsoft.WindowsAPICodePack.Shell.xml",
-        "microsoft-windowsapicodepack-shell.1.1.5.nupkg.sha512",
-        "microsoft-windowsapicodepack-shell.nuspec"
-      ]
-    },
     "Microsoft.Bcl.AsyncInterfaces/6.0.0": {
       "sha512": "UcSjPsst+DfAdJGVDsu346FX0ci0ah+lw3WRtn18NUwEqRt70HaOQ7lI72vy3+1LxtqI3T5GWwV39rQSrCzAeg==",
       "type": "package",
@@ -2050,23 +1885,6 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "Mutagen.Bethesda/0.50.2": {
-      "sha512": "hrTPUUAHM/mZnT5kCAjvlY4UVCPvjDJqYW/f+uC2cWIJn+45VlpABSwrfhd9FJzxUnaKxeo14bAsTnoWPJbD9A==",
-      "type": "package",
-      "path": "mutagen.bethesda/0.50.2",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "lib/net8.0/Mutagen.Bethesda.dll",
-        "lib/net8.0/Mutagen.Bethesda.pdb",
-        "lib/net8.0/Mutagen.Bethesda.xml",
-        "lib/net9.0/Mutagen.Bethesda.dll",
-        "lib/net9.0/Mutagen.Bethesda.pdb",
-        "lib/net9.0/Mutagen.Bethesda.xml",
-        "mutagen.bethesda.0.50.2.nupkg.sha512",
-        "mutagen.bethesda.nuspec"
-      ]
-    },
     "Mutagen.Bethesda.Core/0.50.2": {
       "sha512": "JggXJivMgVQ/xq2Cfz3Xwx5CEpNjlw3wlZLRVhKV5wrGFv8il34qaiOzwJXzmYN4A+3sSda2C5nHbJw0Nx1L5g==",
       "type": "package",
@@ -2080,21 +1898,6 @@
         "lib/net9.0/Mutagen.Bethesda.Core.xml",
         "mutagen.bethesda.core.0.50.2.nupkg.sha512",
         "mutagen.bethesda.core.nuspec"
-      ]
-    },
-    "Mutagen.Bethesda.Fallout4/0.50.2": {
-      "sha512": "+0RZaD0dwKhMcL1gKg073DOG/0gMHBYlKTZfOJBe5O0qX93ak3vC8gNPDfBxV3iuTVMvHDCl+x3fnDQm9E1EDQ==",
-      "type": "package",
-      "path": "mutagen.bethesda.fallout4/0.50.2",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "lib/net8.0/Mutagen.Bethesda.Fallout4.dll",
-        "lib/net8.0/Mutagen.Bethesda.Fallout4.xml",
-        "lib/net9.0/Mutagen.Bethesda.Fallout4.dll",
-        "lib/net9.0/Mutagen.Bethesda.Fallout4.xml",
-        "mutagen.bethesda.fallout4.0.50.2.nupkg.sha512",
-        "mutagen.bethesda.fallout4.nuspec"
       ]
     },
     "Mutagen.Bethesda.Kernel/0.50.2": {
@@ -2112,21 +1915,6 @@
         "mutagen.bethesda.kernel.nuspec"
       ]
     },
-    "Mutagen.Bethesda.Oblivion/0.50.2": {
-      "sha512": "WYMTd5DJdVnwUp+k3SoJKlEY83Exnygy89Ihilczu1AfeYui8CQvOf9VtVTP6zIxFzUhSpqZk8BTm81h9QAP+g==",
-      "type": "package",
-      "path": "mutagen.bethesda.oblivion/0.50.2",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "lib/net8.0/Mutagen.Bethesda.Oblivion.dll",
-        "lib/net8.0/Mutagen.Bethesda.Oblivion.xml",
-        "lib/net9.0/Mutagen.Bethesda.Oblivion.dll",
-        "lib/net9.0/Mutagen.Bethesda.Oblivion.xml",
-        "mutagen.bethesda.oblivion.0.50.2.nupkg.sha512",
-        "mutagen.bethesda.oblivion.nuspec"
-      ]
-    },
     "Mutagen.Bethesda.Skyrim/0.50.2": {
       "sha512": "qoW0hcZChKCoOVWi0fGjV+NeOVLGU2JxNzn9pOOboNXZdciIq1c3DY1kqz8Qex4sCnca3ZhObQOfxeX61GzvUQ==",
       "type": "package",
@@ -2140,21 +1928,6 @@
         "lib/net9.0/Mutagen.Bethesda.Skyrim.xml",
         "mutagen.bethesda.skyrim.0.50.2.nupkg.sha512",
         "mutagen.bethesda.skyrim.nuspec"
-      ]
-    },
-    "Mutagen.Bethesda.Starfield/0.50.2": {
-      "sha512": "HIiRqckCHhXpBlgOPMDFAdQ3FK7skftTeXlM0P+89PfsFv1DY9owsAjAiU8ZX0ysMSU+xQa9QjO51SvJy9b4/Q==",
-      "type": "package",
-      "path": "mutagen.bethesda.starfield/0.50.2",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "lib/net8.0/Mutagen.Bethesda.Starfield.dll",
-        "lib/net8.0/Mutagen.Bethesda.Starfield.xml",
-        "lib/net9.0/Mutagen.Bethesda.Starfield.dll",
-        "lib/net9.0/Mutagen.Bethesda.Starfield.xml",
-        "mutagen.bethesda.starfield.0.50.2.nupkg.sha512",
-        "mutagen.bethesda.starfield.nuspec"
       ]
     },
     "NexusMods.Paths/0.10.0": {
@@ -4510,9 +4283,7 @@
   "projectFileDependencyGroups": {
     "net8.0-windows7.0": [
       "AvalonEdit >= 6.3.1.120",
-      "Microsoft-WindowsAPICodePack-Core >= 1.1.5",
-      "Microsoft-WindowsAPICodePack-Shell >= 1.1.5",
-      "Mutagen.Bethesda >= 0.50.2",
+      "Mutagen.Bethesda.Skyrim >= 0.50.2",
       "SharpVectors >= 1.8.4.2",
       "System.Data.SQLite >= 1.0.119",
       "System.Drawing.Common >= 9.0.1"
@@ -4572,15 +4343,7 @@
             "target": "Package",
             "version": "[6.3.1.120, )"
           },
-          "Microsoft-WindowsAPICodePack-Core": {
-            "target": "Package",
-            "version": "[1.1.5, )"
-          },
-          "Microsoft-WindowsAPICodePack-Shell": {
-            "target": "Package",
-            "version": "[1.1.5, )"
-          },
-          "Mutagen.Bethesda": {
+          "Mutagen.Bethesda.Skyrim": {
             "target": "Package",
             "version": "[0.50.2, )"
           },

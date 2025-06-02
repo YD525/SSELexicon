@@ -1,12 +1,5 @@
 ﻿using ICSharpCode.AvalonEdit;
-using Microsoft.WindowsAPICodePack.Dialogs;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.Policy;
-using System.Security.RightsManagement;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
