@@ -395,6 +395,8 @@ namespace SSELex
                 }
             }).Start();
 
+            NodePanel.Visibility = Visibility.Hidden;
+
             new Thread(() =>
             {
                 ShowFrameByTag("LoadingView");
@@ -480,6 +482,8 @@ namespace SSELex
                     {
                         this.DeepSeekModel.SelectedValue = "deepseek-chat";
                     }
+
+                    NodePanel.Visibility = Visibility.Visible;
                 }));
 
                 //DeFine.GlobalLocalSetting.GeminiKey = "";
