@@ -55,7 +55,7 @@ namespace SSELex.TranslateManage
             return Regex.IsMatch(Input, @"^[\p{P}\p{S}\s]+$");
         }
 
-        public static string QuickTrans(string Content,Languages To,ref bool CanSleep, bool IsBook = false)
+        public static string QuickTrans(string Content, Languages To, ref bool CanSleep, bool IsBook = false)
         {
             string GetSourceStr = Content;
 
@@ -67,7 +67,7 @@ namespace SSELex.TranslateManage
             if (GetSourceStr.Trim().Length == 0)
             {
                 return GetSourceStr;
-            } 
+            }
 
             bool HasOuterQuotes = TranslationPreprocessor.HasOuterQuotes(GetSourceStr.Trim());
 
@@ -81,7 +81,7 @@ namespace SSELex.TranslateManage
             }
 
             bool CanAddCache = true;
-            Content = CurrentTransCore.TransAny(SourceLanguage, To, Content,IsBook,ref CanAddCache,ref CanSleep);
+            Content = CurrentTransCore.TransAny(SourceLanguage, To, Content, IsBook, ref CanAddCache, ref CanSleep);
 
             TranslationPreprocessor.NormalizePunctuation(ref Content);
             TranslationPreprocessor.ProcessEmptyEndLine(ref Content);
@@ -98,7 +98,7 @@ namespace SSELex.TranslateManage
 
             Content = ReturnStr(Content);
 
-            if (CanAddCache && Content.Trim().Length>0)
+            if (CanAddCache && Content.Trim().Length > 0)
             {
                 TranslateDBCache.AddCache(DeFine.CurrentModName, GetSourceStr, (int)SourceLanguage, (int)To, Content);
             }
@@ -132,7 +132,7 @@ namespace SSELex.TranslateManage
                 GetFakeGrid.UPDataThis();
 
                 string GetTransKey = GetFakeGrid.Key;
-              
+
                 var TargetText = DeFine.WorkingWin.TransViewList.RealLines[i].TransText;
 
                 var GetData = YDDictionaryHelper.CheckDictionary(GetTransKey);
@@ -158,7 +158,7 @@ namespace SSELex.TranslateManage
                 string GetKey = GetFakeGrid.Key;
 
                 var FindDictionary = YDDictionaryHelper.CheckDictionary(GetKey);
-                
+
                 string GetSourceText = GetFakeGrid.SourceText;
 
                 if (FindDictionary != null)
@@ -242,7 +242,7 @@ namespace SSELex.TranslateManage
                 DeFine.WorkingWin.TransViewList.RealLines[i].UPDateView();
             }
             UIHelper.ModifyCount = DeFine.WorkingWin.TransViewList.RealLines.Count;
-            
+
             DeFine.WorkingWin.Dispatcher.Invoke(new Action(() => {
                 DeFine.WorkingWin.ProcessBar.Width = 0;
             }));
@@ -264,7 +264,7 @@ namespace SSELex.TranslateManage
         }
 
         public static Color DefTransTextBorder = Color.FromRgb(87, 87, 87);
-        public static QueryTransItem QueryTransData(string Key,string SourceText)
+        public static QueryTransItem QueryTransData(string Key, string SourceText)
         {
             QueryTransItem NQueryTransItem = new QueryTransItem();
 
@@ -281,7 +281,7 @@ namespace SSELex.TranslateManage
 
             if (GetRamSource.Trim().Length == 0)
             {
-                TransText = LocalTransCache.GetCacheText(Key,SourceText);
+                TransText = LocalTransCache.GetCacheText(Key, SourceText);
 
                 if (TransText.Trim().Length > 0)
                 {
@@ -325,19 +325,19 @@ namespace SSELex.TranslateManage
                 NQueryTransItem.State = 0;
             }
 
-         
+
             NQueryTransItem.Key = Key;
             NQueryTransItem.TransText = TransText;
             NQueryTransItem.Color = Color;
             return NQueryTransItem;
         }
 
-        public static SetTransItem SetTransData(string Key,string SourceText, string TransText)
+        public static SetTransItem SetTransData(string Key, string SourceText, string TransText)
         {
             SetTransItem NSetTransItem = new SetTransItem();
             NSetTransItem.Color = DefTransTextBorder;
 
-            UIHelper.AutoSetTransData(SourceText,Key,TransText);
+            UIHelper.AutoSetTransData(SourceText, Key, TransText);
 
             bool CanUPDate = true;
             var FindDictionary = YDDictionaryHelper.CheckDictionary(Key);
@@ -345,7 +345,7 @@ namespace SSELex.TranslateManage
             {
                 if (FindDictionary.TransText.Equals(TransText))
                 {
-                    LocalTransCache.DeleteCache(Key,SourceText);
+                    LocalTransCache.DeleteCache(Key, SourceText);
                     CanUPDate = false;
                 }
                 NSetTransItem.State = 0;
@@ -353,7 +353,7 @@ namespace SSELex.TranslateManage
 
             if (CanUPDate)
             {
-                LocalTransCache.UPDateLocalTransItem(new LocalTransItem(Key,SourceText, TransText));
+                LocalTransCache.UPDateLocalTransItem(new LocalTransItem(Key, SourceText, TransText));
                 NSetTransItem.State = 1;
             }
 
