@@ -496,7 +496,7 @@
                                     </StackPanel>
                                 </Grid>
                                 <Grid Name="AIView" Visibility="Hidden">
-                                    <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                                    <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                             <Label VerticalAlignment="Center">
                                                 Custom AI Prompt:
@@ -504,8 +504,14 @@
                                             <TextBox AcceptsReturn="True" Height="80" Width="300" TextWrapping="Wrap" VerticalAlignment="Center" VerticalScrollBarVisibility="Auto" Name="CustomAIPrompt" TextChanged="CustomAIPrompt_TextChanged">
                                             </TextBox>
                                         </StackPanel>
-                                       
-                                        
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                            <Label>Ai Context Limit:</Label>
+                                            <TextBox Name="ContextLimit" Width="100" Margin="12 5 0 0" VerticalContentAlignment="Center">
+                                                
+                                            </TextBox>
+                                        </StackPanel>
+
+
                                     </StackPanel>
                                 </Grid>
                                 <Grid Name="EngineConfigView" Visibility="Hidden">

@@ -221,6 +221,7 @@ namespace SSELex
         public string DeepLKey { get; set; } = "";
         public string UserCustomAIPrompt { get; set; } = "";
         public bool IsFreeDeepL { get; set; } = true;
+        public int ContextLimit { get; set; } = 3;
         public string ProxyIP { get; set; } = "";
         public int TransCount { get; set; } = 0;
         public int MaxThreadCount { get; set; } = 0;
@@ -259,6 +260,7 @@ namespace SSELex
                         this.DeepLApiUsing = GetSetting.DeepLApiUsing;
                         this.GoogleYunApiUsing = GetSetting.GoogleYunApiUsing;
                         this.DivCacheEngineUsing = GetSetting.DivCacheEngineUsing;
+                        this.ContextLimit = GetSetting.ContextLimit;
                         this.TargetLanguage = GetSetting.TargetLanguage;
                         DeFine.TargetLanguage = GetSetting.TargetLanguage;
                         this.CurrentUILanguage = GetSetting.CurrentUILanguage;
