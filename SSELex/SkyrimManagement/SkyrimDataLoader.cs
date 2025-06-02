@@ -11,7 +11,7 @@ namespace SSELex.UIManage
     {
         public enum ObjSelect
         {
-            Null = 99, All = 0, Worldspaces = 1, Quests = 2, Factions = 3, Perks = 5, Weapons = 6, SoulGems = 7, Armors = 8, Keys = 9, Containers = 10, Activators = 11, MiscItems = 12, Books = 13, Messages = 15, DialogTopics = 16, Spells = 17, MagicEffects = 18, ObjectEffects = 19, Cells = 20,Races = 21
+            Null = 99, All = 0, Worldspaces = 1, Quests = 2, Factions = 3, Perks = 5, Weapons = 6, SoulGems = 7, Armors = 8, Keys = 9, Containers = 10, Activators = 11, MiscItems = 12, Books = 13, Messages = 15, DialogTopics = 16, Spells = 17, MagicEffects = 18, ObjectEffects = 19, Cells = 20, Races = 21
         }
 
         public static List<ObjSelect> QueryParams(EspReader Reader)
@@ -270,22 +270,31 @@ namespace SSELex.UIManage
             if (Reader.Worldspaces != null)
                 for (int i = 0; i < Reader.Worldspaces.Count; i++)
                 {
-                    string GetTransStr = "";
-
-                    var GetHashKey = Reader.Worldspaces.ElementAt(i).Key;
-                    var GetWorldspaceItem = Reader.Worldspaces[GetHashKey];
-
-                    var GetName = ConvertHelper.ObjToStr(GetWorldspaceItem.Name);
-                    if (GetName.Length > 0)
+                    try
                     {
-                        string SetType = "Name";
-                        GetTransStr = TryGetTransData(GetWorldspaceItem.EditorID, SetType);
-                        string GetUniqueKey = GenUniqueKey(GetWorldspaceItem.EditorID, SetType);
+                        string GetTransStr = "";
 
-                        Application.Current.Dispatcher.Invoke(new Action(() =>
+                        var GetHashKey = Reader.Worldspaces.ElementAt(i).Key;
+                        var GetWorldspaceItem = Reader.Worldspaces[GetHashKey];
+
+                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetWorldspaceItem.EditorID, GetWorldspaceItem.FormKey);
+
+                        var GetName = ConvertHelper.ObjToStr(GetWorldspaceItem.Name);
+                        if (GetName.Length > 0)
                         {
-                            View.AddRowR(LineRenderer.CreatLine("Worldspace", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
-                        }));
+                            string SetType = "Name";
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("Worldspace", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
+                            }));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error loading Worldspace item at index {i}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
         }
@@ -295,35 +304,44 @@ namespace SSELex.UIManage
             if (Reader.Races != null)
                 for (int i = 0; i < Reader.Races.Count; i++)
                 {
-                    string GetTransStr = "";
-
-                    var GetHashKey = Reader.Races.ElementAt(i).Key;
-                    var GetRaceItem = Reader.Races[GetHashKey];
-
-                    var GetName = ConvertHelper.ObjToStr(GetRaceItem.Name);
-                    if (GetName.Length > 0)
+                    try
                     {
-                        string SetType = "Name";
-                        GetTransStr = TryGetTransData(GetRaceItem.EditorID, SetType);
-                        string GetUniqueKey = GenUniqueKey(GetRaceItem.EditorID, SetType);
+                        string GetTransStr = "";
 
-                        Application.Current.Dispatcher.Invoke(new Action(() =>
+                        var GetHashKey = Reader.Races.ElementAt(i).Key;
+                        var GetRaceItem = Reader.Races[GetHashKey];
+
+                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetRaceItem.EditorID, GetRaceItem.FormKey);
+
+                        var GetName = ConvertHelper.ObjToStr(GetRaceItem.Name);
+                        if (GetName.Length > 0)
                         {
-                            View.AddRowR(LineRenderer.CreatLine("Race", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
-                        }));
+                            string SetType = "Name";
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("Race", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
+                            }));
+                        }
+
+                        var GetDescription = ConvertHelper.ObjToStr(GetRaceItem.Description);
+                        if (GetDescription.Length > 0)
+                        {
+                            string SetType = "Description";
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("Race", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, 999));
+                            }));
+                        }
                     }
-
-                    var GetDescription = ConvertHelper.ObjToStr(GetRaceItem.Description);
-                    if (GetDescription.Length > 0)
+                    catch (Exception ex)
                     {
-                        string SetType = "Description";
-                        GetTransStr = TryGetTransData(GetRaceItem.EditorID, SetType);
-                        string GetUniqueKey = GenUniqueKey(GetRaceItem.EditorID, SetType);
-
-                        Application.Current.Dispatcher.Invoke(new Action(() =>
-                        {
-                            View.AddRowR(LineRenderer.CreatLine("Race", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, 999));
-                        }));
+                        MessageBox.Show($"Error loading Race item at index {i}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
         }
@@ -333,86 +351,116 @@ namespace SSELex.UIManage
             if (Reader.Quests != null)
                 for (int i = 0; i < Reader.Quests.Count; i++)
                 {
-                    string GetTransStr = "";
-
-                    var GetHashKey = Reader.Quests.ElementAt(i).Key;
-                    var GetQuestItem = Reader.Quests[GetHashKey];
-
-                    var GetName = ConvertHelper.ObjToStr(GetQuestItem.Name);
-                    if (GetName.Length > 0)
+                    try
                     {
-                        string SetType = "Name";
-                        GetTransStr = TryGetTransData(GetQuestItem.EditorID, SetType);
-                        string GetUniqueKey = GenUniqueKey(GetQuestItem.EditorID, SetType);
+                        string GetTransStr = "";
 
-                        Application.Current.Dispatcher.Invoke(new Action(() =>
-                        {
-                            View.AddRowR(LineRenderer.CreatLine("Quest", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
-                        }));
-                    }
-                    var GetDescription = ConvertHelper.ObjToStr(GetQuestItem.Description);
-                    if (GetDescription.Length > 0)
-                    {
-                        string SetType = "Description";
-                        GetTransStr = TryGetTransData(GetQuestItem.EditorID, SetType);
-                        string GetUniqueKey = GenUniqueKey(GetQuestItem.EditorID, SetType);
+                        var GetHashKey = Reader.Quests.ElementAt(i).Key;
+                        var GetQuestItem = Reader.Quests[GetHashKey];
 
-                        Application.Current.Dispatcher.Invoke(new Action(() =>
-                        {
-                            View.AddRowR(LineRenderer.CreatLine("Quest", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, 999));
-                        }));
-                    }
+                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetQuestItem.EditorID, GetQuestItem.FormKey);
 
-                    if (GetQuestItem.Objectives != null)
-                        if (GetQuestItem.Objectives.Count > 0)
+                        var GetName = ConvertHelper.ObjToStr(GetQuestItem.Name);
+                        if (GetName.Length > 0)
                         {
-                            int CountObjective = 0;
-                            for (int ir = 0; ir < GetQuestItem.Objectives.Count; ir++)
+                            string SetType = "Name";
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
                             {
-                                CountObjective++;
-                                var GetObjectiveItem = GetQuestItem.Objectives[ir];
-                                var GetDisplayText = ConvertHelper.ObjToStr(GetObjectiveItem.DisplayText);
-                                if (GetDisplayText.Length > 0)
-                                {
-                                    string SetType = string.Format("DisplayText[{0}]", CountObjective);
-                                    GetTransStr = TryGetTransData(GetQuestItem.EditorID, SetType);
-                                    string GetUniqueKey = GenUniqueKey(GetQuestItem.EditorID, SetType);
+                                View.AddRowR(LineRenderer.CreatLine("Quest", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
+                            }));
+                        }
+                        var GetDescription = ConvertHelper.ObjToStr(GetQuestItem.Description);
+                        if (GetDescription.Length > 0)
+                        {
+                            string SetType = "Description";
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
 
-                                    Application.Current.Dispatcher.Invoke(new Action(() =>
-                                    {
-                                        View.AddRowR(LineRenderer.CreatLine("Quest", GetHashKey, GetUniqueKey, GetDisplayText, GetTransStr, 999));
-                                    }));
-                                }
-                            }
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("Quest", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, 999));
+                            }));
                         }
 
-                    if (GetQuestItem.Stages != null)
-                        if (GetQuestItem.Stages.Count > 0)
-                        {
-                            int CountStage = 0;
-                            for (int ii = 0; ii < GetQuestItem.Stages.Count; ii++)
+                        if (GetQuestItem.Objectives != null)
+                            if (GetQuestItem.Objectives.Count > 0)
                             {
-                                CountStage++;
-                                for (int iii = 0; iii < GetQuestItem.Stages[ii].LogEntries.Count; iii++)
+                                int CountObjective = 0;
+                                for (int ir = 0; ir < GetQuestItem.Objectives.Count; ir++)
                                 {
-                                    CountStage++;
-                                    var GetLogEntrieItem = GetQuestItem.Stages[ii].LogEntries[iii];
-
-                                    var GetEntry = ConvertHelper.ObjToStr(GetLogEntrieItem.Entry);
-                                    if (GetEntry.Length > 0)
+                                    try
                                     {
-                                        string SetType = string.Format("Entry[{0}]", CountStage);
-                                        GetTransStr = TryGetTransData(GetQuestItem.EditorID, SetType);
-                                        string GetUniqueKey = GenUniqueKey(GetQuestItem.EditorID, SetType);
-
-                                        Application.Current.Dispatcher.Invoke(new Action(() =>
+                                        CountObjective++;
+                                        var GetObjectiveItem = GetQuestItem.Objectives[ir];
+                                        var GetDisplayText = ConvertHelper.ObjToStr(GetObjectiveItem.DisplayText);
+                                        if (GetDisplayText.Length > 0)
                                         {
-                                            View.AddRowR(LineRenderer.CreatLine("Quest", GetHashKey, GetUniqueKey, GetEntry, GetTransStr, 999));
-                                        }));
+                                            string SetType = string.Format("DisplayText[{0}]", CountObjective);
+                                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                                            {
+                                                View.AddRowR(LineRenderer.CreatLine("Quest", GetHashKey, GetUniqueKey, GetDisplayText, GetTransStr, 999));
+                                            }));
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        MessageBox.Show($"Error loading Quest Objective item at index {ir} for Quest {GetHashKey}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                                     }
                                 }
                             }
-                        }
+
+                        if (GetQuestItem.Stages != null)
+                            if (GetQuestItem.Stages.Count > 0)
+                            {
+                                int CountStage = 0;
+                                for (int ii = 0; ii < GetQuestItem.Stages.Count; ii++)
+                                {
+                                    try
+                                    {
+                                        CountStage++;
+                                        for (int iii = 0; iii < GetQuestItem.Stages[ii].LogEntries.Count; iii++)
+                                        {
+                                            try
+                                            {
+                                                CountStage++;
+                                                var GetLogEntrieItem = GetQuestItem.Stages[ii].LogEntries[iii];
+
+                                                var GetEntry = ConvertHelper.ObjToStr(GetLogEntrieItem.Entry);
+                                                if (GetEntry.Length > 0)
+                                                {
+                                                    string SetType = string.Format("Entry[{0}]", CountStage);
+                                                    GetTransStr = TryGetTransData(AutoKey, SetType);
+                                                    string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                                                    Application.Current.Dispatcher.Invoke(new Action(() =>
+                                                    {
+                                                        View.AddRowR(LineRenderer.CreatLine("Quest", GetHashKey, GetUniqueKey, GetEntry, GetTransStr, 999));
+                                                    }));
+                                                }
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                MessageBox.Show($"Error loading Quest Log Entry item at index {iii} in Stage {ii} for Quest {GetHashKey}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                            }
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        MessageBox.Show($"Error loading Quest Stage item at index {ii} for Quest {GetHashKey}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                    }
+                                }
+                            }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error loading Quest item at index {i}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
         }
 
@@ -421,68 +469,84 @@ namespace SSELex.UIManage
             if (Reader.Factions != null)
                 for (int i = 0; i < Reader.Factions.Count; i++)
                 {
-                    string GetTransStr = "";
-
-                    var GetHashKey = Reader.Factions.ElementAt(i).Key;
-                    var GetFactionItem = Reader.Factions[GetHashKey];
-
-                    var GetName = ConvertHelper.ObjToStr(GetFactionItem.Name);
-                    if (GetName.Length > 0)
+                    try
                     {
-                        string SetType = "Name";
-                        GetTransStr = TryGetTransData(GetFactionItem.EditorID, SetType);
-                        string GetUniqueKey = GenUniqueKey(GetFactionItem.EditorID, SetType);
+                        string GetTransStr = "";
 
-                        Application.Current.Dispatcher.Invoke(new Action(() =>
-                        {
-                            View.AddRowR(LineRenderer.CreatLine("Faction", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
-                        }));
-                    }
+                        var GetHashKey = Reader.Factions.ElementAt(i).Key;
+                        var GetFactionItem = Reader.Factions[GetHashKey];
 
-                    if (GetFactionItem.Ranks != null)
-                        if (GetFactionItem.Ranks.Count > 0)
+                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetFactionItem.EditorID, GetFactionItem.FormKey);
+
+                        var GetName = ConvertHelper.ObjToStr(GetFactionItem.Name);
+                        if (GetName.Length > 0)
                         {
-                            int CountRank = 0;
-                            if (GetFactionItem.Ranks != null)
-                                foreach (var GetRank in GetFactionItem.Ranks)
-                                {
-                                    CountRank++;
-                                    if (GetRank.Title != null)
+                            string SetType = "Name";
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("Faction", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
+                            }));
+                        }
+
+                        if (GetFactionItem.Ranks != null)
+                            if (GetFactionItem.Ranks.Count > 0)
+                            {
+                                int CountRank = 0;
+                                if (GetFactionItem.Ranks != null)
+                                    foreach (var GetRank in GetFactionItem.Ranks)
                                     {
-                                        string GetFemale = ConvertHelper.ObjToStr(GetRank.Title.Female);
-                                        string GetMale = ConvertHelper.ObjToStr(GetRank.Title.Male);
-
-                                        if (GetFemale.Trim().Length > 0)
+                                        try
                                         {
-                                            string SetType = string.Format("Female[{0}]", CountRank);
-                                            GetTransStr = TryGetTransData(GetFactionItem.EditorID, SetType);
-                                            string GetUniqueKey = GenUniqueKey(GetFactionItem.EditorID, SetType);
-
-                                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                                            CountRank++;
+                                            if (GetRank.Title != null)
                                             {
-                                                View.AddRowR(LineRenderer.CreatLine("Faction", GetHashKey, GetUniqueKey, GetFemale, GetTransStr, 999));
-                                            }));
+                                                string GetFemale = ConvertHelper.ObjToStr(GetRank.Title.Female);
+                                                string GetMale = ConvertHelper.ObjToStr(GetRank.Title.Male);
+
+                                                if (GetFemale.Trim().Length > 0)
+                                                {
+                                                    string SetType = string.Format("Female[{0}]", CountRank);
+                                                    GetTransStr = TryGetTransData(AutoKey, SetType);
+                                                    string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                                                    Application.Current.Dispatcher.Invoke(new Action(() =>
+                                                    {
+                                                        View.AddRowR(LineRenderer.CreatLine("Faction", GetHashKey, GetUniqueKey, GetFemale, GetTransStr, 999));
+                                                    }));
+                                                }
+                                                if (GetMale.Trim().Length > 0)
+                                                {
+                                                    string SetType = string.Format("Male[{0}]", CountRank);
+                                                    GetTransStr = TryGetTransData(AutoKey, SetType);
+                                                    string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                                                    Application.Current.Dispatcher.Invoke(new Action(() =>
+                                                    {
+                                                        View.AddRowR(LineRenderer.CreatLine("Faction", GetHashKey, GetUniqueKey, GetMale, GetTransStr, 999));
+                                                    }));
+                                                }
+                                            }
                                         }
-                                        if (GetMale.Trim().Length > 0)
+                                        catch (Exception ex)
                                         {
-                                            string SetType = string.Format("Male[{0}]", CountRank);
-                                            GetTransStr = TryGetTransData(GetFactionItem.EditorID, SetType);
-                                            string GetUniqueKey = GenUniqueKey(GetFactionItem.EditorID, SetType);
-
-                                            Application.Current.Dispatcher.Invoke(new Action(() =>
-                                            {
-                                                View.AddRowR(LineRenderer.CreatLine("Faction", GetHashKey, GetUniqueKey, GetMale, GetTransStr, 999));
-                                            }));
+                                            MessageBox.Show($"Error loading Faction Rank item for Faction {GetHashKey}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                                         }
                                     }
-                                }
-                        }
+                            }
 
-                    if (GetFactionItem.Relations != null)
-                        if (GetFactionItem.Relations.Count > 0)
-                        {
-
-                        }
+                        if (GetFactionItem.Relations != null)
+                            if (GetFactionItem.Relations.Count > 0)
+                            {
+                                // No data processing here, so no specific try-catch needed unless relations processing is added.
+                            }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error loading Faction item at index {i}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
         }
 
@@ -491,35 +555,44 @@ namespace SSELex.UIManage
             if (Reader.Perks != null)
                 for (int i = 0; i < Reader.Perks.Count; i++)
                 {
-                    string GetTransStr = "";
-
-                    var GetHashKey = Reader.Perks.ElementAt(i).Key;
-                    var GetPerkItem = Reader.Perks[GetHashKey];
-
-                    var GetName = ConvertHelper.ObjToStr(GetPerkItem.Name);
-                    if (GetName.Length > 0)
+                    try
                     {
-                        string SetType = "Name";
-                        GetTransStr = TryGetTransData(GetPerkItem.EditorID, SetType);
-                        string GetUniqueKey = GenUniqueKey(GetPerkItem.EditorID, SetType);
+                        string GetTransStr = "";
 
-                        Application.Current.Dispatcher.Invoke(new Action(() =>
+                        var GetHashKey = Reader.Perks.ElementAt(i).Key;
+                        var GetPerkItem = Reader.Perks[GetHashKey];
+
+                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetPerkItem.EditorID, GetPerkItem.FormKey);
+
+                        var GetName = ConvertHelper.ObjToStr(GetPerkItem.Name);
+                        if (GetName.Length > 0)
                         {
-                            View.AddRowR(LineRenderer.CreatLine("Perk", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
-                        }));
+                            string SetType = "Name";
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("Perk", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
+                            }));
+                        }
+
+                        var GetDescription = ConvertHelper.ObjToStr(GetPerkItem.Description);
+                        if (GetDescription.Length > 0)
+                        {
+                            string SetType = "Description";
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("Perk", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, 999));
+                            }));
+                        }
                     }
-
-                    var GetDescription = ConvertHelper.ObjToStr(GetPerkItem.Description);
-                    if (GetDescription.Length > 0)
+                    catch (Exception ex)
                     {
-                        string SetType = "Description";
-                        GetTransStr = TryGetTransData(GetPerkItem.EditorID, SetType);
-                        string GetUniqueKey = GenUniqueKey(GetPerkItem.EditorID, SetType);
-
-                        Application.Current.Dispatcher.Invoke(new Action(() =>
-                        {
-                            View.AddRowR(LineRenderer.CreatLine("Perk", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, 999));
-                        }));
+                        MessageBox.Show($"Error loading Perk item at index {i}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
         }
@@ -529,35 +602,44 @@ namespace SSELex.UIManage
             if (Reader.Weapons != null)
                 for (int i = 0; i < Reader.Weapons.Count; i++)
                 {
-                    string GetTransStr = "";
-
-                    var GetHashKey = Reader.Weapons.ElementAt(i).Key;
-                    var GetWeapon = Reader.Weapons[GetHashKey];
-
-                    var GetName = ConvertHelper.ObjToStr(GetWeapon.Name);
-                    if (GetName.Length > 0)
+                    try
                     {
-                        string SetType = "Name";
-                        GetTransStr = TryGetTransData(GetWeapon.EditorID, SetType);
-                        string GetUniqueKey = GenUniqueKey(GetWeapon.EditorID, SetType);
+                        string GetTransStr = "";
 
-                        Application.Current.Dispatcher.Invoke(new Action(() =>
+                        var GetHashKey = Reader.Weapons.ElementAt(i).Key;
+                        var GetWeapon = Reader.Weapons[GetHashKey];
+
+                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetWeapon.EditorID, GetWeapon.FormKey);
+
+                        var GetName = ConvertHelper.ObjToStr(GetWeapon.Name);
+                        if (GetName.Length > 0)
                         {
-                            View.AddRowR(LineRenderer.CreatLine("Weapon", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
-                        }));
+                            string SetType = "Name";
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("Weapon", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
+                            }));
+                        }
+
+                        var GetDescription = ConvertHelper.ObjToStr(GetWeapon.Description);
+                        if (GetDescription.Length > 0)
+                        {
+                            string SetType = "Description";
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("Weapon", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, 999));
+                            }));
+                        }
                     }
-
-                    var GetDescription = ConvertHelper.ObjToStr(GetWeapon.Description);
-                    if (GetDescription.Length > 0)
+                    catch (Exception ex)
                     {
-                        string SetType = "Description";
-                        GetTransStr = TryGetTransData(GetWeapon.EditorID, SetType);
-                        string GetUniqueKey = GenUniqueKey(GetWeapon.EditorID, SetType);
-
-                        Application.Current.Dispatcher.Invoke(new Action(() =>
-                        {
-                            View.AddRowR(LineRenderer.CreatLine("Weapon", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, 999));
-                        }));
+                        MessageBox.Show($"Error loading Weapon item at index {i}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
         }
@@ -567,22 +649,31 @@ namespace SSELex.UIManage
             if (Reader.SoulGems != null)
                 for (int i = 0; i < Reader.SoulGems.Count; i++)
                 {
-                    string GetTransStr = "";
-
-                    var GetHashKey = Reader.SoulGems.ElementAt(i).Key;
-                    var GetSoulGem = Reader.SoulGems[GetHashKey];
-
-                    var GetName = ConvertHelper.ObjToStr(GetSoulGem.Name);
-                    if (GetName.Length > 0)
+                    try
                     {
-                        string SetType = "Name";
-                        GetTransStr = TryGetTransData(GetSoulGem.EditorID, SetType);
-                        string GetUniqueKey = GenUniqueKey(GetSoulGem.EditorID, SetType);
+                        string GetTransStr = "";
 
-                        Application.Current.Dispatcher.Invoke(new Action(() =>
+                        var GetHashKey = Reader.SoulGems.ElementAt(i).Key;
+                        var GetSoulGem = Reader.SoulGems[GetHashKey];
+
+                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetSoulGem.EditorID, GetSoulGem.FormKey);
+
+                        var GetName = ConvertHelper.ObjToStr(GetSoulGem.Name);
+                        if (GetName.Length > 0)
                         {
-                            View.AddRowR(LineRenderer.CreatLine("SoulGem", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
-                        }));
+                            string SetType = "Name";
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("SoulGem", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
+                            }));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error loading Soul Gem item at index {i}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
         }
@@ -592,35 +683,44 @@ namespace SSELex.UIManage
             if (Reader.Armors != null)
                 for (int i = 0; i < Reader.Armors.Count; i++)
                 {
-                    string GetTransStr = "";
-
-                    var GetHashKey = Reader.Armors.ElementAt(i).Key;
-                    var GetArmor = Reader.Armors[GetHashKey];
-
-                    var GetName = ConvertHelper.ObjToStr(GetArmor.Name);
-                    if (GetName.Length > 0)
+                    try
                     {
-                        string SetType = "Name";
-                        GetTransStr = TryGetTransData(GetArmor.EditorID, SetType);
-                        string GetUniqueKey = GenUniqueKey(GetArmor.EditorID, SetType);
+                        string GetTransStr = "";
 
-                        Application.Current.Dispatcher.Invoke(new Action(() =>
+                        var GetHashKey = Reader.Armors.ElementAt(i).Key;
+                        var GetArmor = Reader.Armors[GetHashKey];
+
+                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetArmor.EditorID, GetArmor.FormKey);
+
+                        var GetName = ConvertHelper.ObjToStr(GetArmor.Name);
+                        if (GetName.Length > 0)
                         {
-                            View.AddRowR(LineRenderer.CreatLine("Armor", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
-                        }));
+                            string SetType = "Name";
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("Armor", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
+                            }));
+                        }
+
+                        var GetDescription = ConvertHelper.ObjToStr(GetArmor.Description);
+                        if (GetDescription.Length > 0)
+                        {
+                            string SetType = "Description";
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("Armor", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, 999));
+                            }));
+                        }
                     }
-
-                    var GetDescription = ConvertHelper.ObjToStr(GetArmor.Description);
-                    if (GetDescription.Length > 0)
+                    catch (Exception ex)
                     {
-                        string SetType = "Description";
-                        GetTransStr = TryGetTransData(GetArmor.EditorID, SetType);
-                        string GetUniqueKey = GenUniqueKey(GetArmor.EditorID, SetType);
-
-                        Application.Current.Dispatcher.Invoke(new Action(() =>
-                        {
-                            View.AddRowR(LineRenderer.CreatLine("Armor", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, 999));
-                        }));
+                        MessageBox.Show($"Error loading Armor item at index {i}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
         }
@@ -630,22 +730,31 @@ namespace SSELex.UIManage
             if (Reader.Keys != null)
                 for (int i = 0; i < Reader.Keys.Count; i++)
                 {
-                    string GetTransStr = "";
-
-                    var GetHashKey = Reader.Keys.ElementAt(i).Key;
-                    var GetKey = Reader.Keys[GetHashKey];
-
-                    var GetName = ConvertHelper.ObjToStr(GetKey.Name);
-                    if (GetName.Length > 0)
+                    try
                     {
-                        string SetType = "Name";
-                        GetTransStr = TryGetTransData(GetKey.EditorID, SetType);
-                        string GetUniqueKey = GenUniqueKey(GetKey.EditorID, SetType);
+                        string GetTransStr = "";
 
-                        Application.Current.Dispatcher.Invoke(new Action(() =>
+                        var GetHashKey = Reader.Keys.ElementAt(i).Key;
+                        var GetKey = Reader.Keys[GetHashKey];
+
+                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetKey.EditorID, GetKey.FormKey);
+
+                        var GetName = ConvertHelper.ObjToStr(GetKey.Name);
+                        if (GetName.Length > 0)
                         {
-                            View.AddRowR(LineRenderer.CreatLine("Key", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
-                        }));
+                            string SetType = "Name";
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("Key", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
+                            }));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error loading Key item at index {i}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
         }
@@ -655,22 +764,31 @@ namespace SSELex.UIManage
             if (Reader.Containers != null)
                 for (int i = 0; i < Reader.Containers.Count; i++)
                 {
-                    string GetTransStr = "";
-
-                    var GetHashKey = Reader.Containers.ElementAt(i).Key;
-                    var GetContainer = Reader.Containers[GetHashKey];
-
-                    var GetName = ConvertHelper.ObjToStr(GetContainer.Name);
-                    if (GetName.Length > 0)
+                    try
                     {
-                        string SetType = "Name";
-                        GetTransStr = TryGetTransData(GetContainer.EditorID, SetType);
-                        string GetUniqueKey = GenUniqueKey(GetContainer.EditorID, SetType);
+                        string GetTransStr = "";
 
-                        Application.Current.Dispatcher.Invoke(new Action(() =>
+                        var GetHashKey = Reader.Containers.ElementAt(i).Key;
+                        var GetContainer = Reader.Containers[GetHashKey];
+
+                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetContainer.EditorID, GetContainer.FormKey);
+
+                        var GetName = ConvertHelper.ObjToStr(GetContainer.Name);
+                        if (GetName.Length > 0)
                         {
-                            View.AddRowR(LineRenderer.CreatLine("Container", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
-                        }));
+                            string SetType = "Name";
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("Container", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
+                            }));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error loading Container item at index {i}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
         }
@@ -680,35 +798,44 @@ namespace SSELex.UIManage
             if (Reader.Activators != null)
                 for (int i = 0; i < Reader.Activators.Count; i++)
                 {
-                    string GetTransStr = "";
-
-                    var GetHashKey = Reader.Activators.ElementAt(i).Key;
-                    var GetActivator = Reader.Activators[GetHashKey];
-
-                    var GetName = ConvertHelper.ObjToStr(GetActivator.Name);
-                    if (GetName.Length > 0)
+                    try
                     {
-                        string SetType = "Name" + GetActivator;
-                        GetTransStr = TryGetTransData(GetActivator.EditorID, SetType);
-                        string GetUniqueKey = GenUniqueKey(GetActivator.EditorID, SetType);
+                        string GetTransStr = "";
 
-                        Application.Current.Dispatcher.Invoke(new Action(() =>
+                        var GetHashKey = Reader.Activators.ElementAt(i).Key;
+                        var GetActivator = Reader.Activators[GetHashKey];
+
+                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetActivator.EditorID, GetActivator.FormKey);
+
+                        var GetName = ConvertHelper.ObjToStr(GetActivator.Name);
+                        if (GetName.Length > 0)
                         {
-                            View.AddRowR(LineRenderer.CreatLine("Activator", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
-                        }));
+                            string SetType = "Name";
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("Activator", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
+                            }));
+                        }
+
+                        var GetActivateTextOverride = ConvertHelper.ObjToStr(GetActivator.ActivateTextOverride);
+                        if (GetActivateTextOverride.Trim().Length > 0)
+                        {
+                            string SetType = "ActivateTextOverride";
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("Activator", GetHashKey, GetUniqueKey, GetActivateTextOverride, GetTransStr, 999));
+                            }));
+                        }
                     }
-
-                    var GetActivateTextOverride = ConvertHelper.ObjToStr(GetActivator.ActivateTextOverride);
-                    if (GetActivateTextOverride.Trim().Length > 0)
+                    catch (Exception ex)
                     {
-                        string SetType = "ActivateTextOverride";
-                        GetTransStr = TryGetTransData(GetActivator.EditorID, SetType);
-                        string GetUniqueKey = GenUniqueKey(GetActivator.EditorID, SetType);
-
-                        Application.Current.Dispatcher.Invoke(new Action(() =>
-                        {
-                            View.AddRowR(LineRenderer.CreatLine("Activator", GetHashKey, GetUniqueKey, GetActivateTextOverride, GetTransStr, 999));
-                        }));
+                        MessageBox.Show($"Error loading Activator item at index {i}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
         }
@@ -718,25 +845,32 @@ namespace SSELex.UIManage
             if (Reader.MiscItems != null)
                 for (int i = 0; i < Reader.MiscItems.Count; i++)
                 {
-                    string GetTransStr = "";
-
-                    var GetHashKey = Reader.MiscItems.ElementAt(i).Key;
-                    var GetMiscItem = Reader.MiscItems[GetHashKey];
-
-                    var GetName = ConvertHelper.ObjToStr(GetMiscItem.Name);
-                    if (GetName.Length > 0)
+                    try
                     {
-                        string SetType = "Name";
-                        GetTransStr = TryGetTransData(GetMiscItem.EditorID, SetType);
-                        string GetUniqueKey = GenUniqueKey(GetMiscItem.EditorID, SetType);
+                        string GetTransStr = "";
 
-                        Application.Current.Dispatcher.Invoke(new Action(() =>
+                        var GetHashKey = Reader.MiscItems.ElementAt(i).Key;
+                        var GetMiscItem = Reader.MiscItems[GetHashKey];
+
+                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetMiscItem.EditorID, GetMiscItem.FormKey);
+
+                        var GetName = ConvertHelper.ObjToStr(GetMiscItem.Name);
+                        if (GetName.Length > 0)
                         {
-                            View.AddRowR(LineRenderer.CreatLine("MiscItem", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
-                        }));
+                            string SetType = "Name";
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("MiscItem", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
+                            }));
+                        }
                     }
-
-
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error loading Misc Item at index {i}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
         }
 
@@ -745,50 +879,57 @@ namespace SSELex.UIManage
             if (Reader.Books != null)
                 for (int i = 0; i < Reader.Books.Count; i++)
                 {
-                    string GetTransStr = "";
-
-                    var GetHashKey = Reader.Books.ElementAt(i).Key;
-                    var Books = Reader.Books[GetHashKey];
-
-                    //GetTransStr = Translator.TransData[GetHashKey];
-
-                    var GetName = ConvertHelper.ObjToStr(Books.Name);
-                    if (GetName.Length > 0)
+                    try
                     {
-                        string SetType = "Name";
-                        GetTransStr = TryGetTransData(Books.EditorID, SetType);
-                        string GetUniqueKey = GenUniqueKey(Books.EditorID, SetType);
+                        string GetTransStr = "";
 
-                        Application.Current.Dispatcher.Invoke(new Action(() =>
+                        var GetHashKey = Reader.Books.ElementAt(i).Key;
+                        var Books = Reader.Books[GetHashKey];
+
+                        string AutoKey = SkyrimDataWriter.GetAutoKey(Books.EditorID, Books.FormKey);
+
+                        var GetName = ConvertHelper.ObjToStr(Books.Name);
+                        if (GetName.Length > 0)
                         {
-                            View.AddRowR(LineRenderer.CreatLine("Book", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
-                        }));
+                            string SetType = "Name";
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("Book", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
+                            }));
+                        }
+
+                        var GetDescription = ConvertHelper.ObjToStr(Books.Description);
+                        if (GetDescription.Length > 0)
+                        {
+                            string SetType = "Description";
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("Book", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, 999));
+                            }));
+                        }
+
+                        var GetBookText = ConvertHelper.ObjToStr(Books.BookText);
+                        if (GetBookText.Length > 0)
+                        {
+                            string SetType = "BookText";
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("Book", GetHashKey, GetUniqueKey, GetBookText, GetTransStr, 999));
+                            }));
+                        }
                     }
-
-                    var GetDescription = ConvertHelper.ObjToStr(Books.Description);
-                    if (GetDescription.Length > 0)
+                    catch (Exception ex)
                     {
-                        string SetType = "Description";
-                        GetTransStr = TryGetTransData(Books.EditorID, SetType);
-                        string GetUniqueKey = GenUniqueKey(Books.EditorID, SetType);
-
-                        Application.Current.Dispatcher.Invoke(new Action(() =>
-                        {
-                            View.AddRowR(LineRenderer.CreatLine("Book", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, 999));
-                        }));
-                    }
-
-                    var GetBookText = ConvertHelper.ObjToStr(Books.BookText);
-                    if (GetBookText.Length > 0)
-                    {
-                        string SetType = "BookText";
-                        GetTransStr = TryGetTransData(Books.EditorID, SetType);
-                        string GetUniqueKey = GenUniqueKey(Books.EditorID, SetType);
-
-                        Application.Current.Dispatcher.Invoke(new Action(() =>
-                        {
-                            View.AddRowR(LineRenderer.CreatLine("Book", GetHashKey, GetUniqueKey, GetBookText, GetTransStr, 999));
-                        }));
+                        MessageBox.Show($"Error loading Book item at index {i}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
         }
@@ -798,35 +939,44 @@ namespace SSELex.UIManage
             if (Reader.Messages != null)
                 for (int i = 0; i < Reader.Messages.Count; i++)
                 {
-                    string GetTransStr = "";
-
-                    var GetHashKey = Reader.Messages.ElementAt(i).Key;
-                    var GetMessageItem = Reader.Messages[GetHashKey];
-
-                    var GetName = ConvertHelper.ObjToStr(GetMessageItem.Name);
-                    if (GetName.Length > 0)
+                    try
                     {
-                        string SetType = "Name";
-                        GetTransStr = TryGetTransData(GetMessageItem.EditorID, SetType);
-                        string GetUniqueKey = GenUniqueKey(GetMessageItem.EditorID, SetType);
+                        string GetTransStr = "";
 
-                        Application.Current.Dispatcher.Invoke(new Action(() =>
+                        var GetHashKey = Reader.Messages.ElementAt(i).Key;
+                        var GetMessageItem = Reader.Messages[GetHashKey];
+
+                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetMessageItem.EditorID, GetMessageItem.FormKey);
+
+                        var GetName = ConvertHelper.ObjToStr(GetMessageItem.Name);
+                        if (GetName.Length > 0)
                         {
-                            View.AddRowR(LineRenderer.CreatLine("Message", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
-                        }));
+                            string SetType = "Name";
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("Message", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
+                            }));
+                        }
+
+                        var GetDescription = ConvertHelper.ObjToStr(GetMessageItem.Description);
+                        if (GetDescription.Length > 0)
+                        {
+                            string SetType = "Description";
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("Message", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, 999));
+                            }));
+                        }
                     }
-
-                    var GetDescription = ConvertHelper.ObjToStr(GetMessageItem.Description);
-                    if (GetDescription.Length > 0)
+                    catch (Exception ex)
                     {
-                        string SetType = "Description";
-                        GetTransStr = TryGetTransData(GetMessageItem.EditorID, SetType);
-                        string GetUniqueKey = GenUniqueKey(GetMessageItem.EditorID, SetType);
-
-                        Application.Current.Dispatcher.Invoke(new Action(() =>
-                        {
-                            View.AddRowR(LineRenderer.CreatLine("Message", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, 999));
-                        }));
+                        MessageBox.Show($"Error loading Message item at index {i}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
         }
@@ -836,32 +986,48 @@ namespace SSELex.UIManage
             if (Reader.Messages != null)
                 for (int i = 0; i < Reader.Messages.Count; i++)
                 {
-                    string GetTransStr = "";
-
-                    var GetHashKey = Reader.Messages.ElementAt(i).Key;
-                    var GetMessageItem = Reader.Messages[GetHashKey];
-
-                    var GetButtons = GetMessageItem.MenuButtons;
-                    if (GetButtons != null)
+                    try
                     {
-                        if (GetButtons.Count > 0)
-                        {
-                            for (int ir = 0; ir < GetButtons.Count; ir++)
-                            {
-                                var GetButton = ConvertHelper.ObjToStr(GetButtons[ir].Text);
-                                if (GetButton.Length > 0)
-                                {
-                                    string SetType = string.Format("Button[{0}]", ir);
-                                    GetTransStr = TryGetTransData(GetMessageItem.EditorID, SetType);
-                                    string GetUniqueKey = GenUniqueKey(GetMessageItem.EditorID, SetType);
+                        string GetTransStr = "";
 
-                                    Application.Current.Dispatcher.Invoke(new Action(() =>
+                        var GetHashKey = Reader.Messages.ElementAt(i).Key;
+                        var GetMessageItem = Reader.Messages[GetHashKey];
+
+                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetMessageItem.EditorID, GetMessageItem.FormKey);
+
+                        var GetButtons = GetMessageItem.MenuButtons;
+                        if (GetButtons != null)
+                        {
+                            if (GetButtons.Count > 0)
+                            {
+                                for (int ir = 0; ir < GetButtons.Count; ir++)
+                                {
+                                    try
                                     {
-                                        View.AddRowR(LineRenderer.CreatLine("Button", GetHashKey, GetUniqueKey, GetButton, GetTransStr, 999));
-                                    }));
+                                        var GetButton = ConvertHelper.ObjToStr(GetButtons[ir].Text);
+                                        if (GetButton.Length > 0)
+                                        {
+                                            string SetType = string.Format("Button[{0}]", ir);
+                                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                                            {
+                                                View.AddRowR(LineRenderer.CreatLine("Button", GetHashKey, GetUniqueKey, GetButton, GetTransStr, 999));
+                                            }));
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        MessageBox.Show($"Error loading Message Button item at index {ir} for Message {GetHashKey}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                    }
                                 }
                             }
                         }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error processing Message buttons for item at index {i}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
         }
@@ -871,76 +1037,85 @@ namespace SSELex.UIManage
             if (Reader.DialogTopics != null)
                 for (int i = 0; i < Reader.DialogTopics.Count; i++)
                 {
-                    string GetTransStr = "";
-
-                    var GetHashKey = Reader.DialogTopics.ElementAt(i).Key;
-                    var GetDialogTopicItem = Reader.DialogTopics[GetHashKey];
-
-                    string AutoKey = "";
-                    if (GetDialogTopicItem.EditorID != null)
+                    try
                     {
-                        AutoKey = GetDialogTopicItem.EditorID;
-                    }
-                    else
-                    {
-                        if (GetDialogTopicItem.FormKey != null)
-                        {
-                            AutoKey = GetDialogTopicItem.FormKey.ToString();
-                        }
-                    }
+                        string GetTransStr = "";
 
-                    var GetName = ConvertHelper.ObjToStr(GetDialogTopicItem.Name);
-                    if (GetName.Length > 0)
-                    {
-                        string SetType = "Name";
-                        GetTransStr = TryGetTransData(AutoKey, SetType);
-                        string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+                        var GetHashKey = Reader.DialogTopics.ElementAt(i).Key;
+                        var GetDialogTopicItem = Reader.DialogTopics[GetHashKey];
 
-                        Application.Current.Dispatcher.Invoke(new Action(() =>
-                        {
-                            View.AddRowR(LineRenderer.CreatLine("DialogTopic", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
-                        }));
-                    }
+                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetDialogTopicItem.EditorID, GetDialogTopicItem.FormKey);
 
-                    var GetResponses = GetDialogTopicItem.Responses;
-                    int ForCount = 0;
-                    if (GetResponses != null)
-                        foreach (var GetChild in GetResponses)
+                        var GetName = ConvertHelper.ObjToStr(GetDialogTopicItem.Name);
+                        if (GetName.Length > 0)
                         {
-                            ForCount++;
-                            string GetPrompt = ConvertHelper.ObjToStr(GetChild.Prompt);
-                            if (GetPrompt.Length > 0)
+                            string SetType = "Name";
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
                             {
-                                string SetType = string.Format("ResponsePrompt[{0}]", ForCount);
-                                GetTransStr = TryGetTransData(AutoKey, SetType);
-                                string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+                                View.AddRowR(LineRenderer.CreatLine("DialogTopic", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
+                            }));
+                        }
 
-                                Application.Current.Dispatcher.Invoke(new Action(() =>
-                                {
-                                    View.AddRowR(LineRenderer.CreatLine("DialogTopic", GetHashKey, GetUniqueKey, GetPrompt, GetTransStr, 999));
-                                }));
-                            }
-
-                            if (GetChild.Responses != null)
-                                foreach (var GetChildA in GetChild.Responses)
+                        var GetResponses = GetDialogTopicItem.Responses;
+                        int ForCount = 0;
+                        if (GetResponses != null)
+                            foreach (var GetChild in GetResponses)
+                            {
+                                try
                                 {
                                     ForCount++;
-
-                                    string GetValue = ConvertHelper.ObjToStr(GetChildA.Text);
-                                    if (GetValue.Length > 0)
+                                    string GetPrompt = ConvertHelper.ObjToStr(GetChild.Prompt);
+                                    if (GetPrompt.Length > 0)
                                     {
-                                        string SetType = string.Format("Response[{0}]", ForCount);
+                                        string SetType = string.Format("ResponsePrompt[{0}]", ForCount);
                                         GetTransStr = TryGetTransData(AutoKey, SetType);
                                         string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
 
                                         Application.Current.Dispatcher.Invoke(new Action(() =>
                                         {
-                                            View.AddRowR(LineRenderer.CreatLine("DialogTopic", GetHashKey, GetUniqueKey, GetValue, GetTransStr, 999));
+                                            View.AddRowR(LineRenderer.CreatLine("DialogTopic", GetHashKey, GetUniqueKey, GetPrompt, GetTransStr, 999));
                                         }));
                                     }
-                                }
-                        }
 
+                                    if (GetChild.Responses != null)
+                                        foreach (var GetChildA in GetChild.Responses)
+                                        {
+                                            try
+                                            {
+                                                ForCount++;
+
+                                                string GetValue = ConvertHelper.ObjToStr(GetChildA.Text);
+                                                if (GetValue.Length > 0)
+                                                {
+                                                    string SetType = string.Format("Response[{0}]", ForCount);
+                                                    GetTransStr = TryGetTransData(AutoKey, SetType);
+                                                    string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                                                    Application.Current.Dispatcher.Invoke(new Action(() =>
+                                                    {
+                                                        View.AddRowR(LineRenderer.CreatLine("DialogTopic", GetHashKey, GetUniqueKey, GetValue, GetTransStr, 999));
+                                                    }));
+                                                }
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                MessageBox.Show($"Error loading Dialog Topic child response for Dialog Topic {GetHashKey}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                            }
+                                        }
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show($"Error loading Dialog Topic response for Dialog Topic {GetHashKey}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                }
+                            }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error loading Dialog Topic item at index {i}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
         }
 
@@ -949,35 +1124,44 @@ namespace SSELex.UIManage
             if (Reader.Spells != null)
                 for (int i = 0; i < Reader.Spells.Count; i++)
                 {
-                    string GetTransStr = "";
-
-                    var GetHashKey = Reader.Spells.ElementAt(i).Key;
-                    var GetSpellItem = Reader.Spells[GetHashKey];
-
-                    var GetName = ConvertHelper.ObjToStr(GetSpellItem.Name);
-                    if (GetName.Length > 0)
+                    try
                     {
-                        string SetType = "Name";
-                        GetTransStr = TryGetTransData(GetSpellItem.EditorID, SetType);
-                        string GetUniqueKey = GenUniqueKey(GetSpellItem.EditorID, SetType);
+                        string GetTransStr = "";
 
-                        Application.Current.Dispatcher.Invoke(new Action(() =>
+                        var GetHashKey = Reader.Spells.ElementAt(i).Key;
+                        var GetSpellItem = Reader.Spells[GetHashKey];
+
+                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetSpellItem.EditorID, GetSpellItem.FormKey);
+
+                        var GetName = ConvertHelper.ObjToStr(GetSpellItem.Name);
+                        if (GetName.Length > 0)
                         {
-                            View.AddRowR(LineRenderer.CreatLine("Spell", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
-                        }));
+                            string SetType = "Name";
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("Spell", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
+                            }));
+                        }
+
+                        var GetDescription = ConvertHelper.ObjToStr(GetSpellItem.Description);
+                        if (GetDescription.Length > 0)
+                        {
+                            string SetType = "Description";
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("Spell", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, 999));
+                            }));
+                        }
                     }
-
-                    var GetDescription = ConvertHelper.ObjToStr(GetSpellItem.Description);
-                    if (GetDescription.Length > 0)
+                    catch (Exception ex)
                     {
-                        string SetType = "Description";
-                        GetTransStr = TryGetTransData(GetSpellItem.EditorID, SetType);
-                        string GetUniqueKey = GenUniqueKey(GetSpellItem.EditorID, SetType);
-
-                        Application.Current.Dispatcher.Invoke(new Action(() =>
-                        {
-                            View.AddRowR(LineRenderer.CreatLine("Spell", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, 999));
-                        }));
+                        MessageBox.Show($"Error loading Spell item at index {i}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
         }
@@ -987,22 +1171,31 @@ namespace SSELex.UIManage
             if (Reader.ObjectEffects != null)
                 for (int i = 0; i < Reader.ObjectEffects.Count; i++)
                 {
-                    string GetTransStr = "";
-
-                    var GetHashKey = Reader.ObjectEffects.ElementAt(i).Key;
-                    var GetObjectEffect = Reader.ObjectEffects[GetHashKey];
-
-                    var GetName = ConvertHelper.ObjToStr(GetObjectEffect.Name);
-                    if (GetName.Length > 0)
+                    try
                     {
-                        string SetType = "Name";
-                        GetTransStr = TryGetTransData(GetObjectEffect.EditorID, SetType);
-                        string GetUniqueKey = GenUniqueKey(GetObjectEffect.EditorID, SetType);
+                        string GetTransStr = "";
 
-                        Application.Current.Dispatcher.Invoke(new Action(() =>
+                        var GetHashKey = Reader.ObjectEffects.ElementAt(i).Key;
+                        var GetObjectEffect = Reader.ObjectEffects[GetHashKey];
+
+                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetObjectEffect.EditorID, GetObjectEffect.FormKey);
+
+                        var GetName = ConvertHelper.ObjToStr(GetObjectEffect.Name);
+                        if (GetName.Length > 0)
                         {
-                            View.AddRowR(LineRenderer.CreatLine("ObjectEffect", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
-                        }));
+                            string SetType = "Name";
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("ObjectEffect", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
+                            }));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error loading Object Effect item at index {i}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
         }
@@ -1012,35 +1205,44 @@ namespace SSELex.UIManage
             if (Reader.MagicEffects != null)
                 for (int i = 0; i < Reader.MagicEffects.Count; i++)
                 {
-                    string GetTransStr = "";
-
-                    var GetHashKey = Reader.MagicEffects.ElementAt(i).Key;
-                    var GetMagicEffect = Reader.MagicEffects[GetHashKey];
-
-                    var GetName = ConvertHelper.ObjToStr(GetMagicEffect.Name);
-                    if (GetName.Length > 0)
+                    try
                     {
-                        string SetType = "Name";
-                        GetTransStr = TryGetTransData(GetMagicEffect.EditorID, SetType);
-                        string GetUniqueKey = GenUniqueKey(GetMagicEffect.EditorID, SetType);
+                        string GetTransStr = "";
 
-                        Application.Current.Dispatcher.Invoke(new Action(() =>
+                        var GetHashKey = Reader.MagicEffects.ElementAt(i).Key;
+                        var GetMagicEffect = Reader.MagicEffects[GetHashKey];
+
+                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetMagicEffect.EditorID, GetMagicEffect.FormKey);
+
+                        var GetName = ConvertHelper.ObjToStr(GetMagicEffect.Name);
+                        if (GetName.Length > 0)
                         {
-                            View.AddRowR(LineRenderer.CreatLine("MagicEffect", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
-                        }));
+                            string SetType = "Name";
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("MagicEffect", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
+                            }));
+                        }
+
+                        var GetDescription = ConvertHelper.ObjToStr(GetMagicEffect.Description);
+                        if (GetDescription.Length > 0)
+                        {
+                            string SetType = "Description";
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("MagicEffect", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, 999));
+                            }));
+                        }
                     }
-
-                    var GetDescription = ConvertHelper.ObjToStr(GetMagicEffect.Description);
-                    if (GetDescription.Length > 0)
+                    catch (Exception ex)
                     {
-                        string SetType = "Description";
-                        GetTransStr = TryGetTransData(GetMagicEffect.EditorID, SetType);
-                        string GetUniqueKey = GenUniqueKey(GetMagicEffect.EditorID, SetType);
-
-                        Application.Current.Dispatcher.Invoke(new Action(() =>
-                        {
-                            View.AddRowR(LineRenderer.CreatLine("MagicEffect", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, 999));
-                        }));
+                        MessageBox.Show($"Error loading Magic Effect item at index {i}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
         }
@@ -1050,33 +1252,56 @@ namespace SSELex.UIManage
             if (Reader.Cells != null)
                 for (int i = 0; i < Reader.Cells.Count; i++)
                 {
-                    string GetTransStr = "";
+                    try
+                    {
+                        string GetTransStr = "";
 
-                    var GetHashKey = Reader.Cells.ElementAt(i).Key;
-                    var GetCell = Reader.Cells[GetHashKey];
-                    int ForID = 0;
-                    if (GetCell.SubBlocks != null)
-                        foreach (var Get in GetCell.SubBlocks)
-                        {
-                            ForID++;
-                            if (Get.Cells != null)
-                                foreach (var GetChild in Get.Cells)
+                        var GetHashKey = Reader.Cells.ElementAt(i).Key;
+                        var GetCell = Reader.Cells[GetHashKey];
+                        int ForID = 0;
+                        if (GetCell.SubBlocks != null)
+                            foreach (var Get in GetCell.SubBlocks)
+                            {
+                                try
                                 {
                                     ForID++;
-                                    var GetName = ConvertHelper.ObjToStr(GetChild.Name);
-                                    if (GetName.Length > 0)
-                                    {
-                                        string SetType = string.Format("Cell[{0}]", ForID);
-                                        GetTransStr = TryGetTransData(GetChild.EditorID, SetType);
-                                        string GetUniqueKey = GenUniqueKey(GetChild.EditorID, SetType);
-
-                                        Application.Current.Dispatcher.Invoke(new Action(() =>
+                                    if (Get.Cells != null)
+                                        foreach (var GetChild in Get.Cells)
                                         {
-                                            View.AddRowR(LineRenderer.CreatLine("Cell", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
-                                        }));
-                                    }
+                                            try
+                                            {
+                                                ForID++;
+                                                var GetName = ConvertHelper.ObjToStr(GetChild.Name);
+                                                if (GetName.Length > 0)
+                                                {
+                                                    string AutoKey = SkyrimDataWriter.GetAutoKey(GetChild.EditorID, GetChild.FormKey);
+
+                                                    string SetType = string.Format("Cell[{0}]", ForID);
+                                                    GetTransStr = TryGetTransData(AutoKey, SetType);
+                                                    string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                                                    Application.Current.Dispatcher.Invoke(new Action(() =>
+                                                    {
+                                                        View.AddRowR(LineRenderer.CreatLine("Cell", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
+                                                    }));
+                                                }
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                MessageBox.Show($"Error loading Cell sub-block child cell for Cell {GetHashKey}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                            }
+                                        }
                                 }
-                        }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show($"Error loading Cell sub-block for Cell {GetHashKey}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                }
+                            }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error loading Cell item at index {i}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
         }
     }

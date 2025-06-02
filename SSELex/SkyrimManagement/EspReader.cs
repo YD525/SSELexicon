@@ -87,159 +87,100 @@ namespace SSELex.SkyrimManage
             {
                 foreach (var Get in this.CurrentReadMod.Worldspaces.ToList())
                 {
-                    if (Get.EditorID != null)
-                    {
-                        Worldspaces.Add(Get.EditorID, Get);
-                    }
+                    Worldspaces.Add(SkyrimDataWriter.GetAutoKey(Get.EditorID, Get.FormKey), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Races.ToList())
                 {
-                    if (Get.EditorID != null)
-                    {
-                        Races.Add(Get.EditorID, Get);
-                    }
+                    Races.Add(SkyrimDataWriter.GetAutoKey(Get.EditorID, Get.FormKey), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Quests.ToList())
                 {
-                    if (Get.EditorID != null)
-                    {
-                        Quests.Add(Get.EditorID, Get);
-                    }
-                    //else
-                    //{
-                    //    Quests.Add(Get.FormKey.ToString(), Get);
-                    //}
+                    Quests.Add(SkyrimDataWriter.GetAutoKey(Get.EditorID, Get.FormKey), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Factions.ToList())
                 {
-                    if (Get.EditorID != null)
-                    {
-                        Factions.Add(Get.EditorID, Get);
-                    }
+                    Factions.Add(SkyrimDataWriter.GetAutoKey(Get.EditorID, Get.FormKey), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Perks.ToList())
                 {
-                    if (Get.EditorID != null)
-                    {
-                        Perks.Add(Get.EditorID, Get);
-                    }
+                    Perks.Add(SkyrimDataWriter.GetAutoKey(Get.EditorID, Get.FormKey), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Weapons.ToList())
                 {
-                    if (Get.EditorID != null)
-                    {
-                        Weapons.Add(Get.EditorID, Get);
-                    }
+                    Weapons.Add(SkyrimDataWriter.GetAutoKey(Get.EditorID, Get.FormKey), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.SoulGems.ToList())
                 {
-                    if (Get.EditorID != null)
-                    {
-                        SoulGems.Add(Get.EditorID, Get);
-                    }
+                    SoulGems.Add(SkyrimDataWriter.GetAutoKey(Get.EditorID, Get.FormKey), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Armors.ToList())
                 {
-                    if (Get.EditorID != null)
-                    {
-                        Armors.Add(Get.EditorID, Get);
-                    }
+                    Armors.Add(SkyrimDataWriter.GetAutoKey(Get.EditorID, Get.FormKey), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Keys.ToList())
                 {
-                    if (Get.EditorID != null)
-                    {
-                        Keys.Add(Get.EditorID, Get);
-                    }
+                    Keys.Add(SkyrimDataWriter.GetAutoKey(Get.EditorID, Get.FormKey), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Containers.ToList())
                 {
-                    if (Get.EditorID != null)
-                    {
-                        Containers.Add(Get.EditorID, Get);
-                    }
+                    Containers.Add(SkyrimDataWriter.GetAutoKey(Get.EditorID, Get.FormKey), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Activators.ToList())
                 {
-                    if (Get.EditorID != null)
-                    {
-                        Activators.Add(Get.EditorID, Get);
-                    }    
+                    Activators.Add(SkyrimDataWriter.GetAutoKey(Get.EditorID, Get.FormKey), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.MiscItems.ToList())
                 {
-                    if (Get.EditorID != null)
-                    {
-                        MiscItems.Add(Get.EditorID, Get);
-                    }
+                    MiscItems.Add(SkyrimDataWriter.GetAutoKey(Get.EditorID, Get.FormKey), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Books.ToList())
                 {
-                    if (Get.EditorID != null)
-                    {
-                        Books.Add(Get.EditorID, Get);
-                    } 
+                    Books.Add(SkyrimDataWriter.GetAutoKey(Get.EditorID, Get.FormKey), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Messages.ToList())
                 {
-                    if (Get.EditorID != null)
-                    {
-                        Messages.Add(Get.EditorID, Get);
-                    }
+                    Messages.Add(SkyrimDataWriter.GetAutoKey(Get.EditorID, Get.FormKey), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.DialogTopics.ToList())
                 {
-                    if (Get.EditorID != null)
-                    {
-                        DialogTopics.Add(Get.EditorID, Get);
-                    }
-                    else
-                    {
-                        DialogTopics.Add(Get.FormKey.ToString(), Get);
-                    }
+                    DialogTopics.Add(SkyrimDataWriter.GetAutoKey(Get.EditorID, Get.FormKey), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Spells.ToList())
                 {
-                    if (Get.EditorID != null)
-                    {
-                        Spells.Add(Get.EditorID, Get);
-                    }
+                    Spells.Add(SkyrimDataWriter.GetAutoKey(Get.EditorID, Get.FormKey), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.MagicEffects.ToList())
                 {
-                    if (Get.EditorID != null)
-                    {
-                        MagicEffects.Add(Get.EditorID, Get);
-                    }
+                    MagicEffects.Add(SkyrimDataWriter.GetAutoKey(Get.EditorID, Get.FormKey), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.ObjectEffects.ToList())
                 {
-                    if (Get.EditorID != null)
-                    {
-                        ObjectEffects.Add(Get.EditorID, Get);
-                    }
+                    ObjectEffects.Add(SkyrimDataWriter.GetAutoKey(Get.EditorID, Get.FormKey), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Cells.ToList())
                 {
-                    Cells.Add(Get.GetHashCode().ToString(), Get);
+                    if (Get != null)
+                    {
+                        Cells.Add(Get.GetHashCode().ToString(), Get);
+                    }
                 }
 
             }

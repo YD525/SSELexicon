@@ -45,7 +45,10 @@ namespace SSELex.TranslateManage
         }
         public static string SearchLocalData(string NewWord)
         {
-            var OneWord = SkyrimDataWriter.PreFormatStr(ToNormalStyle(NewWord));
+            string NewStr = NewWord;
+            TranslationPreprocessor.NormalizePunctuation(ref NewStr);
+            NewStr = ToNormalStyle(NewStr);
+            var OneWord = NewStr;
             string AutoChar = "";
             if (OneWord.EndsWith("."))
             {

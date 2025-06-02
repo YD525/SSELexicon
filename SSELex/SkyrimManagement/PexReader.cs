@@ -579,7 +579,9 @@ namespace SSELex.SkyrimManage
                 if (GetFileContent.Contains(GetKey))
                 {
                     var GetLinkValue = LinkTexts[GetKey];
-                    GetLinkValue.Value = SkyrimDataWriter.PreFormatStr(GetLinkValue.Value.Replace("\"", "'"));
+                    string NewStr = GetLinkValue.Value;
+                    TranslationPreprocessor.NormalizePunctuation(ref NewStr);
+                    GetLinkValue.Value = NewStr;
                     LinkTexts[GetKey] = GetLinkValue;
 
                     for (int ir = 0; ir < Lines.Count; ir++)

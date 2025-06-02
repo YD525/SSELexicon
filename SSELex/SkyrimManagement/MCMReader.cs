@@ -175,7 +175,9 @@ namespace SSELex.SkyrimManage
             string RichText = "";
             foreach (var GetMCMItem in this.MCMItems)
             {
-                RichText += string.Format("${0}\t{1}\r\n", GetMCMItem.EditorID, SkyrimDataWriter.PreFormatStr(GetMCMItem.GetTextIfTrans()));
+                string NewStr = GetMCMItem.GetTextIfTrans();
+                TranslationPreprocessor.NormalizePunctuation(ref NewStr);
+                RichText += string.Format("${0}\t{1}\r\n", GetMCMItem.EditorID, NewStr);
             }
             DataHelper.WriteFile(OutPutPath,Encoding.UTF8.GetBytes(RichText));
 

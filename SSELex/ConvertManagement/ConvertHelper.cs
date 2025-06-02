@@ -236,7 +236,7 @@ namespace SSELex.ConvertManager
         {
             return Message.Replace(" ", "").Replace("    ", "").Replace("　", "");
         }
-        public static string ObjToStr(object Item)
+        public static string ObjToStr(object? Item)
         {
             string GetConvertStr = string.Empty;
             if (Item == null == false)
