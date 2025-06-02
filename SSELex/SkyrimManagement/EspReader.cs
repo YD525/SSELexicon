@@ -13,6 +13,7 @@ using Mutagen.Bethesda;
 using Mutagen.Bethesda.Strings;
 using SSELex.TranslateCore;
 using System.Text;
+using Mutagen.Bethesda.Plugins.Exceptions;
 
 namespace SSELex.SkyrimManage
 {
@@ -245,17 +246,31 @@ namespace SSELex.SkyrimManage
                         NonLocalizedEncodingOverride = AutoEncoding
                     },
                     FileSystem = GlobalFileSystem,
-                    MasterFlagsLookup = FlagsLookup
+                    MasterFlagsLookup = FlagsLookup,
+                    
                 };
-                if (DeFine.GlobalLocalSetting.SkyrimType == SkyrimType.SkyrimSE)
+                try
                 {
-                    CurrentReadMod = SkyrimMod
-                    .CreateFromBinary(FilePath, SkyrimRelease.SkyrimSE, SetParam);
+                    //var Mask = new GroupMask(false);
+                    //var Mask = new GroupMask(true);
+                    //Mask.AddonNodes = false;
+
+                    //DNAM...
+
+                    if (DeFine.GlobalLocalSetting.SkyrimType == SkyrimType.SkyrimSE)
+                    {
+                        CurrentReadMod = SkyrimMod
+                       .CreateFromBinary(FilePath, SkyrimRelease.SkyrimSE, SetParam);
+                    }
+                    else
+                    {
+                        CurrentReadMod = SkyrimMod
+                        .CreateFromBinary(FilePath, SkyrimRelease.SkyrimLE, SetParam);
+                    }
                 }
-                else
+                catch (RecordException rex)
                 {
-                    CurrentReadMod = SkyrimMod
-                    .CreateFromBinary(FilePath, SkyrimRelease.SkyrimLE, SetParam);
+                    GC.Collect();
                 }
 
                 ToRam();
