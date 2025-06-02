@@ -95,7 +95,7 @@ namespace SSELex.TranslateManagement
             catch { return false; }
         }
 
-        public static string GetCacheText(string Key,string Text)
+        public static string GetCacheText(string Key)
         {
             try
             {
@@ -112,6 +112,12 @@ namespace SSELex.TranslateManagement
             }
             catch { return string.Empty; }
         }
+
+        public static string FindCache(string Key)
+        {
+            return FindCache(DeFine.CurrentModName, Key, (int)DeFine.TargetLanguage);
+        }
+
 
         public static string FindCache(string ModName,string Key,int To)
         {

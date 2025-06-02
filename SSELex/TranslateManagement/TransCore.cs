@@ -102,7 +102,7 @@ namespace SSELex.TranslateManage
         /// <param name="Target"></param>
         /// <param name="SourceStr"></param>
         /// <returns></returns>
-        public string TransAny(Languages Source, Languages Target,string SourceStr,bool IsBook,ref bool CanAddCache,ref bool CanSleep)
+        public string TransAny(string Key,Languages Source, Languages Target,string SourceStr,bool IsBook,ref bool CanAddCache,ref bool CanSleep)
         {
             if (SourceStr == "")
             {
@@ -113,7 +113,7 @@ namespace SSELex.TranslateManage
                 return SourceStr;
             }
 
-            string GetCacheStr = TranslateDBCache.FindCache(DeFine.CurrentModName,SourceStr, (int)Source, (int)Target);
+            string GetCacheStr = CloudDBCache.FindCache(Key);
 
             if (GetCacheStr.Trim().Length > 0)
             {

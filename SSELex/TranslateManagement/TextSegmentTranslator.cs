@@ -256,7 +256,7 @@ weqqwewe...";
             }
         }
         List<Segment> Content = new List<Segment>();
-        public void TransBook(string Source, CancellationToken Token)
+        public void TransBook(string Key,string Source, CancellationToken Token)
         {
             Content.Clear();
             this.Source = Source;
@@ -291,7 +291,7 @@ weqqwewe...";
                             }
                             catch { return; }
                             bool CanSleep = false;
-                            var GetTransLine = Translator.QuickTrans(GetSourceLine,DeFine.TargetLanguage,ref CanSleep,true);
+                            var GetTransLine = Translator.QuickTrans(Key,GetSourceLine,DeFine.TargetLanguage,ref CanSleep,true);
 
                             if (GetTransLine.Trim().Length > 0)
                             {

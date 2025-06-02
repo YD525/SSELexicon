@@ -1512,12 +1512,12 @@ namespace SSELex
                                 SegmentTranslator = new TextSegmentTranslator(ToStr, TransBtn);
                             }));
 
-                            SegmentTranslator.TransBook(GetFromStr, Token);
+                            SegmentTranslator.TransBook(UIHelper.ActiveKey, GetFromStr, Token);
                         }
                         else
                         {
                             bool CanSleep = true;
-                            var GetResult = Translator.QuickTrans(GetFromStr, DeFine.TargetLanguage, ref CanSleep);
+                            var GetResult = Translator.QuickTrans(UIHelper.ActiveKey, GetFromStr, DeFine.TargetLanguage, ref CanSleep);
 
                             this.Dispatcher.Invoke(new Action(() =>
                             {
@@ -2296,7 +2296,7 @@ namespace SSELex
 
                     Translator.TransData[UIHelper.ActiveKey] = TransText;
 
-                    LocalTransCache.UPDateLocalTransItem(new LocalTransItem(UIHelper.ActiveKey, FromStr.Text, ToStr.Text));
+                    LocalDBCache.UPDateLocalTransItem(new LocalTransItem(UIHelper.ActiveKey,ToStr.Text));
 
                     UIHelper.MainGrid_MouseLeave(UIHelper.ActiveTextBox.Tag, null);
                 }

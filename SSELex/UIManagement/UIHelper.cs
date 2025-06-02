@@ -544,7 +544,7 @@ namespace SSELex.UIManage
                     Translator.TransData.Remove(Key);
                 }
 
-                TranslateDBCache.DeleteCache(SourceText);
+                CloudDBCache.DeleteCache(Key);
             }
         }
 

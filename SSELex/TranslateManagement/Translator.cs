@@ -55,7 +55,7 @@ namespace SSELex.TranslateManage
             return Regex.IsMatch(Input, @"^[\p{P}\p{S}\s]+$");
         }
 
-        public static string QuickTrans(string Content, Languages To, ref bool CanSleep, bool IsBook = false)
+        public static string QuickTrans(string Key,string Content, Languages To, ref bool CanSleep, bool IsBook = false)
         {
             string GetSourceStr = Content;
 
@@ -81,7 +81,7 @@ namespace SSELex.TranslateManage
             }
 
             bool CanAddCache = true;
-            Content = CurrentTransCore.TransAny(SourceLanguage, To, Content, IsBook, ref CanAddCache, ref CanSleep);
+            Content = CurrentTransCore.TransAny(Key,SourceLanguage, To, Content, IsBook, ref CanAddCache, ref CanSleep);
 
             TranslationPreprocessor.NormalizePunctuation(ref Content);
             TranslationPreprocessor.ProcessEmptyEndLine(ref Content);
@@ -100,7 +100,7 @@ namespace SSELex.TranslateManage
 
             if (CanAddCache && Content.Trim().Length > 0)
             {
-                TranslateDBCache.AddCache(DeFine.CurrentModName, GetSourceStr, (int)SourceLanguage, (int)To, Content);
+                CloudDBCache.AddCache(DeFine.CurrentModName, Key, (int)To, Content);
             }
 
             return Content;
@@ -191,7 +191,7 @@ namespace SSELex.TranslateManage
                 DeFine.WorkingWin.TransViewList.MainCanvas.Visibility = System.Windows.Visibility.Collapsed;
             }));
 
-            LocalTransCache.DeleteCacheByModName();
+            LocalDBCache.DeleteCacheByModName();
             TransData.Clear();
             DeFine.WorkingWin.ReloadData();
 
@@ -281,7 +281,7 @@ namespace SSELex.TranslateManage
 
             if (GetRamSource.Trim().Length == 0)
             {
-                TransText = LocalTransCache.GetCacheText(Key, SourceText);
+                TransText = LocalDBCache.GetCacheText(Key);
 
                 if (TransText.Trim().Length > 0)
                 {
@@ -289,7 +289,7 @@ namespace SSELex.TranslateManage
                 }
                 else
                 {
-                    TransText = TranslateDBCache.FindCache(SourceText);
+                    TransText = CloudDBCache.FindCache(Key);
 
                     if (TransText.Trim().Length > 0)
                     {
@@ -312,7 +312,7 @@ namespace SSELex.TranslateManage
             }
             else
             {
-                var GetStr = TranslateDBCache.FindCache(SourceText);
+                var GetStr = CloudDBCache.FindCache(Key);
                 TransText = GetRamSource;
                 if (GetStr.Equals(GetRamSource))
                 {
@@ -345,7 +345,7 @@ namespace SSELex.TranslateManage
             {
                 if (FindDictionary.TransText.Equals(TransText))
                 {
-                    LocalTransCache.DeleteCache(Key, SourceText);
+                    LocalDBCache.DeleteCache(Key);
                     CanUPDate = false;
                 }
                 NSetTransItem.State = 0;
@@ -353,7 +353,7 @@ namespace SSELex.TranslateManage
 
             if (CanUPDate)
             {
-                LocalTransCache.UPDateLocalTransItem(new LocalTransItem(Key, SourceText, TransText));
+                LocalDBCache.UPDateLocalTransItem(new LocalTransItem(Key,TransText));
                 NSetTransItem.State = 1;
             }
 
@@ -363,7 +363,7 @@ namespace SSELex.TranslateManage
             }
             else
             {
-                if (TransText.Equals(TranslateDBCache.FindCache(SourceText)))
+                if (TransText.Equals(LocalDBCache.FindCache(Key)))
                 {
                     NSetTransItem.Color = Colors.DarkOliveGreen;
                 }
