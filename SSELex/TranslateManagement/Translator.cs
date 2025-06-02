@@ -231,19 +231,13 @@ namespace SSELex.TranslateManage
             return ReplaceCount;
         }
 
-        private void TestAll(object sender, MouseButtonEventArgs e)
+        public static void TestAll()
         {
             for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
             {
                 FakeGrid GetFakeGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
-                GetFakeGrid.UPDataThis();
                 string GetKey = GetFakeGrid.Key;
                 Translator.TransData[GetKey] = i.ToString();
-
-                DeFine.WorkingWin.TransViewList.RealLines[i].TransText = i.ToString();
-                DeFine.WorkingWin.TransViewList.RealLines[i].BorderColor = Color.FromRgb(76, 76, 76);
-
-                DeFine.WorkingWin.TransViewList.RealLines[i].UPDateView();
             }
             UIHelper.ModifyCount = DeFine.WorkingWin.TransViewList.RealLines.Count;
 

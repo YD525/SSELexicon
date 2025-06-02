@@ -22,8 +22,13 @@ namespace SSELex.SkyrimManage
         public FileSystem GlobalFileSystem = null;
 
         public SkyrimMod? CurrentReadMod = null;
-
+        public Dictionary<string, Hazard> Hazards = new Dictionary<string, Hazard>();
+        public Dictionary<string, HeadPart> HeadParts = new Dictionary<string, HeadPart>();
+        public Dictionary<string, Npc> Npcs = new Dictionary<string, Npc>();
         public Dictionary<string, Worldspace> Worldspaces = new Dictionary<string, Worldspace>();
+        public Dictionary<string, Shout> Shouts = new Dictionary<string, Shout>();
+        public Dictionary<string, Tree> Trees = new Dictionary<string, Tree>();
+        public Dictionary<string, Ingestible> Ingestibles = new Dictionary<string, Ingestible>();
         public Dictionary<string, Race> Races = new Dictionary<string, Race>();
         public Dictionary<string, Quest> Quests = new Dictionary<string, Quest>();
         public Dictionary<string, Faction> Factions = new Dictionary<string, Faction>();
@@ -52,7 +57,13 @@ namespace SSELex.SkyrimManage
 
         public void ClearRam()
         {
+            Hazards.Clear();
+            HeadParts.Clear();
+            Npcs.Clear();
             Worldspaces.Clear();
+            Shouts.Clear();
+            Trees.Clear();
+            Ingestibles.Clear();
             Races.Clear();
             Quests.Clear();
             Factions.Clear();
@@ -87,9 +98,39 @@ namespace SSELex.SkyrimManage
 
             if (CurrentReadMod != null)
             {
+                foreach (var Get in this.CurrentReadMod.Hazards.ToList())
+                {
+                    Hazards.Add(SkyrimDataWriter.GetAutoKey(Get.EditorID, Get.FormKey), Get);
+                }
+
+                foreach (var Get in this.CurrentReadMod.HeadParts.ToList())
+                {
+                    HeadParts.Add(SkyrimDataWriter.GetAutoKey(Get.EditorID, Get.FormKey), Get);
+                }
+
+                foreach (var Get in this.CurrentReadMod.Npcs.ToList())
+                {
+                    Npcs.Add(SkyrimDataWriter.GetAutoKey(Get.EditorID, Get.FormKey), Get);
+                }
+
                 foreach (var Get in this.CurrentReadMod.Worldspaces.ToList())
                 {
                     Worldspaces.Add(SkyrimDataWriter.GetAutoKey(Get.EditorID, Get.FormKey), Get);
+                }
+
+                foreach (var Get in this.CurrentReadMod.Shouts.ToList())
+                {
+                    Shouts.Add(SkyrimDataWriter.GetAutoKey(Get.EditorID, Get.FormKey), Get);
+                }
+
+                foreach (var Get in this.CurrentReadMod.Trees.ToList())
+                {
+                    Trees.Add(SkyrimDataWriter.GetAutoKey(Get.EditorID, Get.FormKey), Get);
+                }
+
+                foreach (var Get in this.CurrentReadMod.Ingestibles.ToList())
+                {
+                    Ingestibles.Add(SkyrimDataWriter.GetAutoKey(Get.EditorID, Get.FormKey), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Races.ToList())
@@ -274,13 +315,14 @@ namespace SSELex.SkyrimManage
                 }
 
                 ToRam();
-                //foreach (var Item in CurrentReadMod.EnumerateMajorRecords())
-                //{
-                //    if (Item.FormKey.ToString().Contains("74295"))
-                //    { 
+                foreach (var Item in CurrentReadMod.EnumerateMajorRecords())
+                {
+                    //LinkType
+                    if (Item.FormKey.ToString().Contains("000809"))
+                    {
 
-                //    }
-                //}
+                    }
+                }
 
                 //foreach (var Get in this.CurrentReadMod.Keywords.ToList())
                 //{

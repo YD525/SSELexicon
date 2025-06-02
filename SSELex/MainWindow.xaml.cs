@@ -188,62 +188,67 @@ namespace SSELex
         {
             try
             {
-                int ModifyCount = this.TransViewList.RealLines.Count(kvp => !string.IsNullOrWhiteSpace(kvp.TransText));
+                int ModifyCount = Translator.TransData.Count(Kvp => !string.IsNullOrWhiteSpace(Kvp.Value));
 
                 UIHelper.ModifyCount = ModifyCount;
             }
             catch { }
 
-            this.Dispatcher.Invoke(new Action(() =>
+            try 
             {
-                var Storyboard = (Storyboard)ProcessBar.Resources["BarEffect"];
-                double GetRate = ((double)UIHelper.ModifyCount / (double)TransViewList.Rows);
-                if (GetRate > 0)
+                this.Dispatcher.Invoke(new Action(() =>
                 {
-                    try
+                    var Storyboard = (Storyboard)ProcessBar.Resources["BarEffect"];
+                    double GetRate = ((double)UIHelper.ModifyCount / (double)TransViewList.Rows);
+                    if (GetRate > 0)
                     {
-                        ProcessBar.Width = ProcessBarFrame.ActualWidth * GetRate;
-                    }
-                    catch { }
-
-                    try
-                    {
-                        if (Storyboard != null)
+                        try
                         {
-                            if (EffectStart == 0)
+                            ProcessBar.Width = ProcessBarFrame.ActualWidth * GetRate;
+                        }
+                        catch { }
+
+                        try
+                        {
+                            if (Storyboard != null)
                             {
-                                EffectStart = 1;
-                                Storyboard.Begin();
+                                if (EffectStart == 0)
+                                {
+                                    EffectStart = 1;
+                                    Storyboard.Begin();
+                                }
                             }
                         }
+                        catch { }
                     }
-                    catch { }
-                }
-                else
-                {
-                    try
+                    else
                     {
-                        ProcessBar.Width = 1;
-
-                        if (Storyboard != null)
+                        try
                         {
-                            Storyboard.Stop();
-                            EffectStart = 0;
-                        }
-                    }
-                    catch { }
-                }
-                MaxTransCount = TransViewList.Rows;
+                            ProcessBar.Width = 1;
 
-                if (ReadTrdWorkState)
-                {
-                    TransProcess.Content = string.Format("Loading({0}/{1})", UIHelper.ModifyCount, MaxTransCount);
-                }
-                else
-                {
-                    TransProcess.Content = string.Format("STRINGS({0}/{1})", UIHelper.ModifyCount, MaxTransCount);
-                }
-            }));
+                            if (Storyboard != null)
+                            {
+                                Storyboard.Stop();
+                                EffectStart = 0;
+                            }
+                        }
+                        catch { }
+                    }
+                    MaxTransCount = TransViewList.Rows;
+
+                    if (ReadTrdWorkState)
+                    {
+                        TransProcess.Content = string.Format("Loading({0}/{1})", UIHelper.ModifyCount, MaxTransCount);
+                    }
+                    else
+                    {
+                        TransProcess.Content = string.Format("STRINGS({0}/{1})", UIHelper.ModifyCount, MaxTransCount);
+                    }
+                }));
+            }
+            catch { }
+           
         }
 
         public void ReloadViewMode()
@@ -1218,12 +1223,6 @@ namespace SSELex
                         {
                             if (GlobalEspReader.CurrentReadMod != null)
                             {
-                                if (CurrentSelect != ObjSelect.All)
-                                {
-                                    CurrentSelect = ObjSelect.All;
-                                    SkyrimDataLoader.Load(CurrentSelect, GlobalEspReader, TransViewList);
-                                }
-
                                 string GetBackUPPath = GetFilePath + GetFileFullName + ".backup";
 
                                 if (File.Exists(GetBackUPPath))
@@ -2493,6 +2492,9 @@ namespace SSELex
             }
         }
 
-       
+        private void TestBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Translator.TestAll();
+        }
     }
 }

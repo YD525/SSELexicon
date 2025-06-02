@@ -1,9 +1,11 @@
 ﻿using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Forms;
 using Mutagen.Bethesda.Plugins;
 using SSELex.ConvertManager;
 using SSELex.SkyrimManage;
 using SSELex.TranslateManage;
+using SSELex.UIManagement;
 
 namespace SSELex.UIManage
 {
@@ -88,7 +90,13 @@ namespace SSELex.UIManage
 
         public static void ReplaceAllToMemory(ref EspReader Writer)
         {
+            SetHazards(ref Writer);
+            SetHeadParts(ref Writer);
+            SetNpcs(ref Writer);
             SetWorldspaces(ref Writer);
+            SetShouts(ref Writer);
+            SetTrees(ref Writer);
+            SetIngestibles(ref Writer);
             SetRaces(ref Writer);
             SetQuests(ref Writer);
             SetFactions(ref Writer);
@@ -108,6 +116,104 @@ namespace SSELex.UIManage
             SetMagicEffects(ref Writer);
             SetObjectEffects(ref Writer);
             SetCells(ref Writer);
+        }
+
+        public static void SetHazards(ref EspReader Writer)
+        {
+            string SetType = "";
+            for (int i = 0; i < Writer.Hazards.Count; i++)
+            {
+                try
+                {
+                    string GetTransStr = "";
+
+                    var GetHashKey = Writer.Hazards.ElementAt(i).Key;
+                    var GetHazardItem = Writer.Hazards[GetHashKey];
+
+                    string AutoKey = GetAutoKey(GetHazardItem.EditorID, GetHazardItem.FormKey);
+
+                    SetType = "Name";
+                    GetTransStr = GetTransData(AutoKey, SetType);
+                    if (GetTransStr.Length > 0)
+                    {
+                        GetHazardItem.Name = GetTransStr;
+                    }
+
+                    Writer.Hazards[GetHashKey] = GetHazardItem;
+                }
+                catch (System.Exception ex)
+                {
+                    System.Console.WriteLine($"Error in SetHazards loop at index {i}: {ex.Message}");
+                }
+            }
+        }
+
+        public static void SetHeadParts(ref EspReader Writer)
+        {
+            string SetType = "";
+            for (int i = 0; i < Writer.HeadParts.Count; i++)
+            {
+                try
+                {
+                    string GetTransStr = "";
+
+                    var GetHashKey = Writer.HeadParts.ElementAt(i).Key;
+                    var GetHeadPartItem = Writer.HeadParts[GetHashKey];
+
+                    string AutoKey = GetAutoKey(GetHeadPartItem.EditorID, GetHeadPartItem.FormKey);
+
+                    SetType = "Name";
+                    GetTransStr = GetTransData(AutoKey, SetType);
+                    if (GetTransStr.Length > 0)
+                    {
+                        GetHeadPartItem.Name = GetTransStr;
+                    }
+
+                    Writer.HeadParts[GetHashKey] = GetHeadPartItem;
+                }
+                catch (System.Exception ex)
+                {
+                    System.Console.WriteLine($"Error in SetHeadParts loop at index {i}: {ex.Message}");
+                }
+            }
+        }
+
+        public static void SetNpcs(ref EspReader Writer)
+        {
+            string SetType = "";
+            for (int i = 0; i < Writer.Npcs.Count; i++)
+            {
+                try
+                {
+                    string GetTransStr = "";
+
+                    var GetHashKey = Writer.Npcs.ElementAt(i).Key;
+                    var GetNpcItem = Writer.Npcs[GetHashKey];
+
+                    string AutoKey = GetAutoKey(GetNpcItem.EditorID, GetNpcItem.FormKey);
+
+                    SetType = "Name";
+                    GetTransStr = GetTransData(AutoKey, SetType);
+                    if (GetTransStr.Length > 0)
+                    {
+                        GetNpcItem.Name = GetTransStr;
+                    }
+
+
+                    SetType = "ShortName";
+                    GetTransStr = GetTransData(AutoKey, SetType);
+                    if (GetTransStr.Length > 0)
+                    {
+                        GetNpcItem.ShortName = GetTransStr;
+                    }
+
+                    Writer.Npcs[GetHashKey] = GetNpcItem;
+                }
+                catch (System.Exception ex)
+                {
+                    System.Console.WriteLine($"Error in Npcs loop at index {i}: {ex.Message}");
+                }
+            }
         }
 
         public static void SetWorldspaces(ref EspReader Writer)
@@ -136,6 +242,96 @@ namespace SSELex.UIManage
                 catch (System.Exception ex)
                 {
                     System.Console.WriteLine($"Error in SetWorldspaces loop at index {i}: {ex.Message}");
+                }
+            }
+        }
+
+        public static void SetShouts(ref EspReader Writer)
+        {
+            string SetType = "";
+            for (int i = 0; i < Writer.Shouts.Count; i++)
+            {
+                try
+                {
+                    string GetTransStr = "";
+
+                    var GetHashKey = Writer.Shouts.ElementAt(i).Key;
+                    var GetShoutItem = Writer.Shouts[GetHashKey];
+
+                    string AutoKey = GetAutoKey(GetShoutItem.EditorID, GetShoutItem.FormKey);
+
+                    SetType = "Name";
+                    GetTransStr = GetTransData(AutoKey, SetType);
+                    if (GetTransStr.Length > 0)
+                    {
+                        GetShoutItem.Name = GetTransStr;
+                    }
+
+                    Writer.Shouts[GetHashKey] = GetShoutItem;
+                }
+                catch (System.Exception ex)
+                {
+                    System.Console.WriteLine($"Error in Shouts loop at index {i}: {ex.Message}");
+                }
+            }
+        }
+
+        public static void SetTrees(ref EspReader Writer)
+        {
+            string SetType = "";
+            for (int i = 0; i < Writer.Trees.Count; i++)
+            {
+                try
+                {
+                    string GetTransStr = "";
+
+                    var GetHashKey = Writer.Trees.ElementAt(i).Key;
+                    var GetTreeItem = Writer.Trees[GetHashKey];
+
+                    string AutoKey = GetAutoKey(GetTreeItem.EditorID, GetTreeItem.FormKey);
+
+                    SetType = "Name";
+                    GetTransStr = GetTransData(AutoKey, SetType);
+                    if (GetTransStr.Length > 0)
+                    {
+                        GetTreeItem.Name = GetTransStr;
+                    }
+
+                    Writer.Trees[GetHashKey] = GetTreeItem;
+                }
+                catch (System.Exception ex)
+                {
+                    System.Console.WriteLine($"Error in Trees loop at index {i}: {ex.Message}");
+                }
+            }
+        }
+
+        public static void SetIngestibles(ref EspReader Writer)
+        {
+            string SetType = "";
+            for (int i = 0; i < Writer.Ingestibles.Count; i++)
+            {
+                try
+                {
+                    string GetTransStr = "";
+
+                    var GetHashKey = Writer.Ingestibles.ElementAt(i).Key;
+                    var GetIngestibleItem = Writer.Ingestibles[GetHashKey];
+
+                    string AutoKey = GetAutoKey(GetIngestibleItem.EditorID, GetIngestibleItem.FormKey);
+
+                    SetType = "Name";
+                    GetTransStr = GetTransData(AutoKey, SetType);
+                    if (GetTransStr.Length > 0)
+                    {
+                        GetIngestibleItem.Name = GetTransStr;
+                    }
+
+                    Writer.Ingestibles[GetHashKey] = GetIngestibleItem;
+                }
+                catch (System.Exception ex)
+                {
+                    System.Console.WriteLine($"Error in Ingestibles loop at index {i}: {ex.Message}");
                 }
             }
         }

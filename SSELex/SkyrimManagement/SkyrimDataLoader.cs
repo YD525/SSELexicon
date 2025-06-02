@@ -11,15 +11,46 @@ namespace SSELex.UIManage
     {
         public enum ObjSelect
         {
-            Null = 99, All = 0, Worldspaces = 1, Quests = 2, Factions = 3, Perks = 5, Weapons = 6, SoulGems = 7, Armors = 8, Keys = 9, Containers = 10, Activators = 11, MiscItems = 12, Books = 13, Messages = 15, DialogTopics = 16, Spells = 17, MagicEffects = 18, ObjectEffects = 19, Cells = 20, Races = 21
+            Null = 99, All = 0, Hazards = 28,HeadParts = 27, Npcs = 26, Worldspaces = 1,Shouts = 25 ,Trees = 23, Ingestibles = 22, Quests = 2, Factions = 3, Perks = 5, Weapons = 6, SoulGems = 7, Armors = 8, Keys = 9, Containers = 10, Activators = 11, MiscItems = 12, Books = 13, Messages = 15, DialogTopics = 16, Spells = 17, MagicEffects = 18, ObjectEffects = 19, Cells = 20, Races = 21
         }
 
         public static List<ObjSelect> QueryParams(EspReader Reader)
         {
             List<ObjSelect> ObjSelects = new List<ObjSelect>();
+
+            if (Reader.Hazards.Count > 0)
+            {
+                ObjSelects.Add(ObjSelect.Hazards);
+            }
+
+            if (Reader.HeadParts.Count > 0)
+            {
+                ObjSelects.Add(ObjSelect.HeadParts);
+            }
+
+            if (Reader.Npcs.Count > 0)
+            {
+                ObjSelects.Add(ObjSelect.Npcs);
+            }
+
             if (Reader.Worldspaces.Count > 0)
             {
                 ObjSelects.Add(ObjSelect.Worldspaces);
+            }
+
+            if (Reader.Shouts.Count > 0)
+            {
+                ObjSelects.Add(ObjSelect.Shouts);
+            }
+
+            if (Reader.Trees.Count > 0)
+            {
+                ObjSelects.Add(ObjSelect.Trees);
+            }
+
+            if (Reader.Ingestibles.Count > 0)
+            {
+                ObjSelects.Add(ObjSelect.Ingestibles);
             }
 
             if (Reader.Races.Count > 0)
@@ -129,13 +160,42 @@ namespace SSELex.UIManage
                 LoadAll(Reader, View);
                 return;
             }
-
+            if (Type == ObjSelect.Hazards)
+            {
+                LoadHazards(Reader, View);
+            }
+            else
+           if (Type == ObjSelect.HeadParts)
+            {
+                LoadHeadParts(Reader, View);
+            }
+            else
+            if (Type == ObjSelect.Npcs)
+            {
+                LoadNpcs(Reader, View);
+            }
+            else
             if (Type == ObjSelect.Worldspaces)
             {
                 LoadWorldspaces(Reader, View);
             }
             else
-             if (Type == ObjSelect.Races)
+            if (Type == ObjSelect.Shouts)
+            {
+                LoadShouts(Reader, View);
+            }
+            else
+            if (Type == ObjSelect.Trees)
+            {
+                LoadTrees(Reader, View);
+            }
+            else
+            if (Type == ObjSelect.Ingestibles)
+            {
+                LoadIngestibles(Reader, View);
+            }
+            else
+            if (Type == ObjSelect.Races)
             {
                 LoadRaces(Reader, View);
             }
@@ -229,7 +289,13 @@ namespace SSELex.UIManage
 
         public static void LoadAll(EspReader Reader, YDListView View)
         {
+            LoadHazards(Reader, View);
+            LoadHeadParts(Reader, View);
+            LoadNpcs(Reader, View);
             LoadWorldspaces(Reader, View);
+            LoadShouts(Reader, View);
+            LoadTrees(Reader, View);
+            LoadIngestibles(Reader, View);
             LoadRaces(Reader, View);
             LoadQuests(Reader, View);
             LoadFactions(Reader, View);
@@ -265,6 +331,121 @@ namespace SSELex.UIManage
             return string.Empty;
         }
 
+        public static void LoadHazards(EspReader Reader, YDListView View)
+        {
+            if (Reader.Hazards != null)
+                for (int i = 0; i < Reader.Hazards.Count; i++)
+                {
+                    try
+                    {
+                        string GetTransStr = "";
+
+                        var GetHashKey = Reader.Hazards.ElementAt(i).Key;
+                        var GetHazardItem = Reader.Hazards[GetHashKey];
+
+                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetHazardItem.EditorID, GetHazardItem.FormKey);
+
+                        var GetName = ConvertHelper.ObjToStr(GetHazardItem.Name); //HAZD FULL
+                        if (GetName.Length > 0)
+                        {
+                            string SetType = "Name";
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("Hazard", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
+                            }));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error loading Hazard item at index {i}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+        }
+
+        public static void LoadHeadParts(EspReader Reader, YDListView View)
+        {
+            if (Reader.HeadParts != null)
+                for (int i = 0; i < Reader.HeadParts.Count; i++)
+                {
+                    try
+                    {
+                        string GetTransStr = "";
+
+                        var GetHashKey = Reader.HeadParts.ElementAt(i).Key;
+                        var GetHeadPartItem = Reader.HeadParts[GetHashKey];
+
+                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetHeadPartItem.EditorID, GetHeadPartItem.FormKey);
+
+                        var GetName = ConvertHelper.ObjToStr(GetHeadPartItem.Name); //HDPT FULL
+                        if (GetName.Length > 0)
+                        {
+                            string SetType = "Name";
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("HeadPart", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
+                            }));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error loading HeadPart item at index {i}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+        }
+
+        public static void LoadNpcs(EspReader Reader, YDListView View)
+        {
+            if (Reader.Npcs != null)
+                for (int i = 0; i < Reader.Npcs.Count; i++)
+                {
+                    try
+                    {
+                        string GetTransStr = "";
+
+                        var GetHashKey = Reader.Npcs.ElementAt(i).Key;
+                        var GetNpcItem = Reader.Npcs[GetHashKey];
+
+                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetNpcItem.EditorID, GetNpcItem.FormKey);
+
+                        var GetName = ConvertHelper.ObjToStr(GetNpcItem.Name); //NPC FULL
+                        if (GetName.Length > 0)
+                        {
+                            string SetType = "Name";
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("Npc", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
+                            }));
+                        }
+
+                        var GetShortName = ConvertHelper.ObjToStr(GetNpcItem.ShortName); //NPC SHRT
+                        if (GetShortName.Length > 0)
+                        {
+                            string SetType = "ShortName";
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("Npc", GetHashKey, GetUniqueKey, GetShortName, GetTransStr, 999));
+                            }));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error loading Npc item at index {i}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+        }
+
         public static void LoadWorldspaces(EspReader Reader, YDListView View)
         {
             if (Reader.Worldspaces != null)
@@ -295,6 +476,108 @@ namespace SSELex.UIManage
                     catch (Exception ex)
                     {
                         MessageBox.Show($"Error loading Worldspace item at index {i}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+        }
+
+        public static void LoadShouts(EspReader Reader, YDListView View)
+        {
+            if (Reader.Shouts != null)
+                for (int i = 0; i < Reader.Shouts.Count; i++)
+                {
+                    try
+                    {
+                        string GetTransStr = "";
+
+                        var GetHashKey = Reader.Shouts.ElementAt(i).Key;
+                        var GetShoutItem = Reader.Shouts[GetHashKey];
+
+                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetShoutItem.EditorID, GetShoutItem.FormKey);
+
+                        var GetName = ConvertHelper.ObjToStr(GetShoutItem.Name); //SHOU FULL
+                        if (GetName.Length > 0)
+                        {
+                            string SetType = "Name";
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("Shout", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
+                            }));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error loading Shout item at index {i}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+        }
+
+        public static void LoadTrees(EspReader Reader, YDListView View)
+        {
+            if (Reader.Trees != null)
+                for (int i = 0; i < Reader.Trees.Count; i++)
+                {
+                    try
+                    {
+                        string GetTransStr = "";
+
+                        var GetHashKey = Reader.Trees.ElementAt(i).Key;
+                        var GetTreeItem = Reader.Trees[GetHashKey];
+
+                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetTreeItem.EditorID, GetTreeItem.FormKey);
+
+                        var GetName = ConvertHelper.ObjToStr(GetTreeItem.Name);
+                        if (GetName.Length > 0)
+                        {
+                            string SetType = "Name"; //TREE FULL
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("Tree", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
+                            }));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error loading Tree item at index {i}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+        }
+
+        public static void LoadIngestibles(EspReader Reader, YDListView View)
+        {
+            if (Reader.Ingestibles != null)
+                for (int i = 0; i < Reader.Ingestibles.Count; i++)
+                {
+                    try
+                    {
+                        string GetTransStr = "";
+
+                        var GetHashKey = Reader.Ingestibles.ElementAt(i).Key;
+                        var GetIngestibleItem = Reader.Ingestibles[GetHashKey];
+
+                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetIngestibleItem.EditorID, GetIngestibleItem.FormKey);
+
+                        var GetName = ConvertHelper.ObjToStr(GetIngestibleItem.Name);
+                        if (GetName.Length > 0)
+                        {
+                            string SetType = "Name"; //ALCH FULL
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("Ingestible", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
+                            }));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error loading Ingestible item at index {i}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
         }
