@@ -55,7 +55,7 @@ namespace SSELex.TranslateManage
             return Regex.IsMatch(Input, @"^[\p{P}\p{S}\s]+$");
         }
 
-        public static string QuickTrans(string Key,string Content, Languages To, ref bool CanSleep, bool IsBook = false)
+        public static string QuickTrans(string Key,string Content,Languages From, Languages To, ref bool CanSleep, bool IsBook = false)
         {
             string GetSourceStr = Content;
 
@@ -74,7 +74,11 @@ namespace SSELex.TranslateManage
             TranslationPreprocessor.ConditionalSplitCamelCase(ref Content);
             TranslationPreprocessor.RemoveInvisibleCharacters(ref Content);
 
-            Languages SourceLanguage = LanguageHelper.DetectLanguageByLine(Content);
+            Languages SourceLanguage = From;
+            if (SourceLanguage == Languages.Auto)
+            {
+                SourceLanguage = LanguageHelper.DetectLanguageByLine(Content);
+            }  
             if (SourceLanguage == To)
             {
                 return GetSourceStr;
@@ -363,7 +367,7 @@ namespace SSELex.TranslateManage
             }
             else
             {
-                if (TransText.Equals(LocalDBCache.FindCache(Key)))
+                if (TransText.Equals(CloudDBCache.FindCache(Key)))
                 {
                     NSetTransItem.Color = Colors.DarkOliveGreen;
                 }

@@ -12,6 +12,7 @@ using SSELex.UIManage;
 using Mutagen.Bethesda;
 using Mutagen.Bethesda.Strings;
 using SSELex.TranslateCore;
+using System.Text;
 
 namespace SSELex.SkyrimManage
 {
@@ -188,43 +189,83 @@ namespace SSELex.SkyrimManage
 
         public SkyrimMod? DefReadMod(string FilePath)
         {
-           return ReadMod(FilePath, Mutagen.Bethesda.Strings.Language.ChineseSimplified);
+            return ReadMod(FilePath);
         }
-        public SkyrimMod? ReadMod(string FilePath, Mutagen.Bethesda.Strings.Language SetLanguage)
+
+        public enum EncodingTypes
+        {
+            UTF8_1256 = 0, UTF8_1252 = 1, UTF8_1250 = 2, UTF8_1253 = 3, UTF8 = 5
+        }
+
+        public IMutagenEncoding QueryEncoding()
+        {
+            var AutoEncoding = MutagenEncoding._utf8_1256;
+
+            if (DeFine.GlobalLocalSetting.FileEncoding == EncodingTypes.UTF8_1256)
+            {
+                AutoEncoding = MutagenEncoding._utf8_1256;
+            }
+            else
+            if (DeFine.GlobalLocalSetting.FileEncoding == EncodingTypes.UTF8_1252)
+            {
+                AutoEncoding = MutagenEncoding._utf8_1252;
+            }
+            else
+            if (DeFine.GlobalLocalSetting.FileEncoding == EncodingTypes.UTF8_1250)
+            {
+                AutoEncoding = MutagenEncoding._utf8_1250;
+            }
+            else
+            if (DeFine.GlobalLocalSetting.FileEncoding == EncodingTypes.UTF8_1253)
+            {
+                AutoEncoding = MutagenEncoding._utf8_1253;
+            }
+            else
+            if (DeFine.GlobalLocalSetting.FileEncoding == EncodingTypes.UTF8)
+            {
+                AutoEncoding = MutagenEncoding._utf8;
+            }
+
+            return AutoEncoding;
+        }
+        public SkyrimMod? ReadMod(string FilePath)
         {
             if (File.Exists(FilePath) && (FilePath.ToLower().EndsWith(".esp") || FilePath.ToLower().EndsWith(".esm") || FilePath.ToLower().EndsWith(".esl")))
             {
                 TranslateManage.Translator.ClearCache();
                 Cache<IModMasterStyledGetter, ModKey>? FlagsLookup = null;
 
+                var AutoEncoding = QueryEncoding();
+
                 var SetParam = new BinaryReadParameters()
                 {
                     StringsParam = new Mutagen.Bethesda.Strings.StringsReadParameters()
                     {
-                        TargetLanguage = Mutagen.Bethesda.Strings.Language.ChineseSimplified
+                        NonTranslatedEncodingOverride = AutoEncoding,
+                        NonLocalizedEncodingOverride = AutoEncoding
                     },
                     FileSystem = GlobalFileSystem,
                     MasterFlagsLookup = FlagsLookup
                 };
                 if (DeFine.GlobalLocalSetting.SkyrimType == SkyrimType.SkyrimSE)
                 {
-                  CurrentReadMod = SkyrimMod
-                  .CreateFromBinary(FilePath, SkyrimRelease.SkyrimSE, SetParam);
+                    CurrentReadMod = SkyrimMod
+                    .CreateFromBinary(FilePath, SkyrimRelease.SkyrimSE, SetParam);
                 }
                 else
                 {
-                  CurrentReadMod = SkyrimMod
-                  .CreateFromBinary(FilePath, SkyrimRelease.SkyrimLE, SetParam);
+                    CurrentReadMod = SkyrimMod
+                    .CreateFromBinary(FilePath, SkyrimRelease.SkyrimLE, SetParam);
                 }
 
                 ToRam();
-                foreach (var Item in CurrentReadMod.EnumerateMajorRecords())
-                {
-                    if (Item.FormKey.ToString().Contains("74295"))
-                    { 
-                    
-                    }
-                }
+                //foreach (var Item in CurrentReadMod.EnumerateMajorRecords())
+                //{
+                //    if (Item.FormKey.ToString().Contains("74295"))
+                //    { 
+
+                //    }
+                //}
 
                 //foreach (var Get in this.CurrentReadMod.Keywords.ToList())
                 //{
@@ -696,11 +737,13 @@ namespace SSELex.SkyrimManage
                 return Language.German;
             }
 
-            return  Language.English;
+            return Language.English;
         }
 
         public bool DefSaveMod(SkyrimMod SourceMod, string OutPutPath)
         {
+            var AutoEncoding = QueryEncoding();
+
             //IMutagenEncoding GetTargetLang = null;
 
             //if (DeFine.GlobalLocalSetting.SkyrimType == SkyrimType.SkyrimSE)
@@ -712,7 +755,7 @@ namespace SSELex.SkyrimManage
             //    GetTargetLang = MutagenEncoding.GetEncoding(GameRelease.SkyrimLE, GetLang(DeFine.GlobalLocalSetting.TargetLanguage));
             //}
 
-            return SaveMod(SourceMod, OutPutPath, new EncodingBundle(MutagenEncoding._utf8_1256, MutagenEncoding._utf8_1256));
+            return SaveMod(SourceMod, OutPutPath, new EncodingBundle(AutoEncoding, AutoEncoding));
         }
 
         private void ApplyRam()
@@ -761,25 +804,26 @@ namespace SSELex.SkyrimManage
 
                 Task.Run(async () =>
                 {
-                    try { 
-                    await SourceMod.BeginWrite.ToPath(OutPutPath)
-                   .WithLoadOrderFromHeaderMasters()
-                   .WithNoDataFolder()
-                   .WithEmbeddedEncodings(SetEncodingBundle)
-                   .WithFileSystem(GlobalFileSystem)
-                   .WithRecordCount(RecordCountOption.Iterate)
-                   .WithModKeySync(ModKeyOption.CorrectToPath)
-                   .WithMastersListContent(MastersListContentOption.NoCheck)
-                   .WithMastersListOrdering(MastersListOrderingOption.NoCheck)
-                   .NoFormIDUniquenessCheck()
-                   .NoFormIDCompactnessCheck()
-                   .NoCheckIfLowerRangeDisallowed()
-                   .NoNullFormIDStandardization()
-                   .WriteAsync();
-                    }
-                    catch(Exception Ex) 
+                    try
                     {
-                        MessageBox.Show(Ex.Message); 
+                        await SourceMod.BeginWrite.ToPath(OutPutPath)
+                       .WithLoadOrderFromHeaderMasters()
+                       .WithNoDataFolder()
+                       .WithEmbeddedEncodings(SetEncodingBundle)
+                       .WithFileSystem(GlobalFileSystem)
+                       .WithRecordCount(RecordCountOption.Iterate)
+                       .WithModKeySync(ModKeyOption.CorrectToPath)
+                       .WithMastersListContent(MastersListContentOption.NoCheck)
+                       .WithMastersListOrdering(MastersListOrderingOption.NoCheck)
+                       .NoFormIDUniquenessCheck()
+                       .NoFormIDCompactnessCheck()
+                       .NoCheckIfLowerRangeDisallowed()
+                       .NoNullFormIDStandardization()
+                       .WriteAsync();
+                    }
+                    catch (Exception Ex)
+                    {
+                        MessageBox.Show(Ex.Message);
                     }
                 }).Wait();
 

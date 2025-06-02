@@ -359,6 +359,13 @@
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
                                             <Label FontSize="15">
+                                                Esp Esm File Encoding:
+                                            </Label>
+                                        </StackPanel>
+                                        <ComboBox Name="EspEncodings" SelectionChanged="EspEncodings_SelectionChanged" Style="{StaticResource WpfComboBoxStyle}">
+                                        </ComboBox>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
+                                            <Label FontSize="15">
                                                 Esp Esm File Type:
                                             </Label>
                                         </StackPanel>
@@ -505,8 +512,8 @@
                                             </TextBox>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                            <Label>Ai Context Limit:</Label>
-                                            <TextBox Name="ContextLimit" Width="100" Margin="12 5 0 0" VerticalContentAlignment="Center">
+                                            <Label VerticalAlignment="Center">Ai Context Limit:</Label>
+                                            <TextBox Name="ContextLimit" Width="100" Margin="12 5 0 0" Height="35" VerticalContentAlignment="Center" TextChanged="ContextLimit_TextChanged">
                                                 
                                             </TextBox>
                                         </StackPanel>
@@ -528,14 +535,15 @@
 
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="0.7*"/>
-                                    <ColumnDefinition Width="0.3*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="0.35*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid Grid.Column="0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="1*"/>
-                                        <ColumnDefinition Width="0.7*"/>
-                                        <ColumnDefinition Width="0.8*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
                                     </Grid.ColumnDefinitions>
 
                                     <Grid Margin="50 0 0 0" Background="#FF655B5F" Height="40" VerticalAlignment="Top" Grid.Column="0">
@@ -601,9 +609,25 @@
                                         <ComboBox Grid.Column="1" VerticalAlignment="Center" Cursor="Hand"  Name="TypeSelector" Style="{StaticResource WpfComboBoxStyle}" SelectionChanged="TransTargetType_SelectionChanged">
                                         </ComboBox>
                                     </Grid>
+
+
+                                    <Border Background="#FFB7B7B7" CornerRadius="9" Grid.Column="3" Margin="10 5 0 5">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="40"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Canvas Grid.Column="0" Width="24" Height="24" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <Path Stroke="White" StrokeThickness="2" Fill="Transparent" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Data="M10,2 A8,8 0 1 1 2,10 A8,8 0 0 1 10,2 M15.5,15.5 L20,20" />
+                                            </Canvas>
+
+                                            <TextBox Name="SearchBox" TabIndex="0" Grid.Column="1" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="#FF135FB8" BorderThickness="0" Foreground="Black" CaretBrush="White" VerticalContentAlignment="Center" FontSize="13" TextChanged="SearchBox_TextChanged"/>
+                                        </Grid>
+                                    </Border>
                                 </Grid>
 
-                                <StackPanel Orientation="Horizontal" Height="37" Grid.Column="1" HorizontalAlignment="Right" Margin="0 0 5 0">
+                                <StackPanel Orientation="Horizontal" Height="37" Grid.Column="2" HorizontalAlignment="Right" Margin="0 0 5 0">
                                     <Border Name="AutoKeepTag" CornerRadius="5" Background="#FF0B74D1" Width="35" Margin="0 0 10 0" PreviewMouseDown="ChangeTransProcessState" Cursor="Hand">
                                         <svgc:SvgViewbox Name="AutoKeep" Stretch="Fill" Source="/Material/Keep.svg"  Margin="3 0 3 0" Width="15" Panel.ZIndex="900" Height="15"  HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand" Opacity="1"/>
                                     </Border>
@@ -646,20 +670,15 @@
                                         </ComboBox>
                                     </StackPanel>
 
-                                    <Border Background="#FFB7B7B7" CornerRadius="9" Margin="10 1 0 1" Grid.Column="1">
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="40"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-
-                                            <Canvas Grid.Column="0" Width="24" Height="24" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                <Path Stroke="White" StrokeThickness="2" Fill="Transparent" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Data="M10,2 A8,8 0 1 1 2,10 A8,8 0 0 1 10,2 M15.5,15.5 L20,20" />
-                                            </Canvas>
-
-                                            <TextBox Name="SearchBox" TabIndex="0" Grid.Column="1" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="#FF135FB8" BorderThickness="0" Foreground="Black" CaretBrush="White" VerticalContentAlignment="Center" FontSize="13" TextChanged="SearchBox_TextChanged"/>
-                                        </Grid>
-                                    </Border>
+                                    <Grid VerticalAlignment="Center" Grid.Column="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="45"/>
+                                            <ColumnDefinition Width="1*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label VerticalAlignment="Center" Name="FromLTag" Margin="5 0 0 0" Grid.Column="0">From</Label>
+                                        <ComboBox VerticalAlignment="Center" Cursor="Hand" Name="FromL" Grid.Column="1" Style="{StaticResource WpfComboBoxStyle}" SelectionChanged="Source_SelectionChanged">
+                                        </ComboBox>
+                                    </Grid>
 
                                     <Border Grid.Column="2" ToolTip="After clicking, the source text will be reloaded from the original data source to synchronize or refresh the content." Name="DeleteDictionaryBtn" CornerRadius="5" Background="#FF0B74D1" Height="30" Margin="10 0 0 0" Opacity="0.3" Cursor="Hand" PreviewMouseDown="DeleteDictionary">
                                         <Label Padding="10 0 10 0"  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -669,11 +688,11 @@
 
                                     <Grid VerticalAlignment="Center" Grid.Column="3">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="70"/>
+                                            <ColumnDefinition Width="30"/>
                                             <ColumnDefinition Width="1*"/>
                                         </Grid.ColumnDefinitions>
-                                        <Label VerticalAlignment="Center" Name="TargetTag" Margin="5 0 0 0" Grid.Column="0">TranslateTo</Label>
-                                        <ComboBox VerticalAlignment="Center" Cursor="Hand" Name="Target" Grid.Column="1" Style="{StaticResource WpfComboBoxStyle}" SelectionChanged="Target_SelectionChanged">
+                                        <Label VerticalAlignment="Center" Name="ToLTag" Margin="5 0 0 0" Grid.Column="0">To</Label>
+                                        <ComboBox VerticalAlignment="Center" Cursor="Hand" Name="ToL" Grid.Column="1" Style="{StaticResource WpfComboBoxStyle}" SelectionChanged="Target_SelectionChanged">
                                         </ComboBox>
                                     </Grid>
 

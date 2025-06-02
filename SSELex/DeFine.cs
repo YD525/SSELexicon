@@ -17,6 +17,7 @@ using SSELex.TranslateCore;
 using System.Windows.Threading;
 using System.Windows;
 using SSELex.TranslateManage;
+using static SSELex.SkyrimManage.EspReader;
 
 namespace SSELex
 {
@@ -40,6 +41,7 @@ namespace SSELex
 
         public static string PapyrusCompilerPath = "";
 
+        public static Languages SourceLanguage = Languages.English;
         public static Languages TargetLanguage = Languages.English;
 
         public static int DefPageSize = 100;
@@ -48,7 +50,7 @@ namespace SSELex
 
         public static string BackupPath = @"\BackUpData\";
 
-        public static string CurrentVersion = "2.6.23";
+        public static string CurrentVersion = "2.6.35";
         public static LocalSetting GlobalLocalSetting = new LocalSetting();
 
         public static MainWindow WorkingWin = null;
@@ -202,6 +204,7 @@ namespace SSELex
         public bool GoogleYunApiUsing { get; set; } = false;
         public bool DivCacheEngineUsing { get; set; } = false;
         public bool DeepLApiUsing { get; set; } = false;
+        public Languages SourceLanguage { get; set; } = Languages.Auto;
         public Languages TargetLanguage { get; set; } = Languages.English;
         public Languages CurrentUILanguage { get; set; } = Languages.English;
         public string BackUpPath { get; set; } = "";
@@ -232,6 +235,7 @@ namespace SSELex
         public bool ShowCode { get; set; } = true;
         public bool AutoCompress { get; set; } = true;
         public SkyrimType SkyrimType { get; set; } = SkyrimType.SkyrimSE;
+        public EncodingTypes FileEncoding { get; set; } = EncodingTypes.UTF8_1256;
         public string ViewMode { get; set; } = "Normal";
 
         public void ReadConfig()
@@ -261,6 +265,8 @@ namespace SSELex
                         this.GoogleYunApiUsing = GetSetting.GoogleYunApiUsing;
                         this.DivCacheEngineUsing = GetSetting.DivCacheEngineUsing;
                         this.ContextLimit = GetSetting.ContextLimit;
+                        this.SourceLanguage = GetSetting.SourceLanguage;
+                        DeFine.SourceLanguage = GetSetting.SourceLanguage;
                         this.TargetLanguage = GetSetting.TargetLanguage;
                         DeFine.TargetLanguage = GetSetting.TargetLanguage;
                         this.CurrentUILanguage = GetSetting.CurrentUILanguage;
@@ -288,6 +294,7 @@ namespace SSELex
                         this.ShowLog = GetSetting.ShowLog;
                         this.SkyrimType = GetSetting.SkyrimType;
                         this.AutoCompress = GetSetting.AutoCompress;
+                        this.FileEncoding = GetSetting.FileEncoding;
                         this.ViewMode = GetSetting.ViewMode;
                     }
                 }

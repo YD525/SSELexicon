@@ -26,6 +26,7 @@ using SSELex.TranslateManagement;
 using System.Windows.Threading;
 using Mutagen.Bethesda.Starfield;
 using SSELex.UIManagement;
+using static SSELex.SkyrimManage.EspReader;
 
 // Copyright (C) 2025 YD525
 // Licensed under the GNU GPLv3
@@ -257,13 +258,21 @@ namespace SSELex
 
         public void ReloadLanguageMode()
         {
-            Target.Items.Clear();
+            ToL.Items.Clear();
             foreach (var Get in UILanguageHelper.SupportLanguages)
             {
-                Target.Items.Add(Get.ToString());
+                ToL.Items.Add(Get.ToString());
             }
 
-            Target.SelectedValue = DeFine.TargetLanguage.ToString();
+            ToL.SelectedValue = DeFine.TargetLanguage.ToString();
+
+            FromL.Items.Clear();
+            foreach (var Get in UILanguageHelper.SupportLanguages)
+            {
+                FromL.Items.Add(Get.ToString());
+            }
+
+            FromL.SelectedValue = DeFine.SourceLanguage.ToString();
         }
 
         public bool CheckINeed()
@@ -320,8 +329,20 @@ namespace SSELex
                     }));
                 }
             }
-
         }
+
+        public void InitEncodings()
+        {
+            EspEncodings.Items.Clear();
+            EspEncodings.Items.Add(EncodingTypes.UTF8_1256.ToString());
+            EspEncodings.Items.Add(EncodingTypes.UTF8_1253.ToString());
+            EspEncodings.Items.Add(EncodingTypes.UTF8_1252.ToString());
+            EspEncodings.Items.Add(EncodingTypes.UTF8_1250.ToString());
+            EspEncodings.Items.Add(EncodingTypes.UTF8.ToString());
+
+            EspEncodings.SelectedValue = DeFine.GlobalLocalSetting.FileEncoding.ToString();
+        }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             DeFine.Init(this);
@@ -330,6 +351,7 @@ namespace SSELex
 
             ReloadViewMode();
             ReloadLanguageMode();
+            InitEncodings();
             this.MainCaption.Content = string.Format("SSELex {0}", DeFine.CurrentVersion);
 
             ReplaceMode.Items.Clear();
@@ -1383,9 +1405,21 @@ namespace SSELex
             DeFine.CloseAny();
         }
 
+        private void Source_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string GetValue = ConvertHelper.ObjToStr(FromL.SelectedValue);
+
+            if (GetValue.Trim().Length > 0)
+            {
+                DeFine.SourceLanguage = Enum.Parse<Languages>(GetValue);
+            }
+
+            DeFine.GlobalLocalSetting.SourceLanguage = DeFine.SourceLanguage;
+        }
+
         private void Target_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            string GetValue = ConvertHelper.ObjToStr(Target.SelectedValue);
+            string GetValue = ConvertHelper.ObjToStr(ToL.SelectedValue);
 
             if (GetValue.Trim().Length > 0)
             {
@@ -1517,7 +1551,7 @@ namespace SSELex
                         else
                         {
                             bool CanSleep = true;
-                            var GetResult = Translator.QuickTrans(UIHelper.ActiveKey, GetFromStr, DeFine.TargetLanguage, ref CanSleep);
+                            var GetResult = Translator.QuickTrans(UIHelper.ActiveKey, GetFromStr,DeFine.SourceLanguage,DeFine.TargetLanguage, ref CanSleep);
 
                             this.Dispatcher.Invoke(new Action(() =>
                             {
@@ -1964,6 +1998,7 @@ namespace SSELex
                 AIView.Visibility = Visibility.Visible;
                 EngineConfigView.Visibility = Visibility.Hidden;
 
+                ContextLimit.Text = DeFine.GlobalLocalSetting.ContextLimit.ToString();
                 CustomAIPrompt.Text = DeFine.GlobalLocalSetting.UserCustomAIPrompt;
 
                 UIHelper.AnimateCanvasLeft(SettingBlock, 312);
@@ -2229,6 +2264,16 @@ namespace SSELex
             DeFine.GlobalLocalSetting.SkyrimPath = SkyrimSEPath.Text;
         }
 
+        private void EspEncodings_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string GetSelectValue = ConvertHelper.ObjToStr(EspEncodings.SelectedValue);
+            if (GetSelectValue.Trim().Length > 0)
+            {
+                EncodingTypes GetType = Enum.Parse<EncodingTypes>(GetSelectValue);
+                DeFine.GlobalLocalSetting.FileEncoding = GetType;
+            }
+        }
+
         private void SkyrimTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             string GetSelectValue = ConvertHelper.ObjToStr(SkyrimTypes.SelectedValue);
@@ -2377,6 +2422,11 @@ namespace SSELex
             DeFine.GlobalLocalSetting.UserCustomAIPrompt = CustomAIPrompt.Text.Trim();
         }
 
+        private void ContextLimit_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            DeFine.GlobalLocalSetting.ContextLimit = ConvertHelper.ObjToInt(ContextLimit.Text);
+        }
+
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             DeFine.CurrentSearchStr = SearchBox.Text.Trim();
@@ -2442,5 +2492,7 @@ namespace SSELex
                 }
             }
         }
+
+       
     }
 }

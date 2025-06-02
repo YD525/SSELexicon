@@ -103,6 +103,7 @@ namespace SSELex.UIManage
 
         public static List<Languages> SupportLanguages = new List<Languages>
         {
+            Languages.Auto,
             Languages.English,
             Languages.Japanese,
             Languages.German,

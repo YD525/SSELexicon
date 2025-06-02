@@ -270,6 +270,7 @@ namespace SSELex.UIManage
             }
 
             TransTextBox.MouseLeave += TransTextBox_MouseLeave;
+            TransTextBox.LostFocus += TransTextBox_LostFocus;
             TransTextBox.Tag = MainGrid;
 
             if (Score < 0)
@@ -312,6 +313,31 @@ namespace SSELex.UIManage
             MainGrid.Children.Add(StateEllipse);
 
             return MainGrid;
+        }
+
+        private static void TransTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var GetTextBox = (sender as TextBox);
+            if (GetTextBox.Tag is Grid)
+            {
+                Grid MainGrid = (Grid)GetTextBox.Tag;
+                TextBox GetTransTextBox = (TextBox)MainGrid.Children[4];
+                string GetKey = GetMainGridKey(MainGrid);
+                string SourceText = GetSourceText(MainGrid);
+
+                var GetResult = SetTransData(GetKey, SourceText, GetTransTextBox.Text);
+                GetTransTextBox.BorderBrush = new SolidColorBrush(GetResult.Color);
+
+                Ellipse GetState = GetTransState(MainGrid);
+                if (GetOriginalText(MainGrid).Equals(GetTransText(MainGrid)))
+                {
+                    GetState.Fill = new SolidColorBrush(Colors.Green);
+                }
+                else
+                {
+                    GetState.Fill = new SolidColorBrush(Colors.BlanchedAlmond);
+                }
+            }
         }
 
         private static void MainGrid_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)

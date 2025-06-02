@@ -45,7 +45,7 @@ namespace SSELex.TranslateManagement
         {
             try
             {
-                string SqlOrder = "Delete From LocalTranslation Where [ModName] = '{0}' And To = {1}";
+                string SqlOrder = "Delete From LocalTranslation Where [ModName] = '{0}' And [To] = {1}";
 
                 int State = DeFine.GlobalDB.ExecuteNonQuery(string.Format(SqlOrder, DeFine.CurrentModName, (int)DeFine.TargetLanguage));
 

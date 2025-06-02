@@ -146,7 +146,7 @@ namespace SSELex.TranslateManage
                     string GetTrans = "";
                     if (!IsBook)
                     {
-                        GetTrans = CurrentEngine.Call(Source, Target, SourceStr, true, 3, string.Empty,ref CanAddCache);
+                        GetTrans = CurrentEngine.Call(Source, Target, SourceStr, true, DeFine.GlobalLocalSetting.ContextLimit, string.Empty,ref CanAddCache);
                     }
                     else
                     {
