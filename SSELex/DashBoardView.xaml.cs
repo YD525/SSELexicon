@@ -233,7 +233,7 @@ namespace SSELex
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            CurrentTime.Text = DateTime.Now.ToString("yyyy.MM.dd");
+            //CurrentTime.Text = DateTime.Now.ToString("yyyy.MM.dd");
         }
 
         public void SetLogA(string Value)

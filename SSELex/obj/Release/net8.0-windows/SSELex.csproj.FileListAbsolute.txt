@@ -110,3 +110,10 @@ C:\Users\52508\source\repos\SSE Lexicon\SSELex\obj\Release\net8.0-windows\refint
 C:\Users\52508\source\repos\SSE Lexicon\SSELex\obj\Release\net8.0-windows\SSELex.pdb
 C:\Users\52508\source\repos\SSE Lexicon\SSELex\obj\Release\net8.0-windows\SSELex.genruntimeconfig.cache
 C:\Users\52508\source\repos\SSE Lexicon\SSELex\obj\Release\net8.0-windows\ref\SSELex.dll
+C:\Users\52508\source\repos\SSE Lexicon\SSELex\bin\Release\net8.0-windows\0Harmony.dll
+C:\Users\52508\source\repos\SSE Lexicon\SSELex\bin\Release\net8.0-windows\LiveCharts.Wpf.dll
+C:\Users\52508\source\repos\SSE Lexicon\SSELex\bin\Release\net8.0-windows\LiveCharts.dll
+C:\Users\52508\source\repos\SSE Lexicon\SSELex\obj\Release\net8.0-windows\DashBoardView.g.cs
+C:\Users\52508\source\repos\SSE Lexicon\SSELex\obj\Release\net8.0-windows\OnlyValueTooltip.g.cs
+C:\Users\52508\source\repos\SSE Lexicon\SSELex\obj\Release\net8.0-windows\DashBoardView.baml
+C:\Users\52508\source\repos\SSE Lexicon\SSELex\obj\Release\net8.0-windows\OnlyValueTooltip.baml

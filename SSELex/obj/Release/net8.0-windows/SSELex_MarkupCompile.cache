@@ -10,11 +10,11 @@ none
 false
 TRACE;RELEASE;NET;NET8_0;NETCOREAPP
 C:\Users\52508\source\repos\SSE Lexicon\SSELex\App.xaml
-8-2134927014
+102122775550
 11562051256
-57-858570655
-2541968453234
-ActionWin.xaml;CodeView.xaml;EngineEditView.xaml;LogView.xaml;MainWindow.xaml;SearchText.xaml;SettingView.xaml;Themes\DefStyle.xaml;
+61-1412567856
+257-1436855025
+ActionWin.xaml;CodeView.xaml;DashBoardView.xaml;EngineEditView.xaml;LogView.xaml;MainWindow.xaml;OnlyValueTooltip.xaml;SearchText.xaml;SettingView.xaml;Themes\DefStyle.xaml;
 
 False
 

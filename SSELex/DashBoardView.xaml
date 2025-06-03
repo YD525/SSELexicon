@@ -182,7 +182,7 @@
                                             <Border x:Name="Border1" Grid.Row="0" Grid.RowSpan="4" CornerRadius="5" Background="White" />
                                             <Border Grid.Row="0" Grid.RowSpan="3" Background="#FF265095" ></Border>
                                             <TextBlock Grid.Row="0" TextAlignment="Center" Padding="10, 10, 0, 5" Foreground="White" FontSize="18">
-                                      Current Font Usage
+                                                 Realtime Total Character Usage
                                             </TextBlock>
                                             <Grid Grid.Row="2">
                                                 <Label Name="UsageCount" Panel.ZIndex="999" Foreground="White" HorizontalAlignment="Right" VerticalContentAlignment="Bottom" Margin="0 0 5 5 ">
@@ -241,9 +241,9 @@
                                     <Border x:Name="Border2" Grid.Row="0" Grid.RowSpan="4" CornerRadius="5" Background="White" />
                                     <Border Grid.Row="0" Grid.RowSpan="3" Background="#FF1375EB"></Border>
                                     <TextBlock Grid.Row="0" TextAlignment="Center" Padding="10, 10, 0, 5" Foreground="White" FontSize="18">
-                                 Usage InFo
+                                        Character Usage by Platform
                                     </TextBlock>
-                                    <TextBlock Grid.Row="1" TextAlignment="Center" Foreground="#59FFFFFF" Padding="0,0,0,20" Name="CurrentTime">2014.12.25</TextBlock>
+                                    <TextBlock Grid.Row="1" TextAlignment="Center" Foreground="#59FFFFFF" Padding="0,0,0,20" >Current File</TextBlock>
                                     <Button Grid.Row="3" Width="35" Height="35" Cursor="Hand" VerticalAlignment="Bottom" Margin="0 0 10 10" HorizontalAlignment="Right" Panel.ZIndex="1" Click="ReloadData">
                                         <Button.Template>
                                             <ControlTemplate TargetType="Button">
@@ -294,12 +294,12 @@
                         Log
                     </Label>
                 </Grid>
-               
-                <TextBox Margin="5" BorderThickness="0" BorderBrush="{x:Null}" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" Name="LogBoxA" Grid.Row="2" Foreground="White" Background="{x:Null}" VerticalScrollBarVisibility="Auto">
-                    
+
+                <TextBox Margin="5" BorderThickness="0" BorderBrush="{x:Null}" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" Name="LogBoxB" Grid.Row="1" Foreground="White" Background="{x:Null}" VerticalScrollBarVisibility="Auto">
+
                 </TextBox>
 
-                <TextBox Margin="5" BorderThickness="0" BorderBrush="{x:Null}" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" Name="LogBoxB" Grid.Row="1" Foreground="White" Background="{x:Null}">
+                <TextBox Margin="5" BorderThickness="0" BorderBrush="{x:Null}" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" Name="LogBoxA" Grid.Row="2" Foreground="White" Background="{x:Null}">
 
                 </TextBox>
             </Grid>
