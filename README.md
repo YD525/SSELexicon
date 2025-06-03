@@ -47,7 +47,7 @@ Acknowledgements: Nexus Mods,9DM,2Game.info,and 泰姆瑞尔MOD组, for their su
 
 # ❤️ Personal Note from the Developer
 
-At first, the source language had to be set manually. Now it's no longer required. However, there might be cases where automatic language detection fails. I'm planning to add a new dropdown menu that supports both automatic detection and manual source language selection. The automatic detection option will be labeled as "Auto".
+Coding so skillfully, it’s almost heartbreaking.QAQ
 
 ---
 
