@@ -9,6 +9,14 @@ using Mutagen.Bethesda.Plugins.Binary.Streams;
 
 namespace SSELex.SkyrimManagement
 {
+    // This patch modifies the behavior of AddonNode's AlwaysLoaded flag parsing.
+    // It includes a custom interpretation of certain flag values (0,1 treated as false).
+    // Note: This patch is experimental and its stability is not fully guaranteed.
+    // Use with caution and report any unexpected behavior.
+    //
+    // This patch is based on the Mutagen.Bethesda.Skyrim framework, which is licensed under GNU GPL v3.
+    // For more details and source code, see:
+    // https://github.com/Mutagen-Modding/Mutagen/tree/dev/Mutagen.Bethesda.Skyrim
     public static class HotPatch
     {
         public static void Apply()
