@@ -9,28 +9,20 @@ using Mutagen.Bethesda.Plugins.Binary.Streams;
 
 namespace SSELex.SkyrimManagement
 {
-    // This patch modifies the behavior of AddonNode's AlwaysLoaded flag parsing.
-    // It includes a custom interpretation of certain flag values (0,1 treated as false).
-    // Note: This patch is experimental and its stability is not fully guaranteed.
-    // Use with caution and report any unexpected behavior.
-
-    // This patch is based on the Mutagen.Bethesda.Skyrim framework, which is licensed under GNU GPL v3.
-    // For more details and source code, see:
-    //https://github.com/Mutagen-Modding/Mutagen/tree/dev/Mutagen.Bethesda.Skyrim
     public static class HotPatch
     {
         public static void Apply()
         {
-            var Asm = Assembly.Load("Mutagen.Bethesda.Skyrim"); // Or Use typeof(SomeKnownType).Assembly Instead
+            var Asm = Assembly.Load("Mutagen.Bethesda.Skyrim"); // Or use typeof(someKnownType).Assembly instead
 
-            // Find Types Using Reflection
+            // Use Reflection To Find Types
             var OverlayType = Asm.GetType("Mutagen.Bethesda.Skyrim.AddonNodeBinaryOverlay");
             var CreateTranslationType = Asm.GetType("Mutagen.Bethesda.Skyrim.AddonNodeBinaryCreateTranslation");
 
             if (OverlayType == null || CreateTranslationType == null)
                 throw new Exception("Target Types Not Found");
 
-            // Get Methods Using Reflection
+            // Use Reflection To Get Methods
             var OverlayMethod = OverlayType.GetMethod("GetAlwaysLoadedCustom", BindingFlags.Public | BindingFlags.Instance);
             var FillMethod = CreateTranslationType.GetMethod("FillBinaryAlwaysLoadedCustom", BindingFlags.Public | BindingFlags.Static);
 
@@ -39,44 +31,44 @@ namespace SSELex.SkyrimManagement
 
             var Harmony = new Harmony("YD525.AlwaysLoadedPatch");
 
-            // Prefix Methods To Replace Original Methods Via Reflection
+            // Prefix Methods Replace Static Methods Via Reflection
             var PrefixOverlay = typeof(HotPatch).GetMethod(nameof(GetAlwaysLoadedCustom_Prefix), BindingFlags.NonPublic | BindingFlags.Static);
             var PrefixFill = typeof(HotPatch).GetMethod(nameof(FillBinaryAlwaysLoadedCustom_Prefix), BindingFlags.NonPublic | BindingFlags.Static);
 
-            // Apply Patches
+            // Patch
             Harmony.Patch(OverlayMethod, prefix: new HarmonyMethod(PrefixOverlay));
             Harmony.Patch(FillMethod, prefix: new HarmonyMethod(PrefixFill));
         }
 
-        // Use object __instance Instead Of Specific Type
-        private static bool GetAlwaysLoadedCustom_Prefix(object __Instance, ref bool __Result)
+        // object __instance Instead Of Concrete Type
+        private static bool GetAlwaysLoadedCustom_Prefix(object __instance, ref bool __result)
         {
-            var Type = __Instance.GetType();
+            var type = __instance.GetType();
 
-            var FieldDataInfo = Type.GetField("_recordData", BindingFlags.NonPublic | BindingFlags.Instance);
-            var FieldLocationInfo = Type.GetField("_AlwaysLoadedLocation", BindingFlags.NonPublic | BindingFlags.Instance);
+            var fieldDataInfo = type.GetField("_recordData", BindingFlags.NonPublic | BindingFlags.Instance);
+            var fieldLocationInfo = type.GetField("_AlwaysLoadedLocation", BindingFlags.NonPublic | BindingFlags.Instance);
 
-            if (FieldDataInfo == null || FieldLocationInfo == null)
+            if (fieldDataInfo == null || fieldLocationInfo == null)
                 throw new Exception("Fields Not Found");
 
-            var FieldDataObj = FieldDataInfo.GetValue(__Instance);
-            var OffsetObj = FieldLocationInfo.GetValue(__Instance);
+            var fieldDataObj = fieldDataInfo.GetValue(__instance);
+            var offsetObj = fieldLocationInfo.GetValue(__instance);
 
-            if (FieldDataObj == null || OffsetObj == null)
+            if (fieldDataObj == null || offsetObj == null)
                 throw new Exception("Field Values Are Null");
 
             // Assume _recordData Is byte[]
-            if (FieldDataObj is byte[] Bytes && OffsetObj is int Offset)
+            if (fieldDataObj is byte[] bytes && offsetObj is int offset)
             {
-                ushort Val = BinaryPrimitives.ReadUInt16LittleEndian(Bytes.AsSpan(Offset));
-                __Result = Val switch
+                ushort val = BinaryPrimitives.ReadUInt16LittleEndian(bytes.AsSpan(offset));
+                __result = val switch
                 {
                     0 => false,
                     1 => false,
                     3 => true,
                     _ => throw new NotImplementedException()
                 };
-                return false; // Prevent Original Method Execution
+                return false; // Skip Original Method
             }
             else
             {
@@ -84,29 +76,29 @@ namespace SSELex.SkyrimManagement
             }
         }
 
-        private static bool FillBinaryAlwaysLoadedCustom_Prefix(object Frame, object Item)
+        private static bool FillBinaryAlwaysLoadedCustom_Prefix(object frame, object item)
         {
-            // Frame Is MutagenFrame, Item Is IAddonNodeInternal; Use Reflection Because Types Are Not Known
-            var FrameType = Frame.GetType();
-            var ItemType = Item.GetType();
+            // frame Is MutagenFrame, item Is IAddonNodeInternal, Both Types Unknown So Use Reflection
+            var frameType = frame.GetType();
+            var itemType = item.GetType();
 
-            // Invoke frame.ReadUInt16()
-            var ReadUInt16Method = FrameType.GetMethod("ReadUInt16", BindingFlags.Public | BindingFlags.Instance);
-            if (ReadUInt16Method == null)
+            // Call frame.ReadUInt16()
+            var readUInt16Method = frameType.GetMethod("ReadUInt16", BindingFlags.Public | BindingFlags.Instance);
+            if (readUInt16Method == null)
                 throw new Exception("ReadUInt16 Method Not Found");
 
-            var FlagsObj = ReadUInt16Method.Invoke(Frame, null);
-            if (FlagsObj == null)
+            var flagsObj = readUInt16Method.Invoke(frame, null);
+            if (flagsObj == null)
                 throw new Exception("ReadUInt16 Returned Null");
 
-            ushort Flags = (ushort)FlagsObj;
+            ushort flags = (ushort)flagsObj;
 
             // Set item.AlwaysLoaded Property
-            var AlwaysLoadedProp = ItemType.GetProperty("AlwaysLoaded", BindingFlags.Public | BindingFlags.Instance);
-            if (AlwaysLoadedProp == null)
+            var alwaysLoadedProp = itemType.GetProperty("AlwaysLoaded", BindingFlags.Public | BindingFlags.Instance);
+            if (alwaysLoadedProp == null)
                 throw new Exception("AlwaysLoaded Property Not Found");
 
-            bool Val = Flags switch
+            bool val = flags switch
             {
                 0 => false,
                 1 => false,
@@ -114,9 +106,9 @@ namespace SSELex.SkyrimManagement
                 _ => throw new NotImplementedException()
             };
 
-            AlwaysLoadedProp.SetValue(Item, Val);
+            alwaysLoadedProp.SetValue(item, val);
 
-            return false; // Prevent Original Method Execution
+            return false; // Skip Original Method
         }
     }
 }

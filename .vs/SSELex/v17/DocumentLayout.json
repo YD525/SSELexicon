@@ -154,7 +154,7 @@
               "RelativeDocumentMoniker": "SSELex\\SkyrimManagement\\HotPatch.cs",
               "ToolTip": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\SkyrimManagement\\HotPatch.cs",
               "RelativeToolTip": "SSELex\\SkyrimManagement\\HotPatch.cs",
-              "ViewState": "AgIAACIAAAAAAAAAAAAYwBAAAAAEAAAAAAAAAA==",
+              "ViewState": "AgIAADQAAAAAAAAAAAAqwB8AAAA+AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-03T07:05:07.434Z",
               "EditorCaption": ""
@@ -169,8 +169,7 @@
               "RelativeToolTip": "SSELex\\TranslateManagement\\Translator.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-30T05:42:49.837Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-30T05:42:49.837Z"
             },
             {
               "$type": "Document",
@@ -182,8 +181,7 @@
               "RelativeToolTip": "SSELex\\TranslateManagement\\AITranslationMemory.cs",
               "ViewState": "AgIAACMAAAAAAAAAAAAgwDkAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-29T23:54:00.928Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-29T23:54:00.928Z"
             },
             {
               "$type": "Document",
@@ -195,8 +193,7 @@
               "RelativeToolTip": "SSELex\\DeFine.cs",
               "ViewState": "AgIAABcAAAAAAAAAAAAIwC0AAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-02T22:49:55.834Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-02T22:49:55.834Z"
             },
             {
               "$type": "Document",
@@ -206,7 +203,7 @@
               "RelativeDocumentMoniker": "SSELex\\MainWindow.xaml.cs",
               "ToolTip": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\MainWindow.xaml.cs",
               "RelativeToolTip": "SSELex\\MainWindow.xaml.cs",
-              "ViewState": "AgIAAEwBAAAAAAAAAAApwF4BAAAYAAAAAAAAAA==",
+              "ViewState": "AgIAAEwBAAAAAAAAAAApwFwBAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-30T04:54:49.367Z",
               "EditorCaption": ""
@@ -221,8 +218,7 @@
               "RelativeToolTip": "SSELex\\UIManagement\\UIHelper.cs",
               "ViewState": "AgIAAAQCAAAAAAAAAAAWwBYCAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-02T07:45:22.851Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-02T07:45:22.851Z"
             },
             {
               "$type": "Document",
@@ -234,8 +230,7 @@
               "RelativeToolTip": "SSELex\\SkyrimManagement\\SkyrimDataDSDConvert.cs",
               "ViewState": "AgIAABsAAAAAAAAAAAAQwD0AAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-02T17:50:19.849Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-02T17:50:19.849Z"
             },
             {
               "$type": "Document",
@@ -246,8 +241,7 @@
               "ToolTip": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\MainWindow.xaml",
               "RelativeToolTip": "SSELex\\MainWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-05-29T07:45:22.911Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-29T07:45:22.911Z"
             },
             {
               "$type": "Document",
@@ -259,8 +253,7 @@
               "RelativeToolTip": "SSELex\\TranslateManagement\\TextSegmentTranslator.cs",
               "ViewState": "AgIAABYBAAAAAAAAAAAEwCUBAABsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-02T08:52:59.726Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-02T08:52:59.726Z"
             },
             {
               "$type": "Document",
@@ -285,8 +278,7 @@
               "RelativeToolTip": "SSELex\\TranslateManagement\\BatchTranslationHelper.cs",
               "ViewState": "AgIAAFIAAAAAAAAAAADgv2QAAABxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-29T07:55:12.46Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-29T07:55:12.46Z"
             },
             {
               "$type": "Document",
@@ -298,8 +290,7 @@
               "RelativeToolTip": "SSELex\\UIManagement\\YDListView.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-30T06:40:47.672Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-30T06:40:47.672Z"
             },
             {
               "$type": "Document",
@@ -311,8 +302,7 @@
               "RelativeToolTip": "SSELex\\SkyrimManagement\\MCMReader.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-02T07:20:16.227Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-02T07:20:16.227Z"
             },
             {
               "$type": "Document",
@@ -324,8 +314,7 @@
               "RelativeToolTip": "SSELex\\SkyrimManagement\\SkyrimDataLoader.cs",
               "ViewState": "AgIAAA0AAAAAAAAAAAAYwE0BAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-02T18:55:23.623Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-02T18:55:23.623Z"
             },
             {
               "$type": "Document",
@@ -337,8 +326,7 @@
               "RelativeToolTip": "SSELex\\SkyrimManagement\\EspReader.cs",
               "ViewState": "AgIAACkBAAAAAAAAAAD4vz4BAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-02T05:55:15.133Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-02T05:55:15.133Z"
             },
             {
               "$type": "Document",
@@ -350,8 +338,7 @@
               "RelativeToolTip": "SSELex\\SkyrimManagement\\PexReader.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAIBJwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-31T01:13:10.499Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-31T01:13:10.499Z"
             },
             {
               "$type": "Document",
@@ -363,8 +350,7 @@
               "RelativeToolTip": "SSELex\\TranslateManagement\\CloudDBCache.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-02T08:00:14.068Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-02T08:00:14.068Z"
             },
             {
               "$type": "Document",
@@ -376,8 +362,7 @@
               "RelativeToolTip": "SSELex\\TranslateManagement\\LocalTrans.cs",
               "ViewState": "AgIAACIAAAAAAAAAAAAcwDAAAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-02T07:21:07.457Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-02T07:21:07.457Z"
             },
             {
               "$type": "Document",
@@ -389,8 +374,7 @@
               "RelativeToolTip": "SSELex\\TranslateManagement\\SpeechHelper.cs",
               "ViewState": "AgIAACUAAAAAAAAAAAAYwEgAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-29T14:45:03.883Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-29T14:45:03.883Z"
             },
             {
               "$type": "Document",
@@ -401,8 +385,7 @@
               "ToolTip": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\SSELex.csproj",
               "RelativeToolTip": "SSELex\\SSELex.csproj",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-06-02T10:44:00.762Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-02T10:44:00.762Z"
             },
             {
               "$type": "Document",
@@ -414,8 +397,7 @@
               "RelativeToolTip": "SSELex\\TranslateManagement\\LocalDBCache.cs",
               "ViewState": "AgIAACUAAAAAAAAAAAAmwC4AAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-30T06:37:50.137Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-30T06:37:50.137Z"
             },
             {
               "$type": "Document",
@@ -427,8 +409,7 @@
               "RelativeToolTip": "..\\..\\..\\..\\..\\Program Files\\dotnet\\sdk\\9.0.203\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.PackageDependencyResolution.targets",
               "ViewState": "AgIAAPwAAAAAAAAAAAArwAkBAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
-              "WhenOpened": "2025-06-02T10:44:17.102Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-02T10:44:17.102Z"
             },
             {
               "$type": "Document",
@@ -440,8 +421,7 @@
               "RelativeToolTip": "SSELex\\SkyrimManagement\\SkyrimDataConvert.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-02T07:13:12.327Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-02T07:13:12.327Z"
             },
             {
               "$type": "Document",
@@ -453,8 +433,7 @@
               "RelativeToolTip": "SSELex\\TranslateManagement\\TransCore.cs",
               "ViewState": "AgIAAIAAAAAAAAAAAAAQwJEAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-02T08:07:58.578Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-02T08:07:58.578Z"
             },
             {
               "$type": "Document",
@@ -466,8 +445,7 @@
               "RelativeToolTip": "SSELex\\PlatformManagement\\DeepLApi.cs",
               "ViewState": "AgIAABwAAAAAAAAAAADwvzEAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-30T07:10:41.185Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-30T07:10:41.185Z"
             },
             {
               "$type": "Document",
@@ -479,8 +457,7 @@
               "RelativeToolTip": "SSELex\\UIManagement\\UILanguageHelper.cs",
               "ViewState": "AgIAAGQAAAAAAAAAAADwv3sAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-30T07:14:27.134Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-30T07:14:27.134Z"
             },
             {
               "$type": "Document",
@@ -492,8 +469,7 @@
               "RelativeToolTip": "SSELex\\TranslateManagement\\LanguageHelper.cs",
               "ViewState": "AgIAAGMAAAAAAAAAAAAswIkAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-29T09:04:26.345Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-29T09:04:26.345Z"
             },
             {
               "$type": "Document",
@@ -505,8 +481,7 @@
               "RelativeToolTip": "SSELex\\ConvertManagement\\ConvertHelper.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-02T06:26:17.696Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-02T06:26:17.696Z"
             },
             {
               "$type": "Document",
@@ -518,8 +493,7 @@
               "RelativeToolTip": "SSELex\\TranslateManagement\\TranslationPreprocessor.cs",
               "ViewState": "AgIAAG0AAAAAAAAAAADwv14AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-29T09:01:47.655Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-29T09:01:47.655Z"
             },
             {
               "$type": "Document",
@@ -531,8 +505,7 @@
               "RelativeToolTip": "SSELex\\IDERule\\TextStyle.xshd",
               "ViewState": "AgIAACgAAAAAAAAAAMBtwEkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-05-29T08:33:31.34Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-29T08:33:31.34Z"
             },
             {
               "$type": "Document",
@@ -544,8 +517,7 @@
               "RelativeToolTip": "SSELex\\PlatformManagement\\GoogleTransApi.cs",
               "ViewState": "AgIAABMAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-29T08:10:54.954Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-29T08:10:54.954Z"
             },
             {
               "$type": "Document",
@@ -557,8 +529,7 @@
               "RelativeToolTip": "SSELex\\PlatformManagement\\BaiDuApi.cs",
               "ViewState": "AgIAAD4AAAAAAAAAAAAgwFYAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-29T08:09:53.661Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-29T08:09:53.661Z"
             },
             {
               "$type": "Document",
@@ -570,8 +541,7 @@
               "RelativeToolTip": "SSELex\\PlatformManagement\\DeepSeekApi.cs",
               "ViewState": "AgIAAJEAAAAAAAAAAAAIwK4AAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-29T08:10:36.175Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-29T08:10:36.175Z"
             },
             {
               "$type": "Document",
@@ -583,8 +553,7 @@
               "RelativeToolTip": "SSELex\\SkyrimManagement\\HeuristicCore.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-29T06:34:36.101Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-29T06:34:36.101Z"
             }
           ]
         }
