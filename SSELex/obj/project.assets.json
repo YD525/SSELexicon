@@ -257,18 +257,26 @@
           }
         }
       },
-      "LiveCharts/0.9.7": {
+      "LiveCharts.Wpf.NetCore3/0.9.8": {
         "type": "package",
+        "dependencies": {
+          "System.Data.DataSetExtensions": "4.5.0"
+        },
         "compile": {
-          "lib/net45/LiveCharts.dll": {
-            "related": ".pdb;.xml"
+          "lib/net8.0-windows7.0/LiveCharts.Wpf.dll": {},
+          "lib/net8.0-windows7.0/LiveCharts.dll": {
+            "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net45/LiveCharts.dll": {
-            "related": ".pdb;.xml"
+          "lib/net8.0-windows7.0/LiveCharts.Wpf.dll": {},
+          "lib/net8.0-windows7.0/LiveCharts.dll": {
+            "related": ".xml"
           }
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WPF"
+        ]
       },
       "Loqui/2.71.0-alpha.1": {
         "type": "package",
@@ -790,6 +798,15 @@
           "lib/netstandard2.0/System.Configuration.ConfigurationManager.dll": {
             "related": ".xml"
           }
+        }
+      },
+      "System.Data.DataSetExtensions/4.5.0": {
+        "type": "package",
+        "compile": {
+          "ref/netstandard2.0/System.Data.DataSetExtensions.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/System.Data.DataSetExtensions.dll": {}
         }
       },
       "System.Data.SqlClient/4.8.1": {
@@ -1678,25 +1695,30 @@
         "lib/netstandard2.0/_._"
       ]
     },
-    "LiveCharts/0.9.7": {
-      "sha512": "p4xyBrUaNNfkWZSNsIle0r51cyVyFg0Yi0uBRZM5GQtdFiA/7guZHlffFyNUILIdux10Ch2hUaJpcZENVU9aaQ==",
+    "LiveCharts.Wpf.NetCore3/0.9.8": {
+      "sha512": "EWwggMrRkWOdt/TdFhcs0LIXzpEuN392zGB+tLcO4UinKV13+V3NyhFoURPVP3GmQXjgrrlMDp+zyuSQeut53w==",
       "type": "package",
-      "path": "livecharts/0.9.7",
+      "path": "livecharts.wpf.netcore3/0.9.8",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
+        "lib/net40/LiveCharts.Wpf.dll",
         "lib/net40/LiveCharts.dll",
-        "lib/net40/LiveCharts.pdb",
         "lib/net40/LiveCharts.xml",
-        "lib/net45/LiveCharts.dll",
-        "lib/net45/LiveCharts.pdb",
-        "lib/net45/LiveCharts.xml",
-        "lib/portable-net45+win8+wp8/LiveCharts.XML",
-        "lib/portable-net45+win8+wp8/LiveCharts.dll",
-        "lib/portable-net45+win8+wp8/LiveCharts.pdb",
-        "livecharts.0.9.7.nupkg.sha512",
-        "livecharts.nuspec",
-        "readme.txt"
+        "lib/net6.0-windows7.0/LiveCharts.Wpf.dll",
+        "lib/net6.0-windows7.0/LiveCharts.dll",
+        "lib/net6.0-windows7.0/LiveCharts.xml",
+        "lib/net7.0-windows7.0/LiveCharts.Wpf.dll",
+        "lib/net7.0-windows7.0/LiveCharts.dll",
+        "lib/net7.0-windows7.0/LiveCharts.xml",
+        "lib/net8.0-windows7.0/LiveCharts.Wpf.dll",
+        "lib/net8.0-windows7.0/LiveCharts.dll",
+        "lib/net8.0-windows7.0/LiveCharts.xml",
+        "lib/netcoreapp3.1/LiveCharts.Wpf.dll",
+        "lib/netcoreapp3.1/LiveCharts.dll",
+        "lib/netcoreapp3.1/LiveCharts.xml",
+        "livecharts.wpf.netcore3.0.9.8.nupkg.sha512",
+        "livecharts.wpf.netcore3.nuspec"
       ]
     },
     "Loqui/2.71.0-alpha.1": {
@@ -2674,6 +2696,25 @@
         "ref/netstandard2.0/System.Configuration.ConfigurationManager.xml",
         "system.configuration.configurationmanager.4.7.0.nupkg.sha512",
         "system.configuration.configurationmanager.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
+    "System.Data.DataSetExtensions/4.5.0": {
+      "sha512": "221clPs1445HkTBZPL+K9sDBdJRB8UN8rgjO3ztB0CQ26z//fmJXtlsr6whGatscsKGBrhJl5bwJuKSA8mwFOw==",
+      "type": "package",
+      "path": "system.data.datasetextensions/4.5.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net45/_._",
+        "lib/netstandard2.0/System.Data.DataSetExtensions.dll",
+        "ref/net45/_._",
+        "ref/netstandard2.0/System.Data.DataSetExtensions.dll",
+        "system.data.datasetextensions.4.5.0.nupkg.sha512",
+        "system.data.datasetextensions.nuspec",
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
@@ -4471,7 +4512,7 @@
     "net8.0-windows7.0": [
       "AvalonEdit >= 6.3.1.120",
       "Lib.Harmony >= 2.3.6",
-      "LiveCharts >= 0.9.7",
+      "LiveCharts.Wpf.NetCore3 >= 0.9.8",
       "Mutagen.Bethesda.Skyrim >= 0.50.2",
       "SharpVectors >= 1.8.4.2",
       "System.Data.SQLite >= 1.0.119",
@@ -4536,9 +4577,9 @@
             "target": "Package",
             "version": "[2.3.6, )"
           },
-          "LiveCharts": {
+          "LiveCharts.Wpf.NetCore3": {
             "target": "Package",
-            "version": "[0.9.7, )"
+            "version": "[0.9.8, )"
           },
           "Mutagen.Bethesda.Skyrim": {
             "target": "Package",
@@ -4579,17 +4620,5 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'LiveCharts 0.9.7' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0-windows7.0'. This package may not be fully compatible with your project.",
-      "libraryId": "LiveCharts",
-      "targetGraphs": [
-        "net8.0-windows7.0"
-      ]
-    }
-  ]
+  }
 }

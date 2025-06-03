@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -9,6 +10,7 @@ using SSELex.ConvertManager;
 using SSELex.RequestManagement;
 using SSELex.TranslateCore;
 using SSELex.TranslateManage;
+using SSELex.UIManagement;
 using static SSELex.TranslateManage.TransCore;
 
 namespace SSELex.PlatformManagement
@@ -162,6 +164,7 @@ namespace SSELex.PlatformManagement
 
         public GeminiRootobject CallAI(string Msg)
         {
+            DashBoardService.SetUsage(PlatformType.Gemini, Msg.Length);
             GeminiItem NGeminiItem = new GeminiItem();
             NGeminiItem.contents.Add(new GeminiContent());
             NGeminiItem.contents[0].parts.Add(new GeminiPart());

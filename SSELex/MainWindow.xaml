@@ -40,8 +40,7 @@
         </Storyboard>
     </Window.Resources>
 
-    <Border MouseLeftButtonDown="WinHead_MouseLeftButtonDown"  Style="{DynamicResource DefWinBackground}" Name="MainBackGround" >
-
+    <Border MouseLeftButtonDown="WinHead_MouseLeftButtonDown"  Style="{DynamicResource DefWinBackground}" Name="MainBackGround">
         <Border.Effect>
             <DropShadowEffect  BlurRadius="10" Direction="1" ShadowDepth="0.7" Color="#FF69B2F3" Opacity="0.8" />
         </Border.Effect>

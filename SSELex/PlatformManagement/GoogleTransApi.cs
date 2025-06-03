@@ -1,4 +1,5 @@
 ﻿using SSELex.TranslateCore;
+using SSELex.UIManagement;
 using System.Net.Http;
 using System.Text.Json;
 using System.Web;
@@ -28,6 +29,7 @@ namespace SSELex.PlatformManagement
 
         public string Translate(string text, Languages targetLanguage, Languages? sourceLanguage = null)
         {
+            DashBoardService.SetUsage(PlatformType.GoogleApi,text.Length);
             try {
             string targetCode = ToLanguageCode(targetLanguage);
             string sourceCode = sourceLanguage.HasValue ? ToLanguageCode(sourceLanguage.Value) : "auto";

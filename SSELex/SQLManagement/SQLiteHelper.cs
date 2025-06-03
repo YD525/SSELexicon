@@ -5,22 +5,10 @@ using System.IO;
 using System.Data.SQLite;
 namespace SSELex.SQLManager
 {
-    /// <summary>
-    /// 对SQLite操作的类
-    /// 引用：System.Data.SQLite.dll【版本：3.6.23.1（原始文件名：SQlite3.DLL）】
-    /// </summary>
     public class SQLiteHelper
     {
-        /// <summary>
-        /// 所有成员函数都是静态的，构造函数定义为私有
-        /// </summary>
-
         private string SqlPath = null;
 
-        /// <summary>
-        /// 连接字符串
-        /// </summary>
-        /// 
         public string OpenSql(string oderpath)
         {
             SqlPath = oderpath;
@@ -59,9 +47,7 @@ namespace SSELex.SQLManager
             else { return null; }
         }
         private SQLiteConnection _Conn = null;
-        /// <summary>
-        /// 连接对象
-        /// </summary>
+
         public SQLiteConnection Conn
         {
             get
@@ -74,13 +60,7 @@ namespace SSELex.SQLManager
 
 
         #region CreateCommand(commandText,SQLiteParameter[])
-        /// <summary>
-        /// 创建命令
-        /// </summary>
-        /// <param name="connection">连接</param>
-        /// <param name="commandText">语句</param>
-        /// <param name="commandParameters">语句参数.</param>
-        /// <returns>SQLite Command</returns>
+    
         public SQLiteCommand CreateCommand(string commandText, params SQLiteParameter[] commandParameters)
         {
             SQLiteCommand cmd = new SQLiteCommand(commandText, Conn);
@@ -95,13 +75,7 @@ namespace SSELex.SQLManager
 
 
         #region CreateParameter(parameterName,parameterType,parameterValue)
-        /// <summary>
-        /// 创建参数
-        /// </summary>
-        /// <param name="parameterName">参数名</param>
-        /// <param name="parameterType">参数类型</param>
-        /// <param name="parameterValue">参数值</param>
-        /// <returns>返回创建的参数</returns>
+  
         public SQLiteParameter CreateParameter(string parameterName, System.Data.DbType parameterType, object parameterValue)
         {
             SQLiteParameter parameter = new SQLiteParameter();
@@ -113,13 +87,7 @@ namespace SSELex.SQLManager
         #endregion
 
         #region ExecuteDataSet(commandText,paramList[])
-        /// <summary>
-        /// 查询数据集
-        /// </summary>
-        /// <param name="cn">连接.</param>
-        /// <param name="commandText">查询语句.</param>
-        /// <param name="paramList">object参数列表.</param>
-        /// <returns></returns>
+  
         public DataSet ExecuteDataSet(string commandText, params object[] paramList)
         {
 
@@ -142,11 +110,7 @@ namespace SSELex.SQLManager
         #endregion
 
         #region ExecuteDataSet(SQLiteCommand)
-        /// <summary>
-        /// 查询数据集
-        /// </summary>
-        /// <param name="cmd">SQLiteCommand对象</param>
-        /// <returns>返回数据集</returns>
+
         public DataSet ExecuteDataSet(SQLiteCommand cmd)
         {
             if (cmd.Connection.State == ConnectionState.Closed)
@@ -162,14 +126,7 @@ namespace SSELex.SQLManager
         #endregion
 
         #region ExecuteDataSet(SQLiteTransaction,commandText,params SQLiteParameter[])
-        /// <summary>
-        /// 查询数据集
-        /// </summary>
-        /// <param name="transaction">SQLiteTransaction对象. </param>
-        /// <param name="commandText">查询语句.</param>
-        /// <param name="commandParameters">命令的参数列表.</param>
-        /// <returns>DataSet</returns>
-        /// <remarks>必须手动执行关闭连接transaction.connection.Close</remarks>
+
         public DataSet ExecuteDataSet(SQLiteTransaction transaction, string commandText, params SQLiteParameter[] commandParameters)
         {
             if (transaction == null) throw new ArgumentNullException("transaction");
@@ -188,14 +145,7 @@ namespace SSELex.SQLManager
         #endregion
 
         #region ExecuteDataSet(SQLiteTransaction,commandText,object[] commandParameters)
-        /// <summary>
-        /// 查询数据集
-        /// </summary>
-        /// <param name="transaction">SQLiteTransaction对象 </param>
-        /// <param name="commandText">查询语句.</param>
-        /// <param name="commandParameters">命令参数列表</param>
-        /// <returns>返回数据集</returns>
-        /// <remarks>必须手动执行关闭连接transaction.connection.Close</remarks>
+
         public DataSet ExecuteDataSet(SQLiteTransaction transaction, string commandText, object[] commandParameters)
         {
 
@@ -213,14 +163,7 @@ namespace SSELex.SQLManager
         #endregion
 
         #region UpdateDataset(insertCommand,deleteCommand,updateCommand,dataSet,tableName)
-        /// <summary>
-        /// 更新数据集中数据到数据库
-        /// </summary>
-        /// <param name="insertCommand">insert语句</param>
-        /// <param name="deleteCommand">delete语句</param>
-        /// <param name="updateCommand">update语句</param>
-        /// <param name="dataSet">要更新的DataSet</param>
-        /// <param name="tableName">数据集中要更新的table名</param>
+
         public void UpdateDataset(SQLiteCommand insertCommand, SQLiteCommand deleteCommand, SQLiteCommand updateCommand, DataSet dataSet, string tableName)
         {
             if (insertCommand == null) throw new ArgumentNullException("insertCommand");
@@ -246,13 +189,7 @@ namespace SSELex.SQLManager
         #endregion
 
         #region ExecuteReader(SQLiteCommand,commandText, object[] paramList)
-        /// <summary>
-        /// ExecuteReader方法
-        /// </summary>
-        /// <param name="cmd">查询命令</param>
-        /// <param name="commandText">含有类似@colume参数的sql语句</param>
-        /// <param name="paramList">语句参数列表</param>
-        /// <returns>IDataReader</returns>
+
         public IDataReader ExecuteReader(SQLiteCommand cmd, string commandText, object[] paramList)
         {
             if (cmd.Connection == null)
@@ -267,13 +204,7 @@ namespace SSELex.SQLManager
         #endregion
 
         #region ExecuteNonQuery(commandText,paramList)
-        /// <summary>
-        /// 执行ExecuteNonQuery方法
-        /// </summary>
-        /// <param name="cn">连接</param>
-        /// <param name="commandText">语句</param>
-        /// <param name="paramList">参数</param>
-        /// <returns></returns>
+
         public int ExecuteNonQuery(string commandText, params object[] paramList)
         {
 
@@ -290,34 +221,7 @@ namespace SSELex.SQLManager
         #endregion
 
         #region ExecuteNonQuery(SQLiteTransaction,commandText,paramList)
-        /// <summary>
-        /// 执行ExecuteNonQuery方法,带事务
-        /// </summary>
-        /// <param name="transaction">之前创建好的SQLiteTransaction对象</param>
-        /// <param name="commandText">语句.</param>
-        /// <param name="paramList">参数.</param>
-        /// <returns>返回影响的行数</returns>
-        /// <remarks>
-        /// 定义事务  DbTransaction trans = conn.BeginTransaction();
-        ///     或者：SQLiteTransaction trans = Conn.BeginTransaction();
-        /// 操作代码示例：
-        /// try
-        ///{
-        ///    // 连续操作记录 
-        ///    for (int i = 0; i < 1000; i++)
-        ///    {
-        ///        ExecuteNonQuery(trans,commandText,[] paramList);
-        ///    }
-        ///    trans.Commit();
-        ///}
-        ///catch
-        ///{
-        ///    trans.Rollback();
-        ///    throw;
-        ///}
-        ///trans.Connection.Close();//关闭事务连接
-        ///transaction.Dispose();//释放事务对象
-        /// </remarks>
+
         public int ExecuteNonQuery(SQLiteTransaction transaction, string commandText, params object[] paramList)
         {
             if (transaction == null) throw new ArgumentNullException("transaction is null");
@@ -336,11 +240,7 @@ namespace SSELex.SQLManager
         #endregion
 
         #region ExecuteNonQuery(IDbCommand)
-        /// <summary>
-        /// 执行ExecuteNonQuery方法
-        /// </summary>
-        /// <param name="cmd">创建好的命令.</param>
-        /// <returns></returns>
+
         public int ExecuteNonQuery(IDbCommand cmd)
         {
             if (cmd.Connection.State == ConnectionState.Closed)
@@ -353,12 +253,7 @@ namespace SSELex.SQLManager
         #endregion
 
         #region ExecuteScalar(commandText,paramList)
-        /// <summary>
-        /// 执行ExecuteScalar
-        /// </summary>
-        /// <param name="commandText">语句s</param>
-        /// <param name="paramList">参数</param>
-        /// <returns></returns>
+
         public object ExecuteScalar(string commandText, params object[] paramList)
         {
             SQLiteConnection cn = new SQLiteConnection(ConnectionString);
@@ -375,11 +270,7 @@ namespace SSELex.SQLManager
         #endregion
 
         #region ExecuteXmlReader(IDbCommand)
-        /// <summary>
-        /// ExecuteXmlReader返回xml格式
-        /// </summary>
-        /// <param name="command">语句</param>
-        /// <returns>返回XmlTextReader对象</returns>
+
         public XmlReader ExecuteXmlReader(IDbCommand command)
         { // open the connection if necessary, but make sure we 
             // know to close it when we�re done.
@@ -403,13 +294,7 @@ namespace SSELex.SQLManager
         #endregion
 
         #region AttachParameters(SQLiteCommand,commandText,object[] paramList)
-        /// <summary>
-        /// 增加参数到命令（自动判断类型）
-        /// </summary>
-        /// <param name="commandText">命令语句</param>
-        /// <param name="paramList">object参数列表</param>
-        /// <returns>返回SQLiteParameterCollection参数列表</returns>
-        /// <remarks>Status experimental. Regex appears to be handling most issues. Note that parameter object array must be in same ///order as parameter names appear in SQL statement.</remarks>
+       
         private SQLiteParameterCollection AttachParameters(SQLiteCommand cmd, string commandText, params object[] paramList)
         {
             if (paramList == null || paramList.Length == 0) return null;
@@ -524,12 +409,7 @@ namespace SSELex.SQLManager
         #endregion
 
         #region ExecuteNonQueryTypedParams(IDbCommand, DataRow)
-        /// <summary>
-        /// Executes non query typed params from a DataRow
-        /// </summary>
-        /// <param name="command">Command.</param>
-        /// <param name="dataRow">Data row.</param>
-        /// <returns>Integer result code</returns>
+
         public int ExecuteNonQueryTypedParams(IDbCommand command, DataRow dataRow)
         {
             int retVal = 0;

@@ -347,6 +347,8 @@ namespace SSELex
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            new DashBoardView().Show();
+
             DeFine.Init(this);
             try
             {

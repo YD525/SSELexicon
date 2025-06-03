@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Web;
 using SSELex.RequestManagement;
 using SSELex.TranslateCore;
+using SSELex.UIManagement;
 
 namespace SSELex.PlatformManagement
 {
@@ -96,6 +97,8 @@ namespace SSELex.PlatformManagement
 
         public BaiduTransResult? ConstructGetRequestUrl(string AppId, string Query, string FromLang, string ToLang, string Salt, string SecretKey)
         {
+            DashBoardService.SetUsage(PlatformType.BaiduApi,FromLang.Length);
+
             string Sign = GenerateSignature(AppId, Query, Salt, SecretKey);
             string EncodedQuery = HttpUtility.UrlEncode(Query, Encoding.UTF8);
 

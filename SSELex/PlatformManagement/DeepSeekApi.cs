@@ -1,9 +1,11 @@
-﻿using System.Net;
+﻿using System.Diagnostics;
+using System.Net;
 using System.Text.Json;
 using SSELex.ConvertManager;
 using SSELex.RequestManagement;
 using SSELex.TranslateCore;
 using SSELex.TranslateManage;
+using SSELex.UIManagement;
 using static SSELex.TranslateManage.TransCore;
 
 namespace SSELex.PlatformManagement
@@ -149,6 +151,7 @@ namespace SSELex.PlatformManagement
 
         public DeepSeekRootobject CallAI(string Msg)
         {
+            DashBoardService.SetUsage(PlatformType.DeepSeek, Msg.Length);
             DeepSeekItem NDeepSeekItem = new DeepSeekItem();
             NDeepSeekItem.model = DeFine.GlobalLocalSetting.DeepSeekModel;
             NDeepSeekItem.messages = new List<DeepSeekMessage>();

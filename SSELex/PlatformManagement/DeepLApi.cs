@@ -5,8 +5,10 @@ using System.Net;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows.Interop;
 using SSELex.RequestManagement;
 using SSELex.TranslateCore;
+using SSELex.UIManagement;
 
 namespace SSELex.PlatformManagement
 {
@@ -79,6 +81,7 @@ namespace SSELex.PlatformManagement
         {
             try
             {
+                DashBoardService.SetUsage(PlatformType.DeepL, TransSource.Length);
                 DeepLItem NDeepLItem = new DeepLItem();
                 NDeepLItem.target_lang = GetLanguageCode(ToLang);
                 NDeepLItem.text = new List<string>() { TransSource };
