@@ -47,7 +47,7 @@ Acknowledgements: Nexus Mods,9DM,2Game.info,and 泰姆瑞尔MOD组, for their su
 
 # ❤️ Personal Note from the Developer
 
-Coding so skillfully, it’s almost heartbreaking.QAQ
+Everything's done and finished.
 
 ---
 
