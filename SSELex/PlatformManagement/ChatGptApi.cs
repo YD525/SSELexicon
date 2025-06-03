@@ -30,18 +30,23 @@ namespace SSELex.PlatformManagement
 
     public class ChatGptApi
     {
-        public ChatGptRootobject CallAI(string Msg)
+        public ChatGptRootobject? CallAI(string Msg)
         {
-            DashBoardService.SetUsage(PlatformType.ChatGpt, Msg.Length);
+            int GetCount = Msg.Length; 
             ChatGptItem NChatGptItem = new ChatGptItem();
             NChatGptItem.model = DeFine.GlobalLocalSetting.ChatGptModel;
             NChatGptItem.store = true;
             NChatGptItem.messages = new List<ChatGptMessage>();
             NChatGptItem.messages.Add(new ChatGptMessage("user", Msg));
-            return CallAI(NChatGptItem);
+            var GetResult = CallAI(NChatGptItem);
+            if (GetResult != null)
+            {
+                DashBoardService.SetUsage(PlatformType.ChatGpt, GetCount);
+            }
+            return GetResult;
         }
 
-        public ChatGptRootobject CallAI(ChatGptItem Item)
+        public ChatGptRootobject? CallAI(ChatGptItem Item)
         {
             string GetJson = JsonSerializer.Serialize(Item);
             WebHeaderCollection Headers = new WebHeaderCollection();

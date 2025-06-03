@@ -162,17 +162,22 @@ namespace SSELex.PlatformManagement
             return string.Empty;
         }
 
-        public GeminiRootobject CallAI(string Msg)
+        public GeminiRootobject? CallAI(string Msg)
         {
-            DashBoardService.SetUsage(PlatformType.Gemini, Msg.Length);
+            int GetCount = Msg.Length;
             GeminiItem NGeminiItem = new GeminiItem();
             NGeminiItem.contents.Add(new GeminiContent());
             NGeminiItem.contents[0].parts.Add(new GeminiPart());
             NGeminiItem.contents[0].parts[0].text = Msg;
-            return CallAI(NGeminiItem);
+            var GetResult = CallAI(NGeminiItem);
+            if (GetResult != null)
+            {
+                DashBoardService.SetUsage(PlatformType.Gemini, Msg.Length);
+            }
+            return GetResult;
         }
 
-        public GeminiRootobject CallAI(GeminiItem Item)
+        public GeminiRootobject? CallAI(GeminiItem Item)
         {
             string GetJson = JsonSerializer.Serialize(Item);
             WebHeaderCollection Headers = new WebHeaderCollection();

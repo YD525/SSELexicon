@@ -1240,14 +1240,13 @@ namespace SSELex
                             {
                                 string GetBackUPPath = GetFilePath + GetFileFullName + ".backup";
 
-                                if (File.Exists(GetBackUPPath))
+                                if (!File.Exists(GetBackUPPath))
                                 {
-                                    File.Delete(GetBackUPPath);
+                                    File.Copy(LastSetPath, GetBackUPPath);
                                 }
 
                                 if (File.Exists(LastSetPath))
                                 {
-                                    File.Copy(LastSetPath, GetBackUPPath);
                                     File.Delete(LastSetPath);
                                 }
 
@@ -1270,14 +1269,13 @@ namespace SSELex
                         {
                             string GetBackUPPath = GetFilePath + GetFileFullName + ".backup";
 
-                            if (File.Exists(GetBackUPPath))
+                            if (!File.Exists(GetBackUPPath))
                             {
-                                File.Delete(GetBackUPPath);
+                                File.Copy(LastSetPath, GetBackUPPath);
                             }
 
                             if (File.Exists(LastSetPath))
                             {
-                                File.Copy(LastSetPath, GetBackUPPath);
                                 File.Delete(LastSetPath);
                             }
 

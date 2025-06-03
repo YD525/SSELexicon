@@ -315,14 +315,14 @@ namespace SSELex.SkyrimManage
                 }
 
                 ToRam();
-                foreach (var Item in CurrentReadMod.EnumerateMajorRecords())
-                {
-                    //LinkType
-                    if (Item.FormKey.ToString().Contains("000809"))
-                    {
+                //foreach (var Item in CurrentReadMod.EnumerateMajorRecords())
+                //{
+                //    //LinkType
+                //    if (Item.FormKey.ToString().Contains("000809"))
+                //    {
 
-                    }
-                }
+                //    }
+                //}
 
                 //foreach (var Get in this.CurrentReadMod.Keywords.ToList())
                 //{

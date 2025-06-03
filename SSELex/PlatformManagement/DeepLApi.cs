@@ -81,7 +81,6 @@ namespace SSELex.PlatformManagement
         {
             try
             {
-                DashBoardService.SetUsage(PlatformType.DeepL, TransSource.Length);
                 DeepLItem NDeepLItem = new DeepLItem();
                 NDeepLItem.target_lang = GetLanguageCode(ToLang);
                 NDeepLItem.text = new List<string>() { TransSource };
@@ -94,6 +93,7 @@ namespace SSELex.PlatformManagement
                 {
                     if (GetResult.translations.Length > 0)
                     {
+                        DashBoardService.SetUsage(PlatformType.DeepL, TransSource.Length);
                         return GetResult.translations[0].text;
                     }
                 }
@@ -105,7 +105,7 @@ namespace SSELex.PlatformManagement
                 return string.Empty;
             }
         }
-        public DeepLResult CallAI(DeepLItem Item)
+        public DeepLResult? CallAI(DeepLItem Item)
         {
             string GetJson = JsonSerializer.Serialize(Item);
             WebHeaderCollection Headers = new WebHeaderCollection();

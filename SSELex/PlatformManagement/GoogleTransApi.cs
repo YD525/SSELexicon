@@ -1,5 +1,7 @@
-﻿using SSELex.TranslateCore;
+﻿using SSELex.RequestManagement;
+using SSELex.TranslateCore;
 using SSELex.UIManagement;
+using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Web;
@@ -8,7 +10,7 @@ namespace SSELex.PlatformManagement
 {
     public class GoogleTransApi
     {
-        private static readonly HttpClient _httpClient = new HttpClient();
+        private static readonly HttpClient _httpClient = CreateHttpClient();
 
         public static string ToLanguageCode(Languages language)
         {
@@ -26,38 +28,62 @@ namespace SSELex.PlatformManagement
                 _ => throw new ArgumentOutOfRangeException(nameof(language), "Unsupported language")
             };
         }
+        private static HttpClient CreateHttpClient()
+        {
+            try
+            {
+                if (ProxyCenter.GlobalProxyIP.Trim().Length > 0)
+                {
+                    var Proxy = new WebProxy(ProxyCenter.GlobalProxyIP, false);
 
+                    var Handler = new HttpClientHandler
+                    {
+                        Proxy = Proxy,
+                        UseProxy = true
+                    };
+
+                    return new HttpClient(Handler);
+                }
+                else
+                {
+                    return new HttpClient();
+                }
+            }
+            catch { return new HttpClient(); }
+        }
         public string Translate(string text, Languages targetLanguage, Languages? sourceLanguage = null)
         {
-            DashBoardService.SetUsage(PlatformType.GoogleApi,text.Length);
-            try {
-            string targetCode = ToLanguageCode(targetLanguage);
-            string sourceCode = sourceLanguage.HasValue ? ToLanguageCode(sourceLanguage.Value) : "auto";
 
-            string url = $"https://translation.googleapis.com/language/translate/v2" +
-                         $"?key={DeFine.GlobalLocalSetting.GoogleApiKey}" +
-                         $"&q={HttpUtility.UrlEncode(text)}" +
-                         $"&target={targetCode}" +
-                         $"&source={sourceCode}";
-
-            HttpResponseMessage response = _httpClient.GetAsync(url).Result;
-            response.EnsureSuccessStatusCode();
-
-            string json = response.Content.ReadAsStringAsync().Result;
-
-            DeFine.CurrentLogView.SetLog("GoogleApi:" + json);
-
-            using JsonDocument doc = JsonDocument.Parse(json);
-
-            if (doc.RootElement.TryGetProperty("data", out JsonElement dataElem) &&
-                dataElem.TryGetProperty("translations", out JsonElement translationsElem) &&
-                translationsElem.GetArrayLength() > 0 &&
-                translationsElem[0].TryGetProperty("translatedText", out JsonElement textElem))
+            try
             {
-                return textElem.GetString() ?? string.Empty;
-            }
+                string targetCode = ToLanguageCode(targetLanguage);
+                string sourceCode = sourceLanguage.HasValue ? ToLanguageCode(sourceLanguage.Value) : "auto";
 
-            return string.Empty;
+                string url = $"https://translation.googleapis.com/language/translate/v2" +
+                             $"?key={DeFine.GlobalLocalSetting.GoogleApiKey}" +
+                             $"&q={HttpUtility.UrlEncode(text)}" +
+                             $"&target={targetCode}" +
+                             $"&source={sourceCode}";
+
+                HttpResponseMessage response = _httpClient.GetAsync(url).Result;
+                response.EnsureSuccessStatusCode();
+
+                string json = response.Content.ReadAsStringAsync().Result;
+
+                DeFine.CurrentLogView.SetLog("GoogleApi:" + json);
+
+                using JsonDocument doc = JsonDocument.Parse(json);
+
+                if (doc.RootElement.TryGetProperty("data", out JsonElement dataElem) &&
+                    dataElem.TryGetProperty("translations", out JsonElement translationsElem) &&
+                    translationsElem.GetArrayLength() > 0 &&
+                    translationsElem[0].TryGetProperty("translatedText", out JsonElement textElem))
+                {
+                    DashBoardService.SetUsage(PlatformType.GoogleApi, text.Length);
+                    return textElem.GetString() ?? string.Empty;
+                }
+
+                return string.Empty;
             }
             catch { return string.Empty; }
         }

@@ -8,7 +8,7 @@
         <Setter Property="AllowsTransparency" Value="True" />
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
-                <WindowChrome CaptionHeight="0" ResizeBorderThickness="3.9"/>
+                <WindowChrome CaptionHeight="0" ResizeBorderThickness="5"/>
             </Setter.Value>
         </Setter>
     </Style>

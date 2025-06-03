@@ -97,8 +97,6 @@ namespace SSELex.PlatformManagement
 
         public BaiduTransResult? ConstructGetRequestUrl(string AppId, string Query, string FromLang, string ToLang, string Salt, string SecretKey)
         {
-            DashBoardService.SetUsage(PlatformType.BaiduApi,FromLang.Length);
-
             string Sign = GenerateSignature(AppId, Query, Salt, SecretKey);
             string EncodedQuery = HttpUtility.UrlEncode(Query, Encoding.UTF8);
 
@@ -134,6 +132,7 @@ namespace SSELex.PlatformManagement
             {
                 try 
                 {
+                    DashBoardService.SetUsage(PlatformType.BaiduApi, FromLang.Length);
                     return JsonSerializer.Deserialize<BaiduTransResult>(GetResult);
                 }
                 catch 

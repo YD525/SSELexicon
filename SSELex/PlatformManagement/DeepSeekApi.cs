@@ -149,18 +149,23 @@ namespace SSELex.PlatformManagement
             return string.Empty;
         }
 
-        public DeepSeekRootobject CallAI(string Msg)
+        public DeepSeekRootobject? CallAI(string Msg)
         {
-            DashBoardService.SetUsage(PlatformType.DeepSeek, Msg.Length);
+            int GetCount = Msg.Length;
             DeepSeekItem NDeepSeekItem = new DeepSeekItem();
             NDeepSeekItem.model = DeFine.GlobalLocalSetting.DeepSeekModel;
             NDeepSeekItem.messages = new List<DeepSeekMessage>();
             NDeepSeekItem.messages.Add(new DeepSeekMessage("user", Msg));
             NDeepSeekItem.stream = false;
-            return CallAI(NDeepSeekItem);
+            var GetResult = CallAI(NDeepSeekItem);
+            if (GetResult != null)
+            {
+                DashBoardService.SetUsage(PlatformType.DeepSeek, Msg.Length);
+            }
+            return GetResult;
         }
 
-        public DeepSeekRootobject CallAI(DeepSeekItem Item)
+        public DeepSeekRootobject? CallAI(DeepSeekItem Item)
         {
             string GetJson = JsonSerializer.Serialize(Item);
             WebHeaderCollection Headers = new WebHeaderCollection();
