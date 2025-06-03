@@ -177,6 +177,14 @@
           }
         }
       },
+      "LiveCharts/0.9.7": {
+        "runtime": {
+          "lib/net45/LiveCharts.dll": {
+            "assemblyVersion": "0.9.7.0",
+            "fileVersion": "0.9.7.0"
+          }
+        }
+      },
       "Loqui/2.71.0-alpha.1": {
         "dependencies": {
           "Noggog.CSharpExt": "2.71.0"
@@ -1023,6 +1031,13 @@
       "sha512": "sha512-HqXPz33Z+R8ZDCLS5pJZthg33AMdF1bQXUbz2V7Neb9E+sMQOf4S1wquhM4pLIZFX7BZcOQubclbVreiM1+qmw==",
       "path": "lib.harmony/2.3.6",
       "hashPath": "lib.harmony.2.3.6.nupkg.sha512"
+    },
+    "LiveCharts/0.9.7": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-p4xyBrUaNNfkWZSNsIle0r51cyVyFg0Yi0uBRZM5GQtdFiA/7guZHlffFyNUILIdux10Ch2hUaJpcZENVU9aaQ==",
+      "path": "livecharts/0.9.7",
+      "hashPath": "livecharts.0.9.7.nupkg.sha512"
     },
     "Loqui/2.71.0-alpha.1": {
       "type": "package",

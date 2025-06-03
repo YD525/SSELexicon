@@ -58,6 +58,10 @@
               "target": "Package",
               "version": "[2.3.6, )"
             },
+            "LiveCharts": {
+              "target": "Package",
+              "version": "[0.9.7, )"
+            },
             "Mutagen.Bethesda.Skyrim": {
               "target": "Package",
               "version": "[0.50.2, )"

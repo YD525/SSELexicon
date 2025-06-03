@@ -1,15 +1,16 @@
 # SSE Lexicon
 
 **SSELex** is a fully open-source and free tool created to assist with Skyrim mod translation. It supports multiple file formats, including PEX, ESM, ESP, and MCM, offering enhanced convenience and flexibility for translators.  
-By utilizing advanced string processing and optional online translation integration, SSELex helps streamline translation tasks and improve overall efficiency.  
+By utilizing advanced string processing and optional online translation integration, SSELex helps streamline translation tasks and improve overall efficiency.
 
-I'm grateful to the following websites for kindly featuring **SSELex**.  
-You can download it from any of them, or build the project yourself —  
-but knowing that you downloaded it makes me even happier!
+If you want to give feedback, report issues, or discuss SSELex, please feel free to visit any of the following sites:  
 
 - [Nexus Mods (for international users)](https://www.nexusmods.com/skyrimspecialedition/mods/143056)  
 - [2Game.info (for Japanese users)](https://skyrimspecialedition.2game.info/detail.php?id=143056)  
 - [9DM Game Mod (for Chinese users)](http://www.9dmgamemod.com/thread-325140-1-1.html)
+
+Your support and feedback are greatly appreciated!
+
 ---
 
 ## 📄 License
@@ -40,7 +41,7 @@ I would like to give special thanks to the developers of
 
 Their excellent libraries provide SSE Lexicon with a stable and solid foundation, allowing us to focus more on developing the translation features.
 
-I would also like to thank 9DM And 泰姆瑞尔MOD组 for recognizing my identity as a MOD developer.
+Acknowledgements: Nexus Mods,9DM,2Game.info,and 泰姆瑞尔MOD组, for their support and encouragement that inspire my creative work.
 
 ---
 
@@ -48,6 +49,7 @@ I would also like to thank 9DM And 泰姆瑞尔MOD组 for recognizing my identit
 
 At first, the source language had to be set manually. Now it's no longer required. However, there might be cases where automatic language detection fails. I'm planning to add a new dropdown menu that supports both automatic detection and manual source language selection. The automatic detection option will be labeled as "Auto".
 
+---
 
 ## 🖼️ UI Icon
 
