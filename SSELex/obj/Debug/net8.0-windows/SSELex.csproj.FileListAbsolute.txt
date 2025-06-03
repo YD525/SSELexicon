@@ -110,3 +110,4 @@ C:\Users\52508\source\repos\SSE Lexicon\SSELex\obj\Debug\net8.0-windows\refint\S
 C:\Users\52508\source\repos\SSE Lexicon\SSELex\obj\Debug\net8.0-windows\SSELex.pdb
 C:\Users\52508\source\repos\SSE Lexicon\SSELex\obj\Debug\net8.0-windows\SSELex.genruntimeconfig.cache
 C:\Users\52508\source\repos\SSE Lexicon\SSELex\obj\Debug\net8.0-windows\ref\SSELex.dll
+C:\Users\52508\source\repos\SSE Lexicon\SSELex\bin\Debug\net8.0-windows\0Harmony.dll

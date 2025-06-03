@@ -166,6 +166,17 @@
           }
         }
       },
+      "Lib.Harmony/2.3.6": {
+        "dependencies": {
+          "System.Text.Json": "8.0.5"
+        },
+        "runtime": {
+          "lib/net8.0/0Harmony.dll": {
+            "assemblyVersion": "2.3.6.0",
+            "fileVersion": "2.3.6.0"
+          }
+        }
+      },
       "Loqui/2.71.0-alpha.1": {
         "dependencies": {
           "Noggog.CSharpExt": "2.71.0"
@@ -831,6 +842,14 @@
           }
         }
       },
+      "System.Text.Json/8.0.5": {
+        "runtime": {
+          "lib/net8.0/System.Text.Json.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.1024.46610"
+          }
+        }
+      },
       "System.Threading/4.3.0": {
         "dependencies": {
           "System.Runtime": "4.3.0",
@@ -997,6 +1016,13 @@
       "sha512": "sha512-Wp2F7BamQ2Q/7Hk834nV9vRQapgcr8kgv9Jvfm8J3D0IhDqZMMl+a2yxUq5ltJitvXvQfB8W6K4F4fCbw/P6YQ==",
       "path": "k4os.hash.xxhash/1.0.8",
       "hashPath": "k4os.hash.xxhash.1.0.8.nupkg.sha512"
+    },
+    "Lib.Harmony/2.3.6": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-HqXPz33Z+R8ZDCLS5pJZthg33AMdF1bQXUbz2V7Neb9E+sMQOf4S1wquhM4pLIZFX7BZcOQubclbVreiM1+qmw==",
+      "path": "lib.harmony/2.3.6",
+      "hashPath": "lib.harmony.2.3.6.nupkg.sha512"
     },
     "Loqui/2.71.0-alpha.1": {
       "type": "package",
@@ -1410,6 +1436,13 @@
       "sha512": "sha512-7Op2OR5RKJgviMpPsXbcCN5bxew/KmW1AM3bzwFo3kShenYjy9eV5lYYuIxWinhrLMooGu6t2ktMRN9toV7l0Q==",
       "path": "system.text.encoding.codepages/9.0.1",
       "hashPath": "system.text.encoding.codepages.9.0.1.nupkg.sha512"
+    },
+    "System.Text.Json/8.0.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-0f1B50Ss7rqxXiaBJyzUu9bWFOO2/zSlifZ/UNMdiIpDYe4cY4LQQicP4nirK1OS31I43rn062UIJ1Q9bpmHpg==",
+      "path": "system.text.json/8.0.5",
+      "hashPath": "system.text.json.8.0.5.nupkg.sha512"
     },
     "System.Threading/4.3.0": {
       "type": "package",

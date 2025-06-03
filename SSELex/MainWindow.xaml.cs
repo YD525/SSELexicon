@@ -348,6 +348,7 @@ namespace SSELex
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             DeFine.Init(this);
+            HotPatch.Apply();
             this.Width = DeFine.GlobalLocalSetting.FormWidth;
             this.Height = DeFine.GlobalLocalSetting.FormHeight;
 
