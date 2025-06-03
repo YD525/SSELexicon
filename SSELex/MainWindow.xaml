@@ -41,9 +41,7 @@
     </Window.Resources>
 
     <Border MouseLeftButtonDown="WinHead_MouseLeftButtonDown"  Style="{DynamicResource DefWinBackground}" Name="MainBackGround">
-        <Border.Effect>
-            <DropShadowEffect  BlurRadius="10" Direction="1" ShadowDepth="0.7" Color="#FF69B2F3" Opacity="0.8" />
-        </Border.Effect>
+      
 
         <Grid>
             <Border Background="#FF0B74D1" CornerRadius="7" Panel.ZIndex="0" Name="Footer" Margin="0 45 0 0">
@@ -52,6 +50,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="35"/>
                     <RowDefinition Height="1*"/>
+                    <RowDefinition Height="7"/>
                 </Grid.RowDefinitions>
 
                 <Grid Grid.Row="0" Name="Header" Margin="10 0 10 0">
@@ -115,10 +114,9 @@
                     </StackPanel>
                 </Grid>
 
-                <Grid Name="Frames" Grid.Row="1" Margin="0 0 0 5">
+                <Grid Name="Frames" Grid.Row="1" Margin="0 0 0 0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
-                        <RowDefinition Height="20"/>
                     </Grid.RowDefinitions>
                     <Grid Tag="LoadingView" Visibility="Visible" Background = "#FF0B74D1">
                         <Grid Grid.Row="0" Grid.RowSpan="2" Margin="0 10 0 10" Name="LoadingControl" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -195,7 +193,7 @@
                             </Canvas>
                         </Grid>
                     </Grid>
-                    <Grid Tag="MainView" Margin="0 0 0 5" Background= "White" Visibility="Visible">
+                    <Grid Tag="MainView" Margin="0 0 0 0" Background= "White" Visibility="Visible">
 
                         <Grid Name="MainNav" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="999">
                             <Grid.RowDefinitions>
@@ -513,7 +511,7 @@
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                             <Label VerticalAlignment="Center">Ai Context Limit:</Label>
                                             <TextBox Name="ContextLimit" Width="100" Margin="12 5 0 0" Height="35" VerticalContentAlignment="Center" TextChanged="ContextLimit_TextChanged">
-                                                
+
                                             </TextBox>
                                         </StackPanel>
 
@@ -551,7 +549,7 @@
                                         </TextBox>
                                     </Grid>
                                     <Grid Background="#FF393939" Height="40" VerticalAlignment="Top" Grid.Column="1">
-                                        
+
                                         <Label  Foreground="White" VerticalAlignment="Center" FontSize="13" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Name="TransProcess">
                                             STRINGS(0/0)
                                         </Label>
@@ -580,7 +578,7 @@
                                                             <GradientStop Offset="2.70" Color="#FF99B8E1" />
                                                             <GradientStop Offset="2.85" Color="#FF4C8AC5" />
                                                             <GradientStop Offset="3.00" Color="#FF0B74D1" />
-                                                            
+
                                                         </LinearGradientBrush.GradientStops>
                                                     </LinearGradientBrush>
                                                 </Grid.Background>
@@ -816,7 +814,7 @@
                                                         <svgc:SvgViewbox  Stretch="UniformToFill" Source="/Material/Speaker.svg"  Margin="3 0 3 0" Width="17" Panel.ZIndex="900" Height="15" Cursor="Hand" Opacity="1"/>
                                                     </Border>
                                                 </StackPanel>
-                                              
+
                                                 <avalonEdit:TextEditor Grid.Row="1" Margin="5" Name="FromStr" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" IsReadOnly="True"  FontFamily="Consolas" FontSize="16" ShowLineNumbers="True" Background="#FF282828" Foreground="White" WordWrap="True" TextOptions.TextFormattingMode="Display">
 
                                                 </avalonEdit:TextEditor>
@@ -847,31 +845,23 @@
                                                 <ColumnDefinition Width="1*"/>
                                                 <ColumnDefinition Width="1*"/>
                                             </Grid.ColumnDefinitions>
+                                            <StackPanel Orientation="Horizontal" Margin="10 0 0 0">
+                                                <Label Foreground="White" VerticalAlignment="Center">
+                                                    Key
+                                                </Label>
+                                                <TextBox Width="100" Height="35" VerticalAlignment="Center" Margin="5 0 5 0" Name="ReplaceKeyBox" Foreground="#FF14A9FC" TabIndex="0" Background="#FF4D4D4D" BorderBrush="{x:Null}" SelectionBrush="#FF135FB8" BorderThickness="0"  CaretBrush="White" VerticalContentAlignment="Center" FontSize="13"/>
+                                                <Label Foreground="White" VerticalAlignment="Center">
+                                                    Value
+                                                </Label>
+                                                <TextBox Width="100" Height="35" VerticalAlignment="Center"  Margin="5 0 5 0" Name="ReplaceValueBox" Foreground="#FFFFCA00" TabIndex="0" Grid.Column="2" Background="#FF4D4D4D" BorderBrush="{x:Null}" SelectionBrush="#FF135FB8" BorderThickness="0" CaretBrush="White" VerticalContentAlignment="Center" FontSize="13"/>
 
-                                            <Border Background="#FF525252" Grid.Column="0" CornerRadius="9" Height="30"  Margin="0 1 0 1" VerticalAlignment="Center" MaxWidth="300" HorizontalAlignment="Stretch">
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="10"/>
-                                                        <ColumnDefinition Width="1*"/>
-                                                        <ColumnDefinition Width="1*"/>
-                                                        <ColumnDefinition Width="100"/>
-                                                        <ColumnDefinition Width="40"/>
-                                                    </Grid.ColumnDefinitions>
+                                                <ComboBox VerticalAlignment="Center" Cursor="Hand" Style="{StaticResource WpfComboBoxStyle}" Margin="10 0 0 0" Grid.Column="3" Name="ReplaceMode" Height="35">
+                                                </ComboBox>
 
-                                                    <Grid Grid.Column="1" Background="#FF3B3A3A">
-                                                        <TextBox Margin="5 0 5 0" Name="ReplaceKeyBox" Foreground="#FF14A9FC" TabIndex="0" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="#FF135FB8" BorderThickness="0"  CaretBrush="White" VerticalContentAlignment="Center" FontSize="13"/>
-                                                    </Grid>
-
-                                                    <TextBox Margin="5 0 5 0" Name="ReplaceValueBox" Foreground="#FFFFCA00" TabIndex="0" Grid.Column="2" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="#FF135FB8" BorderThickness="0" CaretBrush="White" VerticalContentAlignment="Center" FontSize="13"/>
-
-                                                    <ComboBox VerticalAlignment="Center" Cursor="Hand" Style="{StaticResource WpfComboBoxStyle}" Margin="10 0 0 0" Grid.Column="3" Name="ReplaceMode">
-                                                    </ComboBox>
-
-                                                    <Border CornerRadius="0 9 9 0" Background="#FF076FCB" Grid.Column="5" Cursor="Hand" ToolTip="StringReplace" PreviewMouseDown="ReplaceStr">
-                                                        <svgc:SvgViewbox VerticalAlignment="Center" Stretch="UniformToFill" Source="/Material/Replace.svg"  Margin="3 0 3 0" Width="17" Panel.ZIndex="900" Height="15" Opacity="1"/>
-                                                    </Border>
-                                                </Grid>
-                                            </Border>
+                                                <Border CornerRadius="9" Background="#FF076FCB" Grid.Column="5" Cursor="Hand" ToolTip="StringReplace" PreviewMouseDown="ReplaceStr" VerticalAlignment="Center" Height="35" Width="50" Margin="10 0 0 0">
+                                                    <svgc:SvgViewbox VerticalAlignment="Center" Stretch="UniformToFill" Source="/Material/Replace.svg"  Margin="3 0 3 0" Width="17" Panel.ZIndex="900" Height="15" Opacity="1"/>
+                                                </Border>
+                                            </StackPanel>
 
                                             <Grid Grid.Column="1">
                                                 <Grid.ColumnDefinitions>
@@ -879,7 +869,7 @@
                                                     <ColumnDefinition Width="265"/>
                                                 </Grid.ColumnDefinitions>
 
-                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1">
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1" Margin="0 0 5 0">
                                                     <Border ToolTip="HotKey Press F1" CornerRadius="6" Background="#FF4493E4" Height="30" Padding="10 0 10 0" Margin="5 0 5 0" Cursor="Hand" PreviewMouseDown="CancelSelect">
                                                         <Label  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Name="CancelSelectBtn">
                                                             Cancel
@@ -912,15 +902,10 @@
                                 </Label>
                             </Border>
                         </Grid>
-
                     </Grid>
-
-                    <TextBox IsReadOnly="True" Background="{x:Null}" BorderThickness="0" BorderBrush="{x:Null}" Foreground="White" Name="Log" Grid.Row="1" FontSize="10" Margin="5 3 0 0">
-
-                    </TextBox>
-
-                  
                 </Grid>
+                <Border Background="#FF0B74D1" Grid.Row="2" CornerRadius="0 0 6 6">
+                </Border>
 
             </Grid>
         </Grid>

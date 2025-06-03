@@ -44,10 +44,7 @@ namespace SSELex
 
         public void SetLog(string Str)
         {
-            this.Dispatcher.Invoke(new Action(() =>
-            {
-                this.Log.Text = Str;
-            }));
+            DeFine.CurrentDashBoardView.SetLogA(Str);
         }
 
         public void EndLoadViewEffect()
@@ -347,8 +344,6 @@ namespace SSELex
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            new DashBoardView().Show();
-
             DeFine.Init(this);
             try
             {
@@ -535,6 +530,7 @@ namespace SSELex
             ClosetTransTrd();
             if (System.IO.File.Exists(FilePath))
             {
+                DeFine.CurrentDashBoardView.Open(FilePath);
                 DeFine.GlobalLocalSetting.AutoLoadDictionaryFile = false;
                 FromStr.Text = "";
                 ToStr.Text = "";
@@ -1744,11 +1740,11 @@ namespace SSELex
             {
                 if (DeFine.GlobalLocalSetting.ShowLog)
                 {
-                    if (DeFine.CurrentLogView != null)
+                    if (DeFine.CurrentDashBoardView != null)
                     {
-                        if (DeFine.CurrentLogView.Visibility == Visibility.Visible)
+                        if (DeFine.CurrentDashBoardView.Visibility == Visibility.Visible)
                         {
-                            DeFine.CurrentLogView.Left = this.Left + this.Width + 5;
+                            DeFine.CurrentDashBoardView.Left = this.Left + this.Width + 5;
                         }
                     }
                 }

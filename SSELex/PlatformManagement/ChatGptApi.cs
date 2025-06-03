@@ -73,7 +73,7 @@ namespace SSELex.PlatformManagement
             string GetResult = new HttpHelper().GetHtml(Http).Html;
             try
             {
-                DeFine.CurrentLogView.SetLog("ChatGpt:" + GetResult);
+                DeFine.CurrentDashBoardView.SetLogB("ChatGpt:" + GetResult);
                 return JsonSerializer.Deserialize<ChatGptRootobject>(GetResult);
             }
             catch 
@@ -141,9 +141,9 @@ namespace SSELex.PlatformManagement
                             return string.Empty;
                         }
 
-                        if (DeFine.CurrentLogView != null)
+                        if (DeFine.CurrentDashBoardView != null)
                         {
-                            DeFine.CurrentLogView.SetLog(GetTransSource + "\r\n\r\n AI:\r\n" + GetStr);
+                            DeFine.CurrentDashBoardView.SetLogB(GetTransSource + "\r\n\r\n AI:\r\n" + GetStr);
                         }
 
                         return GetStr;

@@ -25,7 +25,7 @@ namespace SSELex
     }
     public class DeFine
     {
-        public static int GlobalRequestTimeOut = 10000;
+        public static int GlobalRequestTimeOut = 5000;
         public static string CurrentModName = "";
         public static int ViewMode = 0;
 
@@ -43,11 +43,11 @@ namespace SSELex
 
         public static string BackupPath = @"\BackUpData\";
 
-        public static string CurrentVersion = "2.6.36";
+        public static string CurrentVersion = "2.6.37";
         public static LocalSetting GlobalLocalSetting = new LocalSetting();
 
         public static MainWindow WorkingWin = null;
-        public static LogView CurrentLogView = null;
+        public static DashBoardView CurrentDashBoardView = null;
         public static SqlCore<SQLiteHelper> GlobalDB = null;
         public static CodeView CurrentCodeView = null;
         public static TextEditor ActiveIDE = null;
@@ -161,19 +161,19 @@ namespace SSELex
             NewWindowThread.SetApartmentState(ApartmentState.STA);
             NewWindowThread.Start();
 
-            CurrentLogView = new LogView();
-            CurrentLogView.Hide();
+            CurrentDashBoardView = new DashBoardView();
+            CurrentDashBoardView.Hide();
         }
 
         public static void ShowLogView()
         {
             if (DeFine.GlobalLocalSetting.ShowLog)
             {
-                CurrentLogView.Owner = DeFine.WorkingWin;
-                CurrentLogView.Left = DeFine.WorkingWin.Left + DeFine.WorkingWin.Width + 5;
-                CurrentLogView.Top = DeFine.WorkingWin.Top;
+                CurrentDashBoardView.Owner = DeFine.WorkingWin;
+                CurrentDashBoardView.Left = DeFine.WorkingWin.Left + DeFine.WorkingWin.Width + 5;
+                CurrentDashBoardView.Top = DeFine.WorkingWin.Top;
 
-                CurrentLogView.Show();
+                CurrentDashBoardView.Show();
             }
         }
 

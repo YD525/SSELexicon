@@ -6,6 +6,7 @@ using SSELex.ConvertManager;
 using SSELex.SkyrimManage;
 using SSELex.TranslateCore;
 using SSELex.UIManage;
+using SSELex.UIManagement;
 
 namespace SSELex.TranslateManage
 {
@@ -60,12 +61,12 @@ namespace SSELex.TranslateManage
                 var Token = TransThreadToken.Token;
                 try
                 {
-                    NextGet:
+                NextGet:
                     Token.ThrowIfCancellationRequested();
 
                     if (this.SourceText.Trim().Length > 0)
                     {
-                        if (this.Type.Equals("Book")&&(!Key.EndsWith("(Description)")&&!Key.EndsWith("(Name)")))
+                        if (this.Type.Equals("Book") && (!Key.EndsWith("(Description)") && !Key.EndsWith("(Name)")))
                         {
                             if (DeFine.WorkingWin != null)
                             {
@@ -77,7 +78,7 @@ namespace SSELex.TranslateManage
                         else
                         if (this.Key.Contains("Score:") && this.Key.Contains(","))
                         {
-                            string []Params = this.Key.Split(',');
+                            string[] Params = this.Key.Split(',');
                             if (Params.Length > 1)
                             {
                                 if (Params[Params.Length - 1].Contains("Score:"))
@@ -98,7 +99,7 @@ namespace SSELex.TranslateManage
                         if (WorkEnd != 2)
                         {
                             bool CanSleep = true;
-                            var GetResult = Translator.QuickTrans(this.Key,this.SourceText,DeFine.SourceLanguage,DeFine.TargetLanguage, ref CanSleep);
+                            var GetResult = Translator.QuickTrans(this.Key, this.SourceText, DeFine.SourceLanguage, DeFine.TargetLanguage, ref CanSleep);
                             if (GetResult.Trim().Length > 0)
                             {
                                 TransText = GetResult.Trim();
@@ -133,7 +134,7 @@ namespace SSELex.TranslateManage
                                 goto NextGet;
                             }
                         }
-                       
+
                     }
                     else
                     {
@@ -142,11 +143,12 @@ namespace SSELex.TranslateManage
                 }
                 catch (OperationCanceledException)
                 {
-                    try {
-                    this.Transing = false;
-                    this.CurrentTrd = null;
+                    try
+                    {
+                        this.Transing = false;
+                        this.CurrentTrd = null;
                     }
-                    catch  { }
+                    catch { }
                 }
                 this.Transing = false;
                 this.CurrentTrd = null;
@@ -164,7 +166,8 @@ namespace SSELex.TranslateManage
         {
             if (DeFine.WorkingWin != null)
             {
-                DeFine.WorkingWin.Dispatcher.Invoke(new Action(() => {
+                DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
+                {
                     this.Handle.UPDataThis();
                 }));
 
@@ -174,10 +177,10 @@ namespace SSELex.TranslateManage
                 this.SourceText = this.Handle.SourceText;
                 this.TransText = this.Handle.TransText;
             }
-            
+
         }
 
-        public TransItem(string Key,string Type, string SourceText, string TransText, FakeGrid Handle)
+        public TransItem(string Key, string Type, string SourceText, string TransText, FakeGrid Handle)
         {
             this.Key = Key;
             this.Type = Type;
@@ -187,7 +190,7 @@ namespace SSELex.TranslateManage
         }
     }
 
-        
+
     public class BatchTranslationHelper
     {
         public static Dictionary<string, string> SameItems = new Dictionary<string, string>();
@@ -289,9 +292,21 @@ namespace SSELex.TranslateManage
                 DeFine.GlobalLocalSetting.MaxThreadCount = 1;
             }
 
-            DeFine.WorkingWin.Dispatcher.Invoke(new Action(() => {
+            DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
+            {
                 DeFine.WorkingWin.ThreadInFo.Visibility = System.Windows.Visibility.Visible;
             }));
+
+            try
+            {
+                DashBoardService.Init();
+
+                DeFine.CurrentDashBoardView.Dispatcher.Invoke(new Action(() =>
+                {
+                    DeFine.CurrentDashBoardView.SetTransState(true);
+                }));
+            }
+            catch { }
 
             Init();
 
@@ -306,8 +321,9 @@ namespace SSELex.TranslateManage
                 {
                     try
                     {
-                        NextFind:
-                        DeFine.WorkingWin.Dispatcher.Invoke(new Action(() => {
+                    NextFind:
+                        DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
+                        {
                             DeFine.WorkingWin.ThreadInFoLog.Content = string.Format("Thread(Current:{0},Max:{1})", CurrentTrds, DeFine.GlobalLocalSetting.MaxThreadCount);
                         }));
 
@@ -358,6 +374,15 @@ namespace SSELex.TranslateManage
 
                                 IsWork = false;
 
+                                try
+                                {
+                                    DeFine.CurrentDashBoardView.Dispatcher.Invoke(new Action(() =>
+                                    {
+                                        DeFine.CurrentDashBoardView.SetTransState(false);
+                                    }));
+                                }
+                                catch { }
+
                                 DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
                                 {
                                     DeFine.WorkingWin.ClosetTransTrd();
@@ -371,10 +396,19 @@ namespace SSELex.TranslateManage
                             }
                         }
                     }
-                    catch(OperationCanceledException) 
+                    catch (OperationCanceledException)
                     {
                         IsWork = false;
                         TransMainTrd = null;
+
+                        try
+                        {
+                            DeFine.CurrentDashBoardView.Dispatcher.Invoke(new Action(() =>
+                            {
+                                DeFine.CurrentDashBoardView.SetTransState(false);
+                            }));
+                        }
+                        catch { }
                         return;
                     }
 
@@ -388,7 +422,8 @@ namespace SSELex.TranslateManage
 
         public static void Close()
         {
-            DeFine.WorkingWin.Dispatcher.Invoke(new Action(() => {
+            DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
+            {
                 DeFine.WorkingWin.ThreadInFo.Visibility = System.Windows.Visibility.Collapsed;
             }));
 
@@ -409,7 +444,7 @@ namespace SSELex.TranslateManage
                     catch { }
                 }
             }
-           
+
             TransMainTrd = null;
         }
 

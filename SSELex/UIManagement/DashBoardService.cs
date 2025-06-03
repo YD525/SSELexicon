@@ -51,15 +51,20 @@ namespace SSELex.UIManagement
         }
 
         public static Dictionary<PlatformType, int> FontUsageCounts = new Dictionary<PlatformType, int>();
+
+        private static readonly object _Lock = new object();
         public static void SetUsage(PlatformType Type,int Count)
         {
-            if (FontUsageCounts.ContainsKey(Type))
+            lock (_Lock)
             {
-                FontUsageCounts[Type] += Count;
-            }
-            else
-            {
-                FontUsageCounts.Add(Type, Count);
+                if (FontUsageCounts.ContainsKey(Type))
+                {
+                    FontUsageCounts[Type] += Count;
+                }
+                else
+                {
+                    FontUsageCounts.Add(Type, Count);
+                }
             }
         }
         public static List<QueryPlatformItem> QueryData()
@@ -75,7 +80,7 @@ namespace SSELex.UIManagement
             }
             return QueryPlatformItems;
         }
-        public static int GetAndClearUsageCount()
+        public static int GetTotalUsageCount()
         {
             int Total = 0;
             for (int i = 0; i < FontUsageCounts.Count; i++)
@@ -85,23 +90,27 @@ namespace SSELex.UIManagement
                 if (FontUsageCounts[GetKey] > 0)
                 {
                     Total += FontUsageCounts[GetKey];
-                    FontUsageCounts[GetKey] = 0;
                 }
             }
             return Total;
         }
-        public static int GetAndClearUsageCount(PlatformType Type)
+
+        private static int LastTotalCount = 0;
+        public static int GetCurrentSecondUsage()
         {
-            if (FontUsageCounts.ContainsKey(Type))
-            {
-                int GetLength = FontUsageCounts[Type];
-                FontUsageCounts[Type] = 0;
-                return GetLength;
-            }
-            else
-            {
-                return 0;
-            }
+            int CurrentTotal = GetTotalUsageCount();
+            int Delta = CurrentTotal - LastTotalCount;
+
+            if (Delta < 0) Delta = 0;
+
+            LastTotalCount = CurrentTotal;
+            return Delta;
+        }
+
+        public static void Init()
+        {
+            LastTotalCount = 0;
+            FontUsageCounts.Clear();
         }
     }
 }

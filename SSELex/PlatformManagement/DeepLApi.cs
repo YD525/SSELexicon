@@ -143,7 +143,7 @@ namespace SSELex.PlatformManagement
             string GetResult = new HttpHelper().GetHtml(Http).Html;
             try
             {
-                DeFine.CurrentLogView.SetLog("DeepL:" + GetResult);
+                DeFine.CurrentDashBoardView.SetLogB("DeepL:" + GetResult);
                 return JsonSerializer.Deserialize<DeepLResult>(GetResult);
             }
             catch

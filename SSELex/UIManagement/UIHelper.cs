@@ -519,7 +519,7 @@ namespace SSELex.UIManage
                                         }
                                         RichText += "\r\n";
                                         RichText += FindFrist.Feature;
-                                        DeFine.CurrentLogView.SetLog(RichText);
+                                        DeFine.CurrentDashBoardView.SetLogB(RichText);
                                     }
                                 }
                                 catch { }

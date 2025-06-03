@@ -6,7 +6,7 @@
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:local="clr-namespace:SSELex"
         mc:Ignorable="d"
-        Title="DashBoardView" Height="580" Width="900" Loaded="Window_Loaded" Style="{DynamicResource DefWin}">
+        Title="DashBoardView" Height="600" Width="800" Loaded="Window_Loaded" Style="{DynamicResource DefWin}">
 
     <Window.Resources>
        
@@ -17,7 +17,7 @@
                 <RowDefinition Height="35"/>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
-                <RowDefinition Height="10"/>
+                <RowDefinition Height="7"/>
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0" Name="Header" Margin="10 0 10 0">
@@ -71,7 +71,7 @@
                                         <Border CornerRadius="7" Background="#FF265095">
                                             <Grid>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <Grid Grid.Row="0" Grid.RowSpan="2" Margin="0 12 0 0" VerticalAlignment="Center" Name="LoadingControl" HorizontalAlignment="Center">
+                                                    <Grid Grid.Row="0" Grid.RowSpan="2" Margin="0 12 0 0" VerticalAlignment="Center" Name="LoadingControl" HorizontalAlignment="Center" Visibility="Collapsed">
                                                         <Grid.Resources>
                                                             <Style x:Key="ellipse" TargetType="Ellipse">
                                                                 <Setter Property="Width" Value="5"/>
@@ -82,23 +82,19 @@
                                                             </Style>
                                                             <PowerEase x:Key="powerease" Power="3" EasingMode="EaseInOut"/>
                                                         </Grid.Resources>
-                                                        <Canvas Width="30" Height="30">
-                                                            <Canvas.Triggers>
-                                                                <EventTrigger RoutedEvent="Loaded" x:Name="LoadingTrigger">
-                                                                    <BeginStoryboard>
-                                                                        <Storyboard Name="LoadingEffect" Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)" RepeatBehavior="Forever">
-                                                                            <DoubleAnimation Storyboard.TargetName="e1" To="360" Duration="0:0:2" EasingFunction="{StaticResource powerease}" AccelerationRatio="0.1" DecelerationRatio="0.9"/>
-                                                                            <DoubleAnimation Storyboard.TargetName="e2" To="360" Duration="0:0:2" EasingFunction="{StaticResource powerease}" AccelerationRatio="0.2" DecelerationRatio="0.8"/>
-                                                                            <DoubleAnimation Storyboard.TargetName="e3" To="360" Duration="0:0:2" EasingFunction="{StaticResource powerease}" AccelerationRatio="0.3" DecelerationRatio="0.7"/>
-                                                                            <DoubleAnimation Storyboard.TargetName="e4" To="360" Duration="0:0:2" EasingFunction="{StaticResource powerease}" AccelerationRatio="0.4" DecelerationRatio="0.6"/>
-                                                                            <DoubleAnimation Storyboard.TargetName="e5" To="360" Duration="0:0:2" EasingFunction="{StaticResource powerease}" AccelerationRatio="0.5" DecelerationRatio="0.5"/>
-                                                                            <DoubleAnimation Storyboard.TargetName="e6" To="360" Duration="0:0:2" EasingFunction="{StaticResource powerease}" AccelerationRatio="0.6" DecelerationRatio="0.4"/>
-                                                                            <DoubleAnimation Storyboard.TargetName="e7" To="360" Duration="0:0:2" EasingFunction="{StaticResource powerease}" AccelerationRatio="0.7" DecelerationRatio="0.3"/>
-                                                                            <DoubleAnimation Storyboard.TargetName="e8" To="360" Duration="0:0:2" EasingFunction="{StaticResource powerease}" AccelerationRatio="0.8" DecelerationRatio="0.2"/>
-                                                                        </Storyboard>
-                                                                    </BeginStoryboard>
-                                                                </EventTrigger>
-                                                            </Canvas.Triggers>
+                                                        <Canvas Width="30" Height="30" Name="LoadingFrame">
+                                                            <Canvas.Resources>
+                                                                <Storyboard x:Key="LoadingEffect" RepeatBehavior="Forever">
+                                                                    <DoubleAnimation Storyboard.TargetName="e1" To="360" Duration="0:0:2" EasingFunction="{StaticResource powerease}" AccelerationRatio="0.1" DecelerationRatio="0.9" Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"/>
+                                                                    <DoubleAnimation Storyboard.TargetName="e2" To="360" Duration="0:0:2" EasingFunction="{StaticResource powerease}" AccelerationRatio="0.2" DecelerationRatio="0.8" Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"/>
+                                                                    <DoubleAnimation Storyboard.TargetName="e3" To="360" Duration="0:0:2" EasingFunction="{StaticResource powerease}" AccelerationRatio="0.3" DecelerationRatio="0.7" Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"/>
+                                                                    <DoubleAnimation Storyboard.TargetName="e4" To="360" Duration="0:0:2" EasingFunction="{StaticResource powerease}" AccelerationRatio="0.4" DecelerationRatio="0.6" Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"/>
+                                                                    <DoubleAnimation Storyboard.TargetName="e5" To="360" Duration="0:0:2" EasingFunction="{StaticResource powerease}" AccelerationRatio="0.5" DecelerationRatio="0.5" Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"/>
+                                                                    <DoubleAnimation Storyboard.TargetName="e6" To="360" Duration="0:0:2" EasingFunction="{StaticResource powerease}" AccelerationRatio="0.6" DecelerationRatio="0.4" Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"/>
+                                                                    <DoubleAnimation Storyboard.TargetName="e7" To="360" Duration="0:0:2" EasingFunction="{StaticResource powerease}" AccelerationRatio="0.7" DecelerationRatio="0.3" Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"/>
+                                                                    <DoubleAnimation Storyboard.TargetName="e8" To="360" Duration="0:0:2" EasingFunction="{StaticResource powerease}" AccelerationRatio="0.8" DecelerationRatio="0.2" Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"/>
+                                                                </Storyboard>
+                                                            </Canvas.Resources>
 
                                                             <Ellipse Width="100" Height="100"/>
                                                             <Label Content="Loading" FontSize="15" FontWeight="Bold" Margin="0 5 0 0" Foreground="White" Width="100" Height="100" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
@@ -144,13 +140,13 @@
                                                             </Ellipse>
                                                         </Canvas>
                                                     </Grid>
-                                                    <Label Foreground="White" VerticalAlignment="Center" FontSize="12" Margin="5 0 5 0">
-                                                        Translating "Immersive Armors"... 3.1s
+                                                    <Label Foreground="White" Name="Tittle" VerticalAlignment="Center" FontSize="11" Margin="5 0 5 0">
+                                                        
                                                     </Label>
                                                 </StackPanel>
 
-                                                <Border CornerRadius="7" BorderThickness="1" BorderBrush="White" Width="90" Background="#FF265095" HorizontalAlignment="Right" Margin="0 5 10 5" Cursor="Hand">
-                                                    <Label Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <Border CornerRadius="7" BorderThickness="1" BorderBrush="White" Width="75" Background="#FF265095" HorizontalAlignment="Right" Margin="0 10 10 10" Cursor="Hand" PreviewMouseDown="ShowFilePath">
+                                                    <Label Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="10">
                                                         OpenFilePath
                                                     </Label>
                                                 </Border>
@@ -188,7 +184,6 @@
                                             <TextBlock Grid.Row="0" TextAlignment="Center" Padding="10, 10, 0, 5" Foreground="White" FontSize="18">
                                       Current Font Usage
                                             </TextBlock>
-                                            <TextBlock Grid.Row="1" TextAlignment="Center" Foreground="#59FFFFFF" Padding="0,0,0,20" Name="CurrentTime">2014.12.25</TextBlock>
                                             <Grid Grid.Row="2">
                                                 <Label Name="UsageCount" Panel.ZIndex="999" Foreground="White" HorizontalAlignment="Right" VerticalContentAlignment="Bottom" Margin="0 0 5 5 ">
                                                     Words used: 1111 / per second
@@ -203,7 +198,7 @@
                                     </Grid>
                                 </Grid>
                             </Grid>
-                            <Border Grid.Column="1" Margin="5" CornerRadius="7" Background="#FF1375EB">
+                            <Border Grid.Column="1" Margin="5" CornerRadius="7" Background="#FF2782EF">
                                 <Grid Margin="5">
                                     <Grid.Effect>
                                         <DropShadowEffect BlurRadius="15" Direction="-90" RenderingBias="Quality" Opacity=".2" ShadowDepth="1"/>
@@ -224,7 +219,6 @@
                                             <Style.Triggers>
                                                 <Trigger Property="AxisOrientation" Value="Y">
                                                     <Setter Property="IsMerged" Value="True"></Setter>
-                                                    <Setter Property="MaxValue" Value="10"></Setter>
                                                 </Trigger>
                                             </Style.Triggers>
                                         </Style>
@@ -249,8 +243,8 @@
                                     <TextBlock Grid.Row="0" TextAlignment="Center" Padding="10, 10, 0, 5" Foreground="White" FontSize="18">
                                  Usage InFo
                                     </TextBlock>
-                                    <TextBlock Grid.Row="1" TextAlignment="Center" Foreground="#59FFFFFF" Padding="0,0,0,20">2014.12.25</TextBlock>
-                                    <Button Grid.Row="3" Width="35" Height="35" Cursor="Hand" VerticalAlignment="Bottom" Margin="0 0 10 10" HorizontalAlignment="Right" Panel.ZIndex="1" Click="UPData">
+                                    <TextBlock Grid.Row="1" TextAlignment="Center" Foreground="#59FFFFFF" Padding="0,0,0,20" Name="CurrentTime">2014.12.25</TextBlock>
+                                    <Button Grid.Row="3" Width="35" Height="35" Cursor="Hand" VerticalAlignment="Bottom" Margin="0 0 10 10" HorizontalAlignment="Right" Panel.ZIndex="1" Click="ReloadData">
                                         <Button.Template>
                                             <ControlTemplate TargetType="Button">
                                                 <Grid>
@@ -272,7 +266,7 @@
                                             <local:OnlyValueTooltip/>
                                         </lvc:CartesianChart.DataTooltip>
                                         <lvc:CartesianChart.Series>
-                                            <lvc:ColumnSeries Values="5,9,8,6,1,1" Title="Length"/>
+                                            <lvc:ColumnSeries Title="Length" Values="{Binding SetValues}"/>
                                         </lvc:CartesianChart.Series>
                                         <lvc:CartesianChart.AxisX>
                                             <lvc:Axis Title="_" Labels="ChatGPT,Gemini,DeepSeek,DeepL,Google,Baidu" FontSize="10"/>
@@ -288,15 +282,29 @@
                     </Grid>
                 </Grid>
             </Grid>
-            <Grid Grid.Row="2" Background="#FF333333">
+            <Grid Grid.Row="2" Background="#FF424242">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
                     <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="30"/>
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0" Background="#FF333333">
+
+                <Grid Grid.Row="0">
+                    <Label Foreground="White" VerticalAlignment="Center" Margin="5 0 0 0" FontSize="13">
+                        Log
+                    </Label>
                 </Grid>
                
+                <TextBox Margin="5" BorderThickness="0" BorderBrush="{x:Null}" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" Name="LogBoxA" Grid.Row="2" Foreground="White" Background="{x:Null}" VerticalScrollBarVisibility="Auto">
+                    
+                </TextBox>
+
+                <TextBox Margin="5" BorderThickness="0" BorderBrush="{x:Null}" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" Name="LogBoxB" Grid.Row="1" Foreground="White" Background="{x:Null}">
+
+                </TextBox>
             </Grid>
+            <Border Grid.Row="3" Background="#FF424242" CornerRadius="0 0 6 6">
+            </Border>
         </Grid>
     </Border>
   

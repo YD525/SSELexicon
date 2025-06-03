@@ -144,9 +144,9 @@ namespace SSELex.PlatformManagement
                             return string.Empty;
                         }
 
-                        if (DeFine.CurrentLogView != null)
+                        if (DeFine.CurrentDashBoardView != null)
                         {
-                            DeFine.CurrentLogView.SetLog(GetTransSource + "\r\n\r\n AI:\r\n" + GetStr);
+                            DeFine.CurrentDashBoardView.SetLogB(GetTransSource + "\r\n\r\n AI:\r\n" + GetStr);
                         }
 
                         return GetStr;
@@ -203,7 +203,7 @@ namespace SSELex.PlatformManagement
             string GetResult = new HttpHelper().GetHtml(Http).Html;
             try
             {
-                DeFine.CurrentLogView.SetLog("Gemini:" + GetResult);
+                DeFine.CurrentDashBoardView.SetLogB("Gemini:" + GetResult);
                 return JsonSerializer.Deserialize<GeminiRootobject>(GetResult);
             }
             catch

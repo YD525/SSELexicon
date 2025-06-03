@@ -126,7 +126,7 @@ namespace SSELex.PlatformManagement
 
             var GetResult = new HttpHelper().GetHtml(Http).Html;
 
-            DeFine.CurrentLogView.SetLog("Baidu:" + GetResult);
+            DeFine.CurrentDashBoardView.SetLogB("Baidu:" + GetResult);
 
             if (GetResult != null)
             {

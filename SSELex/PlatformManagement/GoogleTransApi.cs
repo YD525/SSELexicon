@@ -70,7 +70,7 @@ namespace SSELex.PlatformManagement
 
                 string json = response.Content.ReadAsStringAsync().Result;
 
-                DeFine.CurrentLogView.SetLog("GoogleApi:" + json);
+                DeFine.CurrentDashBoardView.SetLogB("GoogleApi:" + json);
 
                 using JsonDocument doc = JsonDocument.Parse(json);
 
