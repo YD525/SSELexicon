@@ -238,18 +238,26 @@ namespace SSELex
 
         public void SetLogA(string Value)
         {
-            LogBoxA.Dispatcher.Invoke(new Action(() =>
+            try
             {
-                LogBoxA.Text = Value;
-            }));
+                LogBoxA.Dispatcher.Invoke(new Action(() =>
+                {
+                    LogBoxA.Text = Value;
+                }));
+            }
+            catch { }
         }
 
         public void SetLogB(string Value)
         {
-            LogBoxB.Dispatcher.Invoke(new Action(() =>
+            try
             {
-                LogBoxB.Text = Value;
-            }));
+                LogBoxB.Dispatcher.Invoke(new Action(() =>
+                {
+                    LogBoxB.Text = Value;
+                }));
+            }
+            catch { }
         }
 
         public void Open(string FilePath)

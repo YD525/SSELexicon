@@ -4,7 +4,6 @@ C:\Users\52508\source\repos\SSE Lexicon\SSELex\bin\Debug\net8.0-windows\Tool\Ori
 C:\Users\52508\source\repos\SSE Lexicon\SSELex\bin\Debug\net8.0-windows\Tool\Original Compiler\Antlr3.Runtime.dll
 C:\Users\52508\source\repos\SSE Lexicon\SSELex\bin\Debug\net8.0-windows\Tool\Original Compiler\Antlr3.Utility.dll
 C:\Users\52508\source\repos\SSE Lexicon\SSELex\bin\Debug\net8.0-windows\Tool\Original Compiler\PapyrusAssembler.exe
-C:\Users\52508\source\repos\SSE Lexicon\SSELex\bin\Debug\net8.0-windows\Tool\Original Compiler\PapyrusCompiler.exe
 C:\Users\52508\source\repos\SSE Lexicon\SSELex\bin\Debug\net8.0-windows\Tool\Original Compiler\PCompiler.dll
 C:\Users\52508\source\repos\SSE Lexicon\SSELex\bin\Debug\net8.0-windows\Tool\Original Compiler\ScriptCompile.bat
 C:\Users\52508\source\repos\SSE Lexicon\SSELex\bin\Debug\net8.0-windows\Tool\Original Compiler\StringTemplate.dll

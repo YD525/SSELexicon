@@ -186,7 +186,7 @@
                                             </TextBlock>
                                             <Grid Grid.Row="2">
                                                 <Label Name="UsageCount" Panel.ZIndex="999" Foreground="White" HorizontalAlignment="Right" VerticalContentAlignment="Bottom" Margin="0 0 5 5 ">
-                                                    Words used: 1111 / per second
+                                                    
                                                 </Label>
                                                 <lvc:CartesianChart Panel.ZIndex="10" Margin="0, 0, 0, 0" Series="{Binding FontUsageSeries}" Hoverable="False" DataTooltip="{x:Null}">
                                                     <lvc:CartesianChart.AxisX>

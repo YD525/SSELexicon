@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace SSELex.UIManagement
 {
     public enum PlatformType
-    { 
-        Null = 0, ChatGpt = 1,DeepSeek = 2,Gemini = 3,DeepL = 5,BaiduApi = 6,GoogleApi = 7
+    {
+        Null = 0, ChatGpt = 1, DeepSeek = 2, Gemini = 3, DeepL = 5, BaiduApi = 6, GoogleApi = 7
     }
 
     public class QueryPlatformItem
@@ -16,7 +16,7 @@ namespace SSELex.UIManagement
         public PlatformType Type;
         public int FontUsageCount = 0;
 
-        public QueryPlatformItem(PlatformType Type,int FontUsageCount)
+        public QueryPlatformItem(PlatformType Type, int FontUsageCount)
         {
             this.Type = Type;
             this.FontUsageCount = FontUsageCount;
@@ -27,7 +27,7 @@ namespace SSELex.UIManagement
         public static int Interval = 1000;
 
         public static bool LockerStartListenService = false;
-        public static void StartListenService(bool Check,Action OneFunc)
+        public static void StartListenService(bool Check, Action OneFunc)
         {
             if (!LockerStartListenService)
             {
@@ -40,7 +40,11 @@ namespace SSELex.UIManagement
                     {
                         Thread.Sleep(DashBoardService.Interval);
 
-                        OneFunc.Invoke();
+                        try
+                        {
+                            OneFunc.Invoke();
+                        }
+                        catch { }
                     }
                 }).Start();
             }
@@ -53,58 +57,83 @@ namespace SSELex.UIManagement
         public static Dictionary<PlatformType, int> FontUsageCounts = new Dictionary<PlatformType, int>();
 
         private static readonly object _Lock = new object();
-        public static void SetUsage(PlatformType Type,int Count)
+        public static void SetUsage(PlatformType Type, int Count)
         {
-            lock (_Lock)
+            try
             {
-                if (FontUsageCounts.ContainsKey(Type))
+                lock (_Lock)
                 {
-                    FontUsageCounts[Type] += Count;
-                }
-                else
-                {
-                    FontUsageCounts.Add(Type, Count);
+                    if (FontUsageCounts.ContainsKey(Type))
+                    {
+                        FontUsageCounts[Type] += Count;
+                    }
+                    else
+                    {
+                        FontUsageCounts.Add(Type, Count);
+                    }
                 }
             }
+            catch { }
         }
         public static List<QueryPlatformItem> QueryData()
         {
-            List<QueryPlatformItem> QueryPlatformItems = new List<QueryPlatformItem>();
-            for (int i = 0; i < FontUsageCounts.Count; i++)
+            try
             {
-                var GetItem = FontUsageCounts.ElementAt(i);
-                if (GetItem.Value > 0)
+                List<QueryPlatformItem> QueryPlatformItems = new List<QueryPlatformItem>();
+                for (int i = 0; i < FontUsageCounts.Count; i++)
                 {
-                    QueryPlatformItems.Add(new QueryPlatformItem(GetItem.Key,GetItem.Value));
+                    var GetItem = FontUsageCounts.ElementAt(i);
+                    if (GetItem.Value > 0)
+                    {
+                        QueryPlatformItems.Add(new QueryPlatformItem(GetItem.Key, GetItem.Value));
+                    }
                 }
+                return QueryPlatformItems;
             }
-            return QueryPlatformItems;
+            catch
+            {
+                return new List<QueryPlatformItem>();
+            }
         }
         public static int GetTotalUsageCount()
         {
-            int Total = 0;
-            for (int i = 0; i < FontUsageCounts.Count; i++)
+            try
             {
-                var GetKey = FontUsageCounts.ElementAt(i).Key;
-
-                if (FontUsageCounts[GetKey] > 0)
+                int Total = 0;
+                for (int i = 0; i < FontUsageCounts.Count; i++)
                 {
-                    Total += FontUsageCounts[GetKey];
+                    var GetKey = FontUsageCounts.ElementAt(i).Key;
+
+                    if (FontUsageCounts[GetKey] > 0)
+                    {
+                        Total += FontUsageCounts[GetKey];
+                    }
                 }
+                return Total;
             }
-            return Total;
+            catch 
+            {
+                return 0;
+            }
         }
 
         private static int LastTotalCount = 0;
         public static int GetCurrentSecondUsage()
         {
-            int CurrentTotal = GetTotalUsageCount();
-            int Delta = CurrentTotal - LastTotalCount;
+            try
+            {
+                int CurrentTotal = GetTotalUsageCount();
+                int Delta = CurrentTotal - LastTotalCount;
 
-            if (Delta < 0) Delta = 0;
+                if (Delta < 0) Delta = 0;
 
-            LastTotalCount = CurrentTotal;
-            return Delta;
+                LastTotalCount = CurrentTotal;
+                return Delta;
+            }
+            catch 
+            { 
+                return 0; 
+            }
         }
 
         public static void Init()
