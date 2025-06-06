@@ -23,154 +23,6 @@ namespace SSELex.TranslateManagement
     }
     public class TextSegmentTranslator
     {
-        public static string RawText = @"
-[pagebreak]
-<p align=""center"">
-
-
-312321312313
-
-32132131313
-</p>
-
-[pagebreak]
-[pagebreak]
-
-<p align=""center"">
-1121212、121212
-wqeqwe
-111
-</p>
-
-[pagebreak]
-<p align=""center"">
-<img src='img://1.png' height='290' width='290'>
-1212
-</p>
-
-[pagebreak]
-<p align=""center"">
-<img src='img://1.png' height='290' width='290'>
-21312313
-</p>
-
-[pagebreak]
-<p align=""center"">
-<img src='img://1.png' height='290' width='290'>
-231231313
-</p>
-
-[pagebreak]
-<p align=""center"">
-<img src='1.png' height='290' width='290'>
-312321313
-</p>
-
-[pagebreak]
-<p align=""center"">
-<img src='1.png' height='290' width='290'>
-321321313
-</p>
-
-[pagebreak]
-<p align=""center"">
-<img src='1.png' height='290' width='290'>
-23131231231
-</p>
-
-[pagebreak]
-<p align=""center"">
-<img src='1.png' height='290' width='290'>
-3213123123
-</p>
-
-[pagebreak]
-<p align=""center"">
-<img src='1.png' height='290' width='290'>
-213213123123
-</p>
-
-[pagebreak]
-<p align=""center"">
-<img src='img://1.png' height='290' width='290'>
-321321312312
-</p>
-[pagebreak]
-<p align=""center"">
-<img src='img://1.png' height='290' width='290'>
-1232131233
-</p>
-[pagebreak]
-<p align=""center"">
-<img src='img://1.png' height='290' width='290'>
-3213213123
-</p>
-
-[pagebreak]
-<p align=""center"">
-<img src='img://1.png' height='290' width='290'>
-32132131
-</p>
-
-[pagebreak]
-<p align=""center"">
-<img src='img://1.png' height='290' width='290'>
-323123213
-</p>
-
-[pagebreak]
-<p align=""center"">
-<img src='img://1.png' height='290' width='290'>
-231111
-</p>
-
-[pagebreak]
-<p align=""center"">
-<img src='img://1.png' height='290' width='290'>
-321313
-</p>
-
-[pagebreak]
-<p align=""center"">
-<img src='img://1.png' height='290' width='290'>
-2313213123
-</p>
-
-[pagebreak]
-<p align=""center"">
-<img src='img://1.png' height='290' width='290'>
-1212
-</p>
-
-[pagebreak]
-<p align=""center"">
-<img src='img://1.png' height='290' width='290'>
-12122
-</p>
-
-[pagebreak]
-<p align=""center"">
-<img src='img://1.png' height='290' width='290'>
-1212
-</p>
-
-[pagebreak]
-<p align=""center"">
-<img src='img://1.png' height='290' width='290'>
-12122
-</p>
-
-[pagebreak]
-<p align=""center"">
-<img src='img://1.png' height='290' width='290'>
-1212
-</p>
-
-[pagebreak]
-
-
-weqqwewe...";
-
         public string Source = "";
         public List<string> TransLines = new List<string>();
         public int TransCount = 0;
@@ -251,7 +103,7 @@ weqqwewe...";
             {
                 this.ProcessTagHandle.Dispatcher.Invoke(new Action(() =>
                 {
-                    ProcessTagHandle.Content = string.Format("Processing({0}/{1})...(Click to Cancel)",CurrentTransCount,TransCount);
+                    ProcessTagHandle.Content = string.Format("Translating ({0}/{1})... (Click to Cancel)", CurrentTransCount,TransCount);
                 }));
             }
         }
@@ -277,6 +129,7 @@ weqqwewe...";
                     }
             }
 
+            int LineID = 0;
             for (int i = 0; i < GetSegments.Count; i++)
             {
                 if (GetSegments[i].TextToTranslate != null)
@@ -290,8 +143,10 @@ weqqwewe...";
                                 Token.ThrowIfCancellationRequested();
                             }
                             catch { return; }
+
                             bool CanSleep = false;
-                            var GetTransLine = Translator.QuickTrans(Key,GetSourceLine,DeFine.SourceLanguage,DeFine.TargetLanguage,ref CanSleep,true);
+                            LineID++;
+                            var GetTransLine = Translator.QuickTrans(Key + LineID.ToString(),GetSourceLine,DeFine.SourceLanguage,DeFine.TargetLanguage,ref CanSleep,true);
 
                             if (GetTransLine.Trim().Length > 0)
                             {
