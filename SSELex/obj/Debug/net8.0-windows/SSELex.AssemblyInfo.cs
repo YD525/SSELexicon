@@ -17,7 +17,7 @@ using System.Reflection;
     "project is to reduce the workload of translators. This project is licensed under" +
     " the GPL-3.0-only license.")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.4.619")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5502c5256aec8d4e10100537a372badb5350d0de")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8db2ec4032e4860936a546c04dccd5b0338a1584")]
 [assembly: System.Reflection.AssemblyProductAttribute("SSELex")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SSELex")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.4.619")]
