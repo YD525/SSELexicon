@@ -61,7 +61,7 @@ The icon used in the UI interface (**"Note"**) is sourced from **Iconfont**.
 
 Join our Discord community: [https://discord.gg/GRu7WtgqsB](https://discord.gg/GRu7WtgqsB)  
 
-I'm so bored.
+Feel free to drop by and chat — always happy to talk code (or just vent boredom).
 
 ---
 
