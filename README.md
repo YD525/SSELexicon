@@ -47,10 +47,7 @@ Acknowledgements: Nexus Mods,9DM,2Game.info,and 泰姆瑞尔MOD组, for their su
 
 # ❤️ Personal Note from the Developer
 
-Actually, PapyrusCompiler.exe shouldn't be necessary, since PapyrusAssembler can compile back to PEX from the intermediate layer.
-No idea why... some detection platform keeps flagging it as a virus.
-
-https://www.virustotal.com/gui/file/faad3b0508fef6c65eb4daf8827d5e71a9ce49617724fd29505b64bb5da5001e/relations
+I'm planning to take a break for a while.
 
 ---
 
@@ -62,12 +59,9 @@ The icon used in the UI interface (**"Note"**) is sourced from **Iconfont**.
 
 ## 💬 Community & Contribution
 
-Join our Discord community: [https://discord.gg/a9juG9Dv](https://discord.gg/a9juG9Dv)  
+Join our Discord community: [https://discord.gg/GRu7WtgqsB](https://discord.gg/GRu7WtgqsB)  
 
-Here you can submit suggestions, discuss SkyrimSE modding topics, or join our development team (SSELex).  
-(Currently, I am the only developer working on this software.)  
-
-Our team primarily uses C#, and familiarity with the Papyrus scripting language is a plus. Everyone is welcome to join!
+I'm so bored.
 
 ---
 
