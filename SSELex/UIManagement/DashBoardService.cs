@@ -8,7 +8,7 @@ namespace SSELex.UIManagement
 {
     public enum PlatformType
     {
-        Null = 0, ChatGpt = 1, DeepSeek = 2, Gemini = 3, DeepL = 5, BaiduApi = 6, GoogleApi = 7
+        Null = 0, ChatGpt = 1, DeepSeek = 2, Gemini = 3, DeepL = 5, GoogleApi = 7, Baichuan = 8
     }
 
     public class QueryPlatformItem
@@ -63,6 +63,11 @@ namespace SSELex.UIManagement
             {
                 lock (_Lock)
                 {
+                    if (Type == PlatformType.Null)
+                    {
+                        return;
+                    }
+
                     if (FontUsageCounts.ContainsKey(Type))
                     {
                         FontUsageCounts[Type] += Count;

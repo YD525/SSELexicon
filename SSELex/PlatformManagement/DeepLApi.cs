@@ -93,7 +93,6 @@ namespace SSELex.PlatformManagement
                 {
                     if (GetResult.translations.Length > 0)
                     {
-                        DashBoardService.SetUsage(PlatformType.DeepL, TransSource.Length);
                         return GetResult.translations[0].text;
                     }
                 }

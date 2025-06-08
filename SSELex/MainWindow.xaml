@@ -85,9 +85,9 @@
 
                             <svgc:SvgViewbox Tag="DeepSeekEngine" Name="DeepSeekEngine" Stretch="UniformToFill" Source="/Material/DeepSeek.svg" Margin="3 0 3 0" Width="20" Panel.ZIndex="900" Height="18" Cursor="Hand" MouseDown="SelectEngine" Opacity="1" ToolTip="DeepSeek"/>
 
-                            <svgc:SvgViewbox Tag="GoogleEngine" Name="GoogleEngine" Stretch="UniformToFill" Source="/Material/Google.svg" Margin="3 0 3 0" Width="17" Panel.ZIndex="900" Height="18" Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
+                            <svgc:SvgViewbox Tag="BaichuanEngine" Name="BaichuanEngine" Stretch="UniformToFill" Source="/Material/Baichuan.svg" Margin="3 0 3 0" Width="20" Panel.ZIndex="900" Height="18" Cursor="Hand" MouseDown="SelectEngine" Opacity="1" ToolTip="Baichuan"/>
 
-                            <svgc:SvgViewbox Tag="BaiduEngine"  Name="BaiduEngine" Stretch="UniformToFill" Source="/Material/Baidu.svg" Margin="3 0 3 0" Width="17" Panel.ZIndex="900" Height="18" Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
+                            <svgc:SvgViewbox Tag="GoogleEngine" Name="GoogleEngine" Stretch="UniformToFill" Source="/Material/Google.svg" Margin="3 0 3 0" Width="17" Panel.ZIndex="900" Height="18" Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
 
                             <svgc:SvgViewbox Tag="DivEngine" Name="DivEngine" Stretch="UniformToFill" Source="/Material/Div.svg"  Margin="3 0 3 0" Width="21" Panel.ZIndex="900" Height="18.2" Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
 
@@ -436,28 +436,20 @@
                                             </ComboBox>
                                         </StackPanel>
 
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 10 0 0">
-                                            <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
-                                                GoogleKey
-                                            </Label>
-                                            <PasswordBox Name="GoogleKey" Width="360" VerticalContentAlignment="Center" Height="35" PasswordChanged="GoogleKey_PasswordChanged">
-                                            </PasswordBox>
-                                        </StackPanel>
-
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 20 0 0">
                                             <Label VerticalAlignment="Center" HorizontalContentAlignment="Left" HorizontalAlignment="Left">
-                                                BaiDuAppID
+                                                BaichuanKey
                                             </Label>
-                                            <TextBox Name="BaiDuAppID" Width="360" TextChanged="BaiDuAppID_TextChanged" VerticalContentAlignment="Center" Height="35">
-                                            </TextBox>
+                                            <PasswordBox Name="BaichuanKey" Width="360" PasswordChanged="BaichuanKey_PasswordChanged" VerticalContentAlignment="Center" Height="35">
+                                            </PasswordBox>
                                         </StackPanel>
 
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
-                                            <Label VerticalAlignment="Center" HorizontalContentAlignment="Left" HorizontalAlignment="Left">
-                                                BaiDuKey
+                                            <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
+                                                BaichuanModel
                                             </Label>
-                                            <PasswordBox Name="BaiDuKey" Width="360" PasswordChanged="BaiDuKey_PasswordChanged" VerticalContentAlignment="Center" Height="35">
-                                            </PasswordBox>
+                                            <ComboBox Name="BaichuanModel" SelectionChanged="BaichuanModelChange" Style="{StaticResource WpfComboBoxStyle}" Width="200">
+                                            </ComboBox>
                                         </StackPanel>
 
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 20 0 0">
@@ -492,11 +484,13 @@
                                             </ComboBox>
                                         </StackPanel>
 
-                                        <Border CornerRadius="5" Background="#FF0B74D1" Margin="0 25 0 0" Height="35" PreviewMouseDown="StartApiKeyTest" Cursor="Hand">
-                                            <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Name="KeyTestBtn">
-                                                TestKey
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 10 0 0">
+                                            <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
+                                                GoogleKey
                                             </Label>
-                                        </Border>
+                                            <PasswordBox Name="GoogleKey" Width="360" VerticalContentAlignment="Center" Height="35" PasswordChanged="GoogleKey_PasswordChanged">
+                                            </PasswordBox>
+                                        </StackPanel>
                                     </StackPanel>
                                 </Grid>
                                 <Grid Name="AIView" Visibility="Hidden">

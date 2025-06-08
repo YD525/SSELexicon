@@ -96,7 +96,7 @@ namespace SSELex.PlatformManagement
                 GetTransSource += Param;
             }
 
-            if (ConvertHelper.ObjToStr(DeFine.GlobalLocalSetting.UserCustomAIPrompt).Trim().Length>0)
+            if (ConvertHelper.ObjToStr(DeFine.GlobalLocalSetting.UserCustomAIPrompt).Trim().Length > 0)
             {
                 GetTransSource += DeFine.GlobalLocalSetting.UserCustomAIPrompt + "\n\n";
             }
@@ -122,40 +122,46 @@ namespace SSELex.PlatformManagement
             var GetResult = CallAI(GetTransSource);
             if (GetResult != null)
             {
-                try { 
-                if (GetResult.candidates != null)
+                try
                 {
-                    string GetStr = "";
-                    if (GetResult.candidates.Length > 0)
+                    if (GetResult.candidates != null)
                     {
-                        if (GetResult.candidates[0].content.parts.Count > 0)
+                        string GetStr = "";
+                        if (GetResult.candidates.Length > 0)
                         {
-                            GetStr = GetResult.candidates[0].content.parts[0].text.Trim();
+                            if (GetResult.candidates[0].content.parts.Count > 0)
+                            {
+                                GetStr = GetResult.candidates[0].content.parts[0].text.Trim();
+                            }
                         }
-                    }
-                    if (GetStr.Trim().Length > 0)
-                    {
-                        try
+                        if (GetStr.Trim().Length > 0)
                         {
-                            GetStr = JsonGeter.GetValue(GetStr);
+                            try
+                            {
+                                GetStr = JsonGeter.GetValue(GetStr);
+                            }
+                            catch
+                            {
+                                return string.Empty;
+                            }
+
+                            if (DeFine.CurrentDashBoardView != null)
+                            {
+                                DeFine.CurrentDashBoardView.SetLogB(GetTransSource + "\r\n\r\n AI:\r\n" + GetStr);
+                            }
+
+                            if (GetStr.Trim().Equals("<translated_text>"))
+                            {
+                                return string.Empty;
+                            }
+
+                            return GetStr;
                         }
-                        catch
+                        else
                         {
                             return string.Empty;
                         }
-
-                        if (DeFine.CurrentDashBoardView != null)
-                        {
-                            DeFine.CurrentDashBoardView.SetLogB(GetTransSource + "\r\n\r\n AI:\r\n" + GetStr);
-                        }
-
-                        return GetStr;
                     }
-                    else
-                    {
-                        return string.Empty;
-                    }
-                }
                 }
                 catch { return string.Empty; }
             }
@@ -170,10 +176,6 @@ namespace SSELex.PlatformManagement
             NGeminiItem.contents[0].parts.Add(new GeminiPart());
             NGeminiItem.contents[0].parts[0].text = Msg;
             var GetResult = CallAI(NGeminiItem);
-            if (GetResult != null)
-            {
-                DashBoardService.SetUsage(PlatformType.Gemini, Msg.Length);
-            }
             return GetResult;
         }
 

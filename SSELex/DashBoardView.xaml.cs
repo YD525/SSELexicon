@@ -75,7 +75,7 @@ namespace SSELex
 
             this.DataContext = CurrentModel;
 
-            CurrentModel.SetValues = new ChartValues<double>() { 0, 0, 0, 0, 0, 0 };
+            CurrentModel.SetValues = new ChartValues<double>() { 0, 0, 0, 0, 0, 0};
 
             CurrentModel.FontUsageSeries = new SeriesCollection
             {
@@ -351,9 +351,9 @@ namespace SSELex
                             CurrentModel.SetValues[4] = 0;
                         }
 
-                        if (GetDataInFo.ContainsKey(PlatformType.BaiduApi))
+                        if (GetDataInFo.ContainsKey(PlatformType.Baichuan))
                         {
-                            CurrentModel.SetValues[5] = GetDataInFo[PlatformType.BaiduApi];
+                            CurrentModel.SetValues[5] = GetDataInFo[PlatformType.Baichuan];
                         }
                         else
                         {

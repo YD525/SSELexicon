@@ -488,8 +488,27 @@ namespace SSELex
                         this.DeepSeekModel.SelectedValue = "deepseek-chat";
                     }
 
+                    this.BaichuanModel.Items.Clear();
+                    this.BaichuanModel.Items.Add("Baichuan4-Turbo");
+                    this.BaichuanModel.Items.Add("Baichuan4-Air");
+                    this.BaichuanModel.Items.Add("Baichuan4");
+                    this.BaichuanModel.Items.Add("Baichuan3-Turbo");
+                    this.BaichuanModel.Items.Add("Baichuan3-Turbo-128k");
+                    this.BaichuanModel.Items.Add("Baichuan2-Turbo");
+                    if (DeFine.GlobalLocalSetting.BaichuanModel.Trim().Length > 0)
+                    {
+                        this.BaichuanModel.SelectedValue = DeFine.GlobalLocalSetting.BaichuanModel;
+                    }
+                    else
+                    {
+                        this.BaichuanModel.SelectedValue = "Baichuan4-Turbo";
+                    }
+
                     NodePanel.Visibility = Visibility.Visible;
                 }));
+
+                //DeFine.GlobalLocalSetting.BaichuanKey = "";
+                //var GetStr = new BaichuanApi().QuickTrans("Test Line", Languages.English, Languages.SimplifiedChinese, true, 1, "");
 
                 //DeFine.GlobalLocalSetting.GeminiKey = "";
                 //var Get = new GeminiApi().QuickTrans("TestStr", Languages.English, Languages.SimplifiedChinese, false, 3, "");
@@ -861,14 +880,6 @@ namespace SSELex
                                     }
                                 }
                                 break;
-                            case "BaiduEngine":
-                                {
-                                    if (!DeFine.GlobalLocalSetting.BaiDuYunApiUsing)
-                                    {
-                                        (GetEngine as SvgViewbox).Opacity = 0.15;
-                                    }
-                                }
-                                break;
                             case "ChatGptEngine":
                                 {
                                     if (!DeFine.GlobalLocalSetting.ChatGptApiUsing)
@@ -888,6 +899,14 @@ namespace SSELex
                             case "DeepSeekEngine":
                                 {
                                     if (!DeFine.GlobalLocalSetting.DeepSeekApiUsing)
+                                    {
+                                        (GetEngine as SvgViewbox).Opacity = 0.15;
+                                    }
+                                }
+                                break;
+                            case "BaichuanEngine":
+                                {
+                                    if (!DeFine.GlobalLocalSetting.BaichuanApiUsing)
                                     {
                                         (GetEngine as SvgViewbox).Opacity = 0.15;
                                     }
@@ -956,11 +975,6 @@ namespace SSELex
                         DeFine.GlobalLocalSetting.GoogleYunApiUsing = OneState;
                     }
                     break;
-                case "BaiduEngine":
-                    {
-                        DeFine.GlobalLocalSetting.BaiDuYunApiUsing = OneState;
-                    }
-                    break;
                 case "GeminiEngine":
                     {
                         DeFine.GlobalLocalSetting.GeminiApiUsing = OneState;
@@ -974,6 +988,11 @@ namespace SSELex
                 case "DeepSeekEngine":
                     {
                         DeFine.GlobalLocalSetting.DeepSeekApiUsing = OneState;
+                    }
+                    break;
+                case "BaichuanEngine":
+                    {
+                        DeFine.GlobalLocalSetting.BaichuanApiUsing = OneState;
                     }
                     break;
                 case "DeepLEngine":
@@ -1025,7 +1044,7 @@ namespace SSELex
                     if (DeFine.GlobalLocalSetting.AutoSetThreadLimit)
                     {
                         DeFine.GlobalLocalSetting.MaxThreadCount = 0;
-                        if (DeFine.GlobalLocalSetting.BaiDuYunApiUsing && DeFine.GlobalLocalSetting.BaiDuSecretKey.Trim().Length > 0)
+                        if (DeFine.GlobalLocalSetting.BaichuanApiUsing && DeFine.GlobalLocalSetting.BaichuanKey.Trim().Length > 0)
                         {
                             DeFine.GlobalLocalSetting.MaxThreadCount++;
                         }
@@ -1604,124 +1623,6 @@ namespace SSELex
             }
         }
 
-        public void SendQuestionToAI(object Engine, string QuestionStr)
-        {
-            //if (Engine is ChatGptApi)
-            //{
-            //    var GetResult = (Engine as ChatGptApi).CallAI($"{QuestionStr} ,请用 {DeFine.TargetLanguage.ToString()} 回复,能有点猫娘的口吻吗可爱点的.");
-
-            //    if (GetResult != null)
-            //    {
-            //        if (GetResult.choices != null)
-            //        {
-            //            string CNStr = "";
-            //            if (GetResult.choices.Length > 0)
-            //            {
-            //                CNStr = GetResult.choices[0].message.content.Trim();
-            //            }
-            //            if (CNStr.Trim().Length > 0)
-            //            {
-            //                this.Dispatcher.Invoke(new Action(() =>
-            //                {
-            //                    AILog.Text = CNStr;
-            //                }));
-            //            }
-            //            else
-            //            {
-            //                this.Dispatcher.Invoke(new Action(() =>
-            //                {
-            //                    AILog.Text = string.Empty;
-            //                }));
-            //            }
-            //        }
-            //    }
-            //}
-            //else
-            //if (Engine is DeepSeekApi)
-            //{
-            //    var GetResult = (Engine as DeepSeekApi).CallAI($"{QuestionStr} ,请用 {DeFine.TargetLanguage} 回复,能有点猫娘的口吻吗可爱点的.");
-
-            //    if (GetResult != null)
-            //    {
-            //        if (GetResult.choices != null)
-            //        {
-            //            string CNStr = "";
-            //            if (GetResult.choices.Length > 0)
-            //            {
-            //                CNStr = GetResult.choices[0].message.content.Trim();
-            //            }
-            //            if (CNStr.Trim().Length > 0)
-            //            {
-            //                this.Dispatcher.Invoke(new Action(() =>
-            //                {
-            //                    AILog.Text = CNStr;
-            //                }));
-            //            }
-            //            else
-            //            {
-            //                this.Dispatcher.Invoke(new Action(() =>
-            //                {
-            //                    AILog.Text = string.Empty;
-            //                }));
-            //            }
-            //        }
-            //    }
-            //}
-        }
-
-        private void SendQuestionToAI(object sender, MouseButtonEventArgs e)
-        {
-            //if (!StopAny)
-            //{
-            //    return;
-            //}
-            //string GetSendAIText = SendAIText.Text;
-            //if (ConvertHelper.ObjToStr(SendQuestionBtn.Content).Equals("SendQuestion"))
-            //{
-            //    new Thread(() =>
-            //    {
-            //        this.Dispatcher.Invoke(new Action(() =>
-            //        {
-            //            SendQuestionBtn.Content = "AI Thinking...";
-            //        }));
-
-            //        List<object> AllEngines = new List<object>();
-
-            //        if (DeFine.GlobalLocalSetting.ChatGptApiUsing && DeFine.GlobalLocalSetting.ChatGptKey.Trim().Length > 0)
-            //        {
-            //            AllEngines.Add(new ChatGptApi());
-            //        }
-            //        if (DeFine.GlobalLocalSetting.DeepSeekApiUsing && DeFine.GlobalLocalSetting.DeepSeekKey.Trim().Length > 0)
-            //        {
-            //            AllEngines.Add(new DeepSeekApi());
-            //        }
-
-            //        if (AllEngines.Count == 1)
-            //        {
-            //            SendQuestionToAI(AllEngines[0], GetSendAIText);
-            //        }
-            //        else
-            //        if (AllEngines.Count > 0)
-            //        {
-            //            SendQuestionToAI(AllEngines[new Random(Guid.NewGuid().GetHashCode()).Next(0, AllEngines.Count)], GetSendAIText);
-            //        }
-
-            //        this.Dispatcher.Invoke(new Action(() =>
-            //        {
-            //            SendQuestionBtn.Content = "SendQuestion";
-            //        }));
-
-            //    }).Start();
-            //}
-        }
-
-        private void DetectLang(object sender, MouseButtonEventArgs e)
-        {
-            var GetLang = LanguageHelper.DetectLanguage();
-        }
-
-
-
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (this.ActualHeight > 200 && this.ActualWidth > 200)
@@ -1853,13 +1754,6 @@ namespace SSELex
 
         }
 
-        private void TestCall(object sender, MouseButtonEventArgs e)
-        {
-            //HeuristicCore.CheckPexParams(GlobalPexReader);
-        }
-
-
-
         private void Nav_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (sender is Image)
@@ -1908,14 +1802,15 @@ namespace SSELex
 
                 HttpProxy.Text = DeFine.GlobalLocalSetting.ProxyIP;
 
-                BaiDuAppID.Text = DeFine.GlobalLocalSetting.BaiDuAppID;
-                BaiDuKey.Password = DeFine.GlobalLocalSetting.BaiDuSecretKey;
+                BaichuanKey.Password = DeFine.GlobalLocalSetting.BaichuanKey;
 
                 GoogleKey.Password = DeFine.GlobalLocalSetting.GoogleApiKey;
 
                 GeminiKey.Password = DeFine.GlobalLocalSetting.GeminiKey;
                 ChatGptKey.Password = DeFine.GlobalLocalSetting.ChatGptKey;
                 DeepSeekKey.Password = DeFine.GlobalLocalSetting.DeepSeekKey;
+
+                BaichuanKey.Password = DeFine.GlobalLocalSetting.BaichuanKey;
 
                 if (DeFine.GlobalLocalSetting.GeminiModel.Trim().Length > 0)
                 {
@@ -2066,6 +1961,19 @@ namespace SSELex
                 DeFine.GlobalLocalSetting.DeepSeekModel = GetModel;
             }
         }
+        private void BaichuanModelChange(object sender, SelectionChangedEventArgs e)
+        {
+            string GetModel = ConvertHelper.ObjToStr(BaichuanModel.SelectedValue);
+            if (GetModel.Trim().Length > 0)
+            {
+                DeFine.GlobalLocalSetting.BaichuanModel = GetModel;
+            }
+        }
+
+        private void BaichuanKey_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            DeFine.GlobalLocalSetting.BaichuanKey = BaichuanKey.Password;
+        }
 
         private void DeepLKey_PasswordChanged(object sender, RoutedEventArgs e)
         {
@@ -2083,108 +1991,10 @@ namespace SSELex
                 DeFine.GlobalLocalSetting.IsFreeDeepL = false;
             }
         }
-        private void BaiDuAppID_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            DeFine.GlobalLocalSetting.BaiDuAppID = BaiDuAppID.Text;
-        }
-
-        private void BaiDuKey_PasswordChanged(object sender, RoutedEventArgs e)
-        {
-            DeFine.GlobalLocalSetting.BaiDuSecretKey = BaiDuKey.Password;
-        }
-
+      
         private void GoogleKey_PasswordChanged(object sender, RoutedEventArgs e)
         {
             DeFine.GlobalLocalSetting.GoogleApiKey = GoogleKey.Password;
-        }
-
-        private void StartApiKeyTest(object sender, MouseButtonEventArgs e)
-        {
-            if (sender is Border)
-            {
-                sender = ((Border)sender).Child;
-            }
-            string GetBtnValue = ConvertHelper.ObjToStr(((Label)sender).Content);
-
-            if (GetBtnValue != "Testing...")
-            {
-                KeyTestBtn.Content = "Testing...";
-
-                new Thread(() =>
-                {
-                    string RichText = "";
-                    if (DeFine.GlobalLocalSetting.ChatGptApiUsing && DeFine.GlobalLocalSetting.ChatGptKey.Trim().Length == 0)
-                    {
-                        RichText += "Please configure ChatGPT key\r\n";
-                    }
-                    if (DeFine.GlobalLocalSetting.DeepSeekApiUsing && DeFine.GlobalLocalSetting.DeepSeekKey.Trim().Length == 0)
-                    {
-                        RichText += "Please configure DeepSeek key\r\n";
-                    }
-                    if (DeFine.GlobalLocalSetting.DeepLApiUsing && DeFine.GlobalLocalSetting.DeepLKey.Trim().Length == 0)
-                    {
-                        RichText += "Please configure DeepL key\r\n";
-                    }
-
-                    if (DeFine.GlobalLocalSetting.DeepLKey.Trim().Length > 0)
-                    {
-                        if (new DeepLApi().QuickTrans("Test", Languages.English, Languages.Japanese).Trim().Length == 0)
-                        {
-                            RichText += "DeepL API Key is not configured correctly.\r\n";
-                        }
-                    }
-                    if (DeFine.GlobalLocalSetting.ChatGptKey.Trim().Length > 0)
-                    {
-                        if (new ChatGptApi().QuickTrans("Test", Languages.English, Languages.Japanese, false, 1, string.Empty).Trim().Length == 0)
-                        {
-                            RichText += "ChatGPT API Key is not configured correctly.\r\n";
-                        }
-                    }
-                    if (DeFine.GlobalLocalSetting.DeepSeekKey.Trim().Length > 0)
-                    {
-                        if (new DeepSeekApi().QuickTrans("Test", Languages.English, Languages.SimplifiedChinese, false, 1, string.Empty).Trim().Length == 0)
-                        {
-                            RichText += "DeepSeek API Key is not configured correctly.\r\n";
-                        }
-                    }
-                    if (DeFine.GlobalLocalSetting.GoogleApiKey.Trim().Length > 0)
-                    {
-                        if (new GoogleTransApi().Translate("Test", Languages.English, Languages.Japanese).Trim().Length == 0)
-                        {
-                            RichText += "Google API Key is not configured correctly.\r\n";
-                        }
-                    }
-                    if (DeFine.GlobalLocalSetting.BaiDuAppID.Trim().Length > 0 && DeFine.GlobalLocalSetting.BaiDuSecretKey.Trim().Length > 0)
-                    {
-                        var GetResult = new BaiDuApi().TransStr("Test", Languages.English, Languages.SimplifiedChinese);
-                        if (GetResult != null)
-                        {
-                            if (GetResult.to == null)
-                            {
-                                RichText += "BaiDu API Key is not configured correctly.\r\n";
-                            }
-                        }
-                        else
-                        {
-                            RichText += "BaiDu API Key is not configured correctly.\r\n";
-                        }
-                    }
-
-                    KeyTestBtn.Dispatcher.Invoke(new Action(() =>
-                    {
-                        KeyTestBtn.Content = "TestKey";
-                    }));
-
-                    if (RichText.Trim().Length > 0)
-                    {
-                        MessageBox.Show(RichText);
-                    }
-                    else
-                    {
-                        MessageBox.Show("No invalid configuration found.");
-                    }
-                }).Start();
-            }
         }
 
         private void MaxThreadCount_TextChanged(object sender, TextChangedEventArgs e)
@@ -2505,5 +2315,7 @@ namespace SSELex
         {
             Translator.TestAll();
         }
+
+       
     }
 }

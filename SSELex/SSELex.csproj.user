@@ -28,9 +28,6 @@
     <Compile Update="SearchText.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="SettingView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="ActionWin.xaml">
@@ -49,9 +46,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="SearchText.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="SettingView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Themes\DefStyle.xaml">

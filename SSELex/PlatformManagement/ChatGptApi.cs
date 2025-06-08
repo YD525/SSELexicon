@@ -39,10 +39,6 @@ namespace SSELex.PlatformManagement
             NChatGptItem.messages = new List<ChatGptMessage>();
             NChatGptItem.messages.Add(new ChatGptMessage("user", Msg));
             var GetResult = CallAI(NChatGptItem);
-            if (GetResult != null)
-            {
-                DashBoardService.SetUsage(PlatformType.ChatGpt, GetCount);
-            }
             return GetResult;
         }
 
@@ -144,6 +140,11 @@ namespace SSELex.PlatformManagement
                         if (DeFine.CurrentDashBoardView != null)
                         {
                             DeFine.CurrentDashBoardView.SetLogB(GetTransSource + "\r\n\r\n AI:\r\n" + GetStr);
+                        }
+
+                        if (GetStr.Trim().Equals("<translated_text>"))
+                        {
+                            return string.Empty;
                         }
 
                         return GetStr;

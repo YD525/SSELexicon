@@ -1,6 +1,7 @@
 ﻿using SSELex.ConvertManager;
 using SSELex.PlatformManagement;
 using SSELex.TranslateCore;
+using SSELex.UIManagement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,15 +37,6 @@ namespace SSELex.TranslateManage
         {
             EngineSelects.Clear();
 
-            //Baidu support
-            if (DeFine.GlobalLocalSetting.BaiDuYunApiUsing)
-            {
-                if (DeFine.GlobalLocalSetting.BaiDuAppID.Trim().Length > 0)
-                {
-                    EngineSelects.Add(new EngineSelect(new BaiDuApi(), 1, 2));
-                }
-            }
-
             //Google support
             if (DeFine.GlobalLocalSetting.GoogleYunApiUsing)
             {
@@ -78,6 +70,15 @@ namespace SSELex.TranslateManage
                 if (DeFine.GlobalLocalSetting.DeepSeekKey.Trim().Length > 0)
                 {
                     EngineSelects.Add(new EngineSelect(new DeepSeekApi(), 6));
+                }
+            }
+
+            //Baichuan support
+            if (DeFine.GlobalLocalSetting.BaichuanApiUsing)
+            {
+                if (DeFine.GlobalLocalSetting.BaichuanKey.Trim().Length > 0)
+                {
+                    EngineSelects.Add(new EngineSelect(new BaichuanApi(), 6));
                 }
             }
 
@@ -206,50 +207,20 @@ namespace SSELex.TranslateManage
             {
                 string GetSource = SourceStr.Trim();
                 string TransText = string.Empty;
+                PlatformType CurrentPlatform = PlatformType.Null;
 
                 if (GetSource.Length > 0)
                 {
-                    if (this.Engine is BaiDuApi)
-                    {
-                        if (DeFine.GlobalLocalSetting.BaiDuYunApiUsing)
-                        {
-                            bool Sucess = false;
-                            var GetData = ((BaiDuApi)this.Engine).TransStr(GetSource, Source, Target);
-                            if (GetData != null)
-                            {
-                                if (GetData.trans_result != null)
-                                {
-                                    if (GetData.trans_result.Length > 0)
-                                    {
-                                        foreach (var GetLine in GetData.trans_result)
-                                        {
-                                            TransText += GetLine.dst + "\r\n";
-                                        }
-                                        Translator.SendTranslateMsg("Cloud Engine(BaiDu)", GetSource, TransText);
-                                        CanAddCache = false;
-                                        Sucess = true;
-                                    }
-                                }
-                            }
-
-                            if (!Sucess)
-                            {
-                                this.CallCountDown = 0;
-                            }
-                        }
-                        else
-                        {
-                            this.CallCountDown = 0;
-                        }
-                    }
-                    else
                     if (this.Engine is GoogleTransApi)
                     {
                         if (DeFine.GlobalLocalSetting.GoogleYunApiUsing)
                         {
                             var GetData = ConvertHelper.ObjToStr(((GoogleTransApi)this.Engine).Translate(GetSource, Source, Target));
                             TransText = GetData;
-                            Translator.SendTranslateMsg("Cloud Engine(GoogleApi)", GetSource, TransText);
+                            Translator.SendTranslateMsg("Cloud Translation(GoogleApi)", GetSource, TransText);
+                            CurrentPlatform = PlatformType.GoogleApi;
+
+                            CanAddCache = false;
 
                             if (GetData.Trim().Length == 0)
                             {
@@ -273,7 +244,8 @@ namespace SSELex.TranslateManage
                                 AIMemory.AddTranslation(Source, GetSource, GetData);
                             }
                             TransText = GetData;
-                            Translator.SendTranslateMsg("Cloud Engine(ChatGptApi)", GetSource, TransText);
+                            Translator.SendTranslateMsg("AI(ChatGptApi)", GetSource, TransText);
+                            CurrentPlatform = PlatformType.ChatGpt;
 
                             if (GetData.Trim().Length == 0)
                             {
@@ -297,7 +269,8 @@ namespace SSELex.TranslateManage
                                 AIMemory.AddTranslation(Source, GetSource, GetData);
                             }
                             TransText = GetData;
-                            Translator.SendTranslateMsg("Cloud Engine(GeminiApi)", GetSource, TransText);
+                            Translator.SendTranslateMsg("AI(GeminiApi)", GetSource, TransText);
+                            CurrentPlatform = PlatformType.Gemini;
 
                             if (GetData.Trim().Length == 0)
                             {
@@ -321,7 +294,33 @@ namespace SSELex.TranslateManage
                                 AIMemory.AddTranslation(Source, GetSource, GetData);
                             }
                             TransText = GetData;
-                            Translator.SendTranslateMsg("Cloud Engine(DeepSeek)", GetSource, TransText);
+                            Translator.SendTranslateMsg("AI(DeepSeek)", GetSource, TransText);
+                            CurrentPlatform = PlatformType.DeepSeek;
+
+                            if (GetData.Trim().Length == 0)
+                            {
+                                this.CallCountDown = 0;
+                            }
+                        }
+                        else
+                        {
+                            this.CallCountDown = 0;
+                        }
+                    }
+                    else
+                     if (this.Engine is BaichuanApi)
+                    {
+                        if (DeFine.GlobalLocalSetting.BaichuanApiUsing)
+                        {
+                            var GetData = ((BaichuanApi)this.Engine).QuickTrans(GetSource, Source, Target, UseAIMemory, AIMemoryCountLimit, Param).Trim();
+
+                            if (GetData.Trim().Length > 0 && UseAIMemory)
+                            {
+                                AIMemory.AddTranslation(Source, GetSource, GetData);
+                            }
+                            TransText = GetData;
+                            Translator.SendTranslateMsg("AI(Baichuan)", GetSource, TransText);
+                            CurrentPlatform = PlatformType.Baichuan;
 
                             if (GetData.Trim().Length == 0)
                             {
@@ -345,7 +344,8 @@ namespace SSELex.TranslateManage
                                 AIMemory.AddTranslation(Source, GetSource, GetData);
                             }
                             TransText = GetData;
-                            Translator.SendTranslateMsg("Cloud Engine(DeepL)", GetSource, TransText);
+                            Translator.SendTranslateMsg("Cloud Translation(DeepL)", GetSource, TransText);
+                            CurrentPlatform = PlatformType.DeepL;
 
                             if (GetData.Trim().Length == 0)
                             {
@@ -359,6 +359,11 @@ namespace SSELex.TranslateManage
                     }
 
                     TransText = TransText.Trim();
+
+                    if (TransText.Length > 0)
+                    {
+                        DashBoardService.SetUsage(CurrentPlatform, GetSource.Length);
+                    }
 
                     return TransText;
                 }

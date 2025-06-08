@@ -138,6 +138,11 @@ namespace SSELex.PlatformManagement
                             DeFine.CurrentDashBoardView.SetLogB(GetTransSource + "\r\n\r\n AI:\r\n" + GetStr);
                         }
 
+                        if (GetStr.Trim().Equals("<translated_text>"))
+                        {
+                            return string.Empty;
+                        }
+
                         return GetStr;
                     }
                     else
@@ -158,10 +163,6 @@ namespace SSELex.PlatformManagement
             NDeepSeekItem.messages.Add(new DeepSeekMessage("user", Msg));
             NDeepSeekItem.stream = false;
             var GetResult = CallAI(NDeepSeekItem);
-            if (GetResult != null)
-            {
-                DashBoardService.SetUsage(PlatformType.DeepSeek, Msg.Length);
-            }
             return GetResult;
         }
 

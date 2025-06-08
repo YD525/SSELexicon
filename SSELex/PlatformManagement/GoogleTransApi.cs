@@ -79,7 +79,6 @@ namespace SSELex.PlatformManagement
                     translationsElem.GetArrayLength() > 0 &&
                     translationsElem[0].TryGetProperty("translatedText", out JsonElement textElem))
                 {
-                    DashBoardService.SetUsage(PlatformType.GoogleApi, text.Length);
                     return textElem.GetString() ?? string.Empty;
                 }
 

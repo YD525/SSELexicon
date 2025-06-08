@@ -43,7 +43,7 @@ namespace SSELex
 
         public static string BackupPath = @"\BackUpData\";
 
-        public static string CurrentVersion = "2.6.39";
+        public static string CurrentVersion = "2.7.31";
         public static LocalSetting GlobalLocalSetting = new LocalSetting();
 
         public static MainWindow WorkingWin = null;
@@ -190,10 +190,10 @@ namespace SSELex
         public bool PhraseEngineUsing { get; set; } = false;
         public bool CodeParsingEngineUsing { get; set; } = true;
         public bool ConjunctionEngineUsing { get; set; } = false;
-        public bool BaiDuYunApiUsing { get; set; } = false;
         public bool ChatGptApiUsing { get; set; } = false;
         public bool GeminiApiUsing { get; set; } = false;
         public bool DeepSeekApiUsing { get; set; } = false;
+        public bool BaichuanApiUsing { get; set; } = false;
         public bool GoogleYunApiUsing { get; set; } = false;
         public bool DivCacheEngineUsing { get; set; } = false;
         public bool DeepLApiUsing { get; set; } = false;
@@ -206,14 +206,14 @@ namespace SSELex
         public string SkyrimPath { get; set; } = "";
         public bool PlaySound = false;
         public string GoogleApiKey { get; set; } = "";
-        public string BaiDuAppID { get; set; } = "";
-        public string BaiDuSecretKey { get; set; } = "";
         public string ChatGptKey { get; set; } = "";
         public string ChatGptModel { get; set; } = "gpt-4o-mini";
         public string GeminiKey { get; set; } = "";
         public string GeminiModel { get; set; } = "gemini-2.0-flash";
         public string DeepSeekKey { get; set; } = "";
         public string DeepSeekModel{ get; set; } = "deepseek-chat";
+        public string BaichuanKey { get; set; } = "";
+        public string BaichuanModel { get; set; } = "Baichuan4-Turbo";
         public string DeepLKey { get; set; } = "";
         public string UserCustomAIPrompt { get; set; } = "";
         public bool IsFreeDeepL { get; set; } = true;
@@ -250,10 +250,10 @@ namespace SSELex
                         this.PhraseEngineUsing = GetSetting.PhraseEngineUsing;
                         this.CodeParsingEngineUsing = GetSetting.CodeParsingEngineUsing;
                         this.ConjunctionEngineUsing = GetSetting.ConjunctionEngineUsing;
-                        this.BaiDuYunApiUsing = GetSetting.BaiDuYunApiUsing;
                         this.ChatGptApiUsing = GetSetting.ChatGptApiUsing;
                         this.GeminiApiUsing = GetSetting.GeminiApiUsing;
                         this.DeepSeekApiUsing = GetSetting.DeepSeekApiUsing;
+                        this.BaichuanApiUsing = GetSetting.BaichuanApiUsing;
                         this.DeepLApiUsing = GetSetting.DeepLApiUsing;
                         this.GoogleYunApiUsing = GetSetting.GoogleYunApiUsing;
                         this.DivCacheEngineUsing = GetSetting.DivCacheEngineUsing;
@@ -267,14 +267,14 @@ namespace SSELex
                         this.BPath = GetSetting.BPath;
                         this.SkyrimPath = GetSetting.SkyrimPath;
                         this.GoogleApiKey = GetSetting.GoogleApiKey;
-                        this.BaiDuAppID = GetSetting.BaiDuAppID;
-                        this.BaiDuSecretKey = GetSetting.BaiDuSecretKey;
                         this.ChatGptKey = GetSetting.ChatGptKey;
                         this.ChatGptModel = GetSetting.ChatGptModel;
                         this.GeminiKey = GetSetting.GeminiKey;
                         this.GeminiModel = GetSetting.GeminiModel;
                         this.DeepSeekKey = GetSetting.DeepSeekKey;
                         this.DeepSeekModel = GetSetting.DeepSeekModel;
+                        this.BaichuanKey = GetSetting.BaichuanKey;
+                        this.BaichuanModel = GetSetting.BaichuanModel;
                         this.DeepLKey = GetSetting.DeepLKey;
                         this.IsFreeDeepL = GetSetting.IsFreeDeepL;
                         this.UserCustomAIPrompt = GetSetting.UserCustomAIPrompt;

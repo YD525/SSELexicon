@@ -85,7 +85,7 @@ namespace SSELex.SkyrimManage
         {
             foreach (var Get in Lines)
             {
-                if (Get.StartsWith("$") && (Get.Contains("\t") || Get.Contains(" ")))
+                if ((Get.StartsWith("$")|| Get.StartsWith("#")) && (Get.Contains("\t") || Get.Contains(" ")))
                 {
                     return true;
                 }
