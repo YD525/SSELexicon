@@ -49,6 +49,8 @@ Acknowledgements: Nexus Mods,9DM,2Game.info,and 泰姆瑞尔MOD组, for their su
 
 - [Core Translation Flowchart](https://claude.ai/public/artifacts/d6247594-36ef-44b1-8a27-45ca0dfd0d2f)
 
+This diagram was generated with the help of Claude AI. AI is simply amazing QAQ!
+
 ---
 
 ## 🖼️ UI Icon
