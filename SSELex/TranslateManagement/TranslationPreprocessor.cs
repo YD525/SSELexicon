@@ -15,14 +15,7 @@ namespace SSELex.TranslateManage
     // See LICENSE for details
     //https://github.com/YD525/YDSkyrimToolR/
 
-    public class CustomWord
-    {
-        public Languages From = Languages.Null;
-        public Languages To = Languages.Null;
 
-        public string SourceWord = "";
-        public string TargetWord = "";
-    }
 
     public class ReplaceTag
     {
@@ -37,95 +30,90 @@ namespace SSELex.TranslateManage
 
     public class TranslationPreprocessor : TranslationPreprocessorExtend
     {
-        public static List<CustomWord> Datas = new List<CustomWord>();
-
         public bool HasPlaceholder = false;
         public string SourceStr = "";
 
         public List<ReplaceTag> ReplaceTags = new List<ReplaceTag>();
 
-        public TranslationPreprocessor(Languages From, Languages To, string SourceStr)
+        public TranslationPreprocessor()
         {
-            this.SourceStr = SourceStr;
+        
         }
 
-        public string ApplyCustomWordDirectlyForAI(Languages From, Languages To, string Str)
+        public List<string> GeneratePlaceholderTextByAI(Languages From, Languages To, string SourceStr, string Type, out bool NeedFurtherTranslate)
         {
-            if (string.IsNullOrEmpty(Str))
-                return Str;
+            List<string> Words = new List<string>();
 
-            bool UseWordBoundary = IsSpaceLanguage(From);
+            var Datas = AdvancedDictionary.Query(DeFine.CurrentModName, Type, From, To, SourceStr);
+            bool UseWordBoundary = LanguageExtensions.IsSpaceDelimitedLanguage(From);
+
+            string TempStr = SourceStr;
 
             for (int i = 0; i < Datas.Count; i++)
             {
-                var Word = Datas[i];
-                if (Word.From != From || Word.To != To || string.IsNullOrWhiteSpace(Word.SourceWord))
-                    continue;
-
-                string Source = Word.SourceWord;
-                string Target = Word.TargetWord;
-
-                if (string.IsNullOrEmpty(Source) || string.IsNullOrEmpty(Target))
-                    continue;
+                var Source = Datas[i].Source;
+                Words.Add($"{Source} -> {Datas[i].Result}");
 
                 if (UseWordBoundary)
                 {
                     string Pattern = $@"\b{Regex.Escape(Source)}\b";
-                    if (Regex.IsMatch(Str, Pattern, RegexOptions.IgnoreCase))
-                    {
-                        Str = Regex.Replace(Str, Pattern, Target, RegexOptions.IgnoreCase);
-                    }
+                    TempStr = Regex.Replace(TempStr, Pattern, "", RegexOptions.IgnoreCase);
                 }
                 else
                 {
-                    if (Str.Contains(Source))
-                    {
-                        Str = Str.Replace(Source, Target);
-                    }
+                    TempStr = TempStr.Replace(Source, "");
                 }
             }
 
-            return Str;
+            NeedFurtherTranslate = !string.IsNullOrWhiteSpace(TempStr.Trim());
+
+            return Words;
         }
 
-        public string GeneratePlaceholderText(Languages From, Languages To, string Str)
+        public string GeneratePlaceholderText(Languages From, Languages To, string SourceStr, string Type, out bool NeedFurtherTranslate)
         {
             ReplaceTags.Clear();
             HasPlaceholder = false;
 
             bool UseWordBoundary = LanguageExtensions.IsSpaceDelimitedLanguage(From);
 
+            var Datas = AdvancedDictionary.Query(DeFine.CurrentModName, Type, From, To, SourceStr);
+
             for (int i = 0; i < Datas.Count; i++)
             {
                 var Word = Datas[i];
-                if (Word.From != From || Word.To != To || string.IsNullOrWhiteSpace(Word.SourceWord))
-                    continue;
-
                 string Placeholder = $"__({i})__";
-                string Source = Word.SourceWord;
+                string Source = Word.Source;
 
                 if (UseWordBoundary)
                 {
                     string Pattern = $@"\b{Regex.Escape(Source)}\b";
-                    if (Regex.IsMatch(Str, Pattern, RegexOptions.IgnoreCase))
+                    if (Regex.IsMatch(SourceStr, Pattern, RegexOptions.IgnoreCase))
                     {
-                        Str = Regex.Replace(Str, Pattern, Placeholder, RegexOptions.IgnoreCase);
-                        ReplaceTags.Add(new ReplaceTag(Placeholder, Word.TargetWord));
+                        SourceStr = Regex.Replace(SourceStr, Pattern, Placeholder, RegexOptions.IgnoreCase);
+                        ReplaceTags.Add(new ReplaceTag(Placeholder, Word.Result));
                         HasPlaceholder = true;
                     }
                 }
                 else
                 {
-                    if (Str.Contains(Source))
+                    if (SourceStr.Contains(Source))
                     {
-                        Str = Str.Replace(Source, Placeholder);
-                        ReplaceTags.Add(new ReplaceTag(Placeholder, Word.TargetWord));
+                        SourceStr = SourceStr.Replace(Source, Placeholder);
+                        ReplaceTags.Add(new ReplaceTag(Placeholder, Word.Result));
                         HasPlaceholder = true;
                     }
                 }
             }
 
-            return Str;
+            string Residual = UseWordBoundary
+                ? Regex.Replace(SourceStr, @"__\(\d+\)__", "")
+                : ReplaceTags.Aggregate(SourceStr, (str, tag) => str.Replace(tag.Key, ""));
+
+            NeedFurtherTranslate = !string.IsNullOrWhiteSpace(Residual.Trim());
+
+            this.SourceStr = SourceStr;
+            return SourceStr;
         }
 
         public string RestoreFromPlaceholder(string Str, Languages Lang)
@@ -180,7 +168,7 @@ namespace SSELex.TranslateManage
                    lang == Languages.Italian ||
                    lang == Languages.Spanish;
         }
-        private string FindBestMatchingPlaceholder(string Input)
+        private string? FindBestMatchingPlaceholder(string Input)
         {
             foreach (var Tag in ReplaceTags)
             {

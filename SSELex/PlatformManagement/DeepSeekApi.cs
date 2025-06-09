@@ -74,7 +74,7 @@ namespace SSELex.PlatformManagement
     public class DeepSeekApi
     {
         //"Important: When translating, strictly keep any text inside angle brackets (< >) or square brackets ([ ]) unchanged. Do not modify, translate, or remove them.\n\n"
-        public string QuickTrans(string TransSource, Languages FromLang, Languages ToLang,bool UseAIMemory,int AIMemoryCountLimit, string Param)
+        public string QuickTrans(List<string> CustomWords,string TransSource, Languages FromLang, Languages ToLang,bool UseAIMemory,int AIMemoryCountLimit, string Param)
         {
             List<string> Related = new List<string>();
             if (DeFine.GlobalLocalSetting.UsingContext && UseAIMemory)
@@ -94,12 +94,16 @@ namespace SSELex.PlatformManagement
                 GetTransSource += DeFine.GlobalLocalSetting.UserCustomAIPrompt + "\n\n";
             }
 
-            if (Related.Count > 0)
+            if (Related.Count > 0 || CustomWords.Count > 0)
             {
-                GetTransSource += "Previous related translations:\n";
+                GetTransSource += "Use the following terminology references to help you translate the text consistently:\n";
                 foreach (var related in Related)
                 {
                     GetTransSource += $"- {related}\n";
+                }
+                foreach (var Word in CustomWords)
+                {
+                    GetTransSource += $"- {Word}\n";
                 }
                 GetTransSource += "\n";
             }
