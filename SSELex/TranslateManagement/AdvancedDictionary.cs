@@ -21,6 +21,10 @@ namespace SSELex.TranslateManagement
         public int IgnoreCase = 0;
         public string Regex = "";
 
+        public AdvancedDictionaryItem()
+        { 
+        
+        }
         public AdvancedDictionaryItem(object TargetModName,object Source,object Result,object From,object To,object ExactMatch,object IgnoreCase,object Regex)
         {
             this.TargetModName = ConvertHelper.ObjToStr(TargetModName);
@@ -120,10 +124,14 @@ WHERE
                     );
                 if (Get.Regex.Trim().Length > 0)
                 {
-                    if (IsRegexMatch(SourceText,Get.Regex))
+                    if (IsRegexMatch(SourceText, Get.Regex))
                     {
                         AdvancedDictionaryItems.Add(Get);
                     }
+                }
+                else
+                {
+                    AdvancedDictionaryItems.Add(Get);
                 }
             }
 
