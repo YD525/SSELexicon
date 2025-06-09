@@ -192,6 +192,7 @@ namespace SSELex
         public bool ConjunctionEngineUsing { get; set; } = false;
         public bool ChatGptApiUsing { get; set; } = false;
         public bool GeminiApiUsing { get; set; } = false;
+        public bool CohereApiUsing { get; set; } = false;
         public bool DeepSeekApiUsing { get; set; } = false;
         public bool BaichuanApiUsing { get; set; } = false;
         public bool GoogleYunApiUsing { get; set; } = false;
@@ -214,6 +215,7 @@ namespace SSELex
         public string DeepSeekModel{ get; set; } = "deepseek-chat";
         public string BaichuanKey { get; set; } = "";
         public string BaichuanModel { get; set; } = "Baichuan4-Turbo";
+        public string CohereKey { get; set; } = "";
         public string DeepLKey { get; set; } = "";
         public string UserCustomAIPrompt { get; set; } = "";
         public bool IsFreeDeepL { get; set; } = true;
@@ -256,6 +258,7 @@ namespace SSELex
                         this.BaichuanApiUsing = GetSetting.BaichuanApiUsing;
                         this.DeepLApiUsing = GetSetting.DeepLApiUsing;
                         this.GoogleYunApiUsing = GetSetting.GoogleYunApiUsing;
+                        this.CohereApiUsing = GetSetting.CohereApiUsing;
                         this.DivCacheEngineUsing = GetSetting.DivCacheEngineUsing;
                         this.ContextLimit = GetSetting.ContextLimit;
                         this.SourceLanguage = GetSetting.SourceLanguage;
@@ -277,6 +280,7 @@ namespace SSELex
                         this.BaichuanModel = GetSetting.BaichuanModel;
                         this.DeepLKey = GetSetting.DeepLKey;
                         this.IsFreeDeepL = GetSetting.IsFreeDeepL;
+                        this.CohereKey = GetSetting.CohereKey;
                         this.UserCustomAIPrompt = GetSetting.UserCustomAIPrompt;
                         this.ProxyIP = GetSetting.ProxyIP;
                         this.TransCount = GetSetting.TransCount;

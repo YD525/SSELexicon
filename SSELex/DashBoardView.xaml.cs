@@ -75,7 +75,7 @@ namespace SSELex
 
             this.DataContext = CurrentModel;
 
-            CurrentModel.SetValues = new ChartValues<double>() { 0, 0, 0, 0, 0, 0};
+            CurrentModel.SetValues = new ChartValues<double>() { 0, 0, 0, 0, 0, 0 ,0};
 
             CurrentModel.FontUsageSeries = new SeriesCollection
             {
@@ -285,6 +285,7 @@ namespace SSELex
             CurrentModel.SetValues[3] = 0;
             CurrentModel.SetValues[4] = 0;
             CurrentModel.SetValues[5] = 0;
+            CurrentModel.SetValues[6] = 0;
         }
         public void SetTransState(bool IsStart)
         {
@@ -324,27 +325,27 @@ namespace SSELex
                             CurrentModel.SetValues[1] = 0;
                         }
 
-                        if (GetDataInFo.ContainsKey(PlatformType.DeepSeek))
+                        if (GetDataInFo.ContainsKey(PlatformType.Cohere))
                         {
-                            CurrentModel.SetValues[2] = GetDataInFo[PlatformType.DeepSeek];
+                            CurrentModel.SetValues[2] = GetDataInFo[PlatformType.Cohere];
                         }
                         else
                         {
                             CurrentModel.SetValues[2] = 0;
                         }
 
-                        if (GetDataInFo.ContainsKey(PlatformType.DeepL))
+                        if (GetDataInFo.ContainsKey(PlatformType.DeepSeek))
                         {
-                            CurrentModel.SetValues[3] = GetDataInFo[PlatformType.DeepL];
+                            CurrentModel.SetValues[3] = GetDataInFo[PlatformType.DeepSeek];
                         }
                         else
                         {
                             CurrentModel.SetValues[3] = 0;
                         }
 
-                        if (GetDataInFo.ContainsKey(PlatformType.GoogleApi))
+                        if (GetDataInFo.ContainsKey(PlatformType.DeepL))
                         {
-                            CurrentModel.SetValues[4] = GetDataInFo[PlatformType.GoogleApi];
+                            CurrentModel.SetValues[4] = GetDataInFo[PlatformType.DeepL];
                         }
                         else
                         {
@@ -358,6 +359,15 @@ namespace SSELex
                         else
                         {
                             CurrentModel.SetValues[5] = 0;
+                        }
+
+                        if (GetDataInFo.ContainsKey(PlatformType.GoogleApi))
+                        {
+                            CurrentModel.SetValues[6] = GetDataInFo[PlatformType.GoogleApi];
+                        }
+                        else
+                        {
+                            CurrentModel.SetValues[6] = 0;
                         }
                     }));
                 }

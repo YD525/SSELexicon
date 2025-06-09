@@ -41,8 +41,6 @@
     </Window.Resources>
 
     <Border MouseLeftButtonDown="WinHead_MouseLeftButtonDown"  Style="{DynamicResource DefWinBackground}" Name="MainBackGround">
-      
-
         <Grid>
             <Border Background="#FF0B74D1" CornerRadius="7" Panel.ZIndex="0" Name="Footer" Margin="0 45 0 0">
             </Border>
@@ -82,6 +80,8 @@
                             <svgc:SvgViewbox Tag="GeminiEngine" Name="GeminiEngine" Stretch="UniformToFill" Source="/Material/Gemini.svg" Margin="3 0 3 0" Width="20" Panel.ZIndex="900" Height="20" Cursor="Hand" MouseDown="SelectEngine" Opacity="1" ToolTip="Gemini"/>
 
                             <svgc:SvgViewbox Tag="ChatGptEngine" Name="ChatGptEngine" Stretch="UniformToFill" Source="/Material/ChatGpt.svg" Margin="3 0 3 0" Width="20" Panel.ZIndex="900" Height="20" Cursor="Hand" MouseDown="SelectEngine" Opacity="1" ToolTip="ChatGpt"/>
+
+                            <svgc:SvgViewbox Tag="CohereEngine" Name="CohereEngine" Stretch="UniformToFill" Source="/Material/Cohere.svg" Margin="3 0 3 0" Width="20" Panel.ZIndex="900" Height="20" Cursor="Hand" MouseDown="SelectEngine" Opacity="1" ToolTip="Cohere"/>
 
                             <svgc:SvgViewbox Tag="DeepSeekEngine" Name="DeepSeekEngine" Stretch="UniformToFill" Source="/Material/DeepSeek.svg" Margin="3 0 3 0" Width="20" Panel.ZIndex="900" Height="18" Cursor="Hand" MouseDown="SelectEngine" Opacity="1" ToolTip="DeepSeek"/>
 
@@ -450,6 +450,14 @@
                                             </Label>
                                             <ComboBox Name="BaichuanModel" SelectionChanged="BaichuanModelChange" Style="{StaticResource WpfComboBoxStyle}" Width="200">
                                             </ComboBox>
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 20 0 0">
+                                            <Label VerticalAlignment="Center" HorizontalContentAlignment="Left" HorizontalAlignment="Left">
+                                                CohereKey
+                                            </Label>
+                                            <PasswordBox Name="CohereKey" Width="360" PasswordChanged="CohereKey_PasswordChanged" VerticalContentAlignment="Center" Height="35">
+                                            </PasswordBox>
                                         </StackPanel>
 
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 20 0 0">

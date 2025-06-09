@@ -14,7 +14,7 @@ namespace SSELex.TranslateCore
 
     public enum Languages
     {
-       Null = -2, English = 0, SimplifiedChinese = 1, Japanese = 2, German = 5, Korean = 6, Turkish = 7 , Brazilian = 8 , Russian = 9 , TraditionalChinese = 10, Italian = 11, Spanish = 12, Hindi = 13, Urdu = 15, Indonesian = 16, French = 17, Vietnamese = 20, Polish = 22 ,Auto = 99
+       Null = -2, English = 0, SimplifiedChinese = 1, Japanese = 2, German = 5, Korean = 6, Turkish = 7 , Brazilian = 8 , Russian = 9 , TraditionalChinese = 10, Italian = 11, Spanish = 12, Hindi = 13, Urdu = 15, Indonesian = 16, French = 17, Vietnamese = 20, Polish = 22 , CanadianFrench = 23, Auto = 99
     }
 
     public class LanguageHelper
@@ -51,6 +51,35 @@ namespace SSELex.TranslateCore
         private static readonly Regex PolishRegex = new Regex(
     @"\b(że|i|w|z|na|do|jest|nie|tak|jak|to|co|czy|go|za|po|się|dla|ten|tego|być|był|była|było|jestem|jesteś|są|mamy|macie|oni|one|który|która|które|którego|którą|więc|bardzo|już|jeszcze|może|muszę|chcę)\b",
     RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex CanadianFrenchRegex = new Regex(@"\b(tu|toé|moé|ben|ça|tabarnak|câlisse)\b", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+        public static string ToLanguageCode(Languages lang)
+        {
+            return lang switch
+            {
+                Languages.Null => "",
+                Languages.English => "en",
+                Languages.SimplifiedChinese => "zh-CN",
+                Languages.TraditionalChinese => "zh-TW",
+                Languages.Japanese => "ja",
+                Languages.German => "de",
+                Languages.Korean => "ko",
+                Languages.Turkish => "tr",
+                Languages.Brazilian => "pt-BR",
+                Languages.Russian => "ru",
+                Languages.Italian => "it",
+                Languages.Spanish => "es",
+                Languages.Hindi => "hi",
+                Languages.Urdu => "ur",
+                Languages.Indonesian => "id",
+                Languages.French => "fr",
+                Languages.CanadianFrench => "fr-CA",
+                Languages.Vietnamese => "vi",
+                Languages.Polish => "pl",
+                Languages.Auto => "",
+                _ => ""
+            };
+        }
 
         private static bool ContainsKana(string Input)
         {
@@ -108,7 +137,14 @@ namespace SSELex.TranslateCore
             }
             else if (FrenchRegex.IsMatch(Str))
             {
-                OneDetect.Add(Languages.French);
+                if (CanadianFrenchRegex.IsMatch(Str))
+                {
+                    OneDetect.Add(Languages.CanadianFrench);
+                }
+                else
+                {
+                    OneDetect.Add(Languages.French);
+                }
             }
             else if (GermanRegex.IsMatch(Str))
             {

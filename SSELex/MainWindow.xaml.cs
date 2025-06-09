@@ -24,6 +24,8 @@ using SSELex.RequestManagement;
 using SSELex.TranslateManagement;
 using SSELex.UIManagement;
 using static SSELex.SkyrimManage.EspReader;
+using System.Timers;
+using System.Xml.Schema;
 
 // Copyright (C) 2025 YD525
 // Licensed under the GNU GPLv3
@@ -136,16 +138,40 @@ namespace SSELex
                 }));
             }
         }
+
+        private System.Timers.Timer ReloadDebounceTimer;
+        private readonly object ReloadLock = new object();
+        private bool UseHotReloadFlag;
         public void ReloadData(bool UseHotReload = false)
         {
-            if (LoadSaveState == 1)
+            if (LoadSaveState != 1)
+            return;
+            lock (ReloadLock)
             {
-                new Thread(() =>
+                UseHotReloadFlag = UseHotReload;
+
+                if (ReloadDebounceTimer == null)
                 {
-                    ReloadDataFunc(UseHotReload);
-                }).Start();
+                    ReloadDebounceTimer = new System.Timers.Timer(200); 
+                    ReloadDebounceTimer.AutoReset = false; 
+                    ReloadDebounceTimer.Elapsed += (s, e) =>
+                    {
+                        if (!ReadTrdWorkState)
+                        {
+                            new Thread(() =>
+                            {
+                                ReloadDataFunc(UseHotReloadFlag);
+                            }).Start();
+                        }
+                    };
+                }
+
+                ReloadDebounceTimer.Stop();
+                ReloadDebounceTimer.Start();
             }
         }
+
+
         private System.Timers.Timer SearchTimer;
         public void StartSearch()
         {
@@ -192,52 +218,55 @@ namespace SSELex
             {
                 this.Dispatcher.Invoke(new Action(() =>
                 {
-                    var Storyboard = (Storyboard)ProcessBar.Resources["BarEffect"];
-                    double GetRate = ((double)UIHelper.ModifyCount / (double)TransViewList.Rows);
-                    if (GetRate > 0)
+                    if (TransViewList != null)
                     {
-                        try
+                        var Storyboard = (Storyboard)ProcessBar.Resources["BarEffect"];
+                        double GetRate = ((double)UIHelper.ModifyCount / (double)TransViewList.Rows);
+                        if (GetRate > 0)
                         {
-                            ProcessBar.Width = ProcessBarFrame.ActualWidth * GetRate;
-                        }
-                        catch { }
-
-                        try
-                        {
-                            if (Storyboard != null)
+                            try
                             {
-                                if (EffectStart == 0)
+                                ProcessBar.Width = ProcessBarFrame.ActualWidth * GetRate;
+                            }
+                            catch { }
+
+                            try
+                            {
+                                if (Storyboard != null)
                                 {
-                                    EffectStart = 1;
-                                    Storyboard.Begin();
+                                    if (EffectStart == 0)
+                                    {
+                                        EffectStart = 1;
+                                        Storyboard.Begin();
+                                    }
                                 }
                             }
+                            catch { }
                         }
-                        catch { }
-                    }
-                    else
-                    {
-                        try
+                        else
                         {
-                            ProcessBar.Width = 1;
-
-                            if (Storyboard != null)
+                            try
                             {
-                                Storyboard.Stop();
-                                EffectStart = 0;
-                            }
-                        }
-                        catch { }
-                    }
-                    MaxTransCount = TransViewList.Rows;
+                                ProcessBar.Width = 1;
 
-                    if (ReadTrdWorkState)
-                    {
-                        TransProcess.Content = string.Format("Loading({0}/{1})", UIHelper.ModifyCount, MaxTransCount);
-                    }
-                    else
-                    {
-                        TransProcess.Content = string.Format("STRINGS({0}/{1})", UIHelper.ModifyCount, MaxTransCount);
+                                if (Storyboard != null)
+                                {
+                                    Storyboard.Stop();
+                                    EffectStart = 0;
+                                }
+                            }
+                            catch { }
+                        }
+                        MaxTransCount = TransViewList.Rows;
+
+                        if (ReadTrdWorkState)
+                        {
+                            TransProcess.Content = string.Format("Loading({0}/{1})", UIHelper.ModifyCount, MaxTransCount);
+                        }
+                        else
+                        {
+                            TransProcess.Content = string.Format("STRINGS({0}/{1})", UIHelper.ModifyCount, MaxTransCount);
+                        }
                     }
                 }));
             }
@@ -407,6 +436,7 @@ namespace SSELex
                 ShowFrameByTag("LoadingView");
 
                 DeFine.LoadData();
+                AdvancedDictionary.Init();
                 //LocalTrans.Init();
 
                 CheckEngineState();
@@ -507,6 +537,7 @@ namespace SSELex
                     NodePanel.Visibility = Visibility.Visible;
                 }));
 
+                new CohereApi().QuickTrans("Test Line", Languages.English, Languages.SimplifiedChinese, true, 1, "");
                 //DeFine.GlobalLocalSetting.BaichuanKey = "";
                 //var GetStr = new BaichuanApi().QuickTrans("Test Line", Languages.English, Languages.SimplifiedChinese, true, 1, "");
 
@@ -896,6 +927,14 @@ namespace SSELex
                                     }
                                 }
                                 break;
+                            case "CohereEngine":
+                                {
+                                    if (!DeFine.GlobalLocalSetting.CohereApiUsing)
+                                    {
+                                        (GetEngine as SvgViewbox).Opacity = 0.15;
+                                    }
+                                }
+                                break;
                             case "DeepSeekEngine":
                                 {
                                     if (!DeFine.GlobalLocalSetting.DeepSeekApiUsing)
@@ -975,14 +1014,19 @@ namespace SSELex
                         DeFine.GlobalLocalSetting.GoogleYunApiUsing = OneState;
                     }
                     break;
+                case "ChatGptEngine":
+                    {
+                        DeFine.GlobalLocalSetting.ChatGptApiUsing = OneState;
+                    }
+                    break;
                 case "GeminiEngine":
                     {
                         DeFine.GlobalLocalSetting.GeminiApiUsing = OneState;
                     }
                     break;
-                case "ChatGptEngine":
+                case "CohereEngine":
                     {
-                        DeFine.GlobalLocalSetting.ChatGptApiUsing = OneState;
+                        DeFine.GlobalLocalSetting.CohereApiUsing = OneState;
                     }
                     break;
                 case "DeepSeekEngine":
@@ -1803,6 +1847,7 @@ namespace SSELex
                 HttpProxy.Text = DeFine.GlobalLocalSetting.ProxyIP;
 
                 BaichuanKey.Password = DeFine.GlobalLocalSetting.BaichuanKey;
+                CohereKey.Password = DeFine.GlobalLocalSetting.CohereKey;
 
                 GoogleKey.Password = DeFine.GlobalLocalSetting.GoogleApiKey;
 
@@ -1975,6 +2020,10 @@ namespace SSELex
             DeFine.GlobalLocalSetting.BaichuanKey = BaichuanKey.Password;
         }
 
+        private void CohereKey_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            DeFine.GlobalLocalSetting.CohereKey = CohereKey.Password;
+        }
         private void DeepLKey_PasswordChanged(object sender, RoutedEventArgs e)
         {
             DeFine.GlobalLocalSetting.DeepLKey = DeepLKey.Password;
@@ -2315,7 +2364,5 @@ namespace SSELex
         {
             Translator.TestAll();
         }
-
-       
     }
 }

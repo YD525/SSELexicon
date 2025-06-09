@@ -89,7 +89,7 @@ namespace SSELex.PlatformManagement
                 Related = EngineSelect.AIMemory.FindRelevantTranslations(FromLang, TransSource, AIMemoryCountLimit);
             }
 
-            var GetTransSource = $"Translate the following text from {FromLang} to {ToLang}:\n\n";
+            var GetTransSource = $"Translate the following text from {LanguageHelper.ToLanguageCode(FromLang)} to {LanguageHelper.ToLanguageCode(ToLang)}:\n\n";
 
             if (Param.Trim().Length > 0)
             {

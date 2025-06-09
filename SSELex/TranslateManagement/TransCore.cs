@@ -73,6 +73,15 @@ namespace SSELex.TranslateManage
                 }
             }
 
+            //Cohere support
+            if (DeFine.GlobalLocalSetting.CohereApiUsing)
+            {
+                if (DeFine.GlobalLocalSetting.CohereKey.Trim().Length > 0)
+                {
+                    EngineSelects.Add(new EngineSelect(new CohereApi(), 6));
+                }
+            }
+
             //Baichuan support
             if (DeFine.GlobalLocalSetting.BaichuanApiUsing)
             {
@@ -221,6 +230,31 @@ namespace SSELex.TranslateManage
                             CurrentPlatform = PlatformType.GoogleApi;
 
                             CanAddCache = false;
+
+                            if (GetData.Trim().Length == 0)
+                            {
+                                this.CallCountDown = 0;
+                            }
+                        }
+                        else
+                        {
+                            this.CallCountDown = 0;
+                        }
+                    }
+                    else
+                    if (this.Engine is CohereApi)
+                    {
+                        if (DeFine.GlobalLocalSetting.CohereApiUsing)
+                        {
+                            var GetData = ((CohereApi)this.Engine).QuickTrans(GetSource, Source, Target, UseAIMemory, AIMemoryCountLimit, Param).Trim();
+
+                            if (GetData.Trim().Length > 0 && UseAIMemory)
+                            {
+                                AIMemory.AddTranslation(Source, GetSource, GetData);
+                            }
+                            TransText = GetData;
+                            Translator.SendTranslateMsg("AI(CohereApi)", GetSource, TransText);
+                            CurrentPlatform = PlatformType.Cohere;
 
                             if (GetData.Trim().Length == 0)
                             {

@@ -73,6 +73,8 @@ namespace SSELex.PlatformManagement
                     return "VI";
                 case Languages.Polish:
                     return "PL";
+                case Languages.CanadianFrench:
+                    return "FR-CA"; 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(language), "Unknown language");
             }

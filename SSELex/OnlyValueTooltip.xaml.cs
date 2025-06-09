@@ -45,7 +45,7 @@ namespace SSELex
 
                 int Index = (int)Point.ChartPoint.Key;
 
-                string[] PlatformNames = new string[] { "ChatGPT", "Gemini", "DeepSeek", "DeepL", "Google", "Baichuan"};
+                string[] PlatformNames = new string[] { "ChatGPT", "Gemini", "Cohere","DeepSeek", "DeepL","Baichuan","Google"};
 
                 string PlatformName = (Index >= 0 && Index < PlatformNames.Length)
                     ? PlatformNames[Index]

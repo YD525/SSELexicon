@@ -120,7 +120,8 @@ namespace SSELex.UIManage
             Languages.Indonesian,
             Languages.French,
             Languages.Vietnamese,
-            Languages.Polish
+            Languages.Polish,
+            Languages.CanadianFrench
         };
 
         public static string DBQueryStr(Languages Type, string Key, string Name)

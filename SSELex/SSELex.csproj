@@ -22,6 +22,7 @@
     <None Remove="Material\Baichuan.svg" />
     <None Remove="Material\ChatGPT.svg" />
     <None Remove="Material\Code.svg" />
+    <None Remove="Material\Cohere.svg" />
     <None Remove="Material\Conjunction.svg" />
     <None Remove="Material\DeepL.svg" />
     <None Remove="Material\DeepSeek.svg" />
@@ -75,6 +76,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Material\Cohere.svg" />
     <Resource Include="Material\DeepL.svg" />
     <Resource Include="Material\DeepSeek.svg" />
     <Resource Include="Material\DownICO.png" />
@@ -119,6 +121,7 @@
 
   <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
+    <PackageReference Include="Cohere" Version="1.0.0" />
     <PackageReference Include="Lib.Harmony" Version="2.3.6" />
     <PackageReference Include="LiveCharts.Wpf.NetCore3" Version="0.9.8" />
     <PackageReference Include="Mutagen.Bethesda.Skyrim" Version="0.50.2" />
