@@ -47,7 +47,7 @@ Acknowledgements: Nexus Mods,9DM,2Game.info,and 泰姆瑞尔MOD组, for their su
 
 # ❤️ Personal Note from the Developer
 
-I'm planning to take a break for a while.
+Regarding the export and import of custom keywords: let's not make it too complicated for now. SQLite itself supports terabyte-level storage, so handling hundreds of thousands of keywords shouldn't be a problem. As for slow export/import operations, features like pagination and progress bars can be added later—they're too much trouble at the moment.
 
 ---
 
