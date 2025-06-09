@@ -290,6 +290,8 @@ namespace SSELex.TranslateManage
                         else
                         {
                             TransText = NTranslationPreprocessor.RestoreFromPlaceholder(GetSource, To);
+
+                            this.CallCountDown++;
                         }
                     }
                     else
@@ -451,6 +453,8 @@ namespace SSELex.TranslateManage
                             {
                                 TransText = TransText.Replace(NTranslationPreprocessor.ReplaceTags[i].Key, NTranslationPreprocessor.ReplaceTags[i].Value);
                             }
+
+                            this.CallCountDown++;
                         }
                     }
 

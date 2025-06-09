@@ -80,6 +80,11 @@ namespace SSELex.TranslateManage
                 return GetSourceStr;
             }
 
+            if (TranslationPreprocessor.IsNumeric(Content))
+            {
+                return GetSourceStr;
+            }
+
             bool CanAddCache = true;
             Content = CurrentTransCore.TransAny(Type, Key,SourceLanguage, To, Content, IsBook, ref CanAddCache, ref CanSleep);
 

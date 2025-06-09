@@ -3,16 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\sse lexicon\\sselex\\translatemanagement\\transcore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\translatemanagement\\transcore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\sse lexicon\\sselex\\translatemanagement\\translator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\translatemanagement\\translator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\sse lexicon\\sselex\\translatemanagement\\translationpreprocessorextend.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\translatemanagement\\translationpreprocessorextend.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\sse lexicon\\sselex\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\sse lexicon\\sselex\\translatemanagement\\advanceddictionary.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\translatemanagement\\advanceddictionary.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\sse lexicon\\sselex\\translatemanagement\\transcore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\translatemanagement\\transcore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\sse lexicon\\sselex\\dashboardview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
@@ -31,16 +39,8 @@
       "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\translatemanagement\\batchtranslationhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\sse lexicon\\sselex\\translatemanagement\\translator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\translatemanagement\\translator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\sse lexicon\\sselex\\translatemanagement\\translationpreprocessor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\translatemanagement\\translationpreprocessor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\sse lexicon\\sselex\\translatemanagement\\translationpreprocessorextend.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\translatemanagement\\translationpreprocessorextend.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\sse lexicon\\sselex\\platformmanagement\\chatgptapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -122,31 +122,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 3,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "DashBoardView.xaml",
-              "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\DashBoardView.xaml",
-              "RelativeDocumentMoniker": "SSELex\\DashBoardView.xaml",
-              "ToolTip": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\DashBoardView.xaml",
-              "RelativeToolTip": "SSELex\\DashBoardView.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-06-03T22:09:15.651Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "DeFine.cs",
-              "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\DeFine.cs",
-              "RelativeDocumentMoniker": "SSELex\\DeFine.cs",
-              "ToolTip": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\DeFine.cs",
-              "RelativeToolTip": "SSELex\\DeFine.cs",
-              "ViewState": "AgIAAO0AAAAAAAAAAAAQwPwAAAAeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-09T00:12:05.961Z"
-            },
             {
               "$type": "Document",
               "DocumentIndex": 15,
@@ -173,31 +150,31 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "MainWindow.xaml",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\MainWindow.xaml",
               "RelativeDocumentMoniker": "SSELex\\MainWindow.xaml",
               "ToolTip": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\MainWindow.xaml",
               "RelativeToolTip": "SSELex\\MainWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-06-03T22:09:12.432Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-03T22:09:12.432Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "TransCore.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\TranslateManagement\\TransCore.cs",
               "RelativeDocumentMoniker": "SSELex\\TranslateManagement\\TransCore.cs",
               "ToolTip": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\TranslateManagement\\TransCore.cs",
               "RelativeToolTip": "SSELex\\TranslateManagement\\TransCore.cs",
-              "ViewState": "AgIAACMAAAAAAAAAAAA6wDoBAAAZAAAAAAAAAA==",
+              "ViewState": "AgIAAOcAAAAAAAAAAAAqwCQBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-08T21:13:23.667Z"
+              "WhenOpened": "2025-06-08T21:13:23.667Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "TextSegmentTranslator.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\TranslateManagement\\TextSegmentTranslator.cs",
               "RelativeDocumentMoniker": "SSELex\\TranslateManagement\\TextSegmentTranslator.cs",
@@ -221,7 +198,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "AdvancedDictionary.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\TranslateManagement\\AdvancedDictionary.cs",
               "RelativeDocumentMoniker": "SSELex\\TranslateManagement\\AdvancedDictionary.cs",
@@ -281,7 +258,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "TranslationPreprocessor.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\TranslateManagement\\TranslationPreprocessor.cs",
               "RelativeDocumentMoniker": "SSELex\\TranslateManagement\\TranslationPreprocessor.cs",
@@ -305,19 +282,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 1,
               "Title": "Translator.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\TranslateManagement\\Translator.cs",
               "RelativeDocumentMoniker": "SSELex\\TranslateManagement\\Translator.cs",
               "ToolTip": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\TranslateManagement\\Translator.cs",
               "RelativeToolTip": "SSELex\\TranslateManagement\\Translator.cs",
-              "ViewState": "AgIAACwAAAAAAAAAAAAjwDUAAAAzAAAAAAAAAA==",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAvwFQAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-07T18:03:26.842Z"
+              "WhenOpened": "2025-06-07T18:03:26.842Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "BatchTranslationHelper.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\TranslateManagement\\BatchTranslationHelper.cs",
               "RelativeDocumentMoniker": "SSELex\\TranslateManagement\\BatchTranslationHelper.cs",
@@ -353,15 +331,39 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 2,
               "Title": "TranslationPreprocessorExtend.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\TranslateManagement\\TranslationPreprocessorExtend.cs",
               "RelativeDocumentMoniker": "SSELex\\TranslateManagement\\TranslationPreprocessorExtend.cs",
               "ToolTip": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\TranslateManagement\\TranslationPreprocessorExtend.cs",
               "RelativeToolTip": "SSELex\\TranslateManagement\\TranslationPreprocessorExtend.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAA0AAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-09T07:55:47.495Z"
+              "WhenOpened": "2025-06-09T07:55:47.495Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "DeFine.cs",
+              "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\DeFine.cs",
+              "RelativeDocumentMoniker": "SSELex\\DeFine.cs",
+              "ToolTip": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\DeFine.cs",
+              "RelativeToolTip": "SSELex\\DeFine.cs",
+              "ViewState": "AgIAAO0AAAAAAAAAAAAQwPwAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-09T00:12:05.961Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "DashBoardView.xaml",
+              "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\DashBoardView.xaml",
+              "RelativeDocumentMoniker": "SSELex\\DashBoardView.xaml",
+              "ToolTip": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\DashBoardView.xaml",
+              "RelativeToolTip": "SSELex\\DashBoardView.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-06-03T22:09:15.651Z"
             },
             {
               "$type": "Document",

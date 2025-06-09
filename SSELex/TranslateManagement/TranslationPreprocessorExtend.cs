@@ -13,6 +13,14 @@ namespace SSELex.TranslateManagement
     //https://github.com/YD525/YDSkyrimToolR/
     public class TranslationPreprocessorExtend
     {
+        public static bool IsNumeric(string Input)
+        {
+            if (string.IsNullOrWhiteSpace(Input))
+                return false;
+
+            return double.TryParse(Input.Trim(), out _);
+        }
+
         /// <summary>
         /// Removes common invisible Unicode characters from the input string.
         /// These include zero-width spaces, non-breaking spaces, and similar hidden characters
