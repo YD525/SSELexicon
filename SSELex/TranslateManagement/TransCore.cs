@@ -212,7 +212,7 @@ namespace SSELex.TranslateManage
                 }
             }
 
-            public string Call(string Type, Languages Source, Languages Target, string SourceStr, bool UseAIMemory, int AIMemoryCountLimit, string Param, ref bool CanAddCache)
+            public string Call(string Type, Languages From, Languages To, string SourceStr, bool UseAIMemory, int AIMemoryCountLimit, string Param, ref bool CanAddCache)
             {
                 TranslationPreprocessor NTranslationPreprocessor = new TranslationPreprocessor();
 
@@ -225,7 +225,7 @@ namespace SSELex.TranslateManage
                     if (this.Engine is GoogleTransApi || this.Engine is DeepLApi)
                     {
                         bool CanTrans = false;
-                        var CustomWords = NTranslationPreprocessor.GeneratePlaceholderText(Source, Target, SourceStr, Type, out CanTrans);
+                        var CustomWords = NTranslationPreprocessor.GeneratePlaceholderText(From, To, GetSource, Type, out CanTrans);
 
                         if (CanTrans)
                         {
@@ -233,7 +233,7 @@ namespace SSELex.TranslateManage
                             {
                                 if (DeFine.GlobalLocalSetting.GoogleYunApiUsing)
                                 {
-                                    var GetData = ConvertHelper.ObjToStr(((GoogleTransApi)this.Engine).Translate(GetSource, Source, Target));
+                                    var GetData = ConvertHelper.ObjToStr(((GoogleTransApi)this.Engine).Translate(GetSource, From, To));
                                     TransText = GetData;
                                     Translator.SendTranslateMsg("Cloud Translation(GoogleApi)", GetSource, TransText);
                                     CurrentPlatform = PlatformType.GoogleApi;
@@ -255,11 +255,11 @@ namespace SSELex.TranslateManage
                             {
                                 if (DeFine.GlobalLocalSetting.DeepLApiUsing)
                                 {
-                                    var GetData = ((DeepLApi)this.Engine).QuickTrans(GetSource, Source, Target).Trim();
+                                    var GetData = ((DeepLApi)this.Engine).QuickTrans(GetSource, From, To).Trim();
 
                                     if (GetData.Trim().Length > 0 && UseAIMemory)
                                     {
-                                        AIMemory.AddTranslation(Source, GetSource, GetData);
+                                        AIMemory.AddTranslation(From, GetSource, GetData);
                                     }
                                     TransText = GetData;
                                     Translator.SendTranslateMsg("Cloud Translation(DeepL)", GetSource, TransText);
@@ -278,14 +278,14 @@ namespace SSELex.TranslateManage
                         }
                         else
                         { 
-                        
+                            TransText = NTranslationPreprocessor.RestoreFromPlaceholder(GetSource, To);
                         }
                     }
                     else
                     if (this.Engine is CohereApi || this.Engine is ChatGptApi || this.Engine is GeminiApi || this.Engine is DeepSeekApi || this.Engine is BaichuanApi)
                     {
                         bool CanTrans = false;
-                        var CustomWords = NTranslationPreprocessor.GeneratePlaceholderTextByAI(Source, Target, SourceStr, Type, out CanTrans);
+                        var CustomWords = NTranslationPreprocessor.GeneratePlaceholderTextByAI(From, To, GetSource, Type, out CanTrans);
 
                         if (CanTrans)
                         {
@@ -293,11 +293,11 @@ namespace SSELex.TranslateManage
                             {
                                 if (DeFine.GlobalLocalSetting.CohereApiUsing)
                                 {
-                                    var GetData = ((CohereApi)this.Engine).QuickTrans(CustomWords, GetSource, Source, Target, UseAIMemory, AIMemoryCountLimit, Param).Trim();
+                                    var GetData = ((CohereApi)this.Engine).QuickTrans(CustomWords, GetSource, From, To, UseAIMemory, AIMemoryCountLimit, Param).Trim();
 
                                     if (GetData.Trim().Length > 0 && UseAIMemory)
                                     {
-                                        AIMemory.AddTranslation(Source, GetSource, GetData);
+                                        AIMemory.AddTranslation(From, GetSource, GetData);
                                     }
                                     TransText = GetData;
                                     Translator.SendTranslateMsg("AI(CohereApi)", GetSource, TransText);
@@ -318,11 +318,11 @@ namespace SSELex.TranslateManage
                             {
                                 if (DeFine.GlobalLocalSetting.ChatGptApiUsing)
                                 {
-                                    var GetData = ((ChatGptApi)this.Engine).QuickTrans(CustomWords, GetSource, Source, Target, UseAIMemory, AIMemoryCountLimit, Param).Trim();
+                                    var GetData = ((ChatGptApi)this.Engine).QuickTrans(CustomWords, GetSource, From, To, UseAIMemory, AIMemoryCountLimit, Param).Trim();
 
                                     if (GetData.Trim().Length > 0 && UseAIMemory)
                                     {
-                                        AIMemory.AddTranslation(Source, GetSource, GetData);
+                                        AIMemory.AddTranslation(From, GetSource, GetData);
                                     }
                                     TransText = GetData;
                                     Translator.SendTranslateMsg("AI(ChatGptApi)", GetSource, TransText);
@@ -343,11 +343,11 @@ namespace SSELex.TranslateManage
                             {
                                 if (DeFine.GlobalLocalSetting.GeminiApiUsing)
                                 {
-                                    var GetData = ((GeminiApi)this.Engine).QuickTrans(CustomWords, GetSource, Source, Target, UseAIMemory, AIMemoryCountLimit, Param).Trim();
+                                    var GetData = ((GeminiApi)this.Engine).QuickTrans(CustomWords, GetSource, From, To, UseAIMemory, AIMemoryCountLimit, Param).Trim();
 
                                     if (GetData.Trim().Length > 0 && UseAIMemory)
                                     {
-                                        AIMemory.AddTranslation(Source, GetSource, GetData);
+                                        AIMemory.AddTranslation(From, GetSource, GetData);
                                     }
                                     TransText = GetData;
                                     Translator.SendTranslateMsg("AI(GeminiApi)", GetSource, TransText);
@@ -368,11 +368,11 @@ namespace SSELex.TranslateManage
                             {
                                 if (DeFine.GlobalLocalSetting.DeepSeekApiUsing)
                                 {
-                                    var GetData = ((DeepSeekApi)this.Engine).QuickTrans(CustomWords, GetSource, Source, Target, UseAIMemory, AIMemoryCountLimit, Param).Trim();
+                                    var GetData = ((DeepSeekApi)this.Engine).QuickTrans(CustomWords, GetSource, From, To, UseAIMemory, AIMemoryCountLimit, Param).Trim();
 
                                     if (GetData.Trim().Length > 0 && UseAIMemory)
                                     {
-                                        AIMemory.AddTranslation(Source, GetSource, GetData);
+                                        AIMemory.AddTranslation(From, GetSource, GetData);
                                     }
                                     TransText = GetData;
                                     Translator.SendTranslateMsg("AI(DeepSeek)", GetSource, TransText);
@@ -393,11 +393,11 @@ namespace SSELex.TranslateManage
                             {
                                 if (DeFine.GlobalLocalSetting.BaichuanApiUsing)
                                 {
-                                    var GetData = ((BaichuanApi)this.Engine).QuickTrans(CustomWords, GetSource, Source, Target, UseAIMemory, AIMemoryCountLimit, Param).Trim();
+                                    var GetData = ((BaichuanApi)this.Engine).QuickTrans(CustomWords, GetSource, From, To, UseAIMemory, AIMemoryCountLimit, Param).Trim();
 
                                     if (GetData.Trim().Length > 0 && UseAIMemory)
                                     {
-                                        AIMemory.AddTranslation(Source, GetSource, GetData);
+                                        AIMemory.AddTranslation(From, GetSource, GetData);
                                     }
                                     TransText = GetData;
                                     Translator.SendTranslateMsg("AI(Baichuan)", GetSource, TransText);
@@ -416,7 +416,12 @@ namespace SSELex.TranslateManage
                         }
                         else
                         {
+                            TransText = GetSource;
 
+                            for (int i = 0; i < NTranslationPreprocessor.ReplaceTags.Count; i++)
+                            {
+                                TransText = TransText.Replace(NTranslationPreprocessor.ReplaceTags[i].Key, NTranslationPreprocessor.ReplaceTags[i].Value);
+                            }
                         }
                     }
 
