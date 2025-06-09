@@ -47,7 +47,7 @@ Acknowledgements: Nexus Mods,9DM,2Game.info,and 泰姆瑞尔MOD组, for their su
 
 # ❤️ Personal Note from the Developer
 
-![Core Translation Flowchart](https://claude.ai/public/artifacts/d6247594-36ef-44b1-8a27-45ca0dfd0d2f)
+- [Core Translation Flowchart](https://claude.ai/public/artifacts/d6247594-36ef-44b1-8a27-45ca0dfd0d2f)
 
 ---
 
