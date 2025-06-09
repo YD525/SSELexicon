@@ -19,8 +19,8 @@ namespace SSELex.TranslateManage
 
     public class ReplaceTag
     {
-        public string Key = "";
-        public string Value = "";
+        public string Key { get; set; } = "";
+        public string Value { get; set; } = "";
         public ReplaceTag(string Key, string Value)
         {
             this.Key = Key;

@@ -112,7 +112,7 @@ namespace SSELex.TranslateManage
         /// <param name="Target"></param>
         /// <param name="SourceStr"></param>
         /// <returns></returns>
-        public string TransAny(string Type,string Key, Languages Source, Languages Target, string SourceStr, bool IsBook, ref bool CanAddCache, ref bool CanSleep)
+        public string TransAny(string Type, string Key, Languages Source, Languages Target, string SourceStr, bool IsBook, ref bool CanAddCache, ref bool CanSleep)
         {
             if (SourceStr == "")
             {
@@ -156,11 +156,11 @@ namespace SSELex.TranslateManage
                     string GetTrans = "";
                     if (!IsBook)
                     {
-                        GetTrans = CurrentEngine.Call(Type,Source, Target, SourceStr, true, DeFine.GlobalLocalSetting.ContextLimit, string.Empty, ref CanAddCache);
+                        GetTrans = CurrentEngine.Call(Type, Source, Target, SourceStr, true, DeFine.GlobalLocalSetting.ContextLimit, string.Empty, ref CanAddCache);
                     }
                     else
                     {
-                        GetTrans = CurrentEngine.Call(Type,Source, Target, SourceStr, false, 1, AIParam, ref CanAddCache);
+                        GetTrans = CurrentEngine.Call(Type, Source, Target, SourceStr, false, 1, AIParam, ref CanAddCache);
                     }
 
                     if (CanSleep)
@@ -225,7 +225,18 @@ namespace SSELex.TranslateManage
                     if (this.Engine is GoogleTransApi || this.Engine is DeepLApi)
                     {
                         bool CanTrans = false;
-                        var CustomWords = NTranslationPreprocessor.GeneratePlaceholderText(From, To, GetSource, Type, out CanTrans);
+
+                        if (DeFine.GlobalLocalSetting.DivCacheEngineUsing)
+                        {
+                            string GetDefSource = GetSource;
+                            GetSource = NTranslationPreprocessor.GeneratePlaceholderText(From, To, GetSource, Type, out CanTrans);
+
+                            Translator.SendTranslateMsg("Local Engine(SSELex)", GetDefSource, GetSource);
+                        }
+                        else
+                        { 
+                           CanTrans = true;
+                        }
 
                         if (CanTrans)
                         {
@@ -277,7 +288,7 @@ namespace SSELex.TranslateManage
                             }
                         }
                         else
-                        { 
+                        {
                             TransText = NTranslationPreprocessor.RestoreFromPlaceholder(GetSource, To);
                         }
                     }
@@ -285,7 +296,25 @@ namespace SSELex.TranslateManage
                     if (this.Engine is CohereApi || this.Engine is ChatGptApi || this.Engine is GeminiApi || this.Engine is DeepSeekApi || this.Engine is BaichuanApi)
                     {
                         bool CanTrans = false;
-                        var CustomWords = NTranslationPreprocessor.GeneratePlaceholderTextByAI(From, To, GetSource, Type, out CanTrans);
+
+                        List<string> CustomWords = new List<string>();
+
+                        if (DeFine.GlobalLocalSetting.DivCacheEngineUsing)
+                        {
+                            CustomWords = NTranslationPreprocessor.GeneratePlaceholderTextByAI(From, To, GetSource, Type, out CanTrans);
+
+                            string GenParam = "";
+                            for (int i = 0; i < CustomWords.Count; i++)
+                            {
+                                GenParam += CustomWords[i] + "\n";
+                            }
+
+                            Translator.SendTranslateMsg("Local Engine(SSELex)", GetSource, GenParam);
+                        }
+                        else
+                        {
+                            CanTrans = true;
+                        }
 
                         if (CanTrans)
                         {
