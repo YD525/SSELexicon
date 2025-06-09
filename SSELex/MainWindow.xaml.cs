@@ -537,7 +537,7 @@ namespace SSELex
                     NodePanel.Visibility = Visibility.Visible;
                 }));
 
-                new CohereApi().QuickTrans("Test Line", Languages.English, Languages.SimplifiedChinese, true, 1, "");
+                //new CohereApi().QuickTrans("Test Line", Languages.English, Languages.SimplifiedChinese, true, 1, "");
                 //DeFine.GlobalLocalSetting.BaichuanKey = "";
                 //var GetStr = new BaichuanApi().QuickTrans("Test Line", Languages.English, Languages.SimplifiedChinese, true, 1, "");
 
@@ -1622,7 +1622,7 @@ namespace SSELex
                         else
                         {
                             bool CanSleep = true;
-                            var GetResult = Translator.QuickTrans(UIHelper.ActiveKey, GetFromStr,DeFine.SourceLanguage,DeFine.TargetLanguage, ref CanSleep);
+                            var GetResult = Translator.QuickTrans(UIHelper.ActiveType, UIHelper.ActiveKey, GetFromStr,DeFine.SourceLanguage,DeFine.TargetLanguage, ref CanSleep);
 
                             this.Dispatcher.Invoke(new Action(() =>
                             {

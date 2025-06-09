@@ -146,7 +146,7 @@ namespace SSELex.TranslateManagement
 
                             bool CanSleep = false;
                             LineID++;
-                            var GetTransLine = Translator.QuickTrans(Key + LineID.ToString(),GetSourceLine,DeFine.SourceLanguage,DeFine.TargetLanguage,ref CanSleep,true);
+                            var GetTransLine = Translator.QuickTrans("Book",Key + LineID.ToString(),GetSourceLine,DeFine.SourceLanguage,DeFine.TargetLanguage,ref CanSleep,true);
 
                             if (GetTransLine.Trim().Length > 0)
                             {

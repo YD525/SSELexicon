@@ -42,6 +42,8 @@ namespace SSELex.TranslateManage
 
         public List<string> GeneratePlaceholderTextByAI(Languages From, Languages To, string SourceStr, string Type, out bool NeedFurtherTranslate)
         {
+            ReplaceTags.Clear();
+
             List<string> Words = new List<string>();
 
             var Datas = AdvancedDictionary.Query(DeFine.CurrentModName, Type, From, To, SourceStr);
@@ -53,7 +55,7 @@ namespace SSELex.TranslateManage
             {
                 var Source = Datas[i].Source;
                 Words.Add($"{Source} -> {Datas[i].Result}");
-
+                ReplaceTags.Add(new ReplaceTag(Source, Datas[i].Result));
                 if (UseWordBoundary)
                 {
                     string Pattern = $@"\b{Regex.Escape(Source)}\b";

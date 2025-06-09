@@ -51,7 +51,7 @@ namespace SSELex.TranslateManage
             return Regex.IsMatch(Input, @"^[\p{P}\p{S}\s]+$");
         }
 
-        public static string QuickTrans(string Key,string Content,Languages From, Languages To, ref bool CanSleep, bool IsBook = false)
+        public static string QuickTrans(string Type, string Key,string Content,Languages From, Languages To, ref bool CanSleep, bool IsBook = false)
         {
             string GetSourceStr = Content;
 
@@ -81,7 +81,7 @@ namespace SSELex.TranslateManage
             }
 
             bool CanAddCache = true;
-            Content = CurrentTransCore.TransAny(Key,SourceLanguage, To, Content, IsBook, ref CanAddCache, ref CanSleep);
+            Content = CurrentTransCore.TransAny(Type, Key,SourceLanguage, To, Content, IsBook, ref CanAddCache, ref CanSleep);
 
             TranslationPreprocessor.NormalizePunctuation(ref Content);
             TranslationPreprocessor.ProcessEmptyEndLine(ref Content);
