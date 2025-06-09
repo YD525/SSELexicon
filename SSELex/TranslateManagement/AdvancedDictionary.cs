@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using SSELex.ConvertManager;
+using SSELex.SqlManager;
 using SSELex.TranslateCore;
 
 namespace SSELex.TranslateManagement
@@ -26,7 +27,7 @@ namespace SSELex.TranslateManagement
         {
 
         }
-        public AdvancedDictionaryItem(object TargetModName,object Type, object Source, object Result, object From, object To, object ExactMatch, object IgnoreCase, object Regex)
+        public AdvancedDictionaryItem(object TargetModName, object Type, object Source, object Result, object From, object To, object ExactMatch, object IgnoreCase, object Regex)
         {
             this.TargetModName = ConvertHelper.ObjToStr(TargetModName);
             this.Type = ConvertHelper.ObjToStr(Type);
@@ -140,7 +141,7 @@ WHERE
                 );
                 if (Get.Regex.Trim().Length > 0)
                 {
-                    if (IsRegexMatch(SourceText, Get.Regex))
+                    if (IsRegexMatch(SourceText,System.Web.HttpUtility.HtmlDecode(Get.Regex)))
                     {
                         AdvancedDictionaryItems.Add(Get);
                     }
@@ -153,5 +154,67 @@ WHERE
 
             return AdvancedDictionaryItems;
         }
+
+        public static void AddItem(AdvancedDictionaryItem item)
+        {
+            string sql = $@"INSERT INTO AdvancedDictionary 
+(TargetModName, Type, Source, Result, [From], [To], ExactMatch, IgnoreCase, Regex)
+VALUES (
+'{EscapeSqlString(item.TargetModName)}',
+'{EscapeSqlString(item.Type)}',
+'{EscapeSqlString(item.Source)}',
+'{EscapeSqlString(item.Result)}',
+{item.From},
+{item.To},
+{item.ExactMatch},
+{item.IgnoreCase},
+'{System.Web.HttpUtility.HtmlEncode(item.Regex)}'
+)";
+            DeFine.GlobalDB.ExecuteNonQuery(sql);
+        }
+
+        public static void DeleteItem(AdvancedDictionaryItem item)
+        {
+            string sql = $@"DELETE FROM AdvancedDictionary WHERE 
+TargetModName = '{EscapeSqlString(item.TargetModName)}' AND
+Type = '{EscapeSqlString(item.Type)}' AND
+Source = '{EscapeSqlString(item.Source)}' AND
+Result = '{EscapeSqlString(item.Result)}' AND
+[From] = {item.From} AND
+[To] = {item.To} AND
+ExactMatch = {item.ExactMatch} AND
+IgnoreCase = {item.IgnoreCase} AND
+Regex = '{System.Web.HttpUtility.HtmlEncode(item.Regex)}'";
+            DeFine.GlobalDB.ExecuteNonQuery(sql);
+        }
+
+        public static PageItem<List<AdvancedDictionaryItem>> QueryByPage(string SourceText, int PageNo)
+        {
+            string Where = $"WHERE Source = '{EscapeSqlString(SourceText)}'";
+
+            int MaxPage = PageHelper.GetPageCount("AdvancedDictionary", Where);
+
+            DataTable NTable = PageHelper.GetTablePageData("AdvancedDictionary", PageNo, DeFine.DefPageSize, Where);
+
+            List<AdvancedDictionaryItem> Items = new List<AdvancedDictionaryItem>();
+            for (int i = 0; i < NTable.Rows.Count; i++)
+            {
+                DataRow Row = NTable.Rows[i];
+                Items.Add(new AdvancedDictionaryItem(
+                    Row["TargetModName"],
+                    Row["Type"],
+                    Row["Source"],
+                    Row["Result"],
+                    Row["From"],
+                    Row["To"],
+                    Row["ExactMatch"],
+                    Row["IgnoreCase"],
+                    Row["Regex"]
+                ));
+            }
+
+            return new PageItem<List<AdvancedDictionaryItem>>(Items, PageNo, MaxPage);
+        }
+
     }
 }
