@@ -2145,7 +2145,6 @@ namespace SSELex
                     }
                 }
             }
-
         }
 
         private void ApplyTransStr(object sender, MouseButtonEventArgs e)

@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\sse lexicon\\sselex\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\sse lexicon\\sselex\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\sse lexicon\\sselex\\define.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\define.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\sse lexicon\\sselex\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|solutionrelative:sselex\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}|SSELex\\SSELex.csproj|c:\\users\\52508\\source\\repos\\sse lexicon\\sselex\\skyrimmanagement\\espreader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -162,57 +162,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 6,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "MainWindow.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\MainWindow.xaml.cs",
-              "RelativeDocumentMoniker": "SSELex\\MainWindow.xaml.cs",
-              "ToolTip": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\MainWindow.xaml.cs",
-              "RelativeToolTip": "SSELex\\MainWindow.xaml.cs",
-              "ViewState": "AgIAAI0DAAAAAAAAAIAwwKgDAAAmAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-12T18:33:21.979Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "LocalTrans.cs",
-              "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\TranslateManagement\\LocalTrans.cs",
-              "RelativeDocumentMoniker": "SSELex\\TranslateManagement\\LocalTrans.cs",
-              "ToolTip": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\TranslateManagement\\LocalTrans.cs",
-              "RelativeToolTip": "SSELex\\TranslateManagement\\LocalTrans.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAIA9wDMAAAATAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-12T06:30:22.726Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "ChatGptApi.cs",
-              "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\PlatformManagement\\ChatGptApi.cs",
-              "RelativeDocumentMoniker": "SSELex\\PlatformManagement\\ChatGptApi.cs",
-              "ToolTip": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\PlatformManagement\\ChatGptApi.cs",
-              "RelativeToolTip": "SSELex\\PlatformManagement\\ChatGptApi.cs",
-              "ViewState": "AgIAAFAAAAAAAAAAAAAwwHYAAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-09T00:22:44.888Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 36,
-              "Title": "LineRenderer.cs",
-              "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\UIManagement\\LineRenderer.cs",
-              "RelativeDocumentMoniker": "SSELex\\UIManagement\\LineRenderer.cs",
-              "ToolTip": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\UIManagement\\LineRenderer.cs",
-              "RelativeToolTip": "SSELex\\UIManagement\\LineRenderer.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-08T21:21:48.147Z"
-            },
             {
               "$type": "Document",
               "DocumentIndex": 21,
@@ -271,8 +222,7 @@
               "RelativeToolTip": "SSELex\\SkyrimManagement\\EspReader.cs",
               "ViewState": "AgIAAOwAAAAAAAAAAAAAwPQAAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-12T05:51:52.279Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-12T05:51:52.279Z"
             },
             {
               "$type": "Document",
@@ -288,7 +238,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "MainWindow.xaml",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\MainWindow.xaml",
               "RelativeDocumentMoniker": "SSELex\\MainWindow.xaml",
@@ -348,6 +298,43 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DeFine.cs",
+              "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\DeFine.cs",
+              "RelativeDocumentMoniker": "SSELex\\DeFine.cs",
+              "ToolTip": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\DeFine.cs",
+              "RelativeToolTip": "SSELex\\DeFine.cs",
+              "ViewState": "AgIAALcAAAAAAAAAAAAkwPcAAABYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-09T00:12:05.961Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "ChatGptApi.cs",
+              "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\PlatformManagement\\ChatGptApi.cs",
+              "RelativeDocumentMoniker": "SSELex\\PlatformManagement\\ChatGptApi.cs",
+              "ToolTip": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\PlatformManagement\\ChatGptApi.cs",
+              "RelativeToolTip": "SSELex\\PlatformManagement\\ChatGptApi.cs",
+              "ViewState": "AgIAAFAAAAAAAAAAAAAwwHYAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-09T00:22:44.888Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "LocalTrans.cs",
+              "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\TranslateManagement\\LocalTrans.cs",
+              "RelativeDocumentMoniker": "SSELex\\TranslateManagement\\LocalTrans.cs",
+              "ToolTip": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\TranslateManagement\\LocalTrans.cs",
+              "RelativeToolTip": "SSELex\\TranslateManagement\\LocalTrans.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAIA9wDMAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-12T06:30:22.726Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 8,
               "Title": "SkyrimDataWriter.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\SkyrimManagement\\SkyrimDataWriter.cs",
@@ -361,15 +348,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "DeFine.cs",
-              "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\DeFine.cs",
-              "RelativeDocumentMoniker": "SSELex\\DeFine.cs",
-              "ToolTip": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\DeFine.cs",
-              "RelativeToolTip": "SSELex\\DeFine.cs",
-              "ViewState": "AgIAAOUAAAAAAAAAAAAIwPcAAABYAAAAAAAAAA==",
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "SSELex\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\MainWindow.xaml.cs",
+              "RelativeToolTip": "SSELex\\MainWindow.xaml.cs",
+              "ViewState": "AgIAAEkIAAAAAAAAAAAgwGIIAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-09T00:12:05.961Z",
+              "WhenOpened": "2025-06-12T18:33:21.979Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "LineRenderer.cs",
+              "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\UIManagement\\LineRenderer.cs",
+              "RelativeDocumentMoniker": "SSELex\\UIManagement\\LineRenderer.cs",
+              "ToolTip": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\UIManagement\\LineRenderer.cs",
+              "RelativeToolTip": "SSELex\\UIManagement\\LineRenderer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-08T21:21:48.147Z"
             },
             {
               "$type": "Document",
