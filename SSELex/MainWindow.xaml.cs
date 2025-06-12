@@ -2324,5 +2324,10 @@ namespace SSELex
         {
             Translator.TestAll();
         }
+
+        private void ShowLocalSetting(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }

@@ -19,6 +19,9 @@
     <Compile Update="EngineEditView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="LocalConfig.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="LogView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

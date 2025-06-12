@@ -6,6 +6,7 @@ using System.Reflection;
 using Mutagen.Bethesda.Skyrim;
 using HarmonyLib;
 using Mutagen.Bethesda.Plugins.Binary.Streams;
+using System.Windows;
 
 namespace SSELex.SkyrimManagement
 {
@@ -69,6 +70,12 @@ namespace SSELex.SkyrimManagement
             if (fieldDataObj is byte[] bytes && offsetObj is int offset)
             {
                 ushort val = BinaryPrimitives.ReadUInt16LittleEndian(bytes.AsSpan(offset));
+
+                if (val != 1 && val != 3)
+                {
+                    MessageBox.Show($"DNAM Flags Unknown Value \"{val}\" Set flags to false");
+                    val = 0;
+                }
                 __result = val switch
                 {
                     0 => false,
@@ -105,6 +112,12 @@ namespace SSELex.SkyrimManagement
             var alwaysLoadedProp = itemType.GetProperty("AlwaysLoaded", BindingFlags.Public | BindingFlags.Instance);
             if (alwaysLoadedProp == null)
                 throw new Exception("AlwaysLoaded Property Not Found");
+
+            if (flags != 1 && flags != 3)
+            {
+                MessageBox.Show($"DNAM Flags Unknown Value \"{flags}\" Set flag to false");
+                flags = 0;
+            }
 
             bool val = flags switch
             {

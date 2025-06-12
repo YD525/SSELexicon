@@ -51,6 +51,7 @@ namespace SSELex
         public static SqlCore<SQLiteHelper> GlobalDB = null;
         public static CodeView CurrentCodeView = null;
         public static TextEditor ActiveIDE = null;
+        public static LocalConfig LocalConfigView = null;
 
         public static string CurrentSearchStr = "";
 
@@ -163,6 +164,9 @@ namespace SSELex
 
             CurrentDashBoardView = new DashBoardView();
             CurrentDashBoardView.Hide();
+
+            LocalConfigView = new LocalConfig();
+            LocalConfigView.Hide();
         }
 
         public static void ShowLogView()

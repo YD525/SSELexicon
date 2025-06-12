@@ -1,0 +1,58 @@
+﻿<Window x:Class="SSELex.LocalConfig"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SSELex"
+        mc:Ignorable="d"
+        Title="LocalConfig" Height="450" Width="800"  Style="{DynamicResource DefWin}" Loaded="Window_Loaded" Closing="Window_Closing">
+    <Window.Resources>
+
+    </Window.Resources>
+    <Border MouseLeftButtonDown="WinHead_MouseLeftButtonDown"  Style="{DynamicResource DefWinBackground}" Background="#FF005495" Name="MainBackGround">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="7"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Name="Header" Margin="10 0 10 0">
+                <StackPanel Orientation="Horizontal">
+                    <Label HorizontalAlignment="Left" Name="MainCaption" Foreground="White" VerticalAlignment="Center">
+                        Local Config
+                    </Label>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Name="NodePanel">
+
+                    <Border Tag="Min" PreviewMouseDown="AnyHeaderButtonClick" CornerRadius="5"  Grid.Column="1" Height="25" Width="25"   Background="#FF005495"  MouseEnter="RMouserEffectByEnter" MouseLeave="RMouserEffectByLeave" Cursor="Hand">
+                        <Image Tag="Min" Name="TMin" Stretch="Uniform"  Source="/SSELex;component/Material/TMin.png"  Width="16" Height="2" Opacity="1" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="HighQuality">
+                        </Image>
+                    </Border>
+
+
+                    <Border Tag="MaxWin"  PreviewMouseDown="AnyHeaderButtonClick" CornerRadius="5"  Grid.Column="3" Height="25" Width="25"  Background="#FF005495"  MouseEnter="RMouserEffectByEnter" MouseLeave="RMouserEffectByLeave" Cursor="Hand">
+                        <Image Tag="MaxWin" Name="TChangeWin" Stretch="UniformToFill"  Source="/SSELex;component/Material/TChangeWin.png"   Width="14" Height="13" Opacity="0.8" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="HighQuality">
+                        </Image>
+                    </Border>
+
+
+                    <Border Tag="Close" PreviewMouseDown="AnyHeaderButtonClick" CornerRadius="5"  Grid.Column="5" Height="25" Width="25"  Background="#FF005495"  MouseEnter="RMouserEffectByEnter" MouseLeave="RMouserEffectByLeave" Cursor="Hand">
+                        <Image Tag="Close" Name="TClose" Stretch="UniformToFill"   Source="/SSELex;component/Material/TClose.png"  Width="14" Height="13" Opacity="0.8" SnapsToDevicePixels="True"  RenderOptions.BitmapScalingMode="HighQuality">
+                        </Image>
+                    </Border>
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="1" Background="White">
+                <Grid Margin="5">
+                    <CheckBox>
+                        Enable
+                    </CheckBox>
+                </Grid>
+            </Grid>
+
+        </Grid>
+    </Border>
+</Window>

@@ -626,6 +626,7 @@
                                     <Button Name="TestBtn" Margin="5 0 5 0" Click="TestBtn_Click" Visibility="Collapsed">
                                         TestAll
                                     </Button>
+                                    
                                     <Border Name="AutoKeepTag" CornerRadius="5" Background="#FF0B74D1" Width="35" Margin="0 0 10 0" PreviewMouseDown="ChangeTransProcessState" Cursor="Hand">
                                         <svgc:SvgViewbox Name="AutoKeep" Stretch="Fill" Source="/Material/Keep.svg"  Margin="3 0 3 0" Width="15" Panel.ZIndex="900" Height="15"  HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand" Opacity="1"/>
                                     </Border>
@@ -639,6 +640,10 @@
                                         <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand">
                                             Cancel
                                         </Label>
+                                    </Border>
+
+                                    <Border CornerRadius="5" Background="#FF0B74D1" Width="35" PreviewMouseDown="ShowLocalSetting" Cursor="Hand" Margin="10 0 0 0">
+                                        <Image Cursor="Hand" Source="{svgc:SvgImage ../Material/Setting.svg}" Height="15" Width="15" Style="{DynamicResource HighQuality}" Tag="LocalSettingView"/>
                                     </Border>
                                 </StackPanel>
                             </Grid>

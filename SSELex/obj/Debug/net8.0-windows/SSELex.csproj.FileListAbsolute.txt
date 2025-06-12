@@ -118,3 +118,5 @@ C:\Users\52508\source\repos\SSE Lexicon\SSELex\bin\Debug\net8.0-windows\Cohere.d
 C:\Users\52508\source\repos\SSE Lexicon\SSELex\bin\Debug\net8.0-windows\System.Text.Encodings.Web.dll
 C:\Users\52508\source\repos\SSE Lexicon\SSELex\bin\Debug\net8.0-windows\System.Text.Json.dll
 C:\Users\52508\source\repos\SSE Lexicon\SSELex\bin\Debug\net8.0-windows\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
+C:\Users\52508\source\repos\SSE Lexicon\SSELex\obj\Debug\net8.0-windows\LocalConfig.g.cs
+C:\Users\52508\source\repos\SSE Lexicon\SSELex\obj\Debug\net8.0-windows\LocalConfig.baml
