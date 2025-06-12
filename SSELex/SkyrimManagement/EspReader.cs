@@ -101,122 +101,122 @@ namespace SSELex.SkyrimManage
             {
                 foreach (var Get in this.CurrentReadMod.Hazards.ToList())
                 {
-                    Hazards.Add(KeyGenter.GenKey(Get.FormKey, Get.EditorID), Get);
+                    Hazards.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.HeadParts.ToList())
                 {
-                    HeadParts.Add(KeyGenter.GenKey(Get.FormKey, Get.EditorID), Get);
+                    HeadParts.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Npcs.ToList())
                 {
-                    Npcs.Add(KeyGenter.GenKey(Get.FormKey, Get.EditorID), Get);
+                    Npcs.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Worldspaces.ToList())
                 {
-                    Worldspaces.Add(KeyGenter.GenKey(Get.FormKey, Get.EditorID), Get);
+                    Worldspaces.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Shouts.ToList())
                 {
-                    Shouts.Add(KeyGenter.GenKey(Get.FormKey, Get.EditorID), Get);
+                    Shouts.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Trees.ToList())
                 {
-                    Trees.Add(KeyGenter.GenKey(Get.FormKey, Get.EditorID), Get);
+                    Trees.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Ingestibles.ToList())
                 {
-                    Ingestibles.Add(KeyGenter.GenKey(Get.FormKey, Get.EditorID), Get);
+                    Ingestibles.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Races.ToList())
                 {
-                    Races.Add(KeyGenter.GenKey(Get.FormKey, Get.EditorID), Get);
+                    Races.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Quests.ToList())
                 {
-                    Quests.Add(KeyGenter.GenKey(Get.FormKey, Get.EditorID), Get);
+                    Quests.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Factions.ToList())
                 {
-                    Factions.Add(KeyGenter.GenKey(Get.FormKey, Get.EditorID), Get);
+                    Factions.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Perks.ToList())
                 {
-                    Perks.Add(KeyGenter.GenKey(Get.FormKey, Get.EditorID), Get);
+                    Perks.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Weapons.ToList())
                 {
-                    Weapons.Add(KeyGenter.GenKey(Get.FormKey, Get.EditorID), Get);
+                    Weapons.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.SoulGems.ToList())
                 {
-                    SoulGems.Add(KeyGenter.GenKey(Get.FormKey, Get.EditorID), Get);
+                    SoulGems.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Armors.ToList())
                 {
-                    Armors.Add(KeyGenter.GenKey(Get.FormKey, Get.EditorID), Get);
+                    Armors.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Keys.ToList())
                 {
-                    Keys.Add(KeyGenter.GenKey(Get.FormKey, Get.EditorID), Get);
+                    Keys.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Containers.ToList())
                 {
-                    Containers.Add(KeyGenter.GenKey(Get.FormKey, Get.EditorID), Get);
+                    Containers.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Activators.ToList())
                 {
-                    Activators.Add(KeyGenter.GenKey(Get.FormKey, Get.EditorID), Get);
+                    Activators.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.MiscItems.ToList())
                 {
-                    MiscItems.Add(KeyGenter.GenKey(Get.FormKey, Get.EditorID), Get);
+                    MiscItems.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Books.ToList())
                 {
-                    Books.Add(KeyGenter.GenKey(Get.FormKey, Get.EditorID), Get);
+                    Books.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Messages.ToList())
                 {
-                    Messages.Add(KeyGenter.GenKey(Get.FormKey, Get.EditorID), Get);
+                    Messages.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.DialogTopics.ToList())
                 {
-                    DialogTopics.Add(KeyGenter.GenKey(Get.FormKey, Get.EditorID), Get);
+                    DialogTopics.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Spells.ToList())
                 {
-                    Spells.Add(KeyGenter.GenKey(Get.FormKey, Get.EditorID), Get);
+                    Spells.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.MagicEffects.ToList())
                 {
-                    MagicEffects.Add(KeyGenter.GenKey(Get.FormKey, Get.EditorID), Get);
+                    MagicEffects.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.ObjectEffects.ToList())
                 {
-                    ObjectEffects.Add(KeyGenter.GenKey(Get.FormKey, Get.EditorID), Get);
+                    ObjectEffects.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Cells.ToList())

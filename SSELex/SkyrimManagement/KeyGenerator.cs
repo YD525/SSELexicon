@@ -8,7 +8,7 @@ using SSELex.SkyrimManage;
 
 namespace SSELex.SkyrimManagement
 {
-    public class KeyGenter
+    public class KeyGenerator
     {
         public static string GenKey(FormKey? Key, string? EditID)
         {
