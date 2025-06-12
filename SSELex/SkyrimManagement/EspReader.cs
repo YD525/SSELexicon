@@ -242,7 +242,7 @@ namespace SSELex.SkyrimManage
 
         public IMutagenEncoding QueryEncoding()
         {
-            var AutoEncoding = MutagenEncoding._utf8_1256;
+            var AutoEncoding = MutagenEncoding._utf8;
 
             if (DeFine.GlobalLocalSetting.FileEncoding == EncodingTypes.UTF8_1256)
             {

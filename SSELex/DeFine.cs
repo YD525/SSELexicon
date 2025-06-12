@@ -230,7 +230,7 @@ namespace SSELex
         public bool ShowCode { get; set; } = true;
         public bool AutoCompress { get; set; } = true;
         public SkyrimType SkyrimType { get; set; } = SkyrimType.SkyrimSE;
-        public EncodingTypes FileEncoding { get; set; } = EncodingTypes.UTF8_1256;
+        public EncodingTypes FileEncoding { get; set; } = EncodingTypes.UTF8;
         public string ViewMode { get; set; } = "Normal";
 
         public void ReadConfig()
