@@ -2,6 +2,7 @@
 using Noggog;
 using SSELex.ConvertManager;
 using SSELex.SkyrimManage;
+using SSELex.SkyrimManagement;
 using SSELex.TranslateManage;
 using SSELex.UIManagement;
 
@@ -343,7 +344,7 @@ namespace SSELex.UIManage
                         var GetHashKey = Reader.Hazards.ElementAt(i).Key;
                         var GetHazardItem = Reader.Hazards[GetHashKey];
 
-                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetHazardItem.EditorID, GetHazardItem.FormKey);
+                        string AutoKey = KeyGenter.GenKey(GetHazardItem.FormKey,GetHazardItem.EditorID);
 
                         var GetName = ConvertHelper.ObjToStr(GetHazardItem.Name); //HAZD FULL
                         if (GetName.Length > 0)
@@ -377,7 +378,7 @@ namespace SSELex.UIManage
                         var GetHashKey = Reader.HeadParts.ElementAt(i).Key;
                         var GetHeadPartItem = Reader.HeadParts[GetHashKey];
 
-                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetHeadPartItem.EditorID, GetHeadPartItem.FormKey);
+                        string AutoKey = KeyGenter.GenKey(GetHeadPartItem.FormKey, GetHeadPartItem.EditorID);
 
                         var GetName = ConvertHelper.ObjToStr(GetHeadPartItem.Name); //HDPT FULL
                         if (GetName.Length > 0)
@@ -411,7 +412,7 @@ namespace SSELex.UIManage
                         var GetHashKey = Reader.Npcs.ElementAt(i).Key;
                         var GetNpcItem = Reader.Npcs[GetHashKey];
 
-                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetNpcItem.EditorID, GetNpcItem.FormKey);
+                        string AutoKey = KeyGenter.GenKey(GetNpcItem.FormKey, GetNpcItem.EditorID);
 
                         var GetName = ConvertHelper.ObjToStr(GetNpcItem.Name); //NPC FULL
                         if (GetName.Length > 0)
@@ -458,7 +459,7 @@ namespace SSELex.UIManage
                         var GetHashKey = Reader.Worldspaces.ElementAt(i).Key;
                         var GetWorldspaceItem = Reader.Worldspaces[GetHashKey];
 
-                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetWorldspaceItem.EditorID, GetWorldspaceItem.FormKey);
+                        string AutoKey = KeyGenter.GenKey(GetWorldspaceItem.FormKey, GetWorldspaceItem.EditorID);
 
                         var GetName = ConvertHelper.ObjToStr(GetWorldspaceItem.Name);
                         if (GetName.Length > 0)
@@ -492,7 +493,7 @@ namespace SSELex.UIManage
                         var GetHashKey = Reader.Shouts.ElementAt(i).Key;
                         var GetShoutItem = Reader.Shouts[GetHashKey];
 
-                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetShoutItem.EditorID, GetShoutItem.FormKey);
+                        string AutoKey = KeyGenter.GenKey(GetShoutItem.FormKey, GetShoutItem.EditorID);
 
                         var GetName = ConvertHelper.ObjToStr(GetShoutItem.Name); //SHOU FULL
                         if (GetName.Length > 0)
@@ -526,7 +527,7 @@ namespace SSELex.UIManage
                         var GetHashKey = Reader.Trees.ElementAt(i).Key;
                         var GetTreeItem = Reader.Trees[GetHashKey];
 
-                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetTreeItem.EditorID, GetTreeItem.FormKey);
+                        string AutoKey = KeyGenter.GenKey(GetTreeItem.FormKey, GetTreeItem.EditorID);
 
                         var GetName = ConvertHelper.ObjToStr(GetTreeItem.Name);
                         if (GetName.Length > 0)
@@ -560,7 +561,7 @@ namespace SSELex.UIManage
                         var GetHashKey = Reader.Ingestibles.ElementAt(i).Key;
                         var GetIngestibleItem = Reader.Ingestibles[GetHashKey];
 
-                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetIngestibleItem.EditorID, GetIngestibleItem.FormKey);
+                        string AutoKey = KeyGenter.GenKey(GetIngestibleItem.FormKey, GetIngestibleItem.EditorID);
 
                         var GetName = ConvertHelper.ObjToStr(GetIngestibleItem.Name);
                         if (GetName.Length > 0)
@@ -594,7 +595,7 @@ namespace SSELex.UIManage
                         var GetHashKey = Reader.Races.ElementAt(i).Key;
                         var GetRaceItem = Reader.Races[GetHashKey];
 
-                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetRaceItem.EditorID, GetRaceItem.FormKey);
+                        string AutoKey = KeyGenter.GenKey(GetRaceItem.FormKey, GetRaceItem.EditorID);
 
                         var GetName = ConvertHelper.ObjToStr(GetRaceItem.Name);
                         if (GetName.Length > 0)
@@ -641,7 +642,7 @@ namespace SSELex.UIManage
                         var GetHashKey = Reader.Quests.ElementAt(i).Key;
                         var GetQuestItem = Reader.Quests[GetHashKey];
 
-                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetQuestItem.EditorID, GetQuestItem.FormKey);
+                        string AutoKey = KeyGenter.GenKey(GetQuestItem.FormKey, GetQuestItem.EditorID);
 
                         var GetName = ConvertHelper.ObjToStr(GetQuestItem.Name);
                         if (GetName.Length > 0)
@@ -759,7 +760,7 @@ namespace SSELex.UIManage
                         var GetHashKey = Reader.Factions.ElementAt(i).Key;
                         var GetFactionItem = Reader.Factions[GetHashKey];
 
-                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetFactionItem.EditorID, GetFactionItem.FormKey);
+                        string AutoKey = KeyGenter.GenKey(GetFactionItem.FormKey, GetFactionItem.EditorID);
 
                         var GetName = ConvertHelper.ObjToStr(GetFactionItem.Name);
                         if (GetName.Length > 0)
@@ -845,7 +846,7 @@ namespace SSELex.UIManage
                         var GetHashKey = Reader.Perks.ElementAt(i).Key;
                         var GetPerkItem = Reader.Perks[GetHashKey];
 
-                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetPerkItem.EditorID, GetPerkItem.FormKey);
+                        string AutoKey = KeyGenter.GenKey(GetPerkItem.FormKey, GetPerkItem.EditorID);
 
                         var GetName = ConvertHelper.ObjToStr(GetPerkItem.Name);
                         if (GetName.Length > 0)
@@ -892,7 +893,7 @@ namespace SSELex.UIManage
                         var GetHashKey = Reader.Weapons.ElementAt(i).Key;
                         var GetWeapon = Reader.Weapons[GetHashKey];
 
-                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetWeapon.EditorID, GetWeapon.FormKey);
+                        string AutoKey = KeyGenter.GenKey(GetWeapon.FormKey, GetWeapon.EditorID);
 
                         var GetName = ConvertHelper.ObjToStr(GetWeapon.Name);
                         if (GetName.Length > 0)
@@ -939,7 +940,7 @@ namespace SSELex.UIManage
                         var GetHashKey = Reader.SoulGems.ElementAt(i).Key;
                         var GetSoulGem = Reader.SoulGems[GetHashKey];
 
-                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetSoulGem.EditorID, GetSoulGem.FormKey);
+                        string AutoKey = KeyGenter.GenKey(GetSoulGem.FormKey, GetSoulGem.EditorID);
 
                         var GetName = ConvertHelper.ObjToStr(GetSoulGem.Name);
                         if (GetName.Length > 0)
@@ -973,7 +974,7 @@ namespace SSELex.UIManage
                         var GetHashKey = Reader.Armors.ElementAt(i).Key;
                         var GetArmor = Reader.Armors[GetHashKey];
 
-                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetArmor.EditorID, GetArmor.FormKey);
+                        string AutoKey = KeyGenter.GenKey(GetArmor.FormKey, GetArmor.EditorID);
 
                         var GetName = ConvertHelper.ObjToStr(GetArmor.Name);
                         if (GetName.Length > 0)
@@ -1020,7 +1021,7 @@ namespace SSELex.UIManage
                         var GetHashKey = Reader.Keys.ElementAt(i).Key;
                         var GetKey = Reader.Keys[GetHashKey];
 
-                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetKey.EditorID, GetKey.FormKey);
+                        string AutoKey = KeyGenter.GenKey(GetKey.FormKey, GetKey.EditorID);
 
                         var GetName = ConvertHelper.ObjToStr(GetKey.Name);
                         if (GetName.Length > 0)
@@ -1054,7 +1055,7 @@ namespace SSELex.UIManage
                         var GetHashKey = Reader.Containers.ElementAt(i).Key;
                         var GetContainer = Reader.Containers[GetHashKey];
 
-                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetContainer.EditorID, GetContainer.FormKey);
+                        string AutoKey = KeyGenter.GenKey(GetContainer.FormKey, GetContainer.EditorID);
 
                         var GetName = ConvertHelper.ObjToStr(GetContainer.Name);
                         if (GetName.Length > 0)
@@ -1088,7 +1089,7 @@ namespace SSELex.UIManage
                         var GetHashKey = Reader.Activators.ElementAt(i).Key;
                         var GetActivator = Reader.Activators[GetHashKey];
 
-                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetActivator.EditorID, GetActivator.FormKey);
+                        string AutoKey = KeyGenter.GenKey(GetActivator.FormKey, GetActivator.EditorID);
 
                         var GetName = ConvertHelper.ObjToStr(GetActivator.Name);
                         if (GetName.Length > 0)
@@ -1135,7 +1136,7 @@ namespace SSELex.UIManage
                         var GetHashKey = Reader.MiscItems.ElementAt(i).Key;
                         var GetMiscItem = Reader.MiscItems[GetHashKey];
 
-                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetMiscItem.EditorID, GetMiscItem.FormKey);
+                        string AutoKey = KeyGenter.GenKey(GetMiscItem.FormKey, GetMiscItem.EditorID);
 
                         var GetName = ConvertHelper.ObjToStr(GetMiscItem.Name);
                         if (GetName.Length > 0)
@@ -1169,7 +1170,7 @@ namespace SSELex.UIManage
                         var GetHashKey = Reader.Books.ElementAt(i).Key;
                         var Books = Reader.Books[GetHashKey];
 
-                        string AutoKey = SkyrimDataWriter.GetAutoKey(Books.EditorID, Books.FormKey);
+                        string AutoKey = KeyGenter.GenKey(Books.FormKey, Books.EditorID);
 
                         var GetName = ConvertHelper.ObjToStr(Books.Name);
                         if (GetName.Length > 0)
@@ -1229,7 +1230,7 @@ namespace SSELex.UIManage
                         var GetHashKey = Reader.Messages.ElementAt(i).Key;
                         var GetMessageItem = Reader.Messages[GetHashKey];
 
-                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetMessageItem.EditorID, GetMessageItem.FormKey);
+                        string AutoKey = KeyGenter.GenKey(GetMessageItem.FormKey, GetMessageItem.EditorID);
 
                         var GetName = ConvertHelper.ObjToStr(GetMessageItem.Name);
                         if (GetName.Length > 0)
@@ -1276,7 +1277,7 @@ namespace SSELex.UIManage
                         var GetHashKey = Reader.Messages.ElementAt(i).Key;
                         var GetMessageItem = Reader.Messages[GetHashKey];
 
-                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetMessageItem.EditorID, GetMessageItem.FormKey);
+                        string AutoKey = KeyGenter.GenKey(GetMessageItem.FormKey, GetMessageItem.EditorID);
 
                         var GetButtons = GetMessageItem.MenuButtons;
                         if (GetButtons != null)
@@ -1327,7 +1328,7 @@ namespace SSELex.UIManage
                         var GetHashKey = Reader.DialogTopics.ElementAt(i).Key;
                         var GetDialogTopicItem = Reader.DialogTopics[GetHashKey];
 
-                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetDialogTopicItem.EditorID, GetDialogTopicItem.FormKey);
+                        string AutoKey = KeyGenter.GenKey(GetDialogTopicItem.FormKey, GetDialogTopicItem.EditorID);
 
                         var GetName = ConvertHelper.ObjToStr(GetDialogTopicItem.Name);
                         if (GetName.Length > 0)
@@ -1414,7 +1415,7 @@ namespace SSELex.UIManage
                         var GetHashKey = Reader.Spells.ElementAt(i).Key;
                         var GetSpellItem = Reader.Spells[GetHashKey];
 
-                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetSpellItem.EditorID, GetSpellItem.FormKey);
+                        string AutoKey = KeyGenter.GenKey(GetSpellItem.FormKey, GetSpellItem.EditorID);
 
                         var GetName = ConvertHelper.ObjToStr(GetSpellItem.Name);
                         if (GetName.Length > 0)
@@ -1461,7 +1462,7 @@ namespace SSELex.UIManage
                         var GetHashKey = Reader.ObjectEffects.ElementAt(i).Key;
                         var GetObjectEffect = Reader.ObjectEffects[GetHashKey];
 
-                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetObjectEffect.EditorID, GetObjectEffect.FormKey);
+                        string AutoKey = KeyGenter.GenKey(GetObjectEffect.FormKey, GetObjectEffect.EditorID);
 
                         var GetName = ConvertHelper.ObjToStr(GetObjectEffect.Name);
                         if (GetName.Length > 0)
@@ -1495,7 +1496,7 @@ namespace SSELex.UIManage
                         var GetHashKey = Reader.MagicEffects.ElementAt(i).Key;
                         var GetMagicEffect = Reader.MagicEffects[GetHashKey];
 
-                        string AutoKey = SkyrimDataWriter.GetAutoKey(GetMagicEffect.EditorID, GetMagicEffect.FormKey);
+                        string AutoKey = KeyGenter.GenKey(GetMagicEffect.FormKey, GetMagicEffect.EditorID);
 
                         var GetName = ConvertHelper.ObjToStr(GetMagicEffect.Name);
                         if (GetName.Length > 0)
@@ -1557,7 +1558,7 @@ namespace SSELex.UIManage
                                                 var GetName = ConvertHelper.ObjToStr(GetChild.Name);
                                                 if (GetName.Length > 0)
                                                 {
-                                                    string AutoKey = SkyrimDataWriter.GetAutoKey(GetChild.EditorID, GetChild.FormKey);
+                                                    string AutoKey = KeyGenter.GenKey(GetChild.FormKey, GetChild.EditorID);
 
                                                     string SetType = string.Format("Cell[{0}]", ForID);
                                                     GetTransStr = TryGetTransData(AutoKey, SetType);

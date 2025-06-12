@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using Mutagen.Bethesda.Plugins;
 using SSELex.ConvertManager;
 using SSELex.SkyrimManage;
+using SSELex.SkyrimManagement;
 using SSELex.TranslateManage;
 using SSELex.UIManagement;
 
@@ -11,29 +12,6 @@ namespace SSELex.UIManage
 {
     public class SkyrimDataWriter
     {
-        public static string GetAutoKey(string? EditorID, FormKey? FormKey)
-        {
-            string AutoKey = "";
-            if (EditorID != null)
-            {
-                AutoKey = EditorID;
-            }
-            else
-            {
-                if (FormKey != null)
-                {
-                    AutoKey = FormKey.ToString();
-                }
-            }
-
-            if (AutoKey == null)
-            {
-                AutoKey = string.Empty;
-            }
-
-            return AutoKey;
-        }
-
         public static void WriteAllMemoryData(ref EspReader Writer)
         {
             try
@@ -130,7 +108,7 @@ namespace SSELex.UIManage
                     var GetHashKey = Writer.Hazards.ElementAt(i).Key;
                     var GetHazardItem = Writer.Hazards[GetHashKey];
 
-                    string AutoKey = GetAutoKey(GetHazardItem.EditorID, GetHazardItem.FormKey);
+                    string AutoKey = KeyGenter.GenKey(GetHazardItem.FormKey, GetHazardItem.EditorID);
 
                     SetType = "Name";
                     GetTransStr = GetTransData(AutoKey, SetType);
@@ -160,7 +138,7 @@ namespace SSELex.UIManage
                     var GetHashKey = Writer.HeadParts.ElementAt(i).Key;
                     var GetHeadPartItem = Writer.HeadParts[GetHashKey];
 
-                    string AutoKey = GetAutoKey(GetHeadPartItem.EditorID, GetHeadPartItem.FormKey);
+                    string AutoKey = KeyGenter.GenKey(GetHeadPartItem.FormKey, GetHeadPartItem.EditorID);
 
                     SetType = "Name";
                     GetTransStr = GetTransData(AutoKey, SetType);
@@ -190,7 +168,7 @@ namespace SSELex.UIManage
                     var GetHashKey = Writer.Npcs.ElementAt(i).Key;
                     var GetNpcItem = Writer.Npcs[GetHashKey];
 
-                    string AutoKey = GetAutoKey(GetNpcItem.EditorID, GetNpcItem.FormKey);
+                    string AutoKey = KeyGenter.GenKey(GetNpcItem.FormKey, GetNpcItem.EditorID);
 
                     SetType = "Name";
                     GetTransStr = GetTransData(AutoKey, SetType);
@@ -228,7 +206,7 @@ namespace SSELex.UIManage
                     var GetHashKey = Writer.Worldspaces.ElementAt(i).Key;
                     var GetWorldspaceItem = Writer.Worldspaces[GetHashKey];
 
-                    string AutoKey = GetAutoKey(GetWorldspaceItem.EditorID, GetWorldspaceItem.FormKey);
+                    string AutoKey = KeyGenter.GenKey(GetWorldspaceItem.FormKey, GetWorldspaceItem.EditorID);
 
                     SetType = "Name";
                     GetTransStr = GetTransData(AutoKey, SetType);
@@ -258,7 +236,7 @@ namespace SSELex.UIManage
                     var GetHashKey = Writer.Shouts.ElementAt(i).Key;
                     var GetShoutItem = Writer.Shouts[GetHashKey];
 
-                    string AutoKey = GetAutoKey(GetShoutItem.EditorID, GetShoutItem.FormKey);
+                    string AutoKey = KeyGenter.GenKey(GetShoutItem.FormKey, GetShoutItem.EditorID);
 
                     SetType = "Name";
                     GetTransStr = GetTransData(AutoKey, SetType);
@@ -288,7 +266,7 @@ namespace SSELex.UIManage
                     var GetHashKey = Writer.Trees.ElementAt(i).Key;
                     var GetTreeItem = Writer.Trees[GetHashKey];
 
-                    string AutoKey = GetAutoKey(GetTreeItem.EditorID, GetTreeItem.FormKey);
+                    string AutoKey = KeyGenter.GenKey(GetTreeItem.FormKey, GetTreeItem.EditorID);
 
                     SetType = "Name";
                     GetTransStr = GetTransData(AutoKey, SetType);
@@ -318,7 +296,7 @@ namespace SSELex.UIManage
                     var GetHashKey = Writer.Ingestibles.ElementAt(i).Key;
                     var GetIngestibleItem = Writer.Ingestibles[GetHashKey];
 
-                    string AutoKey = GetAutoKey(GetIngestibleItem.EditorID, GetIngestibleItem.FormKey);
+                    string AutoKey = KeyGenter.GenKey(GetIngestibleItem.FormKey, GetIngestibleItem.EditorID);
 
                     SetType = "Name";
                     GetTransStr = GetTransData(AutoKey, SetType);
@@ -348,7 +326,7 @@ namespace SSELex.UIManage
                     var GetHashKey = Writer.Races.ElementAt(i).Key;
                     var GetRaceItem = Writer.Races[GetHashKey];
 
-                    string AutoKey = GetAutoKey(GetRaceItem.EditorID, GetRaceItem.FormKey);
+                    string AutoKey = KeyGenter.GenKey(GetRaceItem.FormKey, GetRaceItem.EditorID);
 
                     SetType = "Name";
                     GetTransStr = GetTransData(AutoKey, SetType);
@@ -385,7 +363,7 @@ namespace SSELex.UIManage
                     var GetHashKey = Writer.Quests.ElementAt(i).Key;
                     var GetQuestItem = Writer.Quests[GetHashKey];
 
-                    string AutoKey = GetAutoKey(GetQuestItem.EditorID, GetQuestItem.FormKey);
+                    string AutoKey = KeyGenter.GenKey(GetQuestItem.FormKey, GetQuestItem.EditorID);
 
                     var GetName = ConvertHelper.ObjToStr(GetQuestItem.Name);
 
@@ -490,7 +468,7 @@ namespace SSELex.UIManage
                     var GetHashKey = Writer.Factions.ElementAt(i).Key;
                     var GetFactionItem = Writer.Factions[GetHashKey];
 
-                    string AutoKey = GetAutoKey(GetFactionItem.EditorID, GetFactionItem.FormKey);
+                    string AutoKey = KeyGenter.GenKey(GetFactionItem.FormKey, GetFactionItem.EditorID);
 
                     SetType = "Name";
                     GetTransStr = GetTransData(AutoKey, SetType);
@@ -555,7 +533,7 @@ namespace SSELex.UIManage
                     var GetHashKey = Writer.Perks.ElementAt(i).Key;
                     var GetPerkItem = Writer.Perks[GetHashKey];
 
-                    string AutoKey = GetAutoKey(GetPerkItem.EditorID, GetPerkItem.FormKey);
+                    string AutoKey = KeyGenter.GenKey(GetPerkItem.FormKey, GetPerkItem.EditorID);
 
                     var GetName = ConvertHelper.ObjToStr(GetPerkItem.Name);
                     SetType = "Name";
@@ -593,7 +571,7 @@ namespace SSELex.UIManage
                     var GetHashKey = Writer.Weapons.ElementAt(i).Key;
                     var GetWeapon = Writer.Weapons[GetHashKey];
 
-                    string AutoKey = GetAutoKey(GetWeapon.EditorID, GetWeapon.FormKey);
+                    string AutoKey = KeyGenter.GenKey(GetWeapon.FormKey, GetWeapon.EditorID);
 
                     var GetName = ConvertHelper.ObjToStr(GetWeapon.Name);
                     SetType = "Name";
@@ -632,7 +610,7 @@ namespace SSELex.UIManage
                     var GetHashKey = Writer.SoulGems.ElementAt(i).Key;
                     var GetSoulGem = Writer.SoulGems[GetHashKey];
 
-                    string AutoKey = GetAutoKey(GetSoulGem.EditorID, GetSoulGem.FormKey);
+                    string AutoKey = KeyGenter.GenKey(GetSoulGem.FormKey, GetSoulGem.EditorID);
 
                     var GetName = ConvertHelper.ObjToStr(GetSoulGem.Name);
                     SetType = "Name";
@@ -663,7 +641,7 @@ namespace SSELex.UIManage
                     var GetHashKey = Writer.Armors.ElementAt(i).Key;
                     var GetArmor = Writer.Armors[GetHashKey];
 
-                    string AutoKey = GetAutoKey(GetArmor.EditorID, GetArmor.FormKey);
+                    string AutoKey = KeyGenter.GenKey(GetArmor.FormKey, GetArmor.EditorID);
 
                     var GetName = ConvertHelper.ObjToStr(GetArmor.Name);
                     SetType = "Name";
@@ -702,7 +680,7 @@ namespace SSELex.UIManage
                     var GetHashKey = Writer.Keys.ElementAt(i).Key;
                     var GetKey = Writer.Keys[GetHashKey];
 
-                    string AutoKey = GetAutoKey(GetKey.EditorID, GetKey.FormKey);
+                    string AutoKey = KeyGenter.GenKey(GetKey.FormKey, GetKey.EditorID);
 
                     var GetName = ConvertHelper.ObjToStr(GetKey.Name);
                     SetType = "Name";
@@ -733,7 +711,7 @@ namespace SSELex.UIManage
                     var GetHashKey = Writer.Containers.ElementAt(i).Key;
                     var GetContainer = Writer.Containers[GetHashKey];
 
-                    string AutoKey = GetAutoKey(GetContainer.EditorID, GetContainer.FormKey);
+                    string AutoKey = KeyGenter.GenKey(GetContainer.FormKey, GetContainer.EditorID);
 
                     var GetName = ConvertHelper.ObjToStr(GetContainer.Name);
                     SetType = "Name";
@@ -764,7 +742,7 @@ namespace SSELex.UIManage
                     var GetHashKey = Writer.Activators.ElementAt(i).Key;
                     var GetActivator = Writer.Activators[GetHashKey];
 
-                    string AutoKey = GetAutoKey(GetActivator.EditorID, GetActivator.FormKey);
+                    string AutoKey = KeyGenter.GenKey(GetActivator.FormKey, GetActivator.EditorID);
 
                     var GetName = ConvertHelper.ObjToStr(GetActivator.Name);
                     SetType = "Name";
@@ -805,7 +783,7 @@ namespace SSELex.UIManage
                     var GetHashKey = Writer.MiscItems.ElementAt(i).Key;
                     var GetMiscItem = Writer.MiscItems[GetHashKey];
 
-                    string AutoKey = GetAutoKey(GetMiscItem.EditorID, GetMiscItem.FormKey);
+                    string AutoKey = KeyGenter.GenKey(GetMiscItem.FormKey, GetMiscItem.EditorID);
 
                     var GetName = ConvertHelper.ObjToStr(GetMiscItem.Name);
                     SetType = "Name";
@@ -835,7 +813,7 @@ namespace SSELex.UIManage
                     var GetHashKey = Writer.Books.ElementAt(i).Key;
                     var Books = Writer.Books[GetHashKey];
 
-                    string AutoKey = GetAutoKey(Books.EditorID, Books.FormKey);
+                    string AutoKey = KeyGenter.GenKey(Books.FormKey, Books.EditorID);
 
                     var GetName = ConvertHelper.ObjToStr(Books.Name);
                     SetType = "Name";
@@ -882,7 +860,7 @@ namespace SSELex.UIManage
                     var GetHashKey = Writer.Messages.ElementAt(i).Key;
                     var GetMessageItem = Writer.Messages[GetHashKey];
 
-                    string AutoKey = GetAutoKey(GetMessageItem.EditorID, GetMessageItem.FormKey);
+                    string AutoKey = KeyGenter.GenKey(GetMessageItem.FormKey, GetMessageItem.EditorID);
 
                     var GetName = ConvertHelper.ObjToStr(GetMessageItem.Name);
                     SetType = "Name";
@@ -920,7 +898,7 @@ namespace SSELex.UIManage
                     var GetHashKey = Writer.Messages.ElementAt(i).Key;
                     var GetMessageItem = Writer.Messages[GetHashKey];
 
-                    string AutoKey = GetAutoKey(GetMessageItem.EditorID, GetMessageItem.FormKey);
+                    string AutoKey = KeyGenter.GenKey(GetMessageItem.FormKey, GetMessageItem.EditorID);
 
                     if (GetMessageItem.MenuButtons != null)
                     {
@@ -967,7 +945,7 @@ namespace SSELex.UIManage
                     var GetHashKey = Writer.DialogTopics.ElementAt(i).Key;
                     var GetDialogTopicItem = Writer.DialogTopics[GetHashKey];
 
-                    string AutoKey = GetAutoKey(GetDialogTopicItem.EditorID, GetDialogTopicItem.FormKey);
+                    string AutoKey = KeyGenter.GenKey(GetDialogTopicItem.FormKey, GetDialogTopicItem.EditorID);
 
                     var GetName = ConvertHelper.ObjToStr(GetDialogTopicItem.Name);
                     if (GetName.Length > 0)
@@ -1044,7 +1022,7 @@ namespace SSELex.UIManage
                     var GetHashKey = Writer.Spells.ElementAt(i).Key;
                     var GetSpellItem = Writer.Spells[GetHashKey];
 
-                    string AutoKey = GetAutoKey(GetSpellItem.EditorID, GetSpellItem.FormKey);
+                    string AutoKey = KeyGenter.GenKey(GetSpellItem.FormKey, GetSpellItem.EditorID);
 
                     var GetName = ConvertHelper.ObjToStr(GetSpellItem.Name);
                     SetType = "Name";
@@ -1083,7 +1061,7 @@ namespace SSELex.UIManage
                     var GetHashKey = Writer.ObjectEffects.ElementAt(i).Key;
                     var GetObjectEffect = Writer.ObjectEffects[GetHashKey];
 
-                    string AutoKey = GetAutoKey(GetObjectEffect.EditorID, GetObjectEffect.FormKey);
+                    string AutoKey = KeyGenter.GenKey(GetObjectEffect.FormKey, GetObjectEffect.EditorID);
 
                     var GetName = ConvertHelper.ObjToStr(GetObjectEffect.Name);
                     SetType = "Name";
@@ -1113,7 +1091,7 @@ namespace SSELex.UIManage
                     var GetHashKey = Writer.MagicEffects.ElementAt(i).Key;
                     var GetMagicEffect = Writer.MagicEffects[GetHashKey];
 
-                    string AutoKey = GetAutoKey(GetMagicEffect.EditorID, GetMagicEffect.FormKey);
+                    string AutoKey = KeyGenter.GenKey(GetMagicEffect.FormKey, GetMagicEffect.EditorID);
 
                     var GetName = ConvertHelper.ObjToStr(GetMagicEffect.Name);
                     SetType = "Name";
@@ -1165,7 +1143,7 @@ namespace SSELex.UIManage
                                             ForID++;
                                             var GetName = ConvertHelper.ObjToStr(GetCell.SubBlocks[ii].Cells[iii].Name);
                                             string SetType = string.Format("Cell[{0}]", ForID);
-                                            string AutoKey = GetAutoKey(GetCell.SubBlocks[ii].Cells[iii].EditorID, GetCell.SubBlocks[ii].Cells[iii].FormKey);
+                                            string AutoKey = KeyGenter.GenKey(GetCell.SubBlocks[ii].Cells[iii].FormKey, GetCell.SubBlocks[ii].Cells[iii].EditorID);
                                             GetTransStr = GetTransData(AutoKey, SetType);
                                             if (GetTransStr.Length > 0)
                                             {
