@@ -187,9 +187,6 @@ namespace SSELex
     {
         public double FormHeight { get; set; } = 850;
         public double FormWidth { get; set; } = 1200;
-        public bool PhraseEngineUsing { get; set; } = false;
-        public bool CodeParsingEngineUsing { get; set; } = true;
-        public bool ConjunctionEngineUsing { get; set; } = false;
         public bool ChatGptApiUsing { get; set; } = false;
         public bool GeminiApiUsing { get; set; } = false;
         public bool CohereApiUsing { get; set; } = false;
@@ -249,9 +246,6 @@ namespace SSELex
                         this.MaxThreadCount = GetSetting.MaxThreadCount;
                         this.AutoSetThreadLimit = GetSetting.AutoSetThreadLimit;
                         this.AutoLoadDictionaryFile = GetSetting.AutoLoadDictionaryFile;
-                        this.PhraseEngineUsing = GetSetting.PhraseEngineUsing;
-                        this.CodeParsingEngineUsing = GetSetting.CodeParsingEngineUsing;
-                        this.ConjunctionEngineUsing = GetSetting.ConjunctionEngineUsing;
                         this.ChatGptApiUsing = GetSetting.ChatGptApiUsing;
                         this.GeminiApiUsing = GetSetting.GeminiApiUsing;
                         this.DeepSeekApiUsing = GetSetting.DeepSeekApiUsing;

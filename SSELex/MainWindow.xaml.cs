@@ -879,30 +879,6 @@ namespace SSELex
 
                         switch (GetContent)
                         {
-                            case "PhraseEngine":
-                                {
-                                    if (!DeFine.GlobalLocalSetting.PhraseEngineUsing)
-                                    {
-                                        (GetEngine as SvgViewbox).Opacity = 0.15;
-                                    }
-                                }
-                                break;
-                            case "CodeEngine":
-                                {
-                                    if (!DeFine.GlobalLocalSetting.CodeParsingEngineUsing)
-                                    {
-                                        (GetEngine as SvgViewbox).Opacity = 0.15;
-                                    }
-                                }
-                                break;
-                            case "ConjunctionEngine":
-                                {
-                                    if (!DeFine.GlobalLocalSetting.ConjunctionEngineUsing)
-                                    {
-                                        (GetEngine as SvgViewbox).Opacity = 0.15;
-                                    }
-                                }
-                                break;
                             case "GoogleEngine":
                                 {
                                     if (!DeFine.GlobalLocalSetting.GoogleYunApiUsing)
@@ -994,21 +970,6 @@ namespace SSELex
 
             switch (GetContent)
             {
-                case "PhraseEngine":
-                    {
-                        DeFine.GlobalLocalSetting.PhraseEngineUsing = OneState;
-                    }
-                    break;
-                case "CodeEngine":
-                    {
-                        DeFine.GlobalLocalSetting.CodeParsingEngineUsing = OneState;
-                    }
-                    break;
-                case "ConjunctionEngine":
-                    {
-                        DeFine.GlobalLocalSetting.ConjunctionEngineUsing = OneState;
-                    }
-                    break;
                 case "GoogleEngine":
                     {
                         DeFine.GlobalLocalSetting.GoogleYunApiUsing = OneState;

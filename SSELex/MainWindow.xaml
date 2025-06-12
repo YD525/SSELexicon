@@ -68,16 +68,10 @@
                         <StackPanel Margin="5 0 10 0" Orientation="Horizontal" Name="EngineUIs"  VerticalAlignment="Top" Height="35" Background="#FFADCFED">
                             <Grid Width="10">
                             </Grid>
-                            
-                            <svgc:SvgViewbox Tag="PhraseEngine"  Name="PhraseEngine" Stretch="UniformToFill" Source="/Material/Languages.svg"  Margin="3 0 3 0" Width="19" Panel.ZIndex="900" Height="19"  Cursor="Hand" MouseDown="SelectEngine" Opacity="1" Visibility="Collapsed"/>
 
                             <svgc:SvgViewbox Tag="DivEngine" Name="DivEngine" Stretch="UniformToFill" Source="/Material/Div.svg"  Margin="3 0 3 0" Width="21" Panel.ZIndex="900" Height="18.2" Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
 
                             <svgc:SvgViewbox Tag="CodeEngine" Name="CodeEngine" Stretch="UniformToFill" Source="/Material/Code.svg"  Margin="3 0 3 0" Width="20" Panel.ZIndex="900" Height="18" Cursor="Hand" MouseDown="SelectEngine" Opacity="1" Visibility="Collapsed"/>
-
-                            <svgc:SvgViewbox Tag="ConjunctionEngine" Name="ConjunctionEngine" Stretch="UniformToFill" Source="/Material/Conjunction.svg"  Margin="3 0 3 0" Width="17" Panel.ZIndex="900" Height="18" Cursor="Hand" MouseDown="SelectEngine" Opacity="1" Visibility="Collapsed"/>
-
-                            <svgc:SvgViewbox Tag="DeepLEngine" ToolTip="DeepL"  Name="DeepLEngine" Stretch="UniformToFill" Source="/Material/DeepL.svg"  Margin="3 0 3 0" Width="19" Panel.ZIndex="900" Height="23"  Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
 
                             <svgc:SvgViewbox Tag="GeminiEngine" Name="GeminiEngine" Stretch="UniformToFill" Source="/Material/Gemini.svg" Margin="3 0 3 0" Width="20" Panel.ZIndex="900" Height="20" Cursor="Hand" MouseDown="SelectEngine" Opacity="1" ToolTip="Gemini"/>
 
@@ -89,9 +83,10 @@
 
                             <svgc:SvgViewbox Tag="BaichuanEngine" Name="BaichuanEngine" Stretch="UniformToFill" Source="/Material/Baichuan.svg" Margin="3 0 3 0" Width="20" Panel.ZIndex="900" Height="18" Cursor="Hand" MouseDown="SelectEngine" Opacity="1" ToolTip="Baichuan"/>
 
+                            <svgc:SvgViewbox Tag="DeepLEngine" ToolTip="DeepL"  Name="DeepLEngine" Stretch="UniformToFill" Source="/Material/DeepL.svg"  Margin="3 0 3 0" Width="19" Panel.ZIndex="900" Height="23"  Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
+
                             <svgc:SvgViewbox Tag="GoogleEngine" Name="GoogleEngine" Stretch="UniformToFill" Source="/Material/Google.svg" Margin="3 0 3 0" Width="17" Panel.ZIndex="900" Height="18" Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
 
-                            
                             <Grid Width="10">
                             </Grid>
                         </StackPanel>
