@@ -64,17 +64,17 @@ namespace SSELex.TranslateCore
             if (string.IsNullOrWhiteSpace(Str))
                 return;
 
-            if (EnglishHelper.IsProbablyEnglish(Str))
+            if (EnglishHelper.IsProbablyEnglish(Str)) //100%
             {
-                OneDetect.Add(Languages.English,1);
+                OneDetect.Add(Languages.English,0.01);
             }
 
-            if (RussianHelper.ContainsRussian(Str))
+            if (RussianHelper.ContainsRussian(Str)) //100%
             {
-                OneDetect.Add(Languages.Russian, 1);
+                OneDetect.Add(Languages.Russian,0.01);
             }
 
-            if (JapaneseHelper.IsProbablyJapanese(Str))
+            if (JapaneseHelper.IsProbablyJapanese(Str)) //90%
             {
                 OneDetect.Add(Languages.Japanese, JapaneseHelper.GetJapaneseScore(Str));
             }
@@ -85,18 +85,18 @@ namespace SSELex.TranslateCore
                     OneDetect.Add(Languages.TraditionalChinese, 1);
                 }
 
-                if (SimplifiedChineseHelper.ContainsSimplifiedChinese(Str))
+                if (SimplifiedChineseHelper.ContainsSimplifiedChinese(Str))  //100%
                 {
-                    OneDetect.Add(Languages.SimplifiedChinese, 1);
+                    OneDetect.Add(Languages.SimplifiedChinese, 0.01);
                 }
             }
 
-            if (KoreanHelper.IsProbablyKorean(Str))
+            if (KoreanHelper.IsProbablyKorean(Str)) //100%
             {
                 OneDetect.Add(Languages.Korean, KoreanHelper.GetKoreanScore(Str));
             }
 
-            if (FrenchHelper.IsProbablyFrench(Str))
+            if (FrenchHelper.IsProbablyFrench(Str)) //85%
             {
                 if (CanadianFrenchHelper.IsProbablyCanadianFrench(Str))
                 {
@@ -108,19 +108,17 @@ namespace SSELex.TranslateCore
                 }
             }
 
-            if (PortugueseHelper.IsProbablyPortuguese(Str))
+            if (PortugueseHelper.IsProbablyPortuguese(Str)) //85%
             {
+                OneDetect.Add(Languages.Portuguese, PortugueseHelper.GetPortugueseScore(Str));
+
                 if (BrazilianPortugueseHelper.IsProbablyBrazilianPortuguese(Str))
                 {
                     OneDetect.Add(Languages.Brazilian, BrazilianPortugueseHelper.GetBrazilianPortugueseScore(Str));
                 }
-                else
-                {
-                    OneDetect.Add(Languages.Portuguese, PortugueseHelper.GetPortugueseScore(Str));
-                }
             }
 
-            if (GermanHelper.IsProbablyGerman(Str))
+            if (GermanHelper.IsProbablyGerman(Str)) //85%
             {
                 OneDetect.Add(Languages.German, GermanHelper.GetGermanScore(Str));
             }
@@ -160,7 +158,7 @@ namespace SSELex.TranslateCore
                 OneDetect.Add(Languages.Indonesian,IndonesianHelper.GetIndonesianScore(Str));
             }
 
-            if (VietnameseHelper.IsProbablyVietnamese(Str))
+            if (VietnameseHelper.IsProbablyVietnamese(Str))//??? 20%
             {
                 OneDetect.Add(Languages.Vietnamese,VietnameseHelper.GetVietnameseScore(Str));
             }
