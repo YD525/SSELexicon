@@ -104,25 +104,32 @@ namespace SSELex.UIManage
         public static List<Languages> SupportLanguages = new List<Languages>
         {
             Languages.Auto,
-            Languages.English,
+
             Languages.Japanese,
-            Languages.German,
-            Languages.SimplifiedChinese,
-            Languages.Korean,
-            Languages.Turkish,
+
+            Languages.Portuguese,
             Languages.Brazilian,
-            Languages.Russian,
-            Languages.TraditionalChinese,
-            Languages.Italian,
-            Languages.Spanish,
-            Languages.Hindi,
-            Languages.Urdu,
-            Languages.Indonesian,
+
             Languages.French,
-            Languages.Vietnamese,
-            Languages.Polish,
             Languages.CanadianFrench,
-            Languages.Portuguese
+
+            Languages.English,
+
+            Languages.SimplifiedChinese,
+            Languages.TraditionalChinese,
+            
+            Languages.German,
+            Languages.Hindi,
+            Languages.Indonesian,
+            Languages.Italian,
+            Languages.Korean,
+            Languages.Polish,
+            Languages.Russian,
+            Languages.Spanish,
+            Languages.Turkish,
+            Languages.Urdu,
+            Languages.Ukrainian,
+            Languages.Vietnamese
         };
 
         public static string DBQueryStr(Languages Type, string Key, string Name)

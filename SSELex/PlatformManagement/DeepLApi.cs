@@ -35,9 +35,9 @@ namespace SSELex.PlatformManagement
     {
         private static string DeepLFreeHost = "https://api-free.deepl.com/v2/translate";
         private static string DeepLHost = "https://api.deepl.com/v2/translate";
-        public static string GetLanguageCode(Languages language)
+        public static string GetLanguageCode(Languages Language)
         {
-            switch (language)
+            switch (Language)
             {
                 case Languages.English:
                     return "EN";
@@ -76,9 +76,11 @@ namespace SSELex.PlatformManagement
                 case Languages.Polish:
                     return "PL";
                 case Languages.CanadianFrench:
-                    return "FR-CA"; 
+                    return "FR-CA";
+                case Languages.Ukrainian:
+                    return "UK";
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(language), "Unknown language");
+                    throw new ArgumentOutOfRangeException(nameof(Language), "Unknown language");
             }
         }
         public string QuickTrans(string TransSource, Languages FromLang, Languages ToLang)

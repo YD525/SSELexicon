@@ -15,7 +15,7 @@ namespace SSELex.TranslateCore
 
     public enum Languages
     {
-        Null = -2, English = 0, SimplifiedChinese = 1, Japanese = 2, German = 5, Korean = 6, Turkish = 7, Brazilian = 8, Russian = 9, TraditionalChinese = 10, Italian = 11, Spanish = 12, Hindi = 13, Urdu = 15, Indonesian = 16, French = 17, Vietnamese = 20, Polish = 22, CanadianFrench = 23, Portuguese = 25, Auto = 99
+        Null = -2, English = 0, SimplifiedChinese = 1, Japanese = 2, German = 5, Korean = 6, Turkish = 7, Brazilian = 8, Russian = 9, TraditionalChinese = 10, Italian = 11, Spanish = 12, Hindi = 13, Urdu = 15, Indonesian = 16, French = 17, Vietnamese = 20, Polish = 22, CanadianFrench = 23, Portuguese = 25, Ukrainian = 26, Auto = 99
     }
 
     public class LanguageHelper
@@ -62,7 +62,12 @@ namespace SSELex.TranslateCore
 
             if (RussianHelper.ContainsRussian(Str)) //100%
             {
-                OneDetect.Add(Languages.Russian,0.02);
+                OneDetect.Add(Languages.Russian,0.02); 
+            }
+
+            if (UkrainianHelper.IsProbablyUkrainian(Str))
+            {
+                OneDetect.Add(Languages.Ukrainian, UkrainianHelper.GetUkrainianScore(Str));
             }
 
             if (JapaneseHelper.IsProbablyJapanese(Str)) //90%
