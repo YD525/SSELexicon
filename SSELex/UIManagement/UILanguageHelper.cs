@@ -105,7 +105,9 @@ namespace SSELex.UIManage
         {
             Languages.Auto,
 
+            Languages.English,
             Languages.Japanese,
+            Languages.German,
 
             Languages.Portuguese,
             Languages.Brazilian,
@@ -113,12 +115,9 @@ namespace SSELex.UIManage
             Languages.French,
             Languages.CanadianFrench,
 
-            Languages.English,
-
             Languages.SimplifiedChinese,
             Languages.TraditionalChinese,
             
-            Languages.German,
             Languages.Hindi,
             Languages.Indonesian,
             Languages.Italian,

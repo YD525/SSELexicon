@@ -158,6 +158,11 @@ namespace SSELex.TranslateCore
             {
                 OneDetect.Add(Languages.Vietnamese,VietnameseHelper.GetVietnameseScore(Str));
             }
+
+            if (OneDetect.Array.Count == 0)
+            {
+                OneDetect.Add(Languages.English);
+            }
         }
 
         public static Languages DetectLanguageByLine(string String)
