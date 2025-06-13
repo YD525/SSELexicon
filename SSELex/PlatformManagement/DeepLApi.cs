@@ -55,6 +55,8 @@ namespace SSELex.PlatformManagement
                     return "TR";
                 case Languages.Brazilian:
                     return "PT-BR"; // DeepL uses "PT-BR" for Brazilian Portuguese
+                case Languages.Portuguese:
+                    return "PT";    
                 case Languages.Russian:
                     return "RU";
                 case Languages.Italian:

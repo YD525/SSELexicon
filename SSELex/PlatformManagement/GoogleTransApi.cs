@@ -24,6 +24,7 @@ namespace SSELex.PlatformManagement
                 Languages.Korean => "ko",
                 Languages.Turkish => "tr",
                 Languages.Brazilian => "pt-BR",
+                Languages.Portuguese => "pt",
                 Languages.Russian => "ru",
                 _ => throw new ArgumentOutOfRangeException(nameof(language), "Unsupported language")
             };

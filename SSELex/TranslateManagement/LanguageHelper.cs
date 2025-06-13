@@ -4,6 +4,7 @@ using SSELex.TranslateManage;
 using SSELex.ConvertManager;
 using System.Text.RegularExpressions;
 using System.Windows.Controls;
+using SSELex.LanguageDetector;
 
 namespace SSELex.TranslateCore
 {
@@ -14,48 +15,15 @@ namespace SSELex.TranslateCore
 
     public enum Languages
     {
-        Null = -2, English = 0, SimplifiedChinese = 1, Japanese = 2, German = 5, Korean = 6, Turkish = 7, Brazilian = 8, Russian = 9, TraditionalChinese = 10, Italian = 11, Spanish = 12, Hindi = 13, Urdu = 15, Indonesian = 16, French = 17, Vietnamese = 20, Polish = 22, CanadianFrench = 23, Auto = 99
+        Null = -2, English = 0, SimplifiedChinese = 1, Japanese = 2, German = 5, Korean = 6, Turkish = 7, Brazilian = 8, Russian = 9, TraditionalChinese = 10, Italian = 11, Spanish = 12, Hindi = 13, Urdu = 15, Indonesian = 16, French = 17, Vietnamese = 20, Polish = 22, CanadianFrench = 23, Portuguese = 25, Auto = 99
     }
 
     public class LanguageHelper
     {
-        private static readonly Regex SimplifiedChineseRegex = new Regex("[\u4e00-\u9fff]+", RegexOptions.Compiled);
-        private static readonly Regex TraditionalChineseRegex = new Regex(
-    "[還愛們園氣萬與專絲冊價優傳傷倫兒興凱劉劍劃醫協華單卻參雙圖場壓壘壞壤壯聲壽夢戀恆懷]",
-    RegexOptions.Compiled);
-        private static readonly Regex JapaneseRegex = new Regex(
-    @"[\u3040-\u30FF\u31F0-\u31FF\uFF66-\uFF9F一-龯々〆ヵヶ]|\b(です|ます|する|した|して|いる|いない|から|まで|だけ|そして|しかし|など|という|こと|もの|よう|それ|これ|あれ|どれ|なに|なん|はい|いいえ)\b",
-    RegexOptions.Compiled
-        );
-        private static readonly Regex KoreanRegex = new Regex("[\uac00-\ud7af]+", RegexOptions.Compiled);
-        private static readonly Regex GermanRegex = new Regex(
-    @"[äöüß]|\b(der|die|das|und|ich|nicht|du|er|sie|es|wir|ihr|sie|ist|bin|bist|sind|seid|war|waren|habe|hat|haben|sein|kann|können|muss|müssen|soll|sollen|will|wollen|ein|eine|einer|eines|dem|den|des|mit|für|auf|in|an|zu|von|über|unter|um|aber|oder|wenn|weil|dass|was|wer|wie|wo|da|hier|dort|jetzt|dann|nur|schon|noch|mehr|als|auch)\b",
-    RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex TurkishRegex = new Regex(@"\b(ve|bir|bu|çok|ama|değil|için|ile|sen|ben|mı|mu|mi|mü|şu)\b", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex BrazilianRegex = new Regex(
-    @"\b(o|a|os|as|de|do|da|dos|das|que|e|em|por|para|com|como|mas|se|foi|sou|está|estão|ser|estar|ter|tem|não|sim|eu|você|ele|ela|nós|eles|elas|um|uma|uns|umas|há|vai|vou|fui|tive|também|muito|mais|menos)\b",
-    RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex ItalianRegex = new Regex(@"\b(il|la|e|di|che|per|un|una|non|sono|da|con)\b", RegexOptions.IgnoreCase);
-        private static readonly Regex SpanishRegex = new Regex(@"\b(el|la|y|de|que|en|un|una|no|soy|con|por)\b", RegexOptions.IgnoreCase);
-        private static readonly Regex HindiRegex = new Regex(@"\p{IsDevanagari}", RegexOptions.Compiled);
-        private static readonly Regex UrduRegex = new Regex(@"[\u0600-\u06FF]", RegexOptions.Compiled);
-        private static readonly Regex IndonesianRegex = new Regex(@"\b(atau|dan|dari|ke|di|ini|itu|untuk)\b", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex EnglishRegex = new Regex("^[a-zA-Z0-9\\s\\p{P}]+$", RegexOptions.Compiled);
-        private static readonly Regex FrenchRegex = new Regex(
-   @"\b(le|la|les|un|une|des|et|est|être|avoir|je|tu|il|elle|nous|vous|ils|elles|ne|pas|dans|sur|avec|pour|par|mais|ou|donc|car|que|qui|quoi|où|quand|comment|pourquoi|fait|beau|allons|au|parc|promener)\b|aujourd'hui",
-    RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex RussianRegex = new Regex(@"[\u0400-\u04FF]", RegexOptions.Compiled);
-        private static readonly Regex VietnameseRegex = new Regex(
-    @"\b(và|của|là|có|một|những|này|tôi|anh|em|không|rất|đã|đang|sẽ|được|với|cho|khi|nào|ở|trong|ra|nhiều|ít|vì|như|nhưng|thì|đây|kia|đó|ai|gì|đâu|sao)\b",
-    RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex PolishRegex = new Regex(
-    @"\b(że|i|w|z|na|do|jest|nie|tak|jak|to|co|czy|go|za|po|się|dla|ten|tego|być|był|była|było|jestem|jesteś|są|mamy|macie|oni|one|który|która|które|którego|którą|więc|bardzo|już|jeszcze|może|muszę|chcę)\b",
-    RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex CanadianFrenchRegex = new Regex(@"\b(tu|toé|moé|ben|ça|tabarnak|câlisse)\b", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-
-        public static string ToLanguageCode(Languages lang)
+       
+        public static string ToLanguageCode(Languages Lang)
         {
-            return lang switch
+            return Lang switch
             {
                 Languages.Null => "",
                 Languages.English => "en",
@@ -76,6 +44,7 @@ namespace SSELex.TranslateCore
                 Languages.CanadianFrench => "fr-CA",
                 Languages.Vietnamese => "vi",
                 Languages.Polish => "pl",
+                Languages.Portuguese => "pt",
                 Languages.Auto => "",
                 _ => ""
             };
@@ -92,146 +61,109 @@ namespace SSELex.TranslateCore
 
         public static void DetectLanguage(ref LanguageDetect OneDetect, string Str)
         {
-            if (EnglishRegex.IsMatch(Str))
+            if (string.IsNullOrWhiteSpace(Str))
+                return;
+
+            if (EnglishHelper.IsProbablyEnglish(Str))
             {
-                OneDetect.Add(Languages.English);
+                OneDetect.Add(Languages.English,1);
             }
 
-            if (JapaneseRegex.IsMatch(Str) && ContainsKana(Str))
+            if (RussianHelper.ContainsRussian(Str))
             {
-                OneDetect.Add(Languages.Japanese);
+                OneDetect.Add(Languages.Russian, 1);
             }
 
-            if (KoreanRegex.IsMatch(Str))
+            if (JapaneseHelper.IsProbablyJapanese(Str))
             {
-                OneDetect.Add(Languages.Korean);
+                OneDetect.Add(Languages.Japanese, JapaneseHelper.GetJapaneseScore(Str));
+            }
+            else
+            {
+                if (TraditionalChineseHelper.ContainsTraditionalChinese(Str))
+                {
+                    OneDetect.Add(Languages.TraditionalChinese, 1);
+                }
+
+                if (SimplifiedChineseHelper.ContainsSimplifiedChinese(Str))
+                {
+                    OneDetect.Add(Languages.SimplifiedChinese, 1);
+                }
             }
 
-            if (HindiRegex.IsMatch(Str))
+            if (KoreanHelper.IsProbablyKorean(Str))
             {
-                OneDetect.Add(Languages.Hindi);
+                OneDetect.Add(Languages.Korean, KoreanHelper.GetKoreanScore(Str));
             }
 
-            if (UrduRegex.IsMatch(Str))
+            if (FrenchHelper.IsProbablyFrench(Str))
             {
-                OneDetect.Add(Languages.Urdu);
-            }
-
-            if (TraditionalChineseRegex.IsMatch(Str))
-            {
-                OneDetect.Add(Languages.TraditionalChinese);
-            }
-
-            if (SimplifiedChineseRegex.IsMatch(Str))
-            {
-                OneDetect.Add(Languages.SimplifiedChinese);
-            }
-
-            if (RussianRegex.IsMatch(Str))
-            {
-                OneDetect.Add(Languages.Russian);
-            }
-
-            if (PolishRegex.IsMatch(Str))
-            {
-                OneDetect.Add(Languages.Polish);
-            }
-
-            if (VietnameseRegex.IsMatch(Str))
-            {
-                OneDetect.Add(Languages.Vietnamese);
-            }
-
-            if (FrenchRegex.IsMatch(Str))
-            {
-                if (CanadianFrenchRegex.IsMatch(Str))
+                if (CanadianFrenchHelper.IsProbablyCanadianFrench(Str))
                 {
                     OneDetect.Add(Languages.CanadianFrench);
                 }
                 else
                 {
-                    OneDetect.Add(Languages.French);
+                    OneDetect.Add(Languages.French, FrenchHelper.GetFrenchScore(Str));
                 }
             }
 
-            if (GermanRegex.IsMatch(Str))
+            if (PortugueseHelper.IsProbablyPortuguese(Str))
             {
-                OneDetect.Add(Languages.German);
+                if (BrazilianPortugueseHelper.IsProbablyBrazilianPortuguese(Str))
+                {
+                    OneDetect.Add(Languages.Brazilian, BrazilianPortugueseHelper.GetBrazilianPortugueseScore(Str));
+                }
+                else
+                {
+                    OneDetect.Add(Languages.Portuguese, PortugueseHelper.GetPortugueseScore(Str));
+                }
             }
 
-            if (TurkishRegex.IsMatch(Str))
+            if (GermanHelper.IsProbablyGerman(Str))
             {
-                OneDetect.Add(Languages.Turkish);
+                OneDetect.Add(Languages.German, GermanHelper.GetGermanScore(Str));
             }
 
-            if (BrazilianRegex.IsMatch(Str) && (Str.Contains('ã') || Str.Contains('õ')))
+            if (ItalianHelper.IsProbablyItalian(Str))
             {
-                OneDetect.Add(Languages.Brazilian);
+                OneDetect.Add(Languages.Italian, ItalianHelper.GetItalianScore(Str));
             }
 
-            if (ItalianRegex.IsMatch(Str))
+            if (SpanishHelper.IsProbablySpanish(Str))
             {
-                OneDetect.Add(Languages.Italian);
+                OneDetect.Add(Languages.Spanish, SpanishHelper.GetSpanishScore(Str));
             }
-
-            if (SpanishRegex.IsMatch(Str))
+           
+            if (PolishHelper.IsProbablyPolish(Str))
             {
-                OneDetect.Add(Languages.Spanish);
+                OneDetect.Add(Languages.Polish, PolishHelper.GetPolishScore(Str));
             }
 
-            if (IndonesianRegex.IsMatch(Str))
+            if (TurkishHelper.IsProbablyTurkish(Str))
             {
-                OneDetect.Add(Languages.Indonesian);
+                OneDetect.Add(Languages.Turkish, TurkishHelper.GetTurkishScore(Str));
             }
 
-            try
+            if (HindiHelper.IsProbablyHindi(Str))
             {
-                if (OneDetect.Array.Count == 0)
-                {
-                    OneDetect.Add(Languages.English);
-                }
-
-                if (OneDetect.Array.ContainsKey(Languages.French) && OneDetect.Array.ContainsKey(Languages.English) && OneDetect.Array.Count == 2)
-                {
-                    OneDetect.Array[Languages.French] = 9;
-                }
-
-                if (OneDetect.Array.ContainsKey(Languages.French) && OneDetect.Array.ContainsKey(Languages.English) && OneDetect.Array.ContainsKey(Languages.Italian) && OneDetect.Array.Count == 3)
-                {
-                    OneDetect.Array[Languages.French] = 9;
-                }
-
-                if (OneDetect.Array.ContainsKey(Languages.German) && OneDetect.Array.ContainsKey(Languages.English) && OneDetect.Array.Count == 2)
-                {
-                    OneDetect.Array[Languages.German] = 9;
-                }
-
-                if (OneDetect.Array.ContainsKey(Languages.Spanish) && OneDetect.Array.ContainsKey(Languages.English) && OneDetect.Array.Count == 2)
-                {
-                    OneDetect.Array[Languages.Spanish] = 9;
-                }
-
-                if (OneDetect.Array.ContainsKey(Languages.SimplifiedChinese) && OneDetect.Array.ContainsKey(Languages.Japanese) && OneDetect.Array.Count == 2)
-                {
-                    OneDetect.Array[Languages.Japanese] = 9;
-                }
-
-                if (OneDetect.Array.ContainsKey(Languages.TraditionalChinese) && OneDetect.Array.ContainsKey(Languages.Japanese) && OneDetect.Array.Count == 2)
-                {
-                    OneDetect.Array[Languages.Japanese] = 9;
-                }
-
-                if (OneDetect.Array.ContainsKey(Languages.German) && OneDetect.Array.ContainsKey(Languages.Turkish) && OneDetect.Array.Count == 2)
-                {
-                    OneDetect.Array[Languages.Turkish] = 9;
-                }
-                
-                if (OneDetect.Array.ContainsKey(Languages.French) && OneDetect.Array.ContainsKey(Languages.English) && OneDetect.Array.ContainsKey(Languages.Spanish) && OneDetect.Array.Count == 3)
-                {
-                    OneDetect.Array[Languages.French] = 9;
-                }
+                OneDetect.Add(Languages.Hindi,HindiHelper.GetHindiScore(Str));
             }
-            catch { }
+
+            if (UrduHelper.IsProbablyUrdu(Str))
+            {
+                OneDetect.Add(Languages.Urdu,UrduHelper.GetUrduScore(Str));
+            }
+
+            if (IndonesianHelper.IsProbablyIndonesian(Str))
+            {
+                OneDetect.Add(Languages.Indonesian,IndonesianHelper.GetIndonesianScore(Str));
+            }
+
+            if (VietnameseHelper.IsProbablyVietnamese(Str))
+            {
+                OneDetect.Add(Languages.Vietnamese,VietnameseHelper.GetVietnameseScore(Str));
+            }
         }
 
         public static Languages DetectLanguageByLine(string String)
@@ -272,7 +204,7 @@ namespace SSELex.TranslateCore
 
         public class LanguageDetect
         {
-            public Dictionary<Languages, int> Array = new Dictionary<Languages, int>();
+            public Dictionary<Languages, double> Array = new Dictionary<Languages, double>();
 
             public void Add(Languages Lang)
             {
@@ -285,6 +217,19 @@ namespace SSELex.TranslateCore
                     Array.Add(Lang, 1);
                 }
             }
+
+            public void Add(Languages Lang,double Ratio)
+            {
+                if (Array.ContainsKey(Lang))
+                {
+                    Array[Lang] = Array[Lang] + Ratio;
+                }
+                else
+                {
+                    Array.Add(Lang, Ratio);
+                }
+            }
+
 
             public Languages GetMaxLang()
             {
