@@ -43,7 +43,7 @@ namespace SSELex
 
         public static string BackupPath = @"\BackUpData\";
 
-        public static string CurrentVersion = "2.7.31";
+        public static string CurrentVersion = "2.7.32";
         public static LocalSetting GlobalLocalSetting = new LocalSetting();
 
         public static MainWindow WorkingWin = null;
@@ -131,10 +131,7 @@ namespace SSELex
             if (!File.Exists(DeFine.GetFullPath(@"\setting.config")))
             {
                 var CreatNewLocalSetting = new LocalSetting();
-                CreatNewLocalSetting.ChatGptApiUsing = true;
                 CreatNewLocalSetting.MaxThreadCount = 2;
-                CreatNewLocalSetting.UsingContext = true;
-                CreatNewLocalSetting.AutoLoadDictionaryFile = true;
                 CreatNewLocalSetting.SaveConfig();
             }
         }
@@ -224,7 +221,7 @@ namespace SSELex
         public int ContextLimit { get; set; } = 3;
         public string ProxyIP { get; set; } = "";
         public int TransCount { get; set; } = 0;
-        public int MaxThreadCount { get; set; } = 0;
+        public int MaxThreadCount { get; set; } = 2;
         public bool AutoSetThreadLimit { get; set; } = true;
         public bool AutoLoadDictionaryFile { get; set; } = false;
         public bool UsingContext { get; set; } = true;
