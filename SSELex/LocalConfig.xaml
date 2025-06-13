@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SSELex"
         mc:Ignorable="d"
-        Title="LocalConfig" Height="650" Width="350"  Style="{DynamicResource DefWin}" Loaded="Window_Loaded" Closing="Window_Closing" WindowStartupLocation="CenterOwner">
+        Title="LocalConfig" Height="650" Width="600"  Style="{DynamicResource DefWin}" Loaded="Window_Loaded" Closing="Window_Closing" WindowStartupLocation="CenterOwner">
     <Window.Resources>
 
     </Window.Resources>
@@ -44,48 +44,209 @@
                     </Border>
                 </StackPanel>
             </Grid>
+            <Grid Grid.Row="1" Margin="5" Background="White">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
 
-            <Grid Grid.Row="1" Background="White">
-                <Grid Margin="5">
+                <Grid Grid.Column="0">
+                    <Grid Margin="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="0.5*"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="0.5*"/>
+                        </Grid.RowDefinitions>
+
+                        <Label FontWeight="Bold" FontSize="15" Grid.Row="0">
+                            Input Source Text
+                        </Label>
+                        <Grid Grid.Row="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="35"/>
+                            </Grid.RowDefinitions>
+                            <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible">
+                            </TextBox>
+
+                            <Border  CornerRadius="5" Background="#FF0B74D1" Grid.Row="1" Margin="0 5 0 5" Cursor="Hand">
+                                <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    Execute
+                                </Label>
+                            </Border>
+                        </Grid>
+
+
+                        <Label FontWeight="Bold" FontSize="15"  Grid.Row="2">
+                            Preprocessed Output
+                        </Label>
+                        <TextBox IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"  Grid.Row="3">
+                        </TextBox>
+
+
+                        <Label FontWeight="Bold" FontSize="15" Grid.Row="4">
+                            Matched Keywords
+                        </Label>
+                        <Grid Grid.Row="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="35"/>
+                            </Grid.RowDefinitions>
+                            <ListBox Grid.Row="0">
+                            </ListBox>
+                            <Border  CornerRadius="5" Background="#FF0B74D1" Grid.Row="1" Margin="0 5 0 5" Cursor="Hand">
+                                <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    Delete Selected Keyword
+                                </Label>
+                            </Border>
+                        </Grid>
+
+
+                        <Label FontWeight="Bold" FontSize="15" Grid.Row="6">
+                            Final Translation Result
+                        </Label>
+
+                        <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Grid.Row="7">
+                        </TextBox>
+                    </Grid>
+                </Grid>
+
+                <Grid Grid.Column="1" Background="Black">
+                </Grid>
+
+                <Grid Grid.Column="2" Margin="5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="30"/>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="0.5*"/>
                     </Grid.RowDefinitions>
 
                     <Label FontWeight="Bold" FontSize="15" Grid.Row="0">
-                        Input Source Text
+                        Custom Keywords List
                     </Label>
-                    <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"  Grid.Row="1">
-                    </TextBox>
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="35"/>
+                        </Grid.RowDefinitions>
+                        <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible">
+                        </TextBox>
 
-                    <Label FontWeight="Bold" FontSize="15"  Grid.Row="2">
-                        Preprocessed Output
+                        <Grid Grid.Row="1" Margin="0,5,5,5">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                <Label Cursor="Hand" Foreground="#FF0B74D1" Content="Previous" VerticalAlignment="Center" Margin="0 0 5 0"/>
+                                <Label VerticalAlignment="Center" Content="1/100000"/>
+                                <Label Cursor="Hand" Foreground="#FF0B74D1" Content="Next" VerticalAlignment="Center" Margin="5 0 0 0"/>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+
+                    <Label FontWeight="Bold" FontSize="15" Grid.Row="2">
+                        Add New Keyword
                     </Label>
-                    <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"  Grid.Row="3">
-                    </TextBox>
+                    <StackPanel Orientation="Vertical" Grid.Row="3">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="70"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="35"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0">
+                                ModName
+                            </Label>
+                            <TextBox Grid.Column="1" VerticalContentAlignment="Center">
+                            </TextBox>
+                            <Label Grid.Column="2">
+                                Type
+                            </Label>
+                            <ComboBox Grid.Column="3" VerticalContentAlignment="Center">
+                            </ComboBox>
+                        </Grid>
 
+                        <Grid Margin="0 5 0 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="45"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0">
+                                Source *
+                            </Label>
+                            <TextBox Grid.Column="1" VerticalContentAlignment="Center">
+                            </TextBox>
+                            <Label Grid.Column="2">
+                                Result *
+                            </Label>
+                            <TextBox Grid.Column="3" VerticalContentAlignment="Center">
+                            </TextBox>
+                        </Grid>
 
-                    <Label FontWeight="Bold" FontSize="15" Grid.Row="4">
-                        Matched Keywords
-                    </Label>
-                    <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Grid.Row="5">
-                    </TextBox>
+                        <Grid Margin="0 5 0 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <CheckBox Grid.Column="0" Margin="3 0 0 0">
+                                ExactMatch
+                            </CheckBox>
+                            <CheckBox Grid.Column="1" Margin="3 0 0 0">
+                                IgnoreCase
+                            </CheckBox>
+                        </Grid>
 
-                    <Label FontWeight="Bold" FontSize="15" Grid.Row="6">
-                        Final Translation Result
-                    </Label>
+                        <Grid Margin="0 5 0 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0">
+                                Regex
+                            </Label>
+                            <TextBox Grid.Column="1" VerticalContentAlignment="Center">
+                            </TextBox>
+                        </Grid>
 
-                    <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Grid.Row="7">
-                    </TextBox>
+                        <Grid Margin="0 5 0 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="45"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="30"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0">
+                                From *
+                            </Label>
+                            <ComboBox Grid.Column="1" VerticalContentAlignment="Center">
+                            </ComboBox>
+                            <Label Grid.Column="2">
+                                To *
+                            </Label>
+                            <ComboBox Grid.Column="3" VerticalContentAlignment="Center">
+                            </ComboBox>
+                        </Grid>
+                        
+                        <Grid Margin="0 5 0 0">
+                            <Border  CornerRadius="5" Background="#FF0B74D1" Grid.Row="1" Margin="0 5 0 5" Cursor="Hand">
+                                <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    Add Keyword
+                                </Label>
+                            </Border>
+                        </Grid>
+
+                    </StackPanel>
                 </Grid>
             </Grid>
+
+           
 
         </Grid>
     </Border>
