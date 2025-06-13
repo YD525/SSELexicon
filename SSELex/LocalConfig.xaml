@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SSELex"
         mc:Ignorable="d"
-        Title="LocalConfig" Height="450" Width="800"  Style="{DynamicResource DefWin}" Loaded="Window_Loaded" Closing="Window_Closing">
+        Title="LocalConfig" Height="650" Width="350"  Style="{DynamicResource DefWin}" Loaded="Window_Loaded" Closing="Window_Closing" WindowStartupLocation="CenterOwner">
     <Window.Resources>
 
     </Window.Resources>
@@ -20,7 +20,7 @@
             <Grid Grid.Row="0" Name="Header" Margin="10 0 10 0">
                 <StackPanel Orientation="Horizontal">
                     <Label HorizontalAlignment="Left" Name="MainCaption" Foreground="White" VerticalAlignment="Center">
-                        Local Config
+                        Preprocessor Settings
                     </Label>
                 </StackPanel>
 
@@ -47,9 +47,43 @@
 
             <Grid Grid.Row="1" Background="White">
                 <Grid Margin="5">
-                    <CheckBox>
-                        Enable
-                    </CheckBox>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="2*"/>
+                    </Grid.RowDefinitions>
+
+                    <Label FontWeight="Bold" FontSize="15" Grid.Row="0">
+                        Input Source Text
+                    </Label>
+                    <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"  Grid.Row="1">
+                    </TextBox>
+
+                    <Label FontWeight="Bold" FontSize="15"  Grid.Row="2">
+                        Preprocessed Output
+                    </Label>
+                    <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"  Grid.Row="3">
+                    </TextBox>
+
+
+                    <Label FontWeight="Bold" FontSize="15" Grid.Row="4">
+                        Matched Keywords
+                    </Label>
+                    <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Grid.Row="5">
+                    </TextBox>
+
+                    <Label FontWeight="Bold" FontSize="15" Grid.Row="6">
+                        Final Translation Result
+                    </Label>
+
+                    <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Grid.Row="7">
+                    </TextBox>
                 </Grid>
             </Grid>
 

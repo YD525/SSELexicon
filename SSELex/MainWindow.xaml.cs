@@ -2327,7 +2327,8 @@ namespace SSELex
 
         private void ShowLocalSetting(object sender, MouseButtonEventArgs e)
         {
-
+            DeFine.LocalConfigView.Owner = this;
+            DeFine.LocalConfigView.Show();
         }
     }
 }
