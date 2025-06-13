@@ -1231,7 +1231,6 @@ namespace SSELex
 
                 LoadSaveState = 0;
 
-                Caption.Name = "TranslationCore";
                 CancelBtn.Opacity = 0.3;
                 CancelBtn.IsEnabled = false;
 
@@ -1324,8 +1323,6 @@ namespace SSELex
             {
                 ClosetTransTrd();
 
-                Caption.Name = "TranslationCore";
-
                 TransViewList.Clear();
                 GlobalEspReader.Close();
                 GlobalMCMReader.Close();
@@ -1342,7 +1339,7 @@ namespace SSELex
 
                 UIHelper.ModifyCount = 0;
                 
-                Caption.Text = "ModTransView";
+                Caption.Text = "ModTranslator";
             }));
         }
         private void CancelTransEsp(object sender, MouseButtonEventArgs e)

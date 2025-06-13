@@ -543,7 +543,7 @@
 
                                     <Grid Margin="50 0 0 0" Background="#FF655B5F" Height="40" VerticalAlignment="Top" Grid.Column="0">
                                         <TextBox AcceptsReturn="True" TextWrapping="Wrap" Padding="10 0 10 0" CaretBrush="{x:Null}" Background="{x:Null}" BorderBrush="{x:Null}" BorderThickness="0" Foreground="White" VerticalAlignment="Center" FontSize="13" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Name="Caption">
-                                            ModTransView
+                                            ModTranslator
                                         </TextBox>
                                     </Grid>
                                     <Grid Background="#FF393939" Height="40" VerticalAlignment="Top" Grid.Column="1">
