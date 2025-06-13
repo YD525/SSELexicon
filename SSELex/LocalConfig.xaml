@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SSELex"
         mc:Ignorable="d"
-        Title="LocalConfig" Height="650" Width="600"  Style="{DynamicResource DefWin}" Loaded="Window_Loaded" Closing="Window_Closing" WindowStartupLocation="CenterOwner">
+        Title="LocalConfig" Height="650" Width="680"  Style="{DynamicResource DefWin}" Loaded="Window_Loaded" Closing="Window_Closing" WindowStartupLocation="CenterOwner">
     <Window.Resources>
 
     </Window.Resources>
@@ -136,8 +136,14 @@
                             <RowDefinition Height="1*"/>
                             <RowDefinition Height="35"/>
                         </Grid.RowDefinitions>
-                        <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible">
-                        </TextBox>
+                        <ListBox Grid.Row="0">
+                            <ListBox.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Delete"/>
+                                    <MenuItem Header="Select"/>
+                                </ContextMenu>
+                            </ListBox.ContextMenu>
+                        </ListBox>
 
                         <Grid Grid.Row="1" Margin="0,5,5,5">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
@@ -148,9 +154,12 @@
                         </Grid>
                     </Grid>
 
-                    <Label FontWeight="Bold" FontSize="15" Grid.Row="2">
-                        Add New Keyword
-                    </Label>
+                    <StackPanel Orientation="Horizontal" Grid.Row="2">
+                        <Label FontWeight="Bold" FontSize="15" >
+                            Add New Keyword
+                        </Label>
+                    </StackPanel>
+                    
                     <StackPanel Orientation="Vertical" Grid.Row="3">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -167,40 +176,8 @@
                             <Label Grid.Column="2">
                                 Type
                             </Label>
-                            <ComboBox Grid.Column="3" VerticalContentAlignment="Center">
+                            <ComboBox Grid.Column="3" VerticalContentAlignment="Center" Name="TypeSelector">
                             </ComboBox>
-                        </Grid>
-
-                        <Grid Margin="0 5 0 0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="50"/>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="45"/>
-                                <ColumnDefinition Width="1*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0">
-                                Source *
-                            </Label>
-                            <TextBox Grid.Column="1" VerticalContentAlignment="Center">
-                            </TextBox>
-                            <Label Grid.Column="2">
-                                Result *
-                            </Label>
-                            <TextBox Grid.Column="3" VerticalContentAlignment="Center">
-                            </TextBox>
-                        </Grid>
-
-                        <Grid Margin="0 5 0 0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="1*"/>
-                            </Grid.ColumnDefinitions>
-                            <CheckBox Grid.Column="0" Margin="3 0 0 0">
-                                ExactMatch
-                            </CheckBox>
-                            <CheckBox Grid.Column="1" Margin="3 0 0 0">
-                                IgnoreCase
-                            </CheckBox>
                         </Grid>
 
                         <Grid Margin="0 5 0 0">
@@ -217,21 +194,59 @@
 
                         <Grid Margin="0 5 0 0">
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0">
+                                Source *
+                            </Label>
+                            <TextBox Grid.Column="1" VerticalContentAlignment="Center" Name="SourceStr" TextChanged="SourceStr_TextChanged">
+                            </TextBox>
+                            <Label Grid.Column="2">
+                                Result *
+                            </Label>
+                            <TextBox Grid.Column="3" VerticalContentAlignment="Center" Name="TargetStr" TextChanged="TargetStr_TextChanged">
+                            </TextBox>
+                        </Grid>
+
+                        <Grid Margin="0 5 0 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="90"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <CheckBox Grid.Column="0" Margin="3 0 0 0">
+                                ExactMatch
+                            </CheckBox>
+                            <CheckBox Grid.Column="1" Margin="3 0 0 0">
+                                IgnoreCase
+                            </CheckBox>
+                        </Grid>
+
+                        <Grid Margin="0 5 0 0">
+                            <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="45"/>
                                 <ColumnDefinition Width="1*"/>
                                 <ColumnDefinition Width="30"/>
                                 <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="85"/>
                             </Grid.ColumnDefinitions>
                             <Label Grid.Column="0">
                                 From *
                             </Label>
-                            <ComboBox Grid.Column="1" VerticalContentAlignment="Center">
+                            <ComboBox Name="From" Grid.Column="1" VerticalContentAlignment="Center">
                             </ComboBox>
+                         
                             <Label Grid.Column="2">
                                 To *
                             </Label>
-                            <ComboBox Grid.Column="3" VerticalContentAlignment="Center">
+                            <ComboBox Name="To" Grid.Column="3" VerticalContentAlignment="Center">
                             </ComboBox>
+
+                            <CheckBox Grid.Column="5" Margin="3 0 0 0" VerticalAlignment="Center" VerticalContentAlignment="Center" Name="AutoDetect">
+                                Auto Detect
+                            </CheckBox>
                         </Grid>
                         
                         <Grid Margin="0 5 0 0">

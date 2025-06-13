@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using SSELex.ConvertManager;
+using SSELex.TranslateCore;
+using SSELex.UIManage;
+using static SSELex.UIManage.SkyrimDataLoader;
 
 namespace SSELex
 {
@@ -135,10 +138,48 @@ namespace SSELex
 
         }
 
+        public void Init()
+        {
+            foreach (var Value in Enum.GetValues(typeof(ObjSelect)))
+            {
+                TypeSelector.Items.Add(Value.ToString());
+            }
+            TypeSelector.Items.Remove("All");
+
+            TypeSelector.SelectedValue = ObjSelect.Null.ToString();
+
+            foreach (var Get in UILanguageHelper.SupportLanguages)
+            {
+                From.Items.Add(Get.ToString());
+                To.Items.Add(Get.ToString());
+            }
+
+            From.Items.Remove(Languages.Auto.ToString());
+            To.Items.Remove(Languages.Auto.ToString());
+
+            AutoDetect.IsChecked = true;
+        }
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
             this.Hide();
+        }
+
+        private void SourceStr_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (AutoDetect.IsChecked == true)
+            {
+                From.SelectedValue = LanguageHelper.DetectLanguageByLine(SourceStr.Text).ToString();
+            }
+        }
+
+        private void TargetStr_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (AutoDetect.IsChecked == true)
+            {
+                To.SelectedValue = LanguageHelper.DetectLanguageByLine(TargetStr.Text).ToString();
+            }
         }
     }
 }

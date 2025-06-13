@@ -167,6 +167,7 @@ namespace SSELex
 
             LocalConfigView = new LocalConfig();
             LocalConfigView.Hide();
+            LocalConfigView.Init();
         }
 
         public static void ShowLogView()
