@@ -62,7 +62,7 @@ namespace SSELex.TranslateCore
 
             if (RussianHelper.ContainsRussian(Str)) //100%
             {
-                OneDetect.Add(Languages.Russian,0.01);
+                OneDetect.Add(Languages.Russian,0.02);
             }
 
             if (JapaneseHelper.IsProbablyJapanese(Str)) //90%
@@ -78,7 +78,7 @@ namespace SSELex.TranslateCore
 
                 if (SimplifiedChineseHelper.ContainsSimplifiedChinese(Str))  //100%
                 {
-                    OneDetect.Add(Languages.SimplifiedChinese, 0.01);
+                    OneDetect.Add(Languages.SimplifiedChinese, 0.02);
                 }
             }
 
