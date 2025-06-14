@@ -99,7 +99,7 @@ namespace SSELex.TranslateManage
                         if (WorkEnd != 2)
                         {
                             bool CanSleep = true;
-                            var GetResult = Translator.QuickTrans(this.Type,this.Key, this.SourceText, DeFine.SourceLanguage, DeFine.TargetLanguage, ref CanSleep);
+                            var GetResult = Translator.QuickTrans(DeFine.CurrentModName,this.Type,this.Key, this.SourceText, DeFine.SourceLanguage, DeFine.TargetLanguage, ref CanSleep);
                             if (GetResult.Trim().Length > 0)
                             {
                                 TransText = GetResult.Trim();

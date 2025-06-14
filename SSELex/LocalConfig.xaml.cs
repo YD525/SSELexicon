@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using SSELex.ConvertManager;
+using SSELex.SqlManager;
 using SSELex.TranslateCore;
+using SSELex.TranslateManage;
+using SSELex.TranslateManagement;
 using SSELex.UIManage;
 using static SSELex.UIManage.SkyrimDataLoader;
 
@@ -151,11 +145,15 @@ namespace SSELex
             foreach (var Get in UILanguageHelper.SupportLanguages)
             {
                 From.Items.Add(Get.ToString());
+                SFrom.Items.Add(Get.ToString());
                 To.Items.Add(Get.ToString());
+                STo.Items.Add(Get.ToString());
             }
 
             From.Items.Remove(Languages.Auto.ToString());
+            SFrom.Items.Remove(Languages.Auto.ToString());
             To.Items.Remove(Languages.Auto.ToString());
+            STo.Items.Remove(Languages.Auto.ToString());
 
             AutoDetect.IsChecked = true;
         }
@@ -164,6 +162,11 @@ namespace SSELex
         {
             e.Cancel = true;
             this.Hide();
+        }
+
+        private void FromStr_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            SFrom.SelectedValue = LanguageHelper.DetectLanguageByLine(FromStr.Text).ToString();
         }
 
         private void SourceStr_TextChanged(object sender, TextChangedEventArgs e)
@@ -180,6 +183,250 @@ namespace SSELex
             {
                 To.SelectedValue = LanguageHelper.DetectLanguageByLine(TargetStr.Text).ToString();
             }
+        }
+
+        public void AutoReload()
+        {
+            if (FilterFrom != Languages.Null && FilterTo != Languages.Null)
+            {
+                if (FilterFrom != FilterTo)
+                {
+                    Pages = AdvancedDictionary.QueryByPage((int)FilterFrom, (int)FilterTo,CurrentPage);
+                    KeywordList.Items.Clear();
+                    foreach (var GetItem in Pages.CurrentPage)
+                    {
+                        KeywordList.Items.Add(new
+                        {
+                            TargetModName = GetItem.TargetModName,
+                            Type = GetItem.Type,
+                            Source = GetItem.Source,
+                            Result = GetItem.Result,
+                            From =  GetItem.From,
+                            To = GetItem.To,
+                            ExactMatch = GetItem.ExactMatch,
+                            IgnoreCase = GetItem.IgnoreCase,
+                            Regex = GetItem.Regex,
+                            Rowid = GetItem.Rowid
+                        });
+                    }
+                }
+            }
+        }
+
+        public int CanReload = 1;
+
+        public PageItem<List<AdvancedDictionaryItem>> ?Pages = null;
+
+        public int CurrentPage = 0;
+        public Languages FilterFrom = Languages.Null;
+        public Languages FilterTo = Languages.Null;
+
+        private void SFrom_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string GetLang = ConvertHelper.ObjToStr(SFrom.SelectedValue);
+            if (GetLang.Trim().Length > 0)
+            {
+                FilterFrom = (Languages)Enum.Parse(typeof(Languages), GetLang.Trim());
+            }
+            if(CanReload > 0)
+            AutoReload();
+        }
+
+        private void STo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string GetLang = ConvertHelper.ObjToStr(STo.SelectedValue);
+            if (GetLang.Trim().Length > 0)
+            {
+                FilterTo = (Languages)Enum.Parse(typeof(Languages), GetLang.Trim());
+            }
+            if (CanReload > 0)
+            AutoReload();
+        }
+
+        public void SetOutput(string Str)
+        {
+            this.Dispatcher.Invoke(new Action(() => {
+                if (this.Visibility == Visibility.Visible)
+                {
+                    Output.Text = Str;
+                }
+            }));
+        }
+
+        public void SetKeyWords(List<ReplaceTag> KeyWords)
+        {
+            List<ReplaceTag> CopyKeyWords = new List<ReplaceTag>();
+            CopyKeyWords.AddRange(KeyWords);
+            this.Dispatcher.Invoke(new Action(() => {
+                if (this.Visibility == Visibility.Visible)
+                {
+                    MatchedKeywords.Items.Clear();
+                    foreach (var Get in CopyKeyWords)
+                    {
+                        if (Get.Key.StartsWith("__(") && Get.Key.EndsWith(")__"))
+                        {
+                            string Source = AdvancedDictionary.GetSourceByRowid(Get.Rowid);
+                            MatchedKeywords.Items.Add(Get.Rowid + "," + Source);
+                        }
+                        else
+                        {
+                            MatchedKeywords.Items.Add(Get.Rowid + "," + Get.Key);
+                        }
+                    }
+                }
+            }));
+        }
+
+        private void AddKeyWord(object sender, MouseButtonEventArgs e)
+        {
+            string FromStr = ConvertHelper.ObjToStr(From.SelectedValue);
+            string ToStr = ConvertHelper.ObjToStr(To.SelectedValue);
+
+            int FromID = 0;
+            if (FromStr.Trim().Length > 0)
+            {
+                FromID = (int)(Languages)Enum.Parse(typeof(Languages), FromStr.Trim());
+            }
+
+            int ToID = 0;
+            if (ToStr.Trim().Length > 0)
+            {
+                ToID = (int)(Languages)Enum.Parse(typeof(Languages), ToStr.Trim());
+            }
+
+
+            if (FromStr.Trim().Length == 0 || ToStr.Trim().Length == 0)
+            {
+                MessageBox.Show("Source language or target language cannot be empty.");
+                return;
+            }
+            if (FromStr == ToStr)
+            {
+                MessageBox.Show("The source and target languages ​​cannot be the same.");
+                return;
+            }
+
+            if (SourceStr.Text.Trim().Length == 0)
+            {
+                MessageBox.Show("Source text cannot be empty.");
+                return;
+            }
+
+            if (TargetStr.Text.Trim().Length == 0)
+            {
+                MessageBox.Show("Result text cannot be empty.");
+                return;
+            }
+
+            int GetExactMatch = 0;
+            if (ExactMatch.IsChecked == true)
+            {
+                GetExactMatch = 1;
+            }
+            int GetIgnoreCase = 0;
+            if (IgnoreCase.IsChecked == true)
+            {
+                GetIgnoreCase = 1;
+            }
+
+            string GetType = ConvertHelper.ObjToStr(TypeSelector.SelectedValue);
+            if (GetType.Equals(ObjSelect.Null.ToString()))
+            {
+                GetType = string.Empty;
+            }
+
+            if (AdvancedDictionary.AddItem(new AdvancedDictionaryItem(TargetModName.Text, GetType, SourceStr.Text, TargetStr.Text, FromID, ToID, GetExactMatch, GetIgnoreCase, Regex.Text)))
+            {
+                SFrom.SelectedValue = FromStr;
+                STo.SelectedValue = ToStr;
+                CanReload = 0;
+                AutoReload();
+                CanReload = 1;
+            }
+        }
+        private void Previous_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void Next_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+            if (Pages != null)
+            {
+                foreach (var GetItem in KeywordList.SelectedItems)
+                {
+                    int Rowid = ConvertHelper.ObjToInt(ConvertHelper.ObjToStr(KeywordList.SelectedItem.GetType().GetProperty("Rowid").GetValue(GetItem, null)));
+                    AdvancedDictionary.DeleteByRowid(Rowid);
+                }
+
+                AutoReload();
+            }
+           
+        }
+
+        private void Execute_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            string GetBtnContent = ConvertHelper.ObjToStr(ExecuteBtn.Content);
+            string GetType = ConvertHelper.ObjToStr(TypeSelector.SelectedValue);
+            if (GetBtnContent.Equals("Execute"))
+            {
+                if (FilterFrom != Languages.Null && FilterTo != Languages.Null)
+                {
+                    FinalText.Text = string.Empty;
+                    MatchedKeywords.Items.Clear();
+                    Output.Text = string.Empty;
+
+                    string GetFromStr = FromStr.Text;
+
+                    new Thread(() =>
+                    {
+                        this.Dispatcher.Invoke(new Action(() => {
+                            ExecuteBtn.Content = "Executing...";
+                        }));
+                        bool CanSleep = false;
+                        var GetResult = Translator.QuickTrans("Test", GetType, UIHelper.ActiveKey, GetFromStr, FilterFrom, FilterTo, ref CanSleep);
+
+                        this.Dispatcher.Invoke(new Action(() => {
+                            FinalText.Text = GetResult;
+                            ExecuteBtn.Content = "Execute";
+                        }));
+
+                        Translator.ClearCloudCache("Test");
+
+                    }).Start();
+                }
+                else
+                {
+                    MessageBox.Show("Both source and target languages ​​must be set.");
+                }
+            }
+        }
+
+        private void DeleteSelectItem(object sender, MouseButtonEventArgs e)
+        {
+            List<string> Removes = new List<string>();
+            foreach (var Get in MatchedKeywords.SelectedItems)
+            {
+                string GetStr = ConvertHelper.ObjToStr(Get);
+                if (GetStr.Contains(","))
+                {
+                    Removes.Add(GetStr);
+                    int Rowid = ConvertHelper.ObjToInt(GetStr.Split(',')[0]);
+                    AdvancedDictionary.DeleteByRowid(Rowid);
+                }
+            }
+
+            foreach (var Get in Removes)
+            { 
+                MatchedKeywords.Items.Remove(Get);
+            }
+
+            AutoReload();
         }
     }
 }

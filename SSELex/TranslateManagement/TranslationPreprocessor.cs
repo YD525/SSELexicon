@@ -19,10 +19,17 @@ namespace SSELex.TranslateManage
 
     public class ReplaceTag
     {
+        public int Rowid = 0;
         public string Key { get; set; } = "";
         public string Value { get; set; } = "";
         public ReplaceTag(string Key, string Value)
         {
+            this.Key = Key;
+            this.Value = Value;
+        }
+        public ReplaceTag(int Rowid,string Key, string Value)
+        {
+            this.Rowid = Rowid;
             this.Key = Key;
             this.Value = Value;
         }
@@ -55,7 +62,7 @@ namespace SSELex.TranslateManage
             {
                 var Source = Datas[i].Source;
                 Words.Add($"{Source} -> {Datas[i].Result}");
-                ReplaceTags.Add(new ReplaceTag(Source, Datas[i].Result));
+                ReplaceTags.Add(new ReplaceTag(Datas[i].Rowid,Source, Datas[i].Result));
                 if (UseWordBoundary)
                 {
                     string Pattern = $@"\b{Regex.Escape(Source)}\b";
@@ -93,7 +100,7 @@ namespace SSELex.TranslateManage
                     if (Regex.IsMatch(SourceStr, Pattern, RegexOptions.IgnoreCase))
                     {
                         SourceStr = Regex.Replace(SourceStr, Pattern, Placeholder, RegexOptions.IgnoreCase);
-                        ReplaceTags.Add(new ReplaceTag(Placeholder, Word.Result));
+                        ReplaceTags.Add(new ReplaceTag(Datas[i].Rowid,Placeholder, Word.Result));
                         HasPlaceholder = true;
                     }
                 }

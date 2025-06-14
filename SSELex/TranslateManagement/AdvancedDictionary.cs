@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Mutagen.Bethesda.Skyrim;
 using SSELex.ConvertManager;
 using SSELex.SqlManager;
 using SSELex.TranslateCore;
@@ -13,6 +15,7 @@ namespace SSELex.TranslateManagement
 {
     public class AdvancedDictionaryItem
     {
+        public int Rowid = 0;
         public string TargetModName = "";
         public string Type = "";
         public string Source = "";
@@ -29,6 +32,19 @@ namespace SSELex.TranslateManagement
         }
         public AdvancedDictionaryItem(object TargetModName, object Type, object Source, object Result, object From, object To, object ExactMatch, object IgnoreCase, object Regex)
         {
+            this.TargetModName = ConvertHelper.ObjToStr(TargetModName);
+            this.Type = ConvertHelper.ObjToStr(Type);
+            this.Source = ConvertHelper.ObjToStr(Source);
+            this.Result = ConvertHelper.ObjToStr(Result);
+            this.From = ConvertHelper.ObjToInt(From);
+            this.To = ConvertHelper.ObjToInt(To);
+            this.ExactMatch = ConvertHelper.ObjToInt(ExactMatch);
+            this.IgnoreCase = ConvertHelper.ObjToInt(IgnoreCase);
+            this.Regex = ConvertHelper.ObjToStr(Regex);
+        }
+        public AdvancedDictionaryItem(object Rowid,object TargetModName, object Type, object Source, object Result, object From, object To, object ExactMatch, object IgnoreCase, object Regex)
+        {
+            this.Rowid = ConvertHelper.ObjToInt(Rowid);
             this.TargetModName = ConvertHelper.ObjToStr(TargetModName);
             this.Type = ConvertHelper.ObjToStr(Type);
             this.Source = ConvertHelper.ObjToStr(Source);
@@ -65,6 +81,11 @@ namespace SSELex.TranslateManagement
             }
         }
 
+        public static string GetSourceByRowid(int Rowid)
+        {
+            string SqlOrder = "Select [Source] From AdvancedDictionary Where Rowid = {0}";
+            return ConvertHelper.ObjToStr(DeFine.GlobalDB.ExecuteScalar(string.Format(SqlOrder,Rowid)));
+        }
         public static bool IsRegexMatch(string Input, string SetRegex)
         {
             try
@@ -91,7 +112,7 @@ namespace SSELex.TranslateManagement
         {
             List<AdvancedDictionaryItem> AdvancedDictionaryItems = new List<AdvancedDictionaryItem>();
             string SqlOrder = @"
-SELECT * FROM AdvancedDictionary
+SELECT Rowid,* FROM AdvancedDictionary
 WHERE 
   (
     TargetModName IS NULL
@@ -129,6 +150,7 @@ WHERE
             for (int i = 0; i < NTable.Rows.Count; i++)
             {
                 var Get = new AdvancedDictionaryItem(
+                    NTable.Rows[i]["Rowid"],
                     NTable.Rows[i]["TargetModName"],
                     NTable.Rows[i]["Type"],
                     NTable.Rows[i]["Source"],
@@ -155,22 +177,51 @@ WHERE
             return AdvancedDictionaryItems;
         }
 
-        public static void AddItem(AdvancedDictionaryItem item)
+        public static bool CheckSame(AdvancedDictionaryItem item)
         {
-            string sql = $@"INSERT INTO AdvancedDictionary 
-(TargetModName, Type, Source, Result, [From], [To], ExactMatch, IgnoreCase, Regex)
+            string CheckSql = $@"
+SELECT COUNT(*) FROM AdvancedDictionary 
+WHERE 
+[TargetModName] = '{EscapeSqlString(item.TargetModName)}' AND
+[Type] = '{EscapeSqlString(item.Type)}' AND
+[Source] = '{EscapeSqlString(item.Source)}' AND
+[Result] = '{EscapeSqlString(item.Result)}' AND
+[From] = {item.From} AND
+[To] = {item.To}";
+
+            int Count = Convert.ToInt32(DeFine.GlobalDB.ExecuteScalar(CheckSql));
+            return Count > 0;
+        }
+
+
+        public static bool AddItem(AdvancedDictionaryItem Item)
+        {
+            if (!CheckSame(Item))
+            {
+                string sql = $@"INSERT INTO AdvancedDictionary 
+([TargetModName], [Type], [Source], [Result], [From], [To], [ExactMatch], [IgnoreCase], [Regex])
 VALUES (
-'{EscapeSqlString(item.TargetModName)}',
-'{EscapeSqlString(item.Type)}',
-'{EscapeSqlString(item.Source)}',
-'{EscapeSqlString(item.Result)}',
-{item.From},
-{item.To},
-{item.ExactMatch},
-{item.IgnoreCase},
-'{System.Web.HttpUtility.HtmlEncode(item.Regex)}'
+'{EscapeSqlString(Item.TargetModName)}',
+'{EscapeSqlString(Item.Type)}',
+'{EscapeSqlString(Item.Source)}',
+'{EscapeSqlString(Item.Result)}',
+{Item.From},
+{Item.To},
+{Item.ExactMatch},
+{Item.IgnoreCase},
+'{System.Web.HttpUtility.HtmlEncode(Item.Regex)}'
 )";
-            DeFine.GlobalDB.ExecuteNonQuery(sql);
+                int State = DeFine.GlobalDB.ExecuteNonQuery(sql);
+                if (State != 0)
+                {
+                    return true;
+                }
+                return false;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public static void DeleteItem(AdvancedDictionaryItem item)
@@ -188,9 +239,38 @@ Regex = '{System.Web.HttpUtility.HtmlEncode(item.Regex)}'";
             DeFine.GlobalDB.ExecuteNonQuery(sql);
         }
 
-        public static PageItem<List<AdvancedDictionaryItem>> QueryByPage(string SourceText, int PageNo)
+        public static PageItem<List<AdvancedDictionaryItem>> QueryByPage(int From, int To, int PageNo)
         {
-            string Where = $"WHERE Source = '{EscapeSqlString(SourceText)}'";
+            string Where = $"WHERE [From] = {From} And [To] = {To}";
+
+            int MaxPage = PageHelper.GetPageCount("AdvancedDictionary", Where);
+
+            DataTable NTable = PageHelper.GetTablePageData("AdvancedDictionary", PageNo, DeFine.DefPageSize, Where);
+
+            List<AdvancedDictionaryItem> Items = new List<AdvancedDictionaryItem>();
+            for (int i = 0; i < NTable.Rows.Count; i++)
+            {
+                DataRow Row = NTable.Rows[i];
+                Items.Add(new AdvancedDictionaryItem(
+                    Row["Rowid"],
+                    Row["TargetModName"],
+                    Row["Type"],
+                    Row["Source"],
+                    Row["Result"],
+                    Row["From"],
+                    Row["To"],
+                    Row["ExactMatch"],
+                    Row["IgnoreCase"],
+                    Row["Regex"]
+                ));
+            }
+
+            return new PageItem<List<AdvancedDictionaryItem>>(Items, PageNo, MaxPage);
+        }
+
+        public static PageItem<List<AdvancedDictionaryItem>> QueryByPage(string SourceText,int From,int To, int PageNo)
+        {
+            string Where = $"WHERE Source = '{EscapeSqlString(SourceText)}' And [From] = {From} And [To] = {To}";
 
             int MaxPage = PageHelper.GetPageCount("AdvancedDictionary", Where);
 
@@ -214,6 +294,17 @@ Regex = '{System.Web.HttpUtility.HtmlEncode(item.Regex)}'";
             }
 
             return new PageItem<List<AdvancedDictionaryItem>>(Items, PageNo, MaxPage);
+        }
+
+        public static bool DeleteByRowid(int Rowid)
+        {
+            string SqlOrder = "Delete From AdvancedDictionary Where Rowid = {0}";
+            int State = DeFine.GlobalDB.ExecuteNonQuery(string.Format(SqlOrder,Rowid));
+            if (State != 0)
+            {
+                return true;
+            }
+            return false;
         }
 
     }

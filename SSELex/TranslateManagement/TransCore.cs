@@ -33,68 +33,66 @@ namespace SSELex.TranslateManage
             ReloadEngine();
         }
 
+        private static readonly object _EngineLock = new object();
+        public static void RemoveEngine<T>() 
+        {
+            lock (_EngineLock)
+            {
+                EngineSelects.RemoveAll(e => e is T);
+            }
+        }
+
         public static void ReloadEngine()
         {
-            EngineSelects.Clear();
-
-            //Google support
-            if (DeFine.GlobalLocalSetting.GoogleYunApiUsing)
+            lock (_EngineLock)
             {
-                if (DeFine.GlobalLocalSetting.GoogleApiKey.Trim().Length > 0)
+                EngineSelects.Clear();
+
+                // Google support
+                if (DeFine.GlobalLocalSetting.GoogleYunApiUsing &&
+                    !string.IsNullOrWhiteSpace(DeFine.GlobalLocalSetting.GoogleApiKey))
                 {
                     EngineSelects.Add(new EngineSelect(new GoogleTransApi(), 1));
                 }
-            }
 
-            //ChatGPT support
-            if (DeFine.GlobalLocalSetting.ChatGptApiUsing)
-            {
-                if (DeFine.GlobalLocalSetting.ChatGptKey.Trim().Length > 0)
+                // ChatGPT support
+                if (DeFine.GlobalLocalSetting.ChatGptApiUsing &&
+                    !string.IsNullOrWhiteSpace(DeFine.GlobalLocalSetting.ChatGptKey))
                 {
                     EngineSelects.Add(new EngineSelect(new ChatGptApi(), 6));
                 }
-            }
 
-            //Gemini support
-            if (DeFine.GlobalLocalSetting.GeminiApiUsing)
-            {
-                if (DeFine.GlobalLocalSetting.GeminiKey.Trim().Length > 0)
+                // Gemini support
+                if (DeFine.GlobalLocalSetting.GeminiApiUsing &&
+                    !string.IsNullOrWhiteSpace(DeFine.GlobalLocalSetting.GeminiKey))
                 {
                     EngineSelects.Add(new EngineSelect(new GeminiApi(), 6));
                 }
-            }
 
-            //DeepSeek support
-            if (DeFine.GlobalLocalSetting.DeepSeekApiUsing)
-            {
-                if (DeFine.GlobalLocalSetting.DeepSeekKey.Trim().Length > 0)
+                // DeepSeek support
+                if (DeFine.GlobalLocalSetting.DeepSeekApiUsing &&
+                    !string.IsNullOrWhiteSpace(DeFine.GlobalLocalSetting.DeepSeekKey))
                 {
                     EngineSelects.Add(new EngineSelect(new DeepSeekApi(), 6));
                 }
-            }
 
-            //Cohere support
-            if (DeFine.GlobalLocalSetting.CohereApiUsing)
-            {
-                if (DeFine.GlobalLocalSetting.CohereKey.Trim().Length > 0)
+                // Cohere support
+                if (DeFine.GlobalLocalSetting.CohereApiUsing &&
+                    !string.IsNullOrWhiteSpace(DeFine.GlobalLocalSetting.CohereKey))
                 {
                     EngineSelects.Add(new EngineSelect(new CohereApi(), 6));
                 }
-            }
 
-            //Baichuan support
-            if (DeFine.GlobalLocalSetting.BaichuanApiUsing)
-            {
-                if (DeFine.GlobalLocalSetting.BaichuanKey.Trim().Length > 0)
+                // Baichuan support
+                if (DeFine.GlobalLocalSetting.BaichuanApiUsing &&
+                    !string.IsNullOrWhiteSpace(DeFine.GlobalLocalSetting.BaichuanKey))
                 {
                     EngineSelects.Add(new EngineSelect(new BaichuanApi(), 6));
                 }
-            }
 
-            //DeepL support
-            if (DeFine.GlobalLocalSetting.DeepLApiUsing)
-            {
-                if (DeFine.GlobalLocalSetting.DeepLKey.Trim().Length > 0)
+                // DeepL support
+                if (DeFine.GlobalLocalSetting.DeepLApiUsing &&
+                    !string.IsNullOrWhiteSpace(DeFine.GlobalLocalSetting.DeepLKey))
                 {
                     EngineSelects.Add(new EngineSelect(new DeepLApi(), 6));
                 }
@@ -231,6 +229,13 @@ namespace SSELex.TranslateManage
                             string GetDefSource = GetSource;
                             GetSource = NTranslationPreprocessor.GeneratePlaceholderText(From, To, GetSource, Type, out CanTrans);
 
+                            if (DeFine.LocalConfigView != null)
+                            {
+                                DeFine.LocalConfigView.SetOutput(GetSource);
+                                DeFine.LocalConfigView.SetKeyWords(NTranslationPreprocessor.ReplaceTags);
+                            }
+                          
+
                             Translator.SendTranslateMsg("Local Engine(SSELex)", GetDefSource, GetSource);
                         }
                         else
@@ -310,6 +315,13 @@ namespace SSELex.TranslateManage
                             {
                                 GenParam += CustomWords[i] + "\n";
                             }
+
+                            if (DeFine.LocalConfigView != null)
+                            {
+                                DeFine.LocalConfigView.SetOutput(GenParam);
+                                DeFine.LocalConfigView.SetKeyWords(NTranslationPreprocessor.ReplaceTags);
+                            }
+                            
 
                             Translator.SendTranslateMsg("Local Engine(SSELex)", GetSource, GenParam);
                         }

@@ -1463,20 +1463,11 @@ namespace SSELex
             Translator.ClearAICache();
             if (ActionWin.Show("Clear the cache for translation?", "Warning: After cleanup, all current content (including previous translations) will no longer be cached. Translating again will retrieve data from the cloud, which may waste your previous translation work and increase word count consumption.", MsgAction.YesNo, MsgType.Info) > 0)
             {
-                if (DeFine.CurrentModName.Trim().Length > 0)
+                if (Translator.ClearCloudCache(DeFine.CurrentModName))
                 {
-                    string SqlOrder = "Delete From CloudTranslation Where ModName = '" + DeFine.CurrentModName + "'";
-                    int State = DeFine.GlobalDB.ExecuteNonQuery(SqlOrder);
-                    if (State != 0)
-                    {
-                        ActionWin.Show("DBMsg", "Done!", MsgAction.Yes, MsgType.Info);
-                        DeFine.GlobalDB.ExecuteNonQuery("vacuum");
-                        DeFine.WorkingWin.ReloadData();
-                    }
-                    else
-                    {
-
-                    }
+                    ActionWin.Show("DBMsg", "Done!", MsgAction.Yes, MsgType.Info);
+                    DeFine.GlobalDB.ExecuteNonQuery("vacuum");
+                    DeFine.WorkingWin.ReloadData();
                 }
             }
             else
@@ -1580,7 +1571,7 @@ namespace SSELex
                         else
                         {
                             bool CanSleep = true;
-                            var GetResult = Translator.QuickTrans(UIHelper.ActiveType, UIHelper.ActiveKey, GetFromStr,DeFine.SourceLanguage,DeFine.TargetLanguage, ref CanSleep);
+                            var GetResult = Translator.QuickTrans(DeFine.CurrentModName,UIHelper.ActiveType, UIHelper.ActiveKey, GetFromStr,DeFine.SourceLanguage,DeFine.TargetLanguage, ref CanSleep);
 
                             this.Dispatcher.Invoke(new Action(() =>
                             {

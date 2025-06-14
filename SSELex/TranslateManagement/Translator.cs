@@ -7,6 +7,8 @@ using SSELex.UIManage;
 using System.Windows.Media;
 using SSELex.TranslateManagement;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
+using Mutagen.Bethesda.Skyrim;
 
 namespace SSELex.TranslateManage
 {
@@ -51,7 +53,7 @@ namespace SSELex.TranslateManage
             return Regex.IsMatch(Input, @"^[\p{P}\p{S}\s]+$");
         }
 
-        public static string QuickTrans(string Type, string Key,string Content,Languages From, Languages To, ref bool CanSleep, bool IsBook = false)
+        public static string QuickTrans(string ModName,string Type, string Key,string Content,Languages From, Languages To, ref bool CanSleep, bool IsBook = false)
         {
             string GetSourceStr = Content;
 
@@ -105,7 +107,7 @@ namespace SSELex.TranslateManage
 
             if (CanAddCache && Content.Trim().Length > 0)
             {
-                CloudDBCache.AddCache(DeFine.CurrentModName, Key, (int)To, Content);
+                CloudDBCache.AddCache(ModName, Key, (int)To, Content);
             }
 
             return Content;
@@ -230,6 +232,20 @@ namespace SSELex.TranslateManage
             }
 
             return ReplaceCount;
+        }
+
+        public static bool ClearCloudCache(string ModName)
+        {
+            string SqlOrder = "Delete From CloudTranslation Where ModName = '" + ModName + "'";
+            int State = DeFine.GlobalDB.ExecuteNonQuery(SqlOrder);
+            if (State != 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public static void TestAll()

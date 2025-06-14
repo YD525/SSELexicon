@@ -154,7 +154,7 @@ namespace SSELex.TranslateCore
                 OneDetect.Add(Languages.Indonesian,IndonesianHelper.GetIndonesianScore(Str));
             }
 
-            if (VietnameseHelper.IsProbablyVietnamese(Str))//??? 20%
+            if (VietnameseHelper.IsProbablyVietnamese(Str))
             {
                 OneDetect.Add(Languages.Vietnamese,VietnameseHelper.GetVietnameseScore(Str));
             }

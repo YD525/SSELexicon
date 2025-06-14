@@ -5,8 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SSELex"
         mc:Ignorable="d"
-        Title="LocalConfig" Height="650" Width="680"  Style="{DynamicResource DefWin}" Loaded="Window_Loaded" Closing="Window_Closing" WindowStartupLocation="CenterOwner">
+        Title="LocalConfig" Height="650" MinWidth="975" Width="975"  Style="{DynamicResource DefWin}" Loaded="Window_Loaded" Closing="Window_Closing" WindowStartupLocation="CenterOwner">
     <Window.Resources>
+
+        <Style x:Key="ListViewItemStyle" TargetType="{x:Type ListViewItem}">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter  Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="13.5"/>
+
+            <Setter Property="Foreground"  Value="Black"/>
+        </Style>
 
     </Window.Resources>
     <Border MouseLeftButtonDown="WinHead_MouseLeftButtonDown"  Style="{DynamicResource DefWinBackground}" Background="#FF005495" Name="MainBackGround">
@@ -48,7 +56,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="1"/>
-                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
 
                 <Grid Grid.Column="0">
@@ -64,7 +72,7 @@
                             <RowDefinition Height="0.5*"/>
                         </Grid.RowDefinitions>
 
-                        <Label FontWeight="Bold" FontSize="15" Grid.Row="0">
+                        <Label FontWeight="Bold" FontSize="15" Grid.Row="0" VerticalAlignment="Center">
                             Input Source Text
                         </Label>
                         <Grid Grid.Row="1">
@@ -72,11 +80,11 @@
                                 <RowDefinition Height="1*"/>
                                 <RowDefinition Height="35"/>
                             </Grid.RowDefinitions>
-                            <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible">
+                            <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Name="FromStr" TextChanged="FromStr_TextChanged">
                             </TextBox>
 
-                            <Border  CornerRadius="5" Background="#FF0B74D1" Grid.Row="1" Margin="0 5 0 5" Cursor="Hand">
-                                <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Border  CornerRadius="5" Background="#FF0B74D1" Grid.Row="1" Margin="0 5 0 5" Cursor="Hand" PreviewMouseDown="Execute_PreviewMouseDown">
+                                <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Name="ExecuteBtn">
                                     Execute
                                 </Label>
                             </Border>
@@ -86,7 +94,7 @@
                         <Label FontWeight="Bold" FontSize="15"  Grid.Row="2">
                             Preprocessed Output
                         </Label>
-                        <TextBox IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"  Grid.Row="3">
+                        <TextBox IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Name="Output" Grid.Row="3">
                         </TextBox>
 
 
@@ -98,9 +106,9 @@
                                 <RowDefinition Height="1*"/>
                                 <RowDefinition Height="35"/>
                             </Grid.RowDefinitions>
-                            <ListBox Grid.Row="0">
+                            <ListBox Grid.Row="0" Name="MatchedKeywords">
                             </ListBox>
-                            <Border  CornerRadius="5" Background="#FF0B74D1" Grid.Row="1" Margin="0 5 0 5" Cursor="Hand">
+                            <Border  CornerRadius="5" Background="#FF0B74D1" Grid.Row="1" Margin="0 5 0 5" Cursor="Hand" PreviewMouseDown="DeleteSelectItem">
                                 <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
                                     Delete Selected Keyword
                                 </Label>
@@ -112,7 +120,7 @@
                             Final Translation Result
                         </Label>
 
-                        <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Grid.Row="7">
+                        <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Name="FinalText" Grid.Row="7">
                         </TextBox>
                     </Grid>
                 </Grid>
@@ -128,28 +136,59 @@
                         <RowDefinition Height="0.5*"/>
                     </Grid.RowDefinitions>
 
-                    <Label FontWeight="Bold" FontSize="15" Grid.Row="0">
-                        Custom Keywords List
-                    </Label>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Label FontWeight="Bold" FontSize="15" Grid.Row="0">
+                            Keywords List
+                        </Label>
+                        
+                        <Label Grid.Column="0" VerticalAlignment="Center">
+                            From 
+                        </Label>
+                        <ComboBox Name="SFrom" Grid.Column="1" VerticalContentAlignment="Center" Margin="5" Width="70" SelectionChanged="SFrom_SelectionChanged">
+                        </ComboBox>
+
+                        <Label Grid.Column="2" VerticalAlignment="Center">
+                            To 
+                        </Label>
+                        <ComboBox Name="STo" Grid.Column="3" VerticalContentAlignment="Center" Margin="5" Width="70" SelectionChanged="STo_SelectionChanged">
+                        </ComboBox>
+                    </StackPanel>
+                  
                     <Grid Grid.Row="1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="1*"/>
                             <RowDefinition Height="35"/>
                         </Grid.RowDefinitions>
-                        <ListBox Grid.Row="0">
-                            <ListBox.ContextMenu>
+
+
+                        <ListView Name="KeywordList" Grid.Row="0" Margin="0,5,0,5" ItemContainerStyle="{StaticResource ListViewItemStyle}">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="ModName" Width="80"   DisplayMemberBinding="{Binding TargetModName}"/>
+                                    <GridViewColumn Header="Type" Width="85"   DisplayMemberBinding="{Binding Type}"/>
+                                    <GridViewColumn Header="Source" Width="150"   DisplayMemberBinding="{Binding Source}"/>
+                                    <GridViewColumn Header="Result" Width="150"   DisplayMemberBinding="{Binding Result}"/>
+                                    <GridViewColumn Header="ExactMatch" Width="80" DisplayMemberBinding="{Binding ExactMatch}"/>
+                                    <GridViewColumn Header="IgnoreCase" Width="80" DisplayMemberBinding="{Binding IgnoreCase}"/>
+                                    <GridViewColumn Header="From" Width="30"   DisplayMemberBinding="{Binding From}"/>
+                                    <GridViewColumn Header="To" Width="30"   DisplayMemberBinding="{Binding To}"/>
+                                    <GridViewColumn Header="Regex" Width="200" DisplayMemberBinding="{Binding Regex}"/>
+                                    <GridViewColumn Header="Rowid" Width="1" DisplayMemberBinding="{Binding Rowid}"/>
+                                </GridView>
+                            </ListView.View>
+                            <ListView.ContextMenu>
                                 <ContextMenu>
-                                    <MenuItem Header="Delete"/>
+                                    <MenuItem Header="Delete" Click="Delete_Click"></MenuItem>
                                     <MenuItem Header="Select"/>
                                 </ContextMenu>
-                            </ListBox.ContextMenu>
-                        </ListBox>
+                            </ListView.ContextMenu>
+                        </ListView>
 
                         <Grid Grid.Row="1" Margin="0,5,5,5">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                                <Label Cursor="Hand" Foreground="#FF0B74D1" Content="Previous" VerticalAlignment="Center" Margin="0 0 5 0"/>
-                                <Label VerticalAlignment="Center" Content="1/100000"/>
-                                <Label Cursor="Hand" Foreground="#FF0B74D1" Content="Next" VerticalAlignment="Center" Margin="5 0 0 0"/>
+                                <Label Cursor="Hand" Foreground="#FF0B74D1" Content="Previous" VerticalAlignment="Center" Margin="0 0 5 0" MouseDown="Previous_MouseDown"/>
+                                <Label VerticalAlignment="Center" Content="0/0"/>
+                                <Label Cursor="Hand" Foreground="#FF0B74D1" Content="Next" VerticalAlignment="Center" Margin="5 0 0 0" MouseDown="Next_MouseDown"/>
                             </StackPanel>
                         </Grid>
                     </Grid>
@@ -171,7 +210,7 @@
                             <Label Grid.Column="0">
                                 ModName
                             </Label>
-                            <TextBox Grid.Column="1" VerticalContentAlignment="Center">
+                            <TextBox Name="TargetModName" Grid.Column="1" VerticalContentAlignment="Center">
                             </TextBox>
                             <Label Grid.Column="2">
                                 Type
@@ -188,7 +227,7 @@
                             <Label Grid.Column="0">
                                 Regex
                             </Label>
-                            <TextBox Grid.Column="1" VerticalContentAlignment="Center">
+                            <TextBox Name="Regex" Grid.Column="1" VerticalContentAlignment="Center">
                             </TextBox>
                         </Grid>
 
@@ -216,10 +255,10 @@
                                 <ColumnDefinition Width="90"/>
                                 <ColumnDefinition Width="1*"/>
                             </Grid.ColumnDefinitions>
-                            <CheckBox Grid.Column="0" Margin="3 0 0 0">
+                            <CheckBox Name="ExactMatch" Grid.Column="0" Margin="3 0 0 0">
                                 ExactMatch
                             </CheckBox>
-                            <CheckBox Grid.Column="1" Margin="3 0 0 0">
+                            <CheckBox Name="IgnoreCase" Grid.Column="1" Margin="3 0 0 0">
                                 IgnoreCase
                             </CheckBox>
                         </Grid>
@@ -250,7 +289,7 @@
                         </Grid>
                         
                         <Grid Margin="0 5 0 0">
-                            <Border  CornerRadius="5" Background="#FF0B74D1" Grid.Row="1" Margin="0 5 0 5" Cursor="Hand">
+                            <Border  CornerRadius="5" Background="#FF0B74D1" Grid.Row="1" Margin="0 5 0 5" Cursor="Hand" PreviewMouseDown="AddKeyWord">
                                 <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
                                     Add Keyword
                                 </Label>
