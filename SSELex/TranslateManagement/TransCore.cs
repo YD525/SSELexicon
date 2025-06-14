@@ -264,6 +264,7 @@ namespace SSELex.TranslateManage
                                 else
                                 {
                                     this.CallCountDown = 0;
+                                    CanAddCache = false;
                                 }
                             }
                             else
@@ -284,11 +285,16 @@ namespace SSELex.TranslateManage
                                     if (GetData.Trim().Length == 0)
                                     {
                                         this.CallCountDown = 0;
+                                        if (CanAddCache)
+                                        {
+                                            CanAddCache = false;
+                                        }
                                     }
                                 }
                                 else
                                 {
                                     this.CallCountDown = 0;
+                                    CanAddCache = false;
                                 }
                             }
                         }
@@ -349,11 +355,16 @@ namespace SSELex.TranslateManage
                                     if (GetData.Trim().Length == 0)
                                     {
                                         this.CallCountDown = 0;
+                                        if (CanAddCache)
+                                        {
+                                            CanAddCache = false;
+                                        }
                                     }
                                 }
                                 else
                                 {
                                     this.CallCountDown = 0;
+                                    CanAddCache = false;
                                 }
                             }
                             else
@@ -374,11 +385,16 @@ namespace SSELex.TranslateManage
                                     if (GetData.Trim().Length == 0)
                                     {
                                         this.CallCountDown = 0;
+                                        if (CanAddCache)
+                                        {
+                                            CanAddCache = false;
+                                        }
                                     }
                                 }
                                 else
                                 {
                                     this.CallCountDown = 0;
+                                    CanAddCache = false;
                                 }
                             }
                             else
@@ -399,11 +415,16 @@ namespace SSELex.TranslateManage
                                     if (GetData.Trim().Length == 0)
                                     {
                                         this.CallCountDown = 0;
+                                        if (CanAddCache)
+                                        {
+                                            CanAddCache = false;
+                                        }
                                     }
                                 }
                                 else
                                 {
                                     this.CallCountDown = 0;
+                                    CanAddCache = false;
                                 }
                             }
                             else
@@ -424,11 +445,16 @@ namespace SSELex.TranslateManage
                                     if (GetData.Trim().Length == 0)
                                     {
                                         this.CallCountDown = 0;
+                                        if (CanAddCache)
+                                        {
+                                            CanAddCache = false;
+                                        }
                                     }
                                 }
                                 else
                                 {
                                     this.CallCountDown = 0;
+                                    CanAddCache = false;
                                 }
                             }
                             else
@@ -449,11 +475,16 @@ namespace SSELex.TranslateManage
                                     if (GetData.Trim().Length == 0)
                                     {
                                         this.CallCountDown = 0;
+                                        if (CanAddCache)
+                                        {
+                                            CanAddCache = false;
+                                        }
                                     }
                                 }
                                 else
                                 {
                                     this.CallCountDown = 0;
+                                    CanAddCache = false;
                                 }
                             }
                         }
