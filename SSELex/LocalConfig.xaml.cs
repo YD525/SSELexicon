@@ -191,7 +191,7 @@ namespace SSELex
             {
                 if (FilterFrom != FilterTo)
                 {
-                    Pages = AdvancedDictionary.QueryByPage((int)FilterFrom, (int)FilterTo,CurrentPage);
+                    Pages = AdvancedDictionary.QueryByPage((int)FilterFrom, (int)FilterTo, CurrentPage);
                     KeywordList.Items.Clear();
                     foreach (var GetItem in Pages.CurrentPage)
                     {
@@ -201,7 +201,7 @@ namespace SSELex
                             Type = GetItem.Type,
                             Source = GetItem.Source,
                             Result = GetItem.Result,
-                            From =  GetItem.From,
+                            From = GetItem.From,
                             To = GetItem.To,
                             ExactMatch = GetItem.ExactMatch,
                             IgnoreCase = GetItem.IgnoreCase,
@@ -209,15 +209,42 @@ namespace SSELex
                             Rowid = GetItem.Rowid
                         });
                     }
+
+                    MaxPage = Pages.MaxPage;
+                    CurrentPage = Pages.PageNo;
+
+                    if (MaxPage > 0)
+                    {
+                        PageInFo.Content = string.Format("{0}/{1}", CurrentPage, MaxPage);
+                    }
+                    else
+                    {
+                        PageInFo.Content = "0/0";
+                    }
+
+                    if (KeywordList.Items.Count > 0)
+                    {
+                        var FristItem = KeywordList.Items[0];
+                        KeywordList.ScrollIntoView(FristItem);
+                    }
                 }
+                else
+                {
+                    KeywordList.Items.Clear();
+                }
+            }
+            else
+            {
+                KeywordList.Items.Clear();
             }
         }
 
         public int CanReload = 1;
 
-        public PageItem<List<AdvancedDictionaryItem>> ?Pages = null;
+        public PageItem<List<AdvancedDictionaryItem>>? Pages = null;
 
-        public int CurrentPage = 0;
+        public int CurrentPage = 1;
+        public int MaxPage = 0;
         public Languages FilterFrom = Languages.Null;
         public Languages FilterTo = Languages.Null;
 
@@ -228,8 +255,8 @@ namespace SSELex
             {
                 FilterFrom = (Languages)Enum.Parse(typeof(Languages), GetLang.Trim());
             }
-            if(CanReload > 0)
-            AutoReload();
+            if (CanReload > 0)
+                AutoReload();
         }
 
         private void STo_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -240,41 +267,51 @@ namespace SSELex
                 FilterTo = (Languages)Enum.Parse(typeof(Languages), GetLang.Trim());
             }
             if (CanReload > 0)
-            AutoReload();
+                AutoReload();
         }
 
         public void SetOutput(string Str)
         {
-            this.Dispatcher.Invoke(new Action(() => {
-                if (this.Visibility == Visibility.Visible)
+            try
+            {
+                this.Dispatcher.Invoke(new Action(() =>
                 {
-                    Output.Text = Str;
-                }
-            }));
+                    if (this.Visibility == Visibility.Visible)
+                    {
+                        Output.Text = Str;
+                    }
+                }));
+            }
+            catch { }
         }
 
         public void SetKeyWords(List<ReplaceTag> KeyWords)
         {
-            List<ReplaceTag> CopyKeyWords = new List<ReplaceTag>();
-            CopyKeyWords.AddRange(KeyWords);
-            this.Dispatcher.Invoke(new Action(() => {
-                if (this.Visibility == Visibility.Visible)
+            try
+            {
+                List<ReplaceTag> CopyKeyWords = new List<ReplaceTag>();
+                CopyKeyWords.AddRange(KeyWords);
+                this.Dispatcher.Invoke(new Action(() =>
                 {
-                    MatchedKeywords.Items.Clear();
-                    foreach (var Get in CopyKeyWords)
+                    if (this.Visibility == Visibility.Visible)
                     {
-                        if (Get.Key.StartsWith("__(") && Get.Key.EndsWith(")__"))
+                        MatchedKeywords.Items.Clear();
+                        foreach (var Get in CopyKeyWords)
                         {
-                            string Source = AdvancedDictionary.GetSourceByRowid(Get.Rowid);
-                            MatchedKeywords.Items.Add(Get.Rowid + "," + Source);
-                        }
-                        else
-                        {
-                            MatchedKeywords.Items.Add(Get.Rowid + "," + Get.Key);
+                            if (Get.Key.StartsWith("__(") && Get.Key.EndsWith(")__"))
+                            {
+                                string Source = AdvancedDictionary.GetSourceByRowid(Get.Rowid);
+                                MatchedKeywords.Items.Add(Get.Rowid + "," + Source);
+                            }
+                            else
+                            {
+                                MatchedKeywords.Items.Add(Get.Rowid + "," + Get.Key);
+                            }
                         }
                     }
-                }
-            }));
+                }));
+            }
+            catch { }
         }
 
         private void AddKeyWord(object sender, MouseButtonEventArgs e)
@@ -346,12 +383,20 @@ namespace SSELex
         }
         private void Previous_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
+            if (CurrentPage > 1)
+            {
+                CurrentPage--;
+                AutoReload();
+            }
         }
 
         private void Next_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
+            if (CurrentPage < MaxPage)
+            {
+                CurrentPage++;
+                AutoReload();
+            }
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)
@@ -366,7 +411,7 @@ namespace SSELex
 
                 AutoReload();
             }
-           
+
         }
 
         private void Execute_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -385,13 +430,15 @@ namespace SSELex
 
                     new Thread(() =>
                     {
-                        this.Dispatcher.Invoke(new Action(() => {
+                        this.Dispatcher.Invoke(new Action(() =>
+                        {
                             ExecuteBtn.Content = "Executing...";
                         }));
                         bool CanSleep = false;
                         var GetResult = Translator.QuickTrans("Test", GetType, UIHelper.ActiveKey, GetFromStr, FilterFrom, FilterTo, ref CanSleep);
 
-                        this.Dispatcher.Invoke(new Action(() => {
+                        this.Dispatcher.Invoke(new Action(() =>
+                        {
                             FinalText.Text = GetResult;
                             ExecuteBtn.Content = "Execute";
                         }));
@@ -422,7 +469,7 @@ namespace SSELex
             }
 
             foreach (var Get in Removes)
-            { 
+            {
                 MatchedKeywords.Items.Remove(Get);
             }
 

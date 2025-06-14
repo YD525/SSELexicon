@@ -66,8 +66,7 @@
               "RelativeToolTip": "SSELex\\TranslateManagement\\AdvancedDictionary.cs",
               "ViewState": "AgIAABkBAAAAAAAAAAAmwCwBAABOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-14T11:30:13.916Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-14T11:30:13.916Z"
             },
             {
               "$type": "Document",
@@ -127,8 +126,7 @@
               "RelativeToolTip": "SSELex\\MainWindow.xaml.cs",
               "ViewState": "AgIAAAsGAAAAAAAAAAAjwCUGAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-14T11:09:46.695Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-14T11:09:46.695Z"
             },
             {
               "$type": "Document",
@@ -139,8 +137,7 @@
               "ToolTip": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\MainWindow.xaml",
               "RelativeToolTip": "SSELex\\MainWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-06-14T11:09:36.967Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-14T11:09:36.967Z"
             },
             {
               "$type": "Document",
@@ -172,9 +169,9 @@
               "Title": "LocalConfig.xaml.cs",
               "DocumentMoniker": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\LocalConfig.xaml.cs",
               "RelativeDocumentMoniker": "SSELex\\LocalConfig.xaml.cs",
-              "ToolTip": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\LocalConfig.xaml.cs",
-              "RelativeToolTip": "SSELex\\LocalConfig.xaml.cs",
-              "ViewState": "AgIAAG0BAAAAAAAAAAAiwIcBAABNAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\52508\\source\\repos\\SSE Lexicon\\SSELex\\LocalConfig.xaml.cs*",
+              "RelativeToolTip": "SSELex\\LocalConfig.xaml.cs*",
+              "ViewState": "AgIAAL0AAAAAAAAAAAAEwNYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-14T10:53:58.923Z",
               "EditorCaption": ""
