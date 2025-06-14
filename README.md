@@ -6,8 +6,6 @@ By utilizing advanced string processing and optional online translation integrat
 If you want to give feedback, report issues, or discuss SSELex, please feel free to visit any of the following sites:  
 
 - [Nexus Mods (for international users)](https://www.nexusmods.com/skyrimspecialedition/mods/143056)  
-- [2Game.info (for Japanese users)](https://skyrimspecialedition.2game.info/detail.php?id=143056)  
-- [9DM Game Mod (for Chinese users)](http://www.9dmgamemod.com/thread-325140-1-1.html)
 
 Your support and feedback are greatly appreciated!
 
