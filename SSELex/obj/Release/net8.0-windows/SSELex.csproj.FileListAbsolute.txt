@@ -83,7 +83,6 @@ C:\Users\52508\source\repos\SSE Lexicon\SSELex\obj\Release\net8.0-windows\Engine
 C:\Users\52508\source\repos\SSE Lexicon\SSELex\obj\Release\net8.0-windows\LogView.g.cs
 C:\Users\52508\source\repos\SSE Lexicon\SSELex\obj\Release\net8.0-windows\MainWindow.g.cs
 C:\Users\52508\source\repos\SSE Lexicon\SSELex\obj\Release\net8.0-windows\SearchText.g.cs
-C:\Users\52508\source\repos\SSE Lexicon\SSELex\obj\Release\net8.0-windows\SettingView.g.cs
 C:\Users\52508\source\repos\SSE Lexicon\SSELex\obj\Release\net8.0-windows\App.g.cs
 C:\Users\52508\source\repos\SSE Lexicon\SSELex\obj\Release\net8.0-windows\SSELex_Content.g.cs
 C:\Users\52508\source\repos\SSE Lexicon\SSELex\obj\Release\net8.0-windows\GeneratedInternalTypeHelper.g.cs
@@ -96,7 +95,6 @@ C:\Users\52508\source\repos\SSE Lexicon\SSELex\obj\Release\net8.0-windows\Engine
 C:\Users\52508\source\repos\SSE Lexicon\SSELex\obj\Release\net8.0-windows\LogView.baml
 C:\Users\52508\source\repos\SSE Lexicon\SSELex\obj\Release\net8.0-windows\MainWindow.baml
 C:\Users\52508\source\repos\SSE Lexicon\SSELex\obj\Release\net8.0-windows\SearchText.baml
-C:\Users\52508\source\repos\SSE Lexicon\SSELex\obj\Release\net8.0-windows\SettingView.baml
 C:\Users\52508\source\repos\SSE Lexicon\SSELex\obj\Release\net8.0-windows\SSELex.g.resources
 C:\Users\52508\source\repos\SSE Lexicon\SSELex\obj\Release\net8.0-windows\SSELex.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\52508\source\repos\SSE Lexicon\SSELex\obj\Release\net8.0-windows\SSELex.AssemblyInfoInputs.cache
@@ -116,3 +114,9 @@ C:\Users\52508\source\repos\SSE Lexicon\SSELex\obj\Release\net8.0-windows\DashBo
 C:\Users\52508\source\repos\SSE Lexicon\SSELex\obj\Release\net8.0-windows\OnlyValueTooltip.g.cs
 C:\Users\52508\source\repos\SSE Lexicon\SSELex\obj\Release\net8.0-windows\DashBoardView.baml
 C:\Users\52508\source\repos\SSE Lexicon\SSELex\obj\Release\net8.0-windows\OnlyValueTooltip.baml
+C:\Users\52508\source\repos\SSE Lexicon\SSELex\bin\Release\net8.0-windows\Cohere.dll
+C:\Users\52508\source\repos\SSE Lexicon\SSELex\bin\Release\net8.0-windows\System.Text.Encodings.Web.dll
+C:\Users\52508\source\repos\SSE Lexicon\SSELex\bin\Release\net8.0-windows\System.Text.Json.dll
+C:\Users\52508\source\repos\SSE Lexicon\SSELex\bin\Release\net8.0-windows\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
+C:\Users\52508\source\repos\SSE Lexicon\SSELex\obj\Release\net8.0-windows\LocalConfig.g.cs
+C:\Users\52508\source\repos\SSE Lexicon\SSELex\obj\Release\net8.0-windows\LocalConfig.baml
