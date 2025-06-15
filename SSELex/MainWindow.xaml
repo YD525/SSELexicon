@@ -83,6 +83,8 @@
 
                             <svgc:SvgViewbox Tag="BaichuanEngine" Name="BaichuanEngine" Stretch="UniformToFill" Source="/Material/Baichuan.svg" Margin="3 0 3 0" Width="20" Panel.ZIndex="900" Height="18" Cursor="Hand" MouseDown="SelectEngine" Opacity="1" ToolTip="Baichuan"/>
 
+                            <svgc:SvgViewbox Tag="LMLocalEngine" Name="LMLocalAIEngine" Stretch="UniformToFill" Source="/Material/AI.svg" Margin="3 0 3 0" Width="20" Panel.ZIndex="900" Height="18" Cursor="Hand" MouseDown="SelectEngine" Opacity="1" ToolTip="LocalAI(LM)"/>
+
                             <svgc:SvgViewbox Tag="DeepLEngine" ToolTip="DeepL"  Name="DeepLEngine" Stretch="UniformToFill" Source="/Material/DeepL.svg"  Margin="3 0 3 0" Width="19" Panel.ZIndex="900" Height="23"  Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>
 
                             <svgc:SvgViewbox Tag="GoogleEngine" Name="GoogleEngine" Stretch="UniformToFill" Source="/Material/Google.svg" Margin="3 0 3 0" Width="17" Panel.ZIndex="900" Height="18" Cursor="Hand" MouseDown="SelectEngine" Opacity="1"/>

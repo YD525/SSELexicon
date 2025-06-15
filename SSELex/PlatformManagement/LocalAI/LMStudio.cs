@@ -17,9 +17,6 @@ namespace SSELex.PlatformManagement.LocalAI
 {
     public class LMStudio
     {
-        public string Host = "http://localhost";
-        public int Port = 1234;
-        public string QueryParam = "/v1/chat/completions";
         public OpenAIResponse? CallAI(string Msg)
         {
             int GetCount = Msg.Length;
@@ -32,10 +29,10 @@ namespace SSELex.PlatformManagement.LocalAI
 
         public OpenAIResponse? CallAI(OpenAIItem Item)
         {
-            string GenUrl = this.Host + ":" + this.Port + QueryParam;
+            string GenUrl = DeFine.GlobalLocalSetting.LMHost + ":" + DeFine.GlobalLocalSetting.LMPort + DeFine.GlobalLocalSetting.LMQueryParam;
             string GetJson = JsonSerializer.Serialize(Item);
             WebHeaderCollection Headers = new WebHeaderCollection();
-            //Headers.Add("Authorization", string.Format("Bearer {0}", DeFine.GlobalLocalSetting.ChatGptKey));
+            //Headers.Add("Authorization", string.Format("Bearer {0}", DeFine.GlobalLocalSetting.LMKey));
             HttpItem Http = new HttpItem()
             {
                 URL = GenUrl,

@@ -930,6 +930,14 @@ namespace SSELex
                                     }
                                 }
                                 break;
+                            case "LMLocalEngine":
+                                {
+                                    if (!DeFine.GlobalLocalSetting.LMLocalAIEngineUsing)
+                                    {
+                                        (GetEngine as SvgViewbox).Opacity = 0.15;
+                                    }
+                                }
+                                break;
                             case "DeepLEngine":
                                 {
                                     if (!DeFine.GlobalLocalSetting.DeepLApiUsing)
@@ -1001,6 +1009,11 @@ namespace SSELex
                 case "BaichuanEngine":
                     {
                         DeFine.GlobalLocalSetting.BaichuanApiUsing = OneState;
+                    }
+                    break;
+                case "LMLocalEngine":
+                    {
+                        DeFine.GlobalLocalSetting.LMLocalAIEngineUsing = OneState;
                     }
                     break;
                 case "DeepLEngine":

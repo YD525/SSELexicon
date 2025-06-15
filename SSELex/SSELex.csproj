@@ -19,6 +19,7 @@
     <None Remove="DownICO.png" />
     <None Remove="IDERule\Lua.xshd" />
     <None Remove="IDERule\TextStyle.xshd" />
+    <None Remove="Material\AI.svg" />
     <None Remove="Material\Baichuan.svg" />
     <None Remove="Material\ChatGPT.svg" />
     <None Remove="Material\Code.svg" />
@@ -59,6 +60,7 @@
   <ItemGroup>
     <EmbeddedResource Include="IDERule\Lua.xshd" />
     <EmbeddedResource Include="IDERule\TextStyle.xshd" />
+    <Resource Include="Material\AI.svg" />
     <Resource Include="Material\Baichuan.svg" />
     <Resource Include="Material\ChatGPT.svg" />
   </ItemGroup>

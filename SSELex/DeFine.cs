@@ -196,6 +196,7 @@ namespace SSELex
         public bool BaichuanApiUsing { get; set; } = false;
         public bool GoogleYunApiUsing { get; set; } = false;
         public bool DivCacheEngineUsing { get; set; } = false;
+        public bool LMLocalAIEngineUsing { get; set; } = false;
         public bool DeepLApiUsing { get; set; } = false;
         public Languages SourceLanguage { get; set; } = Languages.Auto;
         public Languages TargetLanguage { get; set; } = Languages.English;
@@ -218,6 +219,9 @@ namespace SSELex
         public string DeepLKey { get; set; } = "";
         public string UserCustomAIPrompt { get; set; } = "";
         public bool IsFreeDeepL { get; set; } = true;
+        public string LMHost { get; set; } = "http://localhost";
+        public int LMPort { get; set; } = 1234;
+        public string LMQueryParam { get; set; } = "/v1/chat/completions";
         public int ContextLimit { get; set; } = 3;
         public string ProxyIP { get; set; } = "";
         public int TransCount { get; set; } = 0;
@@ -256,6 +260,7 @@ namespace SSELex
                         this.GoogleYunApiUsing = GetSetting.GoogleYunApiUsing;
                         this.CohereApiUsing = GetSetting.CohereApiUsing;
                         this.DivCacheEngineUsing = GetSetting.DivCacheEngineUsing;
+                        this.LMLocalAIEngineUsing = GetSetting.LMLocalAIEngineUsing;
                         this.ContextLimit = GetSetting.ContextLimit;
                         this.SourceLanguage = GetSetting.SourceLanguage;
                         DeFine.SourceLanguage = GetSetting.SourceLanguage;
@@ -278,6 +283,9 @@ namespace SSELex
                         this.IsFreeDeepL = GetSetting.IsFreeDeepL;
                         this.CohereKey = GetSetting.CohereKey;
                         this.UserCustomAIPrompt = GetSetting.UserCustomAIPrompt;
+                        this.LMHost = GetSetting.LMHost;
+                        this.LMPort = GetSetting.LMPort;
+                        this.LMQueryParam = GetSetting.LMQueryParam;
                         this.ProxyIP = GetSetting.ProxyIP;
                         this.TransCount = GetSetting.TransCount;
                         this.PlaySound = GetSetting.PlaySound;

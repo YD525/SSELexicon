@@ -1,5 +1,6 @@
 ﻿using SSELex.ConvertManager;
 using SSELex.PlatformManagement;
+using SSELex.PlatformManagement.LocalAI;
 using SSELex.TranslateCore;
 using SSELex.UIManagement;
 using System;
@@ -88,6 +89,12 @@ namespace SSELex.TranslateManage
                     !string.IsNullOrWhiteSpace(DeFine.GlobalLocalSetting.BaichuanKey))
                 {
                     EngineSelects.Add(new EngineSelect(new BaichuanApi(), 6));
+                }
+
+                //LocalAI(LM) support
+                if (DeFine.GlobalLocalSetting.LMLocalAIEngineUsing)
+                {
+                    EngineSelects.Add(new EngineSelect(new LMStudio(), 3));
                 }
 
                 // DeepL support
@@ -306,7 +313,7 @@ namespace SSELex.TranslateManage
                         }
                     }
                     else
-                    if (this.Engine is CohereApi || this.Engine is ChatGptApi || this.Engine is GeminiApi || this.Engine is DeepSeekApi || this.Engine is BaichuanApi)
+                    if (this.Engine is CohereApi || this.Engine is ChatGptApi || this.Engine is GeminiApi || this.Engine is DeepSeekApi || this.Engine is BaichuanApi || this.Engine is LMStudio)
                     {
                         bool CanTrans = false;
 
@@ -338,6 +345,36 @@ namespace SSELex.TranslateManage
 
                         if (CanTrans)
                         {
+                            if (this.Engine is LMStudio)
+                            {
+                                if (DeFine.GlobalLocalSetting.LMLocalAIEngineUsing)
+                                {
+                                    var GetData = ((LMStudio)this.Engine).QuickTrans(CustomWords, GetSource, From, To, UseAIMemory, AIMemoryCountLimit, Param).Trim();
+
+                                    if (GetData.Trim().Length > 0 && UseAIMemory)
+                                    {
+                                        AIMemory.AddTranslation(From, GetSource, GetData);
+                                    }
+                                    TransText = GetData;
+                                    Translator.SendTranslateMsg("LocalAI(LM)", GetSource, TransText);
+                                    CurrentPlatform = PlatformType.LMLocalAI;
+
+                                    if (GetData.Trim().Length == 0)
+                                    {
+                                        this.CallCountDown = 0;
+                                        if (CanAddCache)
+                                        {
+                                            CanAddCache = false;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    this.CallCountDown = 0;
+                                    CanAddCache = false;
+                                }
+                            }
+                            else
                             if (this.Engine is CohereApi)
                             {
                                 if (DeFine.GlobalLocalSetting.CohereApiUsing)
