@@ -42,8 +42,8 @@ namespace SSELex.PlatformManagement.LocalAI
                 Accept = "*/*",
                 Postdata = GetJson,
                 Cookie = "",
-                ContentType = "application/json",
-                Timeout = DeFine.GlobalRequestTimeOut
+                ContentType = "application/json"
+                //Timeout = DeFine.GlobalRequestTimeOut
                 //ProxyIp = ProxyCenter.GlobalProxyIP
             };
             try

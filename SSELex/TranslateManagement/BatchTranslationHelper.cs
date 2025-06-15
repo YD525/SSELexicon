@@ -343,9 +343,17 @@ namespace SSELex.TranslateManage
                             }
                             if (CurrentTrds > DeFine.GlobalLocalSetting.MaxThreadCount / 2)
                             {
-                                AutoSleep = 500;
+                                AutoSleep = 200;
                             }
-                            Thread.Sleep(AutoSleep);
+                            else
+                            {
+                                AutoSleep = 0;
+                            }
+
+                            if (AutoSleep > 0)
+                            {
+                                Thread.Sleep(AutoSleep);
+                            }
                         }
 
                         if (CanExit)

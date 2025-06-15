@@ -94,7 +94,7 @@ namespace SSELex.TranslateManage
                 //LocalAI(LM) support
                 if (DeFine.GlobalLocalSetting.LMLocalAIEngineUsing)
                 {
-                    EngineSelects.Add(new EngineSelect(new LMStudio(), 3));
+                    EngineSelects.Add(new EngineSelect(new LMStudio(), 1,0));
                 }
 
                 // DeepL support
