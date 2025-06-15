@@ -26,6 +26,7 @@ using SSELex.UIManagement;
 using static SSELex.SkyrimManage.EspReader;
 using System.Timers;
 using System.Xml.Schema;
+using SSELex.PlatformManagement.LocalAI;
 
 // Copyright (C) 2025 YD525
 // Licensed under the GNU GPLv3
@@ -536,6 +537,8 @@ namespace SSELex
 
                     NodePanel.Visibility = Visibility.Visible;
                 }));
+
+                var GetStr = new LMStudio().QuickTrans(new List<string>() { },"Test Str", Languages.English, Languages.SimplifiedChinese, true, 3, "");
 
                 //new CohereApi().QuickTrans("Test Line", Languages.English, Languages.SimplifiedChinese, true, 1, "");
                 //DeFine.GlobalLocalSetting.BaichuanKey = "";

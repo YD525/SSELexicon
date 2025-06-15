@@ -12,9 +12,9 @@ TRACE;DEBUG;NET;NET8_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR
 C:\Users\52508\source\repos\SSE Lexicon\SSELex\App.xaml
 101878250509
 11562051256
-86-314639208
+88-322241127
 258502355346
 ActionWin.xaml;CodeView.xaml;DashBoardView.xaml;EngineEditView.xaml;LocalConfig.xaml;LogView.xaml;MainWindow.xaml;OnlyValueTooltip.xaml;SearchText.xaml;Themes\DefStyle.xaml;
 
-True
+False
 
