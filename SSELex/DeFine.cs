@@ -222,6 +222,7 @@ namespace SSELex
         public string LMHost { get; set; } = "http://localhost";
         public int LMPort { get; set; } = 1234;
         public string LMQueryParam { get; set; } = "/v1/chat/completions";
+        public string LMModel { get; set; } = "google/gemma-3-12b";
         public int ContextLimit { get; set; } = 3;
         public string ProxyIP { get; set; } = "";
         public int TransCount { get; set; } = 0;
@@ -286,6 +287,7 @@ namespace SSELex
                         this.LMHost = GetSetting.LMHost;
                         this.LMPort = GetSetting.LMPort;
                         this.LMQueryParam = GetSetting.LMQueryParam;
+                        this.LMModel = GetSetting.LMModel;
                         this.ProxyIP = GetSetting.ProxyIP;
                         this.TransCount = GetSetting.TransCount;
                         this.PlaySound = GetSetting.PlaySound;

@@ -20,7 +20,7 @@ namespace SSELex.PlatformManagement.LocalAI
         public OpenAIResponse? CallAI(string Msg)
         {
             int GetCount = Msg.Length;
-            OpenAIItem NOpenAIItem = new OpenAIItem("google/gemma-3-12b");
+            OpenAIItem NOpenAIItem = new OpenAIItem(DeFine.GlobalLocalSetting.LMModel);
             NOpenAIItem.store = true;
             NOpenAIItem.messages.Add(new OpenAIMessage("user", Msg));
             var GetResult = CallAI(NOpenAIItem);

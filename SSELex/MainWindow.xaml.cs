@@ -1850,6 +1850,8 @@ namespace SSELex
                 LMPort.Text = DeFine.GlobalLocalSetting.LMPort.ToString();
                 LMQueryParam.Text = DeFine.GlobalLocalSetting.LMQueryParam;
 
+                LMModel.Text = DeFine.GlobalLocalSetting.LMModel;
+
                 UIHelper.AnimateCanvasLeft(SettingBlock, 139);
             }
             if (View == Settings.Software)
@@ -2022,7 +2024,7 @@ namespace SSELex
         }
         private void LMHost_TextChanged(object sender, TextChangedEventArgs e)
         {
-            DeFine.GlobalLocalSetting.LMHost = LMHost.Text;
+            DeFine.GlobalLocalSetting.LMHost = LMHost.Text.Trim();
         }
         private void LMHost_MouseLeave(object sender, MouseEventArgs e)
         {
@@ -2046,15 +2048,20 @@ namespace SSELex
 
         private void LMQueryParam_TextChanged(object sender, TextChangedEventArgs e)
         {
-            DeFine.GlobalLocalSetting.LMQueryParam = LMQueryParam.Text;
+            DeFine.GlobalLocalSetting.LMQueryParam = LMQueryParam.Text.Trim();
         }
 
         private void LMQueryParam_MouseLeave(object sender, MouseEventArgs e)
         {
             if (!DeFine.GlobalLocalSetting.LMQueryParam.StartsWith("/"))
             {
-                DeFine.GlobalLocalSetting.LMQueryParam = "/" + DeFine.GlobalLocalSetting.LMQueryParam;
+                DeFine.GlobalLocalSetting.LMQueryParam = "/" + DeFine.GlobalLocalSetting.LMQueryParam.Trim();
             }
+        }
+
+        private void LMModel_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            DeFine.GlobalLocalSetting.LMModel = LMModel.Text.Trim();
         }
 
         private void Languages_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -2375,5 +2382,7 @@ namespace SSELex
             DeFine.LocalConfigView.Owner = this;
             DeFine.LocalConfigView.Show();
         }
+
+       
     }
 }
