@@ -27,6 +27,7 @@ using static SSELex.SkyrimManage.EspReader;
 using System.Timers;
 using System.Xml.Schema;
 using SSELex.PlatformManagement.LocalAI;
+using IniParser.Model.Formatting;
 
 // Copyright (C) 2025 YD525
 // Licensed under the GNU GPLv3
@@ -146,15 +147,15 @@ namespace SSELex
         public void ReloadData(bool UseHotReload = false)
         {
             if (LoadSaveState != 1)
-            return;
+                return;
             lock (ReloadLock)
             {
                 UseHotReloadFlag = UseHotReload;
 
                 if (ReloadDebounceTimer == null)
                 {
-                    ReloadDebounceTimer = new System.Timers.Timer(200); 
-                    ReloadDebounceTimer.AutoReset = false; 
+                    ReloadDebounceTimer = new System.Timers.Timer(200);
+                    ReloadDebounceTimer.AutoReset = false;
                     ReloadDebounceTimer.Elapsed += (s, e) =>
                     {
                         if (!ReadTrdWorkState)
@@ -215,7 +216,7 @@ namespace SSELex
             }
             catch { }
 
-            try 
+            try
             {
                 this.Dispatcher.Invoke(new Action(() =>
                 {
@@ -272,7 +273,7 @@ namespace SSELex
                 }));
             }
             catch { }
-           
+
         }
 
         public void ReloadViewMode()
@@ -538,7 +539,7 @@ namespace SSELex
                     NodePanel.Visibility = Visibility.Visible;
                 }));
 
-                var GetStr = new LMStudio().QuickTrans(new List<string>() { },"Test Str", Languages.English, Languages.SimplifiedChinese, true, 3, "");
+                var GetStr = new LMStudio().QuickTrans(new List<string>() { }, "Test Str", Languages.English, Languages.SimplifiedChinese, true, 3, "");
 
                 //new CohereApi().QuickTrans("Test Line", Languages.English, Languages.SimplifiedChinese, true, 1, "");
                 //DeFine.GlobalLocalSetting.BaichuanKey = "";
@@ -580,6 +581,7 @@ namespace SSELex
             DeFine.ShowLogView();
             Translator.ClearAICache();
             SetLog("Load:" + FilePath);
+            DashBoardService.Clear();
             ClosetTransTrd();
             if (System.IO.File.Exists(FilePath))
             {
@@ -1239,7 +1241,6 @@ namespace SSELex
             {
                 LoadSaveState = 1;
                 LoadAny();
-                LoadFileButton.Content = UILanguageHelper.SearchStateChangeStr("LoadFileButton", 1);
             }
             else
             {
@@ -1354,7 +1355,7 @@ namespace SSELex
                 YDDictionaryHelper.Close();
 
                 UIHelper.ModifyCount = 0;
-                
+
                 Caption.Text = "ModTranslator";
             }));
         }
@@ -1587,7 +1588,7 @@ namespace SSELex
                         else
                         {
                             bool CanSleep = true;
-                            var GetResult = Translator.QuickTrans(DeFine.CurrentModName,UIHelper.ActiveType, UIHelper.ActiveKey, GetFromStr,DeFine.SourceLanguage,DeFine.TargetLanguage, ref CanSleep);
+                            var GetResult = Translator.QuickTrans(DeFine.CurrentModName, UIHelper.ActiveType, UIHelper.ActiveKey, GetFromStr, DeFine.SourceLanguage, DeFine.TargetLanguage, ref CanSleep);
 
                             this.Dispatcher.Invoke(new Action(() =>
                             {
@@ -1845,6 +1846,10 @@ namespace SSELex
                     IsFreeDeepL.IsChecked = true;
                 }
 
+                LMHost.Text = DeFine.GlobalLocalSetting.LMHost;
+                LMPort.Text = DeFine.GlobalLocalSetting.LMPort.ToString();
+                LMQueryParam.Text = DeFine.GlobalLocalSetting.LMQueryParam;
+
                 UIHelper.AnimateCanvasLeft(SettingBlock, 139);
             }
             if (View == Settings.Software)
@@ -2005,7 +2010,7 @@ namespace SSELex
                 DeFine.GlobalLocalSetting.IsFreeDeepL = false;
             }
         }
-      
+
         private void GoogleKey_PasswordChanged(object sender, RoutedEventArgs e)
         {
             DeFine.GlobalLocalSetting.GoogleApiKey = GoogleKey.Password;
@@ -2014,6 +2019,42 @@ namespace SSELex
         private void MaxThreadCount_TextChanged(object sender, TextChangedEventArgs e)
         {
             DeFine.GlobalLocalSetting.MaxThreadCount = ConvertHelper.ObjToInt(MaxThreadCount.Text);
+        }
+        private void LMHost_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            DeFine.GlobalLocalSetting.LMHost = LMHost.Text;
+        }
+        private void LMHost_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (!DeFine.GlobalLocalSetting.LMHost.EndsWith("//"))
+            {
+                if (DeFine.GlobalLocalSetting.LMHost.EndsWith("/"))
+                {
+                    DeFine.GlobalLocalSetting.LMHost = DeFine.GlobalLocalSetting.LMHost.Substring(0, DeFine.GlobalLocalSetting.LMHost.Length - 1);
+                }
+            }
+        }
+        private void LMPort_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            int TestPort = ConvertHelper.ObjToInt(LMPort.Text);
+
+            if (TestPort > 0)
+            {
+                DeFine.GlobalLocalSetting.LMPort = TestPort;
+            }
+        }
+
+        private void LMQueryParam_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            DeFine.GlobalLocalSetting.LMQueryParam = LMQueryParam.Text;
+        }
+
+        private void LMQueryParam_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (!DeFine.GlobalLocalSetting.LMQueryParam.StartsWith("/"))
+            {
+                DeFine.GlobalLocalSetting.LMQueryParam = "/" + DeFine.GlobalLocalSetting.LMQueryParam;
+            }
         }
 
         private void Languages_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -2172,7 +2213,7 @@ namespace SSELex
 
                     Translator.TransData[UIHelper.ActiveKey] = TransText;
 
-                    LocalDBCache.UPDateLocalTransItem(new LocalTransItem(UIHelper.ActiveKey,ToStr.Text));
+                    LocalDBCache.UPDateLocalTransItem(new LocalTransItem(UIHelper.ActiveKey, ToStr.Text));
 
                     UIHelper.MainGrid_MouseLeave(UIHelper.ActiveTextBox.Tag, null);
                 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,7 +9,7 @@ namespace SSELex.UIManagement
 {
     public enum PlatformType
     {
-        Null = 0, ChatGpt = 1, DeepSeek = 2, Gemini = 3, DeepL = 5, GoogleApi = 7, Baichuan = 8, Cohere = 9,LMLocalAI = 10
+        Null = 0, ChatGpt = 1, DeepSeek = 2, Gemini = 3, DeepL = 5, GoogleApi = 7, Baichuan = 8, Cohere = 9, LMLocalAI = 10
     }
 
     public class QueryPlatformItem
@@ -100,6 +101,13 @@ namespace SSELex.UIManagement
                 return new List<QueryPlatformItem>();
             }
         }
+
+        public static void Clear()
+        {
+            FontUsageCounts.Clear();
+            DeltasHistory.Clear();
+        }
+
         public static int GetTotalUsageCount()
         {
             try
@@ -116,28 +124,38 @@ namespace SSELex.UIManagement
                 }
                 return Total;
             }
-            catch 
+            catch
             {
                 return 0;
             }
         }
 
         private static int LastTotalCount = 0;
+        private static Queue<int> DeltasHistory = new Queue<int>();
+        private const int WindowSize = 5;
         public static int GetCurrentSecondUsage()
         {
             try
             {
                 int CurrentTotal = GetTotalUsageCount();
-                int Delta = CurrentTotal - LastTotalCount;
+                int CurrentDelta = CurrentTotal - LastTotalCount;
 
-                if (Delta < 0) Delta = 0;
+                if (CurrentDelta < 0) CurrentDelta = 0;
+
+                DeltasHistory.Enqueue(CurrentDelta);
+                if (DeltasHistory.Count > WindowSize)
+                {
+                    DeltasHistory.Dequeue();
+                }
 
                 LastTotalCount = CurrentTotal;
-                return Delta;
+
+                if (DeltasHistory.Count == 0) return 0;
+                return (int)DeltasHistory.Average();
             }
-            catch 
-            { 
-                return 0; 
+            catch
+            {
+                return 0;
             }
         }
 

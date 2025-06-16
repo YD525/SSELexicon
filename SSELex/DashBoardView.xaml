@@ -253,7 +253,7 @@
                                             <lvc:ColumnSeries Title="Length" Values="{Binding SetValues}"/>
                                         </lvc:CartesianChart.Series>
                                         <lvc:CartesianChart.AxisX>
-                                            <lvc:Axis Title="_" Labels="ChatGPT,Gemini,Cohere,DeepSeek,DeepL,Baichuan,Google" FontSize="10"/>
+                                            <lvc:Axis Title="_" Labels="ChatGPT,Gemini,Cohere,DeepSeek,DeepL,Baichuan,LocalAI,Google" FontSize="10"/>
                                         </lvc:CartesianChart.AxisX>
                                         <lvc:CartesianChart.AxisY>
                                             <lvc:Axis Title="Word Count Used" />

@@ -385,119 +385,151 @@
                                     </StackPanel>
                                 </Grid>
                                 <Grid Name="ApiKeyView" Visibility="Hidden">
-                                    <StackPanel Orientation="Vertical"  HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        <Label FontSize="15">
-                                            ProxyIP:
-                                        </Label>
-
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                            <Label VerticalAlignment="Center" HorizontalContentAlignment="Left" HorizontalAlignment="Left">
-                                                HttpProxy
+                                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                        <StackPanel Orientation="Vertical"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 10 0 10">
+                                            <Label FontSize="15">
+                                                ApiKeys:
                                             </Label>
-                                            <TextBox Name="HttpProxy" Width="360" TextChanged="HttpProxy_TextChanged" VerticalContentAlignment="Center" Height="35">
-                                            </TextBox>
-                                        </StackPanel>
 
-                                        <Label FontSize="15">
-                                            ApiKeys:
-                                        </Label>
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 10 0 0">
+                                                <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
+                                                    DeepLKey
+                                                </Label>
+                                                <PasswordBox Name="DeepLKey" Width="360" PasswordChanged="DeepLKey_PasswordChanged" VerticalContentAlignment="Center" Height="35">
+                                                </PasswordBox>
+                                            </StackPanel>
 
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 10 0 0">
-                                            <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
-                                                DeepLKey
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
+                                                <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
+                                                    IsFreeDeepL
+                                                </Label>
+                                                <CheckBox Click="IsFreeDeepL_Click" Name="IsFreeDeepL" VerticalAlignment="Center">
+                                                </CheckBox>
+                                            </StackPanel>
+
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 20 0 0">
+                                                <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
+                                                    GeminiKey
+                                                </Label>
+                                                <PasswordBox Name="GeminiKey" Width="360" PasswordChanged="Gemini_PasswordChanged" VerticalContentAlignment="Center" Height="35">
+                                                </PasswordBox>
+                                            </StackPanel>
+
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
+                                                <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
+                                                    GeminiModel
+                                                </Label>
+                                                <ComboBox SelectionChanged="GeminiModelChange" Name="GeminiModel" Style="{StaticResource WpfComboBoxStyle}" Width="200">
+                                                </ComboBox>
+                                            </StackPanel>
+
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 20 0 0">
+                                                <Label VerticalAlignment="Center" HorizontalContentAlignment="Left" HorizontalAlignment="Left">
+                                                    BaichuanKey
+                                                </Label>
+                                                <PasswordBox Name="BaichuanKey" Width="360" PasswordChanged="BaichuanKey_PasswordChanged" VerticalContentAlignment="Center" Height="35">
+                                                </PasswordBox>
+                                            </StackPanel>
+
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
+                                                <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
+                                                    BaichuanModel
+                                                </Label>
+                                                <ComboBox Name="BaichuanModel" SelectionChanged="BaichuanModelChange" Style="{StaticResource WpfComboBoxStyle}" Width="200">
+                                                </ComboBox>
+                                            </StackPanel>
+
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 20 0 0">
+                                                <Label VerticalAlignment="Center" HorizontalContentAlignment="Left" HorizontalAlignment="Left">
+                                                    CohereKey
+                                                </Label>
+                                                <PasswordBox Name="CohereKey" Width="360" PasswordChanged="CohereKey_PasswordChanged" VerticalContentAlignment="Center" Height="35">
+                                                </PasswordBox>
+                                            </StackPanel>
+
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 20 0 0">
+                                                <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
+                                                    ChatGptKey
+                                                </Label>
+                                                <PasswordBox Name="ChatGptKey" Width="360" PasswordChanged="ChatGptKey_PasswordChanged" VerticalContentAlignment="Center" Height="35">
+                                                </PasswordBox>
+                                            </StackPanel>
+
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
+                                                <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
+                                                    ChatGptModel
+                                                </Label>
+                                                <ComboBox SelectionChanged="ChatGptModelChange" Name="ChatGptModel" Style="{StaticResource WpfComboBoxStyle}" Width="200">
+                                                </ComboBox>
+                                            </StackPanel>
+
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 20 0 0">
+                                                <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
+                                                    DeepSeekKey
+                                                </Label>
+                                                <PasswordBox Name="DeepSeekKey" Width="360" PasswordChanged="DeepSeekKey_PasswordChanged" VerticalContentAlignment="Center" Height="35">
+                                                </PasswordBox>
+                                            </StackPanel>
+
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
+                                                <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
+                                                    DeepSeekModel
+                                                </Label>
+                                                <ComboBox Name="DeepSeekModel" SelectionChanged="DeepSeekModelChange" Style="{StaticResource WpfComboBoxStyle}" Width="200">
+                                                </ComboBox>
+                                            </StackPanel>
+
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 20 0 0">
+                                                <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
+                                                    GoogleKey
+                                                </Label>
+                                                <PasswordBox Name="GoogleKey" Width="360" VerticalContentAlignment="Center" Height="35" PasswordChanged="GoogleKey_PasswordChanged">
+                                                </PasswordBox>
+                                            </StackPanel>
+
+                                            <Label FontSize="15">
+                                                LocalAI(LM):
                                             </Label>
-                                            <PasswordBox Name="DeepLKey" Width="360" PasswordChanged="DeepLKey_PasswordChanged" VerticalContentAlignment="Center" Height="35">
-                                            </PasswordBox>
-                                        </StackPanel>
 
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
-                                            <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
-                                                IsFreeDeepL
-                                            </Label>
-                                            <CheckBox Click="IsFreeDeepL_Click" Name="IsFreeDeepL" VerticalAlignment="Center">
-                                            </CheckBox>
-                                        </StackPanel>
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 10 0 0">
+                                                <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
+                                                    Host
+                                                </Label>
+                                                <TextBox Name="LMHost" Width="360" VerticalContentAlignment="Center" Height="35" TextChanged="LMHost_TextChanged" MouseLeave="LMHost_MouseLeave">
+                                                </TextBox>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
+                                                <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
+                                                    Port
+                                                </Label>
+                                                <TextBox Name="LMPort" Width="360" VerticalContentAlignment="Center" Height="35" TextChanged="LMPort_TextChanged">
+                                                </TextBox>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
+                                                <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
+                                                    QueryParam
+                                                </Label>
+                                                <TextBox Name="LMQueryParam" Width="360" VerticalContentAlignment="Center" Height="35" MouseLeave="LMQueryParam_MouseLeave" TextChanged="LMQueryParam_TextChanged">
+                                                </TextBox>
+                                            </StackPanel>
 
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 20 0 0">
-                                            <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
-                                                GeminiKey
-                                            </Label>
-                                            <PasswordBox Name="GeminiKey" Width="360" PasswordChanged="Gemini_PasswordChanged" VerticalContentAlignment="Center" Height="35">
-                                            </PasswordBox>
-                                        </StackPanel>
 
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
-                                            <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
-                                                GeminiModel
+                                            <Label FontSize="15">
+                                                ProxyIP:
                                             </Label>
-                                            <ComboBox SelectionChanged="GeminiModelChange" Name="GeminiModel" Style="{StaticResource WpfComboBoxStyle}" Width="200">
-                                            </ComboBox>
-                                        </StackPanel>
 
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 20 0 0">
-                                            <Label VerticalAlignment="Center" HorizontalContentAlignment="Left" HorizontalAlignment="Left">
-                                                BaichuanKey
-                                            </Label>
-                                            <PasswordBox Name="BaichuanKey" Width="360" PasswordChanged="BaichuanKey_PasswordChanged" VerticalContentAlignment="Center" Height="35">
-                                            </PasswordBox>
-                                        </StackPanel>
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                <Label VerticalAlignment="Center" HorizontalContentAlignment="Left" HorizontalAlignment="Left">
+                                                    HttpProxy
+                                                </Label>
+                                                <TextBox Name="HttpProxy" Width="360" TextChanged="HttpProxy_TextChanged" VerticalContentAlignment="Center" Height="35">
+                                                </TextBox>
+                                            </StackPanel>
+                                            
+                                            
 
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
-                                            <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
-                                                BaichuanModel
-                                            </Label>
-                                            <ComboBox Name="BaichuanModel" SelectionChanged="BaichuanModelChange" Style="{StaticResource WpfComboBoxStyle}" Width="200">
-                                            </ComboBox>
                                         </StackPanel>
-
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 20 0 0">
-                                            <Label VerticalAlignment="Center" HorizontalContentAlignment="Left" HorizontalAlignment="Left">
-                                                CohereKey
-                                            </Label>
-                                            <PasswordBox Name="CohereKey" Width="360" PasswordChanged="CohereKey_PasswordChanged" VerticalContentAlignment="Center" Height="35">
-                                            </PasswordBox>
-                                        </StackPanel>
-
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 20 0 0">
-                                            <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
-                                                ChatGptKey
-                                            </Label>
-                                            <PasswordBox Name="ChatGptKey" Width="360" PasswordChanged="ChatGptKey_PasswordChanged" VerticalContentAlignment="Center" Height="35">
-                                            </PasswordBox>
-                                        </StackPanel>
-
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
-                                            <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
-                                                ChatGptModel
-                                            </Label>
-                                            <ComboBox SelectionChanged="ChatGptModelChange" Name="ChatGptModel" Style="{StaticResource WpfComboBoxStyle}" Width="200">
-                                            </ComboBox>
-                                        </StackPanel>
-
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 20 0 0">
-                                            <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
-                                                DeepSeekKey
-                                            </Label>
-                                            <PasswordBox Name="DeepSeekKey" Width="360" PasswordChanged="DeepSeekKey_PasswordChanged" VerticalContentAlignment="Center" Height="35">
-                                            </PasswordBox>
-                                        </StackPanel>
-
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
-                                            <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
-                                                DeepSeekModel
-                                            </Label>
-                                            <ComboBox Name="DeepSeekModel" SelectionChanged="DeepSeekModelChange" Style="{StaticResource WpfComboBoxStyle}" Width="200">
-                                            </ComboBox>
-                                        </StackPanel>
-
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 10 0 0">
-                                            <Label VerticalAlignment="Center"  HorizontalContentAlignment="Left" HorizontalAlignment="Left">
-                                                GoogleKey
-                                            </Label>
-                                            <PasswordBox Name="GoogleKey" Width="360" VerticalContentAlignment="Center" Height="35" PasswordChanged="GoogleKey_PasswordChanged">
-                                            </PasswordBox>
-                                        </StackPanel>
-                                    </StackPanel>
+                                    </ScrollViewer>
                                 </Grid>
                                 <Grid Name="AIView" Visibility="Hidden">
                                     <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">

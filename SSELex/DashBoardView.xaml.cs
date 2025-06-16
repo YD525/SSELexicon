@@ -75,7 +75,7 @@ namespace SSELex
 
             this.DataContext = CurrentModel;
 
-            CurrentModel.SetValues = new ChartValues<double>() { 0, 0, 0, 0, 0, 0 ,0};
+            CurrentModel.SetValues = new ChartValues<double>() { 0, 0, 0, 0, 0, 0 ,0 ,0};
 
             CurrentModel.FontUsageSeries = new SeriesCollection
             {
@@ -361,13 +361,22 @@ namespace SSELex
                             CurrentModel.SetValues[5] = 0;
                         }
 
-                        if (GetDataInFo.ContainsKey(PlatformType.GoogleApi))
+                        if (GetDataInFo.ContainsKey(PlatformType.LMLocalAI))
                         {
-                            CurrentModel.SetValues[6] = GetDataInFo[PlatformType.GoogleApi];
+                            CurrentModel.SetValues[6] = GetDataInFo[PlatformType.LMLocalAI];
                         }
                         else
                         {
                             CurrentModel.SetValues[6] = 0;
+                        }
+
+                        if (GetDataInFo.ContainsKey(PlatformType.GoogleApi))
+                        {
+                            CurrentModel.SetValues[7] = GetDataInFo[PlatformType.GoogleApi];
+                        }
+                        else
+                        {
+                            CurrentModel.SetValues[7] = 0;
                         }
                     }));
                 }
