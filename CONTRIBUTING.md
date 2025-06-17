@@ -22,5 +22,3 @@ Feel free to ask in our Discord:
 [https://discord.gg/GRu7WtgqsB](https://discord.gg/GRu7WtgqsB)
 
 ---
-
-Happy translating! 😄
