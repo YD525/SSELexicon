@@ -5,6 +5,7 @@ using System.Windows.Media;
 using SSELex.ConvertManager;
 using SSELex.SkyrimManage;
 using SSELex.TranslateCore;
+using SSELex.TranslateManagement;
 using SSELex.UIManage;
 using SSELex.UIManagement;
 
@@ -27,6 +28,7 @@ namespace SSELex.TranslateManage
         public bool IsDuplicateSource = false;
 
         public bool Transing = false;
+        public bool Leader = false;
 
         private CancellationTokenSource TransThreadToken;
 
@@ -187,6 +189,64 @@ namespace SSELex.TranslateManage
             this.SourceText = SourceText;
             this.TransText = TransText;
             this.Handle = Handle;
+        }
+
+        public static double TokenBasedSimilarity(string TextA, string TextB, Languages Lang)
+        {
+            // Tokenize
+            var TokensA = TextTokenizer.Tokenize(Lang, TextA).Select(t => t.ToLowerInvariant()).ToHashSet();
+            var TokensB = TextTokenizer.Tokenize(Lang, TextB).Select(t => t.ToLowerInvariant()).ToHashSet();
+
+            if (TokensA.Count == 0 && TokensB.Count == 0) return 1.0;
+            if (TokensA.Count == 0 || TokensB.Count == 0) return 0.0;
+
+            var Intersection = TokensA.Intersect(TokensB).Count();
+            var Union = TokensA.Union(TokensB).Count();
+
+            return (double)Intersection / Union; // Jaccard similarity
+        }
+
+        public static List<TransItem> MarkLeadersAndSortWithTokenSimilarity(List<TransItem> Items, Languages Lang)
+        {
+            int N = Items.Count;
+            double[,] SimMatrix = new double[N, N];
+
+            // Calculate similarity matrix
+            for (int I = 0; I < N; I++)
+            {
+                for (int J = I; J < N; J++)
+                {
+                    double Sim = TokenBasedSimilarity(Items[I].SourceText, Items[J].SourceText, Lang);
+                    SimMatrix[I, J] = Sim;
+                    SimMatrix[J, I] = Sim;
+                }
+            }
+
+            // Calculate similarity sums for each item
+            double[] SimSums = new double[N];
+            for (int I = 0; I < N; I++)
+            {
+                double Sum = 0;
+                for (int J = 0; J < N; J++)
+                {
+                    if (I != J) Sum += SimMatrix[I, J];
+                }
+                SimSums[I] = Sum;
+            }
+
+            // Find the item with the highest similarity sum as leader
+            double MaxSimSum = SimSums.Max();
+            int LeaderIndex = Array.IndexOf(SimSums, MaxSimSum);
+
+            // Reset all leader flags
+            foreach (var Item in Items)
+                Item.Leader = false;
+
+            if (LeaderIndex >= 0 && LeaderIndex < N)
+                Items[LeaderIndex].Leader = true;
+
+            // Sort: leaders first, then by Key
+            return Items.OrderByDescending(x => x.Leader).ThenBy(x => x.Key).ToList();
         }
     }
 
