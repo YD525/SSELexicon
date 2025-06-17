@@ -79,10 +79,3 @@ Join our Discord community: [https://discord.gg/GRu7WtgqsB](https://discord.gg/G
 Feel free to drop by and chat — always happy to talk code (or just vent boredom).
 
 ---
-
-## 🙏 Attribution & Credits
-
-This project is developed by **YD525**.
-
-You are free to use, share, and modify this software under the terms of the **GPL-3.0-only** license.  
-If you fork or modify this project, please **retain the original author credit**.
