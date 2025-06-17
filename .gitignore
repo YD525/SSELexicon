@@ -1,2 +1,3 @@
-/SSELex/bin/Debug/net8.0-windows/
-/SSELex/bin/Release/net8.0-windows/
+# ===== Visual Studio Build Artifacts =====
+bin/
+obj/
