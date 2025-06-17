@@ -45,6 +45,19 @@ Acknowledgements: Nexus Mods,9DM,2Game.info,and 泰姆瑞尔MOD组, for their su
 
 # ❤️ Personal Note from the Developer
 
+If you find this project helpful,  
+consider giving it a ⭐ star —  
+your support is the driving force behind ongoing development! ❤️
+
+Also, if you're thinking about adapting **SSELex** to support other games, you're totally welcome to do so!  
+The `TransItem` class is designed to be generic — you can construct your own instances and plug in custom readers for other game formats.  
+
+Just fork the project and make your own modifications — it's easy to extend.  
+And of course, if you contribute something awesome, your name will be added to the list of contributors. 😊
+
+If you have any questions or need help, feel free to drop by our Discord — I'm always happy to help:  
+[https://discord.gg/GRu7WtgqsB](https://discord.gg/GRu7WtgqsB)
+
 ---
 
 ## 🖼️ UI Icon
