@@ -58,6 +58,10 @@ And of course, if you contribute something awesome, your name will be added to t
 If you have any questions or need help, feel free to drop by our Discord — I'm always happy to help:  
 [https://discord.gg/GRu7WtgqsB](https://discord.gg/GRu7WtgqsB)
 
+By the way, this entire tool is currently developed solely by me — **YD525**.  
+It’s a lot of work, and yes... I’m *tired*. 😩  
+Your encouragement really means a lot!
+
 ---
 
 ## 🖼️ UI Icon
