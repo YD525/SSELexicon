@@ -45,6 +45,8 @@ Acknowledgements: Nexus Mods,9DM,2Game.info,and 泰姆瑞尔MOD组, for their su
 
 # ❤️ Personal Note from the Developer
 
+SSELex and SSEAT may collaborate in the future, complementing each other’s strengths and addressing their respective weaknesses.
+
 If you find this project helpful,  
 consider giving it a ⭐ star —  
 your support is the driving force behind ongoing development! ❤️
