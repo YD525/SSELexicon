@@ -2,14 +2,11 @@
 using System.IO;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using System.Windows.Media;
 using SSELex.SkyrimModManager;
 using SSELex.SQLManager;
-using SSELex.TranslateCore;
 using System.Windows.Threading;
 using System.Windows;
-using SSELex.TranslateManage;
 using static SSELex.SkyrimManage.EspReader;
 
 namespace SSELex
@@ -177,11 +174,6 @@ namespace SSELex
 
                 CurrentDashBoardView.Show();
             }
-        }
-
-        public static void LoadData()
-        {
-            TransCore.Init();
         }
     }
 

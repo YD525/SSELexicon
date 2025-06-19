@@ -28,6 +28,7 @@ using System.Timers;
 using System.Xml.Schema;
 using SSELex.PlatformManagement.LocalAI;
 using IniParser.Model.Formatting;
+using System.Security.Cryptography.Xml;
 
 // Copyright (C) 2025 YD525
 // Licensed under the GNU GPLv3
@@ -437,7 +438,8 @@ namespace SSELex
             {
                 ShowFrameByTag("LoadingView");
 
-                DeFine.LoadData();
+                TransCore.Init();
+
                 AdvancedDictionary.Init();
                 //LocalTrans.Init();
 
@@ -539,7 +541,7 @@ namespace SSELex
                     NodePanel.Visibility = Visibility.Visible;
                 }));
 
-                var GetStr = new LMStudio().QuickTrans(new List<string>() { }, "Test Str", Languages.English, Languages.SimplifiedChinese, true, 3, "");
+                //var GetStr = new LMStudio().QuickTrans(new List<string>() { }, "Test Str", Languages.English, Languages.SimplifiedChinese, true, 3, "");
 
                 //new CohereApi().QuickTrans("Test Line", Languages.English, Languages.SimplifiedChinese, true, 1, "");
                 //DeFine.GlobalLocalSetting.BaichuanKey = "";

@@ -11,8 +11,6 @@ using System.Windows;
 using SSELex.UIManage;
 using Mutagen.Bethesda;
 using Mutagen.Bethesda.Strings;
-using SSELex.TranslateCore;
-using System.Text;
 using Mutagen.Bethesda.Plugins.Exceptions;
 using SSELex.SkyrimManagement;
 
