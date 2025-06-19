@@ -304,21 +304,25 @@ public class YDListView
         }
     }
 
-
+    public object AddLocker = new object();
     public int AddRowR(FakeGrid? Item)
     {
-        if (Item == null) return 0;
+        lock (AddLocker)
+        {
+            if (Item == null) return 0;
 
-        this.RealLines.Add(Item);
+            this.RealLines.Add(Item);
 
-        MainCanvas.Height += Item.Height;
+            MainCanvas.Height += Item.Height;
 
-        return this.RealLines.Count;
+            return this.RealLines.Count;
+        }
     }
 
+    public object DeleteLocker = new object();
     public void DeleteRow(int Offset)
     {
-        try
+        lock(DeleteLocker)
         {
             if (this.RealLines.Count > Offset)
             {
@@ -336,7 +340,6 @@ public class YDListView
                 UpdateVisibleRows();
             }
         }
-        catch { }
     }
 }
 
