@@ -39,14 +39,14 @@ public class FakeGrid
 
     public void UPDataThis()
     {
-        var QueryData = Translator.QueryTransData(this.Key,this.SourceText);
+        var QueryData = TranslatorExtend.QueryTransData(this.Key,this.SourceText);
         this.BorderColor = QueryData.Color;
         this.TransText = QueryData.TransText;
     }
 
     public void UPDateView()
     {
-        var GetResult = Translator.SetTransData(this.Key, this.SourceText, this.TransText);
+        var GetResult = TranslatorExtend.SetTransData(this.Key, this.SourceText, this.TransText);
         this.BorderColor = GetResult.Color;
 
         if (DeFine.WorkingWin != null)

@@ -13,7 +13,7 @@ using System.Windows.Media.TextFormatting;
 using NexusMods.Paths.Trees;
 using SSELex.TranslateManagement;
 using System.Windows.Shapes;
-using static SSELex.TranslateManage.Translator;
+using static SSELex.TranslateManage.TranslatorExtend;
 using Reloaded.Memory.Streams;
 
 namespace SSELex.UIManage
@@ -352,7 +352,7 @@ namespace SSELex.UIManage
 
                 Ellipse GetState = GetTransState(GetMainGrid);
 
-                var QueryData = Translator.QueryTransData(GetKey, SourceText);
+                var QueryData = TranslatorExtend.QueryTransData(GetKey, SourceText);
                 TransTextBox.Text = QueryData.TransText;
                 TransTextBox.BorderBrush = new SolidColorBrush(QueryData.Color);
                 if (QueryData.State == 1)
@@ -561,13 +561,13 @@ namespace SSELex.UIManage
         {
             if (Data.Trim().Length > 0)
             {
-                Translator.TransData[Key] = Data;
+                TranslatorExtend.TransData[Key] = Data;
             }
             else
             {
-                if (Translator.TransData.ContainsKey(Key))
+                if (TranslatorExtend.TransData.ContainsKey(Key))
                 {
-                    Translator.TransData.Remove(Key);
+                    TranslatorExtend.TransData.Remove(Key);
                 }
 
                 CloudDBCache.DeleteCache(Key);
