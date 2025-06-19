@@ -1,3 +1,4 @@
 # ===== Visual Studio Build Artifacts =====
+.vs/
 bin/
 obj/
