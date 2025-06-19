@@ -9,6 +9,7 @@ using SSELex.TranslateManagement;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Mutagen.Bethesda.Skyrim;
+using Loqui.Translators;
 
 namespace SSELex.TranslateManage
 {
@@ -258,7 +259,19 @@ namespace SSELex.TranslateManage
             SetTransItem NSetTransItem = new SetTransItem();
             NSetTransItem.Color = DefTransTextBorder;
 
-            UIHelper.AutoSetTransData(SourceText, Key, TransText);
+            if (TransText.Trim().Length > 0)
+            {
+                Translator.TransData[Key] = TransText;
+            }
+            else
+            {
+                if (Translator.TransData.ContainsKey(Key))
+                {
+                    Translator.TransData.Remove(Key);
+                }
+
+                CloudDBCache.DeleteCache(Key);
+            }
 
             bool CanUPDate = true;
             var FindDictionary = YDDictionaryHelper.CheckDictionary(Key);

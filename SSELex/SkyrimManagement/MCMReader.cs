@@ -40,9 +40,10 @@ namespace SSELex.SkyrimManage
                 return this.TransText;
             }
             string GetKey = SkyrimDataLoader.GenUniqueKey(this.EditorID, this.Type);
-            if (Translator.TransData.ContainsKey(GetKey))
+            var GetResult = NativeBridge.GetTranslatorCache(GetKey);
+            if (GetResult!=null)
             {
-                this.TransText = Translator.TransData[GetKey];
+                this.TransText = GetResult;
                 if (this.TransText.Length > 0)
                 {
                     return this.TransText;
@@ -60,9 +61,10 @@ namespace SSELex.SkyrimManage
         public string GetTextIfTransR()
         {
             string GetKey = SkyrimDataLoader.GenUniqueKey(this.EditorID, this.Type);
-            if (Translator.TransData.ContainsKey(GetKey))
+            var GetResult = NativeBridge.GetTranslatorCache(GetKey);
+            if (GetResult != null)
             {
-                this.TransText = Translator.TransData[GetKey];
+                this.TransText = GetResult;
                 if (this.TransText.Length > 0)
                 {
                     return this.TransText;
@@ -105,7 +107,7 @@ namespace SSELex.SkyrimManage
 
         public void LoadMCM(string Path)
         {
-            TranslateManage.Translator.ClearCache();
+            NativeBridge.ClearCache();
             Lines.Clear();
             MCMItems.Clear();
 

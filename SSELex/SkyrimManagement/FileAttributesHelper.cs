@@ -97,36 +97,35 @@ namespace SSELex.SkyrimManage
 
         public static bool IsAdministrator()
         {
-            // 获取当前用户
             WindowsIdentity identity = WindowsIdentity.GetCurrent();
             WindowsPrincipal principal = new WindowsPrincipal(identity);
 
-            // 检查是否是管理员
+           
             return principal.IsInRole(WindowsBuiltInRole.Administrator);
         }
 
         public static void RestartAsAdmin()
         {
-            // 获取当前程序的文件路径
+            
             string exePath = DeFine.GetFullPath("SSELex.exe");
             string GetPath = exePath.Substring(0, exePath.LastIndexOf(@"\"));
-            // 启动当前程序并请求管理员权限
+            
             ProcessStartInfo startInfo = new ProcessStartInfo()
             {
                 FileName = exePath,
                 WorkingDirectory = GetPath,
                 UseShellExecute = true,
-                Verb = "runas" // 使用管理员权限运行
+                Verb = "runas" 
             };
 
             try
             {
-                Process.Start(startInfo); // 启动程序
+                Process.Start(startInfo); 
                 Environment.Exit(0);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("无法以管理员身份启动程序: " + ex.Message);
+                MessageBox.Show(ex.Message);
             }
         }
     }

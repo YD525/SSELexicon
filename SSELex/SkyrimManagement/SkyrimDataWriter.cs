@@ -14,56 +14,15 @@ namespace SSELex.UIManage
     {
         public static void WriteAllMemoryData(ref EspReader Writer)
         {
-            try
-            {
-                for (int i = 0; i < Translator.TransData.Count; i++)
-                {
-                    try
-                    {
-                        var GetHashKey = Translator.TransData.ElementAt(i).Key;
-                        if (Translator.TransData[GetHashKey].Trim().Length > 0)
-                        {
-                            SetData(GetHashKey, Translator.TransData[GetHashKey].Trim());
-                        }
-                    }
-                    catch (System.Exception ex)
-                    {
-                        System.Console.WriteLine($"Error in WriteAllMemoryData loop at index {i}: {ex.Message}");
-                    }
-                }
-            }
-            catch (System.Exception ex)
-            {
-                System.Console.WriteLine($"Error in WriteAllMemoryData: {ex.Message}");
-            }
+            NativeBridge.FormatData();
             ReplaceAllToMemory(ref Writer);
-        }
-
-        public static void SetData(string GetKey, string TransData)
-        {
-            string NewStr = TransData;
-            TranslationPreprocessor.NormalizePunctuation(ref NewStr);
-            if (Regex.Replace(NewStr, @"\s+", "").Length > 0)
-            {
-                Translator.TransData[GetKey] = NewStr;
-            }
-            else
-            {
-                Translator.TransData[GetKey] = string.Empty;
-            }
         }
 
         public static string GetTransData(string EditorID, string SetType)
         {
             string GetKey = SkyrimDataLoader.GenUniqueKey(EditorID, SetType);
-            if (Translator.TransData.ContainsKey(GetKey))
-            {
-                return Translator.TransData[GetKey];
-            }
-            else
-            {
-                return string.Empty;
-            }
+
+            return NativeBridge.GetTransData(GetKey);
         }
 
         public static void ReplaceAllToMemory(ref EspReader Writer)

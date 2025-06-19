@@ -321,15 +321,8 @@ namespace SSELex.UIManage
         public static string TryGetTransData(string EditorID, string SetType)
         {
             string GetKey = GenUniqueKey(EditorID, SetType);
-            if (Translator.TransData.ContainsKey(GetKey))
-            {
-                return Translator.TransData[GetKey];
-            }
-            else
-            {
-                Translator.TransData.Add(GetKey, string.Empty);
-            }
-            return string.Empty;
+            
+            return NativeBridge.GetTransData(GetKey);
         }
 
         public static void LoadHazards(EspReader Reader, YDListView View)

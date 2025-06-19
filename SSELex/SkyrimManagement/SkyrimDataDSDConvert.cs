@@ -37,14 +37,7 @@ namespace SSELex.SkyrimManagement
         public static string GetTransData(string EditorID, string SetType)
         {
             string GetKey = SkyrimDataLoader.GenUniqueKey(EditorID, SetType);
-            if (Translator.TransData.ContainsKey(GetKey))
-            {
-                return Translator.TransData[GetKey];
-            }
-            else
-            {
-                return string.Empty;
-            }
+            return NativeBridge.GetTransData(GetKey);
         }
 
         public static List<DSDItem> EspExportAllByDSD(EspReader Reader)

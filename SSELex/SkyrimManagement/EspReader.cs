@@ -275,7 +275,7 @@ namespace SSELex.SkyrimManage
         {
             if (File.Exists(FilePath) && (FilePath.ToLower().EndsWith(".esp") || FilePath.ToLower().EndsWith(".esm") || FilePath.ToLower().EndsWith(".esl")))
             {
-                TranslateManage.Translator.ClearCache();
+                NativeBridge.ClearCache();
                 Cache<IModMasterStyledGetter, ModKey>? FlagsLookup = null;
 
                 var AutoEncoding = QueryEncoding();

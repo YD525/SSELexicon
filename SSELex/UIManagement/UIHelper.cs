@@ -5,16 +5,9 @@ using SSELex.TranslateManage;
 using SSELex.ConvertManager;
 using SSELex.SkyrimManage;
 using System.Windows.Media.Animation;
-using SSELex.TranslateCore;
-using System.Windows.Documents;
 using System.Windows.Input;
-using ICSharpCode.AvalonEdit;
-using System.Windows.Media.TextFormatting;
-using NexusMods.Paths.Trees;
-using SSELex.TranslateManagement;
 using System.Windows.Shapes;
 using static SSELex.TranslateManage.TranslatorExtend;
-using Reloaded.Memory.Streams;
 
 namespace SSELex.UIManage
 {
@@ -557,22 +550,7 @@ namespace SSELex.UIManage
             }
         }
 
-        public static void AutoSetTransData(string SourceText, string Key, string Data)
-        {
-            if (Data.Trim().Length > 0)
-            {
-                TranslatorExtend.TransData[Key] = Data;
-            }
-            else
-            {
-                if (TranslatorExtend.TransData.ContainsKey(Key))
-                {
-                    TranslatorExtend.TransData.Remove(Key);
-                }
-
-                CloudDBCache.DeleteCache(Key);
-            }
-        }
+       
 
         private static CancellationTokenSource AutoCancelSelectIDETrd;
         public static void CancelAutoSelect()

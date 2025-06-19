@@ -85,9 +85,10 @@ namespace SSELex.SkyrimManage
         public string GetTextIfTransR()
         {
             string GetKey = this.Key;
-            if (Translator.TransData.ContainsKey(GetKey))
+            var GetResult = NativeBridge.GetTranslatorCache(GetKey);
+            if (GetResult != null)
             {
-                this.TransText = Translator.TransData[GetKey];
+                this.TransText = GetResult;
                 if (this.TransText.Length > 0)
                 {
                     return this.TransText;
@@ -109,7 +110,7 @@ namespace SSELex.SkyrimManage
         public string TempFilePath = "";
         public List<string> CodeLines = new List<string>();
 
-        public HeuristicCore HeuristicEngine = null;
+        public PapyrusHeurCore HeuristicEngine = null;
 
         public List<StringParam> Strings = new List<StringParam>();
 
@@ -286,7 +287,7 @@ namespace SSELex.SkyrimManage
         {
             Close();
 
-            HeuristicEngine = new HeuristicCore();
+            HeuristicEngine = new PapyrusHeurCore();
 
             foreach (var GetFile in DataHelper.GetAllFile(DeFine.GetFullPath(@"Cache\")))
             {
