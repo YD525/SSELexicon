@@ -1543,12 +1543,34 @@ namespace SSELex
 
                         if (UIHelper.ActiveKey.EndsWith("(BookText)") && UIHelper.ActiveType.Equals("Book"))
                         {
-                            this.Dispatcher.Invoke(new Action(() =>
-                            {
-                                SegmentTranslator = new TextSegmentTranslator(ToStr, TransBtn);
-                            }));
+                            SegmentTranslator = new TextSegmentTranslator();
 
-                            SegmentTranslator.TransBook(UIHelper.ActiveKey, GetFromStr, Token);
+                            SegmentTranslator.TransBook(DeFine.CurrentModName,UIHelper.ActiveKey, GetFromStr, Token);
+
+                            new Thread(() => {
+                                //ToStr, TransBtn
+                                while (!SegmentTranslator.IsEnd)
+                                {
+                                    ToStr.Dispatcher.Invoke(new Action(() => {
+                                        ToStr.Text = SegmentTranslator.CurrentText;
+                                    }));
+
+                                    TransBtn.Dispatcher.Invoke(new Action(() => {
+                                        TransBtn.Content = string.Format("Translating ({0}/{1})... (Click to Cancel)", SegmentTranslator.CurrentTransCount, SegmentTranslator.TransCount);
+                                    }));
+                                }
+
+                                Thread.Sleep(100);
+
+                                ToStr.Dispatcher.Invoke(new Action(() => {
+                                    ToStr.Text = SegmentTranslator.CurrentText;
+                                }));
+
+                                TransBtn.Dispatcher.Invoke(new Action(() => {
+                                    TransBtn.Content = string.Format("Translating ({0}/{1})... (Click to Cancel)", SegmentTranslator.CurrentTransCount, SegmentTranslator.TransCount);
+                                }));
+
+                            }).Start();
                         }
                         else
                         {
