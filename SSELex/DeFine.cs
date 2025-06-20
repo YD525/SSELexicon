@@ -182,10 +182,8 @@ namespace SSELex
         public double FormHeight { get; set; } = 850;
         public double FormWidth { get; set; } = 1200;
         public Languages CurrentUILanguage { get; set; } = Languages.English;
-        public string BackUpPath { get; set; } = "";
-        public string APath { get; set; } = "";
-        public string BPath { get; set; } = "";
         public string SkyrimPath { get; set; } = "";
+
         public bool PlaySound = false;     
         public bool ShowLog { get; set; } = true;
         public bool ShowCode { get; set; } = true;
@@ -210,11 +208,8 @@ namespace SSELex
                         this.FormHeight = GetSetting.FormHeight;
                         this.FormWidth = GetSetting.FormWidth;
                         this.CurrentUILanguage = GetSetting.CurrentUILanguage;
-                        this.APath = GetSetting.APath;
-                        this.BPath = GetSetting.BPath;
                         this.SkyrimPath = GetSetting.SkyrimPath;
                         this.PlaySound = GetSetting.PlaySound;
-                        this.BackUpPath = GetSetting.BackUpPath;
                         this.ShowCode = GetSetting.ShowCode;
                         this.ShowLog = GetSetting.ShowLog;
                         this.SkyrimType = GetSetting.SkyrimType;
@@ -244,6 +239,8 @@ namespace SSELex
             var GetSettingContent = JsonSerializer.Serialize(CopySetting, Options);
 
             FileHelper.WriteFile(DeFine.GetFullPath(@"\setting.config"), GetSettingContent, Encoding.UTF8);
+
+            EngineConfig.Save();
         }
     }
 }
