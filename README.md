@@ -11,10 +11,34 @@ Your support and feedback are greatly appreciated!
 
 ---
 
-## 📄 License
+## 📦 Features
 
-This project is licensed under the **GNU General Public License version 3.0 (GPL-3.0-only)**.  
-See the LICENSE file for details.
+- ✅ Support for `.pex`, `.esm`, `.esp`, and `.mcm` formats  
+- 🔁 Batch processing and translation history tracking  
+- 🌐 Integration with OpenAI, DeepL, and other translation APIs  
+- 🧠 Heuristic filtering to avoid code-related terms being mistranslated  
+- 🔧 Designed for extendability and customization
+
+---
+
+## 🧱 Required Dependency
+
+**SSE Lexicon** depends on the [**PhoenixEngine**](https://github.com/YD525/PhoenixEngine) library to function properly.  
+This engine provides core logic and shared components used throughout SSELex.
+
+> 🔧 **You must clone and compile `PhoenixEngine` separately before building SSELex.**
+
+### Steps:
+
+1. Clone the repository:  
+   [https://github.com/YD525/PhoenixEngine](https://github.com/YD525/PhoenixEngine)
+
+2. Open the solution in Visual Studio and build the project.
+
+3. After building, make sure to **reference the generated DLLs** (e.g., `PhoenixEngine.dll`) in the **SSELex** project.  
+   You can do this either by adding project references or linking the compiled DLLs directly.
+
+This step is **mandatory** — the SSELex project will not build correctly without it.
 
 ---
 
@@ -79,5 +103,12 @@ The icon used in the UI interface (**"Note"**) is sourced from **Iconfont**.
 Join our Discord community: [https://discord.gg/GRu7WtgqsB](https://discord.gg/GRu7WtgqsB)  
 
 Feel free to drop by and chat — always happy to talk code (or just vent boredom).
+
+---
+
+## 📄 License
+
+This project is licensed under the **GNU General Public License version 3.0 (GPL-3.0-only)**.  
+See the LICENSE file for details.
 
 ---
