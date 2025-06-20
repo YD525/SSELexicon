@@ -539,7 +539,7 @@ namespace SSELex
                     NodePanel.Visibility = Visibility.Visible;
                 }));
 
-                var GetStr = new LMStudio().QuickTrans(new List<string>() { }, "Test Str", Languages.English, Languages.SimplifiedChinese, true, 3, "");
+                //var GetStr = new LMStudio().QuickTrans(new List<string>() { }, "Test Str", Languages.English, Languages.SimplifiedChinese, true, 3, "");
 
                 //new CohereApi().QuickTrans("Test Line", Languages.English, Languages.SimplifiedChinese, true, 1, "");
                 //DeFine.GlobalLocalSetting.BaichuanKey = "";
