@@ -23,7 +23,7 @@ Your support and feedback are greatly appreciated!
 
 ---
 
-## 🧱 Required Dependency
+## 🧩 Required Dependency
 
 **SSE Lexicon** depends on the [**PhoenixEngine**](https://github.com/YD525/PhoenixEngine) library to function properly.  
 This engine provides core logic and shared components used throughout SSELex.
