@@ -7,6 +7,8 @@ If you want to give feedback, report issues, or discuss SSELex, please feel free
 
 - [Nexus Mods (for international users)](https://www.nexusmods.com/skyrimspecialedition/mods/143056)  
 
+You can download it directly from Nexus Mods or build it yourself here. Both versions are kept up to date.
+
 Your support and feedback are greatly appreciated!
 
 ---
