@@ -134,7 +134,7 @@ namespace SSELex.UIManage
         public static string DBQueryStr(Languages Type, string Key, string Name)
         {
             string SqlOrder = "Select Str From UILanguages Where Key = '{0}' And Name = '{1}' And LangType = '{2}'";
-            string GetResult = ConvertHelper.ObjToStr(DeFine.GlobalDB.ExecuteScalar(string.Format(SqlOrder, Key, Name, Type.ToString())));
+            string GetResult = ConvertHelper.ObjToStr(DeFine.LocalDB.ExecuteScalar(string.Format(SqlOrder, Key, Name, Type.ToString())));
             if (GetResult.Contains(">"))
             {
                 GetResult = GetResult.Split('>')[0];
@@ -145,7 +145,7 @@ namespace SSELex.UIManage
         public static string SearchStateChangeStr(string Name, int ID)
         {
             string SqlOrder = "Select Str From UILanguages Where Name = '{0}' And LangType = '{1}'";
-            string GetResult = ConvertHelper.ObjToStr(DeFine.GlobalDB.ExecuteScalar(string.Format(SqlOrder, Name, DeFine.GlobalLocalSetting.CurrentUILanguage.ToString())));
+            string GetResult = ConvertHelper.ObjToStr(DeFine.LocalDB.ExecuteScalar(string.Format(SqlOrder, Name, DeFine.GlobalLocalSetting.CurrentUILanguage.ToString())));
             if (GetResult.Contains(">"))
             {
                 GetResult = GetResult.Split('>')[ID];

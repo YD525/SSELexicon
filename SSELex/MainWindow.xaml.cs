@@ -25,6 +25,7 @@ using PhoenixEngine.TranslateManagement;
 using PhoenixEngine.TranslateCore;
 using PhoenixEngine.RequestManagement;
 using SSELex.TranslateManage;
+using PhoenixEngine.EngineManagement;
 
 // Copyright (C) 2025 YD525
 // Licensed under the GNU GPLv3
@@ -291,7 +292,7 @@ namespace SSELex
                 ToL.Items.Add(Get.ToString());
             }
 
-            ToL.SelectedValue = DeFine.TargetLanguage.ToString();
+            ToL.SelectedValue = EngineConfig.TargetLanguage.ToString();
 
             FromL.Items.Clear();
             foreach (var Get in UILanguageHelper.SupportLanguages)
@@ -299,7 +300,7 @@ namespace SSELex
                 FromL.Items.Add(Get.ToString());
             }
 
-            FromL.SelectedValue = DeFine.SourceLanguage.ToString();
+            FromL.SelectedValue = EngineConfig.SourceLanguage.ToString();
         }
 
         public bool CheckINeed()
@@ -405,7 +406,7 @@ namespace SSELex
                 UsingDictionary.IsChecked = true;
             }
 
-            if (DeFine.GlobalLocalSetting.UsingContext)
+            if (EngineConfig.ContextEnable)
             {
                 UsingContext.IsChecked = true;
             }
@@ -481,7 +482,7 @@ namespace SSELex
 
                 SetLog(string.Empty);
 
-                ProxyCenter.GlobalProxyIP = DeFine.GlobalLocalSetting.ProxyIP;
+                ProxyCenter.GlobalProxyIP = EngineConfig.ProxyIP;
 
                 this.Dispatcher.Invoke(new Action(() =>
                 {
@@ -498,9 +499,9 @@ namespace SSELex
                     this.ChatGptModel.Items.Add("gpt-4o-mini");
                     this.ChatGptModel.Items.Add("gpt-4-turbo");
 
-                    if (DeFine.GlobalLocalSetting.ChatGptModel.Trim().Length > 0)
+                    if (EngineConfig.ChatGptModel.Trim().Length > 0)
                     {
-                        this.ChatGptModel.SelectedValue = DeFine.GlobalLocalSetting.ChatGptModel;
+                        this.ChatGptModel.SelectedValue = EngineConfig.ChatGptModel;
                     }
                     else
                     {
@@ -509,9 +510,9 @@ namespace SSELex
 
                     this.DeepSeekModel.Items.Clear();
                     this.DeepSeekModel.Items.Add("deepseek-chat");
-                    if (DeFine.GlobalLocalSetting.DeepSeekModel.Trim().Length > 0)
+                    if (EngineConfig.DeepSeekModel.Trim().Length > 0)
                     {
-                        this.DeepSeekModel.SelectedValue = DeFine.GlobalLocalSetting.DeepSeekModel;
+                        this.DeepSeekModel.SelectedValue = EngineConfig.DeepSeekModel;
                     }
                     else
                     {
@@ -525,9 +526,9 @@ namespace SSELex
                     this.BaichuanModel.Items.Add("Baichuan3-Turbo");
                     this.BaichuanModel.Items.Add("Baichuan3-Turbo-128k");
                     this.BaichuanModel.Items.Add("Baichuan2-Turbo");
-                    if (DeFine.GlobalLocalSetting.BaichuanModel.Trim().Length > 0)
+                    if (EngineConfig.BaichuanModel.Trim().Length > 0)
                     {
-                        this.BaichuanModel.SelectedValue = DeFine.GlobalLocalSetting.BaichuanModel;
+                        this.BaichuanModel.SelectedValue = EngineConfig.BaichuanModel;
                     }
                     else
                     {
@@ -884,7 +885,7 @@ namespace SSELex
                         {
                             case "GoogleEngine":
                                 {
-                                    if (!DeFine.GlobalLocalSetting.GoogleYunApiUsing)
+                                    if (!EngineConfig.GoogleYunApiEnable)
                                     {
                                         (GetEngine as SvgViewbox).Opacity = 0.15;
                                     }
@@ -892,7 +893,7 @@ namespace SSELex
                                 break;
                             case "ChatGptEngine":
                                 {
-                                    if (!DeFine.GlobalLocalSetting.ChatGptApiUsing)
+                                    if (!EngineConfig.ChatGptApiEnable)
                                     {
                                         (GetEngine as SvgViewbox).Opacity = 0.15;
                                     }
@@ -900,7 +901,7 @@ namespace SSELex
                                 break;
                             case "GeminiEngine":
                                 {
-                                    if (!DeFine.GlobalLocalSetting.GeminiApiUsing)
+                                    if (!EngineConfig.GeminiApiEnable)
                                     {
                                         (GetEngine as SvgViewbox).Opacity = 0.15;
                                     }
@@ -908,7 +909,7 @@ namespace SSELex
                                 break;
                             case "CohereEngine":
                                 {
-                                    if (!DeFine.GlobalLocalSetting.CohereApiUsing)
+                                    if (!EngineConfig.CohereApiEnable)
                                     {
                                         (GetEngine as SvgViewbox).Opacity = 0.15;
                                     }
@@ -916,7 +917,7 @@ namespace SSELex
                                 break;
                             case "DeepSeekEngine":
                                 {
-                                    if (!DeFine.GlobalLocalSetting.DeepSeekApiUsing)
+                                    if (!EngineConfig.DeepSeekApiEnable)
                                     {
                                         (GetEngine as SvgViewbox).Opacity = 0.15;
                                     }
@@ -924,7 +925,7 @@ namespace SSELex
                                 break;
                             case "BaichuanEngine":
                                 {
-                                    if (!DeFine.GlobalLocalSetting.BaichuanApiUsing)
+                                    if (!EngineConfig.BaichuanApiEnable)
                                     {
                                         (GetEngine as SvgViewbox).Opacity = 0.15;
                                     }
@@ -932,7 +933,7 @@ namespace SSELex
                                 break;
                             case "LMLocalEngine":
                                 {
-                                    if (!DeFine.GlobalLocalSetting.LMLocalAIEngineUsing)
+                                    if (!EngineConfig.LMLocalAIEngineEnable)
                                     {
                                         (GetEngine as SvgViewbox).Opacity = 0.15;
                                     }
@@ -940,7 +941,7 @@ namespace SSELex
                                 break;
                             case "DeepLEngine":
                                 {
-                                    if (!DeFine.GlobalLocalSetting.DeepLApiUsing)
+                                    if (!EngineConfig.DeepLApiEnable)
                                     {
                                         (GetEngine as SvgViewbox).Opacity = 0.15;
                                     }
@@ -948,7 +949,7 @@ namespace SSELex
                                 break;
                             case "DivEngine":
                                 {
-                                    if (!DeFine.GlobalLocalSetting.DivCacheEngineUsing)
+                                    if (!EngineConfig.DivCacheEngineEnable)
                                     {
                                         (GetEngine as SvgViewbox).Opacity = 0.15;
                                     }
@@ -983,47 +984,47 @@ namespace SSELex
             {
                 case "GoogleEngine":
                     {
-                        DeFine.GlobalLocalSetting.GoogleYunApiUsing = OneState;
+                        EngineConfig.GoogleYunApiEnable = OneState;
                     }
                     break;
                 case "ChatGptEngine":
                     {
-                        DeFine.GlobalLocalSetting.ChatGptApiUsing = OneState;
+                        EngineConfig.ChatGptApiEnable = OneState;
                     }
                     break;
                 case "GeminiEngine":
                     {
-                        DeFine.GlobalLocalSetting.GeminiApiUsing = OneState;
+                        EngineConfig.GeminiApiEnable = OneState;
                     }
                     break;
                 case "CohereEngine":
                     {
-                        DeFine.GlobalLocalSetting.CohereApiUsing = OneState;
+                        EngineConfig.CohereApiEnable = OneState;
                     }
                     break;
                 case "DeepSeekEngine":
                     {
-                        DeFine.GlobalLocalSetting.DeepSeekApiUsing = OneState;
+                        EngineConfig.DeepSeekApiEnable = OneState;
                     }
                     break;
                 case "BaichuanEngine":
                     {
-                        DeFine.GlobalLocalSetting.BaichuanApiUsing = OneState;
+                        EngineConfig.BaichuanApiEnable = OneState;
                     }
                     break;
                 case "LMLocalEngine":
                     {
-                        DeFine.GlobalLocalSetting.LMLocalAIEngineUsing = OneState;
+                        EngineConfig.LMLocalAIEngineEnable = OneState;
                     }
                     break;
                 case "DeepLEngine":
                     {
-                        DeFine.GlobalLocalSetting.DeepLApiUsing = OneState;
+                        EngineConfig.DeepLApiEnable = OneState;
                     }
                     break;
                 case "DivEngine":
                     {
-                        DeFine.GlobalLocalSetting.DivCacheEngineUsing = OneState;
+                        EngineConfig.DivCacheEngineEnable = OneState;
                     }
                     break;
             }
@@ -1062,42 +1063,12 @@ namespace SSELex
                     AutoKeepTag.Background = new SolidColorBrush(Color.FromRgb(0, 51, 97));
 
                     AutoKeep.Source = new Uri("pack://application:,,,/SSELex;component/Material/Stop.svg");
-                    if (DeFine.GlobalLocalSetting.AutoSetThreadLimit)
+
+                    if (EngineConfig.AutoSetThreadLimit)
                     {
-                        DeFine.GlobalLocalSetting.MaxThreadCount = 0;
-                        if (DeFine.GlobalLocalSetting.BaichuanApiUsing && DeFine.GlobalLocalSetting.BaichuanKey.Trim().Length > 0)
-                        {
-                            DeFine.GlobalLocalSetting.MaxThreadCount++;
-                        }
-                        if (DeFine.GlobalLocalSetting.GoogleYunApiUsing && DeFine.GlobalLocalSetting.GoogleApiKey.Trim().Length > 0)
-                        {
-                            DeFine.GlobalLocalSetting.MaxThreadCount++;
-                        }
-                        if (DeFine.GlobalLocalSetting.DeepLApiUsing && DeFine.GlobalLocalSetting.DeepLKey.Trim().Length > 0)
-                        {
-                            DeFine.GlobalLocalSetting.MaxThreadCount++;
-                        }
-                        if (DeFine.GlobalLocalSetting.ChatGptApiUsing && DeFine.GlobalLocalSetting.ChatGptKey.Trim().Length > 0)
-                        {
-                            DeFine.GlobalLocalSetting.MaxThreadCount++;
-                        }
-                        if (DeFine.GlobalLocalSetting.GeminiApiUsing && DeFine.GlobalLocalSetting.GeminiKey.Trim().Length > 0)
-                        {
-                            DeFine.GlobalLocalSetting.MaxThreadCount++;
-                        }
-                        if (DeFine.GlobalLocalSetting.DeepSeekApiUsing && DeFine.GlobalLocalSetting.DeepSeekKey.Trim().Length > 0)
-                        {
-                            DeFine.GlobalLocalSetting.MaxThreadCount++;
-                        }
-                        if (DeFine.GlobalLocalSetting.MaxThreadCount == 1)
-                        {
-                            DeFine.GlobalLocalSetting.MaxThreadCount = 2;
-                        }
-                        if (DeFine.GlobalLocalSetting.MaxThreadCount == 0)
-                        {
-                            DeFine.GlobalLocalSetting.MaxThreadCount = 1;
-                        }
+                        EngineConfig.MaxThreadCount = EngineConfig.AutoCalcThreadLimit();
                     }
+
                     BatchTranslationHelper.Start();
                 }
                 else
@@ -1455,10 +1426,8 @@ namespace SSELex
 
             if (GetValue.Trim().Length > 0)
             {
-                DeFine.SourceLanguage = Enum.Parse<Languages>(GetValue);
+                EngineConfig.SourceLanguage = Enum.Parse<Languages>(GetValue);
             }
-
-            DeFine.GlobalLocalSetting.SourceLanguage = DeFine.SourceLanguage;
         }
 
         private void Target_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -1467,10 +1436,8 @@ namespace SSELex
 
             if (GetValue.Trim().Length > 0)
             {
-                DeFine.TargetLanguage = Enum.Parse<Languages>(GetValue);
+                EngineConfig.TargetLanguage = Enum.Parse<Languages>(GetValue);
             }
-
-            DeFine.GlobalLocalSetting.TargetLanguage = DeFine.TargetLanguage;
         }
 
         private void ClearCache(object sender, MouseButtonEventArgs e)
@@ -1481,7 +1448,7 @@ namespace SSELex
                 if (Translator.ClearCloudCache(DeFine.CurrentModName))
                 {
                     ActionWin.Show("DBMsg", "Done!", MsgAction.Yes, MsgType.Info);
-                    DeFine.GlobalDB.ExecuteNonQuery("vacuum");
+                    Engine.Vacuum();
                     DeFine.WorkingWin.ReloadData();
                 }
             }
@@ -1586,7 +1553,7 @@ namespace SSELex
                         else
                         {
                             bool CanSleep = true;
-                            var GetResult = Translator.QuickTrans(DeFine.CurrentModName, UIHelper.ActiveType, UIHelper.ActiveKey, GetFromStr, DeFine.SourceLanguage, DeFine.TargetLanguage, ref CanSleep);
+                            var GetResult = Translator.QuickTrans(DeFine.CurrentModName, UIHelper.ActiveType, UIHelper.ActiveKey, GetFromStr, EngineConfig.SourceLanguage, EngineConfig.TargetLanguage, ref CanSleep);
 
                             this.Dispatcher.Invoke(new Action(() =>
                             {
@@ -1682,11 +1649,11 @@ namespace SSELex
         {
             if (UsingContext.IsChecked == true)
             {
-                DeFine.GlobalLocalSetting.UsingContext = true;
+                EngineConfig.ContextEnable = true;
             }
             else
             {
-                DeFine.GlobalLocalSetting.UsingContext = false;
+                EngineConfig.ContextEnable = false;
             }
         }
 
@@ -1749,11 +1716,9 @@ namespace SSELex
 
                         if (ActionWin.Show("Do you agree?", "Delete DataBase and save", MsgAction.YesNo, MsgType.Info, 230) > 0)
                         {
-                            string SqlOrder = "Delete From CloudTranslation Where ModName = '" + DeFine.CurrentModName + "'";
-                            int State = DeFine.GlobalDB.ExecuteNonQuery(SqlOrder);
-                            if (State != 0)
+                            if (CloudDBCache.ClearCloudCache(EngineConfig.CurrentModName))
                             {
-                                DeFine.GlobalDB.ExecuteNonQuery("vacuum");
+                                Engine.Vacuum();
                             }
                         }
                     }
@@ -1808,47 +1773,47 @@ namespace SSELex
                 AIView.Visibility = Visibility.Hidden;
                 EngineConfigView.Visibility = Visibility.Hidden;
 
-                HttpProxy.Text = DeFine.GlobalLocalSetting.ProxyIP;
+                HttpProxy.Text = EngineConfig.ProxyIP;
 
-                BaichuanKey.Password = DeFine.GlobalLocalSetting.BaichuanKey;
-                CohereKey.Password = DeFine.GlobalLocalSetting.CohereKey;
+                BaichuanKey.Password = EngineConfig.BaichuanKey;
+                CohereKey.Password = EngineConfig.CohereKey;
 
-                GoogleKey.Password = DeFine.GlobalLocalSetting.GoogleApiKey;
+                GoogleKey.Password = EngineConfig.GoogleApiKey;
 
-                GeminiKey.Password = DeFine.GlobalLocalSetting.GeminiKey;
-                ChatGptKey.Password = DeFine.GlobalLocalSetting.ChatGptKey;
-                DeepSeekKey.Password = DeFine.GlobalLocalSetting.DeepSeekKey;
+                GeminiKey.Password = EngineConfig.GeminiKey;
+                ChatGptKey.Password = EngineConfig.ChatGptKey;
+                DeepSeekKey.Password = EngineConfig.DeepSeekKey;
 
-                BaichuanKey.Password = DeFine.GlobalLocalSetting.BaichuanKey;
+                BaichuanKey.Password = EngineConfig.BaichuanKey;
 
-                if (DeFine.GlobalLocalSetting.GeminiModel.Trim().Length > 0)
+                if (EngineConfig.GeminiModel.Trim().Length > 0)
                 {
-                    GeminiModel.SelectedValue = DeFine.GlobalLocalSetting.GeminiModel;
+                    GeminiModel.SelectedValue = EngineConfig.GeminiModel;
                 }
 
-                if (DeFine.GlobalLocalSetting.DeepSeekModel.Trim().Length > 0)
+                if (EngineConfig.DeepSeekModel.Trim().Length > 0)
                 {
-                    DeepSeekModel.SelectedValue = DeFine.GlobalLocalSetting.DeepSeekModel;
+                    DeepSeekModel.SelectedValue = EngineConfig.DeepSeekModel;
                 }
 
-                if (DeFine.GlobalLocalSetting.ChatGptModel.Trim().Length > 0)
+                if (EngineConfig.ChatGptModel.Trim().Length > 0)
                 {
-                    ChatGptModel.SelectedValue = DeFine.GlobalLocalSetting.ChatGptModel;
+                    ChatGptModel.SelectedValue = EngineConfig.ChatGptModel;
                 }
 
 
-                DeepLKey.Password = DeFine.GlobalLocalSetting.DeepLKey;
+                DeepLKey.Password = EngineConfig.DeepLKey;
 
-                if (DeFine.GlobalLocalSetting.IsFreeDeepL)
+                if (EngineConfig.IsFreeDeepL)
                 {
                     IsFreeDeepL.IsChecked = true;
                 }
 
-                LMHost.Text = DeFine.GlobalLocalSetting.LMHost;
-                LMPort.Text = DeFine.GlobalLocalSetting.LMPort.ToString();
-                LMQueryParam.Text = DeFine.GlobalLocalSetting.LMQueryParam;
+                LMHost.Text = EngineConfig.LMHost;
+                LMPort.Text = EngineConfig.LMPort.ToString();
+                LMQueryParam.Text = EngineConfig.LMQueryParam;
 
-                LMModel.Text = DeFine.GlobalLocalSetting.LMModel;
+                LMModel.Text = EngineConfig.LMModel;
 
                 UIHelper.AnimateCanvasLeft(SettingBlock, 139);
             }
@@ -1860,7 +1825,7 @@ namespace SSELex
                 AIView.Visibility = Visibility.Hidden;
                 EngineConfigView.Visibility = Visibility.Hidden;
 
-                MaxThreadCount.Text = ConvertHelper.ObjToStr(DeFine.GlobalLocalSetting.MaxThreadCount);
+                MaxThreadCount.Text = ConvertHelper.ObjToStr(EngineConfig.MaxThreadCount);
 
                 UILanguages.Items.Clear();
 
@@ -1871,7 +1836,7 @@ namespace SSELex
 
                 UILanguages.SelectedValue = DeFine.GlobalLocalSetting.CurrentUILanguage.ToString();
 
-                if (DeFine.GlobalLocalSetting.AutoSetThreadLimit)
+                if (EngineConfig.AutoSetThreadLimit)
                 {
                     AutoSetThreadLimit.IsChecked = true;
                 }
@@ -1916,8 +1881,8 @@ namespace SSELex
                 AIView.Visibility = Visibility.Visible;
                 EngineConfigView.Visibility = Visibility.Hidden;
 
-                ContextLimit.Text = DeFine.GlobalLocalSetting.ContextLimit.ToString();
-                CustomAIPrompt.Text = DeFine.GlobalLocalSetting.UserCustomAIPrompt;
+                ContextLimit.Text = EngineConfig.ContextLimit.ToString();
+                CustomAIPrompt.Text = EngineConfig.UserCustomAIPrompt;
 
                 UIHelper.AnimateCanvasLeft(SettingBlock, 312);
             }
@@ -1935,11 +1900,11 @@ namespace SSELex
 
         private void HttpProxy_TextChanged(object sender, TextChangedEventArgs e)
         {
-            DeFine.GlobalLocalSetting.ProxyIP = HttpProxy.Text.Trim();
+            EngineConfig.ProxyIP = HttpProxy.Text.Trim();
         }
         private void ChatGptKey_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            DeFine.GlobalLocalSetting.ChatGptKey = ChatGptKey.Password;
+            EngineConfig.ChatGptKey = ChatGptKey.Password;
         }
 
         private void ChatGptModelChange(object sender, SelectionChangedEventArgs e)
@@ -1947,12 +1912,12 @@ namespace SSELex
             string GetModel = ConvertHelper.ObjToStr(ChatGptModel.SelectedValue);
             if (GetModel.Trim().Length > 0)
             {
-                DeFine.GlobalLocalSetting.ChatGptModel = GetModel;
+                EngineConfig.ChatGptModel = GetModel;
             }
         }
         private void Gemini_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            DeFine.GlobalLocalSetting.GeminiKey = GeminiKey.Password;
+            EngineConfig.GeminiKey = GeminiKey.Password;
         }
 
         private void GeminiModelChange(object sender, SelectionChangedEventArgs e)
@@ -1960,12 +1925,12 @@ namespace SSELex
             string GetModel = ConvertHelper.ObjToStr(GeminiModel.SelectedValue);
             if (GetModel.Trim().Length > 0)
             {
-                DeFine.GlobalLocalSetting.GeminiModel = GetModel;
+                EngineConfig.GeminiModel = GetModel;
             }
         }
         private void DeepSeekKey_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            DeFine.GlobalLocalSetting.DeepSeekKey = DeepSeekKey.Password;
+            EngineConfig.DeepSeekKey = DeepSeekKey.Password;
         }
 
         private void DeepSeekModelChange(object sender, SelectionChangedEventArgs e)
@@ -1973,7 +1938,7 @@ namespace SSELex
             string GetModel = ConvertHelper.ObjToStr(DeepSeekModel.SelectedValue);
             if (GetModel.Trim().Length > 0)
             {
-                DeFine.GlobalLocalSetting.DeepSeekModel = GetModel;
+                EngineConfig.DeepSeekModel = GetModel;
             }
         }
         private void BaichuanModelChange(object sender, SelectionChangedEventArgs e)
@@ -1981,56 +1946,56 @@ namespace SSELex
             string GetModel = ConvertHelper.ObjToStr(BaichuanModel.SelectedValue);
             if (GetModel.Trim().Length > 0)
             {
-                DeFine.GlobalLocalSetting.BaichuanModel = GetModel;
+                EngineConfig.BaichuanModel = GetModel;
             }
         }
 
         private void BaichuanKey_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            DeFine.GlobalLocalSetting.BaichuanKey = BaichuanKey.Password;
+            EngineConfig.BaichuanKey = BaichuanKey.Password;
         }
 
         private void CohereKey_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            DeFine.GlobalLocalSetting.CohereKey = CohereKey.Password;
+            EngineConfig.CohereKey = CohereKey.Password;
         }
         private void DeepLKey_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            DeFine.GlobalLocalSetting.DeepLKey = DeepLKey.Password;
+            EngineConfig.DeepLKey = DeepLKey.Password;
         }
 
         private void IsFreeDeepL_Click(object sender, RoutedEventArgs e)
         {
             if (IsFreeDeepL.IsChecked == true)
             {
-                DeFine.GlobalLocalSetting.IsFreeDeepL = true;
+                EngineConfig.IsFreeDeepL = true;
             }
             else
             {
-                DeFine.GlobalLocalSetting.IsFreeDeepL = false;
+                EngineConfig.IsFreeDeepL = false;
             }
         }
 
         private void GoogleKey_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            DeFine.GlobalLocalSetting.GoogleApiKey = GoogleKey.Password;
+            EngineConfig.GoogleApiKey = GoogleKey.Password;
         }
 
         private void MaxThreadCount_TextChanged(object sender, TextChangedEventArgs e)
         {
-            DeFine.GlobalLocalSetting.MaxThreadCount = ConvertHelper.ObjToInt(MaxThreadCount.Text);
+            EngineConfig.MaxThreadCount = ConvertHelper.ObjToInt(MaxThreadCount.Text);
         }
         private void LMHost_TextChanged(object sender, TextChangedEventArgs e)
         {
-            DeFine.GlobalLocalSetting.LMHost = LMHost.Text.Trim();
+            EngineConfig.LMHost = LMHost.Text.Trim();
         }
         private void LMHost_MouseLeave(object sender, MouseEventArgs e)
         {
-            if (!DeFine.GlobalLocalSetting.LMHost.EndsWith("//"))
+            if (!EngineConfig.LMHost.EndsWith("//"))
             {
-                if (DeFine.GlobalLocalSetting.LMHost.EndsWith("/"))
+                if (EngineConfig.LMHost.EndsWith("/"))
                 {
-                    DeFine.GlobalLocalSetting.LMHost = DeFine.GlobalLocalSetting.LMHost.Substring(0, DeFine.GlobalLocalSetting.LMHost.Length - 1);
+                    EngineConfig.LMHost = EngineConfig.LMHost.Substring(0, EngineConfig.LMHost.Length - 1);
                 }
             }
         }
@@ -2040,26 +2005,26 @@ namespace SSELex
 
             if (TestPort > 0)
             {
-                DeFine.GlobalLocalSetting.LMPort = TestPort;
+                EngineConfig.LMPort = TestPort;
             }
         }
 
         private void LMQueryParam_TextChanged(object sender, TextChangedEventArgs e)
         {
-            DeFine.GlobalLocalSetting.LMQueryParam = LMQueryParam.Text.Trim();
+            EngineConfig.LMQueryParam = LMQueryParam.Text.Trim();
         }
 
         private void LMQueryParam_MouseLeave(object sender, MouseEventArgs e)
         {
-            if (!DeFine.GlobalLocalSetting.LMQueryParam.StartsWith("/"))
+            if (!EngineConfig.LMQueryParam.StartsWith("/"))
             {
-                DeFine.GlobalLocalSetting.LMQueryParam = "/" + DeFine.GlobalLocalSetting.LMQueryParam.Trim();
+                EngineConfig.LMQueryParam = "/" + EngineConfig.LMQueryParam.Trim();
             }
         }
 
         private void LMModel_TextChanged(object sender, TextChangedEventArgs e)
         {
-            DeFine.GlobalLocalSetting.LMModel = LMModel.Text.Trim();
+            EngineConfig.LMModel = LMModel.Text.Trim();
         }
 
         private void Languages_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -2274,11 +2239,11 @@ namespace SSELex
         {
             if (AutoSetThreadLimit.IsChecked == true)
             {
-                DeFine.GlobalLocalSetting.AutoSetThreadLimit = true;
+                EngineConfig.AutoSetThreadLimit = true;
             }
             else
             {
-                DeFine.GlobalLocalSetting.AutoSetThreadLimit = false;
+                EngineConfig.AutoSetThreadLimit = false;
             }
         }
 
@@ -2296,12 +2261,12 @@ namespace SSELex
 
         private void CustomAIPrompt_TextChanged(object sender, TextChangedEventArgs e)
         {
-            DeFine.GlobalLocalSetting.UserCustomAIPrompt = CustomAIPrompt.Text.Trim();
+            EngineConfig.UserCustomAIPrompt = CustomAIPrompt.Text.Trim();
         }
 
         private void ContextLimit_TextChanged(object sender, TextChangedEventArgs e)
         {
-            DeFine.GlobalLocalSetting.ContextLimit = ConvertHelper.ObjToInt(ContextLimit.Text);
+            EngineConfig.ContextLimit = ConvertHelper.ObjToInt(ContextLimit.Text);
         }
 
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)

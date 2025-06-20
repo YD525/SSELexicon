@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using ICSharpCode.AvalonEdit;
-using ICSharpCode.AvalonEdit.Highlighting;
+using PhoenixEngine.EngineManagement;
 using PhoenixEngine.TranslateManage;
-using SSELex.TranslateManage;
 
 namespace SSELex.TranslateManagement
 {
@@ -147,7 +142,7 @@ namespace SSELex.TranslateManagement
 
                             bool CanSleep = false;
                             LineID++;
-                            var GetTransLine = Translator.QuickTrans(DeFine.CurrentModName,"Book",Key + LineID.ToString(),GetSourceLine,DeFine.SourceLanguage,DeFine.TargetLanguage,ref CanSleep,true);
+                            var GetTransLine = Translator.QuickTrans(DeFine.CurrentModName,"Book",Key + LineID.ToString(),GetSourceLine,EngineConfig.SourceLanguage, EngineConfig.TargetLanguage,ref CanSleep,true);
 
                             if (GetTransLine.Trim().Length > 0)
                             {

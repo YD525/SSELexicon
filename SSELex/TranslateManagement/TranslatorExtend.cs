@@ -138,16 +138,7 @@ namespace SSELex.TranslateManage
 
         public static bool ClearCloudCache(string ModName)
         {
-            string SqlOrder = "Delete From CloudTranslation Where ModName = '" + ModName + "'";
-            int State = DeFine.GlobalDB.ExecuteNonQuery(SqlOrder);
-            if (State != 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+           return CloudDBCache.ClearCloudCache(ModName);
         }
 
         public static void TestAll()

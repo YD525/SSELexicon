@@ -4,11 +4,12 @@ using System.Text;
 using System.Text.Json;
 using System.Windows.Media;
 using SSELex.SkyrimModManager;
-using SSELex.SQLManager;
 using System.Windows.Threading;
 using System.Windows;
 using static SSELex.SkyrimManage.EspReader;
 using PhoenixEngine.TranslateCore;
+using PhoenixEngine.EngineManagement;
+using SSELex.SQLManager;
 using PhoenixEngine.DataBaseManagement;
 
 namespace SSELex
@@ -33,9 +34,6 @@ namespace SSELex
 
         public static string PapyrusCompilerPath = "";
 
-        public static Languages SourceLanguage = Languages.English;
-        public static Languages TargetLanguage = Languages.English;
-
         public static int DefPageSize = 100;
 
         public static bool AutoTranslate = true;
@@ -47,10 +45,11 @@ namespace SSELex
 
         public static MainWindow WorkingWin = null;
         public static DashBoardView CurrentDashBoardView = null;
-        public static SqlCore<SQLiteHelper> GlobalDB = null;
         public static CodeView CurrentCodeView = null;
         public static TextEditor ActiveIDE = null;
         public static LocalConfig LocalConfigView = null;
+
+        public static SqlCore<SQLiteHelper> LocalDB = null;
 
         public static string CurrentSearchStr = "";
 
@@ -130,7 +129,6 @@ namespace SSELex
             if (!File.Exists(DeFine.GetFullPath(@"\setting.config")))
             {
                 var CreatNewLocalSetting = new LocalSetting();
-                CreatNewLocalSetting.MaxThreadCount = 2;
                 CreatNewLocalSetting.SaveConfig();
             }
         }
@@ -141,7 +139,8 @@ namespace SSELex
             GlobalLocalSetting.ReadConfig();
             WorkingWin = Work;
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            GlobalDB = new SqlCore<SQLiteHelper>(DeFine.GetFullPath(@"\system.db"));
+
+            Engine.Init();
 
             Thread NewWindowThread = new Thread(() =>
             {
@@ -183,53 +182,20 @@ namespace SSELex
     {
         public double FormHeight { get; set; } = 850;
         public double FormWidth { get; set; } = 1200;
-        public bool ChatGptApiUsing { get; set; } = false;
-        public bool GeminiApiUsing { get; set; } = false;
-        public bool CohereApiUsing { get; set; } = false;
-        public bool DeepSeekApiUsing { get; set; } = false;
-        public bool BaichuanApiUsing { get; set; } = false;
-        public bool GoogleYunApiUsing { get; set; } = false;
-        public bool DivCacheEngineUsing { get; set; } = false;
-        public bool LMLocalAIEngineUsing { get; set; } = false;
-        public bool DeepLApiUsing { get; set; } = false;
-        public Languages SourceLanguage { get; set; } = Languages.Auto;
-        public Languages TargetLanguage { get; set; } = Languages.English;
         public Languages CurrentUILanguage { get; set; } = Languages.English;
         public string BackUpPath { get; set; } = "";
         public string APath { get; set; } = "";
         public string BPath { get; set; } = "";
         public string SkyrimPath { get; set; } = "";
-        public bool PlaySound = false;
-        public string GoogleApiKey { get; set; } = "";
-        public string ChatGptKey { get; set; } = "";
-        public string ChatGptModel { get; set; } = "gpt-4o-mini";
-        public string GeminiKey { get; set; } = "";
-        public string GeminiModel { get; set; } = "gemini-2.0-flash";
-        public string DeepSeekKey { get; set; } = "";
-        public string DeepSeekModel{ get; set; } = "deepseek-chat";
-        public string BaichuanKey { get; set; } = "";
-        public string BaichuanModel { get; set; } = "Baichuan4-Turbo";
-        public string CohereKey { get; set; } = "";
-        public string DeepLKey { get; set; } = "";
-        public string UserCustomAIPrompt { get; set; } = "";
-        public bool IsFreeDeepL { get; set; } = true;
-        public string LMHost { get; set; } = "http://localhost";
-        public int LMPort { get; set; } = 1234;
-        public string LMQueryParam { get; set; } = "/v1/chat/completions";
-        public string LMModel { get; set; } = "google/gemma-3-12b";
-        public int ContextLimit { get; set; } = 3;
-        public string ProxyIP { get; set; } = "";
-        public int TransCount { get; set; } = 0;
-        public int MaxThreadCount { get; set; } = 2;
-        public bool AutoSetThreadLimit { get; set; } = true;
-        public bool AutoLoadDictionaryFile { get; set; } = false;
-        public bool UsingContext { get; set; } = true;
+        public bool PlaySound = false;     
         public bool ShowLog { get; set; } = true;
         public bool ShowCode { get; set; } = true;
         public bool AutoCompress { get; set; } = true;
         public SkyrimType SkyrimType { get; set; } = SkyrimType.SkyrimSE;
         public EncodingTypes FileEncoding { get; set; } = EncodingTypes.UTF8;
         public string ViewMode { get; set; } = "Normal";
+
+        public bool AutoLoadDictionaryFile = false;
 
         public void ReadConfig()
         {
@@ -244,55 +210,19 @@ namespace SSELex
                     {
                         this.FormHeight = GetSetting.FormHeight;
                         this.FormWidth = GetSetting.FormWidth;
-                        this.MaxThreadCount = GetSetting.MaxThreadCount;
-                        this.AutoSetThreadLimit = GetSetting.AutoSetThreadLimit;
-                        this.AutoLoadDictionaryFile = GetSetting.AutoLoadDictionaryFile;
-                        this.ChatGptApiUsing = GetSetting.ChatGptApiUsing;
-                        this.GeminiApiUsing = GetSetting.GeminiApiUsing;
-                        this.DeepSeekApiUsing = GetSetting.DeepSeekApiUsing;
-                        this.BaichuanApiUsing = GetSetting.BaichuanApiUsing;
-                        this.DeepLApiUsing = GetSetting.DeepLApiUsing;
-                        this.GoogleYunApiUsing = GetSetting.GoogleYunApiUsing;
-                        this.CohereApiUsing = GetSetting.CohereApiUsing;
-                        this.DivCacheEngineUsing = GetSetting.DivCacheEngineUsing;
-                        this.LMLocalAIEngineUsing = GetSetting.LMLocalAIEngineUsing;
-                        this.ContextLimit = GetSetting.ContextLimit;
-                        this.SourceLanguage = GetSetting.SourceLanguage;
-                        DeFine.SourceLanguage = GetSetting.SourceLanguage;
-                        this.TargetLanguage = GetSetting.TargetLanguage;
-                        DeFine.TargetLanguage = GetSetting.TargetLanguage;
                         this.CurrentUILanguage = GetSetting.CurrentUILanguage;
                         this.APath = GetSetting.APath;
                         this.BPath = GetSetting.BPath;
                         this.SkyrimPath = GetSetting.SkyrimPath;
-                        this.GoogleApiKey = GetSetting.GoogleApiKey;
-                        this.ChatGptKey = GetSetting.ChatGptKey;
-                        this.ChatGptModel = GetSetting.ChatGptModel;
-                        this.GeminiKey = GetSetting.GeminiKey;
-                        this.GeminiModel = GetSetting.GeminiModel;
-                        this.DeepSeekKey = GetSetting.DeepSeekKey;
-                        this.DeepSeekModel = GetSetting.DeepSeekModel;
-                        this.BaichuanKey = GetSetting.BaichuanKey;
-                        this.BaichuanModel = GetSetting.BaichuanModel;
-                        this.DeepLKey = GetSetting.DeepLKey;
-                        this.IsFreeDeepL = GetSetting.IsFreeDeepL;
-                        this.CohereKey = GetSetting.CohereKey;
-                        this.UserCustomAIPrompt = GetSetting.UserCustomAIPrompt;
-                        this.LMHost = GetSetting.LMHost;
-                        this.LMPort = GetSetting.LMPort;
-                        this.LMQueryParam = GetSetting.LMQueryParam;
-                        this.LMModel = GetSetting.LMModel;
-                        this.ProxyIP = GetSetting.ProxyIP;
-                        this.TransCount = GetSetting.TransCount;
                         this.PlaySound = GetSetting.PlaySound;
                         this.BackUpPath = GetSetting.BackUpPath;
-                        this.UsingContext = GetSetting.UsingContext;
                         this.ShowCode = GetSetting.ShowCode;
                         this.ShowLog = GetSetting.ShowLog;
                         this.SkyrimType = GetSetting.SkyrimType;
                         this.AutoCompress = GetSetting.AutoCompress;
                         this.FileEncoding = GetSetting.FileEncoding;
                         this.ViewMode = GetSetting.ViewMode;
+                        this.AutoLoadDictionaryFile = GetSetting.AutoLoadDictionaryFile;
                     }
                 }
                 else
