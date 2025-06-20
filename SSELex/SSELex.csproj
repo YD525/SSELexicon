@@ -143,7 +143,7 @@
       <HintPath>..\..\..\..\Downloads\TestFrameWork\Mutagen\Mutagen.Bethesda.Skyrim\bin\Debug\net8.0\Mutagen.Bethesda.Skyrim.dll</HintPath>
     </Reference>
     <Reference Include="PhoenixEngine">
-      <HintPath>..\..\PhoenixEngine\PhoenixEngine\bin\Release\net8.0\PhoenixEngine.dll</HintPath>
+      <HintPath>..\..\PhoenixEngine\PhoenixEngine\bin\Debug\net8.0\PhoenixEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
 

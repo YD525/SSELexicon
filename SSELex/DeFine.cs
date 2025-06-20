@@ -114,10 +114,6 @@ namespace SSELex
                 DeFine.CloseAny();
             }
 
-            if (!File.Exists(DeFine.GetFullPath(@"\system.db")))
-            {
-                File.Copy(DeFine.GetFullPath(@"LocalDB\system.db"), DeFine.GetFullPath(@"\system.db"));
-            }
             if (!Directory.Exists(DeFine.GetFullPath(@"\Librarys")))
             {
                 Directory.CreateDirectory(DeFine.GetFullPath(@"\Librarys"));
@@ -137,6 +133,9 @@ namespace SSELex
         {
             MakeReady();
             GlobalLocalSetting.ReadConfig();
+            string GetFilePath = GetFullPath(@"\System.db");
+            DeFine.LocalDB = new SqlCore<SQLiteHelper>(GetFilePath);
+
             WorkingWin = Work;
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 

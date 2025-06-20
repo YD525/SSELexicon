@@ -5,6 +5,8 @@ VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSELex", "SSELex\SSELex.csproj", "{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoenixEngine", "..\PhoenixEngine\PhoenixEngine\PhoenixEngine.csproj", "{017063AA-9DA6-2CAD-9420-835C8F6B8193}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9AE80D5-3A91-4E29-8054-BDFFBC2CAC39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{017063AA-9DA6-2CAD-9420-835C8F6B8193}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{017063AA-9DA6-2CAD-9420-835C8F6B8193}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{017063AA-9DA6-2CAD-9420-835C8F6B8193}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{017063AA-9DA6-2CAD-9420-835C8F6B8193}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
