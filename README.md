@@ -63,6 +63,8 @@ I would like to give special thanks to the developers of
 - [Mutagen.Bethesda](https://github.com/Mutagen-Modding/Mutagen)  
 - [Champollion](https://github.com/Orvid/Champollion).  
 
+Cutleast(https://github.com/Cutleast),SkyHorizon3(https://github.com/SkyHorizon3)  for helping me resolve the issue with generating specific JSON fields in the DSD file.
+
 Their excellent libraries provide SSE Lexicon with a stable and solid foundation, allowing us to focus more on developing the translation features.
 
 Acknowledgements: Nexus Mods,9DM,2Game.info,and 泰姆瑞尔MOD组, for their support and encouragement that inspire my creative work.
