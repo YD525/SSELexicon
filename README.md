@@ -61,7 +61,6 @@ Please refer to their respective LICENSE files for further information.
 
 I would like to give special thanks to the developers of  
 - [Mutagen.Bethesda](https://github.com/Mutagen-Modding/Mutagen)  
-- [Champollion](https://github.com/Orvid/Champollion).  
 
 [Cutleast](https://github.com/Cutleast),[SkyHorizon3](https://github.com/SkyHorizon3)  for helping me resolve the issue with generating specific JSON fields in the DSD file.
 
