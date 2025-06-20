@@ -100,7 +100,7 @@ namespace SSELex.TranslateManage
                 DeFine.WorkingWin.TransViewList.MainCanvas.Visibility = System.Windows.Visibility.Collapsed;
             }));
 
-            LocalDBCache.DeleteCacheByModName(DeFine.CurrentModName);
+            LocalDBCache.DeleteCacheByModName(DeFine.CurrentModName,DeFine.GlobalLocalSetting.TargetLanguage);
             Translator.TransData.Clear();
             DeFine.WorkingWin.ReloadData();
 
@@ -189,7 +189,7 @@ namespace SSELex.TranslateManage
 
             if (GetRamSource.Trim().Length == 0)
             {
-                TransText = LocalDBCache.GetCacheText(DeFine.CurrentModName,Key);
+                TransText = LocalDBCache.GetCacheText(DeFine.CurrentModName,Key,DeFine.GlobalLocalSetting.TargetLanguage);
 
                 if (TransText.Trim().Length > 0)
                 {
@@ -197,7 +197,7 @@ namespace SSELex.TranslateManage
                 }
                 else
                 {
-                    TransText = CloudDBCache.FindCache(DeFine.CurrentModName,Key);
+                    TransText = CloudDBCache.FindCache(DeFine.CurrentModName,Key,DeFine.GlobalLocalSetting.TargetLanguage);
 
                     if (TransText.Trim().Length > 0)
                     {
@@ -220,7 +220,7 @@ namespace SSELex.TranslateManage
             }
             else
             {
-                var GetStr = CloudDBCache.FindCache(DeFine.CurrentModName,Key);
+                var GetStr = CloudDBCache.FindCache(DeFine.CurrentModName,Key,DeFine.GlobalLocalSetting.TargetLanguage);
                 TransText = GetRamSource;
                 if (GetStr.Equals(GetRamSource))
                 {
@@ -256,7 +256,7 @@ namespace SSELex.TranslateManage
                     Translator.TransData.Remove(Key);
                 }
 
-                CloudDBCache.DeleteCache(DeFine.CurrentModName,Key);
+                CloudDBCache.DeleteCache(DeFine.CurrentModName,Key,DeFine.GlobalLocalSetting.TargetLanguage);
             }
 
             bool CanUPDate = true;
@@ -265,7 +265,7 @@ namespace SSELex.TranslateManage
             {
                 if (FindDictionary.TransText.Equals(TransText))
                 {
-                    LocalDBCache.DeleteCache(DeFine.CurrentModName,Key);
+                    LocalDBCache.DeleteCache(DeFine.CurrentModName,Key,DeFine.GlobalLocalSetting.TargetLanguage);
                     CanUPDate = false;
                 }
                 NSetTransItem.State = 0;
@@ -273,7 +273,7 @@ namespace SSELex.TranslateManage
 
             if (CanUPDate)
             {
-                LocalDBCache.UPDateLocalTransItem(new LocalTransItem(DeFine.CurrentModName,Key, TransText));
+                LocalDBCache.UPDateLocalTransItem(new LocalTransItem(DeFine.CurrentModName,Key,DeFine.GlobalLocalSetting.TargetLanguage, TransText));
                 NSetTransItem.State = 1;
             }
 
@@ -283,7 +283,7 @@ namespace SSELex.TranslateManage
             }
             else
             {
-                if (TransText.Equals(CloudDBCache.FindCache(DeFine.CurrentModName,Key)))
+                if (TransText.Equals(CloudDBCache.FindCache(DeFine.CurrentModName,Key,DeFine.GlobalLocalSetting.TargetLanguage)))
                 {
                     NSetTransItem.Color = Colors.DarkOliveGreen;
                 }

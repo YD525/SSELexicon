@@ -195,6 +195,9 @@ namespace SSELex
 
         public bool AutoLoadDictionaryFile = false;
 
+        public Languages SourceLanguage = Languages.Auto;
+        public Languages TargetLanguage = Languages.English;
+
         public void ReadConfig()
         {
             try { 

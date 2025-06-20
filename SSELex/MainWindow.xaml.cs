@@ -292,7 +292,7 @@ namespace SSELex
                 ToL.Items.Add(Get.ToString());
             }
 
-            ToL.SelectedValue = EngineConfig.TargetLanguage.ToString();
+            ToL.SelectedValue = DeFine.GlobalLocalSetting.TargetLanguage.ToString();
 
             FromL.Items.Clear();
             foreach (var Get in UILanguageHelper.SupportLanguages)
@@ -300,7 +300,7 @@ namespace SSELex
                 FromL.Items.Add(Get.ToString());
             }
 
-            FromL.SelectedValue = EngineConfig.SourceLanguage.ToString();
+            FromL.SelectedValue = DeFine.GlobalLocalSetting.SourceLanguage.ToString();
         }
 
         public bool CheckINeed()
@@ -1426,7 +1426,7 @@ namespace SSELex
 
             if (GetValue.Trim().Length > 0)
             {
-                EngineConfig.SourceLanguage = Enum.Parse<Languages>(GetValue);
+                DeFine.GlobalLocalSetting.SourceLanguage = Enum.Parse<Languages>(GetValue);
             }
         }
 
@@ -1436,7 +1436,7 @@ namespace SSELex
 
             if (GetValue.Trim().Length > 0)
             {
-                EngineConfig.TargetLanguage = Enum.Parse<Languages>(GetValue);
+                DeFine.GlobalLocalSetting.TargetLanguage = Enum.Parse<Languages>(GetValue);
             }
         }
 
@@ -1545,7 +1545,7 @@ namespace SSELex
                         {
                             SegmentTranslator = new TextSegmentTranslator();
 
-                            SegmentTranslator.TransBook(DeFine.CurrentModName,UIHelper.ActiveKey, GetFromStr, Token);
+                            SegmentTranslator.TransBook(DeFine.GlobalLocalSetting.SourceLanguage,DeFine.GlobalLocalSetting.TargetLanguage, DeFine.CurrentModName,UIHelper.ActiveKey, GetFromStr, Token);
 
                             new Thread(() => {
                                 //ToStr, TransBtn
@@ -1575,7 +1575,7 @@ namespace SSELex
                         else
                         {
                             bool CanSleep = true;
-                            var GetResult = Translator.QuickTrans(DeFine.CurrentModName, UIHelper.ActiveType, UIHelper.ActiveKey, GetFromStr, EngineConfig.SourceLanguage, EngineConfig.TargetLanguage, ref CanSleep);
+                            var GetResult = Translator.QuickTrans(DeFine.CurrentModName, UIHelper.ActiveType, UIHelper.ActiveKey, GetFromStr, DeFine.GlobalLocalSetting.SourceLanguage, DeFine.GlobalLocalSetting.TargetLanguage, ref CanSleep);
 
                             this.Dispatcher.Invoke(new Action(() =>
                             {
@@ -2205,7 +2205,7 @@ namespace SSELex
 
                     Translator.TransData[UIHelper.ActiveKey] = TransText;
 
-                    LocalDBCache.UPDateLocalTransItem(new LocalTransItem(DeFine.CurrentModName,UIHelper.ActiveKey, ToStr.Text));
+                    LocalDBCache.UPDateLocalTransItem(new LocalTransItem(DeFine.CurrentModName,UIHelper.ActiveKey,DeFine.GlobalLocalSetting.TargetLanguage, ToStr.Text));
 
                     UIHelper.MainGrid_MouseLeave(UIHelper.ActiveTextBox.Tag, null);
                 }
