@@ -45,6 +45,7 @@ namespace SSELex.TranslateCore
                 Languages.Vietnamese => "vi",
                 Languages.Polish => "pl",
                 Languages.Portuguese => "pt",
+                Languages.Ukrainian => "uk",
                 Languages.Auto => "",
                 _ => ""
             };
