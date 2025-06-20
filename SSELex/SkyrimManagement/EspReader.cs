@@ -13,6 +13,9 @@ using Mutagen.Bethesda;
 using Mutagen.Bethesda.Strings;
 using Mutagen.Bethesda.Plugins.Exceptions;
 using SSELex.SkyrimManagement;
+using PhoenixEngine.TranslateCore;
+using PhoenixEngine.SSELexiconBridge;
+using static PhoenixEngine.SSELexiconBridge.NativeBridge;
 
 namespace SSELex.SkyrimManage
 {
@@ -273,7 +276,7 @@ namespace SSELex.SkyrimManage
         {
             if (File.Exists(FilePath) && (FilePath.ToLower().EndsWith(".esp") || FilePath.ToLower().EndsWith(".esm") || FilePath.ToLower().EndsWith(".esl")))
             {
-                NativeBridge.ClearCache();
+                TranslatorBridge.ClearCache();
                 Cache<IModMasterStyledGetter, ModKey>? FlagsLookup = null;
 
                 var AutoEncoding = QueryEncoding();

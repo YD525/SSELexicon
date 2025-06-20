@@ -14,6 +14,7 @@ using SSELex.ConvertManager;
 using SSELex.SkyrimManage;
 using SSELex.TranslateManage;
 using SSELex.UIManage;
+using static PhoenixEngine.SSELexiconBridge.NativeBridge;
 
 namespace SSELex.SkyrimManagement
 {
@@ -37,7 +38,7 @@ namespace SSELex.SkyrimManagement
         public static string GetTransData(string EditorID, string SetType)
         {
             string GetKey = SkyrimDataLoader.GenUniqueKey(EditorID, SetType);
-            return NativeBridge.GetTransData(GetKey);
+            return TranslatorBridge.GetTransData(GetKey);
         }
 
         public static List<DSDItem> EspExportAllByDSD(EspReader Reader)

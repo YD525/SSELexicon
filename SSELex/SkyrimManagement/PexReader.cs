@@ -1,9 +1,11 @@
 ﻿using System.Diagnostics;
 using System.IO;
 using System.Text;
+using PhoenixEngine.TranslateManage;
 using SSELex.ConvertManager;
 using SSELex.SkyrimModManager;
 using SSELex.TranslateManage;
+using static PhoenixEngine.SSELexiconBridge.NativeBridge;
 
 namespace SSELex.SkyrimManage
 {
@@ -85,7 +87,7 @@ namespace SSELex.SkyrimManage
         public string GetTextIfTransR()
         {
             string GetKey = this.Key;
-            var GetResult = NativeBridge.GetTranslatorCache(GetKey);
+            var GetResult = TranslatorBridge.GetTranslatorCache(GetKey);
             if (GetResult != null)
             {
                 this.TransText = GetResult;
@@ -128,7 +130,7 @@ namespace SSELex.SkyrimManage
             Strings.Clear();
             HeuristicEngine = null;
             CurrentFileName = string.Empty;
-            Translator.ClearCache();
+            TranslatorBridge.ClearCache();
             DeFine.HideCodeView();
             PSCContent = string.Empty;
             TempFilePath = string.Empty;

@@ -2,11 +2,11 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using PhoenixEngine.DataBaseManagement;
+using PhoenixEngine.TranslateCore;
+using PhoenixEngine.TranslateManage;
+using PhoenixEngine.TranslateManagement;
 using SSELex.ConvertManager;
-using SSELex.SqlManager;
-using SSELex.TranslateCore;
-using SSELex.TranslateManage;
-using SSELex.TranslateManagement;
 using SSELex.UIManage;
 using static SSELex.UIManage.SkyrimDataLoader;
 

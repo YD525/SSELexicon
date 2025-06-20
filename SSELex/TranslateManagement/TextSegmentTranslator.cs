@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Highlighting;
+using PhoenixEngine.TranslateManage;
 using SSELex.TranslateManage;
 
 namespace SSELex.TranslateManagement

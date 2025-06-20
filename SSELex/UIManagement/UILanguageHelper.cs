@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using SSELex.ConvertManager;
-using SSELex.TranslateCore;
+using PhoenixEngine.TranslateCore;
 
 namespace SSELex.UIManage
 {

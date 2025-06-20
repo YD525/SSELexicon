@@ -7,6 +7,7 @@ using SSELex.SkyrimManage;
 using SSELex.SkyrimManagement;
 using SSELex.TranslateManage;
 using SSELex.UIManagement;
+using static PhoenixEngine.SSELexiconBridge.NativeBridge;
 
 namespace SSELex.UIManage
 {
@@ -14,7 +15,7 @@ namespace SSELex.UIManage
     {
         public static void WriteAllMemoryData(ref EspReader Writer)
         {
-            NativeBridge.FormatData();
+            TranslatorBridge.FormatData();
             ReplaceAllToMemory(ref Writer);
         }
 
@@ -22,7 +23,7 @@ namespace SSELex.UIManage
         {
             string GetKey = SkyrimDataLoader.GenUniqueKey(EditorID, SetType);
 
-            return NativeBridge.GetTransData(GetKey);
+            return TranslatorBridge.GetTransData(GetKey);
         }
 
         public static void ReplaceAllToMemory(ref EspReader Writer)

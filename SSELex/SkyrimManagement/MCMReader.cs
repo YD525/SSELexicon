@@ -1,8 +1,10 @@
 ﻿using System.IO;
 using System.Text;
+using PhoenixEngine.TranslateManage;
 using SSELex.SkyrimModManager;
 using SSELex.TranslateManage;
 using SSELex.UIManage;
+using static PhoenixEngine.SSELexiconBridge.NativeBridge;
 
 namespace SSELex.SkyrimManage
 {
@@ -40,7 +42,7 @@ namespace SSELex.SkyrimManage
                 return this.TransText;
             }
             string GetKey = SkyrimDataLoader.GenUniqueKey(this.EditorID, this.Type);
-            var GetResult = NativeBridge.GetTranslatorCache(GetKey);
+            var GetResult = TranslatorBridge.GetTranslatorCache(GetKey);
             if (GetResult!=null)
             {
                 this.TransText = GetResult;
@@ -61,7 +63,7 @@ namespace SSELex.SkyrimManage
         public string GetTextIfTransR()
         {
             string GetKey = SkyrimDataLoader.GenUniqueKey(this.EditorID, this.Type);
-            var GetResult = NativeBridge.GetTranslatorCache(GetKey);
+            var GetResult = TranslatorBridge.GetTranslatorCache(GetKey);
             if (GetResult != null)
             {
                 this.TransText = GetResult;
@@ -107,7 +109,7 @@ namespace SSELex.SkyrimManage
 
         public void LoadMCM(string Path)
         {
-            NativeBridge.ClearCache();
+            TranslatorBridge.ClearCache();
             Lines.Clear();
             MCMItems.Clear();
 

@@ -1,15 +1,10 @@
 ﻿using SSELex.ConvertManager;
 using SSELex.SkyrimManage;
-using System.Windows.Controls;
-using SSELex.TranslateCore;
-using static SSELex.TranslateManage.TransCore;
 using SSELex.UIManage;
 using System.Windows.Media;
-using SSELex.TranslateManagement;
-using System.Text.RegularExpressions;
-using System.Windows.Forms;
-using Mutagen.Bethesda.Skyrim;
-using Loqui.Translators;
+using PhoenixEngine.TranslateManagement;
+using PhoenixEngine.TranslateCore;
+using PhoenixEngine.TranslateManage;
 
 namespace SSELex.TranslateManage
 {
@@ -106,7 +101,7 @@ namespace SSELex.TranslateManage
             }));
 
             LocalDBCache.DeleteCacheByModName();
-            TransData.Clear();
+            Translator.TransData.Clear();
             DeFine.WorkingWin.ReloadData();
 
             DeFine.WorkingWin.Dispatcher.Invoke(new Action(() => {

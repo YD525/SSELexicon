@@ -5,6 +5,7 @@ using SSELex.SkyrimManage;
 using SSELex.SkyrimManagement;
 using SSELex.TranslateManage;
 using SSELex.UIManagement;
+using static PhoenixEngine.SSELexiconBridge.NativeBridge;
 
 namespace SSELex.UIManage
 {
@@ -322,7 +323,7 @@ namespace SSELex.UIManage
         {
             string GetKey = GenUniqueKey(EditorID, SetType);
             
-            return NativeBridge.GetTransData(GetKey);
+            return TranslatorBridge.GetTransData(GetKey);
         }
 
         public static void LoadHazards(EspReader Reader, YDListView View)

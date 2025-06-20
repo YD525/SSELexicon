@@ -10,8 +10,6 @@ using System.Windows.Media.Imaging;
 using SSELex.ConvertManager;
 using SSELex.SkyrimManage;
 using SSELex.SkyrimModManager;
-using SSELex.TranslateCore;
-using SSELex.TranslateManage;
 using SSELex.UIManage;
 using static SSELex.UIManage.SkyrimDataLoader;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
@@ -19,16 +17,14 @@ using ICSharpCode.AvalonEdit.Highlighting;
 using SSELex.SkyrimManagement;
 using System.Text.Json;
 using System.Text;
-using SSELex.PlatformManagement;
-using SSELex.RequestManagement;
 using SSELex.TranslateManagement;
 using SSELex.UIManagement;
 using static SSELex.SkyrimManage.EspReader;
-using System.Timers;
-using System.Xml.Schema;
-using SSELex.PlatformManagement.LocalAI;
-using IniParser.Model.Formatting;
-using System.Security.Cryptography.Xml;
+using PhoenixEngine.TranslateManage;
+using PhoenixEngine.TranslateManagement;
+using PhoenixEngine.TranslateCore;
+using PhoenixEngine.RequestManagement;
+using SSELex.TranslateManage;
 
 // Copyright (C) 2025 YD525
 // Licensed under the GNU GPLv3
@@ -1327,7 +1323,7 @@ namespace SSELex
                         }
                 }
 
-                Translator.WriteDictionary();
+                TranslatorExtend.WriteDictionary();
                 YDDictionaryHelper.CreatDictionary();
 
                 CancelTransEsp(null, null);
@@ -1728,7 +1724,7 @@ namespace SSELex
             if (TransViewList.Rows > 0)
                 if (ActionWin.Show("Do you agree?", "This will restore all fields to their initial state.", MsgAction.YesNo, MsgType.Info, 230) > 0)
                 {
-                    Translator.ReSetAllTransText();
+                    TranslatorExtend.ReSetAllTransText();
                 }
         }
 
@@ -1749,7 +1745,7 @@ namespace SSELex
                             ReloadDataFunc();
                         }
 
-                        Translator.ReStoreAllTransText();
+                        TranslatorExtend.ReStoreAllTransText();
 
                         if (ActionWin.Show("Do you agree?", "Delete DataBase and save", MsgAction.YesNo, MsgType.Info, 230) > 0)
                         {
@@ -2369,14 +2365,14 @@ namespace SSELex
             {
                 if (ActionWin.Show("Do you agree?", $"This will replace the contents of all rows. \"{ReplaceKeyBox.Text}\"->\"{ReplaceValueBox.Text}\"", MsgAction.YesNo, MsgType.Info, 230) > 0)
                 {
-                    Translator.ReplaceAllLine(ReplaceKeyBox.Text.Trim(), ReplaceValueBox.Text.Trim());
+                    TranslatorExtend.ReplaceAllLine(ReplaceKeyBox.Text.Trim(), ReplaceValueBox.Text.Trim());
                 }
             }
         }
 
         private void TestBtn_Click(object sender, RoutedEventArgs e)
         {
-            Translator.TestAll();
+            TranslatorExtend.TestAll();
         }
 
         private void ShowLocalSetting(object sender, MouseButtonEventArgs e)

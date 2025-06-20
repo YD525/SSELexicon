@@ -8,6 +8,8 @@ using SSELex.SQLManager;
 using System.Windows.Threading;
 using System.Windows;
 using static SSELex.SkyrimManage.EspReader;
+using PhoenixEngine.TranslateCore;
+using PhoenixEngine.DataBaseManagement;
 
 namespace SSELex
 {
