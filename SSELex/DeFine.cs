@@ -25,8 +25,9 @@ namespace SSELex
     }
     public class DeFine
     {
-        public static int GlobalRequestTimeOut = 5000;
         public static string CurrentModName = "";
+
+        public static int GlobalRequestTimeOut = 5000;
         public static int ViewMode = 0;
 
         public static SolidColorBrush DefBackGround = new SolidColorBrush(Color.FromRgb(11, 116, 209));

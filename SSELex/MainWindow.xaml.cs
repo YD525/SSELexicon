@@ -1716,7 +1716,7 @@ namespace SSELex
 
                         if (ActionWin.Show("Do you agree?", "Delete DataBase and save", MsgAction.YesNo, MsgType.Info, 230) > 0)
                         {
-                            if (CloudDBCache.ClearCloudCache(EngineConfig.CurrentModName))
+                            if (CloudDBCache.ClearCloudCache(DeFine.CurrentModName))
                             {
                                 Engine.Vacuum();
                             }
@@ -2183,7 +2183,7 @@ namespace SSELex
 
                     Translator.TransData[UIHelper.ActiveKey] = TransText;
 
-                    LocalDBCache.UPDateLocalTransItem(new LocalTransItem(UIHelper.ActiveKey, ToStr.Text));
+                    LocalDBCache.UPDateLocalTransItem(new LocalTransItem(DeFine.CurrentModName,UIHelper.ActiveKey, ToStr.Text));
 
                     UIHelper.MainGrid_MouseLeave(UIHelper.ActiveTextBox.Tag, null);
                 }
