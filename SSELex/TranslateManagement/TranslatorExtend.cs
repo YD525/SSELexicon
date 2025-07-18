@@ -14,7 +14,6 @@ namespace SSELex.TranslateManage
     //https://github.com/YD525/PhoenixEngine
     public class TranslatorExtend
     {
-
         public static int WriteDictionary()
         {
             int ReplaceCount = 0;

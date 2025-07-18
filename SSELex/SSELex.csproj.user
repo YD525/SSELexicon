@@ -7,9 +7,6 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="ActionWin.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="CodeView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -25,6 +22,12 @@
     <Compile Update="LogView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="MainGui.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MessageBoxExtend.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="OnlyValueTooltip.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -33,9 +36,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="ActionWin.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="CodeView.xaml">
       <SubType>Designer</SubType>
     </Page>

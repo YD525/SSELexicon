@@ -310,9 +310,9 @@ namespace SSELex
             if (!File.Exists(DeFine.GetFullPath(@"Tool\Champollion.exe")))
             {
                 string Msg = "Please manually install the dependent program\n[https://github.com/Orvid/Champollion]\nPlease download the release version and put it in this path\n[" + DeFine.GetFullPath(@"Tool\") + "]\n Path required\n[" + DeFine.GetFullPath(@"Tool\Champollion.exe") + "]";
-                ActionWin.Show("HelpMsg", Msg, MsgAction.Yes, MsgType.Info, 500);
+                MessageBoxExtend.Show(this,"HelpMsg", Msg, MsgAction.Yes, MsgType.Info);
 
-                if (ActionWin.Show("HelpMsg", "Do you want to download the Champollion component now?\nIf you need.Click Yes to jump to the URL", MsgAction.YesNo, MsgType.Info, 230) > 0)
+                if (MessageBoxExtend.Show(this, "HelpMsg", "Do you want to download the Champollion component now?\nIf you need.Click Yes to jump to the URL", MsgAction.YesNo, MsgType.Info) > 0)
                 {
                     Process.Start(new ProcessStartInfo("https://github.com/Orvid/Champollion/releases") { UseShellExecute = true });
                 }
@@ -324,7 +324,7 @@ namespace SSELex
             {
                 var GetStr = DeFine.GlobalLocalSetting.SkyrimPath + "Papyrus Compiler" + @"\PapyrusAssembler.exe";
                 string Msg = "Please Download CreationKit [" + GetStr + "] Must exist. \n Your Need Configure SkyrimSE path";
-                ActionWin.Show("PEX File lacks support", Msg, MsgAction.Yes, MsgType.Info, 300);
+                MessageBoxExtend.Show(this,"PEX File lacks support", Msg, MsgAction.Yes, MsgType.Info);
                 this.Dispatcher.Invoke(new Action(() =>
                 {
                     ShowSettingsView(Settings.Game);
@@ -1032,21 +1032,21 @@ namespace SSELex
 
         public void CheckTransTrdState()
         {
-            if (BatchTranslationHelper.TransMainTrd == null)
-            {
-                StopAny = true;
-                AutoKeepTag.Background = new SolidColorBrush(Color.FromRgb(11, 116, 209));
-                AutoKeep.Source = new Uri("pack://application:,,,/SSELex;component/Material/Keep.svg");
-            }
+            //if (BatchTranslationHelper.TransMainTrd == null)
+            //{
+            //    StopAny = true;
+            //    AutoKeepTag.Background = new SolidColorBrush(Color.FromRgb(11, 116, 209));
+            //    AutoKeep.Source = new Uri("pack://application:,,,/SSELex;component/Material/Keep.svg");
+            //}
         }
 
         public void ClosetTransTrd()
         {
-            StopAny = true;
-            AutoKeepTag.Background = new SolidColorBrush(Color.FromRgb(11, 116, 209));
+            //StopAny = true;
+            //AutoKeepTag.Background = new SolidColorBrush(Color.FromRgb(11, 116, 209));
 
-            AutoKeep.Source = new Uri("pack://application:,,,/SSELex;component/Material/Keep.svg");
-            BatchTranslationHelper.Close();
+            //AutoKeep.Source = new Uri("pack://application:,,,/SSELex;component/Material/Keep.svg");
+            //BatchTranslationHelper.Close();
         }
 
 
@@ -1069,7 +1069,7 @@ namespace SSELex
                         EngineConfig.MaxThreadCount = EngineConfig.AutoCalcThreadLimit();
                     }
 
-                    BatchTranslationHelper.Start();
+                    //BatchTranslationHelper.Start();
                 }
                 else
                 {
@@ -1443,11 +1443,11 @@ namespace SSELex
         private void ClearCache(object sender, MouseButtonEventArgs e)
         {
             Translator.ClearAICache();
-            if (ActionWin.Show("Clear the cache for translation?", "Warning: After cleanup, all current content (including previous translations) will no longer be cached. Translating again will retrieve data from the cloud, which may waste your previous translation work and increase word count consumption.", MsgAction.YesNo, MsgType.Info) > 0)
+            if (MessageBoxExtend.Show(this,"Clear the cache for translation?", "Warning: After cleanup, all current content (including previous translations) will no longer be cached. Translating again will retrieve data from the cloud, which may waste your previous translation work and increase word count consumption.", MsgAction.YesNo, MsgType.Info) > 0)
             {
                 if (Translator.ClearCloudCache(DeFine.CurrentModName))
                 {
-                    ActionWin.Show("DBMsg", "Done!", MsgAction.Yes, MsgType.Info);
+                    MessageBoxExtend.Show(this,"DBMsg", "Done!", MsgAction.Yes, MsgType.Info);
                     Engine.Vacuum();
                     DeFine.WorkingWin.ReloadData();
                 }
@@ -1545,7 +1545,7 @@ namespace SSELex
                         {
                             SegmentTranslator = new TextSegmentTranslator();
 
-                            SegmentTranslator.TransBook(DeFine.GlobalLocalSetting.SourceLanguage,DeFine.GlobalLocalSetting.TargetLanguage, DeFine.CurrentModName,UIHelper.ActiveKey, GetFromStr, Token);
+                            SegmentTranslator.TransBook(UIHelper.ActiveKey, GetFromStr, Token);
 
                             new Thread(() => {
                                 //ToStr, TransBtn
@@ -1711,7 +1711,7 @@ namespace SSELex
         private void ReSetTransLang(object sender, MouseButtonEventArgs e)
         {
             if (TransViewList.Rows > 0)
-                if (ActionWin.Show("Do you agree?", "This will restore all fields to their initial state.", MsgAction.YesNo, MsgType.Info, 230) > 0)
+                if (MessageBoxExtend.Show(this,"Do you agree?", "This will restore all fields to their initial state.", MsgAction.YesNo, MsgType.Info) > 0)
                 {
                     TranslatorExtend.ReSetAllTransText();
                 }
@@ -1725,7 +1725,7 @@ namespace SSELex
                 string SetPath = DeFine.GetFullPath(@"Librarys\" + GetModName) + ".Json";
                 if (File.Exists(SetPath))
                 {
-                    if (ActionWin.Show("Do you agree?", "This will revert back to the original file.", MsgAction.YesNo, MsgType.Info, 230) > 0)
+                    if (MessageBoxExtend.Show(this,"Do you agree?", "This will revert back to the original file.", MsgAction.YesNo, MsgType.Info) > 0)
                     {
                         if (CurrentSelect != ObjSelect.All)
                         {
@@ -1736,7 +1736,7 @@ namespace SSELex
 
                         TranslatorExtend.ReStoreAllTransText();
 
-                        if (ActionWin.Show("Do you agree?", "Delete DataBase and save", MsgAction.YesNo, MsgType.Info, 230) > 0)
+                        if (MessageBoxExtend.Show(this,"Do you agree?", "Delete DataBase and save", MsgAction.YesNo, MsgType.Info) > 0)
                         {
                             if (CloudDBCache.ClearCloudCache(DeFine.CurrentModName))
                             {
@@ -2176,7 +2176,7 @@ namespace SSELex
                 }
                 else
                 {
-                    if (ActionWin.Show("Prompt", "This feature requires administrator privileges. Do you agree to request administrator permissions? After restarting with administrator rights, you will need to click this button again.", MsgAction.YesNo, MsgType.Info, 330) > 0)
+                    if (MessageBoxExtend.Show(this,"Prompt", "This feature requires administrator privileges. Do you agree to request administrator permissions? After restarting with administrator rights, you will need to click this button again.", MsgAction.YesNo, MsgType.Info) > 0)
                     {
                         FileAttributesHelper.RestartAsAdmin();
                     }
@@ -2271,13 +2271,13 @@ namespace SSELex
 
         private void Publishedon_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (ActionWin.Show("HelpMsg", "Do you want to visit this website?\nIf you need.Click Yes to jump to the URL", MsgAction.YesNo, MsgType.Info, 230) > 0)
+            if (MessageBoxExtend.Show(this,"HelpMsg", "Do you want to visit this website?\nIf you need.Click Yes to jump to the URL", MsgAction.YesNo, MsgType.Info) > 0)
                 Process.Start(new ProcessStartInfo("https://www.nexusmods.com/skyrimspecialedition/mods/143056") { UseShellExecute = true });
         }
 
         private void OpenSource_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (ActionWin.Show("HelpMsg", "Do you want to visit this website?\nIf you need.Click Yes to jump to the URL", MsgAction.YesNo, MsgType.Info, 230) > 0)
+            if (MessageBoxExtend.Show(this,"HelpMsg", "Do you want to visit this website?\nIf you need.Click Yes to jump to the URL", MsgAction.YesNo, MsgType.Info) > 0)
                 Process.Start(new ProcessStartInfo("https://github.com/YD525/SSELexicon") { UseShellExecute = true });
         }
 
@@ -2350,7 +2350,7 @@ namespace SSELex
             }
             else
             {
-                if (ActionWin.Show("Do you agree?", $"This will replace the contents of all rows. \"{ReplaceKeyBox.Text}\"->\"{ReplaceValueBox.Text}\"", MsgAction.YesNo, MsgType.Info, 230) > 0)
+                if (MessageBoxExtend.Show(this,"Do you agree?", $"This will replace the contents of all rows. \"{ReplaceKeyBox.Text}\"->\"{ReplaceValueBox.Text}\"", MsgAction.YesNo, MsgType.Info) > 0)
                 {
                     TranslatorExtend.ReplaceAllLine(ReplaceKeyBox.Text.Trim(), ReplaceValueBox.Text.Trim());
                 }

@@ -1,0 +1,80 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Themes/GlobalStyle.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="DefWin" TargetType="{x:Type Window}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="WindowStyle" Value="None" />
+        <Setter Property="ResizeMode" Value="CanResize" />
+        <Setter Property="AllowsTransparency" Value="True" />
+        <Setter Property="WindowChrome.WindowChrome">
+            <Setter.Value>
+                <WindowChrome CaptionHeight="0" ResizeBorderThickness="10"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="BorderWinBackground" TargetType="Border">
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="9"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Background" Value="#FF0B74D1"/>
+        <Setter Property="Border.Effect">
+         <Setter.Value>
+             <DropShadowEffect BlurRadius="5" Direction="1" ShadowDepth="0.7" Color="#FF22A5EF" Opacity="0.8"/>
+         </Setter.Value>
+     </Setter>
+    </Style>
+
+    <Style x:Key="PanelHeader" TargetType="Border">
+        <Setter Property="Background" Value="#FF0B74D1"/>
+        <Setter Property="CornerRadius" Value="8 8 0 0"/>
+    </Style>
+
+    <Style x:Key="CaptionFont" TargetType="Label">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="IsHitTestVisible" Value="False"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Margin"  Value="5,0,0,0"/>
+    </Style>
+
+    <Style x:Key="Panel" TargetType="Border">
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="CornerRadius" Value="0 0 8 8"/>
+        <Setter Property="Panel.ZIndex" Value="0"/>
+    </Style>
+
+    <Style x:Key="BlockButton" TargetType="Border">
+        <Setter Property="Width" Value="20"/>
+        <Setter Property="Height" Value="20"/>
+        <Setter Property="Background" Value="#FF0B74D1"/>
+        <Setter Property="Cursor"  Value="Hand"/>
+        <Setter Property="CornerRadius" Value="2"/>
+    </Style>
+
+    <Style x:Key="NavStyle" TargetType="Border">
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="Panel.ZIndex" Value="200"/>
+        <Setter Property="Height" Value="50"/>
+        <Setter Property="Width" Value="20"/>
+        <Setter Property="Width" Value="20"/>
+        <Setter Property="CornerRadius" Value="0 9 9 0"/>
+        <Setter Property="Cursor"  Value="Hand"/>
+        <Setter Property="Background" Value="#FF0B74D1"/>
+    </Style>
+
+    <Style x:Key="ListViewHeader" TargetType="Grid">
+        <Setter Property="Background" Value="#FF7B7B7B"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="Grid.Row" Value="2"/>
+        <Setter Property="Margin" Value="10 0 10 0"/>
+        <Setter Property="Height" Value="30"/>
+    </Style>
+
+</ResourceDictionary>

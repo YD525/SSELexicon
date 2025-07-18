@@ -40,7 +40,7 @@
         </Storyboard>
     </Window.Resources>
 
-    <Border MouseLeftButtonDown="WinHead_MouseLeftButtonDown"  Style="{DynamicResource DefWinBackground}" Name="MainBackGround">
+    <Border MouseLeftButtonDown="WinHead_MouseLeftButtonDown"  Style="{DynamicResource BorderWinBackground}" Name="MainBackGround">
         <Grid>
             <Border Background="#FF0B74D1" CornerRadius="7" Panel.ZIndex="0" Name="Footer" Margin="0 45 0 0">
             </Border>
@@ -809,7 +809,7 @@
                                             SourceText
                                         </Label>
                                         <Label Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="White">
-                                            TransText
+                                            Translated
                                         </Label>
                                     </Grid>
                                     <Grid Name="TransView" Grid.Row="1" Panel.ZIndex="999" Background="#FF282828" MouseLeave="TransView_MouseLeave">
