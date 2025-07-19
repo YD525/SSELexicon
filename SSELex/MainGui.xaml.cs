@@ -41,15 +41,17 @@ namespace SSELex
         public MainGui()
         {
             InitializeComponent();
-            var Storyboard = (Storyboard)this.Resources["ScanAnimation"];
-            Storyboard.Begin(this, true);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             StartBreathingEffect();
-            new Thread(() => { 
-            MessageBoxExtend.Show(this, "TestTittle", "TestLine", MsgAction.YesNo, MsgType.Info);
+            var Storyboard = (Storyboard)this.Resources["ScanAnimation"];
+            Storyboard.Begin(this, true);
+
+            new Thread(() =>
+            {
+                MessageBoxExtend.Show(this, "TestTittle", "TestLine", MsgAction.YesNo, MsgType.Info);
             }).Start();
         }
 

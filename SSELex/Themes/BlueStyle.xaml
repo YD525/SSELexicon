@@ -25,7 +25,7 @@
         <Setter Property="Background" Value="#FF0B74D1"/>
         <Setter Property="Border.Effect">
          <Setter.Value>
-             <DropShadowEffect BlurRadius="5" Direction="1" ShadowDepth="0.7" Color="#FF22A5EF" Opacity="0.8"/>
+             <DropShadowEffect BlurRadius="5" Direction="1" ShadowDepth="0.7" Color="#FF22A5EF" Opacity="0"/>
          </Setter.Value>
      </Setter>
     </Style>
@@ -53,7 +53,7 @@
     <Style x:Key="BlockButton" TargetType="Border">
         <Setter Property="Width" Value="20"/>
         <Setter Property="Height" Value="20"/>
-        <Setter Property="Background" Value="#FF0B74D1"/>
+        <Setter Property="Background" Value="#FF282828"/>
         <Setter Property="Cursor"  Value="Hand"/>
         <Setter Property="CornerRadius" Value="2"/>
     </Style>
@@ -72,7 +72,7 @@
     <Style x:Key="ListViewHeader" TargetType="Grid">
         <Setter Property="Background" Value="#FF7B7B7B"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
-        <Setter Property="Grid.Row" Value="2"/>
+        <Setter Property="Grid.Row" Value="5"/>
         <Setter Property="Margin" Value="10 0 10 0"/>
         <Setter Property="Height" Value="30"/>
     </Style>

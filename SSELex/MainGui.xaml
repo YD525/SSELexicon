@@ -20,18 +20,18 @@
             <DoubleAnimation
             Storyboard.TargetName="ScanTransform"
             Storyboard.TargetProperty="X"
-            From="0" To="70" Duration="0:0:2" />
+            From="-30"  To="{Binding ActualWidth, ElementName=ProcessBar}" Duration="0:0:2" />
         </Storyboard>
     </Window.Resources>
-    
-    <Border Style="{DynamicResource BorderWinBackground}" Name="MainBackGround">
+
+    <Border Style="{DynamicResource BorderWinBackground}" Name="MainBackGround" Background="#FF282828">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="8"/>
             </Grid.RowDefinitions>
-            <Border Grid.Row="0" MouseLeftButtonDown="WinHead_MouseLeftButtonDown" Style="{DynamicResource PanelHeader}">
+            <Border Grid.Row="0" MouseLeftButtonDown="WinHead_MouseLeftButtonDown" Style="{DynamicResource PanelHeader}" Background="#FF282828">
             </Border>
             <Grid Grid.Row="0" >
                 <Grid.ColumnDefinitions>
@@ -81,62 +81,212 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="5"/>
                                 <RowDefinition Height="40"/>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="5"/>
                                 <RowDefinition Height="30"/>
                                 <RowDefinition Height="1*"/>
                             </Grid.RowDefinitions>
 
                             <Grid Grid.Row="1" Margin="10 0 10 0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="1*"/>
-                                </Grid.ColumnDefinitions>
                                 <Grid Grid.Column="0">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Background="#FF0A61AF" Margin="0 0 0 0" CornerRadius="5">
-                                            <StackPanel Orientation="Horizontal" Margin="10 0 10 0">
-                                                <Label Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                    Type Selector :
-                                                </Label>
-                                                <ComboBox Grid.Column="1" VerticalAlignment="Center" Cursor="Hand" Width="100"  Height="30" Style="{StaticResource CustomComboBoxStyle}" Margin="5 0 0 0">
-                                                </ComboBox>
-                                            </StackPanel>
-                                        </Border>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="120"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="135"/>
+                                    </Grid.ColumnDefinitions>
 
-                                        <Border  Background="#FF0A61AF" CornerRadius="5" Margin="5 0 0 0">
-                                            <Grid>
-                                                <StackPanel Orientation="Horizontal" Margin="10 0 10 0" Panel.ZIndex="999">
-                                                    <Label Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                        STRINGS(5000/10000)
+                                    <Border Background="#FF0A61AF" Margin="0 0 0 0" CornerRadius="5" Grid.Column="0">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Border CornerRadius="5 0 0 5" Background="#FF0B74D1" Grid.Column="0" Cursor="Hand">
+                                                <Grid>
+                                                    <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                        Normal
                                                     </Label>
+                                                    <Grid Width="25" Height="2" Background="White" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                                                    </Grid>
+                                                </Grid>
+                                            </Border>
+
+                                            <Border CornerRadius="0 5 5 0" Background="#FF0A61AF" Grid.Column="1" Cursor="Hand">
+                                                <Grid>
+                                                    <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                        Quick
+                                                    </Label>
+                                                </Grid>
+                                            </Border>
+
+                                        </Grid>
+                                    </Border>
+
+                                    <Border  Background="#FF0A61AF" CornerRadius="5" Margin="5 0 0 0" Grid.Column="1">
+                                        <Grid>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <ColumnDefinition Width="65"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Label Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="0" Margin="5 0 0 0" Panel.ZIndex="999">
+                                                    STRINGS(5000/10000)
+                                                </Label>
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1" Margin="0 0 5 0" Panel.ZIndex="999">
                                                     <ContentControl Style="{DynamicResource PlayIconStyle}" Panel.ZIndex="1"/>
                                                     <ContentControl Style="{DynamicResource PauseIconStyle}" Panel.ZIndex="1"/>
                                                     <ContentControl Style="{DynamicResource CancelPlayIconStyle}" Panel.ZIndex="1"/>
                                                 </StackPanel>
-                                                <Border Name="ProcessBar" BorderThickness="0 0 3 0" BorderBrush="White" CornerRadius="5" Background="#FF74C2FF" Opacity="0.3" Width="100" HorizontalAlignment="Left" Panel.ZIndex="1">
-                                                    <Grid ClipToBounds="True">
-                                                        <!-- ScanLine -->
-                                                        <Rectangle Width="30" HorizontalAlignment="Left" RadiusX="5" RadiusY="5" Opacity="0.6">
-                                                            <Rectangle.Fill>
-                                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                                                    <GradientStop Color="#00FFFFFF" Offset="0"/>
-                                                                    <GradientStop Color="#B3FFFFFF" Offset="0.5"/>
-                                                                    <GradientStop Color="#00FFFFFF" Offset="1"/>
-                                                                </LinearGradientBrush>
-                                                            </Rectangle.Fill>
-                                                            <Rectangle.RenderTransform>
-                                                                <TranslateTransform x:Name="ScanTransform" />
-                                                            </Rectangle.RenderTransform>
-                                                        </Rectangle>
-                                                    </Grid>
-                                                </Border>
+                                            </Grid>
+                                            <Border Name="ProcessBar" BorderThickness="0 0 3 0" BorderBrush="White" CornerRadius="5" Background="#FF74C2FF" Opacity="0.35" Width="130" HorizontalAlignment="Left" Panel.ZIndex="1">
+                                                <Grid ClipToBounds="True">
+                                                    <!-- ScanLine -->
+                                                    <Rectangle Width="30" HorizontalAlignment="Left" RadiusX="5" RadiusY="5" Opacity="0.65">
+                                                        <Rectangle.Fill>
+                                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                                <GradientStop Color="#00FFFFFF" Offset="0"/>
+                                                                <GradientStop Color="#B3FFFFFF" Offset="0.5"/>
+                                                                <GradientStop Color="#00FFFFFF" Offset="1"/>
+                                                            </LinearGradientBrush>
+                                                        </Rectangle.Fill>
+                                                        <Rectangle.RenderTransform>
+                                                            <TranslateTransform x:Name="ScanTransform" />
+                                                        </Rectangle.RenderTransform>
+                                                    </Rectangle>
+                                                </Grid>
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+
+                                    <Grid Margin="5 0 5 0"  Grid.Column="2">
+                                        <Border Margin="0 0 0 0" CornerRadius="5">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="80"/>
+                                                    <ColumnDefinition Width="1*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Label Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0">
+                                                    Type Selector
+                                                </Label>
+                                                <ComboBox Grid.Column="1" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Height="30" Style="{StaticResource CustomComboBoxStyle}" Margin="0 0 8 0">
+                                                </ComboBox>
                                             </Grid>
                                         </Border>
+                                    </Grid>
 
-                                       
-                                    </StackPanel>
+                                    <Border Background="#FF7B7B7B" Margin="5 0 0 0" CornerRadius="5" Grid.Column="3">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="30"/>
+                                                <ColumnDefinition Width="1*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <ContentControl Style="{DynamicResource MagnifyingGlassIconStyle}" Panel.ZIndex="1" Height="15" Width="15"/>
+
+                                            <Border CornerRadius="0 5 5 0" Background="#FF3A3A3A" Grid.Column="1">
+                                                <TextBox Margin="5 0 5 0" Name="SearchBox" TabIndex="0" Grid.Column="1" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="#FF135FB8" BorderThickness="0" Foreground="White" CaretBrush="White" VerticalContentAlignment="Center" FontSize="13" >
+                                                    
+                                                </TextBox>
+                                            </Border>
+
+                                        </Grid>
+                                    </Border>
+
+                                    <Grid Grid.Column="4">
+                                        <StackPanel Orientation="Horizontal">
+
+                                            <Border  CornerRadius="5" Background="#FF7B7B7B" Width="80" Name="StartTransBtn"  Margin="5 0 0 0">
+                                                <Label Name="LoadFileButton" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand">
+                                                    LoadFile
+                                                </Label>
+                                            </Border>
+
+                                            <Border  CornerRadius="5" Background="#FF7B7B7B" Width="45" Margin="5 0 0 0">
+                                                <ContentControl Style="{DynamicResource CancelPlayIconStyle}" Panel.ZIndex="1"/>
+                                            </Border>
+                                        </StackPanel>
+                                    </Grid>
+
                                 </Grid>
+                               
                             </Grid>
 
+                            <Grid Grid.Row="3" Margin="10 0 10 0">
+                                <StackPanel Orientation="Horizontal">
+                                    <Grid  Margin="0 0 0 0"  Width="300" HorizontalAlignment="Left">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid Grid.Column="0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="35"/>
+                                                    <ColumnDefinition Width="1*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    From
+                                                </Label>
+                                                <ComboBox Grid.Column="1" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Height="30" Style="{StaticResource CustomComboBoxStyle}">
+                                                </ComboBox>
+                                            </Grid>
+                                            <Grid Grid.Column="1">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="35"/>
+                                                    <ColumnDefinition Width="1*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    To
+                                                </Label>
+                                                <ComboBox Grid.Column="1" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Height="30" Style="{StaticResource CustomComboBoxStyle}">
+                                                </ComboBox>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+
+                                    <Border Grid.Column="2" ToolTip="After clicking, the source text will be reloaded from the original data source to synchronize or refresh the content." Name="DeleteDictionaryBtn" CornerRadius="5" Background="#FF7B7B7B" Height="30" Margin="10 0 0 0" Opacity="0.3" Cursor="Hand">
+                                        <Label Padding="10 0 10 0"  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            RefreshSourceText
+                                        </Label>
+                                    </Border>
+
+                                    <Border CornerRadius="5" Background="#FF7B7B7B"  Height="30" Margin="10 0 0 0" Cursor="Hand" Grid.Column="4">
+                                        <Label Padding="10 0 10 0"  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            ClearCache
+                                        </Label>
+                                    </Border>
+
+                                    <Border  CornerRadius="5" Background="#FF7B7B7B" Height="30" Margin="10 0 0 0"  Cursor="Hand" Grid.Column="5">
+                                        <Label Padding="10 0 10 0"  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            ReSet
+                                        </Label>
+                                    </Border>
+
+                                    <CheckBox Name="UsingContext" VerticalAlignment="Center" Margin="10 0 0 0" Grid.Column="6" Foreground="White">
+                                        Use Context
+                                    </CheckBox>
+
+                                    <Label VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Margin="5 0 0 0">
+                                        MarkLine
+                                    </Label>
+
+                                    <Border CornerRadius="5" Background="White" Width="20" Height="20" Margin="5 0 0 0" Cursor="Hand">
+                                    </Border>
+
+                                    <Border CornerRadius="5" Background="#FF0B9BD4" Width="20" Height="20" Margin="5 0 0 0" Cursor="Hand">
+                                    </Border>
+
+                                    <Border CornerRadius="5" Background="#FFE59924" Width="20" Height="20" Margin="5 0 0 0" Cursor="Hand">
+                                    </Border>
+
+
+                                </StackPanel>
+                            </Grid>
+                            
                             <Grid Height="30" Style="{DynamicResource ListViewHeader}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="0.35*"/>
@@ -157,11 +307,11 @@
                                     Translated
                                 </Label>
                             </Grid>
-                            <Grid Name="TransView" Grid.Row="3" Panel.ZIndex="999" Background="#FF282828" MouseLeave="TransView_MouseLeave" Margin="10 0 10 0">
+                            <Grid Name="TransView" Grid.Row="6" Panel.ZIndex="999" Background="#FF282828" MouseLeave="TransView_MouseLeave" Margin="10 0 10 0">
                             </Grid>
                         </Grid>
                     </Grid>
-                   
+                    
                     <!--需要做样式的了 Auto Download也需要 负载均衡可视化-->
                 </Grid>
                 <Border  CornerRadius="0 0 8 8" Style="{DynamicResource Panel}">
