@@ -37,17 +37,20 @@
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
 
-            <Grid Grid.Row="1"  Background="#FF0576CD" Name="GroundColor">
-                <Grid>
+            <Grid Grid.Row="1" Name="GroundColor">
+                <Border Background="#FF0A61AF" CornerRadius="8" Panel.ZIndex="100">
+                </Border>
+
+                <Grid Panel.ZIndex="200">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="38"/>
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
-                    <Label Name="Caption" Foreground="White" FontSize="18" VerticalAlignment="Center" Margin="13 0 0 0">
+                    <Label Name="Caption" Foreground="White" FontSize="18" VerticalAlignment="Center" Margin="10 0 0 0">
                         Tittle
                     </Label>
                     <Grid Grid.Row="1">
-                        <TextBox Margin="15 0 13 0" Name="CurrentMsg" FontSize="15" Background="{x:Null}" BorderBrush="{x:Null}" BorderThickness="0" TextWrapping="Wrap" AcceptsReturn="True" Foreground="White">
+                        <TextBox Margin="13 0 13 0" Name="CurrentMsg" FontSize="13" Background="{x:Null}" BorderBrush="{x:Null}" BorderThickness="0" TextWrapping="Wrap" AcceptsReturn="True" Foreground="White">
                             Test Line
                         </TextBox>
                     </Grid>

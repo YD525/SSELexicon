@@ -28,6 +28,7 @@ namespace SSELex
             BreathingStoryboard = (Storyboard)FindResource("BreathingEffect");
             Storyboard.SetTarget(BreathingStoryboard, NoteEffect);
             BreathingStoryboard.Begin();
+            
         }
 
         private void StopBreathingEffect()
@@ -47,6 +48,9 @@ namespace SSELex
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             StartBreathingEffect();
+            new Thread(() => { 
+            MessageBoxExtend.Show(this, "TestTittle", "TestLine", MsgAction.YesNo, MsgType.Info);
+            }).Start();
         }
 
         private void ModTransView_Drop(object sender, DragEventArgs e)
