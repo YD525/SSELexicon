@@ -43,12 +43,12 @@
                         <RowDefinition Height="38"/>
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
-                    <Label Name="Caption" Foreground="White" FontSize="18" VerticalAlignment="Center" Margin="13 0 0 0" FontFamily="Microsoft YaHei UI">
-                        MessageBoxCaption
+                    <Label Name="Caption" Foreground="White" FontSize="18" VerticalAlignment="Center" Margin="13 0 0 0">
+                        Tittle
                     </Label>
                     <Grid Grid.Row="1">
-                        <TextBox Margin="15 0 13 0" Name="CurrentMsg" FontSize="15" Background="{x:Null}" BorderBrush="{x:Null}" BorderThickness="0" TextWrapping="Wrap" AcceptsReturn="True" Foreground="White" FontFamily="Microsoft YaHei UI">
-                            One Message Has Benn Created!
+                        <TextBox Margin="15 0 13 0" Name="CurrentMsg" FontSize="15" Background="{x:Null}" BorderBrush="{x:Null}" BorderThickness="0" TextWrapping="Wrap" AcceptsReturn="True" Foreground="White">
+                            Test Line
                         </TextBox>
                     </Grid>
 

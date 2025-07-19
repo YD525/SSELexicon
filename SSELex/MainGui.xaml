@@ -95,7 +95,7 @@
                                         <Border Background="#FF0A61AF" Margin="0 0 0 0" CornerRadius="5">
                                             <StackPanel Orientation="Horizontal" Margin="10 0 10 0">
                                                 <Label Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                    Type Selector:
+                                                    Type Selector :
                                                 </Label>
                                                 <ComboBox Grid.Column="1" VerticalAlignment="Center" Cursor="Hand" Width="100"  Height="30" Style="{StaticResource CustomComboBoxStyle}" Margin="5 0 0 0">
                                                 </ComboBox>
