@@ -20,7 +20,6 @@ namespace SSELex.TranslateManage
             for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
             {
                 FakeGrid GetFakeGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
-                GetFakeGrid.UPDataThis();
 
                 string GetKey = GetFakeGrid.Key;
                 string GetSourceText = GetFakeGrid.SourceText;
@@ -37,7 +36,6 @@ namespace SSELex.TranslateManage
             for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
             {
                 FakeGrid GetFakeGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
-                GetFakeGrid.UPDataThis();
 
                 string GetTransKey = GetFakeGrid.Key;
 
@@ -61,7 +59,6 @@ namespace SSELex.TranslateManage
             for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
             {
                 FakeGrid GetFakeGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
-                GetFakeGrid.UPDataThis();
 
                 string GetKey = GetFakeGrid.Key;
 
@@ -87,7 +84,6 @@ namespace SSELex.TranslateManage
 
                 DeFine.WorkingWin.TransViewList.RealLines[i].BorderColor = Colors.Green;
                 GetFakeGrid.TransText = GetSourceText;
-                GetFakeGrid.UPDateView();
             }
 
             DeFine.WorkingWin.ReloadData();
@@ -117,7 +113,6 @@ namespace SSELex.TranslateManage
             for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
             {
                 FakeGrid GetFakeGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
-                GetFakeGrid.UPDataThis();
 
                 string GetKey = ConvertHelper.ObjToStr(GetFakeGrid.Key);
                 var TargetText = GetFakeGrid.TransText;
@@ -127,7 +122,6 @@ namespace SSELex.TranslateManage
                     Translator.TransData[GetKey] = TargetText;
                     DeFine.WorkingWin.TransViewList.RealLines[i].TransText = TargetText;
 
-                    DeFine.WorkingWin.TransViewList.RealLines[i].UPDateView();
                     ReplaceCount++;
                 }
             }

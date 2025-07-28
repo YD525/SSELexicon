@@ -15,7 +15,6 @@ namespace SSELex.TranslateManagement
             for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
             {
                 FakeGrid GetFakeGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
-                GetFakeGrid.UPDataThis();
                 
                
             }

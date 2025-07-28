@@ -240,6 +240,7 @@
         <Setter Property="CaretBrush" Value="White"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="FontSize" Value="13"/>
+        <Setter Property="IsTabStop" Value="True"/>
     </Style>
 
     <Style x:Key="NavStyle" TargetType="Border">
@@ -254,7 +255,7 @@
     </Style>
 
     <Style x:Key="ListViewHeader" TargetType="Grid">
-        <Setter Property="Background" Value="#FF7B7B7B"/>
+        <Setter Property="Background" Value="#FF202020"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="Grid.Row" Value="5"/>
         <Setter Property="Margin" Value="10 0 10 0"/>

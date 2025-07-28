@@ -11,6 +11,7 @@ using PhoenixEngine.TranslateCore;
 using PhoenixEngine.EngineManagement;
 using SSELex.SQLManager;
 using PhoenixEngine.DataBaseManagement;
+using SSELex.UIManagement;
 
 namespace SSELex
 {
@@ -44,11 +45,12 @@ namespace SSELex
         public static string CurrentVersion = "2.7.52";
         public static LocalSetting GlobalLocalSetting = new LocalSetting();
 
-        public static MainWindow WorkingWin = null;
+        public static MainGui WorkingWin = null;
         public static DashBoardView CurrentDashBoardView = null;
         public static CodeView CurrentCodeView = null;
         public static TextEditor ActiveIDE = null;
         public static LocalConfig LocalConfigView = null;
+        public static RowStyleWin RowStyleWin = new RowStyleWin();
 
         public static SqlCore<SQLiteHelper> LocalDB = null;
 
@@ -69,28 +71,28 @@ namespace SSELex
 
         public static void ShowCodeView()
         {
-            CurrentCodeView.Dispatcher.Invoke(new Action(() => {
-                CurrentCodeView.Show();
-            }));
+            //CurrentCodeView.Dispatcher.Invoke(new Action(() => {
+            //    CurrentCodeView.Show();
+            //}));
 
-            if (DeFine.GlobalLocalSetting.ShowCode)
-            {
-                if (DeFine.WorkingWin != null)
-                {
-                    DeFine.WorkingWin.SyncCodeViewLocation();
-                }
-                CurrentCodeView.Dispatcher.Invoke(new Action(() => {
-                    CurrentCodeView.Opacity = 1;
-                    CurrentCodeView.IsHitTestVisible = true;
-                }));
-            }
-            else
-            {
-                CurrentCodeView.Dispatcher.Invoke(new Action(() => {
-                    CurrentCodeView.Opacity = 0;
-                    CurrentCodeView.IsHitTestVisible = false;
-                }));
-            }
+            //if (DeFine.GlobalLocalSetting.ShowCode)
+            //{
+            //    if (DeFine.WorkingWin != null)
+            //    {
+            //        DeFine.WorkingWin.SyncCodeViewLocation();
+            //    }
+            //    CurrentCodeView.Dispatcher.Invoke(new Action(() => {
+            //        CurrentCodeView.Opacity = 1;
+            //        CurrentCodeView.IsHitTestVisible = true;
+            //    }));
+            //}
+            //else
+            //{
+            //    CurrentCodeView.Dispatcher.Invoke(new Action(() => {
+            //        CurrentCodeView.Opacity = 0;
+            //        CurrentCodeView.IsHitTestVisible = false;
+            //    }));
+            //}
         }
 
         public static string GetFullPath(string Path)
@@ -130,8 +132,9 @@ namespace SSELex
             }
         }
 
-        public static void Init(MainWindow Work)
+        public static void Init(MainGui Work)
         {
+            RowStyleWin.Hide();
             MakeReady();
             GlobalLocalSetting.ReadConfig();
             string GetFilePath = GetFullPath(@"\System.db");

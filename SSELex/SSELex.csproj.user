@@ -34,7 +34,7 @@
     <Compile Update="SearchText.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="UIManagement\RowStyle.xaml.cs">
+    <Compile Update="UIManagement\RowStyleWin.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

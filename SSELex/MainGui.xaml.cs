@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using PhoenixEngine.ConvertManager;
+using PhoenixEngine.TranslateManage;
+using SSELex.SkyrimManage;
+using SSELex.SkyrimModManager;
+using SSELex.TranslateManage;
+using SSELex.UIManage;
+using SSELex.UIManagement;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
+using static SSELex.UIManage.SkyrimDataLoader;
 
 namespace SSELex
 {
@@ -43,8 +44,24 @@ namespace SSELex
             InitializeComponent();
         }
 
+        public YDListView TransViewList = null;
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            DeFine.Init(this);
+
+            if (TransViewList == null)
+            {
+                TransViewList = new YDListView(TransView);
+                TransViewList.Clear();
+            }
+
+            ReloadLanguageMode();
+
+            GlobalEspReader = new EspReader();
+            GlobalMCMReader = new MCMReader();
+            GlobalPexReader = new PexReader();
+
             StartBreathingEffect();
             var Storyboard = (Storyboard)this.Resources["ScanAnimation"];
             Storyboard.Begin(this, true);
@@ -56,6 +73,19 @@ namespace SSELex
 
             ContextGeneration.IsChecked = true;
             RightContextIndicator.Visibility = Visibility.Visible;
+
+            new Thread(() =>
+            {
+                while (true)
+                {
+                    Thread.Sleep(1000);
+                    try
+                    {
+                        GetStatisticsR();
+                    }
+                    catch { }
+                }
+            }).Start();
         }
 
         private void ModTransView_Drop(object sender, DragEventArgs e)
@@ -85,7 +115,11 @@ namespace SSELex
 
         private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-
+            if (e.Key == Key.Tab)
+            {
+                e.Handled = true;
+                TransViewList.Down();
+            }
         }
 
         public bool IsLeftMouseDown = false;
@@ -169,5 +203,547 @@ namespace SSELex
             }
 
         }
+
+
+        public void SetLog(string Str)
+        {
+           
+        }
+
+        public void GetStatisticsR()
+        {
+            this.Dispatcher.Invoke(new Action(() =>
+            {
+                CalcStatistics();
+            }));
+        }
+
+        public int MaxTransCount = 0;
+
+        public void CalcStatistics()
+        {
+            try
+            {
+                int ModifyCount = Translator.TransData.Count(Kvp => !string.IsNullOrWhiteSpace(Kvp.Value));
+
+                UIHelper.ModifyCount = ModifyCount;
+            }
+            catch { }
+
+            try
+            {
+                this.Dispatcher.Invoke(new Action(() =>
+                {
+                    if (TransViewList != null)
+                    {
+                        double GetRate = ((double)UIHelper.ModifyCount / (double)TransViewList.Rows);
+                        if (GetRate > 0)
+                        {
+                            try
+                            {
+                                ProcessBar.Width = ProcessBarControl.ActualWidth * GetRate;
+                            }
+                            catch { }
+                        }
+                        else
+                        {
+                            try
+                            {
+                                ProcessBar.Width = 0;
+                            }
+                            catch { }
+                        }
+
+                        MaxTransCount = TransViewList.Rows;
+
+                        if (ReadTrdWorkState)
+                        {
+                            TransProcess.Content = string.Format("Loading({0}/{1})", UIHelper.ModifyCount, MaxTransCount);
+                        }
+                        else
+                        {
+                            TransProcess.Content = string.Format("STRINGS({0}/{1})", UIHelper.ModifyCount, MaxTransCount);
+                        }
+                    }
+                }));
+            }
+            catch { }
+
+        }
+
+        public void ReloadLanguageMode()
+        {
+            LangTo.Items.Clear();
+            foreach (var Get in UILanguageHelper.SupportLanguages)
+            {
+                LangTo.Items.Add(Get.ToString());
+            }
+
+            LangTo.SelectedValue = DeFine.GlobalLocalSetting.TargetLanguage.ToString();
+
+            LangFrom.Items.Clear();
+            foreach (var Get in UILanguageHelper.SupportLanguages)
+            {
+                LangFrom.Items.Add(Get.ToString());
+            }
+
+            LangFrom.SelectedValue = DeFine.GlobalLocalSetting.SourceLanguage.ToString();
+        }
+
+
+
+        //Champollion Auto Download
+        public bool CheckINeed()
+        {
+            bool State = true;
+            //Frist Check ToolPath
+            if (!File.Exists(DeFine.GetFullPath(@"Tool\Champollion.exe")))
+            {
+                string Msg = "Please manually install the dependent program\n[https://github.com/Orvid/Champollion]\nPlease download the release version and put it in this path\n[" + DeFine.GetFullPath(@"Tool\") + "]\n Path required\n[" + DeFine.GetFullPath(@"Tool\Champollion.exe") + "]";
+                MessageBoxExtend.Show(this, "HelpMsg", Msg, MsgAction.Yes, MsgType.Info);
+
+                if (MessageBoxExtend.Show(this, "HelpMsg", "Do you want to download the Champollion component now?\nIf you need.Click Yes to jump to the URL", MsgAction.YesNo, MsgType.Info) > 0)
+                {
+                    Process.Start(new ProcessStartInfo("https://github.com/Orvid/Champollion/releases") { UseShellExecute = true });
+                }
+                State = false;
+            }
+
+            string CompilerPath = "";
+            if (!SkyrimHelper.FindPapyrusCompilerPath(ref CompilerPath))
+            {
+                var GetStr = DeFine.GlobalLocalSetting.SkyrimPath + "Papyrus Compiler" + @"\PapyrusAssembler.exe";
+                string Msg = "Please Download CreationKit [" + GetStr + "] Must exist. \n Your Need Configure SkyrimSE path";
+                MessageBoxExtend.Show(this, "PEX File lacks support", Msg, MsgAction.Yes, MsgType.Info);
+                //this.Dispatcher.Invoke(new Action(() =>
+                //{
+                //    ShowSettingsView(Settings.Game);
+                //}));
+                State = false;
+            }
+            return State;
+        }
+
+        public void LoadAny()
+        {
+            var Dialog = new System.Windows.Forms.OpenFileDialog();
+            Dialog.Title = "Please select a file";
+            Dialog.Filter = "All files|*.*";
+            Dialog.Multiselect = false;
+
+            if (Dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string SelectedFile = Dialog.FileName;
+                LoadAny(SelectedFile);
+            }
+        }
+
+        public int CurrentTransType = 0;
+        public string FModName = "";
+        public string LModName = "";
+        string LastSetPath = "";
+
+        public MCMReader ?GlobalMCMReader = null;
+        public EspReader ?GlobalEspReader = null;
+        public PexReader ?GlobalPexReader = null;
+
+        public List<ObjSelect> CanSetSelecter = new List<ObjSelect>();
+        public ObjSelect CurrentSelect = ObjSelect.Null;
+
+        public object LockerAddTrd = new object();
+        public bool ReadTrdWorkState = false;
+        public void ReloadDataFunc(bool UseHotReload = false)
+        {
+            lock (LockerAddTrd)
+            {
+                ReadTrdWorkState = true;
+
+                if (!UseHotReload)
+                {
+                    this.Dispatcher.Invoke(new Action(() =>
+                    {
+                        TransViewList.Clear();
+                    }));
+                }
+                else
+                {
+                    this.Dispatcher.Invoke(new Action(() =>
+                    {
+                        TransViewList.HotReload();
+                    }));
+                }
+
+                if (!UseHotReload)
+                {
+                    if (CurrentTransType == 2)
+                    {
+                        SkyrimDataLoader.Load(CurrentSelect, GlobalEspReader, TransViewList);
+                    }
+                    else
+                   if (CurrentTransType == 1)
+                    {
+                        foreach (var GetItem in GlobalMCMReader.MCMItems)
+                        {
+                            this.Dispatcher.Invoke(new Action(() =>
+                            {
+                                TransViewList.AddRowR(LineRenderer.CreatLine(GetItem.Type, GetItem.EditorID, GetItem.Key, GetItem.SourceText, GetItem.GetTextIfTransR(), 999));
+                            }));
+                        }
+                    }
+                    if (CurrentTransType == 3)
+                    {
+                        foreach (var GetItem in GlobalPexReader.Strings)
+                        {
+                            this.Dispatcher.Invoke(new Action(() =>
+                            {
+                                TransViewList.AddRowR(LineRenderer.CreatLine(GetItem.Type, GetItem.EditorID, GetItem.Key, GetItem.SourceText, GetItem.GetTextIfTransR(), GetItem.TranslationSafetyScore));
+                            }));
+                        }
+                    }
+                }
+
+                ReadTrdWorkState = false;
+
+                this.Dispatcher.Invoke(new Action(() =>
+                {
+                    TransViewList.UpdateVisibleRows(true);
+                }));
+            }
+        }
+        public bool CheckDictionary()
+        {
+            string SetPath = DeFine.GetFullPath(@"\Librarys\" + DeFine.CurrentModName + ".Json");
+            if (File.Exists(SetPath))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public void ReSetTransTargetType()
+        {
+            TypeSelector.Items.Clear();
+            foreach (var GetType in CanSetSelecter)
+            {
+                TypeSelector.Items.Add(GetType.ToString());
+            }
+
+            TypeSelector.SelectedValue = ObjSelect.All.ToString();
+        }
+
+        private System.Timers.Timer ?ReloadDebounceTimer;
+        private readonly object ReloadLock = new object();
+        private bool UseHotReloadFlag;
+
+        public void ReloadData(bool UseHotReload = false)
+        {
+            if (LoadSaveState != 1)
+                return;
+            lock (ReloadLock)
+            {
+                UseHotReloadFlag = UseHotReload;
+
+                if (ReloadDebounceTimer == null)
+                {
+                    ReloadDebounceTimer = new System.Timers.Timer(200);
+                    ReloadDebounceTimer.AutoReset = false;
+                    ReloadDebounceTimer.Elapsed += (s, e) =>
+                    {
+                        if (!ReadTrdWorkState)
+                        {
+                            new Thread(() =>
+                            {
+                                ReloadDataFunc(UseHotReloadFlag);
+                            }).Start();
+                        }
+                    };
+                }
+
+                ReloadDebounceTimer.Stop();
+                ReloadDebounceTimer.Start();
+            }
+        }
+        public void ClosetTransTrd()
+        {
+            //StopAny = true;
+            //AutoKeepTag.Background = new SolidColorBrush(Color.FromRgb(11, 116, 209));
+
+            //AutoKeep.Source = new Uri("pack://application:,,,/SSELex;component/Material/Keep.svg");
+            //BatchTranslationHelper.Close();
+        }
+
+        public void LoadAny(string FilePath)
+        {
+            Translator.ClearAICache();
+            SetLog("Load:" + FilePath);
+            DashBoardService.Clear();
+            ClosetTransTrd();
+            if (System.IO.File.Exists(FilePath))
+            {
+                DeFine.CurrentDashBoardView.Open(FilePath);
+                DeFine.GlobalLocalSetting.AutoLoadDictionaryFile = false;
+                //FromStr.Text = "";
+                //ToStr.Text = "";
+
+                string GetFileName = FilePath.Substring(FilePath.LastIndexOf(@"\") + @"\".Length);
+                //Caption.Text = GetFileName;
+
+                DeFine.CurrentModName = GetFileName;
+
+                string GetModName = GetFileName;
+                FModName = LModName = GetModName;
+                if (LModName.Contains("."))
+                {
+                    LModName = LModName.Substring(0, LModName.LastIndexOf("."));
+                }
+
+                if (!CheckDictionary())
+                {
+                    RefreshDictionary.Opacity = 0.5;
+                    RefreshDictionary.IsEnabled = false;
+                }
+                else
+                {
+                    RefreshDictionary.Opacity = 1;
+                    RefreshDictionary.IsEnabled = true;
+                }
+
+                YDDictionaryHelper.ReadDictionary(GetModName);
+
+                if (FilePath.ToLower().EndsWith(".pex"))
+                {
+                    if (CheckINeed())
+                    {
+                        CurrentTransType = 3;
+
+                        GlobalEspReader.Close();
+                        GlobalMCMReader.Close();
+                        GlobalPexReader.Close();
+
+                        LastSetPath = FilePath;
+
+                        this.Dispatcher.Invoke(new Action(() =>
+                        {
+                            TransViewList.Clear();
+                        }));
+
+                        CanSetSelecter.Clear();
+
+                        GlobalPexReader.LoadPexFile(LastSetPath);
+
+                        this.Dispatcher.Invoke(new Action(() =>
+                        {
+                            CancelBtn.Opacity = 1;
+                            CancelBtn.IsEnabled = true;
+                            LoadSaveState = 1;
+                            LoadFileButton.Content = UILanguageHelper.SearchStateChangeStr("LoadFileButton", 1);
+                        }));
+
+                        ReSetTransTargetType();
+                        ReloadData();
+                    }
+                }
+                if (FilePath.ToLower().EndsWith(".txt"))
+                {
+                    CurrentTransType = 1;
+
+                    GlobalEspReader.Close();
+                    GlobalMCMReader.Close();
+                    GlobalPexReader.Close();
+
+                    LastSetPath = FilePath;
+
+                    this.Dispatcher.Invoke(new Action(() =>
+                    {
+                        TransViewList.Clear();
+                    }));
+
+                    CanSetSelecter.Clear();
+
+                    GlobalMCMReader.LoadMCM(LastSetPath);
+
+                    this.Dispatcher.Invoke(new Action(() =>
+                    {
+                        CancelBtn.Opacity = 1;
+                        CancelBtn.IsEnabled = true;
+                        LoadSaveState = 1;
+                        LoadFileButton.Content = UILanguageHelper.SearchStateChangeStr("LoadFileButton", 1);
+                    }));
+
+                    ReSetTransTargetType();
+                    ReloadData();
+                }
+                if (FilePath.ToLower().EndsWith(".esp") || FilePath.ToLower().EndsWith(".esm") || FilePath.ToLower().EndsWith(".esl"))
+                {
+                    CurrentTransType = 2;
+
+                    GlobalEspReader.Close();
+                    GlobalMCMReader.Close();
+                    GlobalPexReader.Close();
+
+                    LastSetPath = FilePath;
+
+                    this.Dispatcher.Invoke(new Action(() =>
+                    {
+                        TransViewList.Clear();
+                    }));
+                    GlobalEspReader.DefReadMod(FilePath);
+                    CanSetSelecter.Clear();
+                    CanSetSelecter.AddRange(SkyrimDataLoader.QueryParams(GlobalEspReader));
+
+                    this.Dispatcher.Invoke(new Action(() =>
+                    {
+                        CancelBtn.Opacity = 1;
+                        CancelBtn.IsEnabled = true;
+                        LoadSaveState = 1;
+                        LoadFileButton.Content = UILanguageHelper.SearchStateChangeStr("LoadFileButton", 1);
+                    }));
+
+                    ReSetTransTargetType();
+                }
+            }
+        }
+
+        private void CancelTransEsp(object sender, MouseButtonEventArgs e)
+        {
+            CancelAny();
+        }
+
+        public void CancelAny()
+        {
+            DeFine.CurrentModName = string.Empty;
+
+            this.Dispatcher.Invoke(new Action(() =>
+            {
+                ClosetTransTrd();
+
+                TransViewList.Clear();
+                GlobalEspReader.Close();
+                GlobalMCMReader.Close();
+                GlobalPexReader.Close();
+
+                LoadSaveState = 0;
+
+                CancelBtn.Opacity = 0.3;
+                CancelBtn.IsEnabled = false;
+
+                TypeSelector.Items.Clear();
+                YDDictionaryHelper.Close();
+
+                UIHelper.ModifyCount = 0;
+            }));
+        }
+
+        public int LoadSaveState = 0;
+        private void AutoLoadOrSave(object sender, MouseButtonEventArgs e)
+        {
+            if (LoadSaveState == 0)
+            {
+                LoadSaveState = 1;
+                LoadAny();
+            }
+            else
+            {
+                CalcStatistics();
+
+                LoadSaveState = 0;
+
+                CancelBtn.Opacity = 0.3;
+                CancelBtn.IsEnabled = false;
+
+                string GetFilePath = LastSetPath.Substring(0, LastSetPath.LastIndexOf(@"\")) + @"\";
+                string GetFileFullName = LastSetPath.Substring(LastSetPath.LastIndexOf(@"\") + @"\".Length);
+                string GetFileSuffix = GetFileFullName.Split('.')[1];
+                string GetFileName = GetFileFullName.Split('.')[0];
+
+                if (CurrentTransType == 3)
+                {
+                    if (UIHelper.ModifyCount > 0)
+                        if (GlobalPexReader != null)
+                        {
+                            if (!GlobalPexReader.SavePexFile(LastSetPath))
+                            {
+                                MessageBox.Show("Build Script Error!");
+                            }
+                        }
+                }
+                if (CurrentTransType == 2)
+                {
+                    if (UIHelper.ModifyCount > 0)
+                        if (GlobalEspReader != null)
+                        {
+                            if (GlobalEspReader.CurrentReadMod != null)
+                            {
+                                string GetBackUPPath = GetFilePath + GetFileFullName + ".backup";
+
+                                if (!File.Exists(GetBackUPPath))
+                                {
+                                    File.Copy(LastSetPath, GetBackUPPath);
+                                }
+
+                                if (File.Exists(LastSetPath))
+                                {
+                                    File.Delete(LastSetPath);
+                                }
+
+                                SkyrimDataWriter.WriteAllMemoryData(ref GlobalEspReader);
+                                GlobalEspReader.DefSaveMod(GlobalEspReader.CurrentReadMod, LastSetPath);
+
+                                if (!File.Exists(LastSetPath))
+                                {
+                                    MessageBox.Show("Save File Error!");
+                                    File.Copy(GetBackUPPath, LastSetPath);
+                                }
+                            }
+                        }
+                }
+                else
+                if (CurrentTransType == 1)
+                {
+                    if (UIHelper.ModifyCount > 0)
+                        if (GlobalMCMReader != null)
+                        {
+                            string GetBackUPPath = GetFilePath + GetFileFullName + ".backup";
+
+                            if (!File.Exists(GetBackUPPath))
+                            {
+                                File.Copy(LastSetPath, GetBackUPPath);
+                            }
+
+                            if (File.Exists(LastSetPath))
+                            {
+                                File.Delete(LastSetPath);
+                            }
+
+                            GlobalMCMReader.SaveMCMConfig(LastSetPath);
+
+                            if (!File.Exists(LastSetPath))
+                            {
+                                MessageBox.Show("Save File Error!");
+                                File.Copy(GetBackUPPath, LastSetPath);
+                            }
+                        }
+                }
+
+                TranslatorExtend.WriteDictionary();
+                YDDictionaryHelper.CreatDictionary();
+
+                CancelTransEsp(null, null);
+                LoadFileButton.Content = UILanguageHelper.SearchStateChangeStr("LoadFileButton", 0);
+            }
+        }
+
+        private void TransTargetType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string GetSelectValue = ConvertHelper.ObjToStr((sender as ComboBox).SelectedValue);
+            if (GetSelectValue.Trim().Length > 0)
+            {
+                ClosetTransTrd();
+                CurrentSelect = Enum.Parse<ObjSelect>(GetSelectValue);
+                ReloadData();
+            }
+        }
+
+  
     }
 }

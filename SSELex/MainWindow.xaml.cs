@@ -373,186 +373,186 @@ namespace SSELex
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            DeFine.Init(this);
-            try
-            {
-                HotPatch.Apply();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Failed to apply patch: {ex.Message}");
-            }
-            this.Width = DeFine.GlobalLocalSetting.FormWidth;
-            this.Height = DeFine.GlobalLocalSetting.FormHeight;
+            //DeFine.Init(this);
+            //try
+            //{
+            //    HotPatch.Apply();
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine($"Failed to apply patch: {ex.Message}");
+            //}
+            //this.Width = DeFine.GlobalLocalSetting.FormWidth;
+            //this.Height = DeFine.GlobalLocalSetting.FormHeight;
 
-            ReloadViewMode();
-            ReloadLanguageMode();
-            InitEncodings();
-            this.MainCaption.Content = string.Format("SSELex {0}", DeFine.CurrentVersion);
+            //ReloadViewMode();
+            //ReloadLanguageMode();
+            //InitEncodings();
+            //this.MainCaption.Content = string.Format("SSELex {0}", DeFine.CurrentVersion);
 
-            ReplaceMode.Items.Clear();
-            ReplaceMode.Items.Add("Current");
-            ReplaceMode.Items.Add("ALL");
+            //ReplaceMode.Items.Clear();
+            //ReplaceMode.Items.Add("Current");
+            //ReplaceMode.Items.Add("ALL");
 
-            if (ReplaceMode.Items.Count > 0)
-            {
-                ReplaceMode.SelectedValue = ReplaceMode.Items[0];
-            }
+            //if (ReplaceMode.Items.Count > 0)
+            //{
+            //    ReplaceMode.SelectedValue = ReplaceMode.Items[0];
+            //}
 
-            Translator.SendTranslateMsg += TranslateMsg;
+            //Translator.SendTranslateMsg += TranslateMsg;
 
-            if (DeFine.GlobalLocalSetting.AutoLoadDictionaryFile)
-            {
-                UsingDictionary.IsChecked = true;
-            }
+            //if (DeFine.GlobalLocalSetting.AutoLoadDictionaryFile)
+            //{
+            //    UsingDictionary.IsChecked = true;
+            //}
 
-            if (EngineConfig.ContextEnable)
-            {
-                UsingContext.IsChecked = true;
-            }
+            //if (EngineConfig.ContextEnable)
+            //{
+            //    UsingContext.IsChecked = true;
+            //}
 
-            ExportTypes.Items.Clear();
-            ExportTypes.Items.Add("Json(Dynamic String Distributor)");
-            ExportTypes.Items.Add("Json(SSELex)");
-            ExportTypes.Items.Add("Html");
+            //ExportTypes.Items.Clear();
+            //ExportTypes.Items.Add("Json(Dynamic String Distributor)");
+            //ExportTypes.Items.Add("Json(SSELex)");
+            //ExportTypes.Items.Add("Html");
 
-            new Thread(() =>
-            {
-                while (true)
-                {
-                    Thread.Sleep(1000);
-                    try
-                    {
-                        GetStatisticsR();
-                    }
-                    catch { }
-                }
-            }).Start();
+            //new Thread(() =>
+            //{
+            //    while (true)
+            //    {
+            //        Thread.Sleep(1000);
+            //        try
+            //        {
+            //            GetStatisticsR();
+            //        }
+            //        catch { }
+            //    }
+            //}).Start();
 
-            NodePanel.Visibility = Visibility.Hidden;
+            //NodePanel.Visibility = Visibility.Hidden;
 
-            new Thread(() =>
-            {
-                ShowFrameByTag("LoadingView");
+            //new Thread(() =>
+            //{
+            //    ShowFrameByTag("LoadingView");
 
-                TransCore.Init();
+            //    TransCore.Init();
 
-                AdvancedDictionary.Init();
-                //LocalTrans.Init();
+            //    AdvancedDictionary.Init();
+            //    //LocalTrans.Init();
 
-                CheckEngineState();
+            //    CheckEngineState();
 
-                GlobalEspReader = new EspReader();
-                GlobalMCMReader = new MCMReader();
-                GlobalPexReader = new PexReader();
+            //    GlobalEspReader = new EspReader();
+            //    GlobalMCMReader = new MCMReader();
+            //    GlobalPexReader = new PexReader();
 
-                this.Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    UILanguageHelper.ChangeLanguage(DeFine.GlobalLocalSetting.CurrentUILanguage);
-                }));
+            //    this.Dispatcher.BeginInvoke(new Action(() =>
+            //    {
+            //        UILanguageHelper.ChangeLanguage(DeFine.GlobalLocalSetting.CurrentUILanguage);
+            //    }));
 
-                InitIDE();
+            //    InitIDE();
 
-                EndLoadViewEffect();
-                ShowFrameByTag("MainView");
+            //    EndLoadViewEffect();
+            //    ShowFrameByTag("MainView");
 
-                this.Dispatcher.Invoke(new Action(() =>
-                {
-                    this.Topmost = false;
-                    Storyboard GetStoryboard = this.Resources["HideSmallNav"] as Storyboard;
-                    if (GetStoryboard != null)
-                    {
-                        GetStoryboard.Begin();
-                    }
+            //    this.Dispatcher.Invoke(new Action(() =>
+            //    {
+            //        this.Topmost = false;
+            //        Storyboard GetStoryboard = this.Resources["HideSmallNav"] as Storyboard;
+            //        if (GetStoryboard != null)
+            //        {
+            //            GetStoryboard.Begin();
+            //        }
 
-                    if (TransViewList == null)
-                    {
-                        TransViewList = new YDListView(TransView);
-                        TransViewList.Clear();
-                    }
-                }));
+            //        if (TransViewList == null)
+            //        {
+            //            TransViewList = new YDListView(TransView);
+            //            TransViewList.Clear();
+            //        }
+            //    }));
 
-                if (FileAttributesHelper.IsAdministrator())
-                {
-                    this.Dispatcher.Invoke(new Action(() =>
-                    {
-                        ShowSettingsView(Settings.Game);
-                    }));
-                }
+            //    if (FileAttributesHelper.IsAdministrator())
+            //    {
+            //        this.Dispatcher.Invoke(new Action(() =>
+            //        {
+            //            ShowSettingsView(Settings.Game);
+            //        }));
+            //    }
 
-                SetLog(string.Empty);
+            //    SetLog(string.Empty);
 
-                ProxyCenter.GlobalProxyIP = EngineConfig.ProxyIP;
+            //    ProxyCenter.GlobalProxyIP = EngineConfig.ProxyIP;
 
-                this.Dispatcher.Invoke(new Action(() =>
-                {
-                    this.GeminiModel.Items.Clear();
-                    this.GeminiModel.Items.Add("gemini-2.0-flash");
+            //    this.Dispatcher.Invoke(new Action(() =>
+            //    {
+            //        this.GeminiModel.Items.Clear();
+            //        this.GeminiModel.Items.Add("gemini-2.0-flash");
 
 
-                    this.ChatGptModel.Items.Clear();
+            //        this.ChatGptModel.Items.Clear();
 
-                    this.ChatGptModel.Items.Add("gpt-3.5-turbo-0613");
-                    this.ChatGptModel.Items.Add("gpt-3.5-turbo");
-                    this.ChatGptModel.Items.Add("gpt-3.5-turbo-1106");
-                    this.ChatGptModel.Items.Add("gpt-4o");
-                    this.ChatGptModel.Items.Add("gpt-4o-mini");
-                    this.ChatGptModel.Items.Add("gpt-4-turbo");
+            //        this.ChatGptModel.Items.Add("gpt-3.5-turbo-0613");
+            //        this.ChatGptModel.Items.Add("gpt-3.5-turbo");
+            //        this.ChatGptModel.Items.Add("gpt-3.5-turbo-1106");
+            //        this.ChatGptModel.Items.Add("gpt-4o");
+            //        this.ChatGptModel.Items.Add("gpt-4o-mini");
+            //        this.ChatGptModel.Items.Add("gpt-4-turbo");
 
-                    if (EngineConfig.ChatGptModel.Trim().Length > 0)
-                    {
-                        this.ChatGptModel.SelectedValue = EngineConfig.ChatGptModel;
-                    }
-                    else
-                    {
-                        this.ChatGptModel.SelectedValue = "gpt-4o-mini";
-                    }
+            //        if (EngineConfig.ChatGptModel.Trim().Length > 0)
+            //        {
+            //            this.ChatGptModel.SelectedValue = EngineConfig.ChatGptModel;
+            //        }
+            //        else
+            //        {
+            //            this.ChatGptModel.SelectedValue = "gpt-4o-mini";
+            //        }
 
-                    this.DeepSeekModel.Items.Clear();
-                    this.DeepSeekModel.Items.Add("deepseek-chat");
-                    if (EngineConfig.DeepSeekModel.Trim().Length > 0)
-                    {
-                        this.DeepSeekModel.SelectedValue = EngineConfig.DeepSeekModel;
-                    }
-                    else
-                    {
-                        this.DeepSeekModel.SelectedValue = "deepseek-chat";
-                    }
+            //        this.DeepSeekModel.Items.Clear();
+            //        this.DeepSeekModel.Items.Add("deepseek-chat");
+            //        if (EngineConfig.DeepSeekModel.Trim().Length > 0)
+            //        {
+            //            this.DeepSeekModel.SelectedValue = EngineConfig.DeepSeekModel;
+            //        }
+            //        else
+            //        {
+            //            this.DeepSeekModel.SelectedValue = "deepseek-chat";
+            //        }
 
-                    this.BaichuanModel.Items.Clear();
-                    this.BaichuanModel.Items.Add("Baichuan4-Turbo");
-                    this.BaichuanModel.Items.Add("Baichuan4-Air");
-                    this.BaichuanModel.Items.Add("Baichuan4");
-                    this.BaichuanModel.Items.Add("Baichuan3-Turbo");
-                    this.BaichuanModel.Items.Add("Baichuan3-Turbo-128k");
-                    this.BaichuanModel.Items.Add("Baichuan2-Turbo");
-                    if (EngineConfig.BaichuanModel.Trim().Length > 0)
-                    {
-                        this.BaichuanModel.SelectedValue = EngineConfig.BaichuanModel;
-                    }
-                    else
-                    {
-                        this.BaichuanModel.SelectedValue = "Baichuan4-Turbo";
-                    }
+            //        this.BaichuanModel.Items.Clear();
+            //        this.BaichuanModel.Items.Add("Baichuan4-Turbo");
+            //        this.BaichuanModel.Items.Add("Baichuan4-Air");
+            //        this.BaichuanModel.Items.Add("Baichuan4");
+            //        this.BaichuanModel.Items.Add("Baichuan3-Turbo");
+            //        this.BaichuanModel.Items.Add("Baichuan3-Turbo-128k");
+            //        this.BaichuanModel.Items.Add("Baichuan2-Turbo");
+            //        if (EngineConfig.BaichuanModel.Trim().Length > 0)
+            //        {
+            //            this.BaichuanModel.SelectedValue = EngineConfig.BaichuanModel;
+            //        }
+            //        else
+            //        {
+            //            this.BaichuanModel.SelectedValue = "Baichuan4-Turbo";
+            //        }
 
-                    NodePanel.Visibility = Visibility.Visible;
-                }));
+            //        NodePanel.Visibility = Visibility.Visible;
+            //    }));
 
-                //var GetStr = new LMStudio().QuickTrans(new List<string>() { }, "Test Str", Languages.English, Languages.SimplifiedChinese, true, 3, "");
+            //    //var GetStr = new LMStudio().QuickTrans(new List<string>() { }, "Test Str", Languages.English, Languages.SimplifiedChinese, true, 3, "");
 
-                //new CohereApi().QuickTrans("Test Line", Languages.English, Languages.SimplifiedChinese, true, 1, "");
-                //DeFine.GlobalLocalSetting.BaichuanKey = "";
-                //var GetStr = new BaichuanApi().QuickTrans("Test Line", Languages.English, Languages.SimplifiedChinese, true, 1, "");
+            //    //new CohereApi().QuickTrans("Test Line", Languages.English, Languages.SimplifiedChinese, true, 1, "");
+            //    //DeFine.GlobalLocalSetting.BaichuanKey = "";
+            //    //var GetStr = new BaichuanApi().QuickTrans("Test Line", Languages.English, Languages.SimplifiedChinese, true, 1, "");
 
-                //DeFine.GlobalLocalSetting.GeminiKey = "";
-                //var Get = new GeminiApi().QuickTrans("TestStr", Languages.English, Languages.SimplifiedChinese, false, 3, "");
+            //    //DeFine.GlobalLocalSetting.GeminiKey = "";
+            //    //var Get = new GeminiApi().QuickTrans("TestStr", Languages.English, Languages.SimplifiedChinese, false, 3, "");
 
-                //Test
-                //DeFine.GlobalLocalSetting.DeepLKey = "";
-                //ProxyCenter.GlobalProxyIP = "127.0.0.1:7890";
-                //new DeepLApi().QuickTrans("Test",Languages.English,Languages.SimplifiedChinese);
+            //    //Test
+            //    //DeFine.GlobalLocalSetting.DeepLKey = "";
+            //    //ProxyCenter.GlobalProxyIP = "127.0.0.1:7890";
+            //    //new DeepLApi().QuickTrans("Test",Languages.English,Languages.SimplifiedChinese);
 
-            }).Start();
+            //}).Start();
         }
 
         public void LoadAny()
@@ -2207,7 +2207,7 @@ namespace SSELex
 
                     LocalDBCache.UPDateLocalTransItem(new LocalTransItem(DeFine.CurrentModName,UIHelper.ActiveKey,DeFine.GlobalLocalSetting.TargetLanguage, ToStr.Text));
 
-                    UIHelper.MainGrid_MouseLeave(UIHelper.ActiveTextBox.Tag, null);
+                    //UIHelper.MainGrid_MouseLeave(UIHelper.ActiveTextBox.Tag, null);
                 }
 
                 if (TransText.Trim().Length == 0)

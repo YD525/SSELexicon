@@ -239,7 +239,6 @@
         </Setter>
     </Style>
 
-
     <Style TargetType="RadioButton" x:Key="rbtnStyle">
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Margin" Value="5,0"/>
@@ -339,12 +338,12 @@
     <Style x:Key="ScrollBarThumb" TargetType="{x:Type Thumb}">
         <Setter Property="OverridesDefaultStyle" Value="true"/>
         <Setter Property="IsTabStop" Value="false"/>
+        <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">
                     <Grid>
-                        <!--滚动条颜色-->
-                        <Border Background="#FF2D2D2D" CornerRadius="3"/>
+                        <Border Background="#FFE1E1E1" CornerRadius="3"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -379,7 +378,6 @@
         </Setter>
     </Style>
 
-
     <Style x:Key="VerticalScrollBarPageButton2" TargetType="{x:Type RepeatButton}">
         <Setter Property="OverridesDefaultStyle"  Value="true"/>
         <Setter Property="Background" Value="Transparent"/>
@@ -398,22 +396,24 @@
     <Style x:Key="for_scrollbar" TargetType="{x:Type ScrollBar}">
         <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false"/>
         <Setter Property="Stylus.IsFlicksEnabled" Value="false"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Margin" Value="0,1,1,6"/>
-        <Setter Property="Width"  Value="10"/>
-        <Setter Property="MinWidth"  Value="5"/>
-        <Setter Property="Opacity"   Value="0.5"/>
+
+        <Setter Property="Background" Value="#FF252525"/>
+        
+        <Setter Property="Margin" Value="0,1,0,1"/>
+        <Setter Property="Width" Value="10"/>
+        <Setter Property="MinWidth" Value="5"/>
+        <Setter Property="Opacity" Value="0.5"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ScrollBar}">
-                    <Grid x:Name="Bg" SnapsToDevicePixels="true">
+                    <Grid x:Name="Bg" SnapsToDevicePixels="true" Background="{TemplateBinding Background}">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"></RowDefinition>
-                            <RowDefinition Height="*"></RowDefinition>
-                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
-                        <RepeatButton  Grid.Row="0" Style="{StaticResource VerticalScrollBarPageButton2}" Command="{x:Static ScrollBar.PageUpCommand}"/>
-                        <Track x:Name="PART_Track"   Grid.Row="1" IsEnabled="{TemplateBinding IsMouseOver}" IsDirectionReversed="true">
+                        <RepeatButton Grid.Row="0" Style="{StaticResource VerticalScrollBarPageButton2}" Command="{x:Static ScrollBar.PageUpCommand}"/>
+                        <Track x:Name="PART_Track" Grid.Row="1" IsEnabled="{TemplateBinding IsMouseOver}" IsDirectionReversed="true">
                             <Track.DecreaseRepeatButton>
                                 <RepeatButton Style="{StaticResource VerticalScrollBarPageButton}" Command="{x:Static ScrollBar.PageUpCommand}"/>
                             </Track.DecreaseRepeatButton>
@@ -431,22 +431,22 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="Orientation" Value="Horizontal">
-                <Setter Property="Background"  Value="Transparent"/>
+                <Setter Property="Background" Value="#FF807D7D"/>
                 <Setter Property="Margin" Value="1,0,6,1"/>
-                <Setter Property="Height"   Value="5"/>
-                <Setter Property="MinHeight"  Value="5"/>
-                <Setter Property="Width"    Value="Auto"/>
+                <Setter Property="Height" Value="5"/>
+                <Setter Property="MinHeight" Value="5"/>
+                <Setter Property="Width" Value="Auto"/>
                 <Setter Property="Opacity" Value="0.5"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ScrollBar}">
-                            <Grid x:Name="Bg" SnapsToDevicePixels="true">
+                            <Grid x:Name="Bg" SnapsToDevicePixels="true" Background="{TemplateBinding Background}">
                                 <Track x:Name="PART_Track" IsEnabled="{TemplateBinding IsMouseOver}">
                                     <Track.DecreaseRepeatButton>
-                                        <RepeatButton Style="{StaticResource HorizontalScrollBarPageButton}"  Command="{x:Static ScrollBar.PageLeftCommand}"/>
+                                        <RepeatButton Style="{StaticResource HorizontalScrollBarPageButton}" Command="{x:Static ScrollBar.PageLeftCommand}"/>
                                     </Track.DecreaseRepeatButton>
                                     <Track.IncreaseRepeatButton>
-                                        <RepeatButton Style="{StaticResource HorizontalScrollBarPageButton}"  Command="{x:Static ScrollBar.PageRightCommand}"/>
+                                        <RepeatButton Style="{StaticResource HorizontalScrollBarPageButton}" Command="{x:Static ScrollBar.PageRightCommand}"/>
                                     </Track.IncreaseRepeatButton>
                                     <Track.Thumb>
                                         <Thumb Style="{StaticResource ScrollBarThumb}"/>
@@ -459,6 +459,7 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+
     <Style x:Key="for_scrollviewer"
      TargetType="{x:Type ScrollViewer}">
         <Setter Property="BorderBrush" Value="LightGray"/>

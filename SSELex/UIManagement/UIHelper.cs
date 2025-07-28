@@ -44,7 +44,7 @@ namespace SSELex.UIManage
         }
 
         public static TextBox FakeTextBox = new TextBox();
-        public static FakeGrid CreatFakeLine(string Type, string EditorID, string Key, string SourceText, string TransText, double Score)
+        public static FakeGrid CreatFakeLine(string Type,string Key, string SourceText, string TransText, double Score)
         {
             if (DeFine.CurrentSearchStr.Length > 0)
             {
@@ -69,245 +69,28 @@ namespace SSELex.UIManage
 
             double ActualTextWidth = MeasureTextWidth(SourceText, FakeTextBox.FontSize, FontFamily);
 
-            var GetTextWidthRange = (DeFine.WorkingWin.ActualWidth / 3) - 235;
+            var GetTextWidthRange = (DeFine.WorkingWin.ActualWidth / 3) - 135;
 
             if (ActualTextWidth > GetTextWidthRange)
             {
                 AutoHeight = 82;
             }
 
-            return new FakeGrid(AutoHeight, Type, EditorID, Key, SourceText, TransText, Score);
+            return new FakeGrid(AutoHeight, Type, Key, SourceText, TransText, Score);
         }
         public static Grid CreatLine(FakeGrid Item)
         {
-            Item.UPDataThis();
-            return CreatLine(Item.Height, Item.Type, Item.EditorID, Item.Key, Item.SourceText, Item.TransText, Item.Score);
+            return CreatLine(Item.Height, Item.Type,Item.Key, Item.SourceText, Item.TransText, Item.Score);
         }
         public static SolidColorBrush NoSelect = new SolidColorBrush(Color.FromRgb(30, 30, 30));
         public static SolidColorBrush Select = new SolidColorBrush(Color.FromRgb(68, 147, 228));
-        public static Grid CreatLine(double Height, string Type, string EditorID, string Key, string SourceText, string TransText, double Score)
+        public static Grid CreatLine(double Height, string Type,string Key, string SourceText, string TransText, double Score)
         {
-            Grid MainGrid = new Grid();
-
-            MainGrid.Height = Height;
-            //Calc FontSize For Auto Height
-            //Margin 25
-            MainGrid.IsVisibleChanged += MainGrid_IsVisibleChanged;
-            MainGrid.MouseLeave += MainGrid_MouseLeave;
-            MainGrid.PreviewMouseDown += MainGrid_PreviewMouseDown;
-
-            RowDefinition Row1st = new RowDefinition();
-            Row1st.Height = new GridLength(1, GridUnitType.Star);
-            RowDefinition Row2nd = new RowDefinition();
-            Row2nd.Height = new GridLength(2, GridUnitType.Pixel);
-
-            MainGrid.RowDefinitions.Add(Row1st);
-            MainGrid.RowDefinitions.Add(Row2nd);
-
-            ColumnDefinition Column1st = new ColumnDefinition();
-            Column1st.Width = new GridLength(0.35, GridUnitType.Star);
-            //ColumnDefinition Column2nd = new ColumnDefinition();
-            //Column2nd.Width = new GridLength(0.3, GridUnitType.Star);
-            ColumnDefinition Column3rd = new ColumnDefinition();
-            Column3rd.Width = new GridLength(0.5, GridUnitType.Star);
-            ColumnDefinition Column5th = new ColumnDefinition();
-            Column5th.Width = new GridLength(1, GridUnitType.Star);
-            ColumnDefinition Column6th = new ColumnDefinition();
-            Column6th.Width = new GridLength(1, GridUnitType.Star);
-            ColumnDefinition Column7th = new ColumnDefinition();
-            Column7th.Width = new GridLength(35, GridUnitType.Pixel);
-
-            MainGrid.ColumnDefinitions.Add(Column1st);
-            //MainGrid.ColumnDefinitions.Add(Column2nd);
-            MainGrid.ColumnDefinitions.Add(Column3rd);
-            MainGrid.ColumnDefinitions.Add(Column5th);
-            MainGrid.ColumnDefinitions.Add(Column6th);
-
-            MainGrid.ColumnDefinitions.Add(Column7th);
-
-            Grid Footer = new Grid();
-            Footer.Height = 0.8;
-            Footer.Opacity = 0.9;
-            Footer.Tag = Key;
-            if (!ActiveKey.Equals(Key))
-            {
-                Footer.Background = NoSelect;
-            }
-            else
-            {
-                Footer.Background = Select;
-            }
-
-            Grid.SetColumn(Footer, 0);
-            Grid.SetColumnSpan(Footer, 5);
-            Grid.SetRow(Footer, 1);
-            MainGrid.Children.Add(Footer);
-
-            Label TypeBox = new Label();
-            TypeBox.Height = MainGrid.Height - 10;
-            TypeBox.Margin = new Thickness(10, 0, 10, 0);
-            TypeBox.FontSize = DefFontSize;
-            TypeBox.VerticalAlignment = VerticalAlignment.Center;
-            TypeBox.BorderBrush = new SolidColorBrush(Color.FromRgb(76, 76, 76));
-            TypeBox.Background = null;
-            TypeBox.BorderThickness = new Thickness(1);
-            TypeBox.Foreground = new SolidColorBrush(Colors.White);
-            TypeBox.VerticalContentAlignment = VerticalAlignment.Center;
-            TypeBox.HorizontalContentAlignment = HorizontalAlignment.Center;
-            TypeBox.Content = Type;
-            Grid.SetRow(TypeBox, 0);
-            Grid.SetColumn(TypeBox, 0);
-            MainGrid.Children.Add(TypeBox);
-
-            TextBox KeyBox = new TextBox();
-            KeyBox.IsReadOnly = true;
-            KeyBox.IsTabStop = false;
-            KeyBox.Height = MainGrid.Height - 10;
-            KeyBox.Margin = new Thickness(10, 0, 10, 0);
-            KeyBox.FontSize = DefFontSize;
-            KeyBox.VerticalAlignment = VerticalAlignment.Center;
-            KeyBox.BorderBrush = new SolidColorBrush(Color.FromRgb(76, 76, 76));
-            KeyBox.Background = null;
-            KeyBox.BorderThickness = new Thickness(1);
-            KeyBox.Foreground = new SolidColorBrush(Colors.White);
-            KeyBox.VerticalContentAlignment = VerticalAlignment.Center;
-            KeyBox.HorizontalContentAlignment = HorizontalAlignment.Center;
-            KeyBox.CaretBrush = new SolidColorBrush(Colors.White);
-            KeyBox.AcceptsReturn = true;
-            KeyBox.TextWrapping = TextWrapping.Wrap;
-            KeyBox.IsHitTestVisible = false;
-            KeyBox.Text = Key;
-            Grid.SetRow(KeyBox, 0);
-            Grid.SetColumn(KeyBox, 1);
-            MainGrid.Children.Add(KeyBox);
-
-
-            TextBox SourceTextBox = new TextBox();
-            SourceTextBox.Height = MainGrid.Height - 10;
-            SourceTextBox.IsTabStop = false;
-            SourceTextBox.IsReadOnly = true;
-            SourceTextBox.Margin = new Thickness(10, 0, 10, 0);
-            SourceTextBox.FontSize = DefFontSize;
-            SourceTextBox.VerticalAlignment = VerticalAlignment.Center;
-            SourceTextBox.BorderBrush = new SolidColorBrush(Color.FromRgb(76, 76, 76));
-            SourceTextBox.Background = null;
-            SourceTextBox.SelectionBrush = new SolidColorBrush(Color.FromRgb(17, 145, 243));
-            SourceTextBox.BorderThickness = new Thickness(1);
-            SourceTextBox.Foreground = new SolidColorBrush(Colors.White);
-            SourceTextBox.VerticalContentAlignment = VerticalAlignment.Center;
-            SourceTextBox.HorizontalContentAlignment = HorizontalAlignment.Center;
-            SourceTextBox.CaretBrush = new SolidColorBrush(Colors.White);
-            SourceTextBox.AcceptsReturn = true;
-            SourceTextBox.TextWrapping = TextWrapping.Wrap;
-            SourceTextBox.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
-            SourceTextBox.FocusVisualStyle = null;
-            SourceTextBox.Tag = SourceText;
-
-            if (Height == 82)
-            {
-                MainGrid.Background = ExtendHeightBackground;
-            }
-            else
-            {
-                MainGrid.Background = DefHeightBackground;
-            }
-
-            if (DeFine.ViewMode == 1)
-            {
-                SourceTextBox.IsHitTestVisible = false;
-                MainGrid.Cursor = Cursors.Hand;
-            }
-
-            var FindDictionary = YDDictionaryHelper.CheckDictionary(Key);
-
-            if (FindDictionary != null)
-            {
-                if (FindDictionary.OriginalText.Trim().Length > 0)
-                {
-                    SourceTextBox.Text = FindDictionary.OriginalText;
-                }
-            }
-            else
-            {
-                SourceTextBox.Text = SourceText;
-            }
-
-            Grid.SetRow(SourceTextBox, 0);
-            Grid.SetColumn(SourceTextBox, 2);
-            MainGrid.Children.Add(SourceTextBox);
-
-            TextBox TransTextBox = new TextBox();
-            TransTextBox.Height = MainGrid.Height - 10;
-            TransTextBox.Margin = new Thickness(10, 0, 10, 0);
-            TransTextBox.FontSize = DefFontSize;
-            TransTextBox.VerticalAlignment = VerticalAlignment.Center;
-            TransTextBox.BorderBrush = new SolidColorBrush(DefTransTextBorder);
-            TransTextBox.Background = null;
-            TransTextBox.SelectionBrush = new SolidColorBrush(Color.FromRgb(17, 145, 243));
-            TransTextBox.BorderThickness = new Thickness(1);
-            TransTextBox.Foreground = new SolidColorBrush(Colors.White);
-            TransTextBox.VerticalContentAlignment = VerticalAlignment.Center;
-            TransTextBox.HorizontalContentAlignment = HorizontalAlignment.Center;
-            TransTextBox.CaretBrush = new SolidColorBrush(Colors.White);
-            TransTextBox.AcceptsReturn = true;
-            TransTextBox.TextWrapping = TextWrapping.Wrap;
-            TransTextBox.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
-            TransTextBox.FocusVisualStyle = null;
-            if (TransText.Trim().Length == 0)
-            {
-
-            }
-            else
-            {
-                TransTextBox.Text = TransText;
-            }
-
-            TransTextBox.MouseLeave += TransTextBox_MouseLeave;
-            TransTextBox.LostFocus += TransTextBox_LostFocus;
-            TransTextBox.Tag = MainGrid;
-
-            if (Score < 0)
-            {
-                TransTextBox.Background = new SolidColorBrush(Colors.Red);
-                TransTextBox.IsReadOnly = true;
-            }
-            else
-            if (Score < 5)
-            {
-                TransTextBox.Background = new SolidColorBrush(Colors.IndianRed);
-            }
-
-            if (DeFine.ViewMode == 1)
-            {
-                TransTextBox.IsReadOnly = true;
-                TransTextBox.IsHitTestVisible = false;
-                TransTextBox.Cursor = System.Windows.Input.Cursors.Hand;
-            }
-
-            Grid.SetRow(TransTextBox, 0);
-            Grid.SetColumn(TransTextBox, 3);
-            MainGrid.Children.Add(TransTextBox);
-
-            Ellipse StateEllipse = new Ellipse();
-            StateEllipse.Width = 10;
-            StateEllipse.Height = 10;
-            StateEllipse.HorizontalAlignment = HorizontalAlignment.Center;
-            StateEllipse.VerticalAlignment = VerticalAlignment.Center;
-            StateEllipse.Margin = new Thickness(0, 0, 13, 0);
-            StateEllipse.Fill = new SolidColorBrush(Colors.BlanchedAlmond);
-
-            if (SourceText.Equals(TransText) || ConvertHelper.ObjToStr(SourceTextBox.Tag).Equals(TransText))
-            {
-                StateEllipse.Fill = new SolidColorBrush(Colors.Green);
-            }
-
-            Grid.SetRow(StateEllipse, 0);
-            Grid.SetColumn(StateEllipse, 4);
-            MainGrid.Children.Add(StateEllipse);
-
+            Grid MainGrid = DeFine.RowStyleWin.CreatLine(Height, new PhoenixEngine.TranslateManage.TranslationUnit(DeFine.CurrentModName, Key, Type, SourceText, TransText));
             return MainGrid;
         }
 
+       
         private static void TransTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             var GetTextBox = (sender as TextBox);
@@ -362,30 +145,6 @@ namespace SSELex.UIManage
             }
         }
 
-        public static void MainGrid_MouseLeave(object sender, MouseEventArgs e)
-        {
-            if (sender is Grid)
-            {
-                Grid MainGrid = (Grid)sender;
-                TextBox GetTransTextBox = (TextBox)MainGrid.Children[4];
-                string GetKey = GetMainGridKey(MainGrid);
-                string SourceText = GetSourceText(MainGrid);
-
-                var GetResult = SetTransData(GetKey, SourceText, GetTransTextBox.Text);
-                GetTransTextBox.BorderBrush = new SolidColorBrush(GetResult.Color);
-
-                Ellipse GetState = GetTransState(MainGrid);
-                if (GetOriginalText(MainGrid).Equals(GetTransText(MainGrid)) || SourceText.Equals(GetTransText(MainGrid)))
-                {
-                    GetState.Fill = new SolidColorBrush(Colors.Green);
-                }
-                else
-                {
-                    GetState.Fill = new SolidColorBrush(Colors.BlanchedAlmond);
-                }
-            }
-        }
-
         public static void SetSelectLine(string Key)
         {
             if (DeFine.WorkingWin != null)
@@ -412,8 +171,8 @@ namespace SSELex.UIManage
         public static string GetMainGridKey(Grid Sender)
         {
             Grid LockerGrid = Sender;
-            Grid GetFooter = (Grid)LockerGrid.Children[0];
-            string GetKey = ConvertHelper.ObjToStr(GetFooter.Tag);
+            Border MainBorder = (Border)LockerGrid.Children[0];
+            string GetKey = ConvertHelper.ObjToStr(MainBorder.Tag);
 
             return GetKey;
         }
@@ -450,80 +209,80 @@ namespace SSELex.UIManage
         public static string ActiveKey = "";
         public static TextBox ActiveTextBox = null;
         private static Grid LastSetGrid = null;
-        private static void MainGrid_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            if (sender is Grid)
-            {
-                Grid LockerGrid = (Grid)sender;
-                if (LockerGrid.Children.Count >= 5)
-                {
-                    UIHelper.SelectLine = LockerGrid;
-                    var MainGrid = LockerGrid;
+        //private static void MainGrid_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        //{
+        //    if (sender is Grid)
+        //    {
+        //        Grid LockerGrid = (Grid)sender;
+        //        if (LockerGrid.Children.Count >= 5)
+        //        {
+        //            UIHelper.SelectLine = LockerGrid;
+        //            var MainGrid = LockerGrid;
 
-                    var GetTag = ConvertHelper.ObjToStr((MainGrid.Children[1] as Label).Content);
+        //            var GetTag = ConvertHelper.ObjToStr((MainGrid.Children[1] as Label).Content);
 
-                    var GetKey = GetMainGridKey(LockerGrid);
-                    var SourceText = GetSourceText(LockerGrid);
-                    var TransText = GetTransText(LockerGrid);
+        //            var GetKey = GetMainGridKey(LockerGrid);
+        //            var SourceText = GetSourceText(LockerGrid);
+        //            var TransText = GetTransText(LockerGrid);
 
-                    DeFine.WorkingWin.FromStr.Text = SourceText;
-                    DeFine.WorkingWin.ToStr.Text = TransText;
-                    DeFine.WorkingWin.ToStr.Tag = ConvertHelper.ObjToInt(MainGrid.Tag);
-                    DeFine.WorkingWin.ReplaceKeyBox.Text = string.Empty;
-                    DeFine.WorkingWin.ReplaceValueBox.Text = string.Empty;
+        //            //DeFine.WorkingWin.FromStr.Text = SourceText;
+        //            //DeFine.WorkingWin.ToStr.Text = TransText;
+        //            //DeFine.WorkingWin.ToStr.Tag = ConvertHelper.ObjToInt(MainGrid.Tag);
+        //            //DeFine.WorkingWin.ReplaceKeyBox.Text = string.Empty;
+        //            //DeFine.WorkingWin.ReplaceValueBox.Text = string.Empty;
 
-                    ActiveTextBox = (MainGrid.Children[4] as TextBox);
-                    ActiveKey = GetKey;
-                    ActiveType = GetTag;
+        //            ActiveTextBox = (MainGrid.Children[4] as TextBox);
+        //            ActiveKey = GetKey;
+        //            ActiveType = GetTag;
 
-                    SetSelectLine(GetKey);
+        //            SetSelectLine(GetKey);
 
-                    if (DeFine.WorkingWin.CurrentTransType == 3)
-                    {
-                        if (DeFine.GlobalLocalSetting.ShowCode)
-                        {
-                            try
-                            {
-                                SelectLineFromIDE(GetKey);
-                            }
-                            catch { }
-                        }
-                        if (DeFine.WorkingWin.GlobalPexReader != null)
-                        {
-                            if (DeFine.WorkingWin.GlobalPexReader.HeuristicEngine != null)
-                            {
-                                try
-                                {
-                                    string RichText = "";
-                                    string CreatRealKey = GetKey;
-                                    if (CreatRealKey.Contains(","))
-                                    {
-                                        CreatRealKey = CreatRealKey.Substring(0, CreatRealKey.LastIndexOf(","));
-                                    }
-                                    var FindFrist = DeFine.WorkingWin.GlobalPexReader.HeuristicEngine.DStringItems.FirstOrDefault(X => X.Key == CreatRealKey);
-                                    if (FindFrist != null)
-                                    {
-                                        RichText += FindFrist.ParentFunctionName + "->" + "\r\n";
-                                        RichText += FindFrist.SourceLine + "\r\n";
-                                        RichText += "\r\n";
-                                        foreach (var Get in FindFrist.TranslationScoreDetails)
-                                        {
-                                            RichText += Get.Reason + "(" + Get.Value + ")" + "\r\n";
-                                        }
-                                        RichText += "\r\n";
-                                        RichText += FindFrist.Feature;
-                                        DeFine.CurrentDashBoardView.SetLogB(RichText);
-                                    }
-                                }
-                                catch { }
-                            }
-                        }
+        //            if (DeFine.WorkingWin.CurrentTransType == 3)
+        //            {
+        //                if (DeFine.GlobalLocalSetting.ShowCode)
+        //                {
+        //                    try
+        //                    {
+        //                        SelectLineFromIDE(GetKey);
+        //                    }
+        //                    catch { }
+        //                }
+        //                if (DeFine.WorkingWin.GlobalPexReader != null)
+        //                {
+        //                    if (DeFine.WorkingWin.GlobalPexReader.HeuristicEngine != null)
+        //                    {
+        //                        try
+        //                        {
+        //                            string RichText = "";
+        //                            string CreatRealKey = GetKey;
+        //                            if (CreatRealKey.Contains(","))
+        //                            {
+        //                                CreatRealKey = CreatRealKey.Substring(0, CreatRealKey.LastIndexOf(","));
+        //                            }
+        //                            var FindFrist = DeFine.WorkingWin.GlobalPexReader.HeuristicEngine.DStringItems.FirstOrDefault(X => X.Key == CreatRealKey);
+        //                            if (FindFrist != null)
+        //                            {
+        //                                RichText += FindFrist.ParentFunctionName + "->" + "\r\n";
+        //                                RichText += FindFrist.SourceLine + "\r\n";
+        //                                RichText += "\r\n";
+        //                                foreach (var Get in FindFrist.TranslationScoreDetails)
+        //                                {
+        //                                    RichText += Get.Reason + "(" + Get.Value + ")" + "\r\n";
+        //                                }
+        //                                RichText += "\r\n";
+        //                                RichText += FindFrist.Feature;
+        //                                DeFine.CurrentDashBoardView.SetLogB(RichText);
+        //                            }
+        //                        }
+        //                        catch { }
+        //                    }
+        //                }
 
-                    }
-                }
-            }
+        //            }
+        //        }
+        //    }
 
-        }
+        //}
 
         private static void TransTextBox_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
         {

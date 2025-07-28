@@ -6,6 +6,9 @@ using System.Windows.Media;
 using SSELex.ConvertManager;
 using Loqui.Translators;
 using SSELex.TranslateManage;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
+using System.Windows.Threading;
 
 // Copyright (C) 2025 YD525
 // Licensed under the GNU GPLv3
@@ -18,7 +21,6 @@ public class FakeGrid
 {
     public double Height = 0;
     public string Type = "";
-    public string EditorID = "";
     public string Key = "";
     public string SourceText = "";
     public string TransText = "";
@@ -26,72 +28,14 @@ public class FakeGrid
     public Color FontColor;
     public double Score = 0;
 
-    public FakeGrid(double Height, string Type, string EditorID, string Key, string SourceText, string TransText, double Score)
+    public FakeGrid(double Height, string Type,string Key, string SourceText, string TransText, double Score)
     {
         this.Height = Height;
         this.Type = Type;
-        this.EditorID = EditorID;
         this.Key = Key;
         this.SourceText = SourceText;
         this.TransText = TransText;
         this.Score = Score;
-    }
-
-    public void UPDataThis()
-    {
-        var QueryData = TranslatorExtend.QueryTransData(this.Key,this.SourceText);
-        this.BorderColor = QueryData.Color;
-        this.TransText = QueryData.TransText;
-    }
-
-    public void UPDateView()
-    {
-        var GetResult = TranslatorExtend.SetTransData(this.Key, this.SourceText, this.TransText);
-        this.BorderColor = GetResult.Color;
-
-        if (DeFine.WorkingWin != null)
-        {
-            for (int i = 0; i < DeFine.WorkingWin.TransViewList.VisibleRows.Count; i++)
-            {
-                object SelectItem = DeFine.WorkingWin.TransViewList.VisibleRows[i];
-
-                if (SelectItem is Grid MainGrid)
-                {
-                    string GetKey = "";
-                    DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
-                    {
-                        GetKey = UIHelper.GetMainGridKey(MainGrid);
-                    }));
-
-                    if (GetKey.Equals(this.Key))
-                    {
-                        DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
-                        {
-                            Grid NewGrid = UIHelper.CreatLine(this);
-                            NewGrid.Width = DeFine.WorkingWin.TransViewList.Parent.ActualWidth - 15;
-                            NewGrid.Tag = MainGrid.Tag;
-                            double Top = Canvas.GetTop(MainGrid);
-                            double Left = Canvas.GetLeft(MainGrid);
-
-                            DeFine.WorkingWin.TransViewList.VisibleRows[i] = NewGrid;
-
-                            for (int ir = 0; ir < DeFine.WorkingWin.TransViewList.MainCanvas.Children.Count; ir++)
-                            {
-                                if (DeFine.WorkingWin.TransViewList.MainCanvas.Children[ir] is Grid GridInCanvas &&
-                                    GridInCanvas.Equals(MainGrid))
-                                {
-                                    DeFine.WorkingWin.TransViewList.MainCanvas.Children.RemoveAt(ir);
-                                    Canvas.SetTop(NewGrid, Top);
-                                    Canvas.SetLeft(NewGrid, Left);
-                                    DeFine.WorkingWin.TransViewList.MainCanvas.Children.Insert(ir, NewGrid);
-                                    break;
-                                }
-                            }
-                        }));
-                    }
-                }
-            }
-        }
     }
 }
 
@@ -110,6 +54,151 @@ public class YDListView
     public int BufferRows = 3;
     public bool CanSet = true;
 
+    private static int SelectLineID = 0;
+    private static Border ?LastSelectBorder = null;
+    public static void SetSelectLine(Grid MainGrid)
+    {
+        if (LastSelectBorder != null)
+        {
+            LastSelectBorder.BorderBrush = null;
+        }
+
+        SelectLineID = ConvertHelper.ObjToInt(MainGrid.Tag);
+
+        Border MainBorder = (Border)MainGrid.Children[0];
+        MainBorder.BorderBrush = new SolidColorBrush(Color.FromRgb(10, 97, 175));
+
+        Grid GetChildGrid = (Grid)MainBorder.Child;
+
+        Grid GetTranslatedGrid = (Grid)GetChildGrid.Children[3];
+        TextBox GetTranslated = (TextBox)(((Border)GetTranslatedGrid.Children[0]).Child);
+        GetTranslated.Focus();
+
+        LastSelectBorder = MainBorder;
+    }
+
+    private bool IsGridInViewport(Grid Grid)
+    {
+        double GridTop = Canvas.GetTop(Grid);
+        double GridBottom = GridTop + Grid.ActualHeight;
+
+        double ViewTop = Scroll.VerticalOffset;
+        double ViewBottom = ViewTop + Scroll.ViewportHeight;
+
+        return GridTop >= ViewTop && GridBottom <= ViewBottom;
+    }
+
+    public void UP()
+    {
+        if (RealLines.Count == 0)
+            return;
+
+        SelectLineID--;
+
+        if (SelectLineID < 0)
+        {
+            SelectLineID = RealLines.Count - 1;
+        }
+
+        var TargetLogicItem = RealLines[SelectLineID];
+
+        Grid? MatchGrid = null;
+        foreach (var G in VisibleRows)
+        {
+            if (UIHelper.GetMainGridKey(G).Equals(TargetLogicItem.Key))
+            {
+                MatchGrid = G;
+                break;
+            }
+        }
+
+        if (MatchGrid != null && IsGridInViewport(MatchGrid))
+        {
+            SetSelectLine(MatchGrid);
+        }
+        else
+        {
+            double Offset = 0;
+            for (int i = 0; i < SelectLineID; i++)
+            {
+                Offset += RealLines[i].Height;
+            }
+
+            Scroll.ScrollToVerticalOffset(Offset);
+
+            UpdateVisibleRows(true);
+
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                foreach (var G in VisibleRows)
+                {
+                    if (UIHelper.GetMainGridKey(G).Equals(TargetLogicItem.Key))
+                    {
+                        SetSelectLine(G);
+                        break;
+                    }
+                }
+            }));
+        }
+    }
+
+    public void Down()
+    {
+        if (RealLines.Count == 0)
+            return;
+
+        SelectLineID++;
+
+        if (SelectLineID >= RealLines.Count)
+        {
+            SelectLineID = 0;
+        }
+
+        else
+        {
+            var TargetLogicItem = RealLines[SelectLineID];
+
+            Grid? MatchGrid = null;
+            foreach (var G in VisibleRows)
+            {
+                if (UIHelper.GetMainGridKey(G).Equals(TargetLogicItem.Key))
+                {
+                    MatchGrid = G;
+                    break;
+                }
+            }
+
+            if (MatchGrid != null && IsGridInViewport(MatchGrid))
+            {
+                SetSelectLine(MatchGrid);
+            }
+            else
+            {
+                double Offset = 0;
+                for (int i = 0; i < SelectLineID; i++)
+                {
+                    Offset += RealLines[i].Height;
+                }
+
+                Scroll.ScrollToVerticalOffset(Offset);
+
+                UpdateVisibleRows(true);
+
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+                {
+                    foreach (var G in VisibleRows)
+                    {
+                        if (UIHelper.GetMainGridKey(G).Equals(TargetLogicItem.Key))
+                        {
+                            SetSelectLine(G);
+                            break;
+                        }
+                    }
+                }));
+            }
+        }
+    }
+
     private int GetRows()
     {
         return this.RealLines.Count;
@@ -117,6 +206,12 @@ public class YDListView
 
     public YDListView(Grid Parent)
     {
+        Style ScrollBarStyle = new Style(typeof(ScrollBar))
+        {
+            BasedOn = (Style)Application.Current.FindResource("for_scrollbar")
+        };
+        Parent.Resources.Add(typeof(ScrollBar), ScrollBarStyle);
+
         this.MainCanvas = new Canvas();
         this.MainCanvas.Background = null;
         this.MainCanvas.VerticalAlignment = VerticalAlignment.Top;
@@ -287,6 +382,7 @@ public class YDListView
                     Grid Grid = UIHelper.CreatLine(Row);
                     Grid.Tag = I;
                     Grid.Width = this.Parent.ActualWidth - 15;
+                    Grid.PreviewMouseDown += MainGrid_PreviewMouseDown;
                     Canvas.SetTop(Grid, CurrentTop);
                     Canvas.SetLeft(Grid, 0);
                     MainCanvas.Children.Add(Grid);
@@ -340,6 +436,11 @@ public class YDListView
                 UpdateVisibleRows();
             }
         }
+    }
+
+    private static void MainGrid_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        SetSelectLine((Grid)sender);
     }
 }
 
