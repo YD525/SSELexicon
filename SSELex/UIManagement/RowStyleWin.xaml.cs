@@ -11,6 +11,7 @@ using PhoenixEngine.TranslateManage;
 using System.Windows.Markup;
 using Mutagen.Bethesda.Skyrim;
 using SSELex.SkyrimManage;
+using System.Windows.Input;
 
 namespace SSELex.UIManagement
 {
@@ -59,8 +60,21 @@ namespace SSELex.UIManagement
             GetOriginal.Text = Item.SourceText;
 
             Grid GetTranslatedGrid = (Grid)GetChildGrid.Children[3];
-            TextBox GetTranslated = (TextBox)(((Border)GetTranslatedGrid.Children[0]).Child);
+            Border GetTranslatedBorder = (Border)GetTranslatedGrid.Children[0];
+
+            TextBox GetTranslated = (TextBox)(GetTranslatedBorder.Child);
+
             GetTranslated.Text = Item.TransText;
+
+            if (DeFine.GlobalLocalSetting.ViewMode == "Normal")
+            {
+                MainGrid.Cursor = Cursors.Hand;
+                GetKey.Cursor = Cursors.Hand;
+                GetOriginal.Cursor = Cursors.Hand;
+                GetTranslated.Cursor = Cursors.Hand;
+                GetTranslatedBorder.Background = null;
+                GetTranslated.IsReadOnly = true;
+            }
 
             return MainGrid;
         }

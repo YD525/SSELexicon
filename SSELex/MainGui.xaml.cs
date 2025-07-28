@@ -13,7 +13,6 @@ using SSELex.SkyrimModManager;
 using SSELex.TranslateManage;
 using SSELex.UIManage;
 using SSELex.UIManagement;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 using static SSELex.UIManage.SkyrimDataLoader;
 
 namespace SSELex
@@ -23,7 +22,7 @@ namespace SSELex
     /// </summary>
     public partial class MainGui : Window
     {
-        #region
+        #region Breathing Light
         public Storyboard? BreathingStoryboard = null;
 
         private void StartBreathingEffect()
@@ -41,6 +40,56 @@ namespace SSELex
 
         #endregion
 
+        #region WinControl
+
+        private void Min_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
+        public int SizeChangeState = 0;
+        private double OriginalLeft;
+        private double OriginalTop;
+        private double OriginalWidth;
+        private double OriginalHeight;
+        private void AutoMax_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var Screen = SystemParameters.WorkArea;
+
+            if (SizeChangeState == 0)
+            {
+                OriginalLeft = this.Left;
+                OriginalTop = this.Top;
+                OriginalWidth = this.Width;
+                OriginalHeight = this.Height;
+
+                double TargetWidth = Screen.Width - 100;
+                double TargetHeight = Screen.Height - 100;
+
+                this.Width = TargetWidth;
+                this.Height = TargetHeight;
+
+                this.Left = Screen.Left + (Screen.Width - TargetWidth) / 2;
+                this.Top = Screen.Top + (Screen.Height - TargetHeight) / 2;
+
+                SizeChangeState = 1;
+            }
+            else
+            {
+                this.Left = OriginalLeft;
+                this.Top = OriginalTop;
+                this.Width = OriginalWidth;
+                this.Height = OriginalHeight;
+
+                SizeChangeState = 0;
+            }
+        }
+        private void Close_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            DeFine.CloseAny();
+        }
+
+        #endregion
         public MainGui()
         {
             InitializeComponent();
@@ -75,6 +124,8 @@ namespace SSELex
 
             ContextGeneration.IsChecked = true;
             RightContextIndicator.Visibility = Visibility.Visible;
+
+            SyncConfig();
 
             new Thread(() =>
             {
@@ -448,13 +499,18 @@ namespace SSELex
         private readonly object ReloadLock = new object();
         private bool UseHotReloadFlag;
 
-        public void ReloadData(bool UseHotReload = false)
+        public void ReloadData(bool UseHotReload = false,bool ForceReload = false)
         {
             if (LoadSaveState != 1)
                 return;
             lock (ReloadLock)
             {
                 UseHotReloadFlag = UseHotReload;
+
+                if (ForceReload)
+                {
+                    ReloadDebounceTimer = null;
+                }
 
                 if (ReloadDebounceTimer == null)
                 {
@@ -757,7 +813,7 @@ namespace SSELex
 
         #region Search
 
-        private System.Timers.Timer SearchTimer;
+        private System.Timers.Timer ?SearchTimer;
         public void StartSearch()
         {
             this.Dispatcher.Invoke(new Action(() =>
@@ -861,5 +917,55 @@ namespace SSELex
                 }
             }
         }
+
+        public void SyncConfig()
+        {
+            if (DeFine.GlobalLocalSetting.ViewMode == "Normal")
+            {
+                EnableNormalModel();
+            }
+            else
+            {
+                EnableQuickModel();
+            }
+
+            LangFrom.SelectedValue = DeFine.GlobalLocalSetting.SourceLanguage.ToString();
+            LangTo.SelectedValue = DeFine.GlobalLocalSetting.TargetLanguage.ToString();
+        }
+
+        public void EnableNormalModel()
+        {
+            DeFine.GlobalLocalSetting.ViewMode = "Normal";
+            NormalModel.Style = (Style)this.FindResource("ModelSelected");
+            QuickModel.Style = (Style)this.FindResource("ModelUnselected");
+
+            NormalModelBlock.Visibility = Visibility.Visible;
+            QuickModelBlock.Visibility = Visibility.Collapsed;
+
+            ReloadData(true, true);
+        }
+
+        public void EnableQuickModel()
+        {
+            DeFine.GlobalLocalSetting.ViewMode = "Quick";
+            NormalModel.Style = (Style)this.FindResource("ModelUnselected");
+            QuickModel.Style = (Style)this.FindResource("ModelSelected");
+
+            NormalModelBlock.Visibility = Visibility.Collapsed;
+            QuickModelBlock.Visibility = Visibility.Visible;
+
+            ReloadData(true, true);
+        }
+       
+        private void NormalModel_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            EnableNormalModel();
+        }
+        private void QuickModel_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            EnableQuickModel();
+        }
+
+      
     }
 }

@@ -68,14 +68,14 @@
                 </Border>
 
 
-                <Border Style="{DynamicResource BlockButton}" Grid.Column="3">
+                <Border Style="{DynamicResource BlockButton}" Grid.Column="3" PreviewMouseDown="Min_PreviewMouseDown">
                     <ContentControl Style="{DynamicResource MinimizeIconStyle}"/>
                 </Border>
 
-                <Border Style="{DynamicResource BlockButton}" Grid.Column="4">
+                <Border Style="{DynamicResource BlockButton}" Grid.Column="4" PreviewMouseDown="AutoMax_PreviewMouseDown">
                     <ContentControl Style="{DynamicResource MaximizeIconStyle}"/>
                 </Border>
-                <Border Style="{DynamicResource BlockButton}" Grid.Column="5">
+                <Border Style="{DynamicResource BlockButton}" Grid.Column="5" PreviewMouseDown="Close_PreviewMouseDown">
                     <ContentControl Style="{DynamicResource CloseIconStyle}" Grid.Column="3"/>
                 </Border>
             </Grid>
@@ -301,22 +301,22 @@
                                                 <ColumnDefinition Width="1*"/>
                                             </Grid.ColumnDefinitions>
 
-                                            <Border Style="{DynamicResource ModelUnselected}" CornerRadius="5 0 0 5" Grid.Column="0">
+                                            <Border Name="NormalModel" Style="{DynamicResource ModelUnselected}" CornerRadius="5 0 0 5" Grid.Column="0" PreviewMouseDown="NormalModel_PreviewMouseDown">
                                                 <Grid>
                                                     <Label Style="{DynamicResource ModelFont}">
                                                         Normal
                                                     </Label>
-                                                    <Grid Visibility="Collapsed" Style="{DynamicResource ModelSelectedBlock}">
+                                                    <Grid Name="NormalModelBlock" Visibility="Collapsed" Style="{DynamicResource ModelSelectedBlock}">
                                                     </Grid>
                                                 </Grid>
                                             </Border>
 
-                                            <Border Style="{DynamicResource ModelSelected}"  CornerRadius="0 5 5 0" Grid.Column="1">
+                                            <Border Name="QuickModel" Style="{DynamicResource ModelSelected}"  CornerRadius="0 5 5 0" Grid.Column="1" PreviewMouseDown="QuickModel_PreviewMouseDown">
                                                 <Grid>
                                                     <Label Style="{DynamicResource ModelFont}">
                                                         Quick
                                                     </Label>
-                                                    <Grid Visibility="Visible" Style="{DynamicResource ModelSelectedBlock}">
+                                                    <Grid Name="QuickModelBlock" Visibility="Visible" Style="{DynamicResource ModelSelectedBlock}">
                                                     </Grid>
                                                 </Grid>
                                             </Border>

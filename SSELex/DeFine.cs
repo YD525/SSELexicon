@@ -198,8 +198,8 @@ namespace SSELex
 
         public bool AutoLoadDictionaryFile = false;
 
-        public Languages SourceLanguage = Languages.Auto;
-        public Languages TargetLanguage = Languages.English;
+        public Languages SourceLanguage { get; set; } = Languages.Auto;
+        public Languages TargetLanguage { get; set; } = Languages.English;
 
         public void ReadConfig()
         {
@@ -224,6 +224,8 @@ namespace SSELex
                         this.FileEncoding = GetSetting.FileEncoding;
                         this.ViewMode = GetSetting.ViewMode;
                         this.AutoLoadDictionaryFile = GetSetting.AutoLoadDictionaryFile;
+                        this.SourceLanguage = GetSetting.SourceLanguage;
+                        this.TargetLanguage = GetSetting.TargetLanguage;
                     }
                 }
                 else
