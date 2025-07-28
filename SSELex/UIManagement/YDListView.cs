@@ -54,13 +54,13 @@ public class YDListView
     public int BufferRows = 3;
     public bool CanSet = true;
 
-    private static int SelectLineID = 0;
-    private static Border ?LastSelectBorder = null;
-    public static void SetSelectLine(Grid MainGrid)
+    public int SelectLineID = 0;
+    public Border ?LastSelectBorder = null;
+    public void SetSelectLine(Grid MainGrid)
     {
         if (LastSelectBorder != null)
         {
-            LastSelectBorder.BorderBrush = null;
+            LastSelectBorder.BorderBrush = new SolidColorBrush(Colors.Black);
         }
 
         SelectLineID = ConvertHelper.ObjToInt(MainGrid.Tag);
@@ -75,6 +75,8 @@ public class YDListView
         GetTranslated.Focus();
 
         LastSelectBorder = MainBorder;
+
+        DeFine.WorkingWin.SetSelectFromAndToText();
     }
 
     private bool IsGridInViewport(Grid Grid)
@@ -442,7 +444,7 @@ public class YDListView
         }
     }
 
-    private static void MainGrid_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    private void MainGrid_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
         SetSelectLine((Grid)sender);
     }

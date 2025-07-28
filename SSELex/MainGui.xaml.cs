@@ -5,10 +5,13 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
+using ICSharpCode.AvalonEdit.Highlighting;
+using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using PhoenixEngine.ConvertManager;
 using PhoenixEngine.EngineManagement;
 using PhoenixEngine.TranslateCore;
 using PhoenixEngine.TranslateManage;
+using PhoenixEngine.TranslateManagement;
 using SSELex.SkyrimManage;
 using SSELex.SkyrimModManager;
 using SSELex.TranslateManage;
@@ -257,10 +260,12 @@ namespace SSELex
             if (ContextGeneration.IsChecked == true)
             {
                 RightContextIndicator.Visibility = Visibility.Visible;
+                DeFine.GlobalLocalSetting.ContextGeneration = true;
             }
             else
             {
                 RightContextIndicator.Visibility = Visibility.Collapsed;
+                DeFine.GlobalLocalSetting.ContextGeneration = false;
             }
 
         }
@@ -858,12 +863,14 @@ namespace SSELex
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             DeFine.CurrentSearchStr = SearchBox.Text.Trim();
+            if (DeFine.CurrentSearchStr.Trim().Length>0)
             StartSearch();
         }
 
         private void SearchBox_MouseLeave(object sender, MouseEventArgs e)
         {
             DeFine.CurrentSearchStr = SearchBox.Text.Trim();
+            if (DeFine.CurrentSearchStr.Trim().Length > 0)
             StartSearch();
         }
 
@@ -940,8 +947,32 @@ namespace SSELex
             }
         }
 
+        public void InitIDE()
+        {
+            string GetName = "SSELex" + ".IDERule.TextStyle.xshd";
+
+            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+
+            using (System.IO.Stream s = assembly.GetManifestResourceStream(GetName))
+            {
+                using (System.Xml.XmlTextReader reader = new System.Xml.XmlTextReader(s))
+                {
+                    var xshd = HighlightingLoader.LoadXshd(reader);
+
+                    this.Dispatcher.Invoke(new Action(() =>
+                    {
+                        FromStr.SyntaxHighlighting = HighlightingLoader.Load(xshd, HighlightingManager.Instance);
+                        ToStr.SyntaxHighlighting = HighlightingLoader.Load(xshd, HighlightingManager.Instance);
+                    }));
+                }
+            }
+        }
+
+
         public void SyncConfig()
         {
+            InitIDE();
+
             if (DeFine.GlobalLocalSetting.ViewMode == "Normal")
             {
                 EnableNormalModel();
@@ -971,6 +1002,17 @@ namespace SSELex
             {
                 UserTranslation.IsChecked = false;
             }
+
+            if (DeFine.GlobalLocalSetting.ContextGeneration)
+            {
+                ContextGeneration.IsChecked = true;
+                RightContextIndicator.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                ContextGeneration.IsChecked = false;
+                RightContextIndicator.Visibility = Visibility.Collapsed;
+            }
         }
 
         public void EnableNormalModel()
@@ -983,6 +1025,9 @@ namespace SSELex
             QuickModelBlock.Visibility = Visibility.Collapsed;
 
             ReloadData(true, true);
+
+            WritingArea.Height =new GridLength(DeFine.GlobalLocalSetting.WritingAreaHeight,GridUnitType.Pixel);
+            SplictLine.Height = new GridLength(3.5, GridUnitType.Pixel);
         }
 
         public void EnableQuickModel()
@@ -995,6 +1040,9 @@ namespace SSELex
             QuickModelBlock.Visibility = Visibility.Visible;
 
             ReloadData(true, true);
+
+            WritingArea.Height = new GridLength(0, GridUnitType.Pixel);
+            SplictLine.Height = new GridLength(0,GridUnitType.Pixel);
         }
        
         private void NormalModel_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -1025,6 +1073,57 @@ namespace SSELex
             else 
             {
                 DeFine.GlobalLocalSetting.CanClearUserTranslation = false;
+            }
+        }
+        private void SpeakFromStr(object sender, MouseButtonEventArgs e)
+        {
+            SpeechHelper.TryPlaySound(FromStr.Text);
+        }
+
+        private void SpeakToStr(object sender, MouseButtonEventArgs e)
+        {
+            SpeechHelper.TryPlaySound(ToStr.Text);
+        }
+
+        private void CancelSelect(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void TransCurrentItem(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void ApplyTransStr(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+
+        private void GridSplitter_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
+        {
+            DeFine.GlobalLocalSetting.WritingAreaHeight = WritingArea.Height.Value;
+        }
+
+        public void EmptyFromAndToText()
+        {
+            this.Dispatcher.Invoke(new Action(() => {
+                FromStr.Text = string.Empty;
+                ToStr.Text = string.Empty;
+            }));
+        }
+
+        public void SetSelectFromAndToText()
+        {
+            EmptyFromAndToText();
+
+            if (DeFine.GlobalLocalSetting.ViewMode == "Normal")
+            {
+                this.Dispatcher.Invoke(new Action(() => {
+                    FromStr.Text = TransViewList.RealLines[TransViewList.SelectLineID].SourceText;
+                    ToStr.Text = TransViewList.RealLines[TransViewList.SelectLineID].TransText;
+                }));
             }
         }
     }

@@ -194,6 +194,8 @@ namespace SSELex
         public bool AutoCompress { get; set; } = true;
         public SkyrimType SkyrimType { get; set; } = SkyrimType.SkyrimSE;
         public EncodingTypes FileEncoding { get; set; } = EncodingTypes.UTF8;
+
+        public double WritingAreaHeight { get; set; } = 0;
         public string ViewMode { get; set; } = "Normal";
 
         public bool AutoLoadDictionaryFile = false;
@@ -203,6 +205,7 @@ namespace SSELex
 
         public bool CanClearManualTranslation { get; set; } = false;
         public bool CanClearUserTranslation { get; set; } = false;
+        public bool ContextGeneration { get; set; } = true;
 
         public void ReadConfig()
         {
@@ -225,12 +228,14 @@ namespace SSELex
                         this.SkyrimType = GetSetting.SkyrimType;
                         this.AutoCompress = GetSetting.AutoCompress;
                         this.FileEncoding = GetSetting.FileEncoding;
+                        this.WritingAreaHeight = GetSetting.WritingAreaHeight;
                         this.ViewMode = GetSetting.ViewMode;
                         this.AutoLoadDictionaryFile = GetSetting.AutoLoadDictionaryFile;
                         this.SourceLanguage = GetSetting.SourceLanguage;
                         this.TargetLanguage = GetSetting.TargetLanguage;
                         this.CanClearManualTranslation = GetSetting.CanClearManualTranslation;
                         this.CanClearUserTranslation = GetSetting.CanClearUserTranslation;
+                        this.ContextGeneration = GetSetting.ContextGeneration;
                     }
                 }
                 else
