@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SSELex"
         mc:Ignorable="d"
-        Title="SSELexicon" PreviewKeyDown="Window_PreviewKeyDown" Height="850" Width="1200" Loaded="Window_Loaded" Style="{DynamicResource DefWin}" WindowStartupLocation="CenterScreen" AllowDrop="True" PreviewDragEnter="ModTransView_DragEnter" PreviewDrop="ModTransView_Drop"  PreviewDragLeave="ModTransView_DragLeave" Closing="Window_Closing" SizeChanged="Window_SizeChanged">
+        Title="SSELexicon" PreviewKeyDown="Window_PreviewKeyDown" Height="850" Width="1000" Loaded="Window_Loaded" Style="{DynamicResource DefWin}" WindowStartupLocation="CenterScreen" AllowDrop="True" PreviewDragEnter="ModTransView_DragEnter" PreviewDrop="ModTransView_Drop"  PreviewDragLeave="ModTransView_DragLeave" Closing="Window_Closing" SizeChanged="Window_SizeChanged">
 
     <Window.Resources>
         <Storyboard x:Key="BreathingEffect" RepeatBehavior="Forever" AutoReverse="True">
@@ -82,7 +82,7 @@
 
             <Grid Grid.Row="1">
 
-                <Border Style="{DynamicResource LeftMenu}" Name="LeftMenu" Height = "450">
+                <Border Style="{DynamicResource LeftMenu}" Name="LeftMenu" Height = "0">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30"/>
@@ -191,7 +191,7 @@
                         </Grid>
 
                         <Grid Background="#FF282828" Cursor="Hand" Grid.Row="12">
-                            <ContentControl  Style="{DynamicResource IndicatorOffStyle}" />
+                            <ContentControl Style="{DynamicResource  IndicatorOnStyle}" />
 
                             <StackPanel Orientation="Horizontal">
                                 <Grid Style="{DynamicResource NodeDisable}">
@@ -233,7 +233,7 @@
                         </Grid>
 
                         <Grid Background="#FF282828" Cursor="Hand" Grid.Row="20">
-                            <ContentControl  Style="{DynamicResource IndicatorOffStyle}" />
+                            <ContentControl  Style="{DynamicResource IndicatorOnStyle}" />
 
                             <StackPanel Orientation="Horizontal">
                                 <Grid Style="{DynamicResource NodeDisable}">
@@ -276,7 +276,7 @@
                         <Grid Grid.Column="1" Background="#FF282828">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="5"/>
-                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="45"/>
                                 <RowDefinition Height="5"/>
                                 <RowDefinition Height="40"/>
                                 <RowDefinition Height="5"/>
@@ -294,35 +294,37 @@
                                         <ColumnDefinition Width="135"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <Border Background="#FF0A61AF" Margin="0 0 0 0" CornerRadius="5" Grid.Column="0">
+                                    <Border Style="{DynamicResource ModelSelectStyle}" Grid.Column="0">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="1*"/>
                                                 <ColumnDefinition Width="1*"/>
                                             </Grid.ColumnDefinitions>
 
-                                            <Border CornerRadius="5 0 0 5" Background="#FF0B74D1" Grid.Column="0" Cursor="Hand">
+                                            <Border Style="{DynamicResource ModelSelected}" CornerRadius="5 0 0 5" Grid.Column="0">
                                                 <Grid>
-                                                    <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    <Label Style="{DynamicResource ModelFont}">
                                                         Normal
                                                     </Label>
-                                                    <Grid Width="25" Height="2" Background="White" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                                                    <Grid Style="{DynamicResource ModelSelectedBlock}">
                                                     </Grid>
                                                 </Grid>
                                             </Border>
 
-                                            <Border CornerRadius="0 5 5 0" Background="#FF0A61AF" Grid.Column="1" Cursor="Hand">
+                                            <Border Style="{DynamicResource ModelUnselected}"  CornerRadius="0 5 5 0" Grid.Column="1">
                                                 <Grid>
-                                                    <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    <Label Style="{DynamicResource ModelFont}">
                                                         Quick
                                                     </Label>
+                                                    <Grid Visibility="Collapsed" Style="{DynamicResource ModelSelectedBlock}">
+                                                    </Grid>
                                                 </Grid>
                                             </Border>
 
                                         </Grid>
                                     </Border>
 
-                                    <Border  Background="#FF0A61AF" CornerRadius="5" Margin="5 0 0 0" Grid.Column="1">
+                                    <Border Style="{DynamicResource ProcessBarBackgroundStyle}" Grid.Column="1">
                                         <Grid>
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
@@ -333,12 +335,12 @@
                                                     STRINGS(5000/10000)
                                                 </Label>
                                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1" Margin="0 0 5 0" Panel.ZIndex="999">
-                                                    <ContentControl Style="{DynamicResource PlayIconStyle}" Panel.ZIndex="1"/>
-                                                    <ContentControl Style="{DynamicResource PauseIconStyle}" Panel.ZIndex="1"/>
-                                                    <ContentControl Style="{DynamicResource CancelPlayIconStyle}" Panel.ZIndex="1"/>
+                                                    <ContentControl Style="{DynamicResource PlayIconStyle}" Panel.ZIndex="1" Cursor="Hand"/>
+                                                    <ContentControl Style="{DynamicResource PauseIconStyle}" Panel.ZIndex="1" Cursor="Hand"/>
+                                                    <ContentControl Style="{DynamicResource CancelPlayIconStyle}" Panel.ZIndex="1" Cursor="Hand"/>
                                                 </StackPanel>
                                             </Grid>
-                                            <Border Name="ProcessBar" BorderThickness="0 0 3 0" BorderBrush="White" CornerRadius="5" Background="#FF74C2FF" Opacity="0.35" Width="130" HorizontalAlignment="Left" Panel.ZIndex="1">
+                                            <Border Name="ProcessBar" Style="{DynamicResource ProcessBarStyle}" Width="150">
                                                 <Grid ClipToBounds="True">
                                                     <!-- ScanLine -->
                                                     <Rectangle Width="30" HorizontalAlignment="Left" RadiusX="5" RadiusY="5" Opacity="0.65">
@@ -374,7 +376,7 @@
                                         </Border>
                                     </Grid>
 
-                                    <Border Background="#FF7B7B7B" Margin="5 0 0 0" CornerRadius="5" Grid.Column="3">
+                                    <Border Style="{DynamicResource SearchBox}" Grid.Column="3">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="30"/>
@@ -383,8 +385,8 @@
 
                                             <ContentControl Style="{DynamicResource MagnifyingGlassIconStyle}" Panel.ZIndex="1" Height="15" Width="15"/>
 
-                                            <Border CornerRadius="0 5 5 0" Background="#FF3A3A3A" Grid.Column="1">
-                                                <TextBox Margin="5 0 5 0" Name="SearchBox" TabIndex="0" Grid.Column="1" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="#FF135FB8" BorderThickness="0" Foreground="White" CaretBrush="White" VerticalContentAlignment="Center" FontSize="13" >
+                                            <Border Style="{DynamicResource SearchBoxPic}" Grid.Column="1">
+                                                <TextBox Style="{DynamicResource SearchBoxText}" Name="SearchBox" Grid.Column="1">
 
                                                 </TextBox>
                                             </Border>
@@ -394,14 +396,13 @@
 
                                     <Grid Grid.Column="4">
                                         <StackPanel Orientation="Horizontal">
-
-                                            <Border  CornerRadius="5" Background="#FF7B7B7B" Width="80" Name="StartTransBtn"  Margin="5 0 0 0">
-                                                <Label Name="LoadFileButton" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand">
+                                            <Border  Style="{DynamicResource ButtonStyle}" Width="80">
+                                                <Label Name="LoadFileButton" Style="{DynamicResource ButtonFont}">
                                                     LoadFile
                                                 </Label>
                                             </Border>
 
-                                            <Border  CornerRadius="5" Background="#FF7B7B7B" Width="45" Margin="5 0 0 0">
+                                            <Border Style="{DynamicResource ButtonStyle}" Width="45">
                                                 <ContentControl Style="{DynamicResource CancelPlayIconStyle}" Panel.ZIndex="1"/>
                                             </Border>
                                         </StackPanel>
@@ -412,76 +413,79 @@
                             </Grid>
 
                             <Grid Grid.Row="3" Margin="10 0 10 0">
-                                <StackPanel Orientation="Horizontal">
-                                    <Grid  Margin="0 0 0 0"  Width="300" HorizontalAlignment="Left">
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="1*"/>
-                                                <ColumnDefinition Width="1*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Grid Grid.Column="0">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="35"/>
-                                                    <ColumnDefinition Width="1*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                    From
-                                                </Label>
-                                                <ComboBox Grid.Column="1" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Height="30" Style="{StaticResource CustomComboBoxStyle}">
-                                                </ComboBox>
-                                            </Grid>
-                                            <Grid Grid.Column="1">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="35"/>
-                                                    <ColumnDefinition Width="1*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                    To
-                                                </Label>
-                                                <ComboBox Grid.Column="1" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Height="30" Style="{StaticResource CustomComboBoxStyle}">
-                                                </ComboBox>
-                                            </Grid>
-                                        </Grid>
-                                    </Grid>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="35"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="35"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="520"/>
+                                        <ColumnDefinition Width="130"/>
+                                    </Grid.ColumnDefinitions>
 
-                                    <Border Grid.Column="2" ToolTip="After clicking, the source text will be reloaded from the original data source to synchronize or refresh the content." Name="DeleteDictionaryBtn" CornerRadius="5" Background="#FF7B7B7B" Height="30" Margin="10 0 0 0" Opacity="0.3" Cursor="Hand">
-                                        <Label Padding="10 0 10 0"  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                            RefreshSourceText
-                                        </Label>
-                                    </Border>
-
-                                    <Border CornerRadius="5" Background="#FF7B7B7B"  Height="30" Margin="10 0 0 0" Cursor="Hand" Grid.Column="4">
-                                        <Label Padding="10 0 10 0"  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                            ClearCache
-                                        </Label>
-                                    </Border>
-
-                                    <Border  CornerRadius="5" Background="#FF7B7B7B" Height="30" Margin="10 0 0 0"  Cursor="Hand" Grid.Column="5">
-                                        <Label Padding="10 0 10 0"  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                            ReSet
-                                        </Label>
-                                    </Border>
-
-                                    <Label VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Margin="5 0 0 0">
-                                        MarkLine
+                                    <Label  Grid.Column="0" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        From
                                     </Label>
+                                    <ComboBox  Grid.Column="1" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Height="30" Style="{StaticResource CustomComboBoxStyle}">
+                                    </ComboBox>
 
-                                    <Border CornerRadius="5" Background="White" Width="20" Height="20" Margin="5 0 0 0" Cursor="Hand">
-                                    </Border>
+                                    <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        To
+                                    </Label>
+                                    <ComboBox Grid.Column="3" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Height="30" Style="{StaticResource CustomComboBoxStyle}">
+                                    </ComboBox>
+                                   
 
-                                    <Border CornerRadius="5" Background="#FF0B9BD4" Width="20" Height="20" Margin="5 0 0 0" Cursor="Hand">
-                                    </Border>
+                                    <StackPanel Orientation="Horizontal" Grid.Column="4">
 
-                                    <Border CornerRadius="5" Background="#FFE59924" Width="20" Height="20" Margin="5 0 0 0" Cursor="Hand">
-                                    </Border>
+                                        <Border CornerRadius="5" BorderThickness="1" BorderBrush="#FF949494" Margin="5 0 0 0" Height="35">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBox  Width="70" HorizontalContentAlignment="Center" AcceptsReturn="True" TextWrapping="Wrap" BorderBrush="{x:Null}" Background="{x:Null}" BorderThickness="0" IsReadOnly="True" Margin="5 0 0 0"  Text="Original Text Source:" VerticalAlignment="Center" Foreground="White"/>
 
+                                                <Border Style="{DynamicResource ButtonStyle}">
+                                                    <Label Style="{DynamicResource ButtonFont}">
+                                                        Refresh
+                                                    </Label>
+                                                </Border>
+                                            </StackPanel>
+                                        </Border>
 
-                                    <Border CornerRadius="5" Background="#FF7B7B7B"  Height="30" Margin="10 0 0 0" Cursor="Hand" Grid.Column="4">
-                                        <Label Padding="10 0 10 0"  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                            Export As...
+                                        <Border CornerRadius="5" BorderThickness="1" BorderBrush="#FF949494" Margin="10 0 0 0" Height="35">
+                                            <StackPanel Orientation="Horizontal" Margin="0 0 0 0">
+                                                <TextBox Width="100" HorizontalContentAlignment="Center" AcceptsReturn="True" TextWrapping="Wrap" BorderBrush="{x:Null}" Background="{x:Null}" BorderThickness="0" IsReadOnly="True" Margin="5 0 0 0" Text="Cloud Translation Cache" VerticalAlignment="Center" Foreground="White"/>
+
+                                                <CheckBox Margin="5 0 0 0" Name="ManualTranslation" VerticalAlignment="Center" Grid.Column="6" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="ContextGeneration_Click"/>
+
+                                                <TextBox  Width="100" HorizontalContentAlignment="Center" AcceptsReturn="True" TextWrapping="Wrap" BorderBrush="{x:Null}" Background="{x:Null}" BorderThickness="0" IsReadOnly="True" Margin="5 0 0 0"  Text="User Input Translation Cache" VerticalAlignment="Center" Foreground="White"/>
+
+                                                <CheckBox Margin="5 0 0 0" Name="UserTranslation" VerticalAlignment="Center" Grid.Column="6" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="ContextGeneration_Click"/>
+                                                <Border Style="{DynamicResource ButtonStyle}">
+                                                    <Label Style="{DynamicResource ButtonFont}">
+                                                        ClearCache
+                                                    </Label>
+                                                </Border>
+                                            </StackPanel>
+                                        </Border>
+
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" Grid.Column="5" HorizontalAlignment="Right" Margin="0 0 0 0">
+
+                                        <Label VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Margin="5 0 0 0">
+                                            MarkLine
                                         </Label>
-                                    </Border>
-                                </StackPanel>
+
+                                        <Border CornerRadius="5" Background="White" Width="20" Height="20" Margin="5 0 0 0" Cursor="Hand">
+                                        </Border>
+
+                                        <Border CornerRadius="5" Background="#FF0B9BD4" Width="20" Height="20" Margin="5 0 0 0" Cursor="Hand">
+                                        </Border>
+
+                                        <Border CornerRadius="5" Background="#FFE59924" Width="20" Height="20" Margin="5 0 0 0" Cursor="Hand">
+                                        </Border>
+
+                                    </StackPanel>
+                                </Grid>
                             </Grid>
 
                             <Grid Height="30" Style="{DynamicResource ListViewHeader}">
@@ -509,7 +513,7 @@
                         </Grid>
                     </Grid>
 
-                    <!--需要做样式的了 Auto Download也需要 负载均衡可视化-->
+                    <!--Champollion Auto Download-->
                 </Grid>
                 <Border  CornerRadius="0 0 8 8" Style="{DynamicResource Panel}">
                 </Border>

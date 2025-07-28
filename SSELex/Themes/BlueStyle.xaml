@@ -134,6 +134,93 @@
         <Setter Property="CornerRadius" Value="2"/>
     </Style>
 
+    <Style x:Key="ButtonStyle" TargetType="Border">
+        <Setter Property="Height"  Value="35"/>
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="Background"  Value="#FF7B7B7B"/>
+        <Setter Property="Margin"  Value="5 0 0 0"/>
+        <Setter Property="Cursor"  Value="Hand"/>
+    </Style>
+
+    <Style x:Key="ButtonFont" TargetType="Label">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="HorizontalAlignment"  Value="Center"/>
+        <Setter Property="VerticalAlignment"  Value="Center"/>
+        <Setter Property="Padding"  Value="10 3 10 3"/>
+    </Style>
+
+    <Style x:Key="ModelSelectStyle" TargetType="Border">
+        <Setter Property="Background" Value="#FF0A61AF"/>
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="Height" Value="35"/>
+    </Style>
+
+    <Style x:Key="ModelSelected" TargetType="Border">
+        <Setter Property="Background" Value="#FF0B74D1"/>
+        <Setter Property="Cursor" Value="Hand"/>
+    </Style>
+
+    <Style x:Key="ModelUnselected" TargetType="Border">
+        <Setter Property="Background" Value="#FF0A61AF"/>
+        <Setter Property="Cursor" Value="Hand"/>
+    </Style>
+
+    <Style x:Key="ModelSelectedBlock" TargetType="Grid">
+        <Setter Property="Height" Value="2"/>
+        <Setter Property="Width" Value="25"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Bottom"/>
+    </Style>
+
+    <Style x:Key="ModelFont" TargetType="Label">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+
+
+    <Style x:Key="ProcessBarBackgroundStyle" TargetType="Border">
+        <Setter Property="Background" Value="#FF0A61AF"/>
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="Margin" Value="5 0 0 0"/>
+        <Setter Property="Height" Value="35"/>
+    </Style>
+
+    <Style x:Key="ProcessBarStyle" TargetType="Border">
+        <Setter Property="BorderThickness" Value="0 0 3 0"/>
+        <Setter Property="BorderBrush" Value="White"/>
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="Background" Value="#FF74C2FF"/>
+        <Setter Property="Opacity" Value="0.35"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="Panel.ZIndex" Value="1"/>
+    </Style>
+
+    <Style x:Key="SearchBox" TargetType="Border">
+        <Setter Property="Background" Value="#FF7B7B7B"/>
+        <Setter Property="Height" Value="35"/>
+        <Setter Property="CornerRadius" Value="5"/>
+    </Style>
+    <Style x:Key="SearchBoxPic" TargetType="Border">
+        <Setter Property="CornerRadius" Value="0 5 5 0"/>
+        <Setter Property="Background" Value="#FF3A3A3A"/>
+    </Style>
+    
+    <Style x:Key="SearchBoxText" TargetType="TextBox">
+        <Setter Property="Margin" Value="5 0 5 0"/>
+        <Setter Property="TabIndex" Value="0"/>
+        <Setter Property="Background" Value="{x:Null}"/>
+        <Setter Property="BorderBrush" Value="{x:Null}"/>
+        <Setter Property="SelectionBrush" Value="#FF135FB8"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="CaretBrush" Value="White"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="FontSize" Value="13"/>
+    </Style>
+
     <Style x:Key="NavStyle" TargetType="Border">
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="Panel.ZIndex" Value="200"/>
