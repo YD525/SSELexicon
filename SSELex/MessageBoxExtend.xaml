@@ -50,22 +50,22 @@
                         Tittle
                     </Label>
                     <Grid Grid.Row="1">
-                        <TextBox Margin="13 0 13 0" Name="CurrentMsg" FontSize="13" Background="{x:Null}" BorderBrush="{x:Null}" BorderThickness="0" TextWrapping="Wrap" AcceptsReturn="True" Foreground="White">
+                        <TextBox IsReadOnly="True" Margin="13 0 13 0" Name="CurrentMsg" FontSize="13" Background="{x:Null}" BorderBrush="{x:Null}" BorderThickness="0" TextWrapping="Wrap" AcceptsReturn="True" Foreground="White">
                             Test Line
                         </TextBox>
                     </Grid>
 
                     <Grid Grid.Row="1" HorizontalAlignment="Right" Height="40" Margin="0 10 0 5" VerticalAlignment="Bottom">
                         <StackPanel Orientation="Horizontal" Margin="0 0 5 0">
-                            <Border BorderThickness="1" BorderBrush="White" Margin="5" Background="#FF0C539C" Width="60" PreviewMouseDown="Confirm" Name="ConfirmBtn" Cursor="Hand">
+                            <Border BorderThickness="1" BorderBrush="White" Margin="5" Background="#FF0C539C" Width="65" PreviewMouseDown="Confirm" Name="ConfirmBtn" Cursor="Hand">
                                 <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15">
-                                    确认
+                                    Confirm
                                 </Label>
                             </Border>
 
                             <Border BorderThickness="1" BorderBrush="White" Margin="5" Background="#FF0887E9" Width="60" PreviewMouseDown="Cancel" Name="CancelBtn" Cursor="Hand">
                                 <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15">
-                                    取消
+                                    Cancel
                                 </Label>
                             </Border>
                         </StackPanel>

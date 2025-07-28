@@ -386,7 +386,7 @@
                                             <ContentControl Style="{DynamicResource MagnifyingGlassIconStyle}" Panel.ZIndex="1" Height="15" Width="15"/>
 
                                             <Border Style="{DynamicResource SearchBoxPic}" Grid.Column="1">
-                                                <TextBox Style="{DynamicResource SearchBoxText}" Name="SearchBox" Grid.Column="1">
+                                                <TextBox Style="{DynamicResource SearchBoxText}" Name="SearchBox" Grid.Column="1" TextChanged="SearchBox_TextChanged" MouseLeave="SearchBox_MouseLeave">
 
                                                 </TextBox>
                                             </Border>
@@ -426,13 +426,13 @@
                                     <Label  Grid.Column="0" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
                                         From
                                     </Label>
-                                    <ComboBox Name="LangFrom" Grid.Column="1" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Height="30" Style="{StaticResource CustomComboBoxStyle}">
+                                    <ComboBox Name="LangFrom" SelectionChanged="LangFrom_SelectionChanged" Grid.Column="1" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Height="30" Style="{StaticResource CustomComboBoxStyle}">
                                     </ComboBox>
 
                                     <Label Grid.Column="2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
                                         To
                                     </Label>
-                                    <ComboBox Name="LangTo" Grid.Column="3" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Height="30" Style="{StaticResource CustomComboBoxStyle}">
+                                    <ComboBox Name="LangTo" SelectionChanged="LangTo_SelectionChanged" Grid.Column="3" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Height="30" Style="{StaticResource CustomComboBoxStyle}">
                                     </ComboBox>
 
 
@@ -444,7 +444,7 @@
                                                     Original Text Source
                                                 </TextBox>
 
-                                                <Border Name="RefreshDictionary" Style="{DynamicResource ButtonStyle}" Opacity="0.5">
+                                                <Border Name="RefreshDictionary" Style="{DynamicResource ButtonStyle}" Opacity="0.5" PreviewMouseDown="RefreshDictionary_PreviewMouseDown">
                                                     <Label Style="{DynamicResource ButtonFont}">
                                                         Refresh
                                                     </Label>
@@ -467,7 +467,7 @@
 
                                                 <CheckBox Margin="5 0 5 0" Name="UserTranslation" VerticalAlignment="Center" Grid.Column="6" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="ContextGeneration_Click"/>
 
-                                                <Border Style="{DynamicResource ButtonStyle}">
+                                                <Border Style="{DynamicResource ButtonStyle}" PreviewMouseDown="ClearCache_PreviewMouseDown">
                                                     <Label Style="{DynamicResource ButtonFont}">
                                                         ClearCache
                                                     </Label>

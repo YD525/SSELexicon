@@ -1442,12 +1442,11 @@ namespace SSELex
 
         private void ClearCache(object sender, MouseButtonEventArgs e)
         {
-            Translator.ClearAICache();
             if (MessageBoxExtend.Show(this,"Clear the cache for translation?", "Warning: After cleanup, all current content (including previous translations) will no longer be cached. Translating again will retrieve data from the cloud, which may waste your previous translation work and increase word count consumption.", MsgAction.YesNo, MsgType.Info) > 0)
             {
+                Translator.ClearAICache();
                 if (Translator.ClearCloudCache(DeFine.CurrentModName))
                 {
-                    MessageBoxExtend.Show(this,"DBMsg", "Done!", MsgAction.Yes, MsgType.Info);
                     Engine.Vacuum();
                     DeFine.WorkingWin.ReloadData();
                 }

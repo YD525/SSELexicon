@@ -5,6 +5,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using PhoenixEngine.ConvertManager;
+using PhoenixEngine.EngineManagement;
+using PhoenixEngine.TranslateCore;
 using PhoenixEngine.TranslateManage;
 using SSELex.SkyrimManage;
 using SSELex.SkyrimModManager;
@@ -22,14 +24,14 @@ namespace SSELex
     public partial class MainGui : Window
     {
         #region
-        public Storyboard ?BreathingStoryboard = null;
+        public Storyboard? BreathingStoryboard = null;
 
         private void StartBreathingEffect()
         {
             BreathingStoryboard = (Storyboard)FindResource("BreathingEffect");
             Storyboard.SetTarget(BreathingStoryboard, NoteEffect);
             BreathingStoryboard.Begin();
-            
+
         }
 
         private void StopBreathingEffect()
@@ -159,7 +161,8 @@ namespace SSELex
 
         public void ShowLeftMenu(bool Show)
         {
-            this.Dispatcher.Invoke(new Action(() => {
+            this.Dispatcher.Invoke(new Action(() =>
+            {
                 if (Show)
                 {
                     Mask.Visibility = Visibility.Visible;
@@ -213,7 +216,7 @@ namespace SSELex
 
         public void SetLog(string Str)
         {
-           
+
         }
 
         public void GetStatisticsR()
@@ -353,9 +356,9 @@ namespace SSELex
         public string LModName = "";
         string LastSetPath = "";
 
-        public MCMReader ?GlobalMCMReader = null;
-        public EspReader ?GlobalEspReader = null;
-        public PexReader ?GlobalPexReader = null;
+        public MCMReader? GlobalMCMReader = null;
+        public EspReader? GlobalEspReader = null;
+        public PexReader? GlobalPexReader = null;
 
         public List<ObjSelect> CanSetSelecter = new List<ObjSelect>();
         public ObjSelect CurrentSelect = ObjSelect.Null;
@@ -441,7 +444,7 @@ namespace SSELex
             TypeSelector.SelectedValue = ObjSelect.All.ToString();
         }
 
-        private System.Timers.Timer ?ReloadDebounceTimer;
+        private System.Timers.Timer? ReloadDebounceTimer;
         private readonly object ReloadLock = new object();
         private bool UseHotReloadFlag;
 
@@ -510,12 +513,10 @@ namespace SSELex
                 if (!CheckDictionary())
                 {
                     RefreshDictionary.Opacity = 0.5;
-                    RefreshDictionary.IsEnabled = false;
                 }
                 else
                 {
                     RefreshDictionary.Opacity = 1;
-                    RefreshDictionary.IsEnabled = true;
                 }
 
                 YDDictionaryHelper.ReadDictionary(GetModName);
@@ -754,6 +755,111 @@ namespace SSELex
             }
         }
 
-  
+        #region Search
+
+        private System.Timers.Timer SearchTimer;
+        public void StartSearch()
+        {
+            this.Dispatcher.Invoke(new Action(() =>
+            {
+
+                if (SearchTimer == null)
+                {
+                    SearchTimer = new System.Timers.Timer(500);
+                    SearchTimer.AutoReset = false;
+                    SearchTimer.Elapsed += (s, e) =>
+                    {
+                        this.Dispatcher.Invoke(() => ReloadData());
+                    };
+                }
+                SearchTimer.Stop();
+                SearchTimer.Start();
+            }));
+        }
+
+        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            DeFine.CurrentSearchStr = SearchBox.Text.Trim();
+            StartSearch();
+        }
+
+        private void SearchBox_MouseLeave(object sender, MouseEventArgs e)
+        {
+            DeFine.CurrentSearchStr = SearchBox.Text.Trim();
+            StartSearch();
+        }
+
+        #endregion
+
+        private void LangFrom_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string GetValue = ConvertHelper.ObjToStr(LangFrom.SelectedValue);
+
+            if (GetValue.Trim().Length > 0)
+            {
+                DeFine.GlobalLocalSetting.SourceLanguage = Enum.Parse<Languages>(GetValue);
+            }
+        }
+
+        private void LangTo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string GetValue = ConvertHelper.ObjToStr(LangTo.SelectedValue);
+
+            if (GetValue.Trim().Length > 0)
+            {
+                DeFine.GlobalLocalSetting.TargetLanguage = Enum.Parse<Languages>(GetValue);
+            }
+        }
+
+        private void ClearCache_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (TransViewList.Rows > 0)
+            {
+                int CallFuncCount = 0;
+                if (ManualTranslation.IsChecked == true)
+                {
+                    Translator.ClearAICache();
+                    if (Translator.ClearCloudCache(DeFine.CurrentModName))
+                    {
+                        Engine.Vacuum();
+                    }
+                    CallFuncCount++;
+                }
+                if (UserTranslation.IsChecked == true)
+                {
+                    TranslatorExtend.ReSetAllTransText();
+                    CallFuncCount++;
+                }
+
+                if (CallFuncCount > 0)
+                {
+                    MessageBoxExtend.Show(this,"Done!");
+                    DeFine.WorkingWin.ReloadData();
+                }
+            }
+        }
+
+        private void RefreshDictionary_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (DeFine.CurrentModName.Trim().Length > 0)
+            {
+                int CallFuncCount = 0;
+
+                string SetPath = DeFine.GetFullPath(@"\Librarys\" + DeFine.CurrentModName + ".Json");
+
+                if (File.Exists(SetPath))
+                {
+                    File.Delete(SetPath);
+                    CallFuncCount++;
+                }
+
+                MessageBoxExtend.Show(this, "Original source text has been refreshed from the current file.");
+
+                if (CallFuncCount > 0)
+                {
+                    DeFine.WorkingWin.ReloadData();
+                }
+            }
+        }
     }
 }
