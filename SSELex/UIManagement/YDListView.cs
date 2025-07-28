@@ -386,6 +386,10 @@ public class YDListView
                     Canvas.SetTop(Grid, CurrentTop);
                     Canvas.SetLeft(Grid, 0);
                     MainCanvas.Children.Add(Grid);
+                    if (I.Equals(SelectLineID))
+                    {
+                        SetSelectLine(Grid);
+                    }
                 }
             }
 

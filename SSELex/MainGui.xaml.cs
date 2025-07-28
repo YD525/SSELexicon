@@ -110,7 +110,13 @@ namespace SSELex
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-
+            if (TransViewList != null)
+            {
+                if (TransViewList.RealLines != null)
+                {
+                    ReloadData(true);
+                }
+            }
         }
 
         private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -259,10 +265,14 @@ namespace SSELex
                         if (ReadTrdWorkState)
                         {
                             TransProcess.Content = string.Format("Loading({0}/{1})", UIHelper.ModifyCount, MaxTransCount);
+                            TypeSelector.Opacity = 0.5;
+                            TypeSelector.IsEnabled = false;
                         }
                         else
                         {
                             TransProcess.Content = string.Format("STRINGS({0}/{1})", UIHelper.ModifyCount, MaxTransCount);
+                            TypeSelector.Opacity = 1;
+                            TypeSelector.IsEnabled = true;
                         }
                     }
                 }));
