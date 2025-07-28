@@ -49,10 +49,13 @@ namespace SSELex
             var Storyboard = (Storyboard)this.Resources["ScanAnimation"];
             Storyboard.Begin(this, true);
 
-            new Thread(() =>
-            {
-                MessageBoxExtend.Show(this, "TestTittle", "TestLine", MsgAction.YesNo, MsgType.Info);
-            }).Start();
+            //new Thread(() =>
+            //{
+            //    MessageBoxExtend.Show(this, "TestTittle", "TestLine", MsgAction.YesNo, MsgType.Info);
+            //}).Start();
+
+            ContextGeneration.IsChecked = true;
+            RightContextIndicator.Visibility = Visibility.Visible;
         }
 
         private void ModTransView_Drop(object sender, DragEventArgs e)
@@ -111,6 +114,59 @@ namespace SSELex
 
         private void TransView_MouseLeave(object sender, MouseEventArgs e)
         {
+
+        }
+
+        public void ShowLeftMenu(bool Show)
+        {
+            this.Dispatcher.Invoke(new Action(() => {
+                if (Show)
+                {
+                    Mask.Visibility = Visibility.Visible;
+                    Storyboard Storyboard = (Storyboard)this.Resources["ExpandMenu"];
+                    Storyboard.Begin();
+
+                    IsExpanded = true;
+                }
+                else
+                {
+                    Mask.Visibility = Visibility.Collapsed;
+                    Storyboard Storyboard = (Storyboard)this.Resources["CollapseMenu"];
+                    Storyboard.Begin();
+
+                    IsExpanded = false;
+                }
+            }));
+        }
+
+        private bool IsExpanded = false;
+        private void ShowLeftMenu(object sender, MouseButtonEventArgs e)
+        {
+            if (IsExpanded)
+            {
+                ShowLeftMenu(false);
+            }
+            else
+            {
+                ShowLeftMenu(true);
+            }
+        }
+        private void Mask_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            ShowLeftMenu(false);
+        }
+
+
+        private void ContextGeneration_Click(object sender, RoutedEventArgs e)
+        {
+            if (ContextGeneration.IsChecked == true)
+            {
+                RightContextIndicator.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                RightContextIndicator.Visibility = Visibility.Collapsed;
+            }
 
         }
     }

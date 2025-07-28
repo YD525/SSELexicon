@@ -30,6 +30,78 @@
      </Setter>
     </Style>
 
+    <Style x:Key="ToggleCircleCheckBox" TargetType="CheckBox">
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Width" Value="32"/>
+        <Setter Property="Height" Value="17"/>
+    
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="CheckBox">
+                    <Grid x:Name="RootGrid">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CheckStates">
+                                <VisualState x:Name="Unchecked">
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="SwitchBackground"
+                                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                To="Gray"
+                                                Duration="0:0:0.15" />
+                                        <DoubleAnimation Storyboard.TargetName="KnobTranslateTransform"
+                                                 Storyboard.TargetProperty="X"
+                                                 To="0"
+                                                 Duration="0:0:0.15" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Checked">
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="SwitchBackground"
+                                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                To="#FF0B74D1"
+                                                Duration="0:0:0.15" />
+                                        <DoubleAnimation Storyboard.TargetName="KnobTranslateTransform"
+                                                 Storyboard.TargetProperty="X"
+                                                 To="16"
+                                                 Duration="0:0:0.15" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="SwitchKnob"
+                                                Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)"
+                                                To="#FFDDDDDD"
+                                                Duration="0:0:0.1" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled" />
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
+                        <Border x:Name="SwitchBackground"
+                        CornerRadius="8.5" 
+                            Background="Gray"
+                        Width="32" Height="17" />
+
+                        <Ellipse x:Name="SwitchKnob"
+                         Fill="White"
+                         Width="12" Height="12"
+                         HorizontalAlignment="Left"
+                         Margin="2 0 0 0"
+                         VerticalAlignment="Center">
+                                
+                                <Ellipse.RenderTransform>
+                                    <TranslateTransform x:Name="KnobTranslateTransform" />
+                                </Ellipse.RenderTransform>
+                            </Ellipse>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="PanelHeader" TargetType="Border">
         <Setter Property="Background" Value="#FF0B74D1"/>
         <Setter Property="CornerRadius" Value="8 8 0 0"/>
@@ -48,6 +120,10 @@
         <Setter Property="Background" Value="White"/>
         <Setter Property="CornerRadius" Value="0 0 8 8"/>
         <Setter Property="Panel.ZIndex" Value="0"/>
+    </Style>
+
+    <Style x:Key="Frame" TargetType="Grid">
+        <Setter Property="Panel.ZIndex" Value="1"/>
     </Style>
 
     <Style x:Key="BlockButton" TargetType="Border">
@@ -77,4 +153,105 @@
         <Setter Property="Height" Value="30"/>
     </Style>
 
+    <RotateTransform x:Key="RotateTextTransform" Angle="-90"/>
+
+    <Style x:Key="ContextStyle" TargetType="TextBlock">
+        <Setter Property="Margin" Value="0 10 0 10"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="LayoutTransform" Value="{DynamicResource RotateTextTransform}"/>
+    </Style>
+
+    <Style x:Key="MaskStyle" TargetType="Border">
+        <Setter Property="CornerRadius" Value="0 0 8 8"/>
+        <Setter Property="Background"  Value="Black"/>
+        <Setter Property="Panel.ZIndex"  Value="5"/>
+        <Setter Property="Opacity"  Value="0.5"/>
+    </Style>
+
+    <Style x:Key="IndicatorOffStyle" TargetType="ContentControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ContentControl">
+                    <Border CornerRadius="3,3,0,0" Width="30" Height="10" Background="#FF575757"
+                            VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,10,0">
+                        <Border CornerRadius="1" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                Width="25" Height="3">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                                    <GradientStop Color="#FF2E2E2E" Offset="0.0"/>
+                                    <GradientStop Color="#FF262626" Offset="0.2"/>
+                                    <GradientStop Color="#FF252525" Offset="0.5"/>
+                                    <GradientStop Color="#FF262626" Offset="0.8"/>
+                                    <GradientStop Color="#FF2E2E2E" Offset="1.0"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                        </Border>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="IndicatorOnStyle" TargetType="ContentControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ContentControl">
+                    <Border CornerRadius="3,3,0,0" Width="30" Height="10" Background="#FF575757"
+                            VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,10,0">
+                        <Border CornerRadius="1" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                Width="25" Height="3">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                    <GradientStop Color="#FF66FFFF" Offset="0"/>
+                                    <GradientStop Color="#FF33CCFF" Offset="0.5"/>
+                                    <GradientStop Color="#FF66FFFF" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="10" ShadowDepth="0" Color="#AA66FFFF"/>
+                            </Border.Effect>
+                        </Border>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="NodeEnable" TargetType="Grid">
+        <Setter Property="Width" Value="5"/>
+        <Setter Property="Background"  Value="#FF0B74D1"/>
+    </Style>
+    
+    <Style x:Key="NodeDisable" TargetType="Grid">
+        <Setter Property="Width" Value="5"/>
+        <Setter Property="Background"  Value="#FF151515"/>
+    </Style>
+
+    <Style x:Key="LeftMenu" TargetType="Border">
+        <Setter Property="Background" Value="#FF383838"/>
+        <Setter Property="Width" Value="300"/>
+        <Setter Property="Height"  Value="450"/>
+        <Setter Property="VerticalAlignment"  Value="Top"/>
+        <Setter Property="HorizontalAlignment"  Value="Right"/>
+        <Setter Property="Margin"  Value="0 0 5 0"/>
+        <Setter Property="Panel.ZIndex"  Value="9"/>
+    </Style>
+
+    <Style x:Key="ClassFont" TargetType="Label">
+        <Setter Property="FontWeight"  Value="Heavy"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontSize"  Value="10"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="CheckBoxFont" TargetType="Label">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontSize"  Value="10"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
 </ResourceDictionary>

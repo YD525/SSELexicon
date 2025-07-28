@@ -22,6 +22,20 @@
             Storyboard.TargetProperty="X"
             From="-30"  To="{Binding ActualWidth, ElementName=ProcessBar}" Duration="0:0:2" />
         </Storyboard>
+
+        <Storyboard x:Key="ExpandMenu">
+            <DoubleAnimation Storyboard.TargetName="LeftMenu"
+                         Storyboard.TargetProperty="Height"
+                         From="0" To="450" Duration="0:0:0.3"
+                         AccelerationRatio="0.3" DecelerationRatio="0.7"/>
+        </Storyboard>
+
+        <Storyboard x:Key="CollapseMenu">
+            <DoubleAnimation Storyboard.TargetName="LeftMenu"
+                         Storyboard.TargetProperty="Height"
+                         From="450" To="0" Duration="0:0:0.3"
+                         AccelerationRatio="0.3" DecelerationRatio="0.7"/>
+        </Storyboard>
     </Window.Resources>
 
     <Border Style="{DynamicResource BorderWinBackground}" Name="MainBackGround" Background="#FF282828">
@@ -47,7 +61,7 @@
                     SSELexicon XT
                 </Label>
 
-                <Border Style="{DynamicResource BlockButton}" Grid.Column="1">
+                <Border Style="{DynamicResource BlockButton}" Grid.Column="1" PreviewMouseDown="ShowLeftMenu">
                     <Grid>
                         <ContentControl Style="{DynamicResource NoteIconStyle}" Name="NoteEffect" Panel.ZIndex="1"/>
                     </Grid>
@@ -67,7 +81,189 @@
             </Grid>
 
             <Grid Grid.Row="1">
-                <Grid Panel.ZIndex="100">
+
+                <Border Style="{DynamicResource LeftMenu}" Name="LeftMenu" Height = "450">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="1"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="1"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="1"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0">
+                            <Label Style="{DynamicResource ClassFont}">
+                                Local Engine
+                            </Label>
+                        </Grid>
+
+                        <Grid Background="#FF282828" Cursor="Hand" Grid.Row="2">
+                            <ContentControl  Style="{DynamicResource IndicatorOffStyle}" />
+
+                            <StackPanel Orientation="Horizontal">
+                                <Grid Style="{DynamicResource NodeDisable}">
+                                </Grid>
+                                <Label Foreground="White" VerticalAlignment="Center" FontSize="13" FontWeight="Bold" Margin="10 0 0 0">
+                                    PreTranslate Node
+                                </Label>
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Grid.Row="4">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <Label Style="{DynamicResource ClassFont}">
+                                    AI Translation Service
+                                </Label>
+
+                             
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 5 0">
+                                <Label Style="{DynamicResource CheckBoxFont}" Margin="5 0 0 0">
+                                    Context Generation
+                                </Label>
+
+                                <CheckBox Name="ContextGeneration" VerticalAlignment="Center" Margin="0 0 0 0" Grid.Column="6" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="ContextGeneration_Click"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <StackPanel Orientation="Vertical" Grid.Row="6" Grid.RowSpan="12" HorizontalAlignment="Left" Panel.ZIndex="9" Margin="-18 0 0 0" Name="RightContextIndicator" Visibility="Collapsed">
+                            <Rectangle Width="3" Height="60" Fill="White" />
+
+                            <TextBlock Text="Context Generation" Style="{DynamicResource ContextStyle}"/>
+
+                            <Rectangle Width="3" Height="60" Fill="White" VerticalAlignment="Bottom" />
+                        </StackPanel>
+
+                        <Grid Background="#FF282828" Cursor="Hand" Grid.Row="6">
+                            <ContentControl  Style="{DynamicResource IndicatorOnStyle}" />
+
+                            <StackPanel Orientation="Horizontal">
+                                <Grid Style="{DynamicResource NodeEnable}">
+                                </Grid>
+                                <Label Foreground="White" VerticalAlignment="Center" FontSize="13" FontWeight="Bold" Margin="10 0 0 0">
+                                    Gemini Node
+                                </Label>
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Background="#FF282828" Cursor="Hand" Grid.Row="8">
+                            <ContentControl  Style="{DynamicResource IndicatorOffStyle}" />
+
+                            <StackPanel Orientation="Horizontal">
+                                <Grid Style="{DynamicResource NodeDisable}">
+                                </Grid>
+                                <Label Foreground="White" VerticalAlignment="Center" FontSize="13" FontWeight="Bold" Margin="10 0 0 0">
+                                    ChatGpt Node
+                                </Label>
+                            </StackPanel>
+
+                        </Grid>
+
+                        <Grid Background="#FF282828" Cursor="Hand" Grid.Row="10">
+                            <ContentControl  Style="{DynamicResource IndicatorOffStyle}" />
+
+                            <StackPanel Orientation="Horizontal">
+                                <Grid Style="{DynamicResource NodeDisable}">
+                                </Grid>
+                                <Label Foreground="White" VerticalAlignment="Center" FontSize="13" FontWeight="Bold" Margin="10 0 0 0">
+                                    Cohere Node
+                                </Label>
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Background="#FF282828" Cursor="Hand" Grid.Row="12">
+                            <ContentControl  Style="{DynamicResource IndicatorOffStyle}" />
+
+                            <StackPanel Orientation="Horizontal">
+                                <Grid Style="{DynamicResource NodeDisable}">
+                                </Grid>
+                                <Label Foreground="White" VerticalAlignment="Center" FontSize="13" FontWeight="Bold" Margin="10 0 0 0">
+                                    DeepSeek Node
+                                </Label>
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Background="#FF282828" Cursor="Hand" Grid.Row="14">
+                            <ContentControl  Style="{DynamicResource IndicatorOffStyle}" />
+
+                            <StackPanel Orientation="Horizontal">
+                                <Grid Style="{DynamicResource NodeDisable}">
+                                </Grid>
+                                <Label Foreground="White" VerticalAlignment="Center" FontSize="13" FontWeight="Bold" Margin="10 0 0 0">
+                                    Baichuan Node
+                                </Label>
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Background="#FF282828" Cursor="Hand" Grid.Row="16">
+                            <ContentControl  Style="{DynamicResource IndicatorOffStyle}" />
+
+                            <StackPanel Orientation="Horizontal">
+                                <Grid Style="{DynamicResource NodeDisable}">
+                                </Grid>
+                                <Label Foreground="White" VerticalAlignment="Center" FontSize="13" FontWeight="Bold" Margin="10 0 0 0">
+                                    LocalAI Node
+                                </Label>
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Grid.Row="18">
+                            <Label Style="{DynamicResource ClassFont}">
+                               Cloud Translation Service
+                            </Label>
+                        </Grid>
+
+                        <Grid Background="#FF282828" Cursor="Hand" Grid.Row="20">
+                            <ContentControl  Style="{DynamicResource IndicatorOffStyle}" />
+
+                            <StackPanel Orientation="Horizontal">
+                                <Grid Style="{DynamicResource NodeDisable}">
+                                </Grid>
+                                <Label Foreground="White" VerticalAlignment="Center" FontSize="13" FontWeight="Bold" Margin="10 0 0 0">
+                                    DeepL Node
+                                </Label>
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Background="#FF282828" Cursor="Hand" Grid.Row="22">
+                            <ContentControl  Style="{DynamicResource IndicatorOffStyle}" />
+
+                            <StackPanel Orientation="Horizontal">
+                                <Grid Style="{DynamicResource NodeDisable}">
+                                </Grid>
+                                <Label Foreground="White" VerticalAlignment="Center" FontSize="13" FontWeight="Bold" Margin="10 0 0 0">
+                                    Google Node
+                                </Label>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Border>
+
+                <!--Mask-->
+                <Border Visibility="Collapsed" Name="Mask" Style="{DynamicResource MaskStyle}" MouseDown="Mask_MouseDown">
+                </Border>
+
+
+                <Grid Style="{DynamicResource Frame}">
 
                     <Border Style="{DynamicResource NavStyle}">
                         <ContentControl Style="{DynamicResource TriangleExpandIconStyle}"/>
@@ -189,7 +385,7 @@
 
                                             <Border CornerRadius="0 5 5 0" Background="#FF3A3A3A" Grid.Column="1">
                                                 <TextBox Margin="5 0 5 0" Name="SearchBox" TabIndex="0" Grid.Column="1" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="#FF135FB8" BorderThickness="0" Foreground="White" CaretBrush="White" VerticalContentAlignment="Center" FontSize="13" >
-                                                    
+
                                                 </TextBox>
                                             </Border>
 
@@ -212,7 +408,7 @@
                                     </Grid>
 
                                 </Grid>
-                               
+
                             </Grid>
 
                             <Grid Grid.Row="3" Margin="10 0 10 0">
@@ -266,10 +462,6 @@
                                         </Label>
                                     </Border>
 
-                                    <CheckBox Name="UsingContext" VerticalAlignment="Center" Margin="10 0 0 0" Grid.Column="6" Foreground="White">
-                                        Use Context
-                                    </CheckBox>
-
                                     <Label VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Margin="5 0 0 0">
                                         MarkLine
                                     </Label>
@@ -284,9 +476,14 @@
                                     </Border>
 
 
+                                    <Border CornerRadius="5" Background="#FF7B7B7B"  Height="30" Margin="10 0 0 0" Cursor="Hand" Grid.Column="4">
+                                        <Label Padding="10 0 10 0"  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            Export As...
+                                        </Label>
+                                    </Border>
                                 </StackPanel>
                             </Grid>
-                            
+
                             <Grid Height="30" Style="{DynamicResource ListViewHeader}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="0.35*"/>
@@ -311,18 +508,18 @@
                             </Grid>
                         </Grid>
                     </Grid>
-                    
+
                     <!--需要做样式的了 Auto Download也需要 负载均衡可视化-->
                 </Grid>
                 <Border  CornerRadius="0 0 8 8" Style="{DynamicResource Panel}">
                 </Border>
             </Grid>
 
-           
+
 
 
 
         </Grid>
     </Border>
-    
+
 </Window>
