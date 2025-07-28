@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.IO;
+using System.Transactions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -541,6 +542,25 @@ namespace SSELex
             //BatchTranslationHelper.Close();
         }
 
+        public void SetTittle(string Tittle = "")
+        {
+            if (Tittle.Trim().Length > 0)
+            {
+                this.Dispatcher.Invoke(new Action(() =>
+                {
+                    Caption.Content = string.Format("SSELexicon XT - {0}",Tittle);
+                }));
+            }
+            else
+            {
+                this.Dispatcher.Invoke(new Action(() =>
+                {
+                    Caption.Content = "SSELexicon XT";
+                }));
+            }
+           
+        }
+
         public void LoadAny(string FilePath)
         {
             Translator.ClearAICache();
@@ -565,6 +585,8 @@ namespace SSELex
                 {
                     LModName = LModName.Substring(0, LModName.LastIndexOf("."));
                 }
+
+                SetTittle(FModName);
 
                 if (!CheckDictionary())
                 {
@@ -931,6 +953,24 @@ namespace SSELex
 
             LangFrom.SelectedValue = DeFine.GlobalLocalSetting.SourceLanguage.ToString();
             LangTo.SelectedValue = DeFine.GlobalLocalSetting.TargetLanguage.ToString();
+
+            if (DeFine.GlobalLocalSetting.CanClearManualTranslation)
+            {
+                ManualTranslation.IsChecked = true;
+            }
+            else
+            {
+                ManualTranslation.IsChecked = false;
+            }
+
+            if (DeFine.GlobalLocalSetting.CanClearUserTranslation)
+            {
+                UserTranslation.IsChecked = true;
+            }
+            else
+            {
+                UserTranslation.IsChecked = false;
+            }
         }
 
         public void EnableNormalModel()
@@ -965,7 +1005,27 @@ namespace SSELex
         {
             EnableQuickModel();
         }
-
-      
+        private void ManualTranslation_Click(object sender, RoutedEventArgs e)
+        {
+            if (ManualTranslation.IsChecked == true)
+            {
+                DeFine.GlobalLocalSetting.CanClearManualTranslation = true;
+            }
+            else
+            {
+                DeFine.GlobalLocalSetting.CanClearManualTranslation = false;
+            }
+        }
+        private void UserTranslation_Click(object sender, RoutedEventArgs e)
+        {
+            if (UserTranslation.IsChecked == true)
+            {
+                DeFine.GlobalLocalSetting.CanClearUserTranslation = true;
+            }
+            else 
+            {
+                DeFine.GlobalLocalSetting.CanClearUserTranslation = false;
+            }
+        }
     }
 }

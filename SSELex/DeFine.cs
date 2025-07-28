@@ -201,6 +201,9 @@ namespace SSELex
         public Languages SourceLanguage { get; set; } = Languages.Auto;
         public Languages TargetLanguage { get; set; } = Languages.English;
 
+        public bool CanClearManualTranslation { get; set; } = false;
+        public bool CanClearUserTranslation { get; set; } = false;
+
         public void ReadConfig()
         {
             try { 
@@ -226,6 +229,8 @@ namespace SSELex
                         this.AutoLoadDictionaryFile = GetSetting.AutoLoadDictionaryFile;
                         this.SourceLanguage = GetSetting.SourceLanguage;
                         this.TargetLanguage = GetSetting.TargetLanguage;
+                        this.CanClearManualTranslation = GetSetting.CanClearManualTranslation;
+                        this.CanClearUserTranslation = GetSetting.CanClearUserTranslation;
                     }
                 }
                 else

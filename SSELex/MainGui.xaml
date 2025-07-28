@@ -57,7 +57,7 @@
                     <ColumnDefinition Width="25"/>
                     <ColumnDefinition Width="5"/>
                 </Grid.ColumnDefinitions>
-                <Label Foreground="White" Style="{DynamicResource CaptionFont}" Grid.Column="0">
+                <Label Name="Caption" Foreground="White" Style="{DynamicResource CaptionFont}" Grid.Column="0">
                     SSELexicon XT
                 </Label>
 
@@ -459,13 +459,13 @@
                                                     Cloud Translation Cache
                                                 </TextBox>
 
-                                                <CheckBox Margin="5 0 0 0" Name="ManualTranslation" VerticalAlignment="Center" Grid.Column="6" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="ContextGeneration_Click"/>
+                                                <CheckBox Margin="5 0 0 0" Name="ManualTranslation" VerticalAlignment="Center" Grid.Column="6" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="ManualTranslation_Click"/>
 
                                                 <TextBox  Width="100" Style="{DynamicResource CaptionText}">
                                                     User Input Translation Cache
                                                 </TextBox>
 
-                                                <CheckBox Margin="5 0 5 0" Name="UserTranslation" VerticalAlignment="Center" Grid.Column="6" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="ContextGeneration_Click"/>
+                                                <CheckBox Margin="5 0 5 0" Name="UserTranslation" VerticalAlignment="Center" Grid.Column="6" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="UserTranslation_Click"/>
 
                                                 <Border Style="{DynamicResource ButtonStyle}" PreviewMouseDown="ClearCache_PreviewMouseDown">
                                                     <Label Style="{DynamicResource ButtonFont}">
