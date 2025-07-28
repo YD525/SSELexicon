@@ -81,7 +81,7 @@
             </Grid>
 
             <Grid Grid.Row="1">
-
+                <!--LeftMenu-->
                 <Border Style="{DynamicResource LeftMenu}" Name="LeftMenu" Height = "0">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -134,7 +134,7 @@
                                     AI Translation Service
                                 </Label>
 
-                             
+
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 5 0">
                                 <Label Style="{DynamicResource CheckBoxFont}" Margin="5 0 0 0">
@@ -228,7 +228,7 @@
 
                         <Grid Grid.Row="18">
                             <Label Style="{DynamicResource ClassFont}">
-                               Cloud Translation Service
+                                Cloud Translation Service
                             </Label>
                         </Grid>
 
@@ -434,13 +434,15 @@
                                     </Label>
                                     <ComboBox Grid.Column="3" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Height="30" Style="{StaticResource CustomComboBoxStyle}">
                                     </ComboBox>
-                                   
+
 
                                     <StackPanel Orientation="Horizontal" Grid.Column="4">
 
-                                        <Border CornerRadius="5" BorderThickness="1" BorderBrush="#FF949494" Margin="5 0 0 0" Height="35">
+                                        <Border Style="{DynamicResource SectionStyle}">
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBox  Width="70" HorizontalContentAlignment="Center" AcceptsReturn="True" TextWrapping="Wrap" BorderBrush="{x:Null}" Background="{x:Null}" BorderThickness="0" IsReadOnly="True" Margin="5 0 0 0"  Text="Original Text Source:" VerticalAlignment="Center" Foreground="White"/>
+                                                <TextBox  Width="70" Style="{DynamicResource CaptionText}">
+                                                    Original Text Source
+                                                </TextBox>
 
                                                 <Border Style="{DynamicResource ButtonStyle}">
                                                     <Label Style="{DynamicResource ButtonFont}">
@@ -450,20 +452,27 @@
                                             </StackPanel>
                                         </Border>
 
-                                        <Border CornerRadius="5" BorderThickness="1" BorderBrush="#FF949494" Margin="10 0 0 0" Height="35">
-                                            <StackPanel Orientation="Horizontal" Margin="0 0 0 0">
-                                                <TextBox Width="100" HorizontalContentAlignment="Center" AcceptsReturn="True" TextWrapping="Wrap" BorderBrush="{x:Null}" Background="{x:Null}" BorderThickness="0" IsReadOnly="True" Margin="5 0 0 0" Text="Cloud Translation Cache" VerticalAlignment="Center" Foreground="White"/>
+                                        <Border Style="{DynamicResource SectionStyle}">
+                                            <StackPanel Orientation="Horizontal">
+
+                                                <TextBox  Width="100" Style="{DynamicResource CaptionText}">
+                                                    Cloud Translation Cache
+                                                </TextBox>
 
                                                 <CheckBox Margin="5 0 0 0" Name="ManualTranslation" VerticalAlignment="Center" Grid.Column="6" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="ContextGeneration_Click"/>
 
-                                                <TextBox  Width="100" HorizontalContentAlignment="Center" AcceptsReturn="True" TextWrapping="Wrap" BorderBrush="{x:Null}" Background="{x:Null}" BorderThickness="0" IsReadOnly="True" Margin="5 0 0 0"  Text="User Input Translation Cache" VerticalAlignment="Center" Foreground="White"/>
+                                                <TextBox  Width="100" Style="{DynamicResource CaptionText}">
+                                                    User Input Translation Cache
+                                                </TextBox>
 
-                                                <CheckBox Margin="5 0 0 0" Name="UserTranslation" VerticalAlignment="Center" Grid.Column="6" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="ContextGeneration_Click"/>
+                                                <CheckBox Margin="5 0 5 0" Name="UserTranslation" VerticalAlignment="Center" Grid.Column="6" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="ContextGeneration_Click"/>
+
                                                 <Border Style="{DynamicResource ButtonStyle}">
                                                     <Label Style="{DynamicResource ButtonFont}">
                                                         ClearCache
                                                     </Label>
                                                 </Border>
+
                                             </StackPanel>
                                         </Border>
 
@@ -509,6 +518,10 @@
                                 </Label>
                             </Grid>
                             <Grid Name="TransView" Grid.Row="6" Panel.ZIndex="999" Background="#FF282828" MouseLeave="TransView_MouseLeave" Margin="10 0 10 0">
+                                <StackPanel Orientation="Vertical">
+                                    <Grid>
+                                    </Grid>
+                                </StackPanel>
                             </Grid>
                         </Grid>
                     </Grid>
