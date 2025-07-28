@@ -13,7 +13,7 @@
         <Setter Property="AllowsTransparency" Value="True" />
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
-                <WindowChrome CaptionHeight="0" ResizeBorderThickness="10"/>
+                <WindowChrome CaptionHeight="0" ResizeBorderThickness="5"/>
             </Setter.Value>
         </Setter>
     </Style>
@@ -103,7 +103,7 @@
     </Style>
 
     <Style x:Key="PanelHeader" TargetType="Border">
-        <Setter Property="Background" Value="#FF0B74D1"/>
+        <Setter Property="Background" Value="#FF282828"/>
         <Setter Property="CornerRadius" Value="8 8 0 0"/>
     </Style>
 
@@ -124,6 +124,7 @@
 
     <Style x:Key="Frame" TargetType="Grid">
         <Setter Property="Panel.ZIndex" Value="1"/>
+        <Setter Property="Background" Value="#FF282828"/>
     </Style>
 
     <Style x:Key="BlockButton" TargetType="Border">
@@ -373,6 +374,14 @@
         <Setter Property="Background"  Value="#FF151515"/>
     </Style>
 
+    <Style x:Key="NodeFont" TargetType="Label">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Margin" Value="10 0 0 0"/>
+    </Style>
+
     <Style x:Key="LeftMenu" TargetType="Border">
         <Setter Property="Background" Value="#FF383838"/>
         <Setter Property="Width" Value="300"/>
@@ -395,4 +404,23 @@
         <Setter Property="FontSize"  Value="10"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
+
+    <Style x:Key="DragDropViewStyle" TargetType="Border">
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Background" Value="#FF2B94FF"/>
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="Width" Value="370"/>
+        <Setter Property="Height" Value="80"/>
+    </Style>
+
+
+    <Style x:Key="DragDropViewFontStyle" TargetType="Label">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+    
+    
 </ResourceDictionary>

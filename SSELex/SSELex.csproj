@@ -26,13 +26,6 @@
     <None Remove="Material\Setting.svg" />
     <None Remove="Material\SettingICO.svg" />
     <None Remove="Material\Speaker.svg" />
-    <None Remove="Material\Stop.svg" />
-    <None Remove="Material\TChangeWin.png" />
-    <None Remove="Material\TClose.png" />
-    <None Remove="Material\TMenu.png" />
-    <None Remove="Material\TMin.png" />
-    <None Remove="Material\UnLocker.svg" />
-    <None Remove="Material\YellowState.svg" />
     <None Remove="UPICO.png" />
   </ItemGroup>
 
@@ -65,25 +58,6 @@
     <Resource Include="Material\Setting.svg" />
     <Resource Include="Material\SettingICO.svg" />
     <Resource Include="Material\Speaker.svg" />
-    <Resource Include="Material\Stop.svg" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Material\TChangeWin.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Material\TClose.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Material\TMenu.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Material\TMin.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Material\UnLocker.svg" />
-    <Resource Include="Material\YellowState.svg" />
-    <Resource Include="Material\UPICO.png" />
   </ItemGroup>
 
   <ItemGroup>

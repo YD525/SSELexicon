@@ -63,7 +63,7 @@
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="8"/>
             </Grid.RowDefinitions>
-            <Border Grid.Row="0" MouseLeftButtonDown="WinHead_MouseLeftButtonDown" Style="{DynamicResource PanelHeader}" Background="#FF282828">
+            <Border Grid.Row="0" MouseLeftButtonDown="WinHead_MouseLeftButtonDown" Style="{DynamicResource PanelHeader}">
             </Border>
             <Grid Grid.Row="0" >
                 <Grid.ColumnDefinitions>
@@ -75,7 +75,7 @@
                     <ColumnDefinition Width="25"/>
                     <ColumnDefinition Width="5"/>
                 </Grid.ColumnDefinitions>
-                <Label Name="Caption" Foreground="White" Style="{DynamicResource CaptionFont}" Grid.Column="0">
+                <Label Name="Caption" Style="{DynamicResource CaptionFont}" Grid.Column="0">
                     SSELexicon XT
                 </Label>
 
@@ -140,7 +140,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <Grid Style="{DynamicResource NodeDisable}">
                                 </Grid>
-                                <Label Foreground="White" VerticalAlignment="Center" FontSize="13" FontWeight="Bold" Margin="10 0 0 0">
+                                <Label Style="{DynamicResource NodeFont}">
                                     PreTranslate Node
                                 </Label>
                             </StackPanel>
@@ -178,7 +178,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <Grid Style="{DynamicResource NodeEnable}">
                                 </Grid>
-                                <Label Foreground="White" VerticalAlignment="Center" FontSize="13" FontWeight="Bold" Margin="10 0 0 0">
+                                <Label Style="{DynamicResource NodeFont}">
                                     Gemini Node
                                 </Label>
                             </StackPanel>
@@ -190,7 +190,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <Grid Style="{DynamicResource NodeDisable}">
                                 </Grid>
-                                <Label Foreground="White" VerticalAlignment="Center" FontSize="13" FontWeight="Bold" Margin="10 0 0 0">
+                                <Label Style="{DynamicResource NodeFont}">
                                     ChatGpt Node
                                 </Label>
                             </StackPanel>
@@ -203,7 +203,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <Grid Style="{DynamicResource NodeDisable}">
                                 </Grid>
-                                <Label Foreground="White" VerticalAlignment="Center" FontSize="13" FontWeight="Bold" Margin="10 0 0 0">
+                                <Label Style="{DynamicResource NodeFont}">
                                     Cohere Node
                                 </Label>
                             </StackPanel>
@@ -215,7 +215,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <Grid Style="{DynamicResource NodeDisable}">
                                 </Grid>
-                                <Label Foreground="White" VerticalAlignment="Center" FontSize="13" FontWeight="Bold" Margin="10 0 0 0">
+                                <Label Style="{DynamicResource NodeFont}">
                                     DeepSeek Node
                                 </Label>
                             </StackPanel>
@@ -227,7 +227,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <Grid Style="{DynamicResource NodeDisable}">
                                 </Grid>
-                                <Label Foreground="White" VerticalAlignment="Center" FontSize="13" FontWeight="Bold" Margin="10 0 0 0">
+                                <Label Style="{DynamicResource NodeFont}">
                                     Baichuan Node
                                 </Label>
                             </StackPanel>
@@ -239,7 +239,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <Grid Style="{DynamicResource NodeDisable}">
                                 </Grid>
-                                <Label Foreground="White" VerticalAlignment="Center" FontSize="13" FontWeight="Bold" Margin="10 0 0 0">
+                                <Label Style="{DynamicResource NodeFont}">
                                     LocalAI Node
                                 </Label>
                             </StackPanel>
@@ -257,7 +257,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <Grid Style="{DynamicResource NodeDisable}">
                                 </Grid>
-                                <Label Foreground="White" VerticalAlignment="Center" FontSize="13" FontWeight="Bold" Margin="10 0 0 0">
+                                <Label Style="{DynamicResource NodeFont}">
                                     DeepL Node
                                 </Label>
                             </StackPanel>
@@ -269,7 +269,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <Grid Style="{DynamicResource NodeDisable}">
                                 </Grid>
-                                <Label Foreground="White" VerticalAlignment="Center" FontSize="13" FontWeight="Bold" Margin="10 0 0 0">
+                                <Label Style="{DynamicResource NodeFont}">
                                     Google Node
                                 </Label>
                             </StackPanel>
@@ -283,10 +283,8 @@
 
 
                 <Grid Style="{DynamicResource Frame}">
-
+                    <!--MainNav-->
                     <StackPanel Orientation="Horizontal" Panel.ZIndex="200">
-
-                        <!--MainNav-->
                         <Border Background="#FF0B74D1" CornerRadius="5" VerticalAlignment="Center" Height="200" Name="NavPanel">
                         </Border>
 
@@ -298,8 +296,16 @@
                             </ContentControl>
                         </Border>
                     </StackPanel>
-                   
-                    <Grid>
+
+                    <Grid Name="DragDropView" Visibility="Collapsed" >
+                        <Border Style="{DynamicResource DragDropViewStyle}">
+                            <Label Style="{DynamicResource DragDropViewFontStyle}">
+                                Drag and drop here
+                            </Label>
+                        </Border>
+                    </Grid>
+
+                    <Grid Name="ModTransView" Visibility="Visible">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
@@ -651,8 +657,8 @@
                         </Grid>
                     </Grid>
 
-                  
                 </Grid>
+                
                 <Border  CornerRadius="0 0 8 8" Style="{DynamicResource Panel}">
                 </Border>
             </Grid>

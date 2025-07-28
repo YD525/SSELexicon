@@ -147,20 +147,74 @@ namespace SSELex
             }).Start();
         }
 
-        private void ModTransView_Drop(object sender, DragEventArgs e)
-        {
 
-        }
+        #region Drag
+        public bool IsDragEnter = false;
 
         private void ModTransView_DragEnter(object sender, DragEventArgs e)
         {
+            if (e.Data != null)
+            {
+                string[] OneFile = (string[])e.Data.GetData(DataFormats.FileDrop);
+                if (OneFile == null)
+                {
+                    return;
+                }
+                if (OneFile.Length == 0)
+                {
+                    return;
+                }
+            }
 
+            ModTransView.Visibility = Visibility.Collapsed;
+            DragDropView.Visibility = Visibility.Visible;
+            IsDragEnter = true;
         }
 
         private void ModTransView_DragLeave(object sender, DragEventArgs e)
         {
+            if (e != null)
+                if (e.Data != null)
+                {
+                    string[] OneFile = (string[])e.Data.GetData(DataFormats.FileDrop);
+                    if (OneFile == null)
+                    {
+                        return;
+                    }
+                    if (OneFile.Length == 0)
+                    {
+                        return;
+                    }
+                }
 
+            ModTransView.Visibility = Visibility.Visible;
+            DragDropView.Visibility = Visibility.Collapsed;
+            if (IsDragEnter)
+            {
+                IsDragEnter = false;
+            }
         }
+        private void ModTransView_Drop(object sender, DragEventArgs e)
+        {
+            if (e != null)
+                if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                {
+                    string[] OneFile = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+                    if (OneFile.Length > 0)
+                    {
+                        string GetFilePath = OneFile[0];
+                        if (File.Exists(GetFilePath))
+                        {
+                            LoadAny(GetFilePath);
+                            ModTransView_DragLeave(null, null);
+                        }
+                    }
+                }
+        }
+
+        #endregion
+
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {

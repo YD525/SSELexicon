@@ -33,22 +33,19 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Name="NodePanel">
-
+                    
                     <Border Tag="Min" PreviewMouseDown="AnyHeaderButtonClick" CornerRadius="5"  Grid.Column="1" Height="25" Width="25"   Background="#FF005495"  MouseEnter="RMouserEffectByEnter" MouseLeave="RMouserEffectByLeave" Cursor="Hand">
-                        <Image Tag="Min" Name="TMin" Stretch="Uniform"  Source="/SSELex;component/Material/TMin.png"  Width="16" Height="2" Opacity="1" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="HighQuality">
-                        </Image>
+                        <ContentControl Style="{DynamicResource MinimizeIconStyle}"/>
                     </Border>
 
 
                     <Border Tag="MaxWin"  PreviewMouseDown="AnyHeaderButtonClick" CornerRadius="5"  Grid.Column="3" Height="25" Width="25"  Background="#FF005495"  MouseEnter="RMouserEffectByEnter" MouseLeave="RMouserEffectByLeave" Cursor="Hand">
-                        <Image Tag="MaxWin" Name="TChangeWin" Stretch="UniformToFill"  Source="/SSELex;component/Material/TChangeWin.png"   Width="14" Height="13" Opacity="0.8" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="HighQuality">
-                        </Image>
+                        <ContentControl Style="{DynamicResource MaximizeIconStyle}"/>
                     </Border>
 
 
                     <Border Tag="Close" PreviewMouseDown="AnyHeaderButtonClick" CornerRadius="5"  Grid.Column="5" Height="25" Width="25"  Background="#FF005495"  MouseEnter="RMouserEffectByEnter" MouseLeave="RMouserEffectByLeave" Cursor="Hand">
-                        <Image Tag="Close" Name="TClose" Stretch="UniformToFill"   Source="/SSELex;component/Material/TClose.png"  Width="14" Height="13" Opacity="0.8" SnapsToDevicePixels="True"  RenderOptions.BitmapScalingMode="HighQuality">
-                        </Image>
+                        <ContentControl Style="{DynamicResource CloseIconStyle}" Grid.Column="3"/>
                     </Border>
                 </StackPanel>
             </Grid>
