@@ -17,15 +17,14 @@ using ICSharpCode.AvalonEdit.Highlighting;
 using SSELex.SkyrimManagement;
 using System.Text.Json;
 using System.Text;
-using SSELex.TranslateManagement;
 using SSELex.UIManagement;
 using static SSELex.SkyrimManage.EspReader;
 using PhoenixEngine.TranslateManage;
 using PhoenixEngine.TranslateManagement;
 using PhoenixEngine.TranslateCore;
-using PhoenixEngine.RequestManagement;
 using SSELex.TranslateManage;
 using PhoenixEngine.EngineManagement;
+using static PhoenixEngine.TranslateCore.LanguageHelper;
 
 // Copyright (C) 2025 YD525
 // Licensed under the GNU GPLv3
@@ -2365,6 +2364,18 @@ namespace SSELex
         {
             DeFine.LocalConfigView.Owner = this;
             DeFine.LocalConfigView.Show();
+            if (DeFine.GlobalLocalSetting.SourceLanguage == Languages.Auto)
+            {
+                LanguageDetect OneDetect = new LanguageDetect();
+
+                for (int i=0;i< TransViewList.RealLines.Count;i++)
+                {
+                    LanguageHelper.DetectLanguage(ref OneDetect, TransViewList.RealLines[i].SourceText);
+                }
+
+                DeFine.LocalConfigView.SFrom.SelectedValue = OneDetect.GetMaxLang().ToString();
+
+            }
         }
 
        

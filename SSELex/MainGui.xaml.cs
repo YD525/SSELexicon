@@ -4,6 +4,7 @@ using System.Transactions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
@@ -17,6 +18,7 @@ using SSELex.SkyrimModManager;
 using SSELex.TranslateManage;
 using SSELex.UIManage;
 using SSELex.UIManagement;
+using static PhoenixEngine.TranslateCore.LanguageHelper;
 using static SSELex.UIManage.SkyrimDataLoader;
 
 namespace SSELex
@@ -343,14 +345,6 @@ namespace SSELex
 
         public void ReloadLanguageMode()
         {
-            LangTo.Items.Clear();
-            foreach (var Get in UILanguageHelper.SupportLanguages)
-            {
-                LangTo.Items.Add(Get.ToString());
-            }
-
-            LangTo.SelectedValue = DeFine.GlobalLocalSetting.TargetLanguage.ToString();
-
             LangFrom.Items.Clear();
             foreach (var Get in UILanguageHelper.SupportLanguages)
             {
@@ -358,6 +352,17 @@ namespace SSELex
             }
 
             LangFrom.SelectedValue = DeFine.GlobalLocalSetting.SourceLanguage.ToString();
+
+            LangTo.Items.Clear();
+            foreach (var Get in UILanguageHelper.SupportLanguages)
+            {
+                if (Get != Languages.Auto)
+                {
+                    LangTo.Items.Add(Get.ToString());
+                }
+            }
+
+            LangTo.SelectedValue = DeFine.GlobalLocalSetting.TargetLanguage.ToString();
         }
 
 
@@ -554,6 +559,7 @@ namespace SSELex
                 this.Dispatcher.Invoke(new Action(() =>
                 {
                     Caption.Content = string.Format("SSELexicon XT - {0}",Tittle);
+                    this.Title = Tittle;
                 }));
             }
             else
@@ -561,9 +567,9 @@ namespace SSELex
                 this.Dispatcher.Invoke(new Action(() =>
                 {
                     Caption.Content = "SSELexicon XT";
+                    this.Title = "SSELexicon XT";
                 }));
             }
-           
         }
 
         public void LoadAny(string FilePath)
@@ -709,6 +715,8 @@ namespace SSELex
 
             this.Dispatcher.Invoke(new Action(() =>
             {
+                LoadFileButton.Content = "LoadFile";
+
                 ClosetTransTrd();
 
                 TransViewList.Clear();
@@ -726,6 +734,17 @@ namespace SSELex
 
                 UIHelper.ModifyCount = 0;
             }));
+
+            SetTittle();
+
+            new Thread(() => {
+
+                Thread.Sleep(500);
+                this.Dispatcher.Invoke(new Action(() =>
+                {
+                    TransViewList.Clear();
+                }));
+            }).Start();
         }
 
         public int LoadSaveState = 0;
@@ -883,6 +902,7 @@ namespace SSELex
             if (GetValue.Trim().Length > 0)
             {
                 DeFine.GlobalLocalSetting.SourceLanguage = Enum.Parse<Languages>(GetValue);
+                DeFine.LocalConfigView.SFrom.SelectedValue = GetValue;
             }
         }
 
@@ -893,6 +913,7 @@ namespace SSELex
             if (GetValue.Trim().Length > 0)
             {
                 DeFine.GlobalLocalSetting.TargetLanguage = Enum.Parse<Languages>(GetValue);
+                DeFine.LocalConfigView.STo.SelectedValue = GetValue;
             }
         }
 
@@ -980,6 +1001,7 @@ namespace SSELex
             else
             {
                 EnableQuickModel();
+                EmptyFromAndToText();
             }
 
             LangFrom.SelectedValue = DeFine.GlobalLocalSetting.SourceLanguage.ToString();
@@ -1124,6 +1146,44 @@ namespace SSELex
                     FromStr.Text = TransViewList.RealLines[TransViewList.SelectLineID].SourceText;
                     ToStr.Text = TransViewList.RealLines[TransViewList.SelectLineID].TransText;
                 }));
+            }
+        }
+
+        private bool MainNavIsExpanded = false;
+
+        private void ShowNav(object sender, MouseButtonEventArgs e)
+        {
+            var Storyboard = this.FindResource(MainNavIsExpanded ? "CollapseStoryboard" : "ExpandStoryboard") as Storyboard;
+            Storyboard.Begin();
+
+            var Rotate = NavBtn.RenderTransform as RotateTransform;
+            if (Rotate != null)
+            {
+                Rotate.Angle = MainNavIsExpanded ? 0 : 180; 
+            }
+
+            MainNavIsExpanded = !MainNavIsExpanded;
+        }
+
+        private void ShowLocalEngineSettingView(object sender, MouseButtonEventArgs e)
+        {
+            DeFine.LocalConfigView.Owner = this;
+            DeFine.LocalConfigView.Show();
+            if (DeFine.GlobalLocalSetting.SourceLanguage == Languages.Auto)
+            {
+                LanguageDetect OneDetect = new LanguageDetect();
+
+                for (int i = 0; i < TransViewList.RealLines.Count; i++)
+                {
+                    LanguageHelper.DetectLanguage(ref OneDetect, TransViewList.RealLines[i].SourceText);
+                    if (i > (TransViewList.RealLines.Count / 2))
+                    {
+                        break;
+                    }
+                }
+
+                DeFine.LocalConfigView.SFrom.SelectedValue = OneDetect.GetMaxLang().ToString();
+
             }
         }
     }

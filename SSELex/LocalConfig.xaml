@@ -144,13 +144,13 @@
                         <Label Grid.Column="0" VerticalAlignment="Center">
                             From 
                         </Label>
-                        <ComboBox Name="SFrom" Grid.Column="1" VerticalContentAlignment="Center" Margin="5" Width="70" SelectionChanged="SFrom_SelectionChanged">
+                        <ComboBox Name="SFrom" Grid.Column="1" VerticalContentAlignment="Center" Margin="5" Width="100" SelectionChanged="SFrom_SelectionChanged">
                         </ComboBox>
 
                         <Label Grid.Column="2" VerticalAlignment="Center">
                             To 
                         </Label>
-                        <ComboBox Name="STo" Grid.Column="3" VerticalContentAlignment="Center" Margin="5" Width="70" SelectionChanged="STo_SelectionChanged">
+                        <ComboBox Name="STo" Grid.Column="3" VerticalContentAlignment="Center" Margin="5" Width="100" SelectionChanged="STo_SelectionChanged">
                         </ComboBox>
                     </StackPanel>
                   

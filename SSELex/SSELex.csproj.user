@@ -13,9 +13,6 @@
     <Compile Update="DashBoardView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="EngineEditView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="LocalConfig.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -40,9 +37,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="CodeView.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="EngineEditView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">

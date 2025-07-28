@@ -19,23 +19,9 @@
     <None Remove="DownICO.png" />
     <None Remove="IDERule\Lua.xshd" />
     <None Remove="IDERule\TextStyle.xshd" />
-    <None Remove="Material\AI.svg" />
-    <None Remove="Material\Baichuan.svg" />
-    <None Remove="Material\ChatGPT.svg" />
-    <None Remove="Material\Code.svg" />
-    <None Remove="Material\Cohere.svg" />
-    <None Remove="Material\Conjunction.svg" />
-    <None Remove="Material\DeepL.svg" />
-    <None Remove="Material\DeepSeek.svg" />
-    <None Remove="Material\Div.svg" />
-    <None Remove="Material\End.svg" />
-    <None Remove="Material\Gemini.svg" />
-    <None Remove="Material\Google.svg" />
-    <None Remove="Material\Keep.svg" />
     <None Remove="Material\Lang.svg" />
     <None Remove="Material\Languages.svg" />
     <None Remove="Material\Locker.svg" />
-    <None Remove="Material\MO2ICO.svg" />
     <None Remove="Material\Replace.svg" />
     <None Remove="Material\Setting.svg" />
     <None Remove="Material\SettingICO.svg" />
@@ -46,10 +32,7 @@
     <None Remove="Material\TMenu.png" />
     <None Remove="Material\TMin.png" />
     <None Remove="Material\UnLocker.svg" />
-    <None Remove="Material\WhiteDown.png" />
-    <None Remove="Material\WhiteUP.png" />
     <None Remove="Material\YellowState.svg" />
-    <None Remove="Material\YouDao.svg" />
     <None Remove="UPICO.png" />
   </ItemGroup>
 
@@ -60,9 +43,6 @@
   <ItemGroup>
     <EmbeddedResource Include="IDERule\Lua.xshd" />
     <EmbeddedResource Include="IDERule\TextStyle.xshd" />
-    <Resource Include="Material\AI.svg" />
-    <Resource Include="Material\Baichuan.svg" />
-    <Resource Include="Material\ChatGPT.svg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -78,21 +58,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Material\Cohere.svg" />
-    <Resource Include="Material\DeepL.svg" />
-    <Resource Include="Material\DeepSeek.svg" />
-    <Resource Include="Material\DownICO.png" />
-    <Resource Include="Material\Code.svg" />
-    <Resource Include="Material\Conjunction.svg" />
-    <Resource Include="Material\Div.svg" />
-    <Resource Include="Material\End.svg" />
-    <Resource Include="Material\Gemini.svg" />
-    <Resource Include="Material\Google.svg" />
-    <Resource Include="Material\Keep.svg" />
     <Resource Include="Material\Lang.svg" />
     <Resource Include="Material\Languages.svg" />
     <Resource Include="Material\Locker.svg" />
-    <Resource Include="Material\MO2ICO.svg" />
     <Resource Include="Material\Replace.svg" />
     <Resource Include="Material\Setting.svg" />
     <Resource Include="Material\SettingICO.svg" />
@@ -114,10 +82,7 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Material\UnLocker.svg" />
-    <Resource Include="Material\WhiteDown.png" />
-    <Resource Include="Material\WhiteUP.png" />
     <Resource Include="Material\YellowState.svg" />
-    <Resource Include="Material\YouDao.svg" />
     <Resource Include="Material\UPICO.png" />
   </ItemGroup>
 
