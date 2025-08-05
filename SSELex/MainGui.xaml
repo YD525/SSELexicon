@@ -740,7 +740,7 @@
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Margin="0 -5 0 0"   HorizontalAlignment="Center">
                                     <Label Foreground="White" FontSize="15">
-                                        Author: YD525
+                                        Created by YD525
                                     </Label>
                                     <TextBlock Foreground="White" FontSize="15" VerticalAlignment="Center">
                                        ( <Run Text="Nexus Mods" FontWeight="Bold" Cursor="Hand" Foreground="#FF44A0FF" /> | <Run Text="GitHub" FontWeight="Bold" Cursor="Hand" Foreground="#FF44A0FF" /> )
