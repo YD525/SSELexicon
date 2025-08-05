@@ -19,8 +19,9 @@
     <None Remove="DownICO.png" />
     <None Remove="IDERule\Lua.xshd" />
     <None Remove="IDERule\TextStyle.xshd" />
+    <None Remove="Material\About.svg" />
+    <None Remove="Material\Dashboard.svg" />
     <None Remove="Material\Lang.svg" />
-    <None Remove="Material\Languages.svg" />
     <None Remove="Material\Locker.svg" />
     <None Remove="Material\Replace.svg" />
     <None Remove="Material\Setting.svg" />
@@ -51,8 +52,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Material\About.svg" />
+    <Resource Include="Material\Dashboard.svg" />
     <Resource Include="Material\Lang.svg" />
-    <Resource Include="Material\Languages.svg" />
     <Resource Include="Material\Locker.svg" />
     <Resource Include="Material\Replace.svg" />
     <Resource Include="Material\Setting.svg" />

@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
+using Mutagen.Bethesda.Plugins.Masters.DI;
 using PhoenixEngine.ConvertManager;
 using PhoenixEngine.EngineManagement;
 using PhoenixEngine.TranslateCore;
@@ -30,6 +31,7 @@ namespace SSELex
     {
         #region Breathing Light
         public Storyboard? BreathingStoryboard = null;
+        public Storyboard? XTGlowLoopStoryboard = null;
 
         private void StartBreathingEffect()
         {
@@ -106,6 +108,8 @@ namespace SSELex
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             DeFine.Init(this);
+
+            SetSelectedNav("TransHub");
 
             if (TransViewList == null)
             {
@@ -270,6 +274,52 @@ namespace SSELex
 
         }
 
+        public void ShowMenu(bool Show)
+        {
+            var Rotate = NavBtn.RenderTransform as RotateTransform;
+
+            if (Show)
+            {
+                var Storyboard = this.FindResource("ExpandStoryboard") as Storyboard;
+
+                if (Storyboard != null)
+                {
+                    Storyboard.Begin();
+                }
+
+                Mask.Visibility = Visibility.Visible;
+
+                Mask.Tag = 1;
+
+                if (Rotate != null)
+                {
+                    Rotate.Angle = 180;
+                }
+
+                MainNavIsExpanded = true;
+            }
+            else
+            {
+                var Storyboard = this.FindResource("CollapseStoryboard") as Storyboard;
+
+                if (Storyboard != null)
+                {
+                    Storyboard.Begin();
+                }
+
+                Mask.Visibility = Visibility.Collapsed;
+
+                Mask.Tag = 0;
+
+                if (Rotate != null)
+                {
+                    Rotate.Angle = 0;
+                }
+
+                MainNavIsExpanded = false;
+            }
+        }
+
         public void ShowLeftMenu(bool Show)
         {
             this.Dispatcher.Invoke(new Action(() =>
@@ -305,9 +355,18 @@ namespace SSELex
                 ShowLeftMenu(true);
             }
         }
+
+
         private void Mask_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            ShowLeftMenu(false);
+            if (ConvertHelper.ObjToInt(Mask.Tag) == 0)
+            {
+                ShowLeftMenu(false);
+            }
+            else
+            {
+                ShowMenu(false);
+            }
         }
 
 
@@ -564,7 +623,7 @@ namespace SSELex
         private readonly object ReloadLock = new object();
         private bool UseHotReloadFlag;
 
-        public void ReloadData(bool UseHotReload = false,bool ForceReload = false)
+        public void ReloadData(bool UseHotReload = false, bool ForceReload = false)
         {
             if (LoadSaveState != 1)
                 return;
@@ -612,7 +671,7 @@ namespace SSELex
             {
                 this.Dispatcher.Invoke(new Action(() =>
                 {
-                    Caption.Content = string.Format("SSELexicon XT - {0}",Tittle);
+                    Caption.Content = string.Format("SSELexicon XT - {0}", Tittle);
                     this.Title = Tittle;
                 }));
             }
@@ -791,7 +850,8 @@ namespace SSELex
 
             SetTittle();
 
-            new Thread(() => {
+            new Thread(() =>
+            {
 
                 Thread.Sleep(500);
                 this.Dispatcher.Invoke(new Action(() =>
@@ -913,7 +973,7 @@ namespace SSELex
 
         #region Search
 
-        private System.Timers.Timer ?SearchTimer;
+        private System.Timers.Timer? SearchTimer;
         public void StartSearch()
         {
             this.Dispatcher.Invoke(new Action(() =>
@@ -936,15 +996,15 @@ namespace SSELex
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             DeFine.CurrentSearchStr = SearchBox.Text.Trim();
-            if (DeFine.CurrentSearchStr.Trim().Length>0)
-            StartSearch();
+            if (DeFine.CurrentSearchStr.Trim().Length > 0)
+                StartSearch();
         }
 
         private void SearchBox_MouseLeave(object sender, MouseEventArgs e)
         {
             DeFine.CurrentSearchStr = SearchBox.Text.Trim();
             if (DeFine.CurrentSearchStr.Trim().Length > 0)
-            StartSearch();
+                StartSearch();
         }
 
         #endregion
@@ -993,7 +1053,7 @@ namespace SSELex
 
                 if (CallFuncCount > 0)
                 {
-                    MessageBoxExtend.Show(this,"Done!");
+                    MessageBoxExtend.Show(this, "Done!");
                     DeFine.WorkingWin.ReloadData();
                 }
             }
@@ -1102,7 +1162,7 @@ namespace SSELex
 
             ReloadData(true, true);
 
-            WritingArea.Height =new GridLength(DeFine.GlobalLocalSetting.WritingAreaHeight,GridUnitType.Pixel);
+            WritingArea.Height = new GridLength(DeFine.GlobalLocalSetting.WritingAreaHeight, GridUnitType.Pixel);
             SplictLine.Height = new GridLength(3.5, GridUnitType.Pixel);
         }
 
@@ -1118,9 +1178,9 @@ namespace SSELex
             ReloadData(true, true);
 
             WritingArea.Height = new GridLength(0, GridUnitType.Pixel);
-            SplictLine.Height = new GridLength(0,GridUnitType.Pixel);
+            SplictLine.Height = new GridLength(0, GridUnitType.Pixel);
         }
-       
+
         private void NormalModel_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             EnableNormalModel();
@@ -1146,7 +1206,7 @@ namespace SSELex
             {
                 DeFine.GlobalLocalSetting.CanClearUserTranslation = true;
             }
-            else 
+            else
             {
                 DeFine.GlobalLocalSetting.CanClearUserTranslation = false;
             }
@@ -1184,7 +1244,8 @@ namespace SSELex
 
         public void EmptyFromAndToText()
         {
-            this.Dispatcher.Invoke(new Action(() => {
+            this.Dispatcher.Invoke(new Action(() =>
+            {
                 FromStr.Text = string.Empty;
                 ToStr.Text = string.Empty;
             }));
@@ -1196,7 +1257,8 @@ namespace SSELex
 
             if (DeFine.GlobalLocalSetting.ViewMode == "Normal")
             {
-                this.Dispatcher.Invoke(new Action(() => {
+                this.Dispatcher.Invoke(new Action(() =>
+                {
                     FromStr.Text = TransViewList.RealLines[TransViewList.SelectLineID].SourceText;
                     ToStr.Text = TransViewList.RealLines[TransViewList.SelectLineID].TransText;
                 }));
@@ -1207,16 +1269,14 @@ namespace SSELex
 
         private void ShowNav(object sender, MouseButtonEventArgs e)
         {
-            var Storyboard = this.FindResource(MainNavIsExpanded ? "CollapseStoryboard" : "ExpandStoryboard") as Storyboard;
-            Storyboard.Begin();
-
-            var Rotate = NavBtn.RenderTransform as RotateTransform;
-            if (Rotate != null)
+            if (!MainNavIsExpanded)
             {
-                Rotate.Angle = MainNavIsExpanded ? 0 : 180; 
+                ShowMenu(true);
             }
-
-            MainNavIsExpanded = !MainNavIsExpanded;
+            else
+            {
+                ShowMenu(false);
+            }
         }
 
         private void ShowLocalEngineSettingView(object sender, MouseButtonEventArgs e)
@@ -1240,5 +1300,85 @@ namespace SSELex
 
             }
         }
+
+        private void ShowView(object sender, MouseButtonEventArgs e)
+        {
+            ShowView(ConvertHelper.ObjToStr(((Border)sender).Tag));
+        }
+
+        public void SetSelectedNav(string View)
+        {
+            for (int i = 0; i < MainNav.Children.Count; i++)
+            {
+                if (MainNav.Children[i] is Grid)
+                {
+                    Border CurrentNav = (Border)((Grid)MainNav.Children[i]).Children[0];
+                    string GetName = ConvertHelper.ObjToStr(CurrentNav.Tag);
+                    if (View.Equals(GetName))
+                    {
+                        CurrentNav.Style = (Style)this.FindResource("MenuBlockSelected");
+                    }
+                    else
+                    {
+                        CurrentNav.Style = (Style)this.FindResource("MenuBlockStyle");
+                    }
+                }
+            }
+        }
+
+        private void StartXTGlowLoop()
+        {
+            XTGlowLoopStoryboard = (Storyboard)FindResource("XTGlowLoop");
+            XTGlowLoopStoryboard.Begin();
+        }
+
+        private void StopXTGlowLoop()
+        {
+            XTGlowLoopStoryboard?.Stop();
+        }
+
+        public void ShowView(string View)
+        {
+            SetSelectedNav(View);
+
+            if (View == "About")
+            {
+                StartXTGlowLoop();
+            }
+            else
+            {
+                StopXTGlowLoop();
+            }
+
+            switch (View)
+            {
+                case "TransHub":
+                    {
+                        ModTransView.Visibility = Visibility.Visible;
+                        AboutView.Visibility = Visibility.Hidden;
+                    }
+                    break;
+                case "DashBoard":
+                    {
+                        ModTransView.Visibility = Visibility.Hidden;
+                        AboutView.Visibility = Visibility.Hidden;
+                    }
+                    break;
+                case "Settings":
+                    {
+                        ModTransView.Visibility = Visibility.Hidden;
+                        AboutView.Visibility = Visibility.Hidden;
+                    }
+                    break;
+                case "About":
+                    {
+                        AboutView.Visibility = Visibility.Visible;
+                        ModTransView.Visibility = Visibility.Hidden;
+                    }
+                    break;
+            }
+        }
+
+
     }
 }

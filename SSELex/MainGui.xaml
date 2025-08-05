@@ -10,7 +10,16 @@
         Title="SSELexicon"  Height="850" Width="1000" Loaded="Window_Loaded" Style="{DynamicResource DefWin}" PreviewKeyDown="Window_PreviewKeyDown" WindowStartupLocation="CenterScreen" AllowDrop="True" PreviewDragEnter="ModTransView_DragEnter" PreviewDrop="ModTransView_Drop"  PreviewDragLeave="ModTransView_DragLeave" Closing="Window_Closing" SizeChanged="Window_SizeChanged">
 
     <Window.Resources>
-        
+        <Storyboard x:Key="XTGlowLoop">
+            <DoubleAnimation
+            Storyboard.TargetName="LinearGradientBrushTranslate"
+            Storyboard.TargetProperty="X"
+            From="0"
+            To="2000"
+            Duration="0:0:30"
+            RepeatBehavior="Forever" />
+        </Storyboard>
+
         <Storyboard x:Key="BreathingEffect" RepeatBehavior="Forever" AutoReverse="True">
             <DoubleAnimation
             Storyboard.TargetName="NoteEffect"
@@ -278,26 +287,58 @@
                 </Border>
 
                 <!--Mask-->
-                <Border Visibility="Collapsed" Name="Mask" Style="{DynamicResource MaskStyle}" MouseDown="Mask_MouseDown">
+                <Border Visibility="Collapsed" Name="Mask" Tag="0" Style="{DynamicResource MaskStyle}" MouseDown="Mask_MouseDown">
                 </Border>
 
+                <!--MainNav-->
+                <StackPanel Orientation="Horizontal" Panel.ZIndex="200">
+                    <Border Style="{DynamicResource MenuStyle}" Name="NavPanel" Width="0">
+                        <Grid Name="MainNav">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Row="0">
+                                <Border Tag="TransHub" ToolTip="TransHub" Style="{DynamicResource MenuBlockStyle}" PreviewMouseDown="ShowView">
+                                    <svgc:SvgViewbox IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="Fill" Source="/Material/Lang.svg"  Width="21" Height="21" Opacity="1"/>
+                                </Border>
+                            </Grid>
+
+                            <Grid Grid.Row="1">
+                                <Border Tag="DashBoard" ToolTip="DashBoard" Style="{DynamicResource MenuBlockStyle}" PreviewMouseDown="ShowView">
+                                    <svgc:SvgViewbox IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="Fill" Source="/Material/Dashboard.svg"  Width="21" Height="21" Opacity="1"/>
+                                </Border>
+                            </Grid>
+
+                            <Grid Grid.Row="2">
+                                <Border Tag="Settings" ToolTip="Settings" Style="{DynamicResource MenuBlockStyle}" PreviewMouseDown="ShowView">
+                                    <ContentControl IsHitTestVisible="False" Style="{DynamicResource SettingIconStyle}" Panel.ZIndex="1" Cursor="Hand" Height="21" Width="21" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 0"/>
+                                </Border>
+                            </Grid>
+
+                            <Grid Grid.Row="3">
+                                <Border Tag="About" ToolTip="About" Style="{DynamicResource MenuBlockStyle}" PreviewMouseDown="ShowView">
+                                    <svgc:SvgViewbox IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="Fill" Source="/Material/About.svg"  Width="21" Height="21" Opacity="1"/>
+                                </Border>
+                            </Grid>
+                        </Grid>
+                    </Border>
+
+                    <Border Style="{DynamicResource NavStyle}" Grid.Column="1" PreviewMouseDown="ShowNav" Margin="-0.5 0 0 0">
+                        <ContentControl Style="{DynamicResource TriangleExpandIconStyle}" Name="NavBtn">
+                            <ContentControl.RenderTransform>
+                                <RotateTransform Angle="0" CenterX="10" CenterY="10"/>
+                            </ContentControl.RenderTransform>
+                        </ContentControl>
+                    </Border>
+                </StackPanel>
 
                 <Grid Style="{DynamicResource Frame}">
-                    <!--MainNav-->
-                    <StackPanel Orientation="Horizontal" Panel.ZIndex="200">
-                        <Border Background="#FF0B74D1" CornerRadius="5" VerticalAlignment="Center" Height="200" Name="NavPanel">
-                        </Border>
 
-                        <Border Style="{DynamicResource NavStyle}" Grid.Column="1" PreviewMouseDown="ShowNav">
-                            <ContentControl Style="{DynamicResource TriangleExpandIconStyle}" Name="NavBtn">
-                                <ContentControl.RenderTransform>
-                                    <RotateTransform Angle="0" CenterX="10" CenterY="10"/>
-                                </ContentControl.RenderTransform>
-                            </ContentControl>
-                        </Border>
-                    </StackPanel>
-
-                    <Grid Name="DragDropView" Visibility="Collapsed" >
+                    <Grid Name="DragDropView" Visibility="Collapsed">
                         <Border Style="{DynamicResource DragDropViewStyle}">
                             <Label Style="{DynamicResource DragDropViewFontStyle}">
                                 Drag and drop here
@@ -305,12 +346,8 @@
                         </Border>
                     </Grid>
 
-                    <Grid Name="ModTransView" Visibility="Visible">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*"/>
-                        </Grid.ColumnDefinitions>
-
-                        <Grid Grid.Column="1" Background="#FF282828">
+                    <Grid Name="ModTransView" Style="{DynamicResource FrameStyle}" Visibility="Visible">
+                        <Grid Grid.Column="1">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="5"/>
                                 <RowDefinition Height="45"/>
@@ -561,7 +598,8 @@
                                     Translated
                                 </Label>
                             </Grid>
-                            <Grid Name="TransView" Grid.Row="6" Panel.ZIndex="999" Background="#FF282828" MouseLeave="TransView_MouseLeave" Margin="10 0 10 0">
+                            
+                            <Grid Name="TransView" Style="{DynamicResource FrameStyle}" Grid.Row="6" Panel.ZIndex="999" MouseLeave="TransView_MouseLeave" Margin="10 0 10 0">
                               
                             </Grid>
 
@@ -654,6 +692,93 @@
                                     </Grid>
                                 </Grid>
                             </Grid>
+                        </Grid>
+                    </Grid>
+
+                    <Grid Name="AboutView" Style="{DynamicResource FrameStyle}" Visibility="Visible">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Width="500">
+                                <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center">
+                                    <Label Grid.Row="0" Foreground="White" FontWeight="DemiBold"  FontSize="50">
+                                        SSE Lexicon
+                                    </Label>
+                                    <Label Grid.Row="0" FontWeight="ExtraBold" FontSize="50">
+                                        <Label.Foreground>
+                                            <LinearGradientBrush SpreadMethod="Repeat">
+                                                <LinearGradientBrush.Transform>
+                                                    <TranslateTransform x:Name="LinearGradientBrushTranslate" />
+                                                </LinearGradientBrush.Transform>
+                                                <LinearGradientBrush.GradientStops>
+                                                    <GradientStop Offset="0.00" Color="#FF007ACC" />
+                                                    <GradientStop Offset="0.20" Color="#FF0090FF" />
+                                                    <GradientStop Offset="0.40" Color="#FF00B0FF" />
+                                                    <GradientStop Offset="0.60" Color="#FF33C5FF" />
+                                                    <GradientStop Offset="0.80" Color="#FF66D1FF" />
+                                                    <GradientStop Offset="1.00" Color="#FF99DDFF" />
+
+                                                    <GradientStop Offset="2.00" Color="#FF007ACC" />
+                                                    <GradientStop Offset="2.20" Color="#FF0090FF" />
+                                                    <GradientStop Offset="2.40" Color="#FF00B0FF" />
+                                                    <GradientStop Offset="2.60" Color="#FF33C5FF" />
+                                                    <GradientStop Offset="2.80" Color="#FF66D1FF" />
+                                                    <GradientStop Offset="3.00" Color="#FF99DDFF" />
+                                                </LinearGradientBrush.GradientStops>
+                                            </LinearGradientBrush>
+                                        </Label.Foreground>
+                                        XT
+                                    </Label>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" Margin="0 -10 0 0"  HorizontalAlignment="Center">
+                                    <Label Foreground="White" FontSize="15">
+                                        Version:3.1.11 R Alpha
+                                    </Label>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0 -5 0 0"   HorizontalAlignment="Center">
+                                    <Label Foreground="White" FontSize="15">
+                                        Author: YD525
+                                    </Label>
+                                    <TextBlock Foreground="White" FontSize="15" VerticalAlignment="Center">
+                                       ( <Run Text="Nexus Mods" FontWeight="Bold" Cursor="Hand" Foreground="#FF44A0FF" /> | <Run Text="GitHub" FontWeight="Bold" Cursor="Hand" Foreground="#FF44A0FF" /> )
+                                    </TextBlock>
+                                </StackPanel>
+
+                                <Label Foreground="White" FontSize="15" Margin="0 -5 0 0" HorizontalAlignment="Center">
+                                    Licensed under the GNU General Public License 3.0 (GPLv3)
+                                </Label>
+
+                                <TextBlock FontSize="15" Margin="0 -5 0 0" HorizontalAlignment="Center" Foreground="White" TextWrapping="Wrap" TextAlignment="Center">
+                                    If you like it, please give me a star on GitHub or endorse me on Nexus Mods. 
+                                    Every download and endorsement motivates me to keep improving and updating this project.
+                                </TextBlock>
+
+                                <TextBlock Foreground="White" FontSize="20" FontWeight="DemiBold" Margin="0 10 0 0" HorizontalAlignment="Center" TextAlignment="Center">
+                                    Special Thanks
+                                </TextBlock>
+
+                                <TextBlock Foreground="White" FontSize="14" TextWrapping="Wrap" TextAlignment="Center" Margin="20 5 20 0">
+                                    Some of the color schemes and layout ideas were inspired by suggestions from 
+                                    <Run Text="Cutleast" FontWeight="Bold" Cursor="Hand" Foreground="#FF44A0FF" />.
+                                </TextBlock>
+
+                                <TextBlock Foreground="White" FontSize="14" TextWrapping="Wrap" TextAlignment="Center" Margin="20 5 20 0">
+                                    The idea for hotpatch updates and improvements to the underlying framework — specifically addressing issues with loading certain ESP files using Mutagen.Bethesda.Skyrim — came from 
+                                    <Run Text="Noggog" FontWeight="Bold" Cursor="Hand" Foreground="#FF44A0FF" />.
+                                </TextBlock>
+
+                                <TextBlock Foreground="White" FontSize="14" TextWrapping="Wrap" TextAlignment="Center" Margin="20 5 20 0">
+                                    The implementation of Dynamic String Distributor (DSD) JSON file export was based on suggestions from both 
+                                    <Run Text="Cutleast" FontWeight="Bold"  Cursor="Hand" Foreground="#FF44A0FF"/> and 
+                                    <Run Text="SkyHorizon3" FontWeight="Bold" Cursor="Hand" Foreground="#FF44A0FF"/>.
+                                </TextBlock>
+
+                             
+
+                            </StackPanel>
                         </Grid>
                     </Grid>
 
