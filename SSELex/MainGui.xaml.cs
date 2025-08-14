@@ -19,6 +19,7 @@ using SSELex.SkyrimModManager;
 using SSELex.TranslateManage;
 using SSELex.UIManage;
 using SSELex.UIManagement;
+using static PhoenixEngine.SSELexiconBridge.NativeBridge;
 using static PhoenixEngine.TranslateCore.LanguageHelper;
 using static SSELex.UIManage.SkyrimDataLoader;
 
@@ -149,6 +150,11 @@ namespace SSELex
                     catch { }
                 }
             }).Start();
+
+            SyncTransStateUI();
+
+            Engine.From = DeFine.GlobalLocalSetting.SourceLanguage;
+            Engine.To = DeFine.GlobalLocalSetting.TargetLanguage;
         }
 
 
@@ -600,7 +606,7 @@ namespace SSELex
         }
         public bool CheckDictionary()
         {
-            string SetPath = DeFine.GetFullPath(@"\Librarys\" + DeFine.CurrentModName + ".Json");
+            string SetPath = DeFine.GetFullPath(@"\Librarys\" + Engine.GetModName() + ".Json");
             if (File.Exists(SetPath))
             {
                 return true;
@@ -701,7 +707,7 @@ namespace SSELex
                 string GetFileName = FilePath.Substring(FilePath.LastIndexOf(@"\") + @"\".Length);
                 //Caption.Text = GetFileName;
 
-                DeFine.CurrentModName = GetFileName;
+                Engine.ChangeModName(GetFileName);
 
                 string GetModName = GetFileName;
                 FModName = LModName = GetModName;
@@ -749,7 +755,6 @@ namespace SSELex
                             CancelBtn.Opacity = 1;
                             CancelBtn.IsEnabled = true;
                             LoadSaveState = 1;
-                            LoadFileButton.Content = UILanguageHelper.SearchStateChangeStr("LoadFileButton", 1);
                         }));
 
                         ReSetTransTargetType();
@@ -780,7 +785,6 @@ namespace SSELex
                         CancelBtn.Opacity = 1;
                         CancelBtn.IsEnabled = true;
                         LoadSaveState = 1;
-                        LoadFileButton.Content = UILanguageHelper.SearchStateChangeStr("LoadFileButton", 1);
                     }));
 
                     ReSetTransTargetType();
@@ -809,7 +813,6 @@ namespace SSELex
                         CancelBtn.Opacity = 1;
                         CancelBtn.IsEnabled = true;
                         LoadSaveState = 1;
-                        LoadFileButton.Content = UILanguageHelper.SearchStateChangeStr("LoadFileButton", 1);
                     }));
 
                     ReSetTransTargetType();
@@ -824,7 +827,7 @@ namespace SSELex
 
         public void CancelAny()
         {
-            DeFine.CurrentModName = string.Empty;
+            Engine.ChangeModName(string.Empty);
 
             this.Dispatcher.Invoke(new Action(() =>
             {
@@ -956,7 +959,6 @@ namespace SSELex
                 YDDictionaryHelper.CreatDictionary();
 
                 CancelTransEsp(null, null);
-                LoadFileButton.Content = UILanguageHelper.SearchStateChangeStr("LoadFileButton", 0);
             }
         }
 
@@ -1017,6 +1019,8 @@ namespace SSELex
             {
                 DeFine.GlobalLocalSetting.SourceLanguage = Enum.Parse<Languages>(GetValue);
                 DeFine.LocalConfigView.SFrom.SelectedValue = GetValue;
+
+                Engine.From = DeFine.GlobalLocalSetting.SourceLanguage;
             }
         }
 
@@ -1028,6 +1032,8 @@ namespace SSELex
             {
                 DeFine.GlobalLocalSetting.TargetLanguage = Enum.Parse<Languages>(GetValue);
                 DeFine.LocalConfigView.STo.SelectedValue = GetValue;
+
+                Engine.To = DeFine.GlobalLocalSetting.TargetLanguage;
             }
         }
 
@@ -1039,7 +1045,7 @@ namespace SSELex
                 if (ManualTranslation.IsChecked == true)
                 {
                     Translator.ClearAICache();
-                    if (Translator.ClearCloudCache(DeFine.CurrentModName))
+                    if (Translator.ClearCloudCache(Engine.GetModName()))
                     {
                         Engine.Vacuum();
                     }
@@ -1061,11 +1067,13 @@ namespace SSELex
 
         private void RefreshDictionary_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (DeFine.CurrentModName.Trim().Length > 0)
+            var ModName = Engine.GetModName();
+
+            if (ModName.Trim().Length > 0)
             {
                 int CallFuncCount = 0;
 
-                string SetPath = DeFine.GetFullPath(@"\Librarys\" + DeFine.CurrentModName + ".Json");
+                string SetPath = DeFine.GetFullPath(@"\Librarys\" + ModName + ".Json");
 
                 if (File.Exists(SetPath))
                 {
@@ -1221,21 +1229,6 @@ namespace SSELex
             SpeechHelper.TryPlaySound(ToStr.Text);
         }
 
-        private void CancelSelect(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void TransCurrentItem(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void ApplyTransStr(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
 
         private void GridSplitter_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
         {
@@ -1251,17 +1244,22 @@ namespace SSELex
             }));
         }
 
-        public void SetSelectFromAndToText()
+        public void SetSelectFromAndToText(FakeGrid? GridHandle)
         {
             EmptyFromAndToText();
 
             if (DeFine.GlobalLocalSetting.ViewMode == "Normal")
             {
-                this.Dispatcher.Invoke(new Action(() =>
+                if (GridHandle != null)
                 {
-                    FromStr.Text = TransViewList.RealLines[TransViewList.SelectLineID].SourceText;
-                    ToStr.Text = TransViewList.RealLines[TransViewList.SelectLineID].TransText;
-                }));
+                    GridHandle.SyncData();
+
+                    this.Dispatcher.Invoke(new Action(() =>
+                    {
+                        FromStr.Text = TransViewList.RealLines[TransViewList.SelectLineID].SourceText;
+                        ToStr.Text = TransViewList.RealLines[TransViewList.SelectLineID].TransText;
+                    }));
+                }
             }
         }
 
@@ -1355,30 +1353,123 @@ namespace SSELex
                 case "TransHub":
                     {
                         ModTransView.Visibility = Visibility.Visible;
-                        AboutView.Visibility = Visibility.Hidden;
+                        AboutView.Visibility = Visibility.Collapsed;
                     }
                     break;
                 case "DashBoard":
                     {
-                        ModTransView.Visibility = Visibility.Hidden;
-                        AboutView.Visibility = Visibility.Hidden;
+                        ModTransView.Visibility = Visibility.Collapsed;
+                        AboutView.Visibility = Visibility.Collapsed;
                     }
                     break;
                 case "Settings":
                     {
-                        ModTransView.Visibility = Visibility.Hidden;
-                        AboutView.Visibility = Visibility.Hidden;
+                        ModTransView.Visibility = Visibility.Collapsed;
+                        AboutView.Visibility = Visibility.Collapsed;
                     }
                     break;
                 case "About":
                     {
                         AboutView.Visibility = Visibility.Visible;
-                        ModTransView.Visibility = Visibility.Hidden;
+                        ModTransView.Visibility = Visibility.Collapsed;
                     }
                     break;
             }
         }
 
+        public void SyncTransStateUI()
+        {
+            TStop.Opacity = 0.5;
 
+            if (TranslatorExtend.TranslationStatus == StateControl.Run)
+            {
+                TRun.Visibility = Visibility.Collapsed;
+                TStop.Visibility = Visibility.Visible;
+                TCancel.Visibility = Visibility.Visible;
+            }
+            else
+            if (TranslatorExtend.TranslationStatus == StateControl.Stop)
+            {
+                TStop.Opacity = 1;
+                TRun.Visibility = Visibility.Collapsed;
+                TStop.Visibility = Visibility.Visible;
+                TCancel.Visibility = Visibility.Visible;
+            }
+            else
+            if (TranslatorExtend.TranslationStatus == StateControl.Cancel || TranslatorExtend.TranslationStatus == StateControl.Null)
+            {
+                TRun.Visibility = Visibility.Visible;
+                TStop.Visibility = Visibility.Collapsed;
+                TCancel.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void ChangeTransState(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is Border)
+            {
+                Border ButtonHandle = (Border)sender;
+
+                string GetButtonName = ButtonHandle.Name;
+
+                switch (GetButtonName)
+                {
+                    case "TRun":
+                        {
+                            TranslatorExtend.TranslationStatus = StateControl.Run;
+                        }
+                    break;
+                    case "TStop":
+                        {
+                            if (TStop.Opacity == 0.5)
+                            {
+                                TranslatorExtend.TranslationStatus = StateControl.Stop;
+                            }
+                            else
+                            {
+                                TranslatorExtend.TranslationStatus = StateControl.Run;
+                            }
+                        }
+                    break;
+                    case "TCancel":
+                        {
+                            TranslatorExtend.TranslationStatus = StateControl.Cancel;
+                        }
+                    break;
+                }
+
+                TranslatorExtend.SyncTransState();
+                SyncTransStateUI();
+            }
+         
+        }
+
+        private void ChangeColor(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is Border)
+            {
+                Border ButtonHandle = (Border)sender;
+                Color GetColor = ((SolidColorBrush)ButtonHandle.Background).Color;
+                TransViewList.ChangeFontColor(Engine.GetModName(),GetColor.R,GetColor.G,GetColor.B);
+            }
+        }
+
+        private void ApplyTranslatedText(object sender, MouseButtonEventArgs e)
+        {
+            var GetGrid = TransViewList.GetSelectedGrid();
+
+            if (GetGrid != null)
+            {
+                GetGrid.TransText = ToStr.Text;
+
+                try 
+                {
+                    TranslatorBridge.SetTransData(GetGrid.Key,GetGrid.SourceText,GetGrid.TransText);
+                }
+                catch { }
+
+                GetGrid.SyncUI(TransViewList);
+            }
+        }
     }
 }

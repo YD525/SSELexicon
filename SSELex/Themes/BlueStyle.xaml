@@ -187,6 +187,8 @@
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="Cursor"  Value="{x:Null}"/>
     </Style>
 
     <Style x:Key="ExtendBoxStyle" TargetType="Grid">

@@ -39,9 +39,6 @@
     <Page Update="CodeView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="MainWindow.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="LogView.xaml">
       <SubType>Designer</SubType>
     </Page>

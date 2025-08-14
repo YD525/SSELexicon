@@ -12,6 +12,12 @@ using System.Windows.Markup;
 using Mutagen.Bethesda.Skyrim;
 using SSELex.SkyrimManage;
 using System.Windows.Input;
+using System.Windows.Media;
+using PhoenixEngine.TranslateManagement;
+using PhoenixEngine.ConvertManager;
+using PhoenixEngine.EngineManagement;
+using PhoenixEngine.SSEATComBridge;
+using static PhoenixEngine.SSELexiconBridge.NativeBridge;
 
 namespace SSELex.UIManagement
 {
@@ -37,8 +43,115 @@ namespace SSELex.UIManagement
             return (T)XamlReader.Load(xmlReader);  // 反序列化成新对象
         }
 
+        public static void SetColor(Grid Grid,int R,int G,int B)
+        {
+            Color FontColor = Color.FromRgb((byte)R, (byte)G, (byte)B);
+
+            Grid MainGrid = Grid;
+
+            Border MainBorder = (Border)MainGrid.Children[0];
+
+            Grid GetChildGrid = (Grid)MainBorder.Child;
+
+            StackPanel GetStackPanel = (StackPanel)((Grid)GetChildGrid.Children[0]).Children[0];
+
+            Label GetType = (Label)GetStackPanel.Children[1];
+            GetType.Foreground = new SolidColorBrush(FontColor);
+
+            Grid GetKeyGrid = (Grid)GetChildGrid.Children[1];
+            TextBox GetKey = (TextBox)GetKeyGrid.Children[0];
+            GetKey.Foreground = new SolidColorBrush(FontColor);
+
+            Grid GetOriginalGrid = (Grid)GetChildGrid.Children[2];
+            TextBox GetOriginal = (TextBox)GetOriginalGrid.Children[0];
+            GetOriginal.Foreground = new SolidColorBrush(FontColor);
+
+            Grid GetTranslatedGrid = (Grid)GetChildGrid.Children[3];
+            Border GetTranslatedBorder = (Border)GetTranslatedGrid.Children[0];
+
+            TextBox GetTranslated = (TextBox)(GetTranslatedBorder.Child);
+            GetTranslated.Foreground = new SolidColorBrush(FontColor);
+        }
+
+        public static string GetType(Grid Grid)
+        {
+            Grid GetDataGrid = ((Grid)((Border)Grid.Children[0]).Child);
+            StackPanel GetStackPanel = (StackPanel)(((Grid)GetDataGrid.Children[0]).Children[0]);
+            Label GetType = (Label)GetStackPanel.Children[1];
+
+            return ConvertHelper.ObjToStr(GetType.Content);
+        }
+
+        public static string GetKey(Grid Grid)
+        {
+            return ConvertHelper.ObjToStr(((Border)Grid.Children[0]).Tag);
+        }
+
+        public static string GetOriginal(Grid Grid)
+        {
+            Grid GetDataGrid = ((Grid)((Border)Grid.Children[0]).Child);
+
+            Grid GetOriginalGrid = (Grid)GetDataGrid.Children[2];
+
+            TextBox GetOriginal = (TextBox)GetOriginalGrid.Children[0];
+
+            return GetOriginal.Text;
+        }
+
+        public static string GetTranslated(Grid Grid)
+        {
+            Grid GetDataGrid = ((Grid)((Border)Grid.Children[0]).Child);
+
+            Grid GetTranslatedGrid = (Grid)GetDataGrid.Children[3];
+
+            Border GetTranslatedBorder = (Border)GetTranslatedGrid.Children[0];
+
+            TextBox GetTranslated = (TextBox)(GetTranslatedBorder.Child);
+
+            return GetTranslated.Text;
+        }
+
+        public static void SetTranslated(Grid Grid,string Translated)
+        {
+            Grid SetDataGrid = ((Grid)((Border)Grid.Children[0]).Child);
+
+            Grid SetTranslatedGrid = (Grid)SetDataGrid.Children[3];
+
+            Border SetTranslatedBorder = (Border)SetTranslatedGrid.Children[0];
+
+            TextBox SetTranslated = (TextBox)(SetTranslatedBorder.Child);
+
+            SetTranslated.Text = Translated;
+        }
+
         public Grid CreatLine(double Height, TranslationUnit Item)
         {
+            var QueryTranslated = TranslatorBridge.QueryTransData(Item.Key, Item.SourceText);
+
+            if (QueryTranslated != null)
+            {
+                Item.TransText = QueryTranslated.TransText;
+            }
+
+            var FindDictionary = YDDictionaryHelper.CheckDictionary(Item.Key);
+
+            if (FindDictionary != null)
+            {
+                if (FindDictionary.OriginalText.Trim().Length > 0)
+                {
+                    Item.SourceText = FindDictionary.OriginalText;
+                }
+            }
+
+            Color FontColor = Colors.White;
+
+            var QueryColor = FontColorFinder.FindColor(Engine.GetModName(), Item.Key);
+
+            if (QueryColor != null)
+            {
+                FontColor = Color.FromRgb((byte)QueryColor.R, (byte)QueryColor.G, (byte)QueryColor.B);
+            }
+
             Grid MainGrid = CloneElement(LineGrid);
             MainGrid.Height = Height;
 
@@ -48,16 +161,20 @@ namespace SSELex.UIManagement
             Grid GetChildGrid = (Grid)MainBorder.Child;
 
             StackPanel GetStackPanel = (StackPanel)((Grid)GetChildGrid.Children[0]).Children[0];
+
             Label GetType = (Label)GetStackPanel.Children[1];
             GetType.Content = Item.Type;
+            GetType.Foreground = new SolidColorBrush(FontColor);
 
             Grid GetKeyGrid = (Grid)GetChildGrid.Children[1];
             TextBox GetKey = (TextBox)GetKeyGrid.Children[0];
             GetKey.Text = Item.Key;
+            GetKey.Foreground = new SolidColorBrush(FontColor);
 
             Grid GetOriginalGrid = (Grid)GetChildGrid.Children[2];
             TextBox GetOriginal = (TextBox)GetOriginalGrid.Children[0];
             GetOriginal.Text = Item.SourceText;
+            GetOriginal.Foreground = new SolidColorBrush(FontColor);
 
             Grid GetTranslatedGrid = (Grid)GetChildGrid.Children[3];
             Border GetTranslatedBorder = (Border)GetTranslatedGrid.Children[0];
@@ -65,6 +182,7 @@ namespace SSELex.UIManagement
             TextBox GetTranslated = (TextBox)(GetTranslatedBorder.Child);
 
             GetTranslated.Text = Item.TransText;
+            GetTranslated.Foreground = new SolidColorBrush(FontColor);
 
             if (DeFine.GlobalLocalSetting.ViewMode == "Normal")
             {
@@ -73,12 +191,22 @@ namespace SSELex.UIManagement
                 GetOriginal.Cursor = Cursors.Hand;
                 GetTranslated.Cursor = Cursors.Hand;
                 GetTranslatedBorder.Background = null;
+                GetTranslatedBorder.Cursor = null;
+
                 GetTranslated.IsReadOnly = true;
+                GetTranslated.HorizontalContentAlignment = HorizontalAlignment.Center;
+                GetTranslated.VerticalContentAlignment = VerticalAlignment.Center;
+            }
+            else
+            {
+                GetTranslated.IsReadOnly = false;
+                GetTranslated.HorizontalAlignment = HorizontalAlignment.Stretch;
+                GetTranslated.VerticalContentAlignment = VerticalAlignment.Center;
             }
 
             return MainGrid;
         }
 
-      
+       
     }
 }

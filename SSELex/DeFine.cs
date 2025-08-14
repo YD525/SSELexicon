@@ -26,8 +26,6 @@ namespace SSELex
     }
     public class DeFine
     {
-        public static string CurrentModName = "";
-
         public static int GlobalRequestTimeOut = 5000;
         public static int ViewMode = 0;
 
@@ -51,8 +49,6 @@ namespace SSELex
         public static TextEditor ActiveIDE = null;
         public static LocalConfig LocalConfigView = null;
         public static RowStyleWin RowStyleWin = new RowStyleWin();
-
-        public static SqlCore<SQLiteHelper> LocalDB = null;
 
         public static string CurrentSearchStr = "";
 
@@ -138,7 +134,6 @@ namespace SSELex
             MakeReady();
             GlobalLocalSetting.ReadConfig();
             string GetFilePath = GetFullPath(@"\System.db");
-            DeFine.LocalDB = new SqlCore<SQLiteHelper>(GetFilePath);
 
             WorkingWin = Work;
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);

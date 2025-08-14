@@ -5,6 +5,8 @@ using System.Windows.Media;
 using PhoenixEngine.TranslateManagement;
 using PhoenixEngine.TranslateCore;
 using PhoenixEngine.TranslateManage;
+using PhoenixEngine.EngineManagement;
+using static PhoenixEngine.SSELexiconBridge.NativeBridge;
 
 namespace SSELex.TranslateManage
 {
@@ -14,6 +16,26 @@ namespace SSELex.TranslateManage
     //https://github.com/YD525/PhoenixEngine
     public class TranslatorExtend
     {
+        public static StateControl TranslationStatus = StateControl.Null;
+
+        public static void SyncTransState()
+        {
+            if (TranslationStatus == StateControl.Run)
+            { 
+            
+            }
+            else
+            if (TranslationStatus == StateControl.Stop)
+            {
+
+            }
+            else
+            if (TranslationStatus == StateControl.Cancel || TranslationStatus == StateControl.Null)
+            {
+
+            }
+        }
+
         public static int WriteDictionary()
         {
             int ReplaceCount = 0;
@@ -82,7 +104,6 @@ namespace SSELex.TranslateManage
 
                 DeFine.WorkingWin.TransViewList.RealLines[i].TransText = GetSourceText;
 
-                DeFine.WorkingWin.TransViewList.RealLines[i].BorderColor = Colors.Green;
                 GetFakeGrid.TransText = GetSourceText;
             }
 
@@ -91,18 +112,21 @@ namespace SSELex.TranslateManage
 
         public static void ReSetAllTransText()
         {
-            DeFine.WorkingWin.Dispatcher.Invoke(new Action(() => {
+            DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
+            {
                 DeFine.WorkingWin.TransViewList.MainCanvas.Visibility = System.Windows.Visibility.Collapsed;
             }));
 
-            LocalDBCache.DeleteCacheByModName(DeFine.CurrentModName,DeFine.GlobalLocalSetting.TargetLanguage);
+            LocalDBCache.DeleteCacheByModName(Engine.GetModName(), DeFine.GlobalLocalSetting.TargetLanguage);
             Translator.TransData.Clear();
             DeFine.WorkingWin.ReloadData();
 
-            DeFine.WorkingWin.Dispatcher.Invoke(new Action(() => {
+            DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
+            {
                 DeFine.WorkingWin.ProcessBar.Width = 0;
             }));
-            DeFine.WorkingWin.Dispatcher.Invoke(new Action(() => {
+            DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
+            {
                 DeFine.WorkingWin.TransViewList.MainCanvas.Visibility = System.Windows.Visibility.Visible;
             }));
         }
@@ -131,7 +155,7 @@ namespace SSELex.TranslateManage
 
         public static bool ClearCloudCache(string ModName)
         {
-           return CloudDBCache.ClearCloudCache(ModName);
+            return CloudDBCache.ClearCloudCache(ModName);
         }
 
         public static void TestAll()
@@ -144,149 +168,15 @@ namespace SSELex.TranslateManage
             }
             UIHelper.ModifyCount = DeFine.WorkingWin.TransViewList.RealLines.Count;
 
-            DeFine.WorkingWin.Dispatcher.Invoke(new Action(() => {
+            DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
+            {
                 DeFine.WorkingWin.ProcessBar.Width = 0;
             }));
         }
+    }
 
-        public class QueryTransItem
-        {
-            public string Key = "";
-            public string TransText = "";
-            public Color Color;
-            public int State = 0;
-        }
-
-        public class SetTransItem
-        {
-            public string Key = "";
-            public Color Color;
-            public int State = 0;
-        }
-
-        public static Color DefTransTextBorder = Color.FromRgb(87, 87, 87);
-        public static QueryTransItem QueryTransData(string Key, string SourceText)
-        {
-            QueryTransItem NQueryTransItem = new QueryTransItem();
-
-            string TransText = "";
-            Color Color = DefTransTextBorder;
-
-            string GetRamSource = "";
-            if (Translator.TransData.ContainsKey(Key))
-            {
-                GetRamSource = Translator.TransData[Key];
-            }
-
-            var FindDictionary = YDDictionaryHelper.CheckDictionary(Key);
-
-            if (GetRamSource.Trim().Length == 0)
-            {
-                TransText = LocalDBCache.GetCacheText(DeFine.CurrentModName,Key,DeFine.GlobalLocalSetting.TargetLanguage);
-
-                if (TransText.Trim().Length > 0)
-                {
-                    Color = Colors.Green;
-                }
-                else
-                {
-                    TransText = CloudDBCache.FindCache(DeFine.CurrentModName,Key,DeFine.GlobalLocalSetting.TargetLanguage);
-
-                    if (TransText.Trim().Length > 0)
-                    {
-                        Color = Colors.DarkOliveGreen;
-                    }
-                }
-
-                if (DeFine.GlobalLocalSetting.AutoLoadDictionaryFile)
-                {
-                    if (FindDictionary != null)
-                    {
-                        if (FindDictionary.TransText.Trim().Length > 0)
-                        {
-                            TransText = FindDictionary.TransText;
-                            Color = Colors.Green;
-                        }
-                    }
-                }
-                NQueryTransItem.State = 1;
-            }
-            else
-            {
-                var GetStr = CloudDBCache.FindCache(DeFine.CurrentModName,Key,DeFine.GlobalLocalSetting.TargetLanguage);
-                TransText = GetRamSource;
-                if (GetStr.Equals(GetRamSource))
-                {
-                    Color = Colors.DarkOliveGreen;
-                }
-                else
-                {
-                    Color = Colors.Green;
-                }
-                NQueryTransItem.State = 0;
-            }
-
-
-            NQueryTransItem.Key = Key;
-            NQueryTransItem.TransText = TransText;
-            NQueryTransItem.Color = Color;
-            return NQueryTransItem;
-        }
-
-        public static SetTransItem SetTransData(string Key, string SourceText, string TransText)
-        {
-            SetTransItem NSetTransItem = new SetTransItem();
-            NSetTransItem.Color = DefTransTextBorder;
-
-            if (TransText.Trim().Length > 0)
-            {
-                Translator.TransData[Key] = TransText;
-            }
-            else
-            {
-                if (Translator.TransData.ContainsKey(Key))
-                {
-                    Translator.TransData.Remove(Key);
-                }
-
-                CloudDBCache.DeleteCache(DeFine.CurrentModName,Key,DeFine.GlobalLocalSetting.TargetLanguage);
-            }
-
-            bool CanUPDate = true;
-            var FindDictionary = YDDictionaryHelper.CheckDictionary(Key);
-            if (FindDictionary != null)
-            {
-                if (FindDictionary.TransText.Equals(TransText))
-                {
-                    LocalDBCache.DeleteCache(DeFine.CurrentModName,Key,DeFine.GlobalLocalSetting.TargetLanguage);
-                    CanUPDate = false;
-                }
-                NSetTransItem.State = 0;
-            }
-
-            if (CanUPDate)
-            {
-                LocalDBCache.UPDateLocalTransItem(new LocalTransItem(DeFine.CurrentModName,Key,DeFine.GlobalLocalSetting.TargetLanguage, TransText));
-                NSetTransItem.State = 1;
-            }
-
-            if (TransText.Trim().Length == 0)
-            {
-                NSetTransItem.Color = DefTransTextBorder;
-            }
-            else
-            {
-                if (TransText.Equals(CloudDBCache.FindCache(DeFine.CurrentModName,Key,DeFine.GlobalLocalSetting.TargetLanguage)))
-                {
-                    NSetTransItem.Color = Colors.DarkOliveGreen;
-                }
-                else
-                {
-                    NSetTransItem.Color = Colors.Green;
-                }
-            }
-
-            return NSetTransItem;
-        }
+    public enum StateControl
+    {
+        Null = 0, Run = 1, Stop = 2, Cancel = 3
     }
 }

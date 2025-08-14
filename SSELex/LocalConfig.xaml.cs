@@ -435,7 +435,7 @@ namespace SSELex
                             ExecuteBtn.Content = "Executing...";
                         }));
                         bool CanSleep = false;
-                        var GetResult = Translator.QuickTrans("Test", GetType, UIHelper.ActiveKey, GetFromStr, FilterFrom, FilterTo, ref CanSleep);
+                        var GetResult = Translator.QuickTrans("Test", GetType, DeFine.WorkingWin.TransViewList.GetSelectedKey(), GetFromStr, FilterFrom, FilterTo, ref CanSleep);
 
                         this.Dispatcher.Invoke(new Action(() =>
                         {

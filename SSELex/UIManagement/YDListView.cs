@@ -9,6 +9,11 @@ using SSELex.TranslateManage;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Threading;
+using PhoenixEngine.TranslateManagement;
+using SSELex.UIManagement;
+using PhoenixEngine.SSELexiconBridge;
+using static PhoenixEngine.SSELexiconBridge.NativeBridge;
+using PhoenixEngine.EngineManagement;
 
 // Copyright (C) 2025 YD525
 // Licensed under the GNU GPLv3
@@ -24,8 +29,6 @@ public class FakeGrid
     public string Key = "";
     public string SourceText = "";
     public string TransText = "";
-    public Color BorderColor;
-    public Color FontColor;
     public double Score = 0;
 
     public FakeGrid(double Height, string Type,string Key, string SourceText, string TransText, double Score)
@@ -36,6 +39,39 @@ public class FakeGrid
         this.SourceText = SourceText;
         this.TransText = TransText;
         this.Score = Score;
+    }
+
+    public void SyncUI(YDListView ListViewHandle)
+    {
+        for (int i = 0; i < ListViewHandle.VisibleRows.Count; i++)
+        {
+            if (RowStyleWin.GetKey(ListViewHandle.VisibleRows[i]).Equals(this.Key))
+            {
+                RowStyleWin.SetTranslated(ListViewHandle.VisibleRows[i], this.TransText);
+                break;
+            }
+        }
+    }
+
+    public void SyncData()
+    {
+        var QueryResult = TranslatorBridge.QueryTransData(this.Key, this.SourceText);
+        if (QueryResult != null)
+        {
+            this.TransText = QueryResult.TransText;
+        }
+    }
+
+    public void SetFontColor(YDListView ListViewHandle,int R,int G,int B)
+    {
+        for (int i = 0; i < ListViewHandle.VisibleRows.Count; i++)
+        {
+            if (RowStyleWin.GetKey(ListViewHandle.VisibleRows[i]).Equals(this.Key))
+            {
+                RowStyleWin.SetColor(ListViewHandle.VisibleRows[i],R,G,B);
+                break;
+            }
+        }
     }
 }
 
@@ -76,7 +112,7 @@ public class YDListView
 
         LastSelectBorder = MainBorder;
 
-        DeFine.WorkingWin.SetSelectFromAndToText();
+        DeFine.WorkingWin.SetSelectFromAndToText(GetSelectedGrid());
     }
 
     private bool IsGridInViewport(Grid Grid)
@@ -107,7 +143,7 @@ public class YDListView
         Grid? MatchGrid = null;
         foreach (var G in VisibleRows)
         {
-            if (UIHelper.GetMainGridKey(G).Equals(TargetLogicItem.Key))
+            if (RowStyleWin.GetKey(G).Equals(TargetLogicItem.Key))
             {
                 MatchGrid = G;
                 break;
@@ -134,7 +170,7 @@ public class YDListView
             {
                 foreach (var G in VisibleRows)
                 {
-                    if (UIHelper.GetMainGridKey(G).Equals(TargetLogicItem.Key))
+                    if (RowStyleWin.GetKey(G).Equals(TargetLogicItem.Key))
                     {
                         SetSelectLine(G);
                         break;
@@ -163,7 +199,7 @@ public class YDListView
             Grid? MatchGrid = null;
             foreach (var G in VisibleRows)
             {
-                if (UIHelper.GetMainGridKey(G).Equals(TargetLogicItem.Key))
+                if (RowStyleWin.GetKey(G).Equals(TargetLogicItem.Key))
                 {
                     MatchGrid = G;
                     break;
@@ -190,7 +226,7 @@ public class YDListView
                 {
                     foreach (var G in VisibleRows)
                     {
-                        if (UIHelper.GetMainGridKey(G).Equals(TargetLogicItem.Key))
+                        if (RowStyleWin.GetKey(G).Equals(TargetLogicItem.Key))
                         {
                             SetSelectLine(G);
                             break;
@@ -274,6 +310,7 @@ public class YDListView
 
     public void Clear()
     {
+        this.SelectLineID = 0;
         this.CanSet = false;
         this.VisibleRows.Clear();
         this.RealLines.Clear();
@@ -432,7 +469,7 @@ public class YDListView
 
                 for (int i = 0; i < this.VisibleRows.Count; i++)
                 {
-                    if (UIHelper.GetMainGridKey((Grid)this.VisibleRows[i]).Equals(Get.Key))
+                    if (RowStyleWin.GetKey((Grid)this.VisibleRows[i]).Equals(Get.Key))
                     {
                         this.VisibleRows.RemoveAt(i);
                         break;
@@ -447,6 +484,33 @@ public class YDListView
     private void MainGrid_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
         SetSelectLine((Grid)sender);
+    }
+
+    public void ChangeFontColor(string ModName,int R,int G,int B)
+    {
+        var GetLine = this.RealLines[SelectLineID];
+        FontColorFinder.SetColor(ModName, GetLine.Key, R, G, B);
+        GetLine.SetFontColor(this, R, G, B);
+    }
+
+    public string GetSelectedKey()
+    {
+        if (this.RealLines.Count > this.SelectLineID)
+        {
+            return this.RealLines[this.SelectLineID].Key;
+        }
+
+        return string.Empty;
+    }
+
+    public FakeGrid? GetSelectedGrid()
+    {
+        if (this.RealLines.Count > this.SelectLineID)
+        {
+            return this.RealLines[this.SelectLineID];
+        }
+
+        return null;
     }
 }
 

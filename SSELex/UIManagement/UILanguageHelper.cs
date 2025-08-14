@@ -131,39 +131,6 @@ namespace SSELex.UIManage
             Languages.Vietnamese
         };
 
-        public static string DBQueryStr(Languages Type, string Key, string Name)
-        {
-            string SqlOrder = "Select Str From UILanguages Where Key = '{0}' And Name = '{1}' And LangType = '{2}'";
-            string GetResult = ConvertHelper.ObjToStr(DeFine.LocalDB.ExecuteScalar(string.Format(SqlOrder, Key, Name, Type.ToString())));
-            if (GetResult.Contains(">"))
-            {
-                GetResult = GetResult.Split('>')[0];
-            }
-            return ConvertHelper.ObjToStr(GetResult);
-        }
-
-        public static string SearchStateChangeStr(string Name, int ID)
-        {
-            string SqlOrder = "Select Str From UILanguages Where Name = '{0}' And LangType = '{1}'";
-            string GetResult = ConvertHelper.ObjToStr(DeFine.LocalDB.ExecuteScalar(string.Format(SqlOrder, Name, DeFine.GlobalLocalSetting.CurrentUILanguage.ToString())));
-            if (GetResult.Contains(">"))
-            {
-                GetResult = GetResult.Split('>')[ID];
-            }
-            return ConvertHelper.ObjToStr(GetResult);
-        }
-
-        public static Dictionary<Languages, string> QueryLanguageStr(string Name, string Key)
-        {
-            Dictionary<Languages, string> SetHashMap = new Dictionary<Languages, string>();
-
-            foreach (var Get in SupportLanguages)
-            {
-                SetHashMap.Add(Get, DBQueryStr(Get, Key, Name));
-            }
-            return SetHashMap;
-        }
-
         public static class VisualTreeHelperExtensions
         {
             public static List<T> GetAllChildren<T>(DependencyObject parent) where T : DependencyObject
@@ -187,68 +154,9 @@ namespace SSELex.UIManage
                 return result;
             }
         }
-
-
         public static void ChangeLanguage(Languages SetLanguage)
         {
-            foreach (var GetLabel in VisualTreeHelperExtensions.GetAllChildren<ComboBox>(DeFine.WorkingWin))
-            {
-                string GetStr = DBQueryStr(SetLanguage, "ToolTips", GetLabel.Name);
-                if (GetStr.Trim().Length > 0)
-                {
-                    GetLabel.ToolTip = GetStr;
-                }
-            }
-            foreach (var GetLabel in VisualTreeHelperExtensions.GetAllChildren<SvgViewbox>(DeFine.WorkingWin))
-            {
-                string GetStr = DBQueryStr(SetLanguage, "ToolTips", GetLabel.Name);
-                if (GetStr.Trim().Length > 0)
-                {
-                    GetLabel.ToolTip = GetStr;
-                }
-            }
-            foreach (var GetLabel in VisualTreeHelperExtensions.GetAllChildren<Border>(DeFine.WorkingWin))
-            {
-                string GetStr = DBQueryStr(SetLanguage, "ToolTips", GetLabel.Name);
-                if (GetStr.Trim().Length > 0)
-                {
-                    GetLabel.ToolTip = GetStr;
-                }
-            }
-            foreach (var GetLabel in VisualTreeHelperExtensions.GetAllChildren<Label>(DeFine.WorkingWin))
-            {
-                string GetStr = DBQueryStr(SetLanguage, "ToolTips", GetLabel.Name);
-                if (GetStr.Trim().Length > 0)
-                {
-                    GetLabel.ToolTip = GetStr;
-                }
-                GetStr = DBQueryStr(SetLanguage, "Content", GetLabel.Name);
-                if (GetStr.Trim().Length > 0)
-                {
-                    GetLabel.Content = GetStr;
-                }
-            }
-            foreach (var GetLabel in VisualTreeHelperExtensions.GetAllChildren<Button>(DeFine.WorkingWin))
-            {
-                string GetStr = DBQueryStr(SetLanguage, "ToolTips", GetLabel.Name);
-                if (GetStr.Trim().Length > 0)
-                {
-                    GetLabel.ToolTip = GetStr;
-                }
-                GetStr = DBQueryStr(SetLanguage, "Content", GetLabel.Name);
-                if (GetStr.Trim().Length > 0)
-                {
-                    GetLabel.Content = GetStr;
-                }
-            }
-            foreach (var GetLabel in VisualTreeHelperExtensions.GetAllChildren<TextBox>(DeFine.WorkingWin))
-            {
-                string GetStr = DBQueryStr(SetLanguage, "ToolTips", GetLabel.Name);
-                if (GetStr.Trim().Length > 0)
-                {
-                    GetLabel.ToolTip = GetStr;
-                }
-            }
+           
         }
     }
 }
