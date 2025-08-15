@@ -468,7 +468,7 @@
                                             <ContentControl Style="{DynamicResource MagnifyingGlassIconStyle}" Panel.ZIndex="1" Height="15" Width="15"/>
 
                                             <Border Style="{DynamicResource SearchBoxPic}" Grid.Column="1">
-                                                <TextBox Style="{DynamicResource SearchBoxText}" Name="SearchBox" Grid.Column="1" TextChanged="SearchBox_TextChanged" MouseLeave="SearchBox_MouseLeave">
+                                                <TextBox Style="{DynamicResource SearchBoxText}" Name="SearchBox" Grid.Column="1" TextChanged="SearchBox_TextChanged">
 
                                                 </TextBox>
                                             </Border>
@@ -599,8 +599,12 @@
                                     Translated
                                 </Label>
                             </Grid>
-                            
-                            <Grid Name="TransView" Style="{DynamicResource FrameStyle}" Grid.Row="6" Panel.ZIndex="999" MouseLeave="TransView_MouseLeave" Margin="10 0 10 0">
+
+                            <Grid Name="SearchResultsView" Style="{DynamicResource FrameStyle}" Grid.Row="6" Panel.ZIndex="999" Margin="10 0 10 0" Visibility="Collapsed">
+
+                            </Grid>
+
+                            <Grid Name="TransView" Style="{DynamicResource FrameStyle}" Grid.Row="6" Panel.ZIndex="990" Margin="10 0 10 0" Visibility="Visible">
                               
                             </Grid>
 

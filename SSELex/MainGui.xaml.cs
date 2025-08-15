@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Threading;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using Mutagen.Bethesda.Plugins.Masters.DI;
@@ -90,7 +91,9 @@ namespace SSELex
             InitializeComponent();
         }
 
+        public YDListView? SearchResultsViewList = null;
         public YDListView? TransViewList = null;
+
         private ScanAnimator? ScanAnimator = null;
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -102,6 +105,11 @@ namespace SSELex
             {
                 TransViewList = new YDListView(TransView);
                 TransViewList.Clear();
+            }
+
+            if (SearchResultsViewList == null)
+            {
+                SearchResultsViewList = new YDListView(SearchResultsView);
             }
 
             ReloadLanguageMode();
@@ -226,7 +234,15 @@ namespace SSELex
             if (e.Key == Key.Tab)
             {
                 e.Handled = true;
-                TransViewList.Down();
+
+                if (SearchResultsView.Visibility == Visibility.Visible)
+                {
+                    SearchResultsViewList?.Down();
+                }
+                else
+                {
+                    TransViewList?.Down();
+                }
             }
         }
 
@@ -252,11 +268,6 @@ namespace SSELex
                 }
                 catch { }
             }
-        }
-
-        private void TransView_MouseLeave(object sender, MouseEventArgs e)
-        {
-
         }
 
         public void ShowMenu(bool Show)
@@ -824,22 +835,30 @@ namespace SSELex
 
             this.Dispatcher.Invoke(new Action(() =>
             {
-                LoadFileButton.Content = "LoadFile";
+                try
+                {
+                    SearchBox.Text = string.Empty;
+                    SearchResultsViewList?.Clear();
+                    SearchResultsView.Visibility = Visibility.Collapsed;
 
-                ClosetTransTrd();
+                    LoadFileButton.Content = "LoadFile";
 
-                TransViewList.Clear();
-                GlobalEspReader.Close();
-                GlobalMCMReader.Close();
-                GlobalPexReader.Close();
+                    ClosetTransTrd();
 
-                LoadSaveState = 0;
+                    TransViewList?.Clear();
+                    GlobalEspReader?.Close();
+                    GlobalMCMReader?.Close();
+                    GlobalPexReader?.Close();
 
-                CancelBtn.Opacity = 0.3;
-                CancelBtn.IsEnabled = false;
+                    LoadSaveState = 0;
 
-                TypeSelector.Items.Clear();
-                YDDictionaryHelper.Close();
+                    CancelBtn.Opacity = 0.3;
+                    CancelBtn.IsEnabled = false;
+
+                    TypeSelector.Items.Clear();
+                    YDDictionaryHelper.Close();
+                }
+                catch { }
             }));
 
             SetTittle();
@@ -975,15 +994,44 @@ namespace SSELex
 
         #region Search
 
-        
-
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            QuickSearch();
         }
 
-        private void SearchBox_MouseLeave(object sender, MouseEventArgs e)
+        public void QuickSearch()
         {
-            
+            if (ToStr.Text.Trim().Length > 0)
+            {
+                ApplyTranslatedText();
+            }
+
+            if (SearchBox.Text.Trim().Length > 0)
+            {
+                TransView.Visibility = Visibility.Hidden;
+
+                if (SearchResultsViewList != null && TransViewList != null)
+                {
+                    SearchResultsViewList.IsSearchBox = true;
+                    SearchResultsViewList.ParentView = TransViewList;
+
+                    SearchResultsViewList.Clear();
+
+                    foreach (var GetLine in TransViewList.QuickSearch(SearchBox.Text.Trim()))
+                    {
+                        SearchResultsViewList.AddRowR(GetLine);
+                    }
+                }
+
+                SearchResultsView.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                SearchResultsView.Visibility = Visibility.Collapsed;
+                TransView.Visibility = Visibility.Visible;
+            }
+
+          
         }
 
         #endregion
@@ -1226,21 +1274,29 @@ namespace SSELex
             }));
         }
 
-        public void SetSelectFromAndToText(FakeGrid? GridHandle)
+        public string LastSetKey = "";
+        public void SetSelectFromAndToText(string Key)
         {
+            LastSetKey = Key;
+
             EmptyFromAndToText();
 
             if (DeFine.GlobalLocalSetting.ViewMode == "Normal")
             {
-                if (GridHandle != null)
+                if (TransViewList != null)
                 {
-                    GridHandle.SyncData();
+                    var GridHandle = TransViewList.KeyToFakeGrid(Key);
 
-                    this.Dispatcher.Invoke(new Action(() =>
+                    if (GridHandle != null)
                     {
-                        FromStr.Text = TransViewList.RealLines[TransViewList.SelectLineID].SourceText;
-                        ToStr.Text = TransViewList.RealLines[TransViewList.SelectLineID].TransText;
-                    }));
+                        GridHandle.SyncData();
+
+                        this.Dispatcher.Invoke(new Action(() =>
+                        {
+                            FromStr.Text = TransViewList.RealLines[TransViewList.SelectLineID].SourceText;
+                            ToStr.Text = TransViewList.RealLines[TransViewList.SelectLineID].TransText;
+                        }));
+                    }
                 }
             }
         }
@@ -1406,7 +1462,7 @@ namespace SSELex
                         {
                             TranslatorExtend.TranslationStatus = StateControl.Run;
                         }
-                    break;
+                        break;
                     case "TStop":
                         {
                             if (TStop.Opacity == 0.5)
@@ -1418,18 +1474,18 @@ namespace SSELex
                                 TranslatorExtend.TranslationStatus = StateControl.Run;
                             }
                         }
-                    break;
+                        break;
                     case "TCancel":
                         {
                             TranslatorExtend.TranslationStatus = StateControl.Cancel;
                         }
-                    break;
+                        break;
                 }
 
                 TranslatorExtend.SyncTransState();
                 SyncTransStateUI();
             }
-         
+
         }
 
         private void ChangeColor(object sender, MouseButtonEventArgs e)
@@ -1438,26 +1494,57 @@ namespace SSELex
             {
                 Border ButtonHandle = (Border)sender;
                 Color GetColor = ((SolidColorBrush)ButtonHandle.Background).Color;
-                TransViewList.ChangeFontColor(Engine.GetModName(),GetColor.R,GetColor.G,GetColor.B);
+
+                if (TransViewList != null)
+                {
+                    TransViewList.ChangeFontColor(Engine.GetModName(), GetColor.R, GetColor.G, GetColor.B);
+                }
+                if (SearchResultsViewList != null)
+                {
+                    if (SearchResultsView.Visibility == Visibility.Visible)
+                    {
+                        SearchResultsViewList.ChangeFontColor(Engine.GetModName(), GetColor.R, GetColor.G, GetColor.B);
+                    }
+                }
             }
         }
 
+        public void ApplyTranslatedText()
+        {
+            if (TransViewList != null)
+            {
+                if (LastSetKey.Trim().Length > 0)
+                {
+                    var GetGrid = TransViewList.KeyToFakeGrid(LastSetKey);
+
+                    if (GetGrid != null)
+                    {
+                        GetGrid.TransText = ToStr.Text;
+
+                        try
+                        {
+                            TranslatorBridge.SetTransData(GetGrid.Key, GetGrid.SourceText, GetGrid.TransText);
+                        }
+                        catch { }
+
+                        GetGrid.SyncUI(TransViewList);
+
+                        if (SearchResultsViewList != null)
+                        {
+                            if (SearchResultsView.Visibility == Visibility.Visible)
+                            {
+                                GetGrid.SyncUI(SearchResultsViewList);
+                            }
+                        }
+                    }
+                }
+            }
+
+            EmptyFromAndToText();
+        }
         private void ApplyTranslatedText(object sender, MouseButtonEventArgs e)
         {
-            var GetGrid = TransViewList.GetSelectedGrid();
-
-            if (GetGrid != null)
-            {
-                GetGrid.TransText = ToStr.Text;
-
-                try 
-                {
-                    TranslatorBridge.SetTransData(GetGrid.Key,GetGrid.SourceText,GetGrid.TransText);
-                }
-                catch { }
-
-                GetGrid.SyncUI(TransViewList);
-            }
+            ApplyTranslatedText();
         }
 
         public void SyncNodeStates()
@@ -1645,7 +1732,7 @@ namespace SSELex
                                         GetStateGrid.Style = NodeDisable;
                                     }
                                 }
-                            break;
+                                break;
                             case "Gemini":
                                 {
                                     if (!EngineConfig.GeminiApiEnable)
@@ -1659,7 +1746,7 @@ namespace SSELex
                                         GetStateGrid.Style = NodeDisable;
                                     }
                                 }
-                            break;
+                                break;
                             case "ChatGpt":
                                 {
                                     if (!EngineConfig.ChatGptApiEnable)
@@ -1673,7 +1760,7 @@ namespace SSELex
                                         GetStateGrid.Style = NodeDisable;
                                     }
                                 }
-                            break;
+                                break;
                             case "Cohere":
                                 {
                                     if (!EngineConfig.CohereApiEnable)
@@ -1687,7 +1774,7 @@ namespace SSELex
                                         GetStateGrid.Style = NodeDisable;
                                     }
                                 }
-                            break;
+                                break;
                             case "DeepSeek":
                                 {
                                     if (!EngineConfig.DeepSeekApiEnable)
@@ -1701,7 +1788,7 @@ namespace SSELex
                                         GetStateGrid.Style = NodeDisable;
                                     }
                                 }
-                            break;
+                                break;
                             case "Baichuan":
                                 {
                                     if (!EngineConfig.BaichuanApiEnable)
@@ -1715,7 +1802,7 @@ namespace SSELex
                                         GetStateGrid.Style = NodeDisable;
                                     }
                                 }
-                            break;
+                                break;
                             case "LMLocalAI":
                                 {
                                     if (!EngineConfig.LMLocalAIEnable)
@@ -1729,7 +1816,7 @@ namespace SSELex
                                         GetStateGrid.Style = NodeDisable;
                                     }
                                 }
-                            break;
+                                break;
                             case "DeepL":
                                 {
                                     if (!EngineConfig.DeepLApiEnable)
@@ -1743,7 +1830,7 @@ namespace SSELex
                                         GetStateGrid.Style = NodeDisable;
                                     }
                                 }
-                            break;
+                                break;
                             case "Google":
                                 {
                                     if (!EngineConfig.GoogleYunApiEnable)
@@ -1757,7 +1844,7 @@ namespace SSELex
                                         GetStateGrid.Style = NodeDisable;
                                     }
                                 }
-                            break;
+                                break;
                         }
                         EngineConfig.Save();
                     }

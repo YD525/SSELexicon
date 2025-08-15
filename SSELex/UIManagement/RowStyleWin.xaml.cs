@@ -84,7 +84,13 @@ namespace SSELex.UIManagement
 
         public static string GetKey(Grid Grid)
         {
-            return ConvertHelper.ObjToStr(((Border)Grid.Children[0]).Tag);
+            string GetKey = "";
+
+            Grid.Dispatcher.Invoke(new Action(() => {
+                GetKey = ConvertHelper.ObjToStr(((Border)Grid.Children[0]).Tag);
+            }));
+
+            return GetKey;
         }
 
         public static string GetOriginal(Grid Grid)
@@ -200,6 +206,8 @@ namespace SSELex.UIManagement
             GetTranslated.MouseLeave += GetTranslated_MouseLeave;
             GetTranslated.LostFocus += GetTranslated_LostFocus;
 
+            GetTranslated.Tag = Item.Key;
+
             if (DeFine.GlobalLocalSetting.ViewMode == "Normal")
             {
                 MainGrid.Cursor = Cursors.Hand;
@@ -235,15 +243,20 @@ namespace SSELex.UIManagement
 
         public void SaveText(TextBox Text)
         {
-            int GetOffset = ConvertHelper.ObjToInt(Text.Tag);
-
-            if (DeFine.WorkingWin.TransViewList.RealLines.Count > GetOffset)
+            if (DeFine.WorkingWin != null)
             {
-                var GetTarget = DeFine.WorkingWin.TransViewList.RealLines[GetOffset];
+                if (DeFine.WorkingWin.TransViewList != null)
+                {
+                    string GetKey = ConvertHelper.ObjToStr(Text.Tag);
+                    var GetTarget = DeFine.WorkingWin.TransViewList.KeyToFakeGrid(GetKey);
 
-                TranslatorBridge.SetTransData(GetTarget.Key,GetTarget.SourceText,Text.Text);
-
-                GetTarget.SyncData();
+                    if (GetTarget != null)
+                    {
+                        TranslatorBridge.SetTransData(GetKey, GetTarget.SourceText, Text.Text);
+                        GetTarget.SyncData();
+                    }
+                 
+                }
             }
         }
     }

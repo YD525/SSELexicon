@@ -32,7 +32,7 @@ public class FakeGrid
     public string TransText = "";
     public double Score = 0;
 
-    public FakeGrid(double Height, string Type,string Key, string SourceText, string TransText, double Score)
+    public FakeGrid(double Height, string Type, string Key, string SourceText, string TransText, double Score)
     {
         this.Height = Height;
         this.Type = Type;
@@ -63,13 +63,13 @@ public class FakeGrid
         }
     }
 
-    public void SetFontColor(YDListView ListViewHandle,int R,int G,int B)
+    public void SetFontColor(YDListView ListViewHandle, int R, int G, int B)
     {
         for (int i = 0; i < ListViewHandle.VisibleRows.Count; i++)
         {
             if (RowStyleWin.GetKey(ListViewHandle.VisibleRows[i]).Equals(this.Key))
             {
-                RowStyleWin.SetColor(ListViewHandle.VisibleRows[i],R,G,B);
+                RowStyleWin.SetColor(ListViewHandle.VisibleRows[i], R, G, B);
                 break;
             }
         }
@@ -92,8 +92,16 @@ public class YDListView
     public bool CanSet = true;
 
     public int SelectLineID = 0;
-    public Border ?LastSelectBorder = null;
-    public void SetSelectLine(Grid MainGrid)
+    public Border? LastSelectBorder = null;
+
+    public bool IsSearchBox = false;
+
+    public YDListView ParentView = null;
+
+    public Thread? SelectLineThread = null;
+    private CancellationTokenSource? CancelSelectLineThread = null;
+    private CancellationToken? CancelToken = null;
+    public void SetSelectLine(Grid MainGrid, bool UPDate)
     {
         if (LastSelectBorder != null)
         {
@@ -103,17 +111,104 @@ public class YDListView
         SelectLineID = ConvertHelper.ObjToInt(MainGrid.Tag);
 
         Border MainBorder = (Border)MainGrid.Children[0];
-        MainBorder.BorderBrush = new SolidColorBrush(Color.FromRgb(10, 97, 175));
 
         Grid GetChildGrid = (Grid)MainBorder.Child;
 
         Grid GetTranslatedGrid = (Grid)GetChildGrid.Children[3];
         TextBox GetTranslated = (TextBox)(((Border)GetTranslatedGrid.Children[0]).Child);
-        GetTranslated.Focus();
 
-        LastSelectBorder = MainBorder;
+        if (!IsSearchBox)
+        {
+            if (UPDate)
+            {
+                GetTranslated.Focus();
+                DeFine.WorkingWin.SetSelectFromAndToText(RowStyleWin.GetKey(MainGrid));
+            }
 
-        DeFine.WorkingWin.SetSelectFromAndToText(GetSelectedGrid());
+            MainBorder.BorderBrush = new SolidColorBrush(Color.FromRgb(10, 97, 175));
+            LastSelectBorder = MainBorder;
+        }
+        else
+        {
+            if (ParentView != null)
+            {
+                string GetKey = RowStyleWin.GetKey(MainGrid);
+
+                int SelectID = ParentView.KeyToSelectID(GetKey);
+
+                if (!ParentView.IsKeyInViewport(GetKey))
+                {
+                    if (SelectLineThread == null)
+                    {
+                        CancelSelectLineThread = new CancellationTokenSource();
+
+                        CancelToken = CancelSelectLineThread.Token;
+
+                        SelectLineThread = new Thread(() =>
+                        {
+                            try
+                            {
+                                ParentView.Parent.Dispatcher.BeginInvoke(new Action(() =>
+                                {
+                                    ParentView.ScrollTo(SelectID);
+                                }));
+
+                                bool IsVisible = false;
+
+                                while (!IsVisible)
+                                {
+                                    CancelToken?.ThrowIfCancellationRequested();
+
+                                    Thread.Sleep(50);
+                                    ParentView.Parent.Dispatcher.BeginInvoke(new Action(() =>
+                                    {
+                                        IsVisible = ParentView.IsKeyInViewport(GetKey);
+                                    }));
+                                }
+
+                                CancelToken?.ThrowIfCancellationRequested();
+
+                                ParentView.Parent.Dispatcher.BeginInvoke(new Action(() =>
+                                {
+                                    ParentView.SetSelectLineByKey(GetKey, true);
+                                }));
+
+                                CancelToken?.ThrowIfCancellationRequested();
+
+                                ParentView.Parent.Dispatcher.BeginInvoke(new Action(() =>
+                                {
+                                    MainBorder.BorderBrush = new SolidColorBrush(Color.FromRgb(10, 97, 175));
+                                    LastSelectBorder = MainBorder;
+                                }));
+
+                                SelectLineThread = null;
+                            }
+                            catch
+                            {
+                                SelectLineThread = null;
+                            }
+                        });
+
+                        SelectLineThread.Start();
+                    }
+                    else
+                    {
+                        if (CancelSelectLineThread != null)
+                        {
+                            CancelSelectLineThread.Cancel();
+                            SelectLineThread = null;
+                        }
+                    }
+                }
+                else
+                {
+                    ParentView.SetSelectLineByKey(GetKey, true);
+
+                    MainBorder.BorderBrush = new SolidColorBrush(Color.FromRgb(10, 97, 175));
+                    LastSelectBorder = MainBorder;
+                }
+            }
+        }
     }
 
     private bool IsGridInViewport(Grid Grid)
@@ -153,7 +248,7 @@ public class YDListView
 
         if (MatchGrid != null && IsGridInViewport(MatchGrid))
         {
-            SetSelectLine(MatchGrid);
+            SetSelectLine(MatchGrid, true);
         }
         else
         {
@@ -173,7 +268,7 @@ public class YDListView
                 {
                     if (RowStyleWin.GetKey(G).Equals(TargetLogicItem.Key))
                     {
-                        SetSelectLine(G);
+                        SetSelectLine(G, true);
                         break;
                     }
                 }
@@ -209,7 +304,7 @@ public class YDListView
 
             if (MatchGrid != null && IsGridInViewport(MatchGrid))
             {
-                SetSelectLine(MatchGrid);
+                SetSelectLine(MatchGrid, true);
             }
             else
             {
@@ -229,7 +324,7 @@ public class YDListView
                     {
                         if (RowStyleWin.GetKey(G).Equals(TargetLogicItem.Key))
                         {
-                            SetSelectLine(G);
+                            SetSelectLine(G, true);
                             break;
                         }
                     }
@@ -421,9 +516,6 @@ public class YDListView
                 if (!AlreadyExists)
                 {
                     Grid Grid = UIHelper.CreatLine(Row);
-
-                    RowStyleWin.GetTranslatedTextBoxHandle(Grid).Tag = I;
-
                     Grid.Tag = I;
                     Grid.Width = this.Parent.ActualWidth - 15;
                     Grid.PreviewMouseDown += MainGrid_PreviewMouseDown;
@@ -432,7 +524,7 @@ public class YDListView
                     MainCanvas.Children.Add(Grid);
                     if (I.Equals(SelectLineID))
                     {
-                        SetSelectLine(Grid);
+                        SetSelectLine(Grid, false);
                     }
                 }
             }
@@ -466,7 +558,7 @@ public class YDListView
     public object DeleteLocker = new object();
     public void DeleteRow(int Offset)
     {
-        lock(DeleteLocker)
+        lock (DeleteLocker)
         {
             if (this.RealLines.Count > Offset)
             {
@@ -488,10 +580,10 @@ public class YDListView
 
     private void MainGrid_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
-        SetSelectLine((Grid)sender);
+        SetSelectLine((Grid)sender, true);
     }
 
-    public void ChangeFontColor(string ModName,int R,int G,int B)
+    public void ChangeFontColor(string ModName, int R, int G, int B)
     {
         var GetLine = this.RealLines[SelectLineID];
         FontColorFinder.SetColor(ModName, GetLine.Key, R, G, B);
@@ -518,18 +610,100 @@ public class YDListView
         return null;
     }
 
+    public void ScrollTo(int SelectID)
+    {
+        double Offset = 0;
+        for (int i = 0; i < SelectID; i++)
+        {
+            if (RealLines.Count > i)
+            {
+                Offset += RealLines[i].Height;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        Scroll.ScrollToVerticalOffset(Offset);
+
+        UpdateVisibleRows(true);
+    }
+
+    public bool IsKeyInViewport(string Key)
+    {
+        foreach (var Get in this.VisibleRows)
+        {
+            if (RowStyleWin.GetKey(Get).Equals(Key))
+            {
+                if (IsGridInViewport(Get))
+                {
+                    return true;
+                }
+
+                break;
+            }
+        }
+
+        return false;
+    }
+
+    public void SetSelectLineByKey(string Key, bool UPDate)
+    {
+        Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+        {
+            foreach (var Get in this.VisibleRows)
+            {
+                if (RowStyleWin.GetKey(Get).Equals(Key))
+                {
+                    SetSelectLine(Get, UPDate);
+                    break;
+                }
+            }
+        }));
+    }
+
+    public FakeGrid? KeyToFakeGrid(string Key)
+    {
+        for (int i = 0; i < this.RealLines.Count; i++)
+        {
+            if (this.RealLines[i].Key.Equals(Key))
+            {
+                return this.RealLines[i];
+            }
+        }
+
+        return null;
+    }
+
+    public int KeyToSelectID(string Key)
+    {
+        int TempSelectLineID = 0;
+
+        for (int i = 0; i < this.RealLines.Count; i++)
+        {
+            if (this.RealLines[i].Key.Equals(Key))
+            {
+                TempSelectLineID = i;
+                break;
+            }
+        }
+
+        return TempSelectLineID;
+    }
+
     public List<FakeGrid> QuickSearch(string Keyword)
     {
         if (string.IsNullOrEmpty(Keyword))
             return new List<FakeGrid>();
 
         return RealLines
-            .Where(line =>
-                (!string.IsNullOrEmpty(line.SourceText) &&
-                 line.SourceText.IndexOf(Keyword, StringComparison.OrdinalIgnoreCase) >= 0)
+            .Where(Line =>
+                (!string.IsNullOrEmpty(Line.SourceText) &&
+                 Line.SourceText.IndexOf(Keyword, StringComparison.OrdinalIgnoreCase) >= 0)
                 ||
-                (!string.IsNullOrEmpty(line.TransText) &&
-                 line.TransText.IndexOf(Keyword, StringComparison.OrdinalIgnoreCase) >= 0)
+                (!string.IsNullOrEmpty(Line.TransText) &&
+                 Line.TransText.IndexOf(Keyword, StringComparison.OrdinalIgnoreCase) >= 0)
             )
             .ToList();
     }
