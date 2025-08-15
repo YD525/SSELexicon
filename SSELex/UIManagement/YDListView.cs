@@ -271,22 +271,23 @@ public class YDListView
         {
             while (true)
             {
-                Thread.Sleep(200);
+                Thread.Sleep(100);
 
                 if (CanSet)
                 {
-                    try
+                    if (CanUpDate)
                     {
-                        DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
+                        try
                         {
-                            UpdateVisibleRows();
-                        }));
+                            DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
+                            {
+                                UpdateVisibleRows();
+                            }));
+                        }
+                        catch { }
+
+                        CanUpDate = false;
                     }
-                    catch { }
-                }
-                else
-                {
-                    Thread.Sleep(500);
                 }
             }
 

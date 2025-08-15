@@ -32,22 +32,7 @@ namespace SSELex
     public partial class MainGui : Window
     {
         #region Breathing Light
-        public Storyboard? BreathingStoryboard = null;
         public Storyboard? XTGlowLoopStoryboard = null;
-
-        private void StartBreathingEffect()
-        {
-            BreathingStoryboard = (Storyboard)FindResource("BreathingEffect");
-            Storyboard.SetTarget(BreathingStoryboard, NoteEffect);
-            BreathingStoryboard.Begin();
-
-        }
-
-        private void StopBreathingEffect()
-        {
-            BreathingStoryboard?.Stop();
-        }
-
         #endregion
 
         #region WinControl
@@ -105,8 +90,8 @@ namespace SSELex
             InitializeComponent();
         }
 
-        public YDListView TransViewList = null;
-
+        public YDListView? TransViewList = null;
+        private ScanAnimator? ScanAnimator = null;
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             DeFine.Init(this);
@@ -125,9 +110,7 @@ namespace SSELex
             GlobalMCMReader = new MCMReader();
             GlobalPexReader = new PexReader();
 
-            StartBreathingEffect();
-            var Storyboard = (Storyboard)this.Resources["ScanAnimation"];
-            Storyboard.Begin(this, true);
+            ScanAnimator = new ScanAnimator(ScanTransform, ProcessBar, 80);
 
             ContextGeneration.IsChecked = true;
             RightContextIndicator.Visibility = Visibility.Visible;
@@ -140,7 +123,7 @@ namespace SSELex
             {
                 while (true)
                 {
-                    Thread.Sleep(1000);
+                    Thread.Sleep(500);
 
                     try
                     {
@@ -413,19 +396,25 @@ namespace SSELex
         {
             try
             {
-                int ModifyCount = Translator.TransData.Count(Kvp => !string.IsNullOrWhiteSpace(Kvp.Value));
+                int ModifyCount = Engine.TranslatedCount;
 
-                UIHelper.ModifyCount = ModifyCount;
-            }
-            catch { }
-
-            try
-            {
                 this.Dispatcher.Invoke(new Action(() =>
                 {
+                    if (ScanAnimator != null)
+                    {
+                        if (ModifyCount > 0)
+                        {
+                            ScanAnimator.Start();
+                        }
+                        else
+                        {
+                            ScanAnimator.Stop();
+                        }
+                    }
+
                     if (TransViewList != null)
                     {
-                        double GetRate = ((double)UIHelper.ModifyCount / (double)TransViewList.Rows);
+                        double GetRate = ((double)ModifyCount / (double)TransViewList.Rows);
                         if (GetRate > 0)
                         {
                             try
@@ -447,7 +436,7 @@ namespace SSELex
 
                         if (ReadTrdWorkState)
                         {
-                            TransProcess.Content = string.Format("Loading({0}/{1})", UIHelper.ModifyCount, MaxTransCount);
+                            TransProcess.Content = string.Format("Loading({0}/{1})", ModifyCount, MaxTransCount);
                             TypeSelector.Opacity = 0.5;
                             TypeSelector.IsEnabled = false;
 
@@ -456,7 +445,7 @@ namespace SSELex
                         }
                         else
                         {
-                            TransProcess.Content = string.Format("STRINGS({0}/{1})", UIHelper.ModifyCount, MaxTransCount);
+                            TransProcess.Content = string.Format("STRINGS({0}/{1})", ModifyCount, MaxTransCount);
                             TypeSelector.Opacity = 1;
                             TypeSelector.IsEnabled = true;
 
@@ -467,7 +456,6 @@ namespace SSELex
                 }));
             }
             catch { }
-
         }
 
         public void ReloadLanguageMode()
@@ -855,8 +843,6 @@ namespace SSELex
 
                 TypeSelector.Items.Clear();
                 YDDictionaryHelper.Close();
-
-                UIHelper.ModifyCount = 0;
             }));
 
             SetTittle();
@@ -896,7 +882,7 @@ namespace SSELex
 
                 if (CurrentTransType == 3)
                 {
-                    if (UIHelper.ModifyCount > 0)
+                    if (Translator.TransData.Count > 0)
                         if (GlobalPexReader != null)
                         {
                             if (!GlobalPexReader.SavePexFile(LastSetPath))
@@ -907,7 +893,7 @@ namespace SSELex
                 }
                 if (CurrentTransType == 2)
                 {
-                    if (UIHelper.ModifyCount > 0)
+                    if (Translator.TransData.Count > 0)
                         if (GlobalEspReader != null)
                         {
                             if (GlobalEspReader.CurrentReadMod != null)
@@ -938,7 +924,7 @@ namespace SSELex
                 else
                 if (CurrentTransType == 1)
                 {
-                    if (UIHelper.ModifyCount > 0)
+                    if (Translator.TransData.Count > 0)
                         if (GlobalMCMReader != null)
                         {
                             string GetBackUPPath = GetFilePath + GetFileFullName + ".backup";
@@ -1790,6 +1776,15 @@ namespace SSELex
                         EngineConfig.Save();
                     }
                 }
+            }
+        }
+
+        private void ProcessBar_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (ScanAnimator != null)
+            {
+                ScanAnimator.Stop();
+                ScanAnimator.Start();
             }
         }
     }

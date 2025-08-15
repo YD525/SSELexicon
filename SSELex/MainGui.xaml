@@ -19,22 +19,7 @@
             Duration="0:0:30"
             RepeatBehavior="Forever" />
         </Storyboard>
-
-        <Storyboard x:Key="BreathingEffect" RepeatBehavior="Forever" AutoReverse="True">
-            <DoubleAnimation
-            Storyboard.TargetName="NoteEffect"
-            Storyboard.TargetProperty="Opacity"
-            From="0.3" To="1"
-            Duration="0:0:1.0"/>
-        </Storyboard>
-
-        <Storyboard x:Key="ScanAnimation" RepeatBehavior="Forever" AutoReverse="True">
-            <DoubleAnimation
-            Storyboard.TargetName="ScanTransform"
-            Storyboard.TargetProperty="X"
-            From="-30"  To="{Binding ActualWidth, ElementName=ProcessBar}" Duration="0:0:2" />
-        </Storyboard>
-
+        
         <Storyboard x:Key="ExpandMenu">
             <DoubleAnimation Storyboard.TargetName="LeftMenu"
                          Storyboard.TargetProperty="Height"
@@ -431,7 +416,7 @@
                                                     </Border>
                                                 </StackPanel>
                                             </Grid>
-                                            <Border Name="ProcessBar" Style="{DynamicResource ProcessBarStyle}" Width="0">
+                                            <Border Name="ProcessBar" Style="{DynamicResource ProcessBarStyle}" SizeChanged="ProcessBar_SizeChanged">
                                                 <Grid ClipToBounds="True">
                                                     <!-- ScanLine -->
                                                     <Rectangle Width="30" HorizontalAlignment="Left" RadiusX="5" RadiusY="5" Opacity="0.65">

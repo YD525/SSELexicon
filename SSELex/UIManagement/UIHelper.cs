@@ -18,10 +18,69 @@ namespace SSELex.UIManage
     // See LICENSE for details
     //https://github.com/YD525/YDSkyrimToolR/
 
+    public class ScanAnimator
+    {
+        private readonly TranslateTransform _ScanTransform;
+        private readonly FrameworkElement _ProcessBar;
+        private DoubleAnimation? _Animation;
+
+        private readonly double _Speed = 80;
+
+        public ScanAnimator(TranslateTransform scanTransform, FrameworkElement processBar, double speed = 80)
+        {
+            _ScanTransform = scanTransform;
+            _ProcessBar = processBar;
+            _Speed = speed;
+
+            _ProcessBar.SizeChanged += (s, e) => RestartAnimation();
+        }
+
+        public void Start()
+        {
+            if (_Animation != null) return;
+            CreateAndStartAnimation();
+        }
+        public void Stop()
+        {
+            _ScanTransform.BeginAnimation(TranslateTransform.XProperty, null);
+            _Animation = null;
+        }
+
+        private void RestartAnimation()
+        {
+            Stop();
+            CreateAndStartAnimation();
+        }
+
+        private void CreateAndStartAnimation()
+        {
+            double from = -30;
+            double to = _ProcessBar.ActualWidth;
+            if (to <= 0) return;
+
+            double distance = to - from;
+            double durationSeconds = distance / _Speed;
+
+            _Animation = new DoubleAnimation
+            {
+                From = from,
+                To = to,
+                Duration = TimeSpan.FromSeconds(durationSeconds),
+                AutoReverse = true,
+                RepeatBehavior = RepeatBehavior.Forever
+            };
+
+            //15 FPS Limit
+            Timeline.SetDesiredFrameRate(_Animation, 15);
+
+            _ScanTransform.BeginAnimation(TranslateTransform.XProperty, _Animation);
+        }
+    }
+
     public class UIHelper
     {
         public static Grid SelectLine = null;
-        public static int ModifyCount = 0;
+  
         public static double DefLineHeight = 42;
         public static double DefFontSize = 15;
 

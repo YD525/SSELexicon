@@ -166,7 +166,6 @@ namespace SSELex.TranslateManage
                 string GetKey = GetFakeGrid.Key;
                 Translator.TransData[GetKey] = i.ToString();
             }
-            UIHelper.ModifyCount = DeFine.WorkingWin.TransViewList.RealLines.Count;
 
             DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
             {

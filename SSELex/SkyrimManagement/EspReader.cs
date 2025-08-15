@@ -88,8 +88,6 @@ namespace SSELex.SkyrimManage
 
         public void Close()
         {
-            UIHelper.ModifyCount = 0;
-
             ClearRam();
             CurrentReadMod = null;
         }
