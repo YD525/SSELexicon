@@ -24,9 +24,9 @@ namespace SSELex.UIManage
         private readonly FrameworkElement _ProcessBar;
         private DoubleAnimation? _Animation;
 
-        private readonly double _Speed = 80;
+        private readonly double _Speed = 60;
 
-        public ScanAnimator(TranslateTransform scanTransform, FrameworkElement processBar, double speed = 80)
+        public ScanAnimator(TranslateTransform scanTransform, FrameworkElement processBar, double speed = 60)
         {
             _ScanTransform = scanTransform;
             _ProcessBar = processBar;

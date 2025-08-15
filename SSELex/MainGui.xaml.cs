@@ -110,10 +110,7 @@ namespace SSELex
             GlobalMCMReader = new MCMReader();
             GlobalPexReader = new PexReader();
 
-            ScanAnimator = new ScanAnimator(ScanTransform, ProcessBar, 80);
-
-            ContextGeneration.IsChecked = true;
-            RightContextIndicator.Visibility = Visibility.Visible;
+            ScanAnimator = new ScanAnimator(ScanTransform, ProcessBar, 60);
 
             SyncConfig();
 
@@ -953,6 +950,15 @@ namespace SSELex
                 YDDictionaryHelper.CreatDictionary();
 
                 CancelTransEsp(null, null);
+            }
+
+            if (LoadSaveState == 0)
+            {
+                LoadFileButton.Content = "Load File";
+            }
+            else
+            {
+                LoadFileButton.Content = "Save File";
             }
         }
 
