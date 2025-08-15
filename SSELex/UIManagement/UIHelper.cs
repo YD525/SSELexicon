@@ -104,23 +104,6 @@ namespace SSELex.UIManage
         public static TextBox FakeTextBox = new TextBox();
         public static FakeGrid CreatFakeLine(string Type, string Key, string SourceText, string TransText, double Score)
         {
-            if (DeFine.CurrentSearchStr.Length > 0)
-            {
-                int Find = 2;
-                if (!SourceText.Contains(DeFine.CurrentSearchStr, StringComparison.OrdinalIgnoreCase))
-                {
-                    Find--;
-                }
-                if (!TransText.Contains(DeFine.CurrentSearchStr, StringComparison.OrdinalIgnoreCase))
-                {
-                    Find--;
-                }
-                if (Find == 0)
-                {
-                    return null;
-                }
-            }
-
             double AutoHeight = DefLineHeight;
 
             FontFamily FontFamily = FakeTextBox.FontFamily;

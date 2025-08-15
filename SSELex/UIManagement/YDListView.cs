@@ -14,6 +14,7 @@ using SSELex.UIManagement;
 using PhoenixEngine.SSELexiconBridge;
 using static PhoenixEngine.SSELexiconBridge.NativeBridge;
 using PhoenixEngine.EngineManagement;
+using Mutagen.Bethesda.Skyrim;
 
 // Copyright (C) 2025 YD525
 // Licensed under the GNU GPLv3
@@ -515,6 +516,22 @@ public class YDListView
         }
 
         return null;
+    }
+
+    public List<FakeGrid> QuickSearch(string Keyword)
+    {
+        if (string.IsNullOrEmpty(Keyword))
+            return new List<FakeGrid>();
+
+        return RealLines
+            .Where(line =>
+                (!string.IsNullOrEmpty(line.SourceText) &&
+                 line.SourceText.IndexOf(Keyword, StringComparison.OrdinalIgnoreCase) >= 0)
+                ||
+                (!string.IsNullOrEmpty(line.TransText) &&
+                 line.TransText.IndexOf(Keyword, StringComparison.OrdinalIgnoreCase) >= 0)
+            )
+            .ToList();
     }
 }
 

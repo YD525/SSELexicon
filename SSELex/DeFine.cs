@@ -12,6 +12,7 @@ using PhoenixEngine.EngineManagement;
 using SSELex.SQLManager;
 using PhoenixEngine.DataBaseManagement;
 using SSELex.UIManagement;
+using Microsoft.VisualBasic.ApplicationServices;
 
 namespace SSELex
 {
@@ -49,8 +50,6 @@ namespace SSELex
         public static TextEditor ActiveIDE = null;
         public static LocalConfig LocalConfigView = null;
         public static RowStyleWin RowStyleWin = new RowStyleWin();
-
-        public static string CurrentSearchStr = "";
 
         public static void CloseAny()
         {
@@ -162,18 +161,6 @@ namespace SSELex
             LocalConfigView.Hide();
             LocalConfigView.Init();
         }
-
-        public static void ShowLogView()
-        {
-            if (DeFine.GlobalLocalSetting.ShowLog)
-            {
-                CurrentDashBoardView.Owner = DeFine.WorkingWin;
-                CurrentDashBoardView.Left = DeFine.WorkingWin.Left + DeFine.WorkingWin.Width + 5;
-                CurrentDashBoardView.Top = DeFine.WorkingWin.Top;
-
-                CurrentDashBoardView.Show();
-            }
-        }
     }
 
     public class LocalSetting
@@ -182,9 +169,7 @@ namespace SSELex
         public double FormWidth { get; set; } = 1200;
         public Languages CurrentUILanguage { get; set; } = Languages.English;
         public string SkyrimPath { get; set; } = "";
-
-        public bool PlaySound = false;     
-        public bool ShowLog { get; set; } = true;
+    
         public bool ShowCode { get; set; } = true;
         public bool AutoCompress { get; set; } = true;
         public SkyrimType SkyrimType { get; set; } = SkyrimType.SkyrimSE;
@@ -198,8 +183,8 @@ namespace SSELex
         public Languages SourceLanguage { get; set; } = Languages.Auto;
         public Languages TargetLanguage { get; set; } = Languages.English;
 
-        public bool CanClearManualTranslation { get; set; } = false;
-        public bool CanClearUserTranslation { get; set; } = false;
+        public bool CanClearCloudTranslationCache { get; set; } = false;
+        public bool CanClearUserInputTranslationCache { get; set; } = false;
 
         public void ReadConfig()
         {
@@ -216,9 +201,7 @@ namespace SSELex
                         this.FormWidth = GetSetting.FormWidth;
                         this.CurrentUILanguage = GetSetting.CurrentUILanguage;
                         this.SkyrimPath = GetSetting.SkyrimPath;
-                        this.PlaySound = GetSetting.PlaySound;
                         this.ShowCode = GetSetting.ShowCode;
-                        this.ShowLog = GetSetting.ShowLog;
                         this.SkyrimType = GetSetting.SkyrimType;
                         this.AutoCompress = GetSetting.AutoCompress;
                         this.FileEncoding = GetSetting.FileEncoding;
@@ -227,8 +210,8 @@ namespace SSELex
                         this.AutoLoadDictionaryFile = GetSetting.AutoLoadDictionaryFile;
                         this.SourceLanguage = GetSetting.SourceLanguage;
                         this.TargetLanguage = GetSetting.TargetLanguage;
-                        this.CanClearManualTranslation = GetSetting.CanClearManualTranslation;
-                        this.CanClearUserTranslation = GetSetting.CanClearUserTranslation;
+                        this.CanClearCloudTranslationCache = GetSetting.CanClearCloudTranslationCache;
+                        this.CanClearUserInputTranslationCache = GetSetting.CanClearUserInputTranslationCache;
                     }
                 }
                 else

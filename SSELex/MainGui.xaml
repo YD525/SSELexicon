@@ -541,13 +541,13 @@
                                                     Cloud Translation Cache
                                                 </TextBox>
 
-                                                <CheckBox Margin="5 0 0 0" Name="ManualTranslation" VerticalAlignment="Center" Grid.Column="6" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="ManualTranslation_Click"/>
+                                                <CheckBox Margin="5 0 0 0" Name="CloudTranslationCache" VerticalAlignment="Center" Grid.Column="6" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="CloudTranslationCache_Click"/>
 
                                                 <TextBox  Width="100" Style="{DynamicResource CaptionText}">
                                                     User Input Translation Cache
                                                 </TextBox>
 
-                                                <CheckBox Margin="5 0 5 0" Name="UserTranslation" VerticalAlignment="Center" Grid.Column="6" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="UserTranslation_Click"/>
+                                                <CheckBox Margin="5 0 5 0" Name="UserTranslationCache" VerticalAlignment="Center" Grid.Column="6" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="UserTranslationCache_Click"/>
 
                                                 <Border Style="{DynamicResource ButtonStyle}" PreviewMouseDown="ClearCache_PreviewMouseDown">
                                                     <Label Style="{DynamicResource ButtonFont}">

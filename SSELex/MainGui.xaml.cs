@@ -975,38 +975,15 @@ namespace SSELex
 
         #region Search
 
-        private System.Timers.Timer? SearchTimer;
-        public void StartSearch()
-        {
-            this.Dispatcher.Invoke(new Action(() =>
-            {
-
-                if (SearchTimer == null)
-                {
-                    SearchTimer = new System.Timers.Timer(500);
-                    SearchTimer.AutoReset = false;
-                    SearchTimer.Elapsed += (s, e) =>
-                    {
-                        this.Dispatcher.Invoke(() => ReloadData());
-                    };
-                }
-                SearchTimer.Stop();
-                SearchTimer.Start();
-            }));
-        }
+        
 
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            DeFine.CurrentSearchStr = SearchBox.Text.Trim();
-            if (DeFine.CurrentSearchStr.Trim().Length > 0)
-                StartSearch();
         }
 
         private void SearchBox_MouseLeave(object sender, MouseEventArgs e)
         {
-            DeFine.CurrentSearchStr = SearchBox.Text.Trim();
-            if (DeFine.CurrentSearchStr.Trim().Length > 0)
-                StartSearch();
+            
         }
 
         #endregion
@@ -1039,28 +1016,31 @@ namespace SSELex
 
         private void ClearCache_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (TransViewList.Rows > 0)
+            if (TransViewList != null)
             {
-                int CallFuncCount = 0;
-                if (ManualTranslation.IsChecked == true)
+                if (TransViewList.Rows > 0)
                 {
-                    Translator.ClearAICache();
-                    if (Translator.ClearCloudCache(Engine.GetModName()))
+                    int CallFuncCount = 0;
+                    if (CloudTranslationCache.IsChecked == true)
                     {
-                        Engine.Vacuum();
+                        Translator.ClearAICache();
+                        if (Translator.ClearCloudCache(Engine.GetModName()))
+                        {
+                            Engine.Vacuum();
+                        }
+                        CallFuncCount++;
                     }
-                    CallFuncCount++;
-                }
-                if (UserTranslation.IsChecked == true)
-                {
-                    TranslatorExtend.ReSetAllTransText();
-                    CallFuncCount++;
-                }
+                    if (UserTranslationCache.IsChecked == true)
+                    {
+                        TranslatorExtend.ReSetAllTransText();
+                        CallFuncCount++;
+                    }
 
-                if (CallFuncCount > 0)
-                {
-                    MessageBoxExtend.Show(this, "Done!");
-                    DeFine.WorkingWin.ReloadData();
+                    if (CallFuncCount > 0)
+                    {
+                        MessageBoxExtend.Show(this, "Done!");
+                        DeFine.WorkingWin.ReloadData();
+                    }
                 }
             }
         }
@@ -1129,22 +1109,22 @@ namespace SSELex
             LangFrom.SelectedValue = DeFine.GlobalLocalSetting.SourceLanguage.ToString();
             LangTo.SelectedValue = DeFine.GlobalLocalSetting.TargetLanguage.ToString();
 
-            if (DeFine.GlobalLocalSetting.CanClearManualTranslation)
+            if (DeFine.GlobalLocalSetting.CanClearCloudTranslationCache)
             {
-                ManualTranslation.IsChecked = true;
+                CloudTranslationCache.IsChecked = true;
             }
             else
             {
-                ManualTranslation.IsChecked = false;
+                CloudTranslationCache.IsChecked = false;
             }
 
-            if (DeFine.GlobalLocalSetting.CanClearUserTranslation)
+            if (DeFine.GlobalLocalSetting.CanClearUserInputTranslationCache)
             {
-                UserTranslation.IsChecked = true;
+                UserTranslationCache.IsChecked = true;
             }
             else
             {
-                UserTranslation.IsChecked = false;
+                UserTranslationCache.IsChecked = false;
             }
 
             if (EngineConfig.ContextEnable)
@@ -1199,26 +1179,26 @@ namespace SSELex
         {
             EnableQuickModel();
         }
-        private void ManualTranslation_Click(object sender, RoutedEventArgs e)
+        private void CloudTranslationCache_Click(object sender, RoutedEventArgs e)
         {
-            if (ManualTranslation.IsChecked == true)
+            if (CloudTranslationCache.IsChecked == true)
             {
-                DeFine.GlobalLocalSetting.CanClearManualTranslation = true;
+                DeFine.GlobalLocalSetting.CanClearCloudTranslationCache = true;
             }
             else
             {
-                DeFine.GlobalLocalSetting.CanClearManualTranslation = false;
+                DeFine.GlobalLocalSetting.CanClearCloudTranslationCache = false;
             }
         }
-        private void UserTranslation_Click(object sender, RoutedEventArgs e)
+        private void UserTranslationCache_Click(object sender, RoutedEventArgs e)
         {
-            if (UserTranslation.IsChecked == true)
+            if (UserTranslationCache.IsChecked == true)
             {
-                DeFine.GlobalLocalSetting.CanClearUserTranslation = true;
+                DeFine.GlobalLocalSetting.CanClearUserInputTranslationCache = true;
             }
             else
             {
-                DeFine.GlobalLocalSetting.CanClearUserTranslation = false;
+                DeFine.GlobalLocalSetting.CanClearUserInputTranslationCache = false;
             }
         }
         private void SpeakFromStr(object sender, MouseButtonEventArgs e)
