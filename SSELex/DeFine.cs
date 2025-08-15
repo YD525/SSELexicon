@@ -200,7 +200,6 @@ namespace SSELex
 
         public bool CanClearManualTranslation { get; set; } = false;
         public bool CanClearUserTranslation { get; set; } = false;
-        public bool ContextGeneration { get; set; } = true;
 
         public void ReadConfig()
         {
@@ -230,7 +229,6 @@ namespace SSELex
                         this.TargetLanguage = GetSetting.TargetLanguage;
                         this.CanClearManualTranslation = GetSetting.CanClearManualTranslation;
                         this.CanClearUserTranslation = GetSetting.CanClearUserTranslation;
-                        this.ContextGeneration = GetSetting.ContextGeneration;
                     }
                 }
                 else

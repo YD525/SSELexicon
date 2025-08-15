@@ -10,6 +10,7 @@ using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using Mutagen.Bethesda.Plugins.Masters.DI;
 using PhoenixEngine.ConvertManager;
+using PhoenixEngine.DelegateManagement;
 using PhoenixEngine.EngineManagement;
 using PhoenixEngine.TranslateCore;
 using PhoenixEngine.TranslateManage;
@@ -128,21 +129,19 @@ namespace SSELex
             var Storyboard = (Storyboard)this.Resources["ScanAnimation"];
             Storyboard.Begin(this, true);
 
-            //new Thread(() =>
-            //{
-            //    MessageBoxExtend.Show(this, "TestTittle", "TestLine", MsgAction.YesNo, MsgType.Info);
-            //}).Start();
-
             ContextGeneration.IsChecked = true;
             RightContextIndicator.Visibility = Visibility.Visible;
 
             SyncConfig();
+
+            DelegateHelper.SetNodeCallCallback += UIHelper.NodeCallCallback;
 
             new Thread(() =>
             {
                 while (true)
                 {
                     Thread.Sleep(1000);
+
                     try
                     {
                         GetStatisticsR();
@@ -332,6 +331,7 @@ namespace SSELex
             {
                 if (Show)
                 {
+                    UIHelper.LeftMenuIsShow = true;
                     Mask.Visibility = Visibility.Visible;
                     Storyboard Storyboard = (Storyboard)this.Resources["ExpandMenu"];
                     Storyboard.Begin();
@@ -340,6 +340,7 @@ namespace SSELex
                 }
                 else
                 {
+                    UIHelper.LeftMenuIsShow = false;
                     Mask.Visibility = Visibility.Collapsed;
                     Storyboard Storyboard = (Storyboard)this.Resources["CollapseMenu"];
                     Storyboard.Begin();
@@ -381,14 +382,15 @@ namespace SSELex
             if (ContextGeneration.IsChecked == true)
             {
                 RightContextIndicator.Visibility = Visibility.Visible;
-                DeFine.GlobalLocalSetting.ContextGeneration = true;
+                EngineConfig.ContextEnable = true;
             }
             else
             {
                 RightContextIndicator.Visibility = Visibility.Collapsed;
-                DeFine.GlobalLocalSetting.ContextGeneration = false;
+                EngineConfig.ContextEnable = false;
             }
 
+            EngineConfig.Save();
         }
 
 
@@ -1153,7 +1155,7 @@ namespace SSELex
                 UserTranslation.IsChecked = false;
             }
 
-            if (DeFine.GlobalLocalSetting.ContextGeneration)
+            if (EngineConfig.ContextEnable)
             {
                 ContextGeneration.IsChecked = true;
                 RightContextIndicator.Visibility = Visibility.Visible;
@@ -1163,6 +1165,8 @@ namespace SSELex
                 ContextGeneration.IsChecked = false;
                 RightContextIndicator.Visibility = Visibility.Collapsed;
             }
+
+            SyncNodeStates();
         }
 
         public void EnableNormalModel()
@@ -1481,6 +1485,311 @@ namespace SSELex
                 catch { }
 
                 GetGrid.SyncUI(TransViewList);
+            }
+        }
+
+        public void SyncNodeStates()
+        {
+            foreach (var GetNode in Nodes.Children)
+            {
+                if (GetNode is Grid)
+                {
+                    Grid GetNodeGridHandle = (Grid)GetNode;
+                    string GetNodeName = ConvertHelper.ObjToStr(GetNodeGridHandle.Tag);
+
+                    if (GetNodeGridHandle.Children.Count >= 2)
+                    {
+                        if (GetNodeGridHandle.Children[1] is StackPanel)
+                        {
+                            StackPanel GetStackPanel = (StackPanel)GetNodeGridHandle.Children[1];
+
+                            if (GetStackPanel.Children[0] is Grid)
+                            {
+                                Grid GetStateGrid = (Grid)GetStackPanel.Children[0];
+
+                                Style NodeEnable = new Style(typeof(Grid))
+                                {
+                                    BasedOn = (Style)Application.Current.FindResource("NodeEnable")
+                                };
+
+                                Style NodeDisable = new Style(typeof(Grid))
+                                {
+                                    BasedOn = (Style)Application.Current.FindResource("NodeDisable")
+                                };
+
+                                switch (GetNodeName)
+                                {
+                                    case "PreTranslate":
+                                        {
+                                            if (EngineConfig.PreTranslateEnable)
+                                            {
+                                                GetStateGrid.Style = NodeEnable;
+                                            }
+                                            else
+                                            {
+                                                GetStateGrid.Style = NodeDisable;
+                                            }
+                                        }
+                                        break;
+                                    case "Gemini":
+                                        {
+                                            if (EngineConfig.GeminiApiEnable)
+                                            {
+                                                GetStateGrid.Style = NodeEnable;
+                                            }
+                                            else
+                                            {
+                                                GetStateGrid.Style = NodeDisable;
+                                            }
+                                        }
+                                        break;
+                                    case "ChatGpt":
+                                        {
+                                            if (EngineConfig.ChatGptApiEnable)
+                                            {
+                                                GetStateGrid.Style = NodeEnable;
+                                            }
+                                            else
+                                            {
+                                                GetStateGrid.Style = NodeDisable;
+                                            }
+                                        }
+                                        break;
+                                    case "Cohere":
+                                        {
+                                            if (EngineConfig.CohereApiEnable)
+                                            {
+                                                GetStateGrid.Style = NodeEnable;
+                                            }
+                                            else
+                                            {
+                                                GetStateGrid.Style = NodeDisable;
+                                            }
+                                        }
+                                        break;
+                                    case "DeepSeek":
+                                        {
+                                            if (EngineConfig.DeepSeekApiEnable)
+                                            {
+                                                GetStateGrid.Style = NodeEnable;
+                                            }
+                                            else
+                                            {
+                                                GetStateGrid.Style = NodeDisable;
+                                            }
+                                        }
+                                        break;
+                                    case "Baichuan":
+                                        {
+                                            if (EngineConfig.BaichuanApiEnable)
+                                            {
+                                                GetStateGrid.Style = NodeEnable;
+                                            }
+                                            else
+                                            {
+                                                GetStateGrid.Style = NodeDisable;
+                                            }
+                                        }
+                                        break;
+                                    case "LMLocalAI":
+                                        {
+                                            if (EngineConfig.LMLocalAIEnable)
+                                            {
+                                                GetStateGrid.Style = NodeEnable;
+                                            }
+                                            else
+                                            {
+                                                GetStateGrid.Style = NodeDisable;
+                                            }
+                                        }
+                                        break;
+                                    case "DeepL":
+                                        {
+                                            if (EngineConfig.DeepLApiEnable)
+                                            {
+                                                GetStateGrid.Style = NodeEnable;
+                                            }
+                                            else
+                                            {
+                                                GetStateGrid.Style = NodeDisable;
+                                            }
+                                        }
+                                        break;
+                                    case "Google":
+                                        {
+                                            if (EngineConfig.GoogleYunApiEnable)
+                                            {
+                                                GetStateGrid.Style = NodeEnable;
+                                            }
+                                            else
+                                            {
+                                                GetStateGrid.Style = NodeDisable;
+                                            }
+                                        }
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        private void ChangeNode(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is Grid)
+            {
+                Grid GetNodeGridHandle = (Grid)sender;
+                string GetNodeName = ConvertHelper.ObjToStr(GetNodeGridHandle.Tag);
+
+                if (GetNodeGridHandle.Children.Count >= 2)
+                {
+                    if (GetNodeGridHandle.Children[1] is StackPanel)
+                    {
+                        StackPanel GetStackPanel = (StackPanel)GetNodeGridHandle.Children[1];
+                        Grid GetStateGrid = (Grid)GetStackPanel.Children[0];
+
+                        Style NodeEnable = new Style(typeof(Grid))
+                        {
+                            BasedOn = (Style)Application.Current.FindResource("NodeEnable")
+                        };
+
+                        Style NodeDisable = new Style(typeof(Grid))
+                        {
+                            BasedOn = (Style)Application.Current.FindResource("NodeDisable")
+                        };
+
+                        switch (GetNodeName)
+                        {
+                            case "PreTranslate":
+                                {
+                                    if (!EngineConfig.PreTranslateEnable)
+                                    {
+                                        EngineConfig.PreTranslateEnable = true;
+                                        GetStateGrid.Style = NodeEnable;
+                                    }
+                                    else
+                                    {
+                                        EngineConfig.PreTranslateEnable = false;
+                                        GetStateGrid.Style = NodeDisable;
+                                    }
+                                }
+                            break;
+                            case "Gemini":
+                                {
+                                    if (!EngineConfig.GeminiApiEnable)
+                                    {
+                                        EngineConfig.GeminiApiEnable = true;
+                                        GetStateGrid.Style = NodeEnable;
+                                    }
+                                    else
+                                    {
+                                        EngineConfig.GeminiApiEnable = false;
+                                        GetStateGrid.Style = NodeDisable;
+                                    }
+                                }
+                            break;
+                            case "ChatGpt":
+                                {
+                                    if (!EngineConfig.ChatGptApiEnable)
+                                    {
+                                        EngineConfig.ChatGptApiEnable = true;
+                                        GetStateGrid.Style = NodeEnable;
+                                    }
+                                    else
+                                    {
+                                        EngineConfig.ChatGptApiEnable = false;
+                                        GetStateGrid.Style = NodeDisable;
+                                    }
+                                }
+                            break;
+                            case "Cohere":
+                                {
+                                    if (!EngineConfig.CohereApiEnable)
+                                    {
+                                        EngineConfig.CohereApiEnable = true;
+                                        GetStateGrid.Style = NodeEnable;
+                                    }
+                                    else
+                                    {
+                                        EngineConfig.CohereApiEnable = false;
+                                        GetStateGrid.Style = NodeDisable;
+                                    }
+                                }
+                            break;
+                            case "DeepSeek":
+                                {
+                                    if (!EngineConfig.DeepSeekApiEnable)
+                                    {
+                                        EngineConfig.DeepSeekApiEnable = true;
+                                        GetStateGrid.Style = NodeEnable;
+                                    }
+                                    else
+                                    {
+                                        EngineConfig.DeepSeekApiEnable = false;
+                                        GetStateGrid.Style = NodeDisable;
+                                    }
+                                }
+                            break;
+                            case "Baichuan":
+                                {
+                                    if (!EngineConfig.BaichuanApiEnable)
+                                    {
+                                        EngineConfig.BaichuanApiEnable = true;
+                                        GetStateGrid.Style = NodeEnable;
+                                    }
+                                    else
+                                    {
+                                        EngineConfig.BaichuanApiEnable = false;
+                                        GetStateGrid.Style = NodeDisable;
+                                    }
+                                }
+                            break;
+                            case "LMLocalAI":
+                                {
+                                    if (!EngineConfig.LMLocalAIEnable)
+                                    {
+                                        EngineConfig.LMLocalAIEnable = true;
+                                        GetStateGrid.Style = NodeEnable;
+                                    }
+                                    else
+                                    {
+                                        EngineConfig.LMLocalAIEnable = false;
+                                        GetStateGrid.Style = NodeDisable;
+                                    }
+                                }
+                            break;
+                            case "DeepL":
+                                {
+                                    if (!EngineConfig.DeepLApiEnable)
+                                    {
+                                        EngineConfig.DeepLApiEnable = true;
+                                        GetStateGrid.Style = NodeEnable;
+                                    }
+                                    else
+                                    {
+                                        EngineConfig.DeepLApiEnable = false;
+                                        GetStateGrid.Style = NodeDisable;
+                                    }
+                                }
+                            break;
+                            case "Google":
+                                {
+                                    if (!EngineConfig.GoogleYunApiEnable)
+                                    {
+                                        EngineConfig.GoogleYunApiEnable = true;
+                                        GetStateGrid.Style = NodeEnable;
+                                    }
+                                    else
+                                    {
+                                        EngineConfig.GoogleYunApiEnable = false;
+                                        GetStateGrid.Style = NodeDisable;
+                                    }
+                                }
+                            break;
+                        }
+                        EngineConfig.Save();
+                    }
+                }
             }
         }
     }

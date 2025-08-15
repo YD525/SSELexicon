@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Shapes;
 using static SSELex.TranslateManage.TranslatorExtend;
 using PhoenixEngine.EngineManagement;
+using System.Windows.Threading;
 
 namespace SSELex.UIManage
 {
@@ -42,7 +43,7 @@ namespace SSELex.UIManage
         }
 
         public static TextBox FakeTextBox = new TextBox();
-        public static FakeGrid CreatFakeLine(string Type,string Key, string SourceText, string TransText, double Score)
+        public static FakeGrid CreatFakeLine(string Type, string Key, string SourceText, string TransText, double Score)
         {
             if (DeFine.CurrentSearchStr.Length > 0)
             {
@@ -76,18 +77,18 @@ namespace SSELex.UIManage
 
             return new FakeGrid(AutoHeight, Type, Key, SourceText, TransText, Score);
         }
-        
+
         public static Grid CreatLine(FakeGrid Item)
         {
-            return CreatLine(Item.Height, Item.Type,Item.Key, Item.SourceText, Item.TransText, Item.Score);
+            return CreatLine(Item.Height, Item.Type, Item.Key, Item.SourceText, Item.TransText, Item.Score);
         }
 
-        public static Grid CreatLine(double Height, string Type,string Key, string SourceText, string TransText, double Score)
+        public static Grid CreatLine(double Height, string Type, string Key, string SourceText, string TransText, double Score)
         {
             Grid MainGrid = DeFine.RowStyleWin.CreatLine(Height, new PhoenixEngine.TranslateManage.TranslationUnit(Engine.GetModName(), Key, Type, SourceText, TransText));
             return MainGrid;
         }
-       
+
 
         private static CancellationTokenSource? AutoCancelSelectIDETrd;
         public static Thread AutoSelectIDETrd = null;
@@ -152,6 +153,110 @@ namespace SSELex.UIManage
         public static void CancelAutoSelect()
         {
             AutoCancelSelectIDETrd?.Cancel();
+        }
+
+        private static readonly Dictionary<string, DispatcherTimer> _NodeTimers = new();
+        private static readonly Dictionary<string, DateTime> _LastOnTime = new();
+
+        public static bool LeftMenuIsShow = false;
+
+        public static void NodeCallCallback(string NodeName, bool? WorkState)
+        {
+            try
+            {
+                if (!LeftMenuIsShow) return;
+
+                DeFine.WorkingWin.Dispatcher.Invoke(() =>
+                {
+                    var IndicatorOn = (Style)Application.Current.FindResource("IndicatorOnStyle");
+                    var IndicatorOff = (Style)Application.Current.FindResource("IndicatorOffStyle");
+
+                    ContentControl? LightControl = NodeName switch
+                    {
+                        "PreTranslate" => DeFine.WorkingWin.PreTranslateLight,
+                        "Gemini" => DeFine.WorkingWin.GeminiLight,
+                        "ChatGpt" => DeFine.WorkingWin.ChatGptLight,
+                        "Cohere" => DeFine.WorkingWin.CohereLight,
+                        "DeepSeek" => DeFine.WorkingWin.DeepSeekLight,
+                        "Baichuan" => DeFine.WorkingWin.BaichuanLight,
+                        "LMLocalAI" => DeFine.WorkingWin.LMLocalAILight,
+                        "DeepL" => DeFine.WorkingWin.DeepLLight,
+                        "Google" => DeFine.WorkingWin.GoogleLight,
+                        _ => null
+                    };
+
+                    if (LightControl == null) return;
+
+                    if (WorkState != null)
+                    {
+                        if (WorkState == true)
+                        {
+                            LightControl.Style = IndicatorOn;
+                            _LastOnTime[NodeName] = DateTime.UtcNow;
+
+                            if (_NodeTimers.TryGetValue(NodeName, out var OldTimer))
+                            {
+                                OldTimer.Stop();
+                            }
+                        }
+                        else
+                        {
+                            if (_LastOnTime.TryGetValue(NodeName, out var LastOn))
+                            {
+                                var Elapsed = DateTime.UtcNow - LastOn;
+                                var MinOn = TimeSpan.FromMilliseconds(200);
+
+                                if (Elapsed < MinOn)
+                                {
+                                    if (_NodeTimers.TryGetValue(NodeName, out var OldTimer))
+                                    {
+                                        OldTimer.Stop();
+                                    }
+
+                                    var Timer = new DispatcherTimer
+                                    {
+                                        Interval = MinOn - Elapsed
+                                    };
+                                    Timer.Tick += (s, e) =>
+                                    {
+                                        LightControl.Style = IndicatorOff;
+                                        Timer.Stop();
+                                    };
+
+                                    _NodeTimers[NodeName] = Timer;
+                                    Timer.Start();
+                                    return;
+                                }
+                            }
+
+                            LightControl.Style = IndicatorOff;
+                        }
+
+                        return;
+                    }
+
+                    LightControl.Style = IndicatorOn;
+
+                    if (_NodeTimers.TryGetValue(NodeName, out var OldTimer2))
+                    {
+                        OldTimer2.Stop();
+                    }
+
+                    var FlashTimer = new DispatcherTimer
+                    {
+                        Interval = TimeSpan.FromMilliseconds(200)
+                    };
+                    FlashTimer.Tick += (s, e) =>
+                    {
+                        LightControl.Style = IndicatorOff;
+                        FlashTimer.Stop();
+                    };
+
+                    _NodeTimers[NodeName] = FlashTimer;
+                    FlashTimer.Start();
+                });
+            }
+            catch { }
         }
     }
 }

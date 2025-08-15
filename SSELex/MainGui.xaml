@@ -118,7 +118,7 @@
             <Grid Grid.Row="1">
                 <!--LeftMenu-->
                 <Border Style="{DynamicResource LeftMenu}" Name="LeftMenu" Height="0">
-                    <Grid>
+                    <Grid Name="Nodes">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="1"/>
@@ -151,8 +151,8 @@
                             </Label>
                         </Grid>
 
-                        <Grid Background="#FF282828" Cursor="Hand" Grid.Row="2">
-                            <ContentControl  Style="{DynamicResource IndicatorOffStyle}" />
+                        <Grid Background="#FF282828" Cursor="Hand" Grid.Row="2" Tag="PreTranslate" PreviewMouseDown="ChangeNode">
+                            <ContentControl  Style="{DynamicResource IndicatorOffStyle}" Name="PreTranslateLight"/>
 
                             <StackPanel Orientation="Horizontal">
                                 <Grid Style="{DynamicResource NodeDisable}">
@@ -189,11 +189,11 @@
                             <Rectangle Width="3" Height="60" Fill="White" VerticalAlignment="Bottom" />
                         </StackPanel>
 
-                        <Grid Background="#FF282828" Cursor="Hand" Grid.Row="6">
-                            <ContentControl  Style="{DynamicResource IndicatorOnStyle}" />
+                        <Grid Background="#FF282828" Cursor="Hand" Grid.Row="6" Tag="Gemini" PreviewMouseDown="ChangeNode">
+                            <ContentControl  Style="{DynamicResource IndicatorOffStyle}" Name="GeminiLight"/>
 
                             <StackPanel Orientation="Horizontal">
-                                <Grid Style="{DynamicResource NodeEnable}">
+                                <Grid Style="{DynamicResource NodeDisable}">
                                 </Grid>
                                 <Label Style="{DynamicResource NodeFont}">
                                     Gemini Node
@@ -201,8 +201,8 @@
                             </StackPanel>
                         </Grid>
 
-                        <Grid Background="#FF282828" Cursor="Hand" Grid.Row="8">
-                            <ContentControl  Style="{DynamicResource IndicatorOffStyle}" />
+                        <Grid Background="#FF282828" Cursor="Hand" Grid.Row="8" Tag="ChatGpt" PreviewMouseDown="ChangeNode">
+                            <ContentControl  Style="{DynamicResource IndicatorOffStyle}" Name="ChatGptLight"/>
 
                             <StackPanel Orientation="Horizontal">
                                 <Grid Style="{DynamicResource NodeDisable}">
@@ -214,8 +214,8 @@
 
                         </Grid>
 
-                        <Grid Background="#FF282828" Cursor="Hand" Grid.Row="10">
-                            <ContentControl  Style="{DynamicResource IndicatorOffStyle}" />
+                        <Grid Background="#FF282828" Cursor="Hand" Grid.Row="10" Tag="Cohere" PreviewMouseDown="ChangeNode">
+                            <ContentControl  Style="{DynamicResource IndicatorOffStyle}" Name="CohereLight"/>
 
                             <StackPanel Orientation="Horizontal">
                                 <Grid Style="{DynamicResource NodeDisable}">
@@ -226,8 +226,8 @@
                             </StackPanel>
                         </Grid>
 
-                        <Grid Background="#FF282828" Cursor="Hand" Grid.Row="12">
-                            <ContentControl Style="{DynamicResource  IndicatorOnStyle}" />
+                        <Grid Background="#FF282828" Cursor="Hand" Grid.Row="12" Tag="DeepSeek" PreviewMouseDown="ChangeNode">
+                            <ContentControl Style="{DynamicResource  IndicatorOffStyle}" Name="DeepSeekLight"/>
 
                             <StackPanel Orientation="Horizontal">
                                 <Grid Style="{DynamicResource NodeDisable}">
@@ -238,8 +238,8 @@
                             </StackPanel>
                         </Grid>
 
-                        <Grid Background="#FF282828" Cursor="Hand" Grid.Row="14">
-                            <ContentControl  Style="{DynamicResource IndicatorOffStyle}" />
+                        <Grid Background="#FF282828" Cursor="Hand" Grid.Row="14" Tag="Baichuan" PreviewMouseDown="ChangeNode">
+                            <ContentControl  Style="{DynamicResource IndicatorOffStyle}" Name="BaichuanLight"/>
 
                             <StackPanel Orientation="Horizontal">
                                 <Grid Style="{DynamicResource NodeDisable}">
@@ -250,8 +250,8 @@
                             </StackPanel>
                         </Grid>
 
-                        <Grid Background="#FF282828" Cursor="Hand" Grid.Row="16">
-                            <ContentControl  Style="{DynamicResource IndicatorOffStyle}" />
+                        <Grid Background="#FF282828" Cursor="Hand" Grid.Row="16" Tag="LMLocalAI" PreviewMouseDown="ChangeNode">
+                            <ContentControl  Style="{DynamicResource IndicatorOffStyle}" Name="LMLocalAILight"/>
 
                             <StackPanel Orientation="Horizontal">
                                 <Grid Style="{DynamicResource NodeDisable}">
@@ -268,8 +268,8 @@
                             </Label>
                         </Grid>
 
-                        <Grid Background="#FF282828" Cursor="Hand" Grid.Row="20">
-                            <ContentControl  Style="{DynamicResource IndicatorOnStyle}" />
+                        <Grid Background="#FF282828" Cursor="Hand" Grid.Row="20" Tag="DeepL" PreviewMouseDown="ChangeNode">
+                            <ContentControl  Style="{DynamicResource IndicatorOffStyle}" Name="DeepLLight"/>
 
                             <StackPanel Orientation="Horizontal">
                                 <Grid Style="{DynamicResource NodeDisable}">
@@ -280,8 +280,8 @@
                             </StackPanel>
                         </Grid>
 
-                        <Grid Background="#FF282828" Cursor="Hand" Grid.Row="22">
-                            <ContentControl  Style="{DynamicResource IndicatorOffStyle}" />
+                        <Grid Background="#FF282828" Cursor="Hand" Grid.Row="22" Tag="Google" PreviewMouseDown="ChangeNode">
+                            <ContentControl  Style="{DynamicResource IndicatorOffStyle}" Name="GoogleLight"/>
 
                             <StackPanel Orientation="Horizontal">
                                 <Grid Style="{DynamicResource NodeDisable}">
