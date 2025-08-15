@@ -23,7 +23,7 @@ namespace SSELex.UIManage
         {
             string GetKey = SkyrimDataLoader.GenUniqueKey(EditorID, SetType);
 
-            return TranslatorBridge.GetTransData(GetKey);
+            return TranslatorBridge.GetTransCache(GetKey);
         }
 
         public static void ReplaceAllToMemory(ref EspReader Writer)

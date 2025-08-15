@@ -323,7 +323,7 @@ namespace SSELex.UIManage
         {
             string GetKey = GenUniqueKey(EditorID, SetType);
             
-            return TranslatorBridge.GetTransData(GetKey);
+            return TranslatorBridge.GetTransCache(GetKey);
         }
 
         public static void LoadHazards(EspReader Reader, YDListView View)

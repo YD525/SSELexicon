@@ -92,9 +92,6 @@
     <None Update="LICENSE.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="LocalDB\system.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="Tool\Original Compiler\antlr.runtime.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

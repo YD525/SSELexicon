@@ -448,12 +448,18 @@ namespace SSELex
                             TransProcess.Content = string.Format("Loading({0}/{1})", UIHelper.ModifyCount, MaxTransCount);
                             TypeSelector.Opacity = 0.5;
                             TypeSelector.IsEnabled = false;
+
+                            ViewModel.Opacity = 0.5;
+                            ViewModel.IsHitTestVisible = false;
                         }
                         else
                         {
                             TransProcess.Content = string.Format("STRINGS({0}/{1})", UIHelper.ModifyCount, MaxTransCount);
                             TypeSelector.Opacity = 1;
                             TypeSelector.IsEnabled = true;
+
+                            ViewModel.Opacity = 1;
+                            ViewModel.IsHitTestVisible = true;
                         }
                     }
                 }));
@@ -1386,6 +1392,8 @@ namespace SSELex
                 TRun.Visibility = Visibility.Collapsed;
                 TStop.Visibility = Visibility.Visible;
                 TCancel.Visibility = Visibility.Visible;
+
+                ThreadInFo.Visibility = Visibility.Visible;
             }
             else
             if (TranslatorExtend.TranslationStatus == StateControl.Stop)
@@ -1394,6 +1402,8 @@ namespace SSELex
                 TRun.Visibility = Visibility.Collapsed;
                 TStop.Visibility = Visibility.Visible;
                 TCancel.Visibility = Visibility.Visible;
+
+                ThreadInFo.Visibility = Visibility.Visible;
             }
             else
             if (TranslatorExtend.TranslationStatus == StateControl.Cancel || TranslatorExtend.TranslationStatus == StateControl.Null)
@@ -1401,6 +1411,8 @@ namespace SSELex
                 TRun.Visibility = Visibility.Visible;
                 TStop.Visibility = Visibility.Collapsed;
                 TCancel.Visibility = Visibility.Collapsed;
+
+                ThreadInFo.Visibility = Visibility.Collapsed;
             }
         }
 

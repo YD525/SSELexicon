@@ -781,6 +781,27 @@
         </Setter>
     </Style>
 
+    <Style x:Key="CancelPlayIconStyleL" TargetType="ContentControl">
+        <Setter Property="SnapsToDevicePixels" Value="true"/>
+        <Setter Property="UseLayoutRounding" Value="true"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ContentControl">
+                    <Viewbox Stretch="Uniform">
+                        <Canvas Width="12" Height="12">
+                            <Path Stroke="White"
+                           StrokeThickness="1.2"
+                           Data="M 6 2 A 4 4 0 1 1 5.999 2 Z"/>
+                            <Path Stroke="White"
+                           StrokeThickness="1.2"
+                           Data="M 2.8 2.8 L 9.2 9.2"/>
+                        </Canvas>
+                    </Viewbox>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="CustomComboBoxStyle" TargetType="ComboBox">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="#FFFFFF" />

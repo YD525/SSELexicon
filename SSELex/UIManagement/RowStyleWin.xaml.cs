@@ -36,11 +36,11 @@ namespace SSELex.UIManagement
         {
             if (source == null) return null;
 
-            string xaml = XamlWriter.Save(source); // 序列化成 XAML 字符串
+            string xaml = XamlWriter.Save(source);
             StringReader stringReader = new StringReader(xaml);
             XmlReader xmlReader = XmlReader.Create(stringReader);
 
-            return (T)XamlReader.Load(xmlReader);  // 反序列化成新对象
+            return (T)XamlReader.Load(xmlReader);
         }
 
         public static void SetColor(Grid Grid,int R,int G,int B)
@@ -124,6 +124,19 @@ namespace SSELex.UIManagement
             SetTranslated.Text = Translated;
         }
 
+        public static TextBox GetTranslatedTextBoxHandle(Grid Grid)
+        {
+            Grid SetDataGrid = ((Grid)((Border)Grid.Children[0]).Child);
+
+            Grid SetTranslatedGrid = (Grid)SetDataGrid.Children[3];
+
+            Border SetTranslatedBorder = (Border)SetTranslatedGrid.Children[0];
+
+            TextBox SetTranslated = (TextBox)(SetTranslatedBorder.Child);
+
+            return SetTranslated;
+        }
+
         public Grid CreatLine(double Height, TranslationUnit Item)
         {
             var QueryTranslated = TranslatorBridge.QueryTransData(Item.Key, Item.SourceText);
@@ -184,6 +197,9 @@ namespace SSELex.UIManagement
             GetTranslated.Text = Item.TransText;
             GetTranslated.Foreground = new SolidColorBrush(FontColor);
 
+            GetTranslated.MouseLeave += GetTranslated_MouseLeave;
+            GetTranslated.LostFocus += GetTranslated_LostFocus;
+
             if (DeFine.GlobalLocalSetting.ViewMode == "Normal")
             {
                 MainGrid.Cursor = Cursors.Hand;
@@ -207,6 +223,28 @@ namespace SSELex.UIManagement
             return MainGrid;
         }
 
-       
+        private void GetTranslated_LostFocus(object sender, RoutedEventArgs e)
+        {
+            SaveText((TextBox)sender);
+        }
+
+        private void GetTranslated_MouseLeave(object sender, MouseEventArgs e)
+        {
+            SaveText((TextBox)sender);
+        }
+
+        public void SaveText(TextBox Text)
+        {
+            int GetOffset = ConvertHelper.ObjToInt(Text.Tag);
+
+            if (DeFine.WorkingWin.TransViewList.RealLines.Count > GetOffset)
+            {
+                var GetTarget = DeFine.WorkingWin.TransViewList.RealLines[GetOffset];
+
+                TranslatorBridge.SetTransData(GetTarget.Key,GetTarget.SourceText,Text.Text);
+
+                GetTarget.SyncData();
+            }
+        }
     }
 }

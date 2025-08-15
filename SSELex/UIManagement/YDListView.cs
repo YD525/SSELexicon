@@ -419,6 +419,9 @@ public class YDListView
                 if (!AlreadyExists)
                 {
                     Grid Grid = UIHelper.CreatLine(Row);
+
+                    RowStyleWin.GetTranslatedTextBoxHandle(Grid).Tag = I;
+
                     Grid.Tag = I;
                     Grid.Width = this.Parent.ActualWidth - 15;
                     Grid.PreviewMouseDown += MainGrid_PreviewMouseDown;
