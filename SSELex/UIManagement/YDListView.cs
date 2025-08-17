@@ -15,6 +15,7 @@ using PhoenixEngine.SSELexiconBridge;
 using static PhoenixEngine.SSELexiconBridge.NativeBridge;
 using PhoenixEngine.EngineManagement;
 using Mutagen.Bethesda.Skyrim;
+using SSELex.SkyrimManage;
 
 // Copyright (C) 2025 YD525
 // Licensed under the GNU GPLv3
@@ -60,6 +61,19 @@ public class FakeGrid
         if (QueryResult != null)
         {
             this.TransText = QueryResult.TransText;
+        }
+
+        var FindDictionary = YDDictionaryHelper.CheckDictionary(this.Key);
+
+        if (FindDictionary != null)
+        {
+            if (FindDictionary.OriginalText.Trim().Length > 0)
+            {
+                if (this.SourceText != FindDictionary.OriginalText)
+                {
+                    this.SourceText = FindDictionary.OriginalText;
+                }
+            }
         }
     }
 
