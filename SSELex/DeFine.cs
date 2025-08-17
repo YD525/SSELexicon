@@ -186,6 +186,8 @@ namespace SSELex
         public bool CanClearCloudTranslationCache { get; set; } = false;
         public bool CanClearUserInputTranslationCache { get; set; } = false;
 
+        public bool AutoSpeak { get; set; } = false;
+
         public void ReadConfig()
         {
             try { 
@@ -212,6 +214,7 @@ namespace SSELex
                         this.TargetLanguage = GetSetting.TargetLanguage;
                         this.CanClearCloudTranslationCache = GetSetting.CanClearCloudTranslationCache;
                         this.CanClearUserInputTranslationCache = GetSetting.CanClearUserInputTranslationCache;
+                        this.AutoSpeak = GetSetting.AutoSpeak;
                     }
                 }
                 else

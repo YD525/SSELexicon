@@ -617,7 +617,7 @@
                                 <Grid Grid.Row="3" Name="ExtendBox">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="50"/>
+                                        <RowDefinition Height="35"/>
                                     </Grid.RowDefinitions>
 
                                     <Grid Grid.Row="0">
@@ -633,11 +633,30 @@
                                             </Grid.RowDefinitions>
                                             <StackPanel Orientation="Horizontal" Margin="0 5 0 5">
                                                 <Label Style="{DynamicResource CaptionTextA}">
-                                                    SourceText:
+                                                    Original:
                                                 </Label>
+
                                                 <Border Style="{DynamicResource LiteButton}" PreviewMouseDown="SpeakFromStr">
                                                     <svgc:SvgViewbox  Stretch="UniformToFill" Source="/Material/Speaker.svg"  Margin="3 0 3 0" Width="17" Panel.ZIndex="900" Height="15" Cursor="Hand" Opacity="1"/>
                                                 </Border>
+
+                                                <Border Name="UPSelecter" Style="{DynamicResource LiteButton}" PreviewMouseDown="UPSelecter_PreviewMouseDown">
+                                                    <Label Foreground="White">
+                                                        ⬆
+                                                    </Label>
+                                                </Border>
+                                                <Border Name="DownSelecter" Style="{DynamicResource LiteButton}" PreviewMouseDown="DownSelecter_PreviewMouseDown" ToolTip="HotKey Press Tab">
+                                                    <Label Foreground="White">
+                                                        ⬇
+                                                    </Label>
+                                                </Border>
+
+                                                <Label Style="{DynamicResource CaptionTextA}" Margin="5 0 0 0">
+                                                    AutoSpeak:
+                                                </Label>
+
+                                                <CheckBox Margin="5 0 0 0" Name="AutoSpeak" VerticalAlignment="Center" Grid.Column="6" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="AutoSpeak_Click"/>
+
                                             </StackPanel>
 
                                             <Border Style="{DynamicResource IDEBorder}" Grid.Row="1">
@@ -655,16 +674,23 @@
                                             </Grid.RowDefinitions>
                                             <StackPanel Orientation="Horizontal" Margin="0 5 0 5">
                                                 <Label Style="{DynamicResource CaptionTextA}" Margin="5 0 0 0">
-                                                    TranslatedText:
+                                                    Translated:
                                                 </Label>
                                                 <Border  Style="{DynamicResource LiteButton}" PreviewMouseDown="SpeakToStr">
                                                     <svgc:SvgViewbox  Stretch="UniformToFill" Source="/Material/Speaker.svg"  Margin="3 0 3 0" Width="17" Panel.ZIndex="900" Height="15" Cursor="Hand" Opacity="1"/>
                                                 </Border>
+
+                                                <Border Name="ClearToStrButton" Style="{DynamicResource LiteButton}" PreviewMouseDown="ClearToStr" Visibility="Collapsed">
+                                                    <Label Foreground="White">
+                                                        Clear
+                                                    </Label>
+                                                </Border>
+                                               
                                             </StackPanel>
 
 
                                             <Border Style="{DynamicResource IDEBorder}" Grid.Row="1">
-                                                <avalonEdit:TextEditor  Margin="5" Name="ToStr" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" FontFamily="Consolas" FontSize="16" ShowLineNumbers="True" Background="#FF202020" Foreground="White" WordWrap="True" TextOptions.TextFormattingMode="Display">
+                                                <avalonEdit:TextEditor  Margin="5" Name="ToStr" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" FontFamily="Consolas" FontSize="16" ShowLineNumbers="True" Background="#FF202020" Foreground="White" WordWrap="True" TextOptions.TextFormattingMode="Display" TextChanged="ToStr_TextChanged">
 
                                                 </avalonEdit:TextEditor>
                                             </Border>
@@ -674,19 +700,33 @@
                                     <Grid Grid.Row="1">
 
                                         <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <StackPanel Orientation="Horizontal" Grid.Column="0" Name="CurrentKeyBox">
+                                                <Label Style="{DynamicResource CaptionTextA}" Margin="5 0 0 0">
+                                                    Key:
+                                                </Label>
+
+                                                <Label Name="CurrentKey" Style="{DynamicResource CaptionTextA}" Margin="5 0 0 0">
+
+                                                </Label>
+                                            </StackPanel>
 
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1" Margin="0 0 5 0">
-                                                <Border ToolTip="HotKey Press F1" Style="{DynamicResource ButtonStyle}">
+                                                <Border Name="CancelOTButton" Style="{DynamicResource ButtonStyleC}" Visibility="Collapsed"  PreviewMouseDown="CancelTranslatedText">
                                                     <Label Style="{DynamicResource ButtonFont}">
                                                         Cancel
                                                     </Label>
                                                 </Border>
-                                                <Border ToolTip="HotKey Press F1" Style="{DynamicResource ButtonStyle}">
+                                                <Border Name="TranslateOTButton" ToolTip="HotKey Press F1" Style="{DynamicResource ButtonStyleB}">
                                                     <Label Style="{DynamicResource ButtonFont}">
                                                         Translate(F1)
                                                     </Label>
                                                 </Border>
-                                                <Border ToolTip="HotKey Press F2" Style="{DynamicResource ButtonStyle}" PreviewMouseDown="ApplyTranslatedText">
+                                                <Border Name="ApplyOTButton" ToolTip="HotKey Press F2" Style="{DynamicResource ButtonStyleB}" PreviewMouseDown="ApplyTranslatedText">
                                                     <Label  Style="{DynamicResource ButtonFont}">
                                                         Apply(F2)
                                                     </Label>

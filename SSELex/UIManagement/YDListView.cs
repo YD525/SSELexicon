@@ -136,76 +136,116 @@ public class YDListView
 
                 int SelectID = ParentView.KeyToSelectID(GetKey);
 
-                if (!ParentView.IsKeyInViewport(GetKey))
-                {
-                    if (SelectLineThread == null)
+                Action SelectAction = new Action(() => {
+                    if (UPDate)
                     {
-                        CancelSelectLineThread = new CancellationTokenSource();
-
-                        CancelToken = CancelSelectLineThread.Token;
-
-                        SelectLineThread = new Thread(() =>
+                        if (ParentView != null)
                         {
-                            try
-                            {
-                                ParentView.Parent.Dispatcher.BeginInvoke(new Action(() =>
-                                {
-                                    ParentView.ScrollTo(SelectID);
-                                }));
+                            ParentView.SetSelectLineByKey(GetKey, UPDate);
 
-                                bool IsVisible = false;
-
-                                while (!IsVisible)
-                                {
-                                    CancelToken?.ThrowIfCancellationRequested();
-
-                                    Thread.Sleep(50);
-                                    ParentView.Parent.Dispatcher.BeginInvoke(new Action(() =>
-                                    {
-                                        IsVisible = ParentView.IsKeyInViewport(GetKey);
-                                    }));
-                                }
-
-                                CancelToken?.ThrowIfCancellationRequested();
-
-                                ParentView.Parent.Dispatcher.BeginInvoke(new Action(() =>
-                                {
-                                    ParentView.SetSelectLineByKey(GetKey, true);
-                                }));
-
-                                CancelToken?.ThrowIfCancellationRequested();
-
-                                ParentView.Parent.Dispatcher.BeginInvoke(new Action(() =>
-                                {
-                                    MainBorder.BorderBrush = new SolidColorBrush(Color.FromRgb(10, 97, 175));
-                                    LastSelectBorder = MainBorder;
-                                }));
-
-                                SelectLineThread = null;
-                            }
-                            catch
-                            {
-                                SelectLineThread = null;
-                            }
-                        });
-
-                        SelectLineThread.Start();
+                            MainBorder.BorderBrush = new SolidColorBrush(Color.FromRgb(10, 97, 175));
+                            LastSelectBorder = MainBorder;
+                        }
                     }
                     else
                     {
-                        if (CancelSelectLineThread != null)
+                        if (SelectID == -1)
                         {
-                            CancelSelectLineThread.Cancel();
-                            SelectLineThread = null;
+                            if (LastSelectBorder != null)
+                            {
+                                LastSelectBorder.BorderBrush = new SolidColorBrush(Colors.Black);
+                            }
                         }
+                        else
+                        {
+                            if (LastSelectBorder != null)
+                            {
+                                MainBorder.BorderBrush = new SolidColorBrush(Color.FromRgb(10, 97, 175));
+                                LastSelectBorder = MainBorder;
+                            }  
+                        }
+                    }
+                });
+
+                if (UPDate)
+                {
+                    if (!ParentView.IsKeyInViewport(GetKey))
+                    {
+                        if (SelectLineThread == null)
+                        {
+                            CancelSelectLineThread = new CancellationTokenSource();
+
+                            CancelToken = CancelSelectLineThread.Token;
+
+                            SelectLineThread = new Thread(() =>
+                            {
+                                try
+                                {
+                                    ParentView.Parent.Dispatcher.BeginInvoke(new Action(() =>
+                                    {
+                                        ParentView.ScrollTo(SelectID);
+                                    }));
+
+                                    bool IsVisible = false;
+
+                                    while (!IsVisible)
+                                    {
+                                        CancelToken?.ThrowIfCancellationRequested();
+
+                                        Thread.Sleep(50);
+                                        ParentView.Parent.Dispatcher.BeginInvoke(new Action(() =>
+                                        {
+                                            IsVisible = ParentView.IsKeyInViewport(GetKey);
+                                        }));
+                                    }
+
+                                    CancelToken?.ThrowIfCancellationRequested();
+
+                                    ParentView.Parent.Dispatcher.BeginInvoke(new Action(() =>
+                                    {
+                                        ParentView.SetSelectLineByKey(GetKey, true);
+                                    }));
+
+                                    CancelToken?.ThrowIfCancellationRequested();
+
+                                    ParentView.Parent.Dispatcher.BeginInvoke(new Action(() =>
+                                    {
+                                        MainBorder.BorderBrush = new SolidColorBrush(Color.FromRgb(10, 97, 175));
+                                        LastSelectBorder = MainBorder;
+                                    }));
+
+                                    SelectLineThread = null;
+                                }
+                                catch
+                                {
+                                    SelectLineThread = null;
+                                }
+                            });
+
+                            SelectLineThread.Start();
+                        }
+                        else
+                        {
+                            if (CancelSelectLineThread != null)
+                            {
+                                CancelSelectLineThread.Cancel();
+                                SelectLineThread = null;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        SelectAction.Invoke();
                     }
                 }
                 else
                 {
-                    ParentView.SetSelectLineByKey(GetKey, true);
+                    SelectAction.Invoke();
+                }
 
-                    MainBorder.BorderBrush = new SolidColorBrush(Color.FromRgb(10, 97, 175));
-                    LastSelectBorder = MainBorder;
+                if (UPDate && SelectLineID != -1)
+                {
+                    DeFine.WorkingWin.SetSelectFromAndToText(GetKey);
                 }
             }
         }

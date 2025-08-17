@@ -183,6 +183,7 @@
 
 
     <Style x:Key="LiteButton" TargetType="Border">
+        <Setter Property="Margin" Value="5 0 0 0"/>
         <Setter Property="CornerRadius" Value="5"/>
         <Setter Property="Background"  Value="#FF7B7B7B"/>
         <Setter Property="Padding" Value="5 0 5 0"/>
@@ -208,6 +209,22 @@
         <Setter Property="Background" Value="#FF2A2A2A"/>
     </Style>
 
+    <Style x:Key="ButtonStyleC" TargetType="Border">
+        <Setter Property="Height"  Value="35"/>
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="Background"  Value="#FF0A61AF"/>
+        <Setter Property="Margin"  Value="5 0 0 0"/>
+        <Setter Property="Cursor"  Value="Hand"/>
+    </Style>
+    
+    <Style x:Key="ButtonStyleB" TargetType="Border">
+        <Setter Property="Height"  Value="35"/>
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="Background"  Value="#FF0B74D1"/>
+        <Setter Property="Margin"  Value="5 0 0 0"/>
+        <Setter Property="Cursor"  Value="Hand"/>
+    </Style>
+    
     <Style x:Key="ButtonStyle" TargetType="Border">
         <Setter Property="Height"  Value="35"/>
         <Setter Property="CornerRadius" Value="5"/>

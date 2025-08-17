@@ -10,6 +10,7 @@ using System.Windows.Threading;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using Mutagen.Bethesda.Plugins.Masters.DI;
+using NexusMods.Paths.Trees.Traits;
 using PhoenixEngine.ConvertManager;
 using PhoenixEngine.DelegateManagement;
 using PhoenixEngine.EngineManagement;
@@ -1001,10 +1002,7 @@ namespace SSELex
 
         public void QuickSearch()
         {
-            if (ToStr.Text.Trim().Length > 0)
-            {
-                ApplyTranslatedText();
-            }
+            EmptyFromAndToText();
 
             if (SearchBox.Text.Trim().Length > 0)
             {
@@ -1012,6 +1010,7 @@ namespace SSELex
 
                 if (SearchResultsViewList != null && TransViewList != null)
                 {
+                    SearchResultsViewList.SelectLineID = -1;
                     SearchResultsViewList.IsSearchBox = true;
                     SearchResultsViewList.ParentView = TransViewList;
 
@@ -1030,8 +1029,6 @@ namespace SSELex
                 SearchResultsView.Visibility = Visibility.Collapsed;
                 TransView.Visibility = Visibility.Visible;
             }
-
-          
         }
 
         #endregion
@@ -1187,6 +1184,15 @@ namespace SSELex
             }
 
             SyncNodeStates();
+
+            if (DeFine.GlobalLocalSetting.AutoSpeak)
+            {
+                AutoSpeak.IsChecked = true;
+            }
+            else
+            {
+                AutoSpeak.IsChecked = false;
+            }
         }
 
         public void EnableNormalModel()
@@ -1269,17 +1275,26 @@ namespace SSELex
         {
             this.Dispatcher.Invoke(new Action(() =>
             {
+                CurrentKeyBox.Visibility = Visibility.Collapsed;
                 FromStr.Text = string.Empty;
                 ToStr.Text = string.Empty;
             }));
+            LastSetKey = string.Empty;
         }
 
         public string LastSetKey = "";
         public void SetSelectFromAndToText(string Key)
         {
+            EmptyFromAndToText();
+
             LastSetKey = Key;
 
-            EmptyFromAndToText();
+            CurrentKey.Content = LastSetKey;
+
+            if (Key.Length > 0)
+            {
+                CurrentKeyBox.Visibility = Visibility.Visible;
+            }
 
             if (DeFine.GlobalLocalSetting.ViewMode == "Normal")
             {
@@ -1295,6 +1310,25 @@ namespace SSELex
                         {
                             FromStr.Text = TransViewList.RealLines[TransViewList.SelectLineID].SourceText;
                             ToStr.Text = TransViewList.RealLines[TransViewList.SelectLineID].TransText;
+
+                            if (FromStr.Text.Length > 0)
+                            {
+                                CancelOTButton.Visibility = Visibility.Visible;
+                                TranslateOTButton.Visibility = Visibility.Visible;
+                                ApplyOTButton.Visibility = Visibility.Visible;
+                            }
+
+                            if (DeFine.GlobalLocalSetting.AutoSpeak)
+                            {
+                                SpeechHelper.TryPlaySound(FromStr.Text,true);
+                            }
+
+                            Point MousePos = Mouse.GetPosition(ToStr);
+                            if (MousePos.X >= 0 && MousePos.X <= ToStr.ActualWidth &&
+                                MousePos.Y >= 0 && MousePos.Y <= ToStr.ActualHeight)
+                            {
+                                ToStr.Focus();
+                            }
                         }));
                     }
                 }
@@ -1509,6 +1543,13 @@ namespace SSELex
             }
         }
 
+        private void CancelTranslatedText(object sender, MouseButtonEventArgs e)
+        {
+            EmptyFromAndToText();
+
+            CancelOTButton.Visibility = Visibility.Collapsed;
+        }
+
         public void ApplyTranslatedText()
         {
             if (TransViewList != null)
@@ -1539,8 +1580,6 @@ namespace SSELex
                     }
                 }
             }
-
-            EmptyFromAndToText();
         }
         private void ApplyTranslatedText(object sender, MouseButtonEventArgs e)
         {
@@ -1858,6 +1897,45 @@ namespace SSELex
             {
                 ScanAnimator.Stop();
                 ScanAnimator.Start();
+            }
+        }
+
+        private void UPSelecter_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            TransViewList?.UP();
+        }
+
+        private void DownSelecter_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            TransViewList?.Down();
+        }
+
+        private void ClearToStr(object sender, MouseButtonEventArgs e)
+        {
+            ToStr.Text = string.Empty;
+        }
+
+        private void ToStr_TextChanged(object sender, EventArgs e)
+        {
+            if (ToStr.Text.Length > 0)
+            {
+                ClearToStrButton.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                ClearToStrButton.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void AutoSpeak_Click(object sender, RoutedEventArgs e)
+        {
+            if (AutoSpeak.IsChecked == true)
+            {
+                DeFine.GlobalLocalSetting.AutoSpeak = true;
+            }
+            else
+            {
+                DeFine.GlobalLocalSetting.AutoSpeak = false;
             }
         }
     }
