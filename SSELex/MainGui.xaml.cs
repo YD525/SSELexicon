@@ -408,10 +408,18 @@ namespace SSELex
 
         public void GetGlobalTransCount()
         {
-            if (ConvertHelper.ObjToStr(TypeSelector.SelectedValue).Equals("All"))
+            if (CurrentTransType == 2)
             {
-                if(TransViewList!=null)
-                GlobalTransCount = TransViewList.RealLines.Count;
+                if (ConvertHelper.ObjToStr(TypeSelector.SelectedValue).Equals("All"))
+                {
+                    if (TransViewList != null)
+                        GlobalTransCount = TransViewList.RealLines.Count;
+                }
+            }
+            else
+            {
+                if (TransViewList != null)
+                    GlobalTransCount = TransViewList.RealLines.Count;
             }
         }
 

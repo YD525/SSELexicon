@@ -144,6 +144,8 @@ namespace SSELex.UIManagement
             return SetTranslated;
         }
 
+        public static List<string> RecordModifyStates = new List<string>();
+
         public Grid CreatLine(double Height, TranslationUnit Item)
         {
             bool IsModify = false;
@@ -167,6 +169,11 @@ namespace SSELex.UIManagement
 
                         //11 116 209
                         IsModify = true;
+
+                        if (!RecordModifyStates.Contains(Item.Key))
+                        {
+                            RecordModifyStates.Add(Item.Key);
+                        }
                     }
                 }
             }
@@ -192,7 +199,7 @@ namespace SSELex.UIManagement
 
             Ellipse State = (Ellipse)GetStackPanel.Children[0];
 
-            if (IsModify)
+            if (IsModify || RecordModifyStates.Contains(Item.Key))
             {
                 State.Fill = new SolidColorBrush(Color.FromRgb(11, 116, 209));
             }
@@ -239,6 +246,10 @@ namespace SSELex.UIManagement
             }
             else
             {
+                MainGrid.Cursor = Cursors.Hand;
+                GetKey.Cursor = Cursors.Hand;
+                GetOriginal.Cursor = Cursors.Hand;
+                GetTranslated.Cursor = Cursors.IBeam;
                 GetTranslated.IsReadOnly = false;
                 GetTranslated.HorizontalAlignment = HorizontalAlignment.Stretch;
                 GetTranslated.VerticalContentAlignment = VerticalAlignment.Center;

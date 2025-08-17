@@ -650,13 +650,6 @@
                                                         ⬇
                                                     </Label>
                                                 </Border>
-
-                                                <Label Style="{DynamicResource CaptionTextA}" Margin="5 0 0 0">
-                                                    AutoSpeak:
-                                                </Label>
-
-                                                <CheckBox Margin="5 0 0 0" Name="AutoSpeak" VerticalAlignment="Center" Grid.Column="6" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="AutoSpeak_Click"/>
-
                                             </StackPanel>
 
                                             <Border Style="{DynamicResource IDEBorder}" Grid.Row="1">
@@ -730,10 +723,17 @@
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1" Margin="0 0 5 0">
 
                                                 <Label Style="{DynamicResource CaptionTextA}" Margin="5 0 0 0">
-                                                    AutoApply:
+                                                    AutoSpeak
                                                 </Label>
 
-                                                <CheckBox Margin="5 0 5 0" Name="AutoApply" VerticalAlignment="Center" Grid.Column="6" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="AutoSpeak_Click"/>
+                                                <CheckBox Margin="5 0 5 0" Name="AutoSpeak" VerticalAlignment="Center" Grid.Column="6" Foreground="White"  Click="AutoSpeak_Click"/>
+
+                                                
+                                                <Label Style="{DynamicResource CaptionTextA}">
+                                                    AutoApply
+                                                </Label>
+
+                                                <CheckBox Margin="5 0 5 0" Name="AutoApply" VerticalAlignment="Center" Grid.Column="6" Foreground="White" Click="AutoSpeak_Click"/>
 
                                                 
                                                 <Border Name="CancelOTButton" Style="{DynamicResource LiteButton}" PreviewMouseDown="CancelTranslatedText">
