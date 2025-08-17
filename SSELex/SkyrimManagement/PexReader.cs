@@ -5,6 +5,7 @@ using PhoenixEngine.TranslateManage;
 using SSELex.ConvertManager;
 using SSELex.SkyrimModManager;
 using SSELex.TranslateManage;
+using SSELex.UIManagement;
 using static PhoenixEngine.SSELexiconBridge.NativeBridge;
 
 namespace SSELex.SkyrimManage
@@ -287,6 +288,7 @@ namespace SSELex.SkyrimManage
         #endregion
         public void LoadPexFile(string FilePath)
         {
+            RowStyleWin.RecordModifyStates.Clear();
             Close();
 
             HeuristicEngine = new PapyrusHeurCore();
@@ -542,6 +544,7 @@ namespace SSELex.SkyrimManage
 
         public bool SavePexFile(string OutPutPath)
         {
+            RowStyleWin.RecordModifyStates.Clear();
             bool Sucess = false;
             Dictionary<string, LinkValue> LinkTexts = new Dictionary<string, LinkValue>();
             foreach (var GetParam in this.Strings)

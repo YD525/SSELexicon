@@ -4,6 +4,7 @@ using PhoenixEngine.TranslateManage;
 using SSELex.SkyrimModManager;
 using SSELex.TranslateManage;
 using SSELex.UIManage;
+using SSELex.UIManagement;
 using static PhoenixEngine.SSELexiconBridge.NativeBridge;
 
 namespace SSELex.SkyrimManage
@@ -109,6 +110,7 @@ namespace SSELex.SkyrimManage
 
         public void LoadMCM(string Path)
         {
+            RowStyleWin.RecordModifyStates.Clear();
             TranslatorBridge.ClearCache();
             Lines.Clear();
             MCMItems.Clear();
@@ -165,6 +167,7 @@ namespace SSELex.SkyrimManage
 
         public void SaveMCMConfig(string OutPutPath)
         {
+            RowStyleWin.RecordModifyStates.Clear();
             if (File.Exists(OutPutPath))
             {
                 return;

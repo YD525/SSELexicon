@@ -29,7 +29,6 @@ public class FakeGrid
     public double Height = 0;
     public string Type = "";
     public string Key = "";
-    public string RealSourceText = "";
     public string SourceText = "";
     public string TransText = "";
     public double Score = 0;
@@ -72,27 +71,8 @@ public class FakeGrid
             {
                 if (this.SourceText != FindDictionary.OriginalText)
                 {
-                    if (this.RealSourceText.Length == 0)
-                    {
-                        this.RealSourceText = FindDictionary.OriginalText;
-                    }
-
                     this.SourceText = FindDictionary.OriginalText;
                 }
-            }
-            else
-            {
-                if (this.RealSourceText.Length == 0)
-                {
-                    this.RealSourceText = this.SourceText;
-                }
-            }
-        }
-        else
-        {
-            if (this.RealSourceText.Length == 0)
-            {
-                this.RealSourceText = this.SourceText;
             }
         }
     }
