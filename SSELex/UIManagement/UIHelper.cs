@@ -10,6 +10,7 @@ using System.Windows.Shapes;
 using static SSELex.TranslateManage.TranslatorExtend;
 using PhoenixEngine.EngineManagement;
 using System.Windows.Threading;
+using System.Windows.Documents;
 
 namespace SSELex.UIManage
 {
@@ -79,6 +80,22 @@ namespace SSELex.UIManage
 
     public class UIHelper
     {
+        public static void ShowButton(Border NormalButton, bool Enable)
+        {
+            if (Enable)
+            {
+                NormalButton.Cursor = Cursors.Hand;
+                NormalButton.IsEnabled = true;
+                NormalButton.Opacity = 1;
+            }
+            else
+            {
+                NormalButton.Cursor = null;
+                NormalButton.Opacity = 0.5;
+                NormalButton.IsEnabled = false;
+            }
+        }
+
         public static Grid SelectLine = null;
   
         public static double DefLineHeight = 42;

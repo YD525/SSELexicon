@@ -680,12 +680,24 @@
                                                     <svgc:SvgViewbox  Stretch="UniformToFill" Source="/Material/Speaker.svg"  Margin="3 0 3 0" Width="17" Panel.ZIndex="900" Height="15" Cursor="Hand" Opacity="1"/>
                                                 </Border>
 
-                                                <Border Name="ClearToStrButton" Style="{DynamicResource LiteButton}" PreviewMouseDown="ClearToStr" Visibility="Collapsed">
-                                                    <Label Foreground="White">
+                                                <Border Name="FormatToStrButton" Style="{DynamicResource LiteButton}" PreviewMouseDown="FormatToStr" ToolTip="Unified beautified strings">
+                                                    <Label Style="{DynamicResource LiteButtonFont}" Foreground="White">
+                                                        Format
+                                                    </Label>
+                                                </Border>
+
+                                                <Border Name="ClearToStrButton" Style="{DynamicResource LiteButton}" PreviewMouseDown="ClearToStr">
+                                                    <Label Style="{DynamicResource LiteButtonFont}" Foreground="White">
                                                         Clear
                                                     </Label>
                                                 </Border>
-                                               
+
+                                                <Border Name="ReplaceStrButton" Style="{DynamicResource LiteButton}" PreviewMouseDown="ReplaceStr">
+                                                    <Label Style="{DynamicResource LiteButtonFont}" Foreground="White">
+                                                        Replace
+                                                    </Label>
+                                                </Border>
+
                                             </StackPanel>
 
 
@@ -716,18 +728,27 @@
                                             </StackPanel>
 
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1" Margin="0 0 5 0">
-                                                <Border Name="CancelOTButton" Style="{DynamicResource ButtonStyleC}" Visibility="Collapsed"  PreviewMouseDown="CancelTranslatedText">
-                                                    <Label Style="{DynamicResource ButtonFont}">
+
+                                                <Label Style="{DynamicResource CaptionTextA}" Margin="5 0 0 0">
+                                                    AutoApply:
+                                                </Label>
+
+                                                <CheckBox Margin="5 0 5 0" Name="AutoApply" VerticalAlignment="Center" Grid.Column="6" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="AutoSpeak_Click"/>
+
+                                                
+                                                <Border Name="CancelOTButton" Style="{DynamicResource LiteButton}" PreviewMouseDown="CancelTranslatedText">
+                                                    <Label  Style="{DynamicResource LiteButtonFont}" Foreground="White">
                                                         Cancel
                                                     </Label>
                                                 </Border>
-                                                <Border Name="TranslateOTButton" ToolTip="HotKey Press F1" Style="{DynamicResource ButtonStyleB}">
-                                                    <Label Style="{DynamicResource ButtonFont}">
+                                                <Border Name="TranslateOTButton" ToolTip="HotKey Press F1" Style="{DynamicResource LiteButton}">
+                                                    <Label  Style="{DynamicResource LiteButtonFont}" Foreground="White">
                                                         Translate(F1)
                                                     </Label>
                                                 </Border>
-                                                <Border Name="ApplyOTButton" ToolTip="HotKey Press F2" Style="{DynamicResource ButtonStyleB}" PreviewMouseDown="ApplyTranslatedText">
-                                                    <Label  Style="{DynamicResource ButtonFont}">
+                                                
+                                                <Border Name="ApplyOTButton" ToolTip="HotKey Press F2" Style="{DynamicResource LiteButton}" PreviewMouseDown="ApplyTranslatedText">
+                                                    <Label   Style="{DynamicResource LiteButtonFont}" Foreground="White">
                                                         Apply(F2)
                                                     </Label>
                                                 </Border>

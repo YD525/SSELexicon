@@ -18,6 +18,7 @@ using PhoenixEngine.ConvertManager;
 using PhoenixEngine.EngineManagement;
 using PhoenixEngine.SSEATComBridge;
 using static PhoenixEngine.SSELexiconBridge.NativeBridge;
+using System.Windows.Shapes;
 
 namespace SSELex.UIManagement
 {
@@ -145,6 +146,8 @@ namespace SSELex.UIManagement
 
         public Grid CreatLine(double Height, TranslationUnit Item)
         {
+            bool IsModify = false;
+
             var QueryTranslated = TranslatorBridge.QueryTransData(Item.Key, Item.SourceText);
 
             if (QueryTranslated != null)
@@ -158,7 +161,13 @@ namespace SSELex.UIManagement
             {
                 if (FindDictionary.OriginalText.Trim().Length > 0)
                 {
-                    Item.SourceText = FindDictionary.OriginalText;
+                    if (Item.SourceText != FindDictionary.OriginalText)
+                    {
+                        Item.SourceText = FindDictionary.OriginalText;
+
+                        //11 116 209
+                        IsModify = true;
+                    }
                 }
             }
 
@@ -180,6 +189,13 @@ namespace SSELex.UIManagement
             Grid GetChildGrid = (Grid)MainBorder.Child;
 
             StackPanel GetStackPanel = (StackPanel)((Grid)GetChildGrid.Children[0]).Children[0];
+
+            Ellipse State = (Ellipse)GetStackPanel.Children[0];
+
+            if (IsModify)
+            {
+                State.Fill = new SolidColorBrush(Color.FromRgb(11, 116, 209));
+            }
 
             Label GetType = (Label)GetStackPanel.Children[1];
             GetType.Content = Item.Type;

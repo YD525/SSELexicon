@@ -3,6 +3,7 @@ using System.IO;
 using System.Transactions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -245,6 +246,10 @@ namespace SSELex
                     TransViewList?.Down();
                 }
             }
+            if (e.Key == Key.F2)
+            {
+                ApplyTranslatedText();
+            }
         }
 
         public bool IsLeftMouseDown = false;
@@ -399,7 +404,16 @@ namespace SSELex
             }));
         }
 
-        public int MaxTransCount = 0;
+        public int GlobalTransCount = 0;
+
+        public void GetGlobalTransCount()
+        {
+            if (ConvertHelper.ObjToStr(TypeSelector.SelectedValue).Equals("All"))
+            {
+                if(TransViewList!=null)
+                GlobalTransCount = TransViewList.RealLines.Count;
+            }
+        }
 
         public void CalcStatistics()
         {
@@ -423,7 +437,28 @@ namespace SSELex
 
                     if (TransViewList != null)
                     {
-                        double GetRate = ((double)ModifyCount / (double)TransViewList.Rows);
+                        GetGlobalTransCount();
+
+                        if (ReadTrdWorkState)
+                        {
+                            TransProcess.Content = string.Format("Loading({0}/{1})", ModifyCount, GlobalTransCount);
+                            TypeSelector.Opacity = 0.5;
+                            TypeSelector.IsEnabled = false;
+
+                            ViewModel.Opacity = 0.5;
+                            ViewModel.IsHitTestVisible = false;
+                        }
+                        else
+                        {
+                            TransProcess.Content = string.Format("STRINGS({0}/{1})", ModifyCount, GlobalTransCount);
+                            TypeSelector.Opacity = 1;
+                            TypeSelector.IsEnabled = true;
+
+                            ViewModel.Opacity = 1;
+                            ViewModel.IsHitTestVisible = true;
+                        }
+
+                        double GetRate = ((double)ModifyCount / (double)GlobalTransCount);
                         if (GetRate > 0)
                         {
                             try
@@ -439,27 +474,6 @@ namespace SSELex
                                 ProcessBar.Width = 0;
                             }
                             catch { }
-                        }
-
-                        MaxTransCount = TransViewList.Rows;
-
-                        if (ReadTrdWorkState)
-                        {
-                            TransProcess.Content = string.Format("Loading({0}/{1})", ModifyCount, MaxTransCount);
-                            TypeSelector.Opacity = 0.5;
-                            TypeSelector.IsEnabled = false;
-
-                            ViewModel.Opacity = 0.5;
-                            ViewModel.IsHitTestVisible = false;
-                        }
-                        else
-                        {
-                            TransProcess.Content = string.Format("STRINGS({0}/{1})", ModifyCount, MaxTransCount);
-                            TypeSelector.Opacity = 1;
-                            TypeSelector.IsEnabled = true;
-
-                            ViewModel.Opacity = 1;
-                            ViewModel.IsHitTestVisible = true;
                         }
                     }
                 }));
@@ -698,6 +712,8 @@ namespace SSELex
 
         public void LoadAny(string FilePath)
         {
+            IsValidFile = false;
+
             Translator.ClearAICache();
             SetLog("Load:" + FilePath);
             DashBoardService.Clear();
@@ -764,6 +780,8 @@ namespace SSELex
 
                         ReSetTransTargetType();
                         ReloadData();
+
+                        IsValidFile = true;
                     }
                 }
                 if (FilePath.ToLower().EndsWith(".txt"))
@@ -794,6 +812,8 @@ namespace SSELex
 
                     ReSetTransTargetType();
                     ReloadData();
+
+                    IsValidFile = true;
                 }
                 if (FilePath.ToLower().EndsWith(".esp") || FilePath.ToLower().EndsWith(".esm") || FilePath.ToLower().EndsWith(".esl"))
                 {
@@ -821,6 +841,8 @@ namespace SSELex
                     }));
 
                     ReSetTransTargetType();
+
+                    IsValidFile = true;
                 }
             }
         }
@@ -875,6 +897,7 @@ namespace SSELex
             }).Start();
         }
 
+        public bool IsValidFile = false;
         public int LoadSaveState = 0;
         private void AutoLoadOrSave(object sender, MouseButtonEventArgs e)
         {
@@ -972,13 +995,21 @@ namespace SSELex
                 CancelTransEsp(null, null);
             }
 
-            if (LoadSaveState == 0)
+            if (IsValidFile)
             {
-                LoadFileButton.Content = "Load File";
+                if (LoadSaveState == 0)
+                {
+                    LoadFileButton.Content = "Load File";
+                }
+                else
+                {
+                    LoadFileButton.Content = "Save File";
+                }
             }
             else
             {
-                LoadFileButton.Content = "Save File";
+                LoadFileButton.Content = "Load File";
+                LoadSaveState = 0;
             }
         }
 
@@ -1002,10 +1033,10 @@ namespace SSELex
 
         public void QuickSearch()
         {
-            EmptyFromAndToText();
-
             if (SearchBox.Text.Trim().Length > 0)
             {
+                EmptyFromAndToText();
+
                 TransView.Visibility = Visibility.Hidden;
 
                 if (SearchResultsViewList != null && TransViewList != null)
@@ -1311,11 +1342,12 @@ namespace SSELex
                             FromStr.Text = TransViewList.RealLines[TransViewList.SelectLineID].SourceText;
                             ToStr.Text = TransViewList.RealLines[TransViewList.SelectLineID].TransText;
 
+                            UIHelper.ShowButton(ApplyOTButton, true);
+
                             if (FromStr.Text.Length > 0)
                             {
-                                CancelOTButton.Visibility = Visibility.Visible;
-                                TranslateOTButton.Visibility = Visibility.Visible;
-                                ApplyOTButton.Visibility = Visibility.Visible;
+                                UIHelper.ShowButton(CancelOTButton, true);
+                                ShowFormatToStrButton(true);
                             }
 
                             if (DeFine.GlobalLocalSetting.AutoSpeak)
@@ -1546,8 +1578,8 @@ namespace SSELex
         private void CancelTranslatedText(object sender, MouseButtonEventArgs e)
         {
             EmptyFromAndToText();
-
-            CancelOTButton.Visibility = Visibility.Collapsed;
+            UIHelper.ShowButton(CancelOTButton, false);
+            UIHelper.ShowButton(ApplyOTButton, false);
         }
 
         public void ApplyTranslatedText()
@@ -1578,6 +1610,8 @@ namespace SSELex
                             }
                         }
                     }
+
+                    UIHelper.ShowButton(ApplyOTButton, false);
                 }
             }
         }
@@ -1913,17 +1947,30 @@ namespace SSELex
         private void ClearToStr(object sender, MouseButtonEventArgs e)
         {
             ToStr.Text = string.Empty;
+            ShowFormatToStrButton(true);
+        }
+
+        public void ShowClearToStrButton(bool Enable)
+        {
+            UIHelper.ShowButton(ClearToStrButton, Enable);
+        }
+
+        public void ShowFormatToStrButton(bool Enable)
+        {
+            UIHelper.ShowButton(FormatToStrButton, Enable);
         }
 
         private void ToStr_TextChanged(object sender, EventArgs e)
         {
             if (ToStr.Text.Length > 0)
             {
-                ClearToStrButton.Visibility = Visibility.Visible;
+                ShowClearToStrButton(true);
+                ShowFormatToStrButton(true);
+                UIHelper.ShowButton(ApplyOTButton, true);
             }
             else
             {
-                ClearToStrButton.Visibility = Visibility.Collapsed;
+                ShowClearToStrButton(false);
             }
         }
 
@@ -1937,6 +1984,26 @@ namespace SSELex
             {
                 DeFine.GlobalLocalSetting.AutoSpeak = false;
             }
+        }
+
+        private void FormatToStr(object sender, MouseButtonEventArgs e)
+        {
+            if (ToStr.Text.Length > 0)
+            {
+                ToStr.Text = Translator.FormatStr(ToStr.Text);
+            }
+            else
+            {
+                ToStr.Text = Translator.FormatStr(FromStr.Text);
+            }
+
+            ShowFormatToStrButton(false);
+        }
+
+
+        private void ReplaceStr(object sender, MouseButtonEventArgs e)
+        {
+
         }
     }
 }
