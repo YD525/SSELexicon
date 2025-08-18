@@ -217,7 +217,7 @@ namespace SSELex
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-
+            DeFine.CloseAny();
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -236,6 +236,8 @@ namespace SSELex
             if (e.Key == Key.Tab)
             {
                 e.Handled = true;
+
+                AutoApplyStr();
 
                 if (SearchResultsView.Visibility == Visibility.Visible)
                 {
@@ -1232,6 +1234,15 @@ namespace SSELex
             {
                 AutoSpeak.IsChecked = false;
             }
+
+            if (DeFine.GlobalLocalSetting.AutoApply)
+            {
+                AutoApply.IsChecked = true;
+            }
+            else
+            {
+                AutoApply.IsChecked = false;
+            }
         }
 
         public void EnableNormalModel()
@@ -1321,9 +1332,27 @@ namespace SSELex
             LastSetKey = string.Empty;
         }
 
+        public void AutoApplyStr()
+        {
+            if (DeFine.GlobalLocalSetting.ViewMode == "Normal")
+            {
+                if (DeFine.GlobalLocalSetting.AutoApply && CanAutoApply)
+                {
+                    if (LastSetKey.Trim().Length > 0)
+                    {
+                        ApplyTranslatedText();
+                    }
+
+                    CanAutoApply = false;
+                }
+            }
+        }
+
         public string LastSetKey = "";
         public void SetSelectFromAndToText(string Key)
         {
+            AutoApplyStr();
+
             EmptyFromAndToText();
 
             LastSetKey = Key;
@@ -1586,8 +1615,12 @@ namespace SSELex
         private void CancelTranslatedText(object sender, MouseButtonEventArgs e)
         {
             EmptyFromAndToText();
+
             UIHelper.ShowButton(CancelOTButton, false);
             UIHelper.ShowButton(ApplyOTButton, false);
+
+            ShowFormatToStrButton(false);
+            ShowClearToStrButton(false);
         }
 
         public void ApplyTranslatedText()
@@ -1607,6 +1640,8 @@ namespace SSELex
                             TranslatorBridge.SetTransData(GetGrid.Key, GetGrid.SourceText, GetGrid.TransText);
                         }
                         catch { }
+
+                        TranslatorExtend.SetTranslatorHistoryCache(GetGrid.Key, GetGrid.TransText);
 
                         GetGrid.SyncUI(TransViewList);
 
@@ -1944,11 +1979,13 @@ namespace SSELex
 
         private void UPSelecter_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
+            AutoApplyStr();
             TransViewList?.UP();
         }
 
         private void DownSelecter_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
+            AutoApplyStr();
             TransViewList?.Down();
         }
 
@@ -1994,6 +2031,18 @@ namespace SSELex
             }
         }
 
+        private void AutoApply_Click(object sender, RoutedEventArgs e)
+        {
+            if (AutoApply.IsChecked == true)
+            {
+                DeFine.GlobalLocalSetting.AutoApply = true;
+            }
+            else
+            {
+                DeFine.GlobalLocalSetting.AutoApply = false;
+            }
+        }
+
         private void FormatToStr(object sender, MouseButtonEventArgs e)
         {
             if (ToStr.Text.Length > 0)
@@ -2012,6 +2061,12 @@ namespace SSELex
         private void ReplaceStr(object sender, MouseButtonEventArgs e)
         {
 
+        }
+
+        public bool CanAutoApply = false;
+        private void ToStr_MouseEnter(object sender, MouseEventArgs e)
+        {
+            CanAutoApply = true;
         }
     }
 }

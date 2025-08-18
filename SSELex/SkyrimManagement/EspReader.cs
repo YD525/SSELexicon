@@ -17,6 +17,7 @@ using PhoenixEngine.TranslateCore;
 using PhoenixEngine.SSELexiconBridge;
 using static PhoenixEngine.SSELexiconBridge.NativeBridge;
 using SSELex.UIManagement;
+using SSELex.TranslateManage;
 
 namespace SSELex.SkyrimManage
 {
@@ -89,6 +90,8 @@ namespace SSELex.SkyrimManage
 
         public void Close()
         {
+            TranslatorExtend.ClearTranslatorHistoryCache();
+
             ClearRam();
             CurrentReadMod = null;
         }
@@ -232,7 +235,7 @@ namespace SSELex.SkyrimManage
 
         public SkyrimMod? DefReadMod(string FilePath)
         {
-            RowStyleWin.RecordModifyStates.Clear();
+            TranslatorExtend.ClearTranslatorHistoryCache();
             return ReadMod(FilePath);
         }
 
@@ -840,7 +843,7 @@ namespace SSELex.SkyrimManage
 
         public bool SaveMod(SkyrimMod SourceMod, string OutPutPath, EncodingBundle SetEncodingBundle)
         {
-            RowStyleWin.RecordModifyStates.Clear();
+            TranslatorExtend.ClearTranslatorHistoryCache();
 
             if (CurrentReadMod == null)
             {

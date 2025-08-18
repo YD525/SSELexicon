@@ -7,6 +7,8 @@ using PhoenixEngine.TranslateCore;
 using PhoenixEngine.TranslateManage;
 using PhoenixEngine.EngineManagement;
 using static PhoenixEngine.SSELexiconBridge.NativeBridge;
+using Loqui.Translators;
+using SSELex.UIManagement;
 
 namespace SSELex.TranslateManage
 {
@@ -16,6 +18,39 @@ namespace SSELex.TranslateManage
     //https://github.com/YD525/PhoenixEngine
     public class TranslatorExtend
     {
+        public static Dictionary<int,List<TranslatorHistoryCache>> TranslatorHistoryCaches = new Dictionary<int, List<TranslatorHistoryCache>>();
+
+        public static void ClearTranslatorHistoryCache()
+        {
+            RowStyleWin.RecordModifyStates.Clear();
+            TranslatorHistoryCaches.Clear();
+        }
+
+        public static void SetTranslatorHistoryCache(string Key, string Translated)
+        {
+            int GetKey = Key.GetHashCode();
+
+            if (TranslatorHistoryCaches.ContainsKey(GetKey))
+            {
+                if (!TranslatorHistoryCaches[GetKey].Any(C => C.Translated == Translated))
+                {
+                    TranslatorHistoryCaches[GetKey].Add(new TranslatorHistoryCache(Translated));
+                }
+            }
+        }
+
+        public static List<TranslatorHistoryCache>? GetTranslatorCache(string Key)
+        {
+            int GetKey = Key.GetHashCode();
+            if (TranslatorHistoryCaches.ContainsKey(GetKey))
+            {
+               return TranslatorHistoryCaches[GetKey];
+            }
+
+            return null;
+        }
+
+
         public static StateControl TranslationStatus = StateControl.Null;
 
         public static void SyncTransState()
@@ -174,6 +209,25 @@ namespace SSELex.TranslateManage
         }
     }
 
+    public class TranslatorHistoryCache
+    {
+        public DateTime ChangeTime;
+        public string Translated = "";
+        public bool IsCloud = false;
+
+        public TranslatorHistoryCache(string Translated)
+        {
+            this.ChangeTime = DateTime.Now;
+            this.Translated = Translated;
+        }
+
+        public TranslatorHistoryCache(string Translated,bool IsCloud)
+        {
+            this.ChangeTime = DateTime.Now;
+            this.Translated = Translated;
+            this.IsCloud = IsCloud;
+        }
+    }
     public enum StateControl
     {
         Null = 0, Run = 1, Stop = 2, Cancel = 3

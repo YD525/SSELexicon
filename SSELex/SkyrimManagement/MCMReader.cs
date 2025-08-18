@@ -104,13 +104,14 @@ namespace SSELex.SkyrimManage
 
         public void Close()
         {
+            TranslatorExtend.ClearTranslatorHistoryCache();
             Lines.Clear();
             MCMItems.Clear();
         }
 
         public void LoadMCM(string Path)
         {
-            RowStyleWin.RecordModifyStates.Clear();
+            TranslatorExtend.ClearTranslatorHistoryCache();
             TranslatorBridge.ClearCache();
             Lines.Clear();
             MCMItems.Clear();
@@ -167,7 +168,7 @@ namespace SSELex.SkyrimManage
 
         public void SaveMCMConfig(string OutPutPath)
         {
-            RowStyleWin.RecordModifyStates.Clear();
+            TranslatorExtend.ClearTranslatorHistoryCache();
             if (File.Exists(OutPutPath))
             {
                 return;

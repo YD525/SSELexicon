@@ -123,6 +123,7 @@ namespace SSELex.SkyrimManage
         }
         public void Close()
         {
+            TranslatorExtend.ClearTranslatorHistoryCache();
             if (HeuristicEngine != null)
             {
                 HeuristicEngine.DStringItems.Clear();
@@ -288,7 +289,7 @@ namespace SSELex.SkyrimManage
         #endregion
         public void LoadPexFile(string FilePath)
         {
-            RowStyleWin.RecordModifyStates.Clear();
+            TranslatorExtend.ClearTranslatorHistoryCache();
             Close();
 
             HeuristicEngine = new PapyrusHeurCore();
@@ -544,7 +545,7 @@ namespace SSELex.SkyrimManage
 
         public bool SavePexFile(string OutPutPath)
         {
-            RowStyleWin.RecordModifyStates.Clear();
+            TranslatorExtend.ClearTranslatorHistoryCache();
             bool Sucess = false;
             Dictionary<string, LinkValue> LinkTexts = new Dictionary<string, LinkValue>();
             foreach (var GetParam in this.Strings)

@@ -695,7 +695,7 @@
 
 
                                             <Border Style="{DynamicResource IDEBorder}" Grid.Row="1">
-                                                <avalonEdit:TextEditor  Margin="5" Name="ToStr" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" FontFamily="Consolas" FontSize="16" ShowLineNumbers="True" Background="#FF202020" Foreground="White" WordWrap="True" TextOptions.TextFormattingMode="Display" TextChanged="ToStr_TextChanged">
+                                                <avalonEdit:TextEditor MouseEnter="ToStr_MouseEnter" Margin="5" Name="ToStr" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" FontFamily="Consolas" FontSize="16" ShowLineNumbers="True" Background="#FF202020" Foreground="White" WordWrap="True" TextOptions.TextFormattingMode="Display" TextChanged="ToStr_TextChanged">
 
                                                 </avalonEdit:TextEditor>
                                             </Border>
@@ -733,7 +733,7 @@
                                                     AutoApply
                                                 </Label>
 
-                                                <CheckBox Margin="5 0 5 0" Name="AutoApply" VerticalAlignment="Center" Grid.Column="6" Foreground="White" Click="AutoSpeak_Click"/>
+                                                <CheckBox Margin="5 0 5 0" Name="AutoApply" VerticalAlignment="Center" Grid.Column="6" Foreground="White" Click="AutoApply_Click"/>
 
                                                 
                                                 <Border Name="CancelOTButton" Style="{DynamicResource LiteButton}" PreviewMouseDown="CancelTranslatedText">

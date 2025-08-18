@@ -19,6 +19,7 @@ using PhoenixEngine.EngineManagement;
 using PhoenixEngine.SSEATComBridge;
 using static PhoenixEngine.SSELexiconBridge.NativeBridge;
 using System.Windows.Shapes;
+using SSELex.TranslateManage;
 
 namespace SSELex.UIManagement
 {
@@ -281,6 +282,7 @@ namespace SSELex.UIManagement
                     {
                         TranslatorBridge.SetTransData(GetKey, GetTarget.SourceText, Text.Text);
                         GetTarget.SyncData();
+                        TranslatorExtend.SetTranslatorHistoryCache(GetKey, Text.Text);
                     }
                  
                 }

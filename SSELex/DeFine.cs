@@ -53,6 +53,18 @@ namespace SSELex
 
         public static void CloseAny()
         {
+            if (WorkingWin != null)
+            {
+                WorkingWin.Hide();
+            }
+
+            if (CurrentCodeView != null)
+            {
+                CurrentCodeView.Dispatcher.Invoke(new Action(() => {
+                    CurrentCodeView.Hide();
+                }));
+            }
+
             DeFine.GlobalLocalSetting.SaveConfig();
             Environment.Exit(0);
         }
@@ -188,6 +200,8 @@ namespace SSELex
 
         public bool AutoSpeak { get; set; } = false;
 
+        public bool AutoApply { get; set; } = false;
+
         public void ReadConfig()
         {
             try { 
@@ -215,6 +229,7 @@ namespace SSELex
                         this.CanClearCloudTranslationCache = GetSetting.CanClearCloudTranslationCache;
                         this.CanClearUserInputTranslationCache = GetSetting.CanClearUserInputTranslationCache;
                         this.AutoSpeak = GetSetting.AutoSpeak;
+                        this.AutoApply = GetSetting.AutoApply;
                     }
                 }
                 else
