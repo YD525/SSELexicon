@@ -332,15 +332,15 @@ namespace SSELex.UIManagement
                                 {
                                     DeFine.ActiveIDE.Dispatcher.Invoke(() =>
                                     {
-                                        int lineOffset = DeFine.ActiveIDE.Document.Text.IndexOf(Item.SourceLine);
-                                        if (lineOffset == -1) return;
+                                        int LineOffset = DeFine.ActiveIDE.Document.Text.IndexOf(Item.SourceLine);
+                                        if (LineOffset == -1) return;
 
-                                        int relativeOffset = Item.SourceLine.IndexOf("\"" + Item.Str + "\"");
-                                        if (relativeOffset == -1) return;
+                                        int RelativeOffset = Item.SourceLine.IndexOf("\"" + Item.Str + "\"");
+                                        if (RelativeOffset == -1) return;
 
-                                        int absoluteOffset = lineOffset + relativeOffset;
-                                        DeFine.ActiveIDE.ScrollToLine(DeFine.ActiveIDE.Document.GetLineByOffset(absoluteOffset).LineNumber);
-                                        DeFine.ActiveIDE.Select(absoluteOffset, ("\"" + Item.Str + "\"").Length);
+                                        int AbsoluteOffset = LineOffset + RelativeOffset;
+                                        DeFine.ActiveIDE.ScrollToLine(DeFine.ActiveIDE.Document.GetLineByOffset(AbsoluteOffset).LineNumber);
+                                        DeFine.ActiveIDE.Select(AbsoluteOffset, ("\"" + Item.Str + "\"").Length);
                                     });
                                 }
                             }

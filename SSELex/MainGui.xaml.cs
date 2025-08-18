@@ -407,7 +407,9 @@ namespace SSELex
 
         public void SetLog(string Str)
         {
-
+            this.Dispatcher.Invoke(new Action(() => {
+                CurrentLog.Text = "Log: " + Str;
+            }));
         }
 
         public void GetStatisticsR()
@@ -1397,7 +1399,7 @@ namespace SSELex
 
             LastSetKey = Key;
 
-            CurrentKey.Content = LastSetKey;
+            SetLog("Key:"+ LastSetKey);
 
             if (Key.Length > 0)
             {

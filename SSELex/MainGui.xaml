@@ -348,7 +348,7 @@
                         </Border>
                     </Grid>
 
-                    <Grid Name="ModTransView" Style="{DynamicResource FrameStyle}" Visibility="Visible">
+                    <Grid Name="ModTransView" Style="{DynamicResource FrameStyle}" Visibility="Collapsed">
                         <Grid Grid.Column="1">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="5"/>
@@ -739,13 +739,9 @@
                                             </Grid.ColumnDefinitions>
 
                                             <StackPanel Orientation="Horizontal" Grid.Column="0" Name="CurrentKeyBox">
-                                                <Label Style="{DynamicResource CaptionTextA}" Margin="5 0 0 0">
-                                                    Key:
-                                                </Label>
+                                                <TextBox Name="CurrentLog" IsTabStop="True" Style="{DynamicResource LogText}" Margin="5 0 0 0">
 
-                                                <Label Name="CurrentKey" Style="{DynamicResource CaptionTextA}" Margin="5 0 0 0">
-
-                                                </Label>
+                                                </TextBox>
                                             </StackPanel>
 
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1" Margin="0 0 5 0">
@@ -871,16 +867,17 @@
                         </Grid>
                     </Grid>
 
-                    <Grid Name="SettingView" Style="{DynamicResource FrameStyle}" Visibility="Collapsed">
+                    <Grid Name="SettingView" Style="{DynamicResource FrameStyle}" Visibility="Visible">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="5"/>
                                 <RowDefinition Height="45"/>
                                 <RowDefinition Height="1*"/>
+                                <RowDefinition Height="5"/>
                             </Grid.RowDefinitions>
                             
                             <Grid Grid.Row="1" Margin="5">
-                                <StackPanel Orientation="Horizontal">
+                                <StackPanel Orientation="Horizontal" Margin="5 0 5 0">
                                     <Border  Width="100" Style="{DynamicResource ModelSelected}" CornerRadius="5 0 0 5" Grid.Column="0">
                                         <Grid>
                                             <Label Style="{DynamicResource ModelFont}">
@@ -914,7 +911,7 @@
                                     <Border Width="100" Style="{DynamicResource ModelUnselected}" Grid.Column="1">
                                         <Grid>
                                             <Label Style="{DynamicResource ModelFont}">
-                                               UI Config
+                                                UI Config
                                             </Label>
                                             <Grid Visibility="Collapsed"  Style="{DynamicResource ModelSelectedBlock}">
                                             </Grid>
@@ -932,6 +929,215 @@
                                     </Border>
                                 </StackPanel>
                             </Grid>
+                            <Border Grid.Row="2" Margin="10" Background="#FF262626" CornerRadius="5" Name="PlatformConfigView">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 0 0 0" VerticalAlignment="Center">
+
+                                        <Label Foreground="White" FontWeight="Bold" FontSize="18">
+                                            APIKey Config
+                                        </Label>
+                                        <Label Foreground="#FFBDE0FF" Margin="0 5 0 5" HorizontalAlignment="Left" Cursor="Hand">
+                                            https://aistudio.google.com/apikey
+                                        </Label>
+
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 0 0 10">
+                                            <Label Foreground="White">
+                                                Gemini ApiKey:
+                                            </Label>
+
+                                            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White" Width="300">
+                                                <PasswordBox CaretBrush="White" Background="{x:Null}" BorderThickness="0" Foreground="White" VerticalContentAlignment="Center">
+                                                </PasswordBox>
+                                            </Border>
+
+                                            <Label Foreground="White" Margin="5 0 0 0">
+                                                Mode:
+                                            </Label>
+
+                                            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White"  Width="100" >
+                                                <TextBox CaretBrush="White" Background="{x:Null}" BorderThickness="0" Foreground="White" VerticalContentAlignment="Center">
+                                                </TextBox>
+                                            </Border>
+
+                                            <ComboBox IsTabStop="True" Margin="5 0 0 0" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Width="50" Height="30" Style="{StaticResource CustomComboBoxStyle}">
+                                            </ComboBox>
+                                        </StackPanel>
+
+                                        <Label Foreground="#FFBDE0FF" Margin="0 5 0 5" HorizontalAlignment="Left" Cursor="Hand">
+                                            https://platform.openai.com/api-keys
+                                        </Label>
+
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 0 0 10">
+                                            <Label Foreground="White">
+                                                ChatGpt ApiKey:
+                                            </Label>
+
+                                            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White" Width="300" >
+                                                <PasswordBox CaretBrush="White" Background="{x:Null}" BorderThickness="0" Foreground="White" VerticalContentAlignment="Center">
+                                                </PasswordBox>
+                                            </Border>
+
+                                            <Label Foreground="White" Margin="5 0 0 0">
+                                                Mode:
+                                            </Label>
+
+                                            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White" Width="100">
+                                                <TextBox CaretBrush="White" Background="{x:Null}" BorderThickness="0" Foreground="White" VerticalContentAlignment="Center">
+                                                </TextBox>
+                                            </Border>
+
+                                            <ComboBox IsTabStop="True" Margin="5 0 0 0" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Width="50" Height="30" Style="{StaticResource CustomComboBoxStyle}">
+                                            </ComboBox>
+                                        </StackPanel>
+
+                                        <Label Foreground="#FFBDE0FF" Margin="0 5 0 5" HorizontalAlignment="Left" Cursor="Hand">
+                                            https://dashboard.cohere.com/api-keys
+                                        </Label>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 0 0 10">
+                                            <Label Foreground="White">
+                                                Cohere ApiKey:
+                                            </Label>
+
+                                            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White" Width="300">
+                                                <PasswordBox CaretBrush="White" Background="{x:Null}" BorderThickness="0" Foreground="White" VerticalContentAlignment="Center">
+                                                </PasswordBox>
+                                            </Border>
+
+                                            <Label Foreground="White" Margin="5 0 0 0">
+                                                Mode:
+                                            </Label>
+
+                                            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White" Width="100">
+                                                <TextBox CaretBrush="White" Background="{x:Null}" BorderThickness="0" Foreground="White" VerticalContentAlignment="Center">
+                                                </TextBox>
+                                            </Border>
+
+                                            <ComboBox IsTabStop="True" Margin="5 0 0 0" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Width="50" Height="30" Style="{StaticResource CustomComboBoxStyle}">
+                                            </ComboBox>
+                                        </StackPanel>
+
+                                        <Label Foreground="#FFBDE0FF" Margin="0 5 0 5" HorizontalAlignment="Left" Cursor="Hand">
+                                            https://platform.deepseek.com/api_keys
+                                        </Label>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 0 0 10">
+                                            <Label Foreground="White">
+                                                DeepSeek ApiKey:
+                                            </Label>
+
+                                            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White" Width="300">
+                                                <PasswordBox CaretBrush="White" Background="{x:Null}" BorderThickness="0" Foreground="White" VerticalContentAlignment="Center">
+                                                </PasswordBox>
+                                            </Border>
+
+                                            <Label Foreground="White" Margin="5 0 0 0">
+                                                Mode:
+                                            </Label>
+
+                                            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White" Width="100">
+                                                <TextBox CaretBrush="White" Background="{x:Null}" BorderThickness="0" Foreground="White" VerticalContentAlignment="Center">
+                                                </TextBox>
+                                            </Border>
+
+                                            <ComboBox IsTabStop="True" Margin="5 0 0 0" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Width="50" Height="30" Style="{StaticResource CustomComboBoxStyle}">
+                                            </ComboBox>
+                                        </StackPanel>
+
+                                        <Label Foreground="#FFBDE0FF" Margin="0 5 0 5" HorizontalAlignment="Left" Cursor="Hand">
+                                            https://platform.baichuan-ai.com/docs/api
+                                        </Label>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 0 0 10">
+                                            <Label Foreground="White">
+                                                Baichuan ApiKey:
+                                            </Label>
+
+                                            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White" Width="300">
+                                                <PasswordBox CaretBrush="White" Background="{x:Null}" BorderThickness="0" Foreground="White" VerticalContentAlignment="Center">
+                                                </PasswordBox>
+                                            </Border>
+
+                                            <Label Foreground="White" Margin="5 0 0 0">
+                                                Mode:
+                                            </Label>
+
+                                            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White" Width="100">
+                                                <TextBox CaretBrush="White" Background="{x:Null}" BorderThickness="0" Foreground="White" VerticalContentAlignment="Center">
+                                                </TextBox>
+                                            </Border>
+
+                                            <ComboBox IsTabStop="True" Margin="5 0 0 0" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Width="50" Height="30" Style="{StaticResource CustomComboBoxStyle}">
+                                            </ComboBox>
+                                        </StackPanel>
+
+
+                                        <Label Foreground="#FFBDE0FF" Margin="0 5 0 5" HorizontalAlignment="Left" Cursor="Hand">
+                                            https://lmstudio.ai/
+                                        </Label>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 0 0 10">
+                                            <Label Foreground="White">
+                                                LocalAI(LM) Host:
+                                            </Label>
+
+                                            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White" Width="100">
+                                                <TextBox CaretBrush="White" Background="{x:Null}" BorderThickness="0" Foreground="White" VerticalContentAlignment="Center">
+                                                </TextBox>
+                                            </Border>
+
+                                            <Label Foreground="White" Margin="5 0 0 0">
+                                                Port:
+                                            </Label>
+
+                                            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White" Width="100">
+                                                <TextBox CaretBrush="White" Background="{x:Null}" BorderThickness="0" Foreground="White" VerticalContentAlignment="Center">
+                                                </TextBox>
+                                            </Border>
+
+                                            <Label Foreground="White" Margin="5 0 0 0">
+                                                Mode:
+                                            </Label>
+
+                                            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White" Width="100">
+                                                <TextBox CaretBrush="White" Background="{x:Null}" BorderThickness="0" Foreground="White" VerticalContentAlignment="Center">
+                                                </TextBox>
+                                            </Border>
+
+                                        </StackPanel>
+
+                                        <Label Foreground="#FFBDE0FF" Margin="0 5 0 5" HorizontalAlignment="Left" Cursor="Hand">
+                                            https://www.deepl.com/your-account/keys
+                                        </Label>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 0 0 10">
+                                            <Label Foreground="White">
+                                                DeepL ApiKey:
+                                            </Label>
+
+                                            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White" Width="300">
+                                                <PasswordBox CaretBrush="White" Background="{x:Null}" BorderThickness="0" Foreground="White" VerticalContentAlignment="Center">
+                                                </PasswordBox>
+                                            </Border>
+
+                                            <CheckBox Foreground="White" VerticalAlignment="Center" Margin="5 0 0 0">
+                                                It is a free DeepL key
+                                            </CheckBox>
+                                        </StackPanel>
+
+
+                                        <Label Foreground="#FFBDE0FF" Margin="0 5 0 5" HorizontalAlignment="Left" Cursor="Hand">
+                                            https://cloud.google.com/translate/docs
+                                        </Label>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 0 0 0">
+                                            <Label Foreground="White">
+                                                Google ApiKey:
+                                            </Label>
+
+                                            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White" Width="300">
+                                                <PasswordBox CaretBrush="White" Background="{x:Null}" BorderThickness="0" Foreground="White" VerticalContentAlignment="Center">
+                                                </PasswordBox>
+                                            </Border>
+                                        </StackPanel>
+
+                                    </StackPanel>
+                                </ScrollViewer>
+                            </Border>
                         </Grid>
                     </Grid>
                 </Grid>
