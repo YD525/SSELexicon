@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using Noggog;
 using PhoenixEngine.TranslateManage;
 using SSELex.ConvertManager;
 using SSELex.SkyrimModManager;
@@ -468,11 +469,18 @@ namespace SSELex.SkyrimManage
             {
                 if (DeFine.GlobalLocalSetting.ShowCode)
                 {
+                    double GetHeight = DeFine.WorkingWin.Height;
+                    double GetTop = DeFine.WorkingWin.Top;
+                    double GetLeft = DeFine.WorkingWin.Left;
+
                     DeFine.CurrentCodeView.Dispatcher.Invoke(new Action(() =>
                     {
+                        DeFine.CurrentCodeView.Height = GetHeight;
                         DeFine.CurrentCodeView.Show();
                         DeFine.ActiveIDE.Text = RichText;
                         DeFine.CurrentCodeView.ReSetFolding();
+                        DeFine.CurrentCodeView.Left = GetLeft - DeFine.CurrentCodeView.Width;
+                        DeFine.CurrentCodeView.Top = GetTop;
                     }));
                 }
             }

@@ -9,7 +9,7 @@
         Title="CodeView" Background="Transparent"
         WindowStyle="None"
         ResizeMode="CanResize"
-        AllowsTransparency="True" Height="750" Width="1200" Loaded="Window_Loaded" Closed="Window_Closed" Closing="Window_Closing" KeyDown="Window_KeyDown">
+        AllowsTransparency="True" Height="750" Width="800" Loaded="Window_Loaded" Closed="Window_Closed" Closing="Window_Closing" KeyDown="Window_KeyDown">
     
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="0" ResizeBorderThickness="5"/>
@@ -348,12 +348,12 @@
         <Style TargetType="ScrollViewer" BasedOn="{StaticResource for_scrollviewer}"/>
     </Window.Resources>
 
-    <Border MouseLeftButtonDown="WinHead_MouseLeftButtonDown" Background="#FF0B74D1" CornerRadius="5"  Name="MainBackGround" >
+    <Border MouseLeftButtonDown="WinHead_MouseLeftButtonDown" Style="{DynamicResource BorderWinBackground}" CornerRadius="5"  Name="MainBackGround" >
         <Border.Effect>
             <DropShadowEffect  BlurRadius="10" Direction="1" ShadowDepth="0.7" Color="#FF0B74D1" Opacity="0.8" />
         </Border.Effect>
         <Grid>
-            <Border Background="#FF0B74D1" CornerRadius="7" Panel.ZIndex="0" Name="Footer" Margin="0 45 0 0">
+            <Border CornerRadius="7" Panel.ZIndex="0" Name="Footer" Margin="0 45 0 0">
             </Border>
             <Grid Panel.ZIndex="1">
                 <Grid.RowDefinitions>
@@ -366,7 +366,7 @@
                         Code View
                     </Label>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Border Tag="Close" PreviewMouseDown="Close" CornerRadius="5"  Grid.Column="5" Height="25" Width="25"  Background="#FF0B74D1"  MouseEnter="RMouserEffectByEnter" MouseLeave="RMouserEffectByLeave" Cursor="Hand">
+                        <Border Style="{DynamicResource BlockButton}" Grid.Column="7" PreviewMouseDown="Close_PreviewMouseDown">
                             <ContentControl Style="{DynamicResource CloseIconStyle}" Grid.Column="3"/>
                         </Border>
                     </StackPanel>

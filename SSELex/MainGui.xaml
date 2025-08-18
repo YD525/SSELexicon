@@ -59,7 +59,7 @@
         
     </Window.Resources>
 
-    <Border Style="{DynamicResource BorderWinBackground}" Name="MainBackGround" Background="#FF282828">
+    <Border Style="{DynamicResource BorderWinBackground}" Name="MainBackGround">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
@@ -871,6 +871,69 @@
                         </Grid>
                     </Grid>
 
+                    <Grid Name="SettingView" Style="{DynamicResource FrameStyle}" Visibility="Collapsed">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="45"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+                            
+                            <Grid Grid.Row="1" Margin="5">
+                                <StackPanel Orientation="Horizontal">
+                                    <Border  Width="100" Style="{DynamicResource ModelSelected}" CornerRadius="5 0 0 5" Grid.Column="0">
+                                        <Grid>
+                                            <Label Style="{DynamicResource ModelFont}">
+                                                Platform Config
+                                            </Label>
+                                            <Grid Visibility="Visible" Style="{DynamicResource ModelSelectedBlock}">
+                                            </Grid>
+                                        </Grid>
+                                    </Border>
+
+                                    <Border Width="100" Style="{DynamicResource ModelUnselected}" Grid.Column="1">
+                                        <Grid>
+                                            <Label Style="{DynamicResource ModelFont}">
+                                                AI Config
+                                            </Label>
+                                            <Grid Visibility="Collapsed"  Style="{DynamicResource ModelSelectedBlock}">
+                                            </Grid>
+                                        </Grid>
+                                    </Border>
+
+                                    <Border Width="100" Style="{DynamicResource ModelUnselected}" Grid.Column="1">
+                                        <Grid>
+                                            <Label Style="{DynamicResource ModelFont}">
+                                                Game Config
+                                            </Label>
+                                            <Grid Visibility="Collapsed"  Style="{DynamicResource ModelSelectedBlock}">
+                                            </Grid>
+                                        </Grid>
+                                    </Border>
+
+                                    <Border Width="100" Style="{DynamicResource ModelUnselected}" Grid.Column="1">
+                                        <Grid>
+                                            <Label Style="{DynamicResource ModelFont}">
+                                               UI Config
+                                            </Label>
+                                            <Grid Visibility="Collapsed"  Style="{DynamicResource ModelSelectedBlock}">
+                                            </Grid>
+                                        </Grid>
+                                    </Border>
+
+                                    <Border Width="100" Style="{DynamicResource ModelUnselected}"  CornerRadius="0 5 5 0" Grid.Column="1">
+                                        <Grid>
+                                            <Label Style="{DynamicResource ModelFont}">
+                                                Engine Config
+                                            </Label>
+                                            <Grid Visibility="Collapsed"  Style="{DynamicResource ModelSelectedBlock}">
+                                            </Grid>
+                                        </Grid>
+                                    </Border>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </Grid>
                 </Grid>
                 
                 <Border  CornerRadius="0 0 8 8" Style="{DynamicResource Panel}">

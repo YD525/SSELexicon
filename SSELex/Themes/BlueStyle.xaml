@@ -22,7 +22,7 @@
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="CornerRadius" Value="9"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Setter Property="Background" Value="#FF0B74D1"/>
+        <Setter Property="Background" Value="#FF282828"/>
         <Setter Property="Border.Effect">
          <Setter.Value>
              <DropShadowEffect BlurRadius="5" Direction="1" ShadowDepth="0.7" Color="#FF22A5EF" Opacity="0"/>

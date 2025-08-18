@@ -1537,24 +1537,28 @@ namespace SSELex
                     {
                         ModTransView.Visibility = Visibility.Visible;
                         AboutView.Visibility = Visibility.Collapsed;
+                        SettingView.Visibility = Visibility.Collapsed;
                     }
                     break;
                 case "DashBoard":
                     {
                         ModTransView.Visibility = Visibility.Collapsed;
                         AboutView.Visibility = Visibility.Collapsed;
+                        SettingView.Visibility = Visibility.Collapsed;
                     }
                     break;
                 case "Settings":
                     {
                         ModTransView.Visibility = Visibility.Collapsed;
                         AboutView.Visibility = Visibility.Collapsed;
+                        SettingView.Visibility = Visibility.Visible;
                     }
                     break;
                 case "About":
                     {
                         AboutView.Visibility = Visibility.Visible;
                         ModTransView.Visibility = Visibility.Collapsed;
+                        SettingView.Visibility = Visibility.Collapsed;
                     }
                     break;
             }

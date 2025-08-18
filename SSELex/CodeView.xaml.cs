@@ -90,10 +90,7 @@ namespace SSELex
             }
         }
 
-        private void Close(object sender, MouseButtonEventArgs e)
-        {
-            this.Hide();
-        }
+     
 
         private void RMouserEffectByEnter(object sender, MouseEventArgs e)
         {
@@ -137,6 +134,11 @@ namespace SSELex
                 NSearchText.Owner = this;
                 NSearchText.Show();
             }
+        }
+
+        private void Close_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.Hide();
         }
     }
 
