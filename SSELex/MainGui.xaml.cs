@@ -20,6 +20,7 @@ using PhoenixEngine.EngineManagement;
 using PhoenixEngine.TranslateCore;
 using PhoenixEngine.TranslateManage;
 using PhoenixEngine.TranslateManagement;
+using SSELex.FileManagement;
 using SSELex.SkyrimManage;
 using SSELex.SkyrimModManager;
 using SSELex.TranslateManage;
@@ -208,7 +209,13 @@ namespace SSELex
                         string GetFilePath = OneFile[0];
                         if (File.Exists(GetFilePath))
                         {
-                            LoadAny(GetFilePath);
+                            new Thread(() => { 
+                            this.Dispatcher.BeginInvoke(new Action(() =>
+                            {
+                                LoadAny(GetFilePath);
+                            }), System.Windows.Threading.DispatcherPriority.Background);
+                            }).Start();
+
                             ModTransView_DragLeave(null, null);
                         }
                     }
@@ -527,14 +534,24 @@ namespace SSELex
             //Frist Check ToolPath
             if (!File.Exists(DeFine.GetFullPath(@"Tool\Champollion.exe")))
             {
-                string Msg = "Please manually install the dependent program\n[https://github.com/Orvid/Champollion]\nPlease download the release version and put it in this path\n[" + DeFine.GetFullPath(@"Tool\") + "]\n Path required\n[" + DeFine.GetFullPath(@"Tool\Champollion.exe") + "]";
-                MessageBoxExtend.Show(this, "HelpMsg", Msg, MsgAction.Yes, MsgType.Info);
+                string Msg = "Do you want to download the Champollion component?\nIf you click Yes, the program will automatically download and scan to ensure the file is safe and then install it in the Tool directory.";
 
-                if (MessageBoxExtend.Show(this, "HelpMsg", "Do you want to download the Champollion component now?\nIf you need.Click Yes to jump to the URL", MsgAction.YesNo, MsgType.Info) > 0)
+                if (MessageBoxExtend.Show(this, "HelpMsg", Msg, MsgAction.YesNo, MsgType.Info) > 0)
                 {
-                    Process.Start(new ProcessStartInfo("https://github.com/Orvid/Champollion/releases") { UseShellExecute = true });
+                    if (ToolDownloader.DownloadChampollion())
+                    {
+                        State = true;
+                    }
+                    else
+                    {
+                        MessageBoxExtend.Show(this, "HelpMsg", "Download failed. The source URL cannot be accessed or the file has changed.", MsgAction.Yes, MsgType.Info);
+                        State = false;
+                    }
                 }
-                State = false;
+                else
+                {
+                    State = false;
+                }
             }
 
             string CompilerPath = "";
@@ -752,8 +769,6 @@ namespace SSELex
                     LModName = LModName.Substring(0, LModName.LastIndexOf("."));
                 }
 
-                SetTittle(FModName);
-
                 if (!CheckDictionary())
                 {
                     RefreshDictionary.Opacity = 0.5;
@@ -763,12 +778,15 @@ namespace SSELex
                     RefreshDictionary.Opacity = 1;
                 }
 
+                CurrentTransType = 0;
+
                 YDDictionaryHelper.ReadDictionary(GetModName);
 
                 if (FilePath.ToLower().EndsWith(".pex"))
                 {
                     if (CheckINeed())
                     {
+                        SetTittle(FModName);
                         CurrentTransType = 3;
 
                         GlobalEspReader.Close();
@@ -801,6 +819,7 @@ namespace SSELex
                 }
                 if (FilePath.ToLower().EndsWith(".txt"))
                 {
+                    SetTittle(FModName);
                     CurrentTransType = 1;
 
                     GlobalEspReader.Close();
@@ -832,6 +851,7 @@ namespace SSELex
                 }
                 if (FilePath.ToLower().EndsWith(".esp") || FilePath.ToLower().EndsWith(".esm") || FilePath.ToLower().EndsWith(".esl"))
                 {
+                    SetTittle(FModName);
                     CurrentTransType = 2;
 
                     GlobalEspReader.Close();
@@ -859,6 +879,12 @@ namespace SSELex
 
                     IsValidFile = true;
                 }
+
+                if (CurrentTransType != 0)
+                {
+                    CheckLoadSaveButtonState();
+                }
+              
             }
         }
 
@@ -869,6 +895,8 @@ namespace SSELex
 
         public void CancelAny()
         {
+            GlobalTransCount = 0;
+
             Engine.ChangeModName(string.Empty);
 
             this.Dispatcher.Invoke(new Action(() =>
@@ -903,12 +931,14 @@ namespace SSELex
 
             new Thread(() =>
             {
-
                 Thread.Sleep(500);
+
                 this.Dispatcher.Invoke(new Action(() =>
                 {
                     TransViewList.Clear();
                 }));
+
+                GlobalTransCount = 0;
             }).Start();
         }
 
@@ -1010,6 +1040,11 @@ namespace SSELex
                 CancelTransEsp(null, null);
             }
 
+            CheckLoadSaveButtonState();
+        }
+
+        public void CheckLoadSaveButtonState()
+        {
             if (IsValidFile)
             {
                 if (LoadSaveState == 0)

@@ -291,5 +291,70 @@ namespace SSELex.UIManagement
                 }
             }
         }
+
+        public static Thread AutoSelectIDETrd = null;
+        private static CancellationTokenSource AutoCancelSelectIDETrd;
+        public static void CancelAutoSelect()
+        {
+            AutoCancelSelectIDETrd?.Cancel();
+        }
+
+        public static void SelectLineFromIDE(string GetKey)
+        {
+            try
+            {
+                if (AutoSelectIDETrd != null)
+                {
+                    CancelAutoSelect();
+                }
+            }
+            catch { }
+
+            AutoCancelSelectIDETrd = new CancellationTokenSource();
+            var Token = AutoCancelSelectIDETrd.Token;
+
+            AutoSelectIDETrd = new Thread(() =>
+            {
+                try
+                {
+                    string[] Params = GetKey.Split(',');
+                    if (Params.Length > 1)
+                    {
+                        Task.Delay(200, Token).Wait(Token);
+
+                        Token.ThrowIfCancellationRequested();
+
+                        foreach (var Item in DeFine.WorkingWin.GlobalPexReader.HeuristicEngine.DStringItems)
+                        {
+                            if (Item.Key.Contains(","))
+                            {
+                                if (Item.Key.Equals(Params[0] + "," + Params[1]))
+                                {
+                                    DeFine.ActiveIDE.Dispatcher.Invoke(() =>
+                                    {
+                                        int lineOffset = DeFine.ActiveIDE.Document.Text.IndexOf(Item.SourceLine);
+                                        if (lineOffset == -1) return;
+
+                                        int relativeOffset = Item.SourceLine.IndexOf("\"" + Item.Str + "\"");
+                                        if (relativeOffset == -1) return;
+
+                                        int absoluteOffset = lineOffset + relativeOffset;
+                                        DeFine.ActiveIDE.ScrollToLine(DeFine.ActiveIDE.Document.GetLineByOffset(absoluteOffset).LineNumber);
+                                        DeFine.ActiveIDE.Select(absoluteOffset, ("\"" + Item.Str + "\"").Length);
+                                    });
+                                }
+                            }
+
+                        }
+                    }
+                }
+                catch (OperationCanceledException)
+                {
+
+                }
+            });
+
+            AutoSelectIDETrd.Start();
+        }
     }
 }

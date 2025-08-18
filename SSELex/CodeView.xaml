@@ -117,7 +117,6 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Thumb}">
                         <Grid>
-                            <!--滚动条颜色-->
                             <Border Background="#646465" CornerRadius="3"/>
                         </Grid>
                     </ControlTemplate>
@@ -153,7 +152,6 @@
             </Setter>
         </Style>
 
-        <!--滚动条上下按钮-->
         <Style x:Key="VerticalScrollBarPageButton2" TargetType="{x:Type RepeatButton}">
             <Setter Property="OverridesDefaultStyle"  Value="true"/>
             <Setter Property="Background" Value="Transparent"/>
@@ -350,7 +348,7 @@
         <Style TargetType="ScrollViewer" BasedOn="{StaticResource for_scrollviewer}"/>
     </Window.Resources>
 
-    <Border MouseLeftButtonDown="WinHead_MouseLeftButtonDown"  Style="{DynamicResource DefWinBackground}" Name="MainBackGround" >
+    <Border MouseLeftButtonDown="WinHead_MouseLeftButtonDown" Background="#FF0B74D1" CornerRadius="5"  Name="MainBackGround" >
         <Border.Effect>
             <DropShadowEffect  BlurRadius="10" Direction="1" ShadowDepth="0.7" Color="#FF0B74D1" Opacity="0.8" />
         </Border.Effect>
@@ -359,7 +357,7 @@
             </Border>
             <Grid Panel.ZIndex="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="30"/>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
 
@@ -368,15 +366,13 @@
                         Code View
                     </Label>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-
                         <Border Tag="Close" PreviewMouseDown="Close" CornerRadius="5"  Grid.Column="5" Height="25" Width="25"  Background="#FF0B74D1"  MouseEnter="RMouserEffectByEnter" MouseLeave="RMouserEffectByLeave" Cursor="Hand">
-                            <Image Tag="Close" Name="TClose" Stretch="UniformToFill"   Source="/SSELex;component/Material/TClose.png"  Width="14" Height="13" Opacity="0.8" SnapsToDevicePixels="True"  RenderOptions.BitmapScalingMode="HighQuality">
-                            </Image>
+                            <ContentControl Style="{DynamicResource CloseIconStyle}" Grid.Column="3"/>
                         </Border>
                     </StackPanel>
                 </Grid>
 
-                <avalonEdit:TextEditor Margin="5" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" IsReadOnly="True" Name="TextEditor" FontFamily="Consolas" FontSize="16" ShowLineNumbers="True" Background="#FF282828" Foreground="White" Grid.Row="1" WordWrap="True" TextOptions.TextFormattingMode="Display">
+                <avalonEdit:TextEditor Margin="5 0 5 5" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" IsReadOnly="True" Name="TextEditor" FontFamily="Consolas" FontSize="16" ShowLineNumbers="True" Background="#FF282828" Foreground="White" Grid.Row="1" WordWrap="True" TextOptions.TextFormattingMode="Display">
                     
                 </avalonEdit:TextEditor>
             </Grid>

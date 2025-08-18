@@ -493,7 +493,7 @@
                                                 </Label>
                                             </Border>
 
-                                            <Border Name="CancelBtn" Style="{DynamicResource ButtonStyle}" Width="45" Opacity="0.5" PreviewMouseDown="CancelTransEsp">
+                                            <Border Name="CancelBtn" Style="{DynamicResource ButtonStyle}" Width="45" Opacity="0.5" PreviewMouseDown="CancelTransEsp" IsEnabled="False">
                                                 <ContentControl Style="{DynamicResource CancelPlayIconStyle}" Panel.ZIndex="1"/>
                                             </Border>
                                         </StackPanel>

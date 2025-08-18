@@ -44,7 +44,7 @@ namespace SSELex
 
         public static MainGui WorkingWin = null;
         public static DashBoardView CurrentDashBoardView = null;
-        public static CodeView CurrentCodeView = null;
+        public static CodeView CurrentCodeView = new CodeView();
         public static ReplaceWin CurrentReplaceView = new ReplaceWin();
         public static TextEditor ActiveIDE = null;
         public static LocalConfig LocalConfigView = null;

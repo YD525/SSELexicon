@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using PhoenixEngine.TranslateManage;
 using SSELex.ConvertManager;
 using SSELex.SkyrimModManager;
@@ -465,11 +466,15 @@ namespace SSELex.SkyrimManage
 
             if (DeFine.CurrentCodeView != null)
             {
-                DeFine.CurrentCodeView.Dispatcher.Invoke(new Action(() =>
+                if (DeFine.GlobalLocalSetting.ShowCode)
                 {
-                    DeFine.ActiveIDE.Text = RichText;
-                    DeFine.CurrentCodeView.ReSetFolding();
-                }));
+                    DeFine.CurrentCodeView.Dispatcher.Invoke(new Action(() =>
+                    {
+                        DeFine.CurrentCodeView.Show();
+                        DeFine.ActiveIDE.Text = RichText;
+                        DeFine.CurrentCodeView.ReSetFolding();
+                    }));
+                }
             }
 
             HeuristicEngine.AnalyzeCodeLine(this.CodeLines);
@@ -613,7 +618,11 @@ namespace SSELex.SkyrimManage
                                                 }
                                                 if (CheckFunc > 0)
                                                 {
-                                                    Lines[ir] = Lines[ir].Replace("\"" + GetKey + "\"", "\"" + GetLinkValue.Value + "\"");
+                                                    int Count = Regex.Matches(Lines[ir], Regex.Escape("\"" + GetKey + "\"")).Count;
+                                                    if (Count < 2)
+                                                    {
+                                                        Lines[ir] = Lines[ir].Replace("\"" + GetKey + "\"", "\"" + GetLinkValue.Value + "\"");
+                                                    }
                                                 }
                                             }
                                         }

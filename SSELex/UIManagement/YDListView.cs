@@ -137,7 +137,13 @@ public class YDListView
             if (UPDate)
             {
                 GetTranslated.Focus();
-                DeFine.WorkingWin.SetSelectFromAndToText(RowStyleWin.GetKey(MainGrid));
+                string GetKey = RowStyleWin.GetKey(MainGrid);
+                DeFine.WorkingWin.SetSelectFromAndToText(GetKey);
+
+                if (DeFine.GlobalLocalSetting.ShowCode && DeFine.WorkingWin.CurrentTransType == 3)
+                {
+                    RowStyleWin.SelectLineFromIDE(GetKey);
+                }
             }
 
             MainBorder.BorderBrush = new SolidColorBrush(Color.FromRgb(10, 97, 175));
