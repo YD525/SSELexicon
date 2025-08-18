@@ -9,11 +9,8 @@ using System.Windows;
 using static SSELex.SkyrimManage.EspReader;
 using PhoenixEngine.TranslateCore;
 using PhoenixEngine.EngineManagement;
-using SSELex.SQLManager;
-using PhoenixEngine.DataBaseManagement;
 using SSELex.UIManagement;
-using Microsoft.VisualBasic.ApplicationServices;
-using SSELex.TranslateManagement;
+using SSELex.FileManagement;
 
 namespace SSELex
 {

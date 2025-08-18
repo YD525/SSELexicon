@@ -1,21 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Net.Http;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 using System.IO.Compression;
 using PhoenixEngine.EngineManagement;
 using System.Security.Cryptography;
 using SSELex.SkyrimModManager;
-using Cohere;
-using System.Diagnostics;
 using System.Windows;
-using OneOf.Types;
 
-namespace SSELex.TranslateManagement
+namespace SSELex.FileManagement
 {
     public class ToolDownloader
     {
