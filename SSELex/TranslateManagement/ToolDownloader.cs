@@ -15,7 +15,8 @@ namespace SSELex.TranslateManagement
 {
     public class ToolDownloader
     {
-        public static string ChampollionMd5Sign = "";
+        public static string ChampollionMd5Sign = "bab15b1f4c45b41fbb024bd61087dab6";
+        public static string PapyrusAssemblerMD5Sign = "55a426bda1af9101ad5359f276805ab6";
         public static string GetMD5(byte[] Data)
         {
             using (var Md5 = MD5.Create())
@@ -68,7 +69,7 @@ namespace SSELex.TranslateManagement
         }
 
 
-        public static void DownloadChampollion()
+        public static bool DownloadChampollion()
         {
             WebProxy SetProxy = null;
 
@@ -90,19 +91,45 @@ namespace SSELex.TranslateManagement
             {
                 byte[] ReadFileData = DataHelper.GetBytesByFilePath(SetFilePath);
 
+                string CurrentMD5 = GetMD5(ReadFileData);
+
                 // Verify the downloaded file's MD5 signature to ensure its integrity and authenticity.
                 // Purpose: Protect users from potentially malicious files if the remote repository 
                 // (e.g., GitHub) updates or tampers with the file.
-                if (GetMD5(ReadFileData).Equals(ChampollionMd5Sign))
-                { 
-                
+                if (CurrentMD5.Equals(ChampollionMd5Sign))
+                {
+                    return true;
                 }
                 else
                 {
                     //Deleting files from unknown sources
-                    File.Delete(SetFilePath);
+                    foreach (var GetFile in DataHelper.GetAllFile(DeFine.GetFullPath(@"Tool\"),new List<string>() { ".exe" }))
+                    {
+                        if (GetFile.FileName != "PapyrusAssembler.exe")
+                        {
+                            if (File.Exists(GetFile.FilePath))
+                            {
+                                File.Delete(GetFile.FilePath);
+                            }
+                        }
+                        else
+                        { 
+                            string SetPapyrusAssembler  = GetFile.FilePath;
+                            string GetPapyrusAssemblerMD5 = GetMD5(DataHelper.GetBytesByFilePath(SetPapyrusAssembler));
+
+                            if (!GetPapyrusAssemblerMD5.Equals(PapyrusAssemblerMD5Sign))
+                            {
+                                if (File.Exists(GetFile.FilePath))
+                                {
+                                    File.Delete(GetFile.FilePath);
+                                }
+                            }
+                        }
+                    }
                 }
             }
+
+            return false;
         }
     }
 }

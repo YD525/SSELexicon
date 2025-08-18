@@ -23,6 +23,7 @@ using PhoenixEngine.TranslateManagement;
 using SSELex.SkyrimManage;
 using SSELex.SkyrimModManager;
 using SSELex.TranslateManage;
+using SSELex.TranslateManagement;
 using SSELex.UIManage;
 using SSELex.UIManagement;
 using static PhoenixEngine.SSELexiconBridge.NativeBridge;
@@ -101,6 +102,7 @@ namespace SSELex
         private ScanAnimator? ScanAnimator = null;
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            ToolDownloader.DownloadChampollion();
             DeFine.Init(this);
 
             SetSelectedNav("TransHub");
