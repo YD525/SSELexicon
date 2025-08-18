@@ -143,7 +143,7 @@ namespace SSELex
 
         public static void Init(MainGui Work)
         {
-            if (!ToolDownloader.SCanToolPath())
+            if (ToolDownloader.SCanToolPath() == null)
             {
                 CloseAny();
             }

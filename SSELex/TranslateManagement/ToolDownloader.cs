@@ -13,6 +13,7 @@ using SSELex.SkyrimModManager;
 using Cohere;
 using System.Diagnostics;
 using System.Windows;
+using OneOf.Types;
 
 namespace SSELex.TranslateManagement
 {
@@ -51,14 +52,19 @@ namespace SSELex.TranslateManagement
                 }
 
                 using (var HttpClient = new HttpClient(Handler))
-                using (var Response = HttpClient.GetAsync(Url).GetAwaiter().GetResult())
                 {
-                    Response.EnsureSuccessStatusCode();
-                    using (var FS = new FileStream(TempFile, FileMode.Create, FileAccess.Write, FileShare.None))
+                    HttpClient.Timeout = TimeSpan.FromSeconds(20);
+
+                    using (var Response = HttpClient.GetAsync(Url).GetAwaiter().GetResult())
                     {
-                        Response.Content.CopyToAsync(FS).GetAwaiter().GetResult();
+                        Response.EnsureSuccessStatusCode();
+                        using (var FS = new FileStream(TempFile, FileMode.Create, FileAccess.Write, FileShare.None))
+                        {
+                            Response.Content.CopyToAsync(FS).GetAwaiter().GetResult();
+                        }
                     }
                 }
+               
 
                 if (!Directory.Exists(DestinationFolder))
                     Directory.CreateDirectory(DestinationFolder);
@@ -72,7 +78,7 @@ namespace SSELex.TranslateManagement
             }
         }
 
-        public static bool SCanToolPath()
+        public static bool? SCanToolPath()
         {
             //Deleting files from unknown sources
             //\SSE Lexicon\Tool
@@ -84,12 +90,14 @@ namespace SSELex.TranslateManagement
                         "PapyrusAssembler.exe","Champollion.exe",
                         "PCompiler.dll", "ScriptCompile.bat", "StringTemplate.dll", "TESV_Papyrus_Flags.flg" };
 
+            int OtherFileCount = 0;
+
             foreach (var GetFile in DataHelper.GetAllFile(DeFine.GetFullPath(@"Tool\")))
             {
-                if (!WhiteList.Contains(GetFile.FileName)&& (GetFile.FileName.ToLower().EndsWith(".bat") || GetFile.FileName.ToLower().EndsWith(".exe")))
+                if (!WhiteList.Contains(GetFile.FileName))
                 {
-                    MessageBox.Show("The tool directory cannot be recognized. Please delete the installation directory and download the program again.");
-                    return false;
+                    MessageBox.Show("Unknown file:" + GetFile.FilePath);
+                    OtherFileCount++;
                 }
                 else
                 if (GetFile.FileName.Equals("PapyrusAssembler.exe"))
@@ -104,7 +112,8 @@ namespace SSELex.TranslateManagement
                             File.Delete(GetFile.FilePath);
                         }
 
-                        return false;
+                        MessageBox.Show("The tool directory cannot be recognized. Please delete the installation directory and download the program again.");
+                        return null;
                     }
                 }
                 else
@@ -120,6 +129,7 @@ namespace SSELex.TranslateManagement
                             File.Delete(GetFile.FilePath);
                         }
 
+                        MessageBox.Show("Champollion signature verification failed.");
                         return false;
                     }
                 }
@@ -136,18 +146,26 @@ namespace SSELex.TranslateManagement
                             File.Delete(GetFile.FilePath);
                         }
 
-                        return false;
+                        MessageBox.Show("The tool directory cannot be recognized. Please delete the installation directory and download the program again.");
+                        return null;
                     }
                 }
             }
 
-            return true;
+            if (OtherFileCount == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
 
         public static bool DownloadChampollion()
         {
-            WebProxy SetProxy = null;
+            WebProxy? SetProxy = null;
 
             if (EngineConfig.ProxyIP.Trim().Length > 0)
             {
@@ -174,11 +192,10 @@ namespace SSELex.TranslateManagement
                 // (e.g., GitHub) updates or tampers with the file.
                 if (CurrentMD5.Equals(ChampollionMd5Sign))
                 {
-                    return true;
-                }
-                else
-                {
-                    SCanToolPath();
+                    if (SCanToolPath() == true)
+                    {
+                        return true;
+                    }
                 }
             }
 
