@@ -31,7 +31,7 @@ namespace SSELex.FileManagement
 
         //https://github.com/Orvid/Champollion/releases/download/v1.3.2/Champollion.v1.3.2.zip
 
-        public static void DownloadAndExtract(string Url, string DestinationFolder, IWebProxy? Proxy = null)
+        private static void DownloadAndExtract(string Url, string DestinationFolder, IWebProxy? Proxy = null)
         {
             string TempFile = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + ".zip");
 
