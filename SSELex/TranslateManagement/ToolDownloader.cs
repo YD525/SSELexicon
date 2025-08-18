@@ -10,13 +10,17 @@ using System.IO.Compression;
 using PhoenixEngine.EngineManagement;
 using System.Security.Cryptography;
 using SSELex.SkyrimModManager;
+using Cohere;
+using System.Diagnostics;
+using System.Windows;
 
 namespace SSELex.TranslateManagement
 {
     public class ToolDownloader
     {
-        public static string ChampollionMd5Sign = "bab15b1f4c45b41fbb024bd61087dab6";
+        public static string ChampollionMd5Sign = "bab15b1f4c45b41fbb024bd61087dab6";//v1.3.2
         public static string PapyrusAssemblerMD5Sign = "55a426bda1af9101ad5359f276805ab6";
+        public static string ScriptCompileMD5Sign = "9774f28bb11963ca3fb06797bbbc33ec";
         public static string GetMD5(byte[] Data)
         {
             using (var Md5 = MD5.Create())
@@ -68,6 +72,78 @@ namespace SSELex.TranslateManagement
             }
         }
 
+        public static bool SCanToolPath()
+        {
+            //Deleting files from unknown sources
+            //\SSE Lexicon\Tool
+
+            // Only delete .exe files in the Tool folder that are NOT in the whitelist.
+            // This ensures that any other programs or user-added executables in the Tool folder remain untouched.
+
+            List<string> WhiteList = new List<string>() { "antlr.runtime.dll", "Antlr3.Runtime.dll", "Antlr3.Utility.dll",
+                        "PapyrusAssembler.exe","Champollion.exe",
+                        "PCompiler.dll", "ScriptCompile.bat", "StringTemplate.dll", "TESV_Papyrus_Flags.flg" };
+
+            foreach (var GetFile in DataHelper.GetAllFile(DeFine.GetFullPath(@"Tool\")))
+            {
+                if (!WhiteList.Contains(GetFile.FileName)&& (GetFile.FileName.ToLower().EndsWith(".bat") || GetFile.FileName.ToLower().EndsWith(".exe")))
+                {
+                    MessageBox.Show("The tool directory cannot be recognized. Please delete the installation directory and download the program again.");
+                    return false;
+                }
+                else
+                if (GetFile.FileName.Equals("PapyrusAssembler.exe"))
+                {
+                    string SetPapyrusAssembler = GetFile.FilePath;
+                    string GetPapyrusAssemblerMD5 = GetMD5(DataHelper.GetBytesByFilePath(SetPapyrusAssembler));
+
+                    if (!GetPapyrusAssemblerMD5.Equals(PapyrusAssemblerMD5Sign))
+                    {
+                        if (File.Exists(GetFile.FilePath))
+                        {
+                            File.Delete(GetFile.FilePath);
+                        }
+
+                        return false;
+                    }
+                }
+                else
+                if (GetFile.FileName.Equals("Champollion.exe"))
+                {
+                    string SetChampollion = GetFile.FilePath;
+                    string GetChampollionMD5 = GetMD5(DataHelper.GetBytesByFilePath(SetChampollion));
+
+                    if (!GetChampollionMD5.Equals(ChampollionMd5Sign))
+                    {
+                        if (File.Exists(GetFile.FilePath))
+                        {
+                            File.Delete(GetFile.FilePath);
+                        }
+
+                        return false;
+                    }
+                }
+                else
+                if (GetFile.FileName.Equals("ScriptCompile.bat"))
+                {
+                    string SetScriptCompile = GetFile.FilePath;
+                    string GetScriptCompileMD5 = GetMD5(DataHelper.GetBytesByFilePath(SetScriptCompile));
+
+                    if (!GetScriptCompileMD5.Equals(ScriptCompileMD5Sign))
+                    {
+                        if (File.Exists(GetFile.FilePath))
+                        {
+                            File.Delete(GetFile.FilePath);
+                        }
+
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
 
         public static bool DownloadChampollion()
         {
@@ -102,30 +178,7 @@ namespace SSELex.TranslateManagement
                 }
                 else
                 {
-                    //Deleting files from unknown sources
-                    foreach (var GetFile in DataHelper.GetAllFile(DeFine.GetFullPath(@"Tool\"),new List<string>() { ".exe" }))
-                    {
-                        if (GetFile.FileName != "PapyrusAssembler.exe")
-                        {
-                            if (File.Exists(GetFile.FilePath))
-                            {
-                                File.Delete(GetFile.FilePath);
-                            }
-                        }
-                        else
-                        { 
-                            string SetPapyrusAssembler  = GetFile.FilePath;
-                            string GetPapyrusAssemblerMD5 = GetMD5(DataHelper.GetBytesByFilePath(SetPapyrusAssembler));
-
-                            if (!GetPapyrusAssemblerMD5.Equals(PapyrusAssemblerMD5Sign))
-                            {
-                                if (File.Exists(GetFile.FilePath))
-                                {
-                                    File.Delete(GetFile.FilePath);
-                                }
-                            }
-                        }
-                    }
+                    SCanToolPath();
                 }
             }
 

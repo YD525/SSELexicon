@@ -13,6 +13,7 @@ using SSELex.SQLManager;
 using PhoenixEngine.DataBaseManagement;
 using SSELex.UIManagement;
 using Microsoft.VisualBasic.ApplicationServices;
+using SSELex.TranslateManagement;
 
 namespace SSELex
 {
@@ -142,6 +143,11 @@ namespace SSELex
 
         public static void Init(MainGui Work)
         {
+            if (!ToolDownloader.SCanToolPath())
+            {
+                CloseAny();
+            }
+
             CurrentReplaceView.Owner = Work;
             CurrentReplaceView.Hide();
             RowStyleWin.Hide();

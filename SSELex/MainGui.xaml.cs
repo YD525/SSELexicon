@@ -102,7 +102,6 @@ namespace SSELex
         private ScanAnimator? ScanAnimator = null;
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            ToolDownloader.DownloadChampollion();
             DeFine.Init(this);
 
             SetSelectedNav("TransHub");
