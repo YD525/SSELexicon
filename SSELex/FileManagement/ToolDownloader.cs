@@ -12,9 +12,9 @@ namespace SSELex.FileManagement
 {
     public class ToolDownloader
     {
-        public static string ChampollionMd5Sign = "bab15b1f4c45b41fbb024bd61087dab6";//v1.3.2
-        public static string PapyrusAssemblerMD5Sign = "55a426bda1af9101ad5359f276805ab6";
-        public static string ScriptCompileMD5Sign = "9774f28bb11963ca3fb06797bbbc33ec";
+        private const string ChampollionMd5Sign = "bab15b1f4c45b41fbb024bd61087dab6";//v1.3.2
+        private const string PapyrusAssemblerMD5Sign = "55a426bda1af9101ad5359f276805ab6";
+        private const string ScriptCompileMD5Sign = "9774f28bb11963ca3fb06797bbbc33ec";
         public static string GetMD5(byte[] Data)
         {
             using (var Md5 = MD5.Create())
