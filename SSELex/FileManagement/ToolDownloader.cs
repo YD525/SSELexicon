@@ -100,12 +100,13 @@ namespace SSELex.FileManagement
 
                     if (!GetPapyrusAssemblerMD5.Equals(PapyrusAssemblerMD5Sign))
                     {
-                        if (File.Exists(GetFile.FilePath))
-                        {
-                            File.Delete(GetFile.FilePath);
-                        }
+                        //if (File.Exists(GetFile.FilePath))
+                        //{
+                        //    File.Delete(GetFile.FilePath);
+                        //}
 
                         MessageBox.Show("The tool directory cannot be recognized. Please delete the installation directory and download the program again.");
+                        DeFine.CloseAny();
                         return null;
                     }
                 }
@@ -117,9 +118,12 @@ namespace SSELex.FileManagement
 
                     if (!GetChampollionMD5.Equals(ChampollionMd5Sign))
                     {
-                        if (File.Exists(GetFile.FilePath))
+                        if (GetFile.FilePath.Equals(DeFine.GetFullPath(@"Tool\Champollion.exe")))
                         {
-                            File.Delete(GetFile.FilePath);
+                            if (File.Exists(GetFile.FilePath))
+                            {
+                                File.Delete(GetFile.FilePath);
+                            }
                         }
 
                         MessageBox.Show("Champollion signature verification failed.");
@@ -134,12 +138,13 @@ namespace SSELex.FileManagement
 
                     if (!GetScriptCompileMD5.Equals(ScriptCompileMD5Sign))
                     {
-                        if (File.Exists(GetFile.FilePath))
-                        {
-                            File.Delete(GetFile.FilePath);
-                        }
+                        //if (File.Exists(GetFile.FilePath))
+                        //{
+                        //    File.Delete(GetFile.FilePath);
+                        //}
 
                         MessageBox.Show("The tool directory cannot be recognized. Please delete the installation directory and download the program again.");
+                        DeFine.CloseAny();
                         return null;
                     }
                 }
