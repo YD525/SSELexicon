@@ -12,6 +12,7 @@ namespace SSELex.FileManagement
 {
     public class ToolDownloader
     {
+        //Verified secure signature
         private const string ChampollionMd5Sign = "bab15b1f4c45b41fbb024bd61087dab6";//v1.3.2
         private const string PapyrusAssemblerMD5Sign = "55a426bda1af9101ad5359f276805ab6";
         private const string ScriptCompileMD5Sign = "9774f28bb11963ca3fb06797bbbc33ec";
@@ -28,9 +29,6 @@ namespace SSELex.FileManagement
                 return Sb.ToString();
             }
         }
-
-        //https://github.com/Orvid/Champollion/releases/download/v1.3.2/Champollion.v1.3.2.zip
-
         private static void DownloadAndExtract(string Url, string DestinationFolder, IWebProxy? Proxy = null)
         {
             string TempFile = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + ".zip");
@@ -73,11 +71,9 @@ namespace SSELex.FileManagement
 
         public static bool? SCanToolPath()
         {
-            //Deleting files from unknown sources
-            //\SSE Lexicon\Tool
-
-            // Only delete .exe files in the Tool folder that are NOT in the whitelist.
-            // This ensures that any other programs or user-added executables in the Tool folder remain untouched.
+            // Traverse all files in the Tool folder
+            // For files not in the whitelist, notify the user.
+            // For critical tools, if their signatures have changed, prompt the user to reinstall the program.
 
             List<string> WhiteList = new List<string>() { "antlr.runtime.dll", "Antlr3.Runtime.dll", "Antlr3.Utility.dll",
                         "PapyrusAssembler.exe","Champollion.exe",
@@ -160,7 +156,7 @@ namespace SSELex.FileManagement
             }
         }
 
-
+        //Download and scan the Champollion component to ensure safety
         public static bool DownloadChampollion()
         {
             WebProxy? SetProxy = null;
