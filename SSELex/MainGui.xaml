@@ -702,14 +702,14 @@
 
                                                 <Border Name="ShowHistoryButton" Style="{DynamicResource LiteButton}" PreviewMouseDown="ShowHistorys">
                                                     <Label Name="HistoryButtonFont" Style="{DynamicResource LiteButtonFont}" Foreground="White">
-                                                        History
+                                                        History↓
                                                     </Label>
                                                 </Border>
 
                                             </StackPanel>
 
 
-                                            <Grid  Grid.Row="1" Panel.ZIndex="999" Visibility="Collapsed"  Name="HistoryLayer">
+                                            <Grid Grid.Row="1" Panel.ZIndex="999" Visibility="Collapsed" Name="HistoryLayer">
                                                 <Border Style="{DynamicResource TopLayerBorder}">
                                                     <ListView Name="HistoryList" Grid.Row="0" Margin="0,5,0,5" ItemContainerStyle="{StaticResource ListViewItemStyle}" SelectionChanged="HistoryList_SelectionChanged">
                                                         <ListView.View>

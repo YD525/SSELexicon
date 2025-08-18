@@ -58,6 +58,7 @@ public class FakeGrid
     public void SyncData()
     {
         var QueryResult = TranslatorBridge.QueryTransData(this.Key, this.SourceText);
+
         if (QueryResult != null)
         {
             this.TransText = QueryResult.TransText;

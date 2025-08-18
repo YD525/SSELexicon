@@ -167,47 +167,10 @@ namespace SSELex.TranslateManage
                 DeFine.WorkingWin.TransViewList.MainCanvas.Visibility = System.Windows.Visibility.Visible;
             }));
         }
-
-        public static int ReplaceAllLine(string Key, string Value)
-        {
-            int ReplaceCount = 0;
-            for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
-            {
-                FakeGrid GetFakeGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
-
-                string GetKey = ConvertHelper.ObjToStr(GetFakeGrid.Key);
-                var TargetText = GetFakeGrid.TransText;
-                if (TargetText.Trim().Length > 0)
-                {
-                    TargetText = TargetText.Replace(Key, Value);
-                    Translator.TransData[GetKey] = TargetText;
-                    DeFine.WorkingWin.TransViewList.RealLines[i].TransText = TargetText;
-
-                    ReplaceCount++;
-                }
-            }
-
-            return ReplaceCount;
-        }
-
+      
         public static bool ClearCloudCache(string ModName)
         {
             return CloudDBCache.ClearCloudCache(ModName);
-        }
-
-        public static void TestAll()
-        {
-            for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
-            {
-                FakeGrid GetFakeGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
-                string GetKey = GetFakeGrid.Key;
-                Translator.TransData[GetKey] = i.ToString();
-            }
-
-            DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
-            {
-                DeFine.WorkingWin.ProcessBar.Width = 0;
-            }));
         }
     }
 

@@ -47,6 +47,7 @@ namespace SSELex
         public static MainGui WorkingWin = null;
         public static DashBoardView CurrentDashBoardView = null;
         public static CodeView CurrentCodeView = null;
+        public static ReplaceWin CurrentReplaceView = new ReplaceWin();
         public static TextEditor ActiveIDE = null;
         public static LocalConfig LocalConfigView = null;
         public static RowStyleWin RowStyleWin = new RowStyleWin();
@@ -141,7 +142,10 @@ namespace SSELex
 
         public static void Init(MainGui Work)
         {
+            CurrentReplaceView.Owner = Work;
+            CurrentReplaceView.Hide();
             RowStyleWin.Hide();
+
             MakeReady();
             GlobalLocalSetting.ReadConfig();
             string GetFilePath = GetFullPath(@"\System.db");

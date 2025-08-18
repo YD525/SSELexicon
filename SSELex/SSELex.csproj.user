@@ -28,6 +28,9 @@
     <Compile Update="OnlyValueTooltip.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="ReplaceWin.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="SearchText.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

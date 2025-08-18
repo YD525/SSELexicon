@@ -2066,7 +2066,7 @@ namespace SSELex
 
         private void ReplaceStr(object sender, MouseButtonEventArgs e)
         {
-
+            DeFine.CurrentReplaceView.Show();
         }
 
         public bool CanAutoApply = false;
@@ -2081,7 +2081,9 @@ namespace SSELex
             {
                 ChangeTimeCol.Width = 100;
                 IsCloudCol.Width = 50;
-                TranslatedCol.Width = HistoryLayer.ActualWidth - 150;
+                double Width = HistoryLayer.ActualWidth - 150;
+                if (Width < 0) Width = 300;
+                TranslatedCol.Width = Width;
             }
         }
 
@@ -2114,14 +2116,14 @@ namespace SSELex
                 HistoryLayer.Visibility = Visibility.Visible;
 
                 AutoSizeHistoryList();
-                HistoryButtonFont.FontWeight = FontWeights.Bold;
+                HistoryButtonFont.Content = "History↑";
 
                 AutoLoadHistoryList();
             }
             else
             {
                 HistoryLayer.Visibility = Visibility.Collapsed;
-                HistoryButtonFont.FontWeight = FontWeights.Normal;
+                HistoryButtonFont.Content = "History↓";
             }
         }
 
@@ -2129,8 +2131,12 @@ namespace SSELex
         {
             foreach (var GetItem in HistoryList.SelectedItems)
             {
-                string Translated = ConvertHelper.ObjToStr(ConvertHelper.ObjToStr(HistoryList.SelectedItem.GetType().GetProperty("Translated").GetValue(GetItem, null)));
-                ToStr.Text = Translated;
+                var GetCol = HistoryList.SelectedItem.GetType().GetProperty("Translated");
+                if (GetCol != null)
+                {
+                    string Translated = ConvertHelper.ObjToStr(ConvertHelper.ObjToStr(GetCol.GetValue(GetItem, null)));
+                    ToStr.Text = Translated;
+                }
             }
         }
     }
