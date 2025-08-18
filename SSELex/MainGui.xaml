@@ -10,6 +10,15 @@
         Title="SSELexicon"  Height="850" Width="1000" Loaded="Window_Loaded" Style="{DynamicResource DefWin}" PreviewKeyDown="Window_PreviewKeyDown" WindowStartupLocation="CenterScreen" AllowDrop="True" PreviewDragEnter="ModTransView_DragEnter" PreviewDrop="ModTransView_Drop"  PreviewDragLeave="ModTransView_DragLeave" Closing="Window_Closing" SizeChanged="Window_SizeChanged">
 
     <Window.Resources>
+        
+        <Style x:Key="ListViewItemStyle" TargetType="{x:Type ListViewItem}">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter  Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="13.5"/>
+
+            <Setter Property="Foreground"  Value="Black"/>
+        </Style>
+        
         <Storyboard x:Key="XTGlowLoop">
             <DoubleAnimation
             Storyboard.TargetName="LinearGradientBrushTranslate"
@@ -691,9 +700,28 @@
                                                     </Label>
                                                 </Border>
 
+                                                <Border Name="ShowHistoryButton" Style="{DynamicResource LiteButton}" PreviewMouseDown="ShowHistorys">
+                                                    <Label Name="HistoryButtonFont" Style="{DynamicResource LiteButtonFont}" Foreground="White">
+                                                        History
+                                                    </Label>
+                                                </Border>
+
                                             </StackPanel>
 
 
+                                            <Grid  Grid.Row="1" Panel.ZIndex="999" Visibility="Collapsed"  Name="HistoryLayer">
+                                                <Border Style="{DynamicResource TopLayerBorder}">
+                                                    <ListView Name="HistoryList" Grid.Row="0" Margin="0,5,0,5" ItemContainerStyle="{StaticResource ListViewItemStyle}" SelectionChanged="HistoryList_SelectionChanged">
+                                                        <ListView.View>
+                                                            <GridView>
+                                                                <GridViewColumn Header="ChangeTime" Width="100"   DisplayMemberBinding="{Binding ChangeTime}" x:Name="ChangeTimeCol"/>
+                                                                <GridViewColumn Header="IsCloud" Width="100"   DisplayMemberBinding="{Binding IsCloud}" x:Name="IsCloudCol"/>
+                                                                <GridViewColumn Header="Translated" Width="360"   DisplayMemberBinding="{Binding Translated}" x:Name="TranslatedCol"/>
+                                                            </GridView>
+                                                        </ListView.View>
+                                                    </ListView>
+                                                </Border>
+                                            </Grid>
                                             <Border Style="{DynamicResource IDEBorder}" Grid.Row="1">
                                                 <avalonEdit:TextEditor MouseEnter="ToStr_MouseEnter" Margin="5" Name="ToStr" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" FontFamily="Consolas" FontSize="16" ShowLineNumbers="True" Background="#FF202020" Foreground="White" WordWrap="True" TextOptions.TextFormattingMode="Display" TextChanged="ToStr_TextChanged">
 

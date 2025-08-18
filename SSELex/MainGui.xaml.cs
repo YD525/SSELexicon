@@ -8,8 +8,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
+using DynamicData;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
+using Loqui.Translators;
 using Mutagen.Bethesda.Plugins.Masters.DI;
 using NexusMods.Paths.Trees.Traits;
 using PhoenixEngine.ConvertManager;
@@ -229,6 +231,8 @@ namespace SSELex
                     ReloadData(true);
                 }
             }
+
+            AutoSizeHistoryList();
         }
 
         private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -1398,6 +1402,8 @@ namespace SSELex
                             {
                                 ToStr.Focus();
                             }
+
+                            AutoLoadHistoryList();
                         }));
                     }
                 }
@@ -2067,6 +2073,65 @@ namespace SSELex
         private void ToStr_MouseEnter(object sender, MouseEventArgs e)
         {
             CanAutoApply = true;
+        }
+
+        public void AutoSizeHistoryList()
+        {
+            if (HistoryLayer.Visibility == Visibility.Visible)
+            {
+                ChangeTimeCol.Width = 100;
+                IsCloudCol.Width = 50;
+                TranslatedCol.Width = HistoryLayer.ActualWidth - 150;
+            }
+        }
+
+        public void AutoLoadHistoryList()
+        {
+            if (HistoryLayer.Visibility == Visibility.Visible)
+            {
+                HistoryList.Items.Clear();
+
+                var QueryHistorys = TranslatorExtend.GetTranslatorCache(LastSetKey);
+                if (QueryHistorys != null)
+                {
+                    foreach (var Get in QueryHistorys)
+                    {
+                        HistoryList.Items.Add(new
+                        {
+                            ChangeTime = Get.ChangeTime,
+                            IsCloud = Get.IsCloud,
+                            Translated = Get.Translated
+                        });
+                    }
+                }
+            }
+        }
+
+        private void ShowHistorys(object sender, MouseButtonEventArgs e)
+        {
+            if (HistoryLayer.Visibility == Visibility.Collapsed)
+            {
+                HistoryLayer.Visibility = Visibility.Visible;
+
+                AutoSizeHistoryList();
+                HistoryButtonFont.FontWeight = FontWeights.Bold;
+
+                AutoLoadHistoryList();
+            }
+            else
+            {
+                HistoryLayer.Visibility = Visibility.Collapsed;
+                HistoryButtonFont.FontWeight = FontWeights.Normal;
+            }
+        }
+
+        private void HistoryList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            foreach (var GetItem in HistoryList.SelectedItems)
+            {
+                string Translated = ConvertHelper.ObjToStr(ConvertHelper.ObjToStr(HistoryList.SelectedItem.GetType().GetProperty("Translated").GetValue(GetItem, null)));
+                ToStr.Text = Translated;
+            }
         }
     }
 }

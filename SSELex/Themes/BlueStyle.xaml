@@ -201,6 +201,12 @@
         <Setter Property="Margin" Value="5"/>
     </Style>
 
+    <Style x:Key="TopLayerBorder" TargetType="Border">
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="Background" Value="#FF0B74D1"/>
+        <Setter Property="Margin" Value="5"/>
+    </Style>
+
 
     <Style x:Key="CaptionTextA" TargetType="Label">
         <Setter Property="Foreground" Value="White"/>

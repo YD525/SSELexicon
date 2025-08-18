@@ -30,12 +30,14 @@ namespace SSELex.TranslateManage
         {
             int GetKey = Key.GetHashCode();
 
-            if (TranslatorHistoryCaches.ContainsKey(GetKey))
+            if (!TranslatorHistoryCaches.ContainsKey(GetKey))
             {
-                if (!TranslatorHistoryCaches[GetKey].Any(C => C.Translated == Translated))
-                {
-                    TranslatorHistoryCaches[GetKey].Add(new TranslatorHistoryCache(Translated));
-                }
+                TranslatorHistoryCaches.Add(GetKey, new List<TranslatorHistoryCache>());
+            }
+
+            if (!TranslatorHistoryCaches[GetKey].Any(C => C.Translated == Translated))
+            {
+                TranslatorHistoryCaches[GetKey].Add(new TranslatorHistoryCache(Translated));
             }
         }
 

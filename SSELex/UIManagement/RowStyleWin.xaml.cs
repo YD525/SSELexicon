@@ -271,20 +271,23 @@ namespace SSELex.UIManagement
 
         public void SaveText(TextBox Text)
         {
-            if (DeFine.WorkingWin != null)
+            if (DeFine.GlobalLocalSetting.ViewMode != "Normal")
             {
-                if (DeFine.WorkingWin.TransViewList != null)
+                if (DeFine.WorkingWin != null)
                 {
-                    string GetKey = ConvertHelper.ObjToStr(Text.Tag);
-                    var GetTarget = DeFine.WorkingWin.TransViewList.KeyToFakeGrid(GetKey);
-
-                    if (GetTarget != null)
+                    if (DeFine.WorkingWin.TransViewList != null)
                     {
-                        TranslatorBridge.SetTransData(GetKey, GetTarget.SourceText, Text.Text);
-                        GetTarget.SyncData();
-                        TranslatorExtend.SetTranslatorHistoryCache(GetKey, Text.Text);
+                        string GetKey = ConvertHelper.ObjToStr(Text.Tag);
+                        var GetTarget = DeFine.WorkingWin.TransViewList.KeyToFakeGrid(GetKey);
+
+                        if (GetTarget != null)
+                        {
+                            TranslatorBridge.SetTransData(GetKey, GetTarget.SourceText, Text.Text);
+                            GetTarget.SyncData();
+                            TranslatorExtend.SetTranslatorHistoryCache(GetKey, Text.Text);
+                        }
+
                     }
-                 
                 }
             }
         }
