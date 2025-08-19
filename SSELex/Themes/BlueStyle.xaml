@@ -521,7 +521,6 @@
     
     <Style x:Key="LinkFont" TargetType="Label">
         <Setter Property="Foreground" Value="#FFBDE0FF"/>
-        <Setter Property="Margin" Value="0 5 0 5"/>
         <Setter Property="HorizontalAlignment"  Value="Left"/>
         <Setter Property="Cursor"  Value="Hand"/>
         <Setter Property="Background" Value="#FF262626"/>

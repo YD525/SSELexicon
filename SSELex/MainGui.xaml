@@ -828,7 +828,7 @@
                                         Created by YD525
                                     </Label>
                                     <TextBlock Foreground="White" FontSize="15" VerticalAlignment="Center">
-                                       ( <Run Text="Nexus Mods" FontWeight="Bold" Cursor="Hand" Foreground="#FF44A0FF" /> | <Run Text="GitHub" FontWeight="Bold" Cursor="Hand" Foreground="#FF44A0FF" /> )
+                                       ( <Run Tag="https://www.nexusmods.com/skyrimspecialedition/mods/143056" Text="Nexus Mods" FontWeight="Bold" Cursor="Hand" Foreground="#FF44A0FF" MouseDown="OpenUrl_MouseDown"/> | <Run  Tag="https://github.com/YD525" Text="GitHub" FontWeight="Bold" Cursor="Hand" Foreground="#FF44A0FF" MouseDown="OpenUrl_MouseDown"/> )
                                     </TextBlock>
                                 </StackPanel>
 
@@ -847,18 +847,18 @@
 
                                 <TextBlock Foreground="White" FontSize="14" TextWrapping="Wrap" TextAlignment="Center" Margin="20 5 20 0">
                                     Some of the color schemes and layout ideas were inspired by suggestions from 
-                                    <Run Text="Cutleast" FontWeight="Bold" Cursor="Hand" Foreground="#FF44A0FF" />.
+                                    <Run Tag="https://github.com/Cutleast" Text="Cutleast" FontWeight="Bold" Cursor="Hand" Foreground="#FF44A0FF" MouseDown="OpenUrl_MouseDown"/>.
                                 </TextBlock>
 
                                 <TextBlock Foreground="White" FontSize="14" TextWrapping="Wrap" TextAlignment="Center" Margin="20 5 20 0">
                                     The idea for hotpatch updates and improvements to the underlying framework — specifically addressing issues with loading certain ESP files using Mutagen.Bethesda.Skyrim — came from 
-                                    <Run Text="Noggog" FontWeight="Bold" Cursor="Hand" Foreground="#FF44A0FF" />.
+                                    <Run Tag="https://github.com/Noggog" Text="Noggog" FontWeight="Bold" Cursor="Hand" Foreground="#FF44A0FF"  MouseDown="OpenUrl_MouseDown"/>.
                                 </TextBlock>
 
                                 <TextBlock Foreground="White" FontSize="14" TextWrapping="Wrap" TextAlignment="Center" Margin="20 5 20 0">
                                     The implementation of Dynamic String Distributor (DSD) JSON file export was based on suggestions from both 
-                                    <Run Text="Cutleast" FontWeight="Bold"  Cursor="Hand" Foreground="#FF44A0FF"/> and 
-                                    <Run Text="SkyHorizon3" FontWeight="Bold" Cursor="Hand" Foreground="#FF44A0FF"/>.
+                                    <Run Tag="https://github.com/Cutleast" Text="Cutleast" FontWeight="Bold"  Cursor="Hand" Foreground="#FF44A0FF"  MouseDown="OpenUrl_MouseDown"/> and 
+                                    <Run Tag="https://github.com/SkyHorizon3" Text="SkyHorizon3" FontWeight="Bold" Cursor="Hand" Foreground="#FF44A0FF"  MouseDown="OpenUrl_MouseDown"/>.
                                 </TextBlock>
 
                              

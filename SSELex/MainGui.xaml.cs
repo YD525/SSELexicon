@@ -2184,10 +2184,13 @@ namespace SSELex
 
         private void OpenUrl_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            string GetUrl = "";
+            string GetTag = "";
+
             if (sender is Label)
             {
-                string GetUrl = "";
-                string GetTag = ConvertHelper.ObjToStr(((Label)sender).Tag);
+                GetUrl = "";
+                GetTag = ConvertHelper.ObjToStr(((Label)sender).Tag);
 
                 if (GetTag.Length > 0)
                 {
@@ -2197,13 +2200,27 @@ namespace SSELex
                 {
                     GetUrl = ConvertHelper.ObjToStr(((Label)sender).Content);
                 }
+            }
+            if (sender is Run)
+            {
+                GetUrl = "";
+                GetTag = ConvertHelper.ObjToStr(((Run)sender).Tag);
 
-                if (GetUrl.Length > 0)
+                if (GetTag.Length > 0)
                 {
-                    if (MessageBoxExtend.Show(this, "Prompt", "Do you want to open your default browser and visit\n " + GetUrl + "\n?", MsgAction.YesNo, MsgType.Info) > 0)
-                    {
-                        ExplorerHelper.OpenUrl(GetUrl);
-                    }
+                    GetUrl = GetTag;
+                }
+                else
+                {
+                    GetUrl = ConvertHelper.ObjToStr(((Run)sender).Text);
+                }
+            }
+
+            if (GetUrl.Length > 0)
+            {
+                if (MessageBoxExtend.Show(this, "Prompt", "Do you want to open your default browser and visit\n " + GetUrl + "\n?", MsgAction.YesNo, MsgType.Info) > 0)
+                {
+                    ExplorerHelper.OpenUrl(GetUrl);
                 }
             }
         }
