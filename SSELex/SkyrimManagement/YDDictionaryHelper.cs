@@ -91,7 +91,7 @@ namespace SSELex.SkyrimManage
             string SetPath = DeFine.GetFullPath(@"Librarys\" + ModName) + ".Json";
             if (File.Exists(SetPath))
             {
-                string GetData = Encoding.UTF8.GetString(DataHelper.GetBytesByFilePath(SetPath));
+                string GetData = Encoding.UTF8.GetString(DataHelper.ReadFile(SetPath));
                 var GetClass = JsonSerializer.Deserialize<YDDictionaryFile>(GetData);
                 if (GetClass != null)
                 {

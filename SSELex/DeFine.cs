@@ -214,7 +214,7 @@ namespace SSELex
             try { 
             if (File.Exists(DeFine.GetFullPath(@"\setting.config")))
             {
-                var GetStr = FileHelper.ReadFileByStr(DeFine.GetFullPath(@"\setting.config"), Encoding.UTF8);
+                var GetStr = Encoding.UTF8.GetString(DataHelper.ReadFile(DeFine.GetFullPath(@"\setting.config")));
                 if (GetStr.Trim().Length > 0)
                 {
                     var GetSetting = JsonSerializer.Deserialize<LocalSetting>(GetStr);
@@ -243,7 +243,6 @@ namespace SSELex
                 {
                     LocalSetting CopySetting = this;
                     var GetSettingContent = JsonSerializer.Serialize(CopySetting);
-
                     FileHelper.WriteFile(DeFine.GetFullPath(@"\setting.config"), GetSettingContent, Encoding.UTF8);
                 }
             }

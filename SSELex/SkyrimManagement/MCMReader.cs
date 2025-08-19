@@ -118,7 +118,7 @@ namespace SSELex.SkyrimManage
 
             Encoding Encoder = DataHelper.GetFileEncodeType(Path);
 
-            var GetData = DataHelper.GetBytesByFilePath(Path);
+            var GetData = DataHelper.ReadFile(Path);
             var FileStr = Encoder.GetString(GetData);
 
             foreach (var GetLine in FileStr.Split(new char[2] { '\r', '\n' }))

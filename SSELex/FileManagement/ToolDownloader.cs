@@ -92,7 +92,7 @@ namespace SSELex.FileManagement
                 if (GetFile.FileName.Equals("PapyrusAssembler.exe"))
                 {
                     string SetPapyrusAssembler = GetFile.FilePath;
-                    string GetPapyrusAssemblerMD5 = GetMD5(DataHelper.GetBytesByFilePath(SetPapyrusAssembler));
+                    string GetPapyrusAssemblerMD5 = GetMD5(DataHelper.ReadFile(SetPapyrusAssembler));
 
                     if (!GetPapyrusAssemblerMD5.Equals(PapyrusAssemblerMD5Sign))
                     {
@@ -110,7 +110,7 @@ namespace SSELex.FileManagement
                 if (GetFile.FileName.Equals("Champollion.exe"))
                 {
                     string SetChampollion = GetFile.FilePath;
-                    string GetChampollionMD5 = GetMD5(DataHelper.GetBytesByFilePath(SetChampollion));
+                    string GetChampollionMD5 = GetMD5(DataHelper.ReadFile(SetChampollion));
 
                     if (!GetChampollionMD5.Equals(ChampollionMd5Sign))
                     {
@@ -130,7 +130,7 @@ namespace SSELex.FileManagement
                 if (GetFile.FileName.Equals("ScriptCompile.bat"))
                 {
                     string SetScriptCompile = GetFile.FilePath;
-                    string GetScriptCompileMD5 = GetMD5(DataHelper.GetBytesByFilePath(SetScriptCompile));
+                    string GetScriptCompileMD5 = GetMD5(DataHelper.ReadFile(SetScriptCompile));
 
                     if (!GetScriptCompileMD5.Equals(ScriptCompileMD5Sign))
                     {
@@ -177,7 +177,7 @@ namespace SSELex.FileManagement
             string SetFilePath = DeFine.GetFullPath(@"Tool\Champollion.exe");
             if (File.Exists(SetFilePath))
             {
-                byte[] ReadFileData = DataHelper.GetBytesByFilePath(SetFilePath);
+                byte[] ReadFileData = DataHelper.ReadFile(SetFilePath);
 
                 string CurrentMD5 = GetMD5(ReadFileData);
 

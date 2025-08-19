@@ -18,7 +18,6 @@ namespace SSELex.ConvertManager
 {
     public class ConvertHelper
     {
-
         public static string FileToBase64String(string FilePath)
         {
             FileStream NFileStream = new FileStream(FilePath, FileMode.Open);
@@ -43,33 +42,6 @@ namespace SSELex.ConvertManager
                 NFileStream.Close();
             }
         }
-        public static bool Base64StringToFile(string Base64String, string TargetPath,string TargetName)
-        {
-            bool OPResult = false;
-            try
-            {
-                if (!Directory.Exists(TargetPath))
-                {
-                    Directory.CreateDirectory(TargetPath);
-                }
-
-                string StrBase64 = Base64String.Trim().Substring(Base64String.IndexOf(",") + 1);   //Delete the redundant string before ","
-                MemoryStream Stream = new MemoryStream(Convert.FromBase64String(StrBase64));
-                FileStream NFileStream = new FileStream(TargetPath + "\\" + TargetName, FileMode.OpenOrCreate, FileAccess.Write);
-                byte[] Bytes = Stream.ToArray();
-                NFileStream.Write(Bytes, 0, Bytes.Length);
-                NFileStream.Close();
-
-                OPResult = true;
-            }
-            catch (Exception e)
-            {
-              
-            }
-            return OPResult;
-        }
-
-
 
         public static byte[] Base64ToBytes(string ByteStr)
         {
@@ -79,35 +51,17 @@ namespace SSELex.ConvertManager
 
             return ImageBytes;
         }
+
         public static string UrlEnCode(string Msg)
         {
             return HttpUtility.UrlEncode(Msg);
         }
+
         public static string UrlDeCode(string Msg)
         {
             return HttpUtility.UrlDecode(Msg);
         }
-        public static double GetRate(double A, double B)
-        {
-            double Value = (A / B);
-            var T1 = Math.Round(Value, 2); 
-            return  T1 * 100; 
-        }
-        public static double RoundDouble(double v, int x)
-        {
-            return ChinaRound(v, x);
-        }
-        public static double ChinaRound(double Value, int Decimals)
-        {
-            if (Value < 0)
-            {
-                return Math.Round(Value + 5 / Math.Pow(10, Decimals + 1), Decimals, MidpointRounding.AwayFromZero);
-            }
-            else
-            {
-                return Math.Round(Value, Decimals, MidpointRounding.AwayFromZero);
-            }
-        }
+
         public static BitmapImage BitmapToBitmapImage(Bitmap bitmap)
         {
             Bitmap bitmapSource = new Bitmap(bitmap.Width, bitmap.Height);
@@ -141,7 +95,6 @@ namespace SSELex.ConvertManager
             }));
             return NextImage;
         }
-
         public static BitmapImage BytesToBitmapImageByMusic(byte[] Def,byte[] Bytes)
         {
             if (Bytes == null) return new BitmapImage();
@@ -189,36 +142,6 @@ namespace SSELex.ConvertManager
             }
 
         }
-        public static int MorningOrNoon(DateTime SetTime)
-        {
-            var GetTime = SetTime;
-            if (GetTime.Hour > 10)
-            {
-                if (GetTime.Hour <= 11)
-                {
-                    return 1;
-                }
-                else
-                if (GetTime.Hour <= 16)
-                {
-                    return 2;
-                }
-                else
-                if (GetTime.Hour <= 20)
-                {
-                    return 3;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-            else
-            {
-                return 0;
-            }
-        }
-       
         public static string StringDivision(string Message, string Left, string Right)
         {
             if (Message.Contains(Left) && Message.Contains(Right))
@@ -231,10 +154,6 @@ namespace SSELex.ConvertManager
             {
                 return string.Empty;
             }
-        }
-        public static string GetStringNoEmp(string Message)
-        {
-            return Message.Replace(" ", "").Replace("    ", "").Replace("　", "");
         }
         public static string ObjToStr(object? Item)
         {
@@ -272,17 +191,14 @@ namespace SSELex.ConvertManager
             }
             return Check;
         }
-
         public static long ObjToLong(object Item)
         {
-            long Number = 0;
+            long Number = -1;
             if (Item == null == false)
             {
                 long.TryParse(Item.ToString(), out Number);
             }
             return Number;
         }
-
-
     }
 }

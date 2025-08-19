@@ -349,7 +349,7 @@ namespace SSELex.SkyrimManage
             string GetPscFile = GetFilePath + GetFileName + ".psc";
             if (File.Exists(GetPscFile))
             {
-                var FileData = DataHelper.GetBytesByFilePath(GetPscFile);
+                var FileData = DataHelper.ReadFile(GetPscFile);
                 this.PSCContent = DataHelper.GetFileEncodeType(GetPscFile).GetString(FileData);
 
                 if (File.Exists(GetPscFile))
@@ -572,7 +572,7 @@ namespace SSELex.SkyrimManage
 
             var Encoding = DataHelper.GetFileEncodeType(DeFine.GetFullPath(@"\Cache\" + CurrentFileName + ".pas"));
 
-            string GetFileContent = Encoding.GetString(DataHelper.GetBytesByFilePath(DeFine.GetFullPath(@"\Cache\" + CurrentFileName + ".pas")));
+            string GetFileContent = Encoding.GetString(DataHelper.ReadFile(DeFine.GetFullPath(@"\Cache\" + CurrentFileName + ".pas")));
 
             List<string> Lines = GetFileContent.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None).ToList();
 

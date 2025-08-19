@@ -15,29 +15,6 @@ namespace SSELex.SkyrimModManager
 
     public class FileHelper
     {
-        public static string ReadFileByStr(string filepath, Encoding EnCoding)
-        {
-            try
-            {
-                StreamReader rd = new StreamReader(filepath, Encoding.UTF8);
-
-                StringBuilder sb = new StringBuilder();
-                while (!rd.EndOfStream)
-                {
-                    string dqstr = rd.ReadLine();
-                    sb = sb.Append(dqstr + "\r\n");
-                }
-
-                rd.Close();
-                rd.Dispose();
-                return sb.ToString();
-            }
-            catch
-            {
-                return string.Empty;
-            }
-        }
-
         public static void WriteFile(string targetpath, string text, Encoding encodingtype)
         {
             try
@@ -84,33 +61,6 @@ namespace SSELex.SkyrimModManager
             {
                 throw;
             }
-        }
-
-        public static bool CompareFileContent(string filePath1, string filePath2)
-        {
-            if (File.Exists(filePath1) && File.Exists(filePath2))
-            {
-               
-                try 
-                { 
-
-                using (HashAlgorithm hash = HashAlgorithm.Create())
-                {
-                    using (FileStream file1 = new FileStream(filePath1, FileMode.Open), file2 = new FileStream(filePath2, FileMode.Open))
-                    {
-                        byte[] hashByte1 = hash.ComputeHash(file1);//哈希算法根据文本得到哈希码的字节数组
-                        byte[] hashByte2 = hash.ComputeHash(file2);
-                        string str1 = BitConverter.ToString(hashByte1);//将字节数组装换为字符串
-                        string str2 = BitConverter.ToString(hashByte2);
-                        return (str1 == str2);//比较哈希码
-                    }
-                }
-
-                }
-                catch { }
-            }
-
-            return false;
         }
 
         public static STreeItem GetPathStruct(string FromPath)
