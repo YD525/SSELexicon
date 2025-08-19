@@ -929,33 +929,80 @@
                                     </Border>
                                 </StackPanel>
                             </Grid>
-                            <Border Grid.Row="2" Margin="10" Background="#FF262626" CornerRadius="5" Name="PlatformConfigView">
-                                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <Border Grid.Row="2" Style="{DynamicResource SettingFrame}" Name="PlatformConfigView">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto" Style="{DynamicResource for_scrollviewer}">
                                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 0 0 0" VerticalAlignment="Center">
+                                        <Label Style="{DynamicResource TittleFont}">
+                                            Request Config
+                                        </Label>
 
-                                        <Label Foreground="White" FontWeight="Bold" FontSize="18">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 5 0 10">
+                                            <Label Style="{DynamicResource NormalText}">
+                                                TimeOut:
+                                            </Label>
+                                            <Border  Style="{DynamicResource DefTextBoxBorder}" Width="100" >
+                                                <TextBox Style="{DynamicResource DefTextBox}">
+                                                </TextBox>
+                                            </Border>
+
+                                        </StackPanel>
+
+                                        <Label Style="{DynamicResource TittleFont}">
+                                            HttpProxy Config
+                                        </Label>
+
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 5 0 10">
+                                            <Label Style="{DynamicResource NormalText}">
+                                                Url:
+                                            </Label>
+
+                                            <Border  Style="{DynamicResource DefTextBoxBorder}" Width="230" >
+                                                <TextBox Style="{DynamicResource DefTextBox}">
+                                                </TextBox>
+                                            </Border>
+
+                                            <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
+                                               UserName:
+                                            </Label>
+
+                                            <Border  Style="{DynamicResource DefTextBoxBorder}" Width="100" >
+                                                <TextBox Style="{DynamicResource DefTextBox}">
+                                                </TextBox>
+                                            </Border>
+
+                                            <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
+                                                Password:
+                                            </Label>
+
+                                            <Border  Style="{DynamicResource DefTextBoxBorder}" Width="100" >
+                                                <PasswordBox Style="{DynamicResource DefPasswordBox}">
+                                                </PasswordBox>
+                                            </Border>
+                                        </StackPanel>
+
+                                        <Label Style="{DynamicResource TittleFont}">
                                             APIKey Config
                                         </Label>
-                                        <Label Foreground="#FFBDE0FF" Margin="0 5 0 5" HorizontalAlignment="Left" Cursor="Hand">
+                                        <Label Style="{DynamicResource LinkFont}" MouseDown="OpenUrl_MouseDown">
                                             https://aistudio.google.com/apikey
                                         </Label>
 
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 0 0 10">
-                                            <Label Foreground="White">
+                                            <Label Style="{DynamicResource NormalText}">
                                                 Gemini ApiKey:
                                             </Label>
 
-                                            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White" Width="300">
-                                                <PasswordBox CaretBrush="White" Background="{x:Null}" BorderThickness="0" Foreground="White" VerticalContentAlignment="Center">
+                                            <Border Style="{DynamicResource DefTextBoxBorder}" Width="300">
+                                                <PasswordBox Style="{DynamicResource DefPasswordBox}">
                                                 </PasswordBox>
                                             </Border>
 
-                                            <Label Foreground="White" Margin="5 0 0 0">
+                                            <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
                                                 Mode:
                                             </Label>
 
-                                            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White"  Width="100" >
-                                                <TextBox CaretBrush="White" Background="{x:Null}" BorderThickness="0" Foreground="White" VerticalContentAlignment="Center">
+                                            <Border  Style="{DynamicResource DefTextBoxBorder}" Width="100" >
+                                                <TextBox Style="{DynamicResource DefTextBox}">
                                                 </TextBox>
                                             </Border>
 
@@ -963,26 +1010,26 @@
                                             </ComboBox>
                                         </StackPanel>
 
-                                        <Label Foreground="#FFBDE0FF" Margin="0 5 0 5" HorizontalAlignment="Left" Cursor="Hand">
+                                        <Label Style="{DynamicResource LinkFont}" MouseDown="OpenUrl_MouseDown">
                                             https://platform.openai.com/api-keys
                                         </Label>
 
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 0 0 10">
-                                            <Label Foreground="White">
+                                            <Label Style="{DynamicResource NormalText}">
                                                 ChatGpt ApiKey:
                                             </Label>
 
-                                            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White" Width="300" >
-                                                <PasswordBox CaretBrush="White" Background="{x:Null}" BorderThickness="0" Foreground="White" VerticalContentAlignment="Center">
+                                            <Border  Style="{DynamicResource DefTextBoxBorder}" Width="300" >
+                                                <PasswordBox Style="{DynamicResource DefPasswordBox}">
                                                 </PasswordBox>
                                             </Border>
 
-                                            <Label Foreground="White" Margin="5 0 0 0">
+                                            <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
                                                 Mode:
                                             </Label>
 
-                                            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White" Width="100">
-                                                <TextBox CaretBrush="White" Background="{x:Null}" BorderThickness="0" Foreground="White" VerticalContentAlignment="Center">
+                                            <Border Style="{DynamicResource DefTextBoxBorder}" Width="100">
+                                                <TextBox Style="{DynamicResource DefTextBox}">
                                                 </TextBox>
                                             </Border>
 
@@ -990,25 +1037,25 @@
                                             </ComboBox>
                                         </StackPanel>
 
-                                        <Label Foreground="#FFBDE0FF" Margin="0 5 0 5" HorizontalAlignment="Left" Cursor="Hand">
+                                        <Label Style="{DynamicResource LinkFont}" MouseDown="OpenUrl_MouseDown">
                                             https://dashboard.cohere.com/api-keys
                                         </Label>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 0 0 10">
-                                            <Label Foreground="White">
+                                            <Label Style="{DynamicResource NormalText}">
                                                 Cohere ApiKey:
                                             </Label>
 
-                                            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White" Width="300">
-                                                <PasswordBox CaretBrush="White" Background="{x:Null}" BorderThickness="0" Foreground="White" VerticalContentAlignment="Center">
+                                            <Border  Style="{DynamicResource DefTextBoxBorder}" Width="300">
+                                                <PasswordBox Style="{DynamicResource DefPasswordBox}">
                                                 </PasswordBox>
                                             </Border>
 
-                                            <Label Foreground="White" Margin="5 0 0 0">
+                                            <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
                                                 Mode:
                                             </Label>
 
-                                            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White" Width="100">
-                                                <TextBox CaretBrush="White" Background="{x:Null}" BorderThickness="0" Foreground="White" VerticalContentAlignment="Center">
+                                            <Border Style="{DynamicResource DefTextBoxBorder}" Width="100">
+                                                <TextBox Style="{DynamicResource DefTextBox}">
                                                 </TextBox>
                                             </Border>
 
@@ -1016,25 +1063,25 @@
                                             </ComboBox>
                                         </StackPanel>
 
-                                        <Label Foreground="#FFBDE0FF" Margin="0 5 0 5" HorizontalAlignment="Left" Cursor="Hand">
+                                        <Label Style="{DynamicResource LinkFont}" MouseDown="OpenUrl_MouseDown">
                                             https://platform.deepseek.com/api_keys
                                         </Label>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 0 0 10">
-                                            <Label Foreground="White">
+                                            <Label Style="{DynamicResource NormalText}">
                                                 DeepSeek ApiKey:
                                             </Label>
 
-                                            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White" Width="300">
-                                                <PasswordBox CaretBrush="White" Background="{x:Null}" BorderThickness="0" Foreground="White" VerticalContentAlignment="Center">
+                                            <Border Style="{DynamicResource DefTextBoxBorder}" Width="300">
+                                                <PasswordBox Style="{DynamicResource DefPasswordBox}">
                                                 </PasswordBox>
                                             </Border>
 
-                                            <Label Foreground="White" Margin="5 0 0 0">
+                                            <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
                                                 Mode:
                                             </Label>
 
-                                            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White" Width="100">
-                                                <TextBox CaretBrush="White" Background="{x:Null}" BorderThickness="0" Foreground="White" VerticalContentAlignment="Center">
+                                            <Border Style="{DynamicResource DefTextBoxBorder}" Width="100">
+                                                <TextBox Style="{DynamicResource DefTextBox}">
                                                 </TextBox>
                                             </Border>
 
@@ -1042,25 +1089,25 @@
                                             </ComboBox>
                                         </StackPanel>
 
-                                        <Label Foreground="#FFBDE0FF" Margin="0 5 0 5" HorizontalAlignment="Left" Cursor="Hand">
+                                        <Label Style="{DynamicResource LinkFont}" MouseDown="OpenUrl_MouseDown">
                                             https://platform.baichuan-ai.com/docs/api
                                         </Label>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 0 0 10">
-                                            <Label Foreground="White">
+                                            <Label Style="{DynamicResource NormalText}">
                                                 Baichuan ApiKey:
                                             </Label>
 
-                                            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White" Width="300">
-                                                <PasswordBox CaretBrush="White" Background="{x:Null}" BorderThickness="0" Foreground="White" VerticalContentAlignment="Center">
+                                            <Border Style="{DynamicResource DefTextBoxBorder}" Width="300">
+                                                <PasswordBox Style="{DynamicResource DefPasswordBox}">
                                                 </PasswordBox>
                                             </Border>
 
-                                            <Label Foreground="White" Margin="5 0 0 0">
+                                            <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
                                                 Mode:
                                             </Label>
 
-                                            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White" Width="100">
-                                                <TextBox CaretBrush="White" Background="{x:Null}" BorderThickness="0" Foreground="White" VerticalContentAlignment="Center">
+                                            <Border Style="{DynamicResource DefTextBoxBorder}" Width="100">
+                                                <TextBox Style="{DynamicResource DefTextBox}">
                                                 </TextBox>
                                             </Border>
 
@@ -1069,68 +1116,68 @@
                                         </StackPanel>
 
 
-                                        <Label Foreground="#FFBDE0FF" Margin="0 5 0 5" HorizontalAlignment="Left" Cursor="Hand">
+                                        <Label Style="{DynamicResource LinkFont}" MouseDown="OpenUrl_MouseDown">
                                             https://lmstudio.ai/
                                         </Label>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 0 0 10">
-                                            <Label Foreground="White">
+                                            <Label Style="{DynamicResource NormalText}">
                                                 LocalAI(LM) Host:
                                             </Label>
 
-                                            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White" Width="100">
-                                                <TextBox CaretBrush="White" Background="{x:Null}" BorderThickness="0" Foreground="White" VerticalContentAlignment="Center">
+                                            <Border Style="{DynamicResource DefTextBoxBorder}" Width="100">
+                                                <TextBox Style="{DynamicResource DefTextBox}">
                                                 </TextBox>
                                             </Border>
 
-                                            <Label Foreground="White" Margin="5 0 0 0">
+                                            <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
                                                 Port:
                                             </Label>
 
-                                            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White" Width="100">
-                                                <TextBox CaretBrush="White" Background="{x:Null}" BorderThickness="0" Foreground="White" VerticalContentAlignment="Center">
+                                            <Border Style="{DynamicResource DefTextBoxBorder}" Width="100">
+                                                <TextBox Style="{DynamicResource DefTextBox}">
                                                 </TextBox>
                                             </Border>
 
-                                            <Label Foreground="White" Margin="5 0 0 0">
+                                            <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
                                                 Mode:
                                             </Label>
 
-                                            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White" Width="100">
-                                                <TextBox CaretBrush="White" Background="{x:Null}" BorderThickness="0" Foreground="White" VerticalContentAlignment="Center">
+                                            <Border Style="{DynamicResource DefTextBoxBorder}" Width="100">
+                                                <TextBox Style="{DynamicResource DefTextBox}">
                                                 </TextBox>
                                             </Border>
 
                                         </StackPanel>
 
-                                        <Label Foreground="#FFBDE0FF" Margin="0 5 0 5" HorizontalAlignment="Left" Cursor="Hand">
+                                        <Label Style="{DynamicResource LinkFont}" MouseDown="OpenUrl_MouseDown">
                                             https://www.deepl.com/your-account/keys
                                         </Label>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 0 0 10">
-                                            <Label Foreground="White">
+                                            <Label Style="{DynamicResource NormalText}">
                                                 DeepL ApiKey:
                                             </Label>
 
-                                            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White" Width="300">
-                                                <PasswordBox CaretBrush="White" Background="{x:Null}" BorderThickness="0" Foreground="White" VerticalContentAlignment="Center">
+                                            <Border Style="{DynamicResource DefTextBoxBorder}" Width="300">
+                                                <PasswordBox Style="{DynamicResource DefPasswordBox}">
                                                 </PasswordBox>
                                             </Border>
 
-                                            <CheckBox Foreground="White" VerticalAlignment="Center" Margin="5 0 0 0">
+                                            <CheckBox Style="{DynamicResource DefCheckBox}" Margin="5 0 0 0">
                                                 It is a free DeepL key
                                             </CheckBox>
                                         </StackPanel>
 
 
-                                        <Label Foreground="#FFBDE0FF" Margin="0 5 0 5" HorizontalAlignment="Left" Cursor="Hand">
+                                        <Label Style="{DynamicResource LinkFont}" MouseDown="OpenUrl_MouseDown">
                                             https://cloud.google.com/translate/docs
                                         </Label>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 0 0 0">
-                                            <Label Foreground="White">
+                                            <Label Style="{DynamicResource NormalText}">
                                                 Google ApiKey:
                                             </Label>
 
-                                            <Border CornerRadius="5" BorderThickness="1" BorderBrush="White" Width="300">
-                                                <PasswordBox CaretBrush="White" Background="{x:Null}" BorderThickness="0" Foreground="White" VerticalContentAlignment="Center">
+                                            <Border Style="{DynamicResource DefTextBoxBorder}" Width="300">
+                                                <PasswordBox Style="{DynamicResource DefPasswordBox}">
                                                 </PasswordBox>
                                             </Border>
                                         </StackPanel>

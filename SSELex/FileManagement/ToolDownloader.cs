@@ -7,6 +7,7 @@ using PhoenixEngine.EngineManagement;
 using System.Security.Cryptography;
 using SSELex.SkyrimModManager;
 using System.Windows;
+using PhoenixEngine.RequestManagement;
 
 namespace SSELex.FileManagement
 {
@@ -161,9 +162,9 @@ namespace SSELex.FileManagement
         {
             WebProxy? SetProxy = null;
 
-            if (EngineConfig.ProxyIP.Trim().Length > 0)
+            if (ProxyCenter.CurrentProxy!=null)
             {
-                SetProxy = new WebProxy(EngineConfig.ProxyIP);
+                SetProxy = ProxyCenter.CurrentProxy;
             }
 
             string SetFolder = DeFine.GetFullPath(@"Tool\");

@@ -2181,5 +2181,31 @@ namespace SSELex
                 }
             }
         }
+
+        private void OpenUrl_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is Label)
+            {
+                string GetUrl = "";
+                string GetTag = ConvertHelper.ObjToStr(((Label)sender).Tag);
+
+                if (GetTag.Length > 0)
+                {
+                    GetUrl = GetTag;
+                }
+                else
+                {
+                    GetUrl = ConvertHelper.ObjToStr(((Label)sender).Content);
+                }
+
+                if (GetUrl.Length > 0)
+                {
+                    if (MessageBoxExtend.Show(this, "Prompt", "Do you want to open your default browser and visit\n " + GetUrl + "\n?", MsgAction.YesNo, MsgType.Info) > 0)
+                    {
+                        ExplorerHelper.OpenUrl(GetUrl);
+                    }
+                }
+            }
+        }
     }
 }
