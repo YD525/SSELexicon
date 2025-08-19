@@ -100,18 +100,3 @@ Your encouragement really means a lot!
 The icon used in the UI interface (**"Note"**) is sourced from **Iconfont**.
 
 ---
-
-## 💬 Community & Contribution
-
-Join our Discord community: [https://discord.gg/GRu7WtgqsB](https://discord.gg/GRu7WtgqsB)  
-
-Feel free to drop by and chat — always happy to talk code (or just vent boredom).
-
----
-
-## 📄 License
-
-This project is licensed under the **GNU General Public License version 3.0 (GPL-3.0-only)**.  
-See the LICENSE file for details.
-
----
