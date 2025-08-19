@@ -229,28 +229,28 @@ namespace SSELex.SkyrimModManager
             br.Close();
         }
        
-        public static void CopyDir(string srcPath, string aimPath)
+        public static void CopyDir(string Path, string TargetPath)
         {
             try
             {
-                if (aimPath[aimPath.Length - 1] != System.IO.Path.DirectorySeparatorChar)
+                if (TargetPath[TargetPath.Length - 1] != System.IO.Path.DirectorySeparatorChar)
                 {
-                    aimPath += System.IO.Path.DirectorySeparatorChar;
+                    TargetPath += System.IO.Path.DirectorySeparatorChar;
                 }
-                if (!System.IO.Directory.Exists(aimPath))
+                if (!System.IO.Directory.Exists(TargetPath))
                 {
-                    System.IO.Directory.CreateDirectory(aimPath);
+                    System.IO.Directory.CreateDirectory(TargetPath);
                 }
-                string[] fileList = System.IO.Directory.GetFileSystemEntries(srcPath);
-                foreach (string file in fileList)
+                string[] FileList = System.IO.Directory.GetFileSystemEntries(Path);
+                foreach (string File in FileList)
                 {
-                    if (System.IO.Directory.Exists(file))
+                    if (System.IO.Directory.Exists(File))
                     {
-                        CopyDir(file, aimPath + System.IO.Path.GetFileName(file));
+                        CopyDir(File, TargetPath + System.IO.Path.GetFileName(File));
                     }
                     else
                     {
-                        System.IO.File.Copy(file, aimPath + System.IO.Path.GetFileName(file), true);
+                        System.IO.File.Copy(File, TargetPath + System.IO.Path.GetFileName(File), true);
                     }
                 }
             }

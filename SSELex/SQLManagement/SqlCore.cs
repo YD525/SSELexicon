@@ -10,68 +10,42 @@ namespace SSELex.SQLManager
 
     public class ConvertT
     {
-        public static T ConverToObject<T>(object asobject)
+        public static T ConverToObject<T>(object Asobject)
         {
-            //创建实体对象实例
+            var Instance = Activator.CreateInstance<T>();
 
-            var t = Activator.CreateInstance<T>();
-
-            if (asobject != null)
-
+            if (Asobject != null)
             {
+                Type type = Asobject.GetType();
 
-                Type type = asobject.GetType();
-
-                //遍历实体对象属性
-
-                foreach (var info in typeof(T).GetProperties())
-
+                foreach (var Info in typeof(T).GetProperties())
                 {
+                    object Obj = null;
 
-                    object obj = null;
+                    var Value = type.GetProperty(Info.Name)?.GetValue(Asobject);
 
-                    //取得object对象中此属性的值
-
-                    var val = type.GetProperty(info.Name)?.GetValue(asobject);
-
-                    if (val != null)
-
+                    if (Value != null)
                     {
+                        if (!Info.PropertyType.IsGenericType)
 
-                        //非泛型
+                            Obj = Convert.ChangeType(Value, Info.PropertyType);
 
-                        if (!info.PropertyType.IsGenericType)
-
-                            obj = Convert.ChangeType(val, info.PropertyType);
-
-                        else//泛型nullable<>
-
+                        else
                         {
+                            Type GenericTypeDefinition = Info.PropertyType.GetGenericTypeDefinition();
 
-                            Type generictypedefinition = info.PropertyType.GetGenericTypeDefinition();
-
-                            if (generictypedefinition == typeof(Nullable<>))
-
+                            if (GenericTypeDefinition == typeof(Nullable<>))
                             {
-
-                                obj = Convert.ChangeType(val, Nullable.GetUnderlyingType(info.PropertyType));
-
+                                Obj = Convert.ChangeType(Value, Nullable.GetUnderlyingType(Info.PropertyType));
                             }
-
                         }
 
-                        info.SetValue(t, obj, null);
-
+                        Info.SetValue(Instance, Obj, null);
                     }
-
                 }
-
             }
-
-            return t;
-
+            return Instance;
         }
-
     }
 
     public class SqlCore<T> where T : new()
@@ -89,12 +63,9 @@ namespace SSELex.SQLManager
                 (this.SQLHelper as SQLiteHelper).OpenSql(ConnectStr);
                 this.ThisType = SqlType.SQLite;
             }
-            
 
             this.ConnectStr = ConnectStr;
         }
-
-       
         public int ExecuteNonQuery(string SqlOrder)
         {
             lock (LockerDB)
@@ -147,7 +118,6 @@ namespace SSELex.SQLManager
                 return Table;
             }
         }
-
         //public T1 ExecuteScalar<T1>(string SqlOrder)
         //{
         //    object Result = null;
@@ -184,8 +154,6 @@ namespace SSELex.SQLManager
             IEnumerable<System.Reflection.PropertyInfo> property = from pi in t.GetProperties() where pi.Name.ToLower() == field.ToLower() select pi;
             return property.First().GetValue(info, null);
         }
-
-
         public object ExecuteScalar(string SqlOrder)
         {
             lock (LockerDB)
@@ -213,10 +181,7 @@ namespace SSELex.SQLManager
                 return Result;
             }
         }
-
     }
-
-
     public enum SqlType
     {
         Null = 0, SQLite = 1, SqlServer = 2, MySql = 3, Access = 4, Oracle = 5,

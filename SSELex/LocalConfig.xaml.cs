@@ -22,7 +22,8 @@ namespace SSELex
             InitializeComponent();
         }
 
-        #region Def
+        #region Default Form Behavior
+
         public bool IsLeftMouseDown = false;
         private void WinHead_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {

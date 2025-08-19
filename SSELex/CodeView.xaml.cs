@@ -31,21 +31,21 @@ namespace SSELex
         {
             string GetName = "SSELex" + ".IDERule.Lua.xshd";
 
-            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            System.Reflection.Assembly Assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
-            using (System.IO.Stream s = assembly.GetManifestResourceStream(GetName))
+            using (System.IO.Stream Resource = Assembly.GetManifestResourceStream(GetName))
             {
-                using (System.Xml.XmlTextReader reader = new System.Xml.XmlTextReader(s))
+                using (System.Xml.XmlTextReader Reader = new System.Xml.XmlTextReader(Resource))
                 {
-                    var xshd = HighlightingLoader.LoadXshd(reader);
+                    var Xshd = HighlightingLoader.LoadXshd(Reader);
 
-                    TextEditor.SyntaxHighlighting = HighlightingLoader.Load(xshd, HighlightingManager.Instance);
+                    TextEditor.SyntaxHighlighting = HighlightingLoader.Load(Xshd, HighlightingManager.Instance);
                 }
             }
 
             DeFine.ActiveIDE = TextEditor;
 
-            FoldingManager = FoldingManager.Install(TextEditor.TextArea); // 安装折叠管理器
+            FoldingManager = FoldingManager.Install(TextEditor.TextArea); // Install the folder
         }
 
         public void ReSetFolding()
@@ -90,42 +90,6 @@ namespace SSELex
             }
         }
 
-     
-
-        private void RMouserEffectByEnter(object sender, MouseEventArgs e)
-        {
-            if (sender is Border)
-            {
-                Border LockerGrid = sender as Border;
-                if (LockerGrid.Child != null)
-                {
-                    if (LockerGrid.Child is Image)
-                    {
-                        Image LockerImg = LockerGrid.Child as Image;
-                        LockerImg.Opacity = 0.9;
-                    }
-                    LockerGrid.Background = new SolidColorBrush(Color.FromRgb(7, 82, 149));
-                }
-            }
-        }
-
-        private void RMouserEffectByLeave(object sender, MouseEventArgs e)
-        {
-            if (sender is Border)
-            {
-                Border LockerGrid = sender as Border;
-                if (LockerGrid.Child != null)
-                {
-                    if (LockerGrid.Child is Image)
-                    {
-                        Image LockerImg = LockerGrid.Child as Image;
-                        LockerImg.Opacity = 0.6;
-                    }
-                    LockerGrid.Background = new SolidColorBrush(Color.FromRgb(11, 116, 209));
-                }
-            }
-        }
-
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (Keyboard.Modifiers == ModifierKeys.Control && e.Key == Key.F)
@@ -152,11 +116,8 @@ namespace SSELex
 
         private List<NewFolding> CreateNewFoldings(ITextSource Document)
         {
-            List<NewFolding> newFoldings = new List<NewFolding>();
-            Stack<int> startOffsets = new Stack<int>();
-
-            int CurrentCharCount = 0;
-
+            List<NewFolding> NewFoldings = new List<NewFolding>();
+            Stack<int> StartOffsets = new Stack<int>();
             string CurrentLine = "";
 
             for (int I = 0; I < Document.TextLength; I++)
@@ -175,7 +136,7 @@ namespace SSELex
                             {
                                 int GetParamOffset = CurrentLine.IndexOf(")");
 
-                                startOffsets.Push(I - GetParamOffset + GetParamOffset);
+                                StartOffsets.Push(I - GetParamOffset + GetParamOffset);
                             }
                         }
                         else
@@ -183,21 +144,21 @@ namespace SSELex
                             int GetParamOffset = CurrentLine.IndexOf(")");
                             if (GetParamOffset >= 0)
                             {
-                                startOffsets.Push((I - GetParamOffset + GetParamOffset));
+                                StartOffsets.Push((I - GetParamOffset + GetParamOffset));
                             }
                         }
                     }
 
-                    if (CurrentLine.Contains("EndFunction", StringComparison.OrdinalIgnoreCase) && startOffsets.Count > 0)
+                    if (CurrentLine.Contains("EndFunction", StringComparison.OrdinalIgnoreCase) && StartOffsets.Count > 0)
                     {
                         if (CurrentLine.Replace("\r", "").Replace("\n", "").Length > 0)
                         {
-                            int functionStart = startOffsets.Pop();
+                            int FunctionStart = StartOffsets.Pop();
 
-                            int functionEnd = I; // 结束偏移应为该行的结束位置
+                            int FunctionEnd = I; //The ending offset should be the end position of the line
 
-                            var folding = new NewFolding(functionStart, functionEnd);
-                            newFoldings.Add(folding);
+                            var Folding = new NewFolding(FunctionStart, FunctionEnd);
+                            NewFoldings.Add(Folding);
                         }
                     }
 
@@ -205,8 +166,8 @@ namespace SSELex
                 }
             }
 
-            newFoldings.Sort((a, b) => a.StartOffset.CompareTo(b.StartOffset));
-            return newFoldings;
+            NewFoldings.Sort((a, b) => a.StartOffset.CompareTo(b.StartOffset));
+            return NewFoldings;
         }
     }
 }

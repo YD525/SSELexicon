@@ -9,7 +9,6 @@ namespace SSELex.TranslateManagement
     public static class Crc32Helper
     {
         private static readonly uint[] Table;
-
         static Crc32Helper()
         {
             uint poly = 0xEDB88320;
@@ -31,7 +30,6 @@ namespace SSELex.TranslateManagement
                 Table[i] = temp;
             }
         }
-
         public static string ComputeCrc32(string input)
         {
             byte[] bytes = System.Text.Encoding.UTF8.GetBytes(input);

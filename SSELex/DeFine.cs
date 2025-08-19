@@ -243,7 +243,7 @@ namespace SSELex
                 {
                     LocalSetting CopySetting = this;
                     var GetSettingContent = JsonSerializer.Serialize(CopySetting);
-                    FileHelper.WriteFile(DeFine.GetFullPath(@"\setting.config"), GetSettingContent, Encoding.UTF8);
+                    DataHelper.WriteFile(DeFine.GetFullPath(@"\setting.config"), Encoding.UTF8.GetBytes(GetSettingContent));
                 }
             }
             }
@@ -257,7 +257,7 @@ namespace SSELex
             LocalSetting CopySetting = this;
             var GetSettingContent = JsonSerializer.Serialize(CopySetting, Options);
 
-            FileHelper.WriteFile(DeFine.GetFullPath(@"\setting.config"), GetSettingContent, Encoding.UTF8);
+            DataHelper.WriteFile(DeFine.GetFullPath(@"\setting.config"), Encoding.UTF8.GetBytes(GetSettingContent));
 
             EngineConfig.Save();
         }
