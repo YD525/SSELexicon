@@ -2306,8 +2306,63 @@ namespace SSELex
         }
 
         public void SyncSettingUI(string Name)
-        { 
-            
+        {
+            STimeOut.Text = EngineConfig.GlobalRequestTimeOut.ToString();
+
+            SProxyUrl.Text = EngineConfig.ProxyUrl;
+            SProxyUserName.Text = EngineConfig.ProxyUserName;
+            SProxyPassword.Password = EngineConfig.ProxyPassword;
+
+            SGeminiKey.Password = EngineConfig.GeminiKey;
+            SGeminiModel.Text = EngineConfig.GeminiModel;
+
+            SGeminiModelSelect.Items.Clear();
+            SGeminiModelSelect.Items.Add("gemini-2.5-flash");
+            SGeminiModelSelect.Items.Add("gemini-2.0-flash");
+            SGeminiModelSelect.SelectedValue = null;
+
+            SChatGptKey.Password= EngineConfig.ChatGptKey;
+            SChatGptModel.Text = EngineConfig.ChatGptModel;
+            SChatGptModelSelect.Items.Clear();
+            SChatGptModelSelect.Items.Add("GPT-5 nano");
+            SChatGptModelSelect.Items.Add("GPT-5 mini");
+            SChatGptModelSelect.Items.Add("GPT-4.1 nano");
+            SChatGptModelSelect.Items.Add("GPT-4.1 mini");
+            SChatGptModelSelect.Items.Add("gpt-4o-mini");
+            SChatGptModelSelect.SelectedValue = null;
+
+            SCohereKey.Password = EngineConfig.CohereKey;
+
+            SDeepSeekKey.Password = EngineConfig.DeepSeekKey;
+            SDeepSeekModel.Text = EngineConfig.DeepSeekModel;
+            SDeepSeekModelSelect.Items.Clear();
+            SDeepSeekModelSelect.Items.Add("deepseek-chat");
+            SDeepSeekModelSelect.Items.Add("deepseek-reasoner");
+            SDeepSeekModelSelect.SelectedValue = null;
+
+            SBaichuanKey.Password = EngineConfig.BaichuanKey;
+            SBaichuanModel.Text = EngineConfig.BaichuanModel;
+            SBaichuanModelSelect.Items.Clear();
+            SBaichuanModelSelect.Items.Add("Baichuan4-Turbo");
+            SBaichuanModelSelect.SelectedValue = null;
+
+            SLMHost.Text = EngineConfig.LMHost;
+            SLMPort.Text = EngineConfig.LMPort.ToString();
+            SLMModel.Text = EngineConfig.LMModel;
+
+            SDeepLKey.Password = EngineConfig.DeepLKey;
+
+            if (EngineConfig.IsFreeDeepL)
+            {
+                IsFreeDeepL.IsChecked = true;
+            }
+            else
+            {
+                IsFreeDeepL.IsChecked = false;
+            }
+
+
+            GoogleKey.Password = EngineConfig.GoogleApiKey;
         }
 
         public void ShowFrame(string Name)

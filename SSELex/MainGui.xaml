@@ -1015,8 +1015,8 @@
                                                             Mode:
                                                         </Label>
 
-                                                        <Border  Style="{DynamicResource DefTextBoxBorder}" Width="100" Name="SGeminiModel">
-                                                            <TextBox Style="{DynamicResource DefTextBox}">
+                                                        <Border  Style="{DynamicResource DefTextBoxBorder}" Width="100">
+                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SGeminiModel">
                                                             </TextBox>
                                                         </Border>
 
@@ -1146,7 +1146,7 @@
                                                             LocalAI(LM) Host:
                                                         </Label>
 
-                                                        <Border Style="{DynamicResource DefTextBoxBorder}" Width="100">
+                                                        <Border Style="{DynamicResource DefTextBoxBorder}" Width="150">
                                                             <TextBox Style="{DynamicResource DefTextBox}" Name="SLMHost">
                                                             </TextBox>
                                                         </Border>
@@ -1155,7 +1155,7 @@
                                                             Port:
                                                         </Label>
 
-                                                        <Border Style="{DynamicResource DefTextBoxBorder}" Width="100">
+                                                        <Border Style="{DynamicResource DefTextBoxBorder}" Width="50">
                                                             <TextBox Style="{DynamicResource DefTextBox}" Name="SLMPort">
                                                             </TextBox>
                                                         </Border>
@@ -1164,7 +1164,7 @@
                                                             Mode:
                                                         </Label>
 
-                                                        <Border Style="{DynamicResource DefTextBoxBorder}" Width="100">
+                                                        <Border Style="{DynamicResource DefTextBoxBorder}" Width="200">
                                                             <TextBox Style="{DynamicResource DefTextBox}" Name="SLMModel">
                                                             </TextBox>
                                                         </Border>
