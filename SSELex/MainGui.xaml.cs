@@ -2045,6 +2045,14 @@ namespace SSELex
             ShowFormatToStrButton(true);
         }
 
+        private void CloneFromStr(object sender, MouseButtonEventArgs e)
+        {
+            if (ToStr.Text.Length == 0)
+            {
+                ToStr.Text = FromStr.Text;
+            }
+        }
+
         public void ShowClearToStrButton(bool Enable)
         {
             UIHelper.ShowButton(ClearToStrButton, Enable);

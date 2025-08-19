@@ -46,7 +46,7 @@
                         </Grid>
 
                         <Grid Grid.Column="3">
-                            <Border Background="#FF1D1D1D" CornerRadius="5" Margin="5">
+                            <Border Background="#FF1D1D1D" CornerRadius="5" Margin="5 2.5 5 2.5">
                                 <TextBox IsTabStop="False" FontSize="13.9" Margin="5 0 5 0" HorizontalContentAlignment="Left" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CaretBrush="#FFD4A000" SelectionTextBrush="#FF199EF5"  AcceptsReturn="True"  BorderThickness="0" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White">
 
                                 </TextBox>

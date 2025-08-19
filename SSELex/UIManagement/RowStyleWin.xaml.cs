@@ -277,6 +277,14 @@ namespace SSELex.UIManagement
                 {
                     if (DeFine.WorkingWin.TransViewList != null)
                     {
+                        int GetSelectionStart = Text.SelectionStart;
+                        int GetSelectionLength = Text.SelectionLength;
+
+                        if (Text.Text.Length > 0)
+                        {
+                            Text.Text = Translator.FormatStr(Text.Text);
+                        }
+
                         string GetKey = ConvertHelper.ObjToStr(Text.Tag);
                         var GetTarget = DeFine.WorkingWin.TransViewList.KeyToFakeGrid(GetKey);
 
@@ -287,6 +295,11 @@ namespace SSELex.UIManagement
                             TranslatorExtend.SetTranslatorHistoryCache(GetKey, Text.Text);
                         }
 
+                        GetSelectionStart = Math.Min(GetSelectionStart, Text.Text.Length);
+                        GetSelectionLength = Math.Min(GetSelectionLength, Text.Text.Length - GetSelectionStart);
+
+                        Text.SelectionStart = GetSelectionStart;
+                        Text.SelectionLength = GetSelectionLength;
                     }
                 }
             }

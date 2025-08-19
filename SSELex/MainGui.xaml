@@ -649,11 +649,18 @@
                                                     <svgc:SvgViewbox  Stretch="UniformToFill" Source="/Material/Speaker.svg"  Margin="3 0 3 0" Width="17" Panel.ZIndex="900" Height="15" Cursor="Hand" Opacity="1"/>
                                                 </Border>
 
+                                                <Border Name="CloneFromStrButton" Style="{DynamicResource LiteButton}" PreviewMouseDown="CloneFromStr">
+                                                    <Label Style="{DynamicResource LiteButtonFont}" Foreground="White">
+                                                        Clone
+                                                    </Label>
+                                                </Border>
+                                                
                                                 <Border Name="UPSelecter" Style="{DynamicResource LiteButton}" PreviewMouseDown="UPSelecter_PreviewMouseDown">
                                                     <Label Foreground="White">
                                                         ⬆
                                                     </Label>
                                                 </Border>
+                                                
                                                 <Border Name="DownSelecter" Style="{DynamicResource LiteButton}" PreviewMouseDown="DownSelecter_PreviewMouseDown" ToolTip="HotKey Press Tab">
                                                     <Label Foreground="White">
                                                         ⬇
