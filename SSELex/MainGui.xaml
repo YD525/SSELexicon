@@ -380,7 +380,7 @@
                                                 <ColumnDefinition Width="1*"/>
                                             </Grid.ColumnDefinitions>
 
-                                            <Border Name="NormalModel" Style="{DynamicResource ModelUnselected}" CornerRadius="5 0 0 5" Grid.Column="0" PreviewMouseDown="NormalModel_PreviewMouseDown">
+                                            <Border Name="NormalModel" Style="{DynamicResource ModelUnSelected}" CornerRadius="5 0 0 5" Grid.Column="0" PreviewMouseDown="NormalModel_PreviewMouseDown">
                                                 <Grid>
                                                     <Label Style="{DynamicResource ModelFont}">
                                                         Normal
@@ -877,18 +877,18 @@
                             </Grid.RowDefinitions>
                             
                             <Grid Grid.Row="1" Margin="5">
-                                <StackPanel Orientation="Horizontal" Margin="5 0 5 0">
-                                    <Border  Width="100" Style="{DynamicResource ModelSelected}" CornerRadius="5 0 0 5" Grid.Column="0">
+                                <StackPanel Orientation="Horizontal" Margin="5 0 5 0" Name="SettingNavs">
+                                    <Border  Width="160" Style="{DynamicResource ModelSelected}" CornerRadius="5 0 0 5" Grid.Column="0" PreviewMouseDown="SelectSettingNav">
                                         <Grid>
                                             <Label Style="{DynamicResource ModelFont}">
-                                                Platform Config
+                                                Request And ApiKey Config
                                             </Label>
                                             <Grid Visibility="Visible" Style="{DynamicResource ModelSelectedBlock}">
                                             </Grid>
                                         </Grid>
                                     </Border>
 
-                                    <Border Width="100" Style="{DynamicResource ModelUnselected}" Grid.Column="1">
+                                    <Border Width="100" Style="{DynamicResource ModelUnSelected}" Grid.Column="1" PreviewMouseDown="SelectSettingNav">
                                         <Grid>
                                             <Label Style="{DynamicResource ModelFont}">
                                                 AI Config
@@ -898,7 +898,7 @@
                                         </Grid>
                                     </Border>
 
-                                    <Border Width="100" Style="{DynamicResource ModelUnselected}" Grid.Column="1">
+                                    <Border Width="100" Style="{DynamicResource ModelUnSelected}" Grid.Column="1" PreviewMouseDown="SelectSettingNav">
                                         <Grid>
                                             <Label Style="{DynamicResource ModelFont}">
                                                 Game Config
@@ -908,7 +908,7 @@
                                         </Grid>
                                     </Border>
 
-                                    <Border Width="100" Style="{DynamicResource ModelUnselected}" Grid.Column="1">
+                                    <Border Width="100" Style="{DynamicResource ModelUnSelected}" Grid.Column="1" PreviewMouseDown="SelectSettingNav">
                                         <Grid>
                                             <Label Style="{DynamicResource ModelFont}">
                                                 UI Config
@@ -918,7 +918,7 @@
                                         </Grid>
                                     </Border>
 
-                                    <Border Width="100" Style="{DynamicResource ModelUnselected}"  CornerRadius="0 5 5 0" Grid.Column="1">
+                                    <Border Width="100" Style="{DynamicResource ModelUnSelected}"  CornerRadius="0 5 5 0" Grid.Column="1" PreviewMouseDown="SelectSettingNav">
                                         <Grid>
                                             <Label Style="{DynamicResource ModelFont}">
                                                 Engine Config
@@ -929,262 +929,290 @@
                                     </Border>
                                 </StackPanel>
                             </Grid>
-                            <Border Grid.Row="2" Style="{DynamicResource SettingFrame}" Name="PlatformConfigView">
-                                <ScrollViewer VerticalScrollBarVisibility="Auto" Style="{DynamicResource for_scrollviewer}">
-                                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 0 0 0" VerticalAlignment="Center">
-                                        <Label Style="{DynamicResource TittleFont}">
-                                            Request Config
-                                        </Label>
 
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 5 0 10">
-                                            <Label Style="{DynamicResource NormalText}">
-                                                TimeOut:
+                            <Grid Grid.Row="2" Name="SettingFrames">
+                                <Border  Style="{DynamicResource SettingFrame}" Tag="Request And ApiKey Config">
+                                    <ScrollViewer VerticalScrollBarVisibility="Auto" Style="{DynamicResource for_scrollviewer}">
+
+                                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 0 0 0" VerticalAlignment="Center">
+                                            <Label Style="{DynamicResource TittleFont}">
+                                                Request Config
                                             </Label>
-                                            <Border  Style="{DynamicResource DefTextBoxBorder}" Width="100" >
-                                                <TextBox Style="{DynamicResource DefTextBox}">
-                                                </TextBox>
+
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 5 5 10">
+                                                <Label Style="{DynamicResource NormalText}">
+                                                    TimeOut:
+                                                </Label>
+                                                <Border  Style="{DynamicResource DefTextBoxBorder}" Width="100" >
+                                                    <TextBox Style="{DynamicResource DefTextBox}" Name="STimeOut">
+                                                    </TextBox>
+                                                </Border>
+                                            </StackPanel>
+
+
+                                            <Label Style="{DynamicResource TittleFont}">
+                                                HttpProxy Config
+                                            </Label>
+
+
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 5 5 10">
+                                                <Label Style="{DynamicResource NormalText}">
+                                                    Url:
+                                                </Label>
+
+                                                <Border  Style="{DynamicResource DefTextBoxBorder}" Width="230" >
+                                                    <TextBox Style="{DynamicResource DefTextBox}" Name="SProxyUrl">
+                                                    </TextBox>
+                                                </Border>
+
+                                                <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
+                                                    UserName:
+                                                </Label>
+
+                                                <Border  Style="{DynamicResource DefTextBoxBorder}" Width="100" >
+                                                    <TextBox Style="{DynamicResource DefTextBox}" Name="SProxyUserName">
+                                                    </TextBox>
+                                                </Border>
+
+                                                <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
+                                                    Password:
+                                                </Label>
+
+                                                <Border  Style="{DynamicResource DefTextBoxBorder}" Width="100" >
+                                                    <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="SProxyPassword">
+                                                    </PasswordBox>
+                                                </Border>
+                                            </StackPanel>
+
+
+                                            <Label Style="{DynamicResource TittleFont}">
+                                                APIKey Config
+                                            </Label>
+
+                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Left" Margin="0 5 0 10">
+                                                <StackPanel Orientation="Vertical" Margin="5">
+                                                    <Label Style="{DynamicResource LinkFont}" MouseDown="OpenUrl_MouseDown" Margin="0 0 0 5">
+                                                        https://aistudio.google.com/apikey
+                                                    </Label>
+                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                                        <Label Style="{DynamicResource NormalText}">
+                                                            Gemini ApiKey:
+                                                        </Label>
+
+                                                        <Border Style="{DynamicResource DefTextBoxBorder}" Width="300">
+                                                            <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="SGeminiKey">
+                                                            </PasswordBox>
+                                                        </Border>
+
+                                                        <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
+                                                            Mode:
+                                                        </Label>
+
+                                                        <Border  Style="{DynamicResource DefTextBoxBorder}" Width="100" Name="SGeminiModel">
+                                                            <TextBox Style="{DynamicResource DefTextBox}">
+                                                            </TextBox>
+                                                        </Border>
+
+                                                        <ComboBox Name="SGeminiModelSelect" IsTabStop="True" Margin="5 0 0 0" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Width="50" Height="30" Style="{StaticResource CustomComboBoxStyle}">
+                                                        </ComboBox>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Border>
+
+                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Left" Margin="0 5 0 10">
+                                                <StackPanel Orientation="Vertical" Margin="5">
+                                                    <Label Style="{DynamicResource LinkFont}" MouseDown="OpenUrl_MouseDown" Margin="0 0 0 5">
+                                                        https://platform.openai.com/api-keys
+                                                    </Label>
+
+                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                                        <Label Style="{DynamicResource NormalText}">
+                                                            ChatGpt ApiKey:
+                                                        </Label>
+
+                                                        <Border  Style="{DynamicResource DefTextBoxBorder}" Width="300" >
+                                                            <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="SChatGptKey">
+                                                            </PasswordBox>
+                                                        </Border>
+
+                                                        <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
+                                                            Mode:
+                                                        </Label>
+
+                                                        <Border Style="{DynamicResource DefTextBoxBorder}" Width="100">
+                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SChatGptModel">
+                                                            </TextBox>
+                                                        </Border>
+
+                                                        <ComboBox Name="SChatGptModelSelect" IsTabStop="True" Margin="5 0 0 0" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Width="50" Height="30" Style="{StaticResource CustomComboBoxStyle}">
+                                                        </ComboBox>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Border>
+
+                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Left" Margin="0 5 0 10">
+                                                <StackPanel Orientation="Vertical" Margin="5">
+                                                    <Label Style="{DynamicResource LinkFont}" MouseDown="OpenUrl_MouseDown" Margin="0 0 0 5">
+                                                        https://dashboard.cohere.com/api-keys
+                                                    </Label>
+                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                                        <Label Style="{DynamicResource NormalText}">
+                                                            Cohere ApiKey:
+                                                        </Label>
+
+                                                        <Border  Style="{DynamicResource DefTextBoxBorder}" Width="300">
+                                                            <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="SCohereKey">
+                                                            </PasswordBox>
+                                                        </Border>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Border>
+
+                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Left" Margin="0 5 0 10">
+                                                <StackPanel Orientation="Vertical" Margin="5">
+                                                    <Label Style="{DynamicResource LinkFont}" MouseDown="OpenUrl_MouseDown" Margin="0 0 0 5">
+                                                        https://platform.deepseek.com/api_keys
+                                                    </Label>
+                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                                        <Label Style="{DynamicResource NormalText}">
+                                                            DeepSeek ApiKey:
+                                                        </Label>
+
+                                                        <Border Style="{DynamicResource DefTextBoxBorder}" Width="300">
+                                                            <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="SDeepSeekKey">
+                                                            </PasswordBox>
+                                                        </Border>
+
+                                                        <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
+                                                            Mode:
+                                                        </Label>
+
+                                                        <Border Style="{DynamicResource DefTextBoxBorder}" Width="100">
+                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SDeepSeekModel">
+                                                            </TextBox>
+                                                        </Border>
+
+                                                        <ComboBox Name="SDeepSeekModelSelect" IsTabStop="True" Margin="5 0 0 0" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Width="50" Height="30" Style="{StaticResource CustomComboBoxStyle}">
+                                                        </ComboBox>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Border>
+
+
+                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Left" Margin="0 5 0 10">
+                                                <StackPanel Orientation="Vertical" Margin="5">
+
+                                                    <Label Style="{DynamicResource LinkFont}" MouseDown="OpenUrl_MouseDown" Margin="0 0 0 5">
+                                                        https://platform.baichuan-ai.com/docs/api
+                                                    </Label>
+                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                                        <Label Style="{DynamicResource NormalText}">
+                                                            Baichuan ApiKey:
+                                                        </Label>
+
+                                                        <Border Style="{DynamicResource DefTextBoxBorder}" Width="300">
+                                                            <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="SBaichuanKey">
+                                                            </PasswordBox>
+                                                        </Border>
+
+                                                        <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
+                                                            Mode:
+                                                        </Label>
+
+                                                        <Border Style="{DynamicResource DefTextBoxBorder}" Width="100">
+                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SBaichuanModel">
+                                                            </TextBox>
+                                                        </Border>
+
+                                                        <ComboBox Name="SBaichuanModelSelect" IsTabStop="True" Margin="5 0 0 0" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Width="50" Height="30" Style="{StaticResource CustomComboBoxStyle}">
+                                                        </ComboBox>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Border>
+                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Left" Margin="0 5 0 10">
+                                                <StackPanel Orientation="Vertical" Margin="5">
+                                                    <Label Style="{DynamicResource LinkFont}" MouseDown="OpenUrl_MouseDown" Margin="0 0 0 5">
+                                                        https://lmstudio.ai/
+                                                    </Label>
+                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                                        <Label Style="{DynamicResource NormalText}">
+                                                            LocalAI(LM) Host:
+                                                        </Label>
+
+                                                        <Border Style="{DynamicResource DefTextBoxBorder}" Width="100">
+                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SLMHost">
+                                                            </TextBox>
+                                                        </Border>
+
+                                                        <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
+                                                            Port:
+                                                        </Label>
+
+                                                        <Border Style="{DynamicResource DefTextBoxBorder}" Width="100">
+                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SLMPort">
+                                                            </TextBox>
+                                                        </Border>
+
+                                                        <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
+                                                            Mode:
+                                                        </Label>
+
+                                                        <Border Style="{DynamicResource DefTextBoxBorder}" Width="100">
+                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SLMModel">
+                                                            </TextBox>
+                                                        </Border>
+
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Border>
+
+                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Left" Margin="0 5 0 10">
+                                                <StackPanel Orientation="Vertical" Margin="5">
+                                                    <Label Style="{DynamicResource LinkFont}" MouseDown="OpenUrl_MouseDown" Margin="0 0 0 5">
+                                                        https://www.deepl.com/your-account/keys
+                                                    </Label>
+                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                                        <Label Style="{DynamicResource NormalText}">
+                                                            DeepL ApiKey:
+                                                        </Label>
+
+                                                        <Border Style="{DynamicResource DefTextBoxBorder}" Width="300">
+                                                            <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="SDeepLKey">
+                                                            </PasswordBox>
+                                                        </Border>
+
+                                                        <CheckBox Style="{DynamicResource DefCheckBox}" Margin="5 0 0 0" Name="IsFreeDeepL">
+                                                            It is a free DeepL key
+                                                        </CheckBox>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Border>
+
+
+
+
+                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Left" Margin="0 5 0 10">
+                                                <StackPanel Orientation="Vertical" Margin="5">
+                                                    <Label Style="{DynamicResource LinkFont}" MouseDown="OpenUrl_MouseDown" Margin="0 0 0 5">
+                                                        https://cloud.google.com/translate/docs
+                                                    </Label>
+                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 0 0 0">
+                                                        <Label Style="{DynamicResource NormalText}">
+                                                            Google ApiKey:
+                                                        </Label>
+
+                                                        <Border Style="{DynamicResource DefTextBoxBorder}" Width="300">
+                                                            <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="GoogleKey">
+                                                            </PasswordBox>
+                                                        </Border>
+                                                    </StackPanel>
+                                                </StackPanel>
                                             </Border>
 
                                         </StackPanel>
-
-                                        <Label Style="{DynamicResource TittleFont}">
-                                            HttpProxy Config
-                                        </Label>
-
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 5 0 10">
-                                            <Label Style="{DynamicResource NormalText}">
-                                                Url:
-                                            </Label>
-
-                                            <Border  Style="{DynamicResource DefTextBoxBorder}" Width="230" >
-                                                <TextBox Style="{DynamicResource DefTextBox}">
-                                                </TextBox>
-                                            </Border>
-
-                                            <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
-                                               UserName:
-                                            </Label>
-
-                                            <Border  Style="{DynamicResource DefTextBoxBorder}" Width="100" >
-                                                <TextBox Style="{DynamicResource DefTextBox}">
-                                                </TextBox>
-                                            </Border>
-
-                                            <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
-                                                Password:
-                                            </Label>
-
-                                            <Border  Style="{DynamicResource DefTextBoxBorder}" Width="100" >
-                                                <PasswordBox Style="{DynamicResource DefPasswordBox}">
-                                                </PasswordBox>
-                                            </Border>
-                                        </StackPanel>
-
-                                        <Label Style="{DynamicResource TittleFont}">
-                                            APIKey Config
-                                        </Label>
-                                        <Label Style="{DynamicResource LinkFont}" MouseDown="OpenUrl_MouseDown">
-                                            https://aistudio.google.com/apikey
-                                        </Label>
-
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 0 0 10">
-                                            <Label Style="{DynamicResource NormalText}">
-                                                Gemini ApiKey:
-                                            </Label>
-
-                                            <Border Style="{DynamicResource DefTextBoxBorder}" Width="300">
-                                                <PasswordBox Style="{DynamicResource DefPasswordBox}">
-                                                </PasswordBox>
-                                            </Border>
-
-                                            <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
-                                                Mode:
-                                            </Label>
-
-                                            <Border  Style="{DynamicResource DefTextBoxBorder}" Width="100" >
-                                                <TextBox Style="{DynamicResource DefTextBox}">
-                                                </TextBox>
-                                            </Border>
-
-                                            <ComboBox IsTabStop="True" Margin="5 0 0 0" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Width="50" Height="30" Style="{StaticResource CustomComboBoxStyle}">
-                                            </ComboBox>
-                                        </StackPanel>
-
-                                        <Label Style="{DynamicResource LinkFont}" MouseDown="OpenUrl_MouseDown">
-                                            https://platform.openai.com/api-keys
-                                        </Label>
-
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 0 0 10">
-                                            <Label Style="{DynamicResource NormalText}">
-                                                ChatGpt ApiKey:
-                                            </Label>
-
-                                            <Border  Style="{DynamicResource DefTextBoxBorder}" Width="300" >
-                                                <PasswordBox Style="{DynamicResource DefPasswordBox}">
-                                                </PasswordBox>
-                                            </Border>
-
-                                            <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
-                                                Mode:
-                                            </Label>
-
-                                            <Border Style="{DynamicResource DefTextBoxBorder}" Width="100">
-                                                <TextBox Style="{DynamicResource DefTextBox}">
-                                                </TextBox>
-                                            </Border>
-
-                                            <ComboBox IsTabStop="True" Margin="5 0 0 0" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Width="50" Height="30" Style="{StaticResource CustomComboBoxStyle}">
-                                            </ComboBox>
-                                        </StackPanel>
-
-                                        <Label Style="{DynamicResource LinkFont}" MouseDown="OpenUrl_MouseDown">
-                                            https://dashboard.cohere.com/api-keys
-                                        </Label>
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 0 0 10">
-                                            <Label Style="{DynamicResource NormalText}">
-                                                Cohere ApiKey:
-                                            </Label>
-
-                                            <Border  Style="{DynamicResource DefTextBoxBorder}" Width="300">
-                                                <PasswordBox Style="{DynamicResource DefPasswordBox}">
-                                                </PasswordBox>
-                                            </Border>
-
-                                            <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
-                                                Mode:
-                                            </Label>
-
-                                            <Border Style="{DynamicResource DefTextBoxBorder}" Width="100">
-                                                <TextBox Style="{DynamicResource DefTextBox}">
-                                                </TextBox>
-                                            </Border>
-
-                                            <ComboBox IsTabStop="True" Margin="5 0 0 0" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Width="50" Height="30" Style="{StaticResource CustomComboBoxStyle}">
-                                            </ComboBox>
-                                        </StackPanel>
-
-                                        <Label Style="{DynamicResource LinkFont}" MouseDown="OpenUrl_MouseDown">
-                                            https://platform.deepseek.com/api_keys
-                                        </Label>
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 0 0 10">
-                                            <Label Style="{DynamicResource NormalText}">
-                                                DeepSeek ApiKey:
-                                            </Label>
-
-                                            <Border Style="{DynamicResource DefTextBoxBorder}" Width="300">
-                                                <PasswordBox Style="{DynamicResource DefPasswordBox}">
-                                                </PasswordBox>
-                                            </Border>
-
-                                            <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
-                                                Mode:
-                                            </Label>
-
-                                            <Border Style="{DynamicResource DefTextBoxBorder}" Width="100">
-                                                <TextBox Style="{DynamicResource DefTextBox}">
-                                                </TextBox>
-                                            </Border>
-
-                                            <ComboBox IsTabStop="True" Margin="5 0 0 0" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Width="50" Height="30" Style="{StaticResource CustomComboBoxStyle}">
-                                            </ComboBox>
-                                        </StackPanel>
-
-                                        <Label Style="{DynamicResource LinkFont}" MouseDown="OpenUrl_MouseDown">
-                                            https://platform.baichuan-ai.com/docs/api
-                                        </Label>
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 0 0 10">
-                                            <Label Style="{DynamicResource NormalText}">
-                                                Baichuan ApiKey:
-                                            </Label>
-
-                                            <Border Style="{DynamicResource DefTextBoxBorder}" Width="300">
-                                                <PasswordBox Style="{DynamicResource DefPasswordBox}">
-                                                </PasswordBox>
-                                            </Border>
-
-                                            <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
-                                                Mode:
-                                            </Label>
-
-                                            <Border Style="{DynamicResource DefTextBoxBorder}" Width="100">
-                                                <TextBox Style="{DynamicResource DefTextBox}">
-                                                </TextBox>
-                                            </Border>
-
-                                            <ComboBox IsTabStop="True" Margin="5 0 0 0" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Width="50" Height="30" Style="{StaticResource CustomComboBoxStyle}">
-                                            </ComboBox>
-                                        </StackPanel>
-
-
-                                        <Label Style="{DynamicResource LinkFont}" MouseDown="OpenUrl_MouseDown">
-                                            https://lmstudio.ai/
-                                        </Label>
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 0 0 10">
-                                            <Label Style="{DynamicResource NormalText}">
-                                                LocalAI(LM) Host:
-                                            </Label>
-
-                                            <Border Style="{DynamicResource DefTextBoxBorder}" Width="100">
-                                                <TextBox Style="{DynamicResource DefTextBox}">
-                                                </TextBox>
-                                            </Border>
-
-                                            <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
-                                                Port:
-                                            </Label>
-
-                                            <Border Style="{DynamicResource DefTextBoxBorder}" Width="100">
-                                                <TextBox Style="{DynamicResource DefTextBox}">
-                                                </TextBox>
-                                            </Border>
-
-                                            <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
-                                                Mode:
-                                            </Label>
-
-                                            <Border Style="{DynamicResource DefTextBoxBorder}" Width="100">
-                                                <TextBox Style="{DynamicResource DefTextBox}">
-                                                </TextBox>
-                                            </Border>
-
-                                        </StackPanel>
-
-                                        <Label Style="{DynamicResource LinkFont}" MouseDown="OpenUrl_MouseDown">
-                                            https://www.deepl.com/your-account/keys
-                                        </Label>
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 0 0 10">
-                                            <Label Style="{DynamicResource NormalText}">
-                                                DeepL ApiKey:
-                                            </Label>
-
-                                            <Border Style="{DynamicResource DefTextBoxBorder}" Width="300">
-                                                <PasswordBox Style="{DynamicResource DefPasswordBox}">
-                                                </PasswordBox>
-                                            </Border>
-
-                                            <CheckBox Style="{DynamicResource DefCheckBox}" Margin="5 0 0 0">
-                                                It is a free DeepL key
-                                            </CheckBox>
-                                        </StackPanel>
-
-
-                                        <Label Style="{DynamicResource LinkFont}" MouseDown="OpenUrl_MouseDown">
-                                            https://cloud.google.com/translate/docs
-                                        </Label>
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 0 0 0">
-                                            <Label Style="{DynamicResource NormalText}">
-                                                Google ApiKey:
-                                            </Label>
-
-                                            <Border Style="{DynamicResource DefTextBoxBorder}" Width="300">
-                                                <PasswordBox Style="{DynamicResource DefPasswordBox}">
-                                                </PasswordBox>
-                                            </Border>
-                                        </StackPanel>
-
-                                    </StackPanel>
-                                </ScrollViewer>
-                            </Border>
+                                    </ScrollViewer>
+                                </Border>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </Grid>

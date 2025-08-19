@@ -148,6 +148,8 @@ namespace SSELex
 
             Engine.From = DeFine.GlobalLocalSetting.SourceLanguage;
             Engine.To = DeFine.GlobalLocalSetting.TargetLanguage;
+
+            SelectFristSettingNav();
         }
 
 
@@ -1291,7 +1293,7 @@ namespace SSELex
         {
             DeFine.GlobalLocalSetting.ViewMode = "Normal";
             NormalModel.Style = (Style)this.FindResource("ModelSelected");
-            QuickModel.Style = (Style)this.FindResource("ModelUnselected");
+            QuickModel.Style = (Style)this.FindResource("ModelUnSelected");
 
             NormalModelBlock.Visibility = Visibility.Visible;
             QuickModelBlock.Visibility = Visibility.Collapsed;
@@ -1305,7 +1307,7 @@ namespace SSELex
         public void EnableQuickModel()
         {
             DeFine.GlobalLocalSetting.ViewMode = "Quick";
-            NormalModel.Style = (Style)this.FindResource("ModelUnselected");
+            NormalModel.Style = (Style)this.FindResource("ModelUnSelected");
             QuickModel.Style = (Style)this.FindResource("ModelSelected");
 
             NormalModelBlock.Visibility = Visibility.Collapsed;
@@ -2224,5 +2226,113 @@ namespace SSELex
                 }
             }
         }
+
+        #region Setting
+
+        public void SelectFristSettingNav()
+        {
+            if (SettingNavs.Children.Count > 0)
+            {
+                if (SettingNavs.Children[0] is Border)
+                    SelectSettingNav((Border)SettingNavs.Children[0]);
+            }
+        }
+
+        public Border LastSetBorder = null;
+        public void SetSelectSettingNav(Border Nav)
+        {
+            if (Nav.Child is Grid)
+            {
+                Grid GetMainGrid = (Grid)Nav.Child;
+                if (GetMainGrid.Children.Count == 2)
+                {
+                    Nav.Style = (Style)this.FindResource("ModelSelected");
+                    ((Grid)GetMainGrid.Children[1]).Visibility = Visibility.Visible; 
+                }
+            }
+           
+        }
+
+        public void SetUnSelectSettingNav(Border Nav)
+        {
+            if (Nav.Child is Grid)
+            {
+                Grid GetMainGrid = (Grid)Nav.Child;
+                if (GetMainGrid.Children.Count == 2)
+                {
+                    Nav.Style = (Style)this.FindResource("ModelUnSelected");
+                    ((Grid)GetMainGrid.Children[1]).Visibility = Visibility.Hidden;
+                }  
+            }
+               
+        }
+
+        public string GetSettingNavName(Border Nav)
+        {
+            if (Nav.Child is Grid)
+            {
+                Grid GetMainGrid = (Grid)Nav.Child;
+                if (GetMainGrid.Children.Count == 2)
+                {
+                    if (GetMainGrid.Children[0] is Label)
+                        return ConvertHelper.ObjToStr(((Label)GetMainGrid.Children[0]).Content);
+                }
+            }
+            return string.Empty;
+        }
+
+        public void SelectSettingNav(Border Nav)
+        {
+            if (LastSetBorder != null)
+            {
+                SetUnSelectSettingNav(LastSetBorder);
+            }
+
+            SetSelectSettingNav(Nav);
+
+            string GetName = GetSettingNavName(Nav);
+            ShowFrame(GetName);
+            SyncSettingUI(GetName);
+
+            LastSetBorder = Nav;
+        }
+
+        public void SyncSettingUI(string Name)
+        { 
+            
+        }
+
+        public void ShowFrame(string Name)
+        {
+            for (int i = 0; i < this.SettingFrames.Children.Count; i++)
+            {
+                if (this.SettingFrames.Children[i] is Border)
+                {
+                    Border GetFrame = (Border)this.SettingFrames.Children[i];
+                    string GetTag = ConvertHelper.ObjToStr(GetFrame.Tag);
+                    if (GetTag.Equals(Name))
+                    {
+                        GetFrame.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        GetFrame.Visibility = Visibility.Collapsed;
+                    }
+                }
+            }
+        }
+
+        private void SelectSettingNav(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is Border)
+            {
+                Border GetNav = (Border)sender;
+
+                SelectSettingNav(GetNav);
+            }
+        }
+        #endregion
+
+
     }
 }

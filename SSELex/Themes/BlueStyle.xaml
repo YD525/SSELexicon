@@ -274,7 +274,7 @@
         <Setter Property="Cursor" Value="Hand"/>
     </Style>
 
-    <Style x:Key="ModelUnselected" TargetType="Border">
+    <Style x:Key="ModelUnSelected" TargetType="Border">
         <Setter Property="Background" Value="#FF0A61AF"/>
         <Setter Property="Cursor" Value="Hand"/>
     </Style>
@@ -318,6 +318,12 @@
         <Setter Property="BorderBrush"  Value="#FF535353"/>
         <Setter Property="Margin" Value="5 0 0 0"/>
         <Setter Property="Height" Value="35"/>
+    </Style>
+    
+    <Style x:Key="SectionStyleL" TargetType="Border">
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="BorderThickness"  Value="1"/>
+        <Setter Property="BorderBrush"  Value="#FF535353"/>
     </Style>
 
     <Style x:Key="ProcessBarBackgroundStyle" TargetType="Border">
