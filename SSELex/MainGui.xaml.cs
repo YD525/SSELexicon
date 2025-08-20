@@ -1,24 +1,16 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Security.Policy;
-using System.Transactions;
+﻿using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Threading;
-using DynamicData;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
-using Loqui.Translators;
-using Mutagen.Bethesda.Plugins.Masters.DI;
-using NexusMods.Paths.Trees.Traits;
 using PhoenixEngine.ConvertManager;
 using PhoenixEngine.DelegateManagement;
 using PhoenixEngine.EngineManagement;
+using PhoenixEngine.RequestManagement;
 using PhoenixEngine.TranslateCore;
 using PhoenixEngine.TranslateManage;
 using PhoenixEngine.TranslateManagement;
@@ -26,7 +18,6 @@ using SSELex.FileManagement;
 using SSELex.SkyrimManage;
 using SSELex.SkyrimModManager;
 using SSELex.TranslateManage;
-using SSELex.TranslateManagement;
 using SSELex.UIManage;
 using SSELex.UIManagement;
 using static PhoenixEngine.SSELexiconBridge.NativeBridge;
@@ -2398,6 +2389,8 @@ namespace SSELex
         private TextSegmentTranslator CurrentTextSegmentTranslator = null;
         public void TranslateCurrent()
         {
+            ProxyCenter.UsingProxy();
+
             lock (TranslateLocker)
             {
                 if (TransViewList != null)
@@ -2600,10 +2593,10 @@ namespace SSELex
                 SChatGptKey.Password = EngineConfig.ChatGptKey;
                 SChatGptModel.Text = EngineConfig.ChatGptModel;
                 SChatGptModelSelect.Items.Clear();
-                SChatGptModelSelect.Items.Add("GPT-5 nano");
-                SChatGptModelSelect.Items.Add("GPT-5 mini");
-                SChatGptModelSelect.Items.Add("GPT-4.1 nano");
-                SChatGptModelSelect.Items.Add("GPT-4.1 mini");
+                SChatGptModelSelect.Items.Add("gpt-5-nano");
+                SChatGptModelSelect.Items.Add("gpt-5-mini");
+                SChatGptModelSelect.Items.Add("gpt-4.1-nano");
+                SChatGptModelSelect.Items.Add("gpt-4.1-mini");
                 SChatGptModelSelect.Items.Add("gpt-4o-mini");
                 SChatGptModelSelect.SelectedValue = null;
 

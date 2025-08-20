@@ -12,6 +12,7 @@ using SSELex.UIManagement;
 using Microsoft.VisualBasic.Logging;
 using PhoenixEngine.DelegateManagement;
 using Mutagen.Bethesda.Plugins;
+using PhoenixEngine.RequestManagement;
 
 namespace SSELex.TranslateManage
 {
@@ -138,6 +139,8 @@ namespace SSELex.TranslateManage
                     if (GetListView != null)
                     {
                         SyncTransStateFreeze = true;
+
+                        ProxyCenter.UsingProxy();
 
                         SetLog("Engine Initialization(1/2)");
 
