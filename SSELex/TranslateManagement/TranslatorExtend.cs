@@ -11,6 +11,7 @@ using Loqui.Translators;
 using SSELex.UIManagement;
 using Microsoft.VisualBasic.Logging;
 using PhoenixEngine.DelegateManagement;
+using Mutagen.Bethesda.Plugins;
 
 namespace SSELex.TranslateManage
 {
@@ -123,6 +124,11 @@ namespace SSELex.TranslateManage
                 return;
             }
 
+            if (DeFine.WorkingWin == null)
+            {
+                return;
+            }
+
             new Thread(() =>
             {
                 if (TranslationStatus == StateControl.Run && !IsKeep)
@@ -144,8 +150,39 @@ namespace SSELex.TranslateManage
 
                             if (Row.TransText.Trim().Length == 0)
                             {
-                                TranslationUnits.Add(new TranslationUnit(Engine.GetModName(),
-                               Row.Key, Row.Type, Row.SourceText, Row.TransText));
+                                bool CanSet = true;
+
+                                if (Row.Key.EndsWith("(BookText)") && DeFine.WorkingWin.CurrentTransType == 2)
+                                {
+                                    DeFine.WorkingWin.SetLog("Skip Book fields:" + Row.Key);
+
+                                    CanSet = false;
+                                }
+                                else
+                                if (Row.Key.Contains("Score:") && Row.Key.Contains(",") && DeFine.WorkingWin.CurrentTransType == 3)
+                                {
+                                    string[] Params = Row.Key.Split(',');
+                                    if (Params.Length > 1)
+                                    {
+                                        if (Params[Params.Length - 1].Contains("Score:"))
+                                        {
+                                            double GetScore = ConvertHelper.ObjToDouble(Params[Params.Length - 1].Substring(Params[Params.Length - 1].IndexOf("Score:") + "Score:".Length));
+
+                                            if (GetScore < 5)
+                                            {
+                                                DeFine.WorkingWin.SetLog("Skip Dangerous fields:" + Row.Key);
+
+                                                CanSet = false;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                if (CanSet)
+                                {
+                                    TranslationUnits.Add(new TranslationUnit(Engine.GetModName(),
+                                  Row.Key, Row.Type, Row.SourceText, Row.TransText));
+                                }
                             }
                         }
 

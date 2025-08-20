@@ -141,7 +141,7 @@ namespace SSELex
             {
                 while (true)
                 {
-                    Thread.Sleep(500);
+                    Thread.Sleep(1000);
 
                     try
                     {
@@ -2163,8 +2163,13 @@ namespace SSELex
         {
             if (ScanAnimator != null)
             {
-                ScanAnimator.Stop();
-                ScanAnimator.Start();
+                if (TranslatorExtend.TranslationCore != null)
+                {
+                    if (TranslatorExtend.TranslationCore.IsWork && !TranslatorExtend.TranslationCore.IsStop)
+                    {
+                        ScanAnimator.UpdateAnimationTarget();
+                    }
+                } 
             }
         }
 

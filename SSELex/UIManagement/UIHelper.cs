@@ -25,38 +25,37 @@ namespace SSELex.UIManage
         private readonly FrameworkElement _ProcessBar;
         private DoubleAnimation? _Animation;
 
-        private readonly double _Speed = 60;
+        private readonly double _Speed = 120;
+        private double _PendingTo; 
 
-        public ScanAnimator(TranslateTransform scanTransform, FrameworkElement processBar, double speed = 60)
+        public ScanAnimator(TranslateTransform scanTransform, FrameworkElement processBar, double speed = 120)
         {
             _ScanTransform = scanTransform;
             _ProcessBar = processBar;
             _Speed = speed;
+        }
 
-            _ProcessBar.SizeChanged += (s, e) => RestartAnimation();
+        public void UpdateAnimationTarget()
+        {
+            _PendingTo = _ProcessBar.ActualWidth;
         }
 
         public void Start()
         {
             if (_Animation != null) return;
-            CreateAndStartAnimation();
+            StartNewCycle();
         }
+
         public void Stop()
         {
             _ScanTransform.BeginAnimation(TranslateTransform.XProperty, null);
             _Animation = null;
         }
 
-        private void RestartAnimation()
-        {
-            Stop();
-            CreateAndStartAnimation();
-        }
-
-        private void CreateAndStartAnimation()
+        private void StartNewCycle()
         {
             double from = -30;
-            double to = _ProcessBar.ActualWidth;
+            double to = _PendingTo > 0 ? _PendingTo : _ProcessBar.ActualWidth;
             if (to <= 0) return;
 
             double distance = to - from;
@@ -67,12 +66,20 @@ namespace SSELex.UIManage
                 From = from,
                 To = to,
                 Duration = TimeSpan.FromSeconds(durationSeconds),
-                AutoReverse = true,
-                RepeatBehavior = RepeatBehavior.Forever
+                AutoReverse = false,               
+                RepeatBehavior = new RepeatBehavior(1), 
+                FillBehavior = FillBehavior.Stop
             };
 
-            //15 FPS Limit
             Timeline.SetDesiredFrameRate(_Animation, 15);
+
+            _Animation.Completed += (s, e) =>
+            {
+                _ScanTransform.BeginAnimation(TranslateTransform.XProperty, null);
+                _Animation = null;
+
+                StartNewCycle();
+            };
 
             _ScanTransform.BeginAnimation(TranslateTransform.XProperty, _Animation);
         }
