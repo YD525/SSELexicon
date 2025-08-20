@@ -7,7 +7,7 @@
         xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
         xmlns:local="clr-namespace:SSELex"
         mc:Ignorable="d"
-        Title="SSELexicon"  Height="850" Width="1000" Loaded="Window_Loaded" Style="{DynamicResource DefWin}" PreviewKeyDown="Window_PreviewKeyDown" WindowStartupLocation="CenterScreen" AllowDrop="True" PreviewDragEnter="ModTransView_DragEnter" PreviewDrop="ModTransView_Drop"  PreviewDragLeave="ModTransView_DragLeave" Closing="Window_Closing" SizeChanged="Window_SizeChanged">
+        Title="SSE Lexicon"  Height="850" Width="1000" Loaded="Window_Loaded" Style="{DynamicResource DefWin}" PreviewKeyDown="Window_PreviewKeyDown" WindowStartupLocation="CenterScreen" AllowDrop="True" PreviewDragEnter="ModTransView_DragEnter" PreviewDrop="ModTransView_Drop"  PreviewDragLeave="ModTransView_DragLeave" Closing="Window_Closing" SizeChanged="Window_SizeChanged">
 
     <Window.Resources>
         
@@ -81,7 +81,7 @@
                     <ColumnDefinition Width="5"/>
                 </Grid.ColumnDefinitions>
                 <Label Name="Caption" Style="{DynamicResource CaptionFont}" Grid.Column="0">
-                    SSELexicon XT
+                    SSE Lexicon XT
                 </Label>
 
                 <Grid Grid.Column="1" Style="{DynamicResource ThreadInFo}" Visibility="Collapsed"  Name="ThreadInFo">
@@ -843,11 +843,11 @@
                                     Licensed under the GNU General Public License 3.0 (GPLv3)
                                 </Label>
 
-                                <Label Foreground="White" FontSize="15" HorizontalAlignment="Center" Name="ProgramVersion">
-                                    Program(GPLv3) Ver: 0.0.0.0
+                                <Label Foreground="White" FontWeight="Bold" FontSize="15" HorizontalAlignment="Center" Name="ProgramVersion">
+                                    SSE Lexicon(GPLv3) Version: 0.0.0.0
                                 </Label>
-                                <Label Foreground="White" FontSize="15" HorizontalAlignment="Center" Name="TranslationEngineVersion">
-                                    Translation Engine(LGPLv3) Ver: 0.0.0
+                                <Label Foreground="White" FontWeight="Bold" FontSize="15" HorizontalAlignment="Center" Name="TranslationEngineVersion">
+                                    Translation Engine(LGPLv3) Version: 0.0.0
                                 </Label>
 
                                 <TextBlock  FontSize="15" Margin="0 5 0 0" HorizontalAlignment="Center" Foreground="White" TextWrapping="Wrap" TextAlignment="Center">
@@ -895,7 +895,7 @@
                                     <Border  Width="160" Style="{DynamicResource ModelSelected}" CornerRadius="5 0 0 5" Grid.Column="0" PreviewMouseDown="SelectSettingNav">
                                         <Grid>
                                             <Label Style="{DynamicResource ModelFont}">
-                                                Request And ApiKey Config
+                                                Request And ApiKey Configs
                                             </Label>
                                             <Grid Visibility="Visible" Style="{DynamicResource ModelSelectedBlock}">
                                             </Grid>
@@ -905,7 +905,7 @@
                                     <Border Width="100" Style="{DynamicResource ModelUnSelected}" Grid.Column="1" PreviewMouseDown="SelectSettingNav">
                                         <Grid>
                                             <Label Style="{DynamicResource ModelFont}">
-                                                AI Config
+                                                AI Configs
                                             </Label>
                                             <Grid Visibility="Collapsed"  Style="{DynamicResource ModelSelectedBlock}">
                                             </Grid>
@@ -915,7 +915,7 @@
                                     <Border Width="100" Style="{DynamicResource ModelUnSelected}" Grid.Column="1" PreviewMouseDown="SelectSettingNav">
                                         <Grid>
                                             <Label Style="{DynamicResource ModelFont}">
-                                                Game Config
+                                                Game Configs
                                             </Label>
                                             <Grid Visibility="Collapsed"  Style="{DynamicResource ModelSelectedBlock}">
                                             </Grid>
@@ -925,7 +925,7 @@
                                     <Border Width="100" Style="{DynamicResource ModelUnSelected}" Grid.Column="1" PreviewMouseDown="SelectSettingNav">
                                         <Grid>
                                             <Label Style="{DynamicResource ModelFont}">
-                                                UI Config
+                                                UI Configs
                                             </Label>
                                             <Grid Visibility="Collapsed"  Style="{DynamicResource ModelSelectedBlock}">
                                             </Grid>
@@ -935,7 +935,7 @@
                                     <Border Width="100" Style="{DynamicResource ModelUnSelected}"  CornerRadius="0 5 5 0" Grid.Column="1" PreviewMouseDown="SelectSettingNav">
                                         <Grid>
                                             <Label Style="{DynamicResource ModelFont}">
-                                                Engine Config
+                                                Engine Configs
                                             </Label>
                                             <Grid Visibility="Collapsed"  Style="{DynamicResource ModelSelectedBlock}">
                                             </Grid>
@@ -945,7 +945,7 @@
                             </Grid>
 
                             <Grid Grid.Row="2" Name="SettingFrames">
-                                <Border  Style="{DynamicResource SettingFrame}" Tag="Request And ApiKey Config" Visibility="Visible">
+                                <Border  Style="{DynamicResource SettingFrame}" Tag="Request And ApiKey Configs" Visibility="Visible">
                                     <ScrollViewer VerticalScrollBarVisibility="Auto" Style="{DynamicResource for_scrollviewer}">
 
                                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 0 0 0" VerticalAlignment="Center">
@@ -1227,7 +1227,7 @@
                                     </ScrollViewer>
                                 </Border>
 
-                                <Border  Style="{DynamicResource SettingFrame}" Tag="AI Config" Visibility="Collapsed">
+                                <Border  Style="{DynamicResource SettingFrame}" Tag="AI Configs" Visibility="Collapsed">
                                     <ScrollViewer VerticalScrollBarVisibility="Auto" Style="{DynamicResource for_scrollviewer}">
                                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 0 0 0" VerticalAlignment="Center" Width="500">
                                             <Label Style="{DynamicResource TittleFont}">
@@ -1279,7 +1279,7 @@
                                     </ScrollViewer>
                                 </Border>
 
-                                <Border  Style="{DynamicResource SettingFrame}" Tag="Game Config" Visibility="Visible">
+                                <Border  Style="{DynamicResource SettingFrame}" Tag="Game Configs" Visibility="Collapsed">
                                     <ScrollViewer VerticalScrollBarVisibility="Auto" Style="{DynamicResource for_scrollviewer}">
                                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 0 0 0" VerticalAlignment="Center" Width="500">
                                             <Label Style="{DynamicResource TittleFont}">
@@ -1294,7 +1294,7 @@
                                                             Game:
                                                         </Label>
                                                         
-                                                        <ComboBox Style="{DynamicResource CustomComboBoxStyle}" Name="SGame" Width="100">
+                                                        <ComboBox Style="{DynamicResource CustomComboBoxStyle}" Name="SGame" Width="100" SelectionChanged="SGame_SelectionChanged">
                                                         </ComboBox>
                                                     </StackPanel>
                                                     
@@ -1303,13 +1303,100 @@
                                                             ESP | ESM | ESL FileEncoding:
                                                         </Label>
 
-                                                        <ComboBox Style="{DynamicResource CustomComboBoxStyle}" Name="SGameFileEncoding" Width="100">
+                                                        <ComboBox Style="{DynamicResource CustomComboBoxStyle}" Name="SGameFileEncoding" Width="100" SelectionChanged="SGameFileEncoding_SelectionChanged">
                                                         </ComboBox>
                                                     </StackPanel>
                                                    
                                                 </StackPanel>
                                             </Border>
 
+                                        </StackPanel>
+                                    </ScrollViewer>
+                                </Border>
+
+                                <Border  Style="{DynamicResource SettingFrame}" Tag="UI Configs" Visibility="Visible">
+                                    <ScrollViewer VerticalScrollBarVisibility="Auto" Style="{DynamicResource for_scrollviewer}">
+                                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 0 0 0" VerticalAlignment="Center" Width="500">
+                                            <Label Style="{DynamicResource TittleFont}">
+                                                Theme Configs
+                                            </Label>
+                                            <StackPanel Orientation="Horizontal" Margin="5 10 5 10" Cursor="Hand">
+                                                <Border Background="#FF0B74D1" Width="130" CornerRadius="5" Height="30" BorderThickness="1" BorderBrush="White">
+                                                    <Label Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                        Tech Dark Blue
+                                                    </Label>
+                                                </Border>
+                                            </StackPanel>
+                                            <Label Style="{DynamicResource TittleFont}">
+                                                UILanguage Configs
+                                            </Label>
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 10 5 10">
+                                                <Label Style="{DynamicResource NormalText}">
+                                                    UILanguage:
+                                                </Label>
+
+                                                <ComboBox Style="{DynamicResource CustomComboBoxStyle}" Name="SUILanguages" Width="150">
+                                                </ComboBox>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </ScrollViewer>
+                                </Border>
+
+                                <Border  Style="{DynamicResource SettingFrame}" Tag="Engine Configs" Visibility="Visible">
+                                    <ScrollViewer VerticalScrollBarVisibility="Auto" Style="{DynamicResource for_scrollviewer}">
+                                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 0 0 0" VerticalAlignment="Center" Width="500">
+                                            <Label Style="{DynamicResource TittleFont}">
+                                                Engine Configs
+                                            </Label>
+
+                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Stretch" Margin="0 5 0 10">
+                                                <StackPanel Orientation="Vertical">
+                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 10 5 5">
+                                                        <Label Style="{DynamicResource NormalText}">
+                                                            Throttling Ratio:
+                                                        </Label>
+                                                        <Border  Style="{DynamicResource DefTextBoxBorder}" Width="100" >
+                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SThrottlingRatio" TextChanged="SThrottlingRatio_TextChanged">
+                                                            </TextBox>
+                                                        </Border>
+                                                    </StackPanel>
+                                                    
+                                                    <TextBox Style="{DynamicResource InFoText}"  Margin="5 5 5 10">
+                                                        When the number of thread pool threads exceeds the specified percentage (default 0.7) (1.0 = 100 Percent), the throttling policy is triggered.
+                                                    </TextBox>
+
+                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 10 5 5">
+                                                        <Label Style="{DynamicResource NormalText}">
+                                                            Rotation Delay:
+                                                        </Label>
+                                                        <Border  Style="{DynamicResource DefTextBoxBorder}" Width="100" >
+                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SRotationDelay" TextChanged="SRotationDelay_TextChanged">
+                                                            </TextBox>
+                                                        </Border>
+                                                    </StackPanel>
+
+                                                    <TextBox Style="{DynamicResource InFoText}"  Margin="5 5 5 10">
+                                                        Sleep time after triggering the throttling policy.(default 200 milliseconds) (If you don't understand, don't mess around.)
+                                                    </TextBox>
+
+                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 5 5 10">
+                                                        <Label Style="{DynamicResource NormalText}">
+                                                            Max Thread Limit:
+                                                        </Label>
+                                                        <Border  Style="{DynamicResource DefTextBoxBorder}" Width="100" >
+                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SMaxThread" TextChanged="SMaxThread_TextChanged">
+                                                            </TextBox>
+                                                        </Border>
+                                                        <CheckBox Style="{DynamicResource DefCheckBox}" Margin="5 0 0 0" Name="SAutoSetThreadLimit" Click="SAutoSetThreadLimit_Click">
+                                                            Auto Set Limit
+                                                        </CheckBox>
+                                                    </StackPanel>
+
+                                                    <TextBox Style="{DynamicResource InFoText}"  Margin="5 5 5 10">
+                                                        Set the maximum number of threads allowed to be created during batch translation.
+                                                    </TextBox>
+                                                </StackPanel>
+                                            </Border>
                                         </StackPanel>
                                     </ScrollViewer>
                                 </Border>

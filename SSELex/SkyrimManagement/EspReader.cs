@@ -303,12 +303,13 @@ namespace SSELex.SkyrimManage
 
                     //DNAM...
 
-                    if (DeFine.GlobalLocalSetting.SkyrimType == SkyrimType.SkyrimSE)
+                    if (DeFine.GlobalLocalSetting.GameType == GameNames.SkyrimSE)
                     {
                         CurrentReadMod = SkyrimMod
                        .CreateFromBinary(FilePath, SkyrimRelease.SkyrimSE, SetParam);
                     }
                     else
+                    if (DeFine.GlobalLocalSetting.GameType == GameNames.SkyrimLE)
                     {
                         CurrentReadMod = SkyrimMod
                         .CreateFromBinary(FilePath, SkyrimRelease.SkyrimLE, SetParam);

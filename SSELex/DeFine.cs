@@ -19,7 +19,7 @@ namespace SSELex
     // See LICENSE for details
     //https://github.com/YD525/YDSkyrimToolR/
 
-    public enum SkyrimType
+    public enum GameNames
     { 
        SkyrimLE = 0, SkyrimSE = 1
     }
@@ -192,7 +192,7 @@ namespace SSELex
     
         public bool ShowCode { get; set; } = true;
         public bool AutoCompress { get; set; } = true;
-        public SkyrimType SkyrimType { get; set; } = SkyrimType.SkyrimSE;
+        public GameNames GameType { get; set; } = GameNames.SkyrimSE;
         public EncodingTypes FileEncoding { get; set; } = EncodingTypes.UTF8;
 
         public double WritingAreaHeight { get; set; } = 0;
@@ -226,7 +226,7 @@ namespace SSELex
                         this.CurrentUILanguage = GetSetting.CurrentUILanguage;
                         this.SkyrimPath = GetSetting.SkyrimPath;
                         this.ShowCode = GetSetting.ShowCode;
-                        this.SkyrimType = GetSetting.SkyrimType;
+                        this.GameType = GetSetting.GameType;
                         this.AutoCompress = GetSetting.AutoCompress;
                         this.FileEncoding = GetSetting.FileEncoding;
                         this.WritingAreaHeight = GetSetting.WritingAreaHeight;

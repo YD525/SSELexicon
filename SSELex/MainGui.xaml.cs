@@ -31,6 +31,7 @@ using SSELex.UIManage;
 using SSELex.UIManagement;
 using static PhoenixEngine.SSELexiconBridge.NativeBridge;
 using static PhoenixEngine.TranslateCore.LanguageHelper;
+using static SSELex.SkyrimManage.EspReader;
 using static SSELex.UIManage.SkyrimDataLoader;
 
 namespace SSELex
@@ -1566,8 +1567,8 @@ namespace SSELex
                         ModTransView.Visibility = Visibility.Collapsed;
                         SettingView.Visibility = Visibility.Collapsed;
 
-                        ProgramVersion.Content = string.Format("Program(GPLv3) Ver: {0}", DeFine.CurrentVersion);
-                        TranslationEngineVersion.Content = string.Format("Translation Engine(LGPLv3) Ver: {0}", Engine.Version);
+                        ProgramVersion.Content = string.Format("SSE Lexicon(GPLv3) Version: {0}", DeFine.CurrentVersion);
+                        TranslationEngineVersion.Content = string.Format("Translation Engine(LGPLv3) Version: {0}", Engine.Version);
                     }
                     break;
             }
@@ -2312,7 +2313,7 @@ namespace SSELex
 
         public void SyncSettingUI(string Name)
         {
-            if (Name.Equals("Request And ApiKey Config"))
+            if (Name.Equals("Request And ApiKey Configs"))
             {
                 STimeOut.Text = EngineConfig.GlobalRequestTimeOut.ToString();
 
@@ -2371,7 +2372,8 @@ namespace SSELex
 
                 GoogleKey.Password = EngineConfig.GoogleApiKey;
             }
-            if (Name.Equals("AI Config"))
+            else
+            if (Name.Equals("AI Configs"))
             {
                 SContextLimit.Text = EngineConfig.ContextLimit.ToString();
 
@@ -2385,6 +2387,50 @@ namespace SSELex
                 }
 
                 SAIKeyword.Text = EngineConfig.UserCustomAIPrompt;
+            }
+            else
+            if (Name.Equals("Game Configs"))
+            {
+                SGame.Items.Clear();
+                SGame.Items.Add(GameNames.SkyrimSE.ToString());
+                SGame.Items.Add(GameNames.SkyrimLE.ToString());
+
+                SGame.SelectedValue = DeFine.GlobalLocalSetting.GameType.ToString();
+
+                SGameFileEncoding.Items.Clear();
+                SGameFileEncoding.Items.Add(EncodingTypes.UTF8.ToString());
+                SGameFileEncoding.Items.Add(EncodingTypes.UTF8_1250.ToString());
+                SGameFileEncoding.Items.Add(EncodingTypes.UTF8_1252.ToString());
+                SGameFileEncoding.Items.Add(EncodingTypes.UTF8_1253.ToString());
+                SGameFileEncoding.Items.Add(EncodingTypes.UTF8_1256.ToString());
+
+                SGameFileEncoding.SelectedValue = DeFine.GlobalLocalSetting.FileEncoding.ToString();
+            }
+            else
+            if (Name.Equals("UI Configs"))
+            {
+                SUILanguages.Items.Clear();
+                SUILanguages.Items.Add("English");
+
+                SUILanguages.SelectedValue = SUILanguages.Items[0];
+            }
+            else
+            if (Name.Equals("Engine Configs"))
+            {
+                SThrottlingRatio.Text = EngineConfig.ThrottleRatio.ToString();
+
+                SRotationDelay.Text = EngineConfig.ThrottleDelayMs.ToString();
+
+                SMaxThread.Text = EngineConfig.MaxThreadCount.ToString();
+
+                if (EngineConfig.AutoSetThreadLimit)
+                {
+                    SAutoSetThreadLimit.IsChecked = true;
+                }
+                else
+                {
+                    SAutoSetThreadLimit.IsChecked = false;
+                }
             }
         }
 
@@ -2603,6 +2649,50 @@ namespace SSELex
             }
         }
 
+        private void SGame_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string GetName = ConvertHelper.ObjToStr(SGame.SelectedValue);
+            if (GetName.Trim().Length > 0)
+            {
+                DeFine.GlobalLocalSetting.GameType = Enum.Parse<GameNames>(GetName);
+            }
+        }
+
+        private void SGameFileEncoding_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string GetFileEncoding = ConvertHelper.ObjToStr(SGameFileEncoding.SelectedValue);
+            if (GetFileEncoding.Trim().Length > 0)
+            {
+                DeFine.GlobalLocalSetting.FileEncoding = Enum.Parse<EncodingTypes>(GetFileEncoding);
+            }
+        }
+
+        private void SThrottlingRatio_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            EngineConfig.ThrottleRatio = ConvertHelper.ObjToDouble(SThrottlingRatio.Text);
+        }
+
+        private void SRotationDelay_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            EngineConfig.ThrottleDelayMs = ConvertHelper.ObjToInt(SRotationDelay.Text);
+        }
+
+        private void SMaxThread_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            EngineConfig.MaxThreadCount = ConvertHelper.ObjToInt(SMaxThread.Text);
+        }
+
+        private void SAutoSetThreadLimit_Click(object sender, RoutedEventArgs e)
+        {
+            if (SAutoSetThreadLimit.IsChecked == true)
+            {
+                EngineConfig.AutoSetThreadLimit = true;
+            }
+            else
+            {
+                EngineConfig.AutoSetThreadLimit = false;
+            }
+        }
         #endregion
     }
 }
