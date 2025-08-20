@@ -843,9 +843,16 @@
                                     Licensed under the GNU General Public License 3.0 (GPLv3)
                                 </Label>
 
+                                <Label Foreground="White" FontSize="15" HorizontalAlignment="Center" Name="ProgramVersion">
+                                    Program(GPLv3) Ver: 0.0.0.0
+                                </Label>
+                                <Label Foreground="White" FontSize="15" HorizontalAlignment="Center" Name="TranslationEngineVersion">
+                                    Translation Engine(LGPLv3) Ver: 0.0.0
+                                </Label>
+
                                 <TextBlock  FontSize="15" Margin="0 5 0 0" HorizontalAlignment="Center" Foreground="White" TextWrapping="Wrap" TextAlignment="Center">
-                                    If you like it, please give me a star on GitHub or endorse me on Nexus Mods. 
-                                    Every download and endorsement motivates me to keep improving and updating this project.
+       If you like it, please give me a star on GitHub or endorse me on Nexus Mods. 
+       Every download and endorsement motivates me to keep improving and updating this project.
                                 </TextBlock>
 
                                 <TextBlock Foreground="White" FontSize="20" FontWeight="DemiBold" Margin="0 10 0 0" HorizontalAlignment="Center" TextAlignment="Center">
@@ -1226,7 +1233,7 @@
                                             <Label Style="{DynamicResource TittleFont}">
                                                 Context Configs
                                             </Label>
-                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Left" Margin="0 5 0 10">
+                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Stretch" Margin="0 5 0 10">
                                                 <StackPanel Orientation="Vertical">
                                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 5 5 10">
                                                         <Label Style="{DynamicResource NormalText}">
@@ -1253,18 +1260,15 @@
                                             <Label Style="{DynamicResource TittleFont}">
                                                 AI Keyword Configs
                                             </Label>
-                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Left" Margin="0 5 0 10">
+                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Stretch" Margin="0 5 0 10">
                                                 <StackPanel Orientation="Vertical">
                                                     <Label Style="{DynamicResource NormalText}" Margin="0 5 0 0">
                                                         AI Keyword:
                                                     </Label>
-                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 5 5 10">
-                                                        
-                                                        <Border  Style="{DynamicResource DefTextBoxBorder}" Width="500">
-                                                            <TextBox Margin="5" IsTabStop="True" TextWrapping="Wrap" AcceptsReturn="True" Height="200" VerticalContentAlignment="Top" Style="{DynamicResource DefTextBox}" Name="SAIKeyword" TextChanged="SAIKeyword_TextChanged">
-                                                            </TextBox>
-                                                        </Border>
-                                                    </StackPanel>
+                                                    <Border  Style="{DynamicResource DefTextBoxBorder}" Margin="5">
+                                                        <TextBox Margin="5" IsTabStop="True" TextWrapping="Wrap" AcceptsReturn="True" Height="200" VerticalContentAlignment="Top" Style="{DynamicResource DefTextBox}" Name="SAIKeyword" TextChanged="SAIKeyword_TextChanged">
+                                                        </TextBox>
+                                                    </Border>
                                                     <TextBox Style="{DynamicResource InFoText}"  Margin="5 5 5 10">
                                                         Append user-defined keywords at the end when requesting AI.
                                                     </TextBox>
@@ -1278,6 +1282,34 @@
                                 <Border  Style="{DynamicResource SettingFrame}" Tag="Game Config" Visibility="Visible">
                                     <ScrollViewer VerticalScrollBarVisibility="Auto" Style="{DynamicResource for_scrollviewer}">
                                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 0 0 0" VerticalAlignment="Center" Width="500">
+                                            <Label Style="{DynamicResource TittleFont}">
+                                                Game Configs
+                                            </Label>
+
+                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Stretch" Margin="0 5 0 10">
+                                                <StackPanel Orientation="Vertical">
+                                                    
+                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 10 5 10">
+                                                        <Label Style="{DynamicResource NormalText}">
+                                                            Game:
+                                                        </Label>
+                                                        
+                                                        <ComboBox Style="{DynamicResource CustomComboBoxStyle}" Name="SGame" Width="100">
+                                                        </ComboBox>
+                                                    </StackPanel>
+                                                    
+                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 5 5 10">
+                                                        <Label Style="{DynamicResource NormalText}">
+                                                            ESP | ESM | ESL FileEncoding:
+                                                        </Label>
+
+                                                        <ComboBox Style="{DynamicResource CustomComboBoxStyle}" Name="SGameFileEncoding" Width="100">
+                                                        </ComboBox>
+                                                    </StackPanel>
+                                                   
+                                                </StackPanel>
+                                            </Border>
+
                                         </StackPanel>
                                     </ScrollViewer>
                                 </Border>

@@ -1565,6 +1565,9 @@ namespace SSELex
                         AboutView.Visibility = Visibility.Visible;
                         ModTransView.Visibility = Visibility.Collapsed;
                         SettingView.Visibility = Visibility.Collapsed;
+
+                        ProgramVersion.Content = string.Format("Program(GPLv3) Ver: {0}", DeFine.CurrentVersion);
+                        TranslationEngineVersion.Content = string.Format("Translation Engine(LGPLv3) Ver: {0}", Engine.Version);
                     }
                     break;
             }
