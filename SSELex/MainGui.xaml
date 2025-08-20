@@ -559,7 +559,7 @@
                                                 <CheckBox Margin="5 0 5 0" Name="UserTranslationCache" VerticalAlignment="Center" Grid.Column="6" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="UserTranslationCache_Click"/>
 
                                                 <Border Style="{DynamicResource ButtonStyle}" PreviewMouseDown="ClearCache_PreviewMouseDown">
-                                                    <Label Style="{DynamicResource ButtonFont}">
+                                                    <Label Style="{DynamicResource ButtonFont}" Name="ClearCacheFont">
                                                         ClearCache
                                                     </Label>
                                                 </Border>
@@ -772,8 +772,8 @@
                                                         Cancel
                                                     </Label>
                                                 </Border>
-                                                <Border Name="TranslateOTButton" ToolTip="HotKey Press F1" Style="{DynamicResource LiteButton}">
-                                                    <Label  Style="{DynamicResource LiteButtonFont}" Foreground="White">
+                                                <Border Name="TranslateOTButton" ToolTip="HotKey Press F1" Style="{DynamicResource LiteButton}" PreviewMouseDown="TranslateOTButton_PreviewMouseDown">
+                                                    <Label  Style="{DynamicResource LiteButtonFont}" Foreground="White" Name="TranslateOTButtonFont">
                                                         Translate(F1)
                                                     </Label>
                                                 </Border>

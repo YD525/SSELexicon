@@ -214,11 +214,12 @@ namespace SSELex
                         string GetFilePath = OneFile[0];
                         if (File.Exists(GetFilePath))
                         {
-                            new Thread(() => { 
-                            this.Dispatcher.BeginInvoke(new Action(() =>
+                            new Thread(() =>
                             {
-                                LoadAny(GetFilePath);
-                            }), System.Windows.Threading.DispatcherPriority.Background);
+                                this.Dispatcher.BeginInvoke(new Action(() =>
+                                {
+                                    LoadAny(GetFilePath);
+                                }), System.Windows.Threading.DispatcherPriority.Background);
                             }).Start();
 
                             ModTransView_DragLeave(null, null);
@@ -252,22 +253,29 @@ namespace SSELex
         {
             if (e.Key == Key.Tab)
             {
-                e.Handled = true;
-
-                AutoApplyStr();
-
-                if (SearchResultsView.Visibility == Visibility.Visible)
+                if (TransView.IsHitTestVisible == true)
                 {
-                    SearchResultsViewList?.Down();
-                }
-                else
-                {
-                    TransViewList?.Down();
+                    e.Handled = true;
+
+                    AutoApplyStr();
+
+                    if (SearchResultsView.Visibility == Visibility.Visible)
+                    {
+                        SearchResultsViewList?.Down();
+                    }
+                    else
+                    {
+                        TransViewList?.Down();
+                    }
                 }
             }
             if (e.Key == Key.F2)
             {
                 ApplyTranslatedText();
+            }
+            if (e.Key == Key.F1)
+            {
+                TranslateCurrent();
             }
         }
 
@@ -412,7 +420,8 @@ namespace SSELex
 
         public void SetLog(string Str)
         {
-            this.Dispatcher.Invoke(new Action(() => {
+            this.Dispatcher.Invoke(new Action(() =>
+            {
                 CurrentLog.Text = "Log: " + Str;
             }));
         }
@@ -891,7 +900,7 @@ namespace SSELex
                 {
                     CheckLoadSaveButtonState();
                 }
-              
+
             }
         }
 
@@ -1147,32 +1156,67 @@ namespace SSELex
             }
         }
 
+        public Thread? ClearCacheTrd = null;
+
         private void ClearCache_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             if (TransViewList != null)
             {
                 if (TransViewList.Rows > 0)
                 {
-                    int CallFuncCount = 0;
-                    if (CloudTranslationCache.IsChecked == true)
+                    if (ConvertHelper.ObjToStr(ClearCacheFont.Content).Equals("ClearCache"))
                     {
-                        Translator.ClearAICache();
-                        if (Translator.ClearCloudCache(Engine.GetModName()))
+                        if (ClearCacheTrd == null)
                         {
-                            Engine.Vacuum();
-                        }
-                        CallFuncCount++;
-                    }
-                    if (UserTranslationCache.IsChecked == true)
-                    {
-                        TranslatorExtend.ReSetAllTransText();
-                        CallFuncCount++;
-                    }
+                            bool? GetCloudTranslationCache = CloudTranslationCache.IsChecked;
+                            bool? GetUserTranslationCache = UserTranslationCache.IsChecked;
 
-                    if (CallFuncCount > 0)
-                    {
-                        MessageBoxExtend.Show(this, "Done!");
-                        DeFine.WorkingWin.ReloadData();
+                            ClearCacheTrd = new Thread(() =>
+                            {
+                                try
+                                {
+                                    ClearCacheFont.Dispatcher.Invoke(new Action(() => {
+                                        ClearCacheFont.Content = "Cleaning..";
+                                    }));
+
+                                    int CallFuncCount = 0;
+                                    if (GetCloudTranslationCache == true)
+                                    {
+                                        Translator.ClearAICache();
+                                        if (Translator.ClearCloudCache(Engine.GetModName()))
+                                        {
+                                            Engine.Vacuum();
+                                            CallFuncCount++;
+                                        }
+
+                                    }
+                                    if (GetUserTranslationCache == true)
+                                    {
+                                        TranslatorExtend.ClearLocalCache(Engine.GetModName());
+                                        {
+                                            Engine.Vacuum();
+                                            CallFuncCount++;
+                                        }
+                                    }
+
+                                    if (CallFuncCount > 0)
+                                    {
+                                        TranslatorExtend.ReSetAllTransText();
+                                        DeFine.WorkingWin.ReloadData();
+                                    }
+
+                                }
+                                catch { }
+
+                                ClearCacheFont.Dispatcher.Invoke(new Action(() => {
+                                    ClearCacheFont.Content = "ClearCache";
+                                }));
+
+                                ClearCacheTrd = null;
+                            });
+
+                            ClearCacheTrd.Start();
+                        }
                     }
                 }
             }
@@ -1398,13 +1442,16 @@ namespace SSELex
         public string LastSetKey = "";
         public void SetSelectFromAndToText(string Key)
         {
-            AutoApplyStr();
+            this.Dispatcher.Invoke(new Action(() =>
+            {
+                AutoApplyStr();
+            }));
 
             EmptyFromAndToText();
 
             LastSetKey = Key;
 
-            SetLog("Key:"+ LastSetKey);
+            SetLog("Key:" + LastSetKey);
 
             if (Key.Length > 0)
             {
@@ -1436,7 +1483,7 @@ namespace SSELex
 
                             if (DeFine.GlobalLocalSetting.AutoSpeak)
                             {
-                                SpeechHelper.TryPlaySound(FromStr.Text,true);
+                                SpeechHelper.TryPlaySound(FromStr.Text, true);
                             }
 
                             Point MousePos = Mouse.GetPosition(ToStr);
@@ -2241,6 +2288,67 @@ namespace SSELex
             }
         }
 
+        public void TranslateCurrent()
+        {
+            if (TransViewList != null)
+            {
+                if (ConvertHelper.ObjToStr(TranslateOTButtonFont.Content).Equals("Translate(F1)"))
+                {
+                    FakeGrid? QueryGrid = TransViewList.KeyToFakeGrid(LastSetKey);
+
+                    if (QueryGrid != null)
+                    {
+                        QueryGrid.SyncData();
+
+                        bool CanSleep = false;
+                        bool CanAddCache = false;
+                        CanAutoApply = true;
+
+                        if (!QueryGrid.Key.EndsWith("(BookText)"))
+                        {
+                            new Thread(() =>
+                            {
+                                this.Dispatcher.Invoke(new Action(() =>
+                                {
+                                    TransView.IsHitTestVisible = false;
+                                }));
+
+                                this.Dispatcher.Invoke(new Action(() =>
+                                {
+                                    TranslateOTButtonFont.Content = "Translating..";
+                                }));
+
+                                string GetTranslated = Translator.QuickTrans(
+                                Engine.GetModName(), QueryGrid.Type, QueryGrid.Key,
+                                QueryGrid.SourceText,
+                                Engine.From, Engine.To,
+                                ref CanSleep, ref CanAddCache);
+
+                                this.Dispatcher.Invoke(new Action(() =>
+                                {
+                                    TranslateOTButtonFont.Content = "Translate(F1)";
+                                    ToStr.Text = GetTranslated;
+                                }));
+
+                                this.Dispatcher.Invoke(new Action(() =>
+                                {
+                                    TransView.IsHitTestVisible = true;
+                                }));
+                            }).Start();
+                        }
+                        else
+                        {
+                            //Book Text
+                        }
+                    }
+                }
+            }
+        }
+        private void TranslateOTButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            TranslateCurrent();
+        }
+
         #region Setting
 
         public void SelectFristSettingNav()
@@ -2261,10 +2369,10 @@ namespace SSELex
                 if (GetMainGrid.Children.Count == 2)
                 {
                     Nav.Style = (Style)this.FindResource("ModelSelected");
-                    ((Grid)GetMainGrid.Children[1]).Visibility = Visibility.Visible; 
+                    ((Grid)GetMainGrid.Children[1]).Visibility = Visibility.Visible;
                 }
             }
-           
+
         }
 
         public void SetUnSelectSettingNav(Border Nav)
@@ -2276,9 +2384,9 @@ namespace SSELex
                 {
                     Nav.Style = (Style)this.FindResource("ModelUnSelected");
                     ((Grid)GetMainGrid.Children[1]).Visibility = Visibility.Hidden;
-                }  
+                }
             }
-               
+
         }
 
         public string GetSettingNavName(Border Nav)
@@ -2694,5 +2802,7 @@ namespace SSELex
             }
         }
         #endregion
+
+
     }
 }

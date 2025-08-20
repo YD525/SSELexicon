@@ -436,7 +436,8 @@ namespace SSELex
                             ExecuteBtn.Content = "Executing...";
                         }));
                         bool CanSleep = false;
-                        var GetResult = Translator.QuickTrans("Test", GetType, DeFine.WorkingWin.TransViewList.GetSelectedKey(), GetFromStr, FilterFrom, FilterTo, ref CanSleep);
+                        bool CanAddCache = false;
+                        var GetResult = Translator.QuickTrans("Test", GetType, DeFine.WorkingWin.TransViewList.GetSelectedKey(), GetFromStr, FilterFrom, FilterTo, ref CanSleep,ref CanAddCache);
 
                         this.Dispatcher.Invoke(new Action(() =>
                         {

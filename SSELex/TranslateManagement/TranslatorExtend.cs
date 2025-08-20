@@ -89,83 +89,32 @@ namespace SSELex.TranslateManage
 
             return ReplaceCount;
         }
-        public static int ReadDictionary()
+
+        public static void ClearLocalCache(string ModName)
         {
-            int ReplaceCount = 0;
-            for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
-            {
-                FakeGrid GetFakeGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
-
-                string GetTransKey = GetFakeGrid.Key;
-
-                var TargetText = DeFine.WorkingWin.TransViewList.RealLines[i].TransText;
-
-                var GetData = YDDictionaryHelper.CheckDictionary(GetTransKey);
-
-                if (GetData != null && TargetText.Length == 0)
-                {
-                    DeFine.WorkingWin.TransViewList.RealLines[i].TransText = GetData.TransText;
-                }
-            }
-
-            return ReplaceCount;
-        }
-
-        public static void ReStoreAllTransText()
-        {
-            ReSetAllTransText();
-
-            for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
-            {
-                FakeGrid GetFakeGrid = DeFine.WorkingWin.TransViewList.RealLines[i];
-
-                string GetKey = GetFakeGrid.Key;
-
-                var FindDictionary = YDDictionaryHelper.CheckDictionary(GetKey);
-
-                string GetSourceText = GetFakeGrid.SourceText;
-
-                if (FindDictionary != null)
-                {
-                    GetSourceText = FindDictionary.OriginalText;
-                }
-
-                if (Translator.TransData.ContainsKey(GetKey))
-                {
-                    Translator.TransData[GetKey] = GetSourceText;
-                }
-                else
-                {
-                    Translator.TransData[GetKey] = GetSourceText;
-                }
-
-                DeFine.WorkingWin.TransViewList.RealLines[i].TransText = GetSourceText;
-
-                GetFakeGrid.TransText = GetSourceText;
-            }
-
-            DeFine.WorkingWin.ReloadData();
+            LocalDBCache.DeleteCacheByModName(ModName, DeFine.GlobalLocalSetting.TargetLanguage);
+            Translator.TransData.Clear();
         }
 
         public static void ReSetAllTransText()
         {
-            DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
+            if (DeFine.WorkingWin != null)
             {
-                DeFine.WorkingWin.TransViewList.MainCanvas.Visibility = System.Windows.Visibility.Collapsed;
-            }));
+                if (DeFine.WorkingWin.TransViewList != null)
+                {
+                    for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
+                    {
+                        DeFine.WorkingWin.TransViewList.RealLines[i].SyncData();
 
-            LocalDBCache.DeleteCacheByModName(Engine.GetModName(), DeFine.GlobalLocalSetting.TargetLanguage);
-            Translator.TransData.Clear();
-            DeFine.WorkingWin.ReloadData();
-
-            DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
-            {
-                DeFine.WorkingWin.ProcessBar.Width = 0;
-            }));
-            DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
-            {
-                DeFine.WorkingWin.TransViewList.MainCanvas.Visibility = System.Windows.Visibility.Visible;
-            }));
+                        if (DeFine.WorkingWin.TransViewList.RealLines[i].TransText.Length > 0)
+                        {
+                            DeFine.WorkingWin.Dispatcher.Invoke(new Action(() => {
+                                DeFine.WorkingWin.TransViewList.RealLines[i].SyncUI(DeFine.WorkingWin.TransViewList);
+                            }));
+                        }
+                    }
+                }
+            }
         }
       
         public static bool ClearCloudCache(string ModName)
