@@ -348,7 +348,7 @@
                         </Border>
                     </Grid>
 
-                    <Grid Name="ModTransView" Style="{DynamicResource FrameStyle}" Visibility="Collapsed">
+                    <Grid Name="ModTransView" Style="{DynamicResource FrameStyle}" Visibility="Visible">
                         <Grid Grid.Column="1">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="5"/>
@@ -881,7 +881,7 @@
                         </Grid>
                     </Grid>
 
-                    <Grid Name="SettingView" Style="{DynamicResource FrameStyle}" Visibility="Visible">
+                    <Grid Name="SettingView" Style="{DynamicResource FrameStyle}" Visibility="Collapsed">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="5"/>
@@ -1362,7 +1362,7 @@
                                                     </StackPanel>
                                                     
                                                     <TextBox Style="{DynamicResource InFoText}"  Margin="5 5 5 10">
-                                                        When the number of thread pool threads exceeds the specified percentage (default 0.7) (1.0 = 100 Percent), the throttling policy is triggered.
+                                                        When the number of threads reaches the specified percentage of the maximum number of threads (default 0.7 = 70%), the current limiting policy is triggered.
                                                     </TextBox>
 
                                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 10 5 5">
