@@ -108,6 +108,8 @@ namespace SSELex
         {
             DeFine.Init(this);
 
+            DelegateHelper.SetBookTranslateCallback += BookTransCallBack;
+
             SetSelectedNav("TransHub");
 
             if (TransViewList == null)
@@ -1202,7 +1204,6 @@ namespace SSELex
                                     if (CallFuncCount > 0)
                                     {
                                         TranslatorExtend.ReSetAllTransText();
-                                        DeFine.WorkingWin.ReloadData();
                                     }
 
                                 }
@@ -2288,58 +2289,115 @@ namespace SSELex
             }
         }
 
+        public void BookTransCallBack(string Key,string CurrentText)
+        {
+            if (Key.Equals(LastSetKey) && CurrentText.Length > 0)
+            {
+                ToStr.Dispatcher.Invoke(new Action(() =>
+                {
+                    ToStr.Text = CurrentText;
+                }));
+            }
+        }
+
+        public object TranslateLocker = new object();
+        public Thread? TranslateTrd = null;
+
+        private TextSegmentTranslator CurrentTextSegmentTranslator = null;
         public void TranslateCurrent()
         {
-            if (TransViewList != null)
+            lock (TranslateLocker)
             {
-                if (ConvertHelper.ObjToStr(TranslateOTButtonFont.Content).Equals("Translate(F1)"))
+                if (TransViewList != null)
                 {
-                    FakeGrid? QueryGrid = TransViewList.KeyToFakeGrid(LastSetKey);
-
-                    if (QueryGrid != null)
+                    if (ConvertHelper.ObjToStr(TranslateOTButtonFont.Content).Equals("Translate(F1)"))
                     {
-                        QueryGrid.SyncData();
+                        FakeGrid? QueryGrid = TransViewList.KeyToFakeGrid(LastSetKey);
 
-                        bool CanSleep = false;
-                        bool CanAddCache = false;
-                        CanAutoApply = true;
-
-                        if (!QueryGrid.Key.EndsWith("(BookText)"))
+                        if (QueryGrid != null && TranslateTrd == null)
                         {
-                            new Thread(() =>
+                            QueryGrid.SyncData();
+
+                            bool CanSleep = false;
+                            bool CanAddCache = false;
+                            CanAutoApply = true;
+
+                            if (!QueryGrid.Key.EndsWith("(BookText)"))
                             {
-                                this.Dispatcher.Invoke(new Action(() =>
+                                TranslateTrd = new Thread(() =>
                                 {
-                                    TransView.IsHitTestVisible = false;
-                                }));
+                                    this.Dispatcher.Invoke(new Action(() =>
+                                    {
+                                        TransView.IsHitTestVisible = false;
+                                    }));
 
-                                this.Dispatcher.Invoke(new Action(() =>
+                                    this.Dispatcher.Invoke(new Action(() =>
+                                    {
+                                        TranslateOTButtonFont.Content = "Translating..";
+                                    }));
+
+                                    string GetTranslated = Translator.QuickTrans(
+                                    Engine.GetModName(), QueryGrid.Type, QueryGrid.Key,
+                                    QueryGrid.SourceText,
+                                    Engine.From, Engine.To,
+                                    ref CanSleep, ref CanAddCache);
+
+                                    this.Dispatcher.Invoke(new Action(() =>
+                                    {
+                                        TransView.IsHitTestVisible = true;
+                                    }));
+
+                                    this.Dispatcher.Invoke(new Action(() =>
+                                    {
+                                        TranslateOTButtonFont.Content = "Translate(F1)";
+                                        ToStr.Text = GetTranslated;
+                                    }));
+
+                                    TranslateTrd = null;
+                                });
+
+                                TranslateTrd.Start();
+                            }
+                            else
+                            {
+                                CurrentTextSegmentTranslator = new TextSegmentTranslator();
+
+                                TranslateTrd = new Thread(() => 
                                 {
-                                    TranslateOTButtonFont.Content = "Translating..";
-                                }));
+                                    this.Dispatcher.Invoke(new Action(() =>
+                                    {
+                                        TranslateOTButtonFont.Content = "Translating(Click to Cancel)..";
+                                    }));
 
-                                string GetTranslated = Translator.QuickTrans(
-                                Engine.GetModName(), QueryGrid.Type, QueryGrid.Key,
-                                QueryGrid.SourceText,
-                                Engine.From, Engine.To,
-                                ref CanSleep, ref CanAddCache);
+                                    try
+                                    {
+                                        CurrentTextSegmentTranslator.TransBook(QueryGrid.Key, QueryGrid.SourceText);
+                                    }
+                                    catch { }
 
-                                this.Dispatcher.Invoke(new Action(() =>
-                                {
-                                    TranslateOTButtonFont.Content = "Translate(F1)";
-                                    ToStr.Text = GetTranslated;
-                                }));
+                                    this.Dispatcher.Invoke(new Action(() =>
+                                    {
+                                        TranslateOTButtonFont.Content = "Translate(F1)";
+                                    }));
 
-                                this.Dispatcher.Invoke(new Action(() =>
-                                {
-                                    TransView.IsHitTestVisible = true;
-                                }));
-                            }).Start();
+                                    TranslateTrd = null;
+                                });
+                                TranslateTrd.Start();
+                            }
                         }
-                        else
+                    }
+                    else
+                    if (ConvertHelper.ObjToStr(TranslateOTButtonFont.Content).Equals("Translating(Click to Cancel).."))
+                    {
+                        if (CurrentTextSegmentTranslator != null)
                         {
-                            //Book Text
+                            CurrentTextSegmentTranslator.Cancel();
                         }
+
+                        this.Dispatcher.Invoke(new Action(() =>
+                        {
+                            TranslateOTButtonFont.Content = "Translate(F1)";
+                        }));
                     }
                 }
             }
