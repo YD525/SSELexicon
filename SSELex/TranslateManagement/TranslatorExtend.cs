@@ -258,6 +258,8 @@ namespace SSELex.TranslateManage
 
                         TranslationStatus = StateControl.Cancel;
 
+                        Engine.TranslatedCount = Engine.GetTranslatedCount(Engine.GetModName());
+
                         EndAction.Invoke();
                     }
                 }
