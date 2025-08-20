@@ -780,6 +780,8 @@ namespace SSELex
 
         public void LoadAny(string FilePath)
         {
+            CancelBatchTranslation();
+
             IsValidFile = false;
 
             Translator.ClearAICache();
@@ -924,15 +926,8 @@ namespace SSELex
             }
         }
 
-        private void CancelTransEsp(object sender, MouseButtonEventArgs e)
+        public void CancelBatchTranslation()
         {
-            CancelAny();
-        }
-
-        public void CancelAny()
-        {
-            GlobalTransCount = 0;
-
             try
             {
                 TranslatorExtend.TranslationStatus = StateControl.Cancel;
@@ -946,6 +941,20 @@ namespace SSELex
                 }), false);
             }
             catch { }
+        }
+
+        private void CancelTransEsp(object sender, MouseButtonEventArgs e)
+        {
+            CancelAny();
+        }
+
+        public void CancelAny()
+        {
+            GlobalTransCount = 0;
+
+            CancelBatchTranslation();
+
+            EmptyFromAndToText();
 
             Engine.ChangeModName(string.Empty);
 
@@ -1003,6 +1012,10 @@ namespace SSELex
             }
             else
             {
+                CancelBatchTranslation();
+
+                EmptyFromAndToText();
+
                 CalcStatistics();
 
                 LoadSaveState = 0;
