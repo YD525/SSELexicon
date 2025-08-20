@@ -1,5 +1,7 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
+using System.Security.Policy;
 using System.Transactions;
 using System.Windows;
 using System.Windows.Controls;
@@ -2394,8 +2396,166 @@ namespace SSELex
                 SelectSettingNav(GetNav);
             }
         }
+
+        private void STimeOut_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            int GetTimeOut = ConvertHelper.ObjToInt(STimeOut.Text);
+
+            if (GetTimeOut > 0)
+            {
+                EngineConfig.GlobalRequestTimeOut = GetTimeOut;
+            }
+        }
+        private void SProxyUrl_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            EngineConfig.ProxyUrl = SProxyUrl.Text;
+        }
+        private void SProxyUserName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            EngineConfig.ProxyUserName = SProxyUserName.Text;
+        }
+        private void SProxyPassword_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            EngineConfig.ProxyPassword = SProxyPassword.Password;
+        }
+
+        private void SGeminiKey_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            EngineConfig.GeminiKey = SGeminiKey.Password;
+        }
+        private void SGeminiModel_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            EngineConfig.GeminiModel = SGeminiModel.Text;
+        }
+        private void SGeminiModelSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string GetModel = ConvertHelper.ObjToStr(SGeminiModelSelect.SelectedValue);
+
+            if (GetModel.Trim().Length > 0)
+            {
+                SGeminiModel.Text = GetModel;
+            }
+        }
+
+        private void SChatGptKey_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            EngineConfig.ChatGptKey = SChatGptKey.Password;
+        }
+        private void SChatGptModel_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            EngineConfig.ChatGptModel = SChatGptModel.Text;
+        }
+        private void SChatGptModelSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string GetModel = ConvertHelper.ObjToStr(SChatGptModelSelect.SelectedValue);
+
+            if (GetModel.Trim().Length > 0)
+            {
+                SChatGptModel.Text = GetModel;
+            }
+        }
+
+        private void SCohereKey_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            EngineConfig.CohereKey = SCohereKey.Password;
+        }
+
+        private void SDeepSeekKey_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            EngineConfig.DeepSeekKey = SDeepSeekKey.Password;
+        }
+        private void SDeepSeekModel_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            EngineConfig.DeepSeekModel = SDeepSeekModel.Text;
+        }
+        private void SDeepSeekModelSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string GetModel = ConvertHelper.ObjToStr(SDeepSeekModelSelect.SelectedValue);
+
+            if (GetModel.Trim().Length > 0)
+            {
+                SDeepSeekModel.Text = GetModel;
+            }
+        }
+
+        private void SBaichuanKey_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            EngineConfig.BaichuanKey = SBaichuanKey.Password;
+        }
+        private void SBaichuanModel_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            EngineConfig.BaichuanModel = SBaichuanModel.Text;
+        }
+        private void SBaichuanModelSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string GetModel = ConvertHelper.ObjToStr(SBaichuanModelSelect.SelectedValue);
+
+            if (GetModel.Trim().Length > 0)
+            {
+                SBaichuanModel.Text = GetModel;
+            }
+        }
+
+        private void SLMHost_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            EngineConfig.LMHost = SLMHost.Text;
+        }
+        private void SLMPort_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            EngineConfig.LMPort = ConvertHelper.ObjToInt(SLMPort.Text);
+        }
+        private void SLMModel_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            EngineConfig.LMModel = SLMModel.Text;
+        }
+        private void SLMHost_MouseLeave(object sender, MouseEventArgs e)
+        {
+            //Auto Format
+            string Url = SLMHost.Text;
+
+            Uri? Uri = null;
+
+            if (Uri.TryCreate(Url, UriKind.Absolute, out Uri))
+            {
+                if (Uri != null)
+                {
+                    string HostWithScheme = Uri.Scheme + "://" + Uri.Host;
+                    int Port = Uri.Port;
+
+                    if (Port > 0 && Port != 80)
+                    {
+                        EngineConfig.LMHost = HostWithScheme;
+                        EngineConfig.LMPort = Port;
+
+                        SLMHost.Text = EngineConfig.LMHost;
+                        SLMPort.Text = EngineConfig.LMPort.ToString();
+                    }
+                }
+            }
+        }
+
+        private void SDeepLKey_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            EngineConfig.DeepLKey = SDeepLKey.Password;
+        }
+
+        private void IsFreeDeepL_Click(object sender, RoutedEventArgs e)
+        {
+            if (IsFreeDeepL.IsChecked == true)
+            {
+                EngineConfig.IsFreeDeepL = true;
+            }
+            else
+            {
+                EngineConfig.IsFreeDeepL = false;
+            }
+        }
+
+        private void GoogleKey_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            EngineConfig.GoogleApiKey = GoogleKey.Password;
+        }
+
         #endregion
-
-
     }
 }

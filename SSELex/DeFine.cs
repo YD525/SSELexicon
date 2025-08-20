@@ -64,6 +64,7 @@ namespace SSELex
                 }));
             }
 
+            EngineConfig.Save();
             DeFine.GlobalLocalSetting.SaveConfig();
             Environment.Exit(0);
         }

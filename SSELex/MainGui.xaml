@@ -951,7 +951,7 @@
                                                     TimeOut:
                                                 </Label>
                                                 <Border  Style="{DynamicResource DefTextBoxBorder}" Width="100" >
-                                                    <TextBox Style="{DynamicResource DefTextBox}" Name="STimeOut">
+                                                    <TextBox Style="{DynamicResource DefTextBox}" Name="STimeOut" TextChanged="STimeOut_TextChanged">
                                                     </TextBox>
                                                 </Border>
                                             </StackPanel>
@@ -968,7 +968,7 @@
                                                 </Label>
 
                                                 <Border  Style="{DynamicResource DefTextBoxBorder}" Width="230" >
-                                                    <TextBox Style="{DynamicResource DefTextBox}" Name="SProxyUrl">
+                                                    <TextBox Style="{DynamicResource DefTextBox}" Name="SProxyUrl" TextChanged="SProxyUrl_TextChanged">
                                                     </TextBox>
                                                 </Border>
 
@@ -977,7 +977,7 @@
                                                 </Label>
 
                                                 <Border  Style="{DynamicResource DefTextBoxBorder}" Width="100" >
-                                                    <TextBox Style="{DynamicResource DefTextBox}" Name="SProxyUserName">
+                                                    <TextBox Style="{DynamicResource DefTextBox}" Name="SProxyUserName" TextChanged="SProxyUserName_TextChanged">
                                                     </TextBox>
                                                 </Border>
 
@@ -986,7 +986,7 @@
                                                 </Label>
 
                                                 <Border  Style="{DynamicResource DefTextBoxBorder}" Width="100" >
-                                                    <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="SProxyPassword">
+                                                    <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="SProxyPassword" PasswordChanged="SProxyPassword_PasswordChanged">
                                                     </PasswordBox>
                                                 </Border>
                                             </StackPanel>
@@ -1007,7 +1007,7 @@
                                                         </Label>
 
                                                         <Border Style="{DynamicResource DefTextBoxBorder}" Width="300">
-                                                            <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="SGeminiKey">
+                                                            <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="SGeminiKey" PasswordChanged="SGeminiKey_PasswordChanged">
                                                             </PasswordBox>
                                                         </Border>
 
@@ -1016,11 +1016,11 @@
                                                         </Label>
 
                                                         <Border  Style="{DynamicResource DefTextBoxBorder}" Width="100">
-                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SGeminiModel">
+                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SGeminiModel" TextChanged="SGeminiModel_TextChanged">
                                                             </TextBox>
                                                         </Border>
 
-                                                        <ComboBox Name="SGeminiModelSelect" IsTabStop="True" Margin="5 0 0 0" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Width="50" Height="30" Style="{StaticResource CustomComboBoxStyle}">
+                                                        <ComboBox Name="SGeminiModelSelect" IsTabStop="True" Margin="5 0 0 0" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Width="50" Height="30" Style="{StaticResource CustomComboBoxStyle}" SelectionChanged="SGeminiModelSelect_SelectionChanged">
                                                         </ComboBox>
                                                     </StackPanel>
                                                 </StackPanel>
@@ -1038,7 +1038,7 @@
                                                         </Label>
 
                                                         <Border  Style="{DynamicResource DefTextBoxBorder}" Width="300" >
-                                                            <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="SChatGptKey">
+                                                            <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="SChatGptKey" PasswordChanged="SChatGptKey_PasswordChanged">
                                                             </PasswordBox>
                                                         </Border>
 
@@ -1047,11 +1047,11 @@
                                                         </Label>
 
                                                         <Border Style="{DynamicResource DefTextBoxBorder}" Width="100">
-                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SChatGptModel">
+                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SChatGptModel" TextChanged="SChatGptModel_TextChanged">
                                                             </TextBox>
                                                         </Border>
 
-                                                        <ComboBox Name="SChatGptModelSelect" IsTabStop="True" Margin="5 0 0 0" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Width="50" Height="30" Style="{StaticResource CustomComboBoxStyle}">
+                                                        <ComboBox Name="SChatGptModelSelect" IsTabStop="True" Margin="5 0 0 0" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Width="50" Height="30" Style="{StaticResource CustomComboBoxStyle}" SelectionChanged="SChatGptModelSelect_SelectionChanged">
                                                         </ComboBox>
                                                     </StackPanel>
                                                 </StackPanel>
@@ -1068,7 +1068,7 @@
                                                         </Label>
 
                                                         <Border  Style="{DynamicResource DefTextBoxBorder}" Width="300">
-                                                            <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="SCohereKey">
+                                                            <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="SCohereKey" PasswordChanged="SCohereKey_PasswordChanged">
                                                             </PasswordBox>
                                                         </Border>
                                                     </StackPanel>
@@ -1086,7 +1086,7 @@
                                                         </Label>
 
                                                         <Border Style="{DynamicResource DefTextBoxBorder}" Width="300">
-                                                            <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="SDeepSeekKey">
+                                                            <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="SDeepSeekKey" PasswordChanged="SDeepSeekKey_PasswordChanged">
                                                             </PasswordBox>
                                                         </Border>
 
@@ -1095,11 +1095,11 @@
                                                         </Label>
 
                                                         <Border Style="{DynamicResource DefTextBoxBorder}" Width="100">
-                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SDeepSeekModel">
+                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SDeepSeekModel" TextChanged="SDeepSeekModel_TextChanged">
                                                             </TextBox>
                                                         </Border>
 
-                                                        <ComboBox Name="SDeepSeekModelSelect" IsTabStop="True" Margin="5 0 0 0" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Width="50" Height="30" Style="{StaticResource CustomComboBoxStyle}">
+                                                        <ComboBox Name="SDeepSeekModelSelect" IsTabStop="True" Margin="5 0 0 0" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Width="50" Height="30" Style="{StaticResource CustomComboBoxStyle}" SelectionChanged="SDeepSeekModelSelect_SelectionChanged">
                                                         </ComboBox>
                                                     </StackPanel>
                                                 </StackPanel>
@@ -1118,7 +1118,7 @@
                                                         </Label>
 
                                                         <Border Style="{DynamicResource DefTextBoxBorder}" Width="300">
-                                                            <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="SBaichuanKey">
+                                                            <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="SBaichuanKey" PasswordChanged="SBaichuanKey_PasswordChanged">
                                                             </PasswordBox>
                                                         </Border>
 
@@ -1127,11 +1127,11 @@
                                                         </Label>
 
                                                         <Border Style="{DynamicResource DefTextBoxBorder}" Width="100">
-                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SBaichuanModel">
+                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SBaichuanModel" TextChanged="SBaichuanModel_TextChanged">
                                                             </TextBox>
                                                         </Border>
 
-                                                        <ComboBox Name="SBaichuanModelSelect" IsTabStop="True" Margin="5 0 0 0" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Width="50" Height="30" Style="{StaticResource CustomComboBoxStyle}">
+                                                        <ComboBox Name="SBaichuanModelSelect" IsTabStop="True" Margin="5 0 0 0" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Width="50" Height="30" Style="{StaticResource CustomComboBoxStyle}" SelectionChanged="SBaichuanModelSelect_SelectionChanged">
                                                         </ComboBox>
                                                     </StackPanel>
                                                 </StackPanel>
@@ -1147,7 +1147,7 @@
                                                         </Label>
 
                                                         <Border Style="{DynamicResource DefTextBoxBorder}" Width="150">
-                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SLMHost">
+                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SLMHost" TextChanged="SLMHost_TextChanged" MouseLeave="SLMHost_MouseLeave">
                                                             </TextBox>
                                                         </Border>
 
@@ -1156,7 +1156,7 @@
                                                         </Label>
 
                                                         <Border Style="{DynamicResource DefTextBoxBorder}" Width="50">
-                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SLMPort">
+                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SLMPort" TextChanged="SLMPort_TextChanged">
                                                             </TextBox>
                                                         </Border>
 
@@ -1165,7 +1165,7 @@
                                                         </Label>
 
                                                         <Border Style="{DynamicResource DefTextBoxBorder}" Width="200">
-                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SLMModel">
+                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SLMModel" TextChanged="SLMModel_TextChanged">
                                                             </TextBox>
                                                         </Border>
 
@@ -1184,11 +1184,11 @@
                                                         </Label>
 
                                                         <Border Style="{DynamicResource DefTextBoxBorder}" Width="300">
-                                                            <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="SDeepLKey">
+                                                            <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="SDeepLKey" PasswordChanged="SDeepLKey_PasswordChanged">
                                                             </PasswordBox>
                                                         </Border>
 
-                                                        <CheckBox Style="{DynamicResource DefCheckBox}" Margin="5 0 0 0" Name="IsFreeDeepL">
+                                                        <CheckBox Style="{DynamicResource DefCheckBox}" Margin="5 0 0 0" Name="IsFreeDeepL" Click="IsFreeDeepL_Click">
                                                             It is a free DeepL key
                                                         </CheckBox>
                                                     </StackPanel>
@@ -1209,7 +1209,7 @@
                                                         </Label>
 
                                                         <Border Style="{DynamicResource DefTextBoxBorder}" Width="300">
-                                                            <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="GoogleKey">
+                                                            <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="GoogleKey" PasswordChanged="GoogleKey_PasswordChanged">
                                                             </PasswordBox>
                                                         </Border>
                                                     </StackPanel>
