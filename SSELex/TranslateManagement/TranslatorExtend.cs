@@ -153,8 +153,6 @@ namespace SSELex.TranslateManage
 
                         TranslationCore = new BatchTranslationCore(Engine.From, Engine.To, TranslationUnits);
 
-                        TranslationCore.UnitsTranslated.Clear();
-
                         TranslationCore.Start();
 
                         SyncTransStateFreeze = false;

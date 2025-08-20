@@ -492,7 +492,7 @@ namespace SSELex
                         {
                             ThreadInFoFont.Content = string.Format("Thread(Current:0,Max:{0})", EngineConfig.MaxThreadCount);
                         }
-                    }                 
+                    }
 
                     if (TransViewList != null)
                     {
@@ -504,7 +504,7 @@ namespace SSELex
                             {
                                 TransProcess.Content = string.Format("Loading({0}/{1})", ModifyCount, GlobalTransCount);
                             }
-                           
+
                             TypeSelector.Opacity = 0.5;
                             TypeSelector.IsEnabled = false;
 
@@ -517,7 +517,7 @@ namespace SSELex
                             {
                                 TransProcess.Content = string.Format("STRINGS({0}/{1})", ModifyCount, GlobalTransCount);
                             }
-                               
+
                             TypeSelector.Opacity = 1;
                             TypeSelector.IsEnabled = true;
 
@@ -942,6 +942,20 @@ namespace SSELex
         {
             GlobalTransCount = 0;
 
+            try
+            {
+                TranslatorExtend.TranslationStatus = StateControl.Cancel;
+
+                TranslatorExtend.SyncTransState(new Action(() =>
+                {
+                    this.Dispatcher.Invoke(new Action(() =>
+                    {
+                        SyncTransStateUI();
+                    }));
+                }), false);
+            }
+            catch { }
+
             Engine.ChangeModName(string.Empty);
 
             this.Dispatcher.Invoke(new Action(() =>
@@ -1204,10 +1218,12 @@ namespace SSELex
                             {
                                 try
                                 {
-                                    this.Dispatcher.Invoke(new Action(() => {
+                                    this.Dispatcher.Invoke(new Action(() =>
+                                    {
                                         TransView.IsHitTestVisible = false;
                                     }));
-                                    ClearCacheFont.Dispatcher.Invoke(new Action(() => {
+                                    ClearCacheFont.Dispatcher.Invoke(new Action(() =>
+                                    {
                                         ClearCacheFont.Content = "Cleaning..";
                                     }));
 
@@ -1236,7 +1252,8 @@ namespace SSELex
                                         Engine.GetTranslatedCount(Engine.GetModName());
                                         TranslatorExtend.ReSetAllTransText();
 
-                                        this.Dispatcher.Invoke(new Action(() => {
+                                        this.Dispatcher.Invoke(new Action(() =>
+                                        {
                                             TransView.IsHitTestVisible = true;
                                         }));
                                     }
@@ -1244,7 +1261,8 @@ namespace SSELex
                                 }
                                 catch { }
 
-                                ClearCacheFont.Dispatcher.Invoke(new Action(() => {
+                                ClearCacheFont.Dispatcher.Invoke(new Action(() =>
+                                {
                                     ClearCacheFont.Content = "ClearCache";
                                 }));
 
@@ -1747,12 +1765,14 @@ namespace SSELex
 
                         if (CallSucess)
                         {
-                            TranslatorExtend.SyncTransState(new Action(() => {
-                                this.Dispatcher.Invoke(new Action(() => {
+                            TranslatorExtend.SyncTransState(new Action(() =>
+                            {
+                                this.Dispatcher.Invoke(new Action(() =>
+                                {
                                     SyncTransStateUI();
                                 }));
                             }), IsKeep);
-                        }     
+                        }
                     }
                 }
             }
@@ -2356,7 +2376,7 @@ namespace SSELex
             }
         }
 
-        public void BookTransCallBack(string Key,string CurrentText)
+        public void BookTransCallBack(string Key, string CurrentText)
         {
             if (Key.Equals(LastSetKey) && CurrentText.Length > 0)
             {
@@ -2434,7 +2454,7 @@ namespace SSELex
 
                                 CurrentTextSegmentTranslator = new TextSegmentTranslator();
 
-                                TranslateTrd = new Thread(() => 
+                                TranslateTrd = new Thread(() =>
                                 {
                                     this.Dispatcher.Invoke(new Action(() =>
                                     {
