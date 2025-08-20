@@ -246,73 +246,31 @@ namespace SSELex.UIManage
 
                     if (LightControl == null) return;
 
-                    if (WorkState != null)
-                    {
-                        if (WorkState == true)
-                        {
-                            LightControl.Style = IndicatorOn;
-                            _LastOnTime[NodeName] = DateTime.UtcNow;
-
-                            if (_NodeTimers.TryGetValue(NodeName, out var OldTimer))
-                            {
-                                OldTimer.Stop();
-                            }
-                        }
-                        else
-                        {
-                            if (_LastOnTime.TryGetValue(NodeName, out var LastOn))
-                            {
-                                var Elapsed = DateTime.UtcNow - LastOn;
-                                var MinOn = TimeSpan.FromMilliseconds(200);
-
-                                if (Elapsed < MinOn)
-                                {
-                                    if (_NodeTimers.TryGetValue(NodeName, out var OldTimer))
-                                    {
-                                        OldTimer.Stop();
-                                    }
-
-                                    var Timer = new DispatcherTimer
-                                    {
-                                        Interval = MinOn - Elapsed
-                                    };
-                                    Timer.Tick += (s, e) =>
-                                    {
-                                        LightControl.Style = IndicatorOff;
-                                        Timer.Stop();
-                                    };
-
-                                    _NodeTimers[NodeName] = Timer;
-                                    Timer.Start();
-                                    return;
-                                }
-                            }
-
-                            LightControl.Style = IndicatorOff;
-                        }
-
-                        return;
-                    }
-
                     LightControl.Style = IndicatorOn;
+                    _LastOnTime[NodeName] = DateTime.UtcNow;
 
-                    if (_NodeTimers.TryGetValue(NodeName, out var OldTimer2))
+                    if (_NodeTimers.TryGetValue(NodeName, out var OldTimer))
                     {
-                        OldTimer2.Stop();
+                        OldTimer.Stop();
                     }
 
-                    var FlashTimer = new DispatcherTimer
+                    var MinOn = TimeSpan.FromMilliseconds(200);
+                    
+                    var MaxOn = TimeSpan.FromSeconds(1);
+
+                    var Timer = new DispatcherTimer
                     {
-                        Interval = TimeSpan.FromMilliseconds(200)
+                        Interval = MaxOn
                     };
-                    FlashTimer.Tick += (s, e) =>
+
+                    Timer.Tick += (s, e) =>
                     {
                         LightControl.Style = IndicatorOff;
-                        FlashTimer.Stop();
+                        Timer.Stop();
                     };
 
-                    _NodeTimers[NodeName] = FlashTimer;
-                    FlashTimer.Start();
+                    _NodeTimers[NodeName] = Timer;
+                    Timer.Start();
                 });
             }
             catch { }

@@ -108,6 +108,8 @@ namespace SSELex
         {
             DeFine.Init(this);
 
+            TranslatorExtend.Init();
+
             DelegateHelper.SetBookTranslateCallback += BookTransCallBack;
 
             SetSelectedNav("TransHub");
@@ -382,10 +384,12 @@ namespace SSELex
             if (IsExpanded)
             {
                 ShowLeftMenu(false);
+                LogView.Visibility = Visibility.Collapsed;
             }
             else
             {
                 ShowLeftMenu(true);
+                LogView.Visibility = Visibility.Visible;
             }
         }
 
@@ -395,10 +399,12 @@ namespace SSELex
             if (ConvertHelper.ObjToInt(Mask.Tag) == 0)
             {
                 ShowLeftMenu(false);
+                LogView.Visibility = Visibility.Collapsed;
             }
             else
             {
                 ShowMenu(false);
+                LogView.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -463,17 +469,30 @@ namespace SSELex
 
                 this.Dispatcher.Invoke(new Action(() =>
                 {
-                    if (ScanAnimator != null)
+                    if (TranslatorExtend.TranslationCore != null)
                     {
-                        if (ModifyCount > 0)
+                        if (ScanAnimator != null)
                         {
-                            ScanAnimator.Start();
+                            if (ModifyCount > 0 && TranslatorExtend.TranslationCore.IsWork && !TranslatorExtend.TranslationCore.IsStop)
+                            {
+                                ScanAnimator.Start();
+                            }
+                            else
+                            {
+                                ScanAnimator.Stop();
+                            }
+                        }
+
+                        if (TranslatorExtend.TranslationCore.IsWork && !TranslatorExtend.TranslationCore.IsStop)
+                        {
+                            ThreadInFoFont.Content = string.Format("Thread(Current:{0},Max:{1})", TranslatorExtend.TranslationCore.ThreadUsage.CurrentThreads, EngineConfig.MaxThreadCount);
                         }
                         else
+                        if (TranslatorExtend.TranslationCore.IsWork && TranslatorExtend.TranslationCore.IsStop)
                         {
-                            ScanAnimator.Stop();
+                            ThreadInFoFont.Content = string.Format("Thread(Current:0,Max:{0})", EngineConfig.MaxThreadCount);
                         }
-                    }
+                    }                 
 
                     if (TransViewList != null)
                     {
@@ -481,7 +500,11 @@ namespace SSELex
 
                         if (ReadTrdWorkState)
                         {
-                            TransProcess.Content = string.Format("Loading({0}/{1})", ModifyCount, GlobalTransCount);
+                            if (TranslatorExtend.TranslationStatus == StateControl.Cancel || TranslatorExtend.TranslationStatus == StateControl.Null)
+                            {
+                                TransProcess.Content = string.Format("Loading({0}/{1})", ModifyCount, GlobalTransCount);
+                            }
+                           
                             TypeSelector.Opacity = 0.5;
                             TypeSelector.IsEnabled = false;
 
@@ -490,7 +513,11 @@ namespace SSELex
                         }
                         else
                         {
-                            TransProcess.Content = string.Format("STRINGS({0}/{1})", ModifyCount, GlobalTransCount);
+                            if (TranslatorExtend.TranslationStatus == StateControl.Cancel || TranslatorExtend.TranslationStatus == StateControl.Null)
+                            {
+                                TransProcess.Content = string.Format("STRINGS({0}/{1})", ModifyCount, GlobalTransCount);
+                            }
+                               
                             TypeSelector.Opacity = 1;
                             TypeSelector.IsEnabled = true;
 
@@ -1177,6 +1204,9 @@ namespace SSELex
                             {
                                 try
                                 {
+                                    this.Dispatcher.Invoke(new Action(() => {
+                                        TransView.IsHitTestVisible = false;
+                                    }));
                                     ClearCacheFont.Dispatcher.Invoke(new Action(() => {
                                         ClearCacheFont.Content = "Cleaning..";
                                     }));
@@ -1203,7 +1233,12 @@ namespace SSELex
 
                                     if (CallFuncCount > 0)
                                     {
+                                        Engine.GetTranslatedCount(Engine.GetModName());
                                         TranslatorExtend.ReSetAllTransText();
+
+                                        this.Dispatcher.Invoke(new Action(() => {
+                                            TransView.IsHitTestVisible = true;
+                                        }));
                                     }
 
                                 }
@@ -1657,42 +1692,74 @@ namespace SSELex
 
         private void ChangeTransState(object sender, MouseButtonEventArgs e)
         {
-            if (sender is Border)
+            bool IsKeep = false;
+            bool CallSucess = false;
+            if (TransViewList != null)
             {
-                Border ButtonHandle = (Border)sender;
-
-                string GetButtonName = ButtonHandle.Name;
-
-                switch (GetButtonName)
+                if (TransViewList.Rows > 0)
                 {
-                    case "TRun":
+                    if (sender is Border)
+                    {
+                        Border ButtonHandle = (Border)sender;
+
+                        string GetButtonName = ButtonHandle.Name;
+
+                        switch (GetButtonName)
                         {
-                            TranslatorExtend.TranslationStatus = StateControl.Run;
+                            case "TRun":
+                                {
+                                    if (ConvertHelper.ObjToStr(TransProcess.Content).StartsWith("STRINGS("))
+                                    {
+                                        TRun.Visibility = Visibility.Collapsed;
+
+                                        TranslatorExtend.TranslationStatus = StateControl.Run;
+                                        CallSucess = true;
+                                        IsKeep = false;
+                                    }
+                                }
+                                break;
+                            case "TStop":
+                                {
+                                    if (TStop.Opacity == 0.5)
+                                    {
+                                        TranslatorExtend.TranslationStatus = StateControl.Stop;
+                                        CallSucess = true;
+                                    }
+                                    else
+                                    {
+                                        if (TranslatorExtend.TranslationStatus == StateControl.Stop)
+                                        {
+                                            IsKeep = true;
+                                        }
+
+                                        TranslatorExtend.TranslationStatus = StateControl.Run;
+                                        CallSucess = true;
+                                    }
+                                }
+                                break;
+                            case "TCancel":
+                                {
+                                    TranslatorExtend.TranslationStatus = StateControl.Cancel;
+                                    CallSucess = true;
+                                }
+                                break;
                         }
-                        break;
-                    case "TStop":
+
+                        if (CallSucess)
                         {
-                            if (TStop.Opacity == 0.5)
-                            {
-                                TranslatorExtend.TranslationStatus = StateControl.Stop;
-                            }
-                            else
-                            {
-                                TranslatorExtend.TranslationStatus = StateControl.Run;
-                            }
-                        }
-                        break;
-                    case "TCancel":
-                        {
-                            TranslatorExtend.TranslationStatus = StateControl.Cancel;
-                        }
-                        break;
+                            TranslatorExtend.SyncTransState(new Action(() => {
+                                this.Dispatcher.Invoke(new Action(() => {
+                                    SyncTransStateUI();
+                                }));
+                            }), IsKeep);
+                        }     
+                    }
                 }
-
-                TranslatorExtend.SyncTransState();
-                SyncTransStateUI();
             }
-
+            if (!CallSucess)
+            {
+                MessageBoxExtend.Show(this, "Batch translation is not possible at the current state.\nPlease wait until the file loading is finished.");
+            }
         }
 
         private void ChangeColor(object sender, MouseButtonEventArgs e)
@@ -2324,13 +2391,13 @@ namespace SSELex
 
                             if (!QueryGrid.Key.EndsWith("(BookText)"))
                             {
+                                this.Dispatcher.Invoke(new Action(() =>
+                                {
+                                    TransView.IsHitTestVisible = false;
+                                }));
+
                                 TranslateTrd = new Thread(() =>
                                 {
-                                    this.Dispatcher.Invoke(new Action(() =>
-                                    {
-                                        TransView.IsHitTestVisible = false;
-                                    }));
-
                                     this.Dispatcher.Invoke(new Action(() =>
                                     {
                                         TranslateOTButtonFont.Content = "Translating..";
@@ -2360,6 +2427,11 @@ namespace SSELex
                             }
                             else
                             {
+                                this.Dispatcher.Invoke(new Action(() =>
+                                {
+                                    TransView.IsHitTestVisible = false;
+                                }));
+
                                 CurrentTextSegmentTranslator = new TextSegmentTranslator();
 
                                 TranslateTrd = new Thread(() => 
@@ -2374,6 +2446,11 @@ namespace SSELex
                                         CurrentTextSegmentTranslator.TransBook(QueryGrid.Key, QueryGrid.SourceText);
                                     }
                                     catch { }
+
+                                    this.Dispatcher.Invoke(new Action(() =>
+                                    {
+                                        TransView.IsHitTestVisible = true;
+                                    }));
 
                                     this.Dispatcher.Invoke(new Action(() =>
                                     {

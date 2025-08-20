@@ -213,11 +213,13 @@ namespace SSELex.UIManagement
             TextBox GetKey = (TextBox)GetKeyGrid.Children[0];
             GetKey.Text = Item.Key;
             GetKey.Foreground = new SolidColorBrush(FontColor);
+            GetKey.PreviewMouseWheel += OnePreviewMouseWheel;
 
             Grid GetOriginalGrid = (Grid)GetChildGrid.Children[2];
             TextBox GetOriginal = (TextBox)GetOriginalGrid.Children[0];
             GetOriginal.Text = Item.SourceText;
             GetOriginal.Foreground = new SolidColorBrush(FontColor);
+            GetOriginal.PreviewMouseWheel += OnePreviewMouseWheel;
 
             Grid GetTranslatedGrid = (Grid)GetChildGrid.Children[3];
             Border GetTranslatedBorder = (Border)GetTranslatedGrid.Children[0];
@@ -226,6 +228,7 @@ namespace SSELex.UIManagement
 
             GetTranslated.Text = Item.TransText;
             GetTranslated.Foreground = new SolidColorBrush(FontColor);
+            GetTranslated.PreviewMouseWheel += OnePreviewMouseWheel;
 
             GetTranslated.MouseLeave += GetTranslated_MouseLeave;
             GetTranslated.LostFocus += GetTranslated_LostFocus;
@@ -258,6 +261,7 @@ namespace SSELex.UIManagement
 
             return MainGrid;
         }
+
 
         private void GetTranslated_LostFocus(object sender, RoutedEventArgs e)
         {
@@ -368,6 +372,23 @@ namespace SSELex.UIManagement
             });
 
             AutoSelectIDETrd.Start();
+        }
+
+        public void OnePreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            var TextBox = sender as TextBox;
+            var Parent = VisualTreeHelper.GetParent(TextBox);
+
+            while (Parent != null && !(Parent is ScrollViewer))
+            {
+                Parent = VisualTreeHelper.GetParent(Parent);
+            }
+
+            if (Parent is ScrollViewer ScrollViewer)
+            {
+                ScrollViewer.ScrollToVerticalOffset(ScrollViewer.VerticalOffset - e.Delta);
+                e.Handled = true; 
+            }
         }
     }
 }

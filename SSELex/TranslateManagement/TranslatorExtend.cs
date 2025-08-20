@@ -9,6 +9,8 @@ using PhoenixEngine.EngineManagement;
 using static PhoenixEngine.SSELexiconBridge.NativeBridge;
 using Loqui.Translators;
 using SSELex.UIManagement;
+using Microsoft.VisualBasic.Logging;
+using PhoenixEngine.DelegateManagement;
 
 namespace SSELex.TranslateManage
 {
@@ -18,8 +20,24 @@ namespace SSELex.TranslateManage
     //https://github.com/YD525/PhoenixEngine
     public class TranslatorExtend
     {
-        public static Dictionary<int,List<TranslatorHistoryCache>> TranslatorHistoryCaches = new Dictionary<int, List<TranslatorHistoryCache>>();
+        public static void Init()
+        {
+            DelegateHelper.SetLog += LogCall;
+        }
 
+        public static void LogCall(string Log, int LogViewType)
+        {
+            if (DeFine.WorkingWin != null)
+            {
+                DeFine.WorkingWin.Dispatcher.Invoke(new Action(() => {
+                    DeFine.WorkingWin.MainLog.Text = Log;
+                }));
+            }
+        }
+
+        public static Dictionary<int, List<TranslatorHistoryCache>> TranslatorHistoryCaches = new Dictionary<int, List<TranslatorHistoryCache>>();
+
+        public static BatchTranslationCore? TranslationCore = null;
         public static void ClearTranslatorHistoryCache()
         {
             RowStyleWin.RecordModifyStates.Clear();
@@ -46,31 +64,210 @@ namespace SSELex.TranslateManage
             int GetKey = Key.GetHashCode();
             if (TranslatorHistoryCaches.ContainsKey(GetKey))
             {
-               return TranslatorHistoryCaches[GetKey];
+                return TranslatorHistoryCaches[GetKey];
             }
 
             return null;
         }
 
+        public static void SetLog(string Log)
+        {
+            if (DeFine.WorkingWin != null)
+            {
+                DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
+                {
+                    DeFine.WorkingWin.TransProcess.Content = Log;
+                }));
+            }
+        }
+
+        public static bool WaitStopSign()
+        {
+            while (TranslationStatus == StateControl.Stop)
+            {
+                Thread.Sleep(1000);
+
+                if (TranslationStatus == StateControl.Cancel)
+                {
+                    if (TranslationCore != null)
+                    {
+                        TranslationCore.Close();
+                    }
+
+                    return true;
+                }
+            }
+
+            if (TranslationStatus == StateControl.Cancel)
+            {
+                if (TranslationCore != null)
+                {
+                    TranslationCore.Close();
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public static bool SyncTransStateFreeze = false;
 
         public static StateControl TranslationStatus = StateControl.Null;
 
-        public static void SyncTransState()
+        public static void SyncTransState(Action EndAction, bool IsKeep = false)
         {
-            if (TranslationStatus == StateControl.Run)
-            { 
-            
-            }
-            else
-            if (TranslationStatus == StateControl.Stop)
+            if (SyncTransStateFreeze)
             {
-
+                EndAction.Invoke();
+                return;
             }
-            else
-            if (TranslationStatus == StateControl.Cancel || TranslationStatus == StateControl.Null)
+
+            new Thread(() =>
             {
+                if (TranslationStatus == StateControl.Run && !IsKeep)
+                {
+                    YDListView? GetListView = DeFine.WorkingWin.TransViewList;
 
-            }
+                    if (GetListView != null)
+                    {
+                        SyncTransStateFreeze = true;
+
+                        SetLog("Engine Initialization(1/2)");
+
+                        List<TranslationUnit> TranslationUnits = new List<TranslationUnit>();
+
+                        for (int i = 0; i < GetListView.Rows; i++)
+                        {
+                            var Row = GetListView.RealLines[i];
+                            Row.SyncData();
+
+                            if (Row.TransText.Trim().Length == 0)
+                            {
+                                TranslationUnits.Add(new TranslationUnit(Engine.GetModName(),
+                               Row.Key, Row.Type, Row.SourceText, Row.TransText));
+                            }
+                        }
+
+                        SetLog("Engine Initialization(2/2)");
+
+                        TranslationCore = new BatchTranslationCore(Engine.From, Engine.To, TranslationUnits);
+
+                        TranslationCore.UnitsTranslated.Clear();
+
+                        TranslationCore.Start();
+
+                        SyncTransStateFreeze = false;
+
+                        EndAction.Invoke();
+
+                        while (TranslationCore.WorkState <= 1)
+                        {
+                            Thread.Sleep(500);
+
+                            SetLog("Word Sorting(" + TranslationCore.MarkLeadersPercent + "%)...");
+
+                            if (WaitStopSign())
+                            {
+                                return;
+                            }
+                        }
+
+                        if (WaitStopSign())
+                        {
+                            EndAction.Invoke();
+                            return;
+                        }
+
+                        int ModifyCount = Engine.TranslatedCount;
+
+                        SetLog(string.Format("STRINGS({0}/{1})", ModifyCount, GetListView.Rows));
+
+                        Thread.Sleep(1000);
+
+                        if (WaitStopSign())
+                        {
+                            EndAction.Invoke();
+                            return;
+                        }
+
+                        bool IsEnd = false;
+
+                        while (!IsEnd)
+                        {
+                            var GetGrid = TranslationCore.DequeueTranslated(out IsEnd);
+
+                            if (GetGrid != null)
+                            {
+                                var GetFakeGrid = GetListView.KeyToFakeGrid(GetGrid.Key);
+                                if (GetFakeGrid != null)
+                                {
+                                    GetFakeGrid.TransText = GetGrid.TransText;
+                                    GetFakeGrid.SyncUI(GetListView);
+
+                                    Engine.TranslatedCount++;
+                                    SetLog(string.Format("STRINGS({0}/{1})", Engine.TranslatedCount, GetListView.Rows));
+                                }
+                            }
+
+                            Thread.Sleep(20);
+
+                            if (WaitStopSign())
+                            {
+                                return;
+                            }
+                        }
+
+                        TranslationStatus = StateControl.Cancel;
+
+                        EndAction.Invoke();
+                    }
+                }
+                else
+                if (TranslationStatus == StateControl.Stop)
+                {
+                    SyncTransStateFreeze = true;
+
+                    if (TranslationCore != null)
+                    {
+                        TranslationCore.Stop();
+                    }
+                    
+                    EndAction.Invoke();
+
+                    SyncTransStateFreeze = false;
+                }
+                else
+                if (TranslationStatus == StateControl.Cancel || TranslationStatus == StateControl.Null)
+                {
+                    SyncTransStateFreeze = true;
+
+                    EndAction.Invoke();
+
+                    if (TranslationCore != null)
+                    {
+                        while (TranslationCore.TransMainTrd != null)
+                        {
+                            Thread.Sleep(10);
+                        }
+                    }
+
+                    SyncTransStateFreeze = false;
+                }
+                else
+                {
+                    SyncTransStateFreeze = true;
+
+                    if (TranslationCore != null)
+                    {
+                        TranslationCore.Keep();
+                    }
+
+                    EndAction.Invoke();
+
+                    SyncTransStateFreeze = false;
+                }
+            }).Start();
         }
 
         public static int WriteDictionary()
@@ -106,17 +303,15 @@ namespace SSELex.TranslateManage
                     {
                         DeFine.WorkingWin.TransViewList.RealLines[i].SyncData();
 
-                        if (DeFine.WorkingWin.TransViewList.RealLines[i].TransText.Length > 0)
+                        DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
                         {
-                            DeFine.WorkingWin.Dispatcher.Invoke(new Action(() => {
-                                DeFine.WorkingWin.TransViewList.RealLines[i].SyncUI(DeFine.WorkingWin.TransViewList);
-                            }));
-                        }
+                            DeFine.WorkingWin.TransViewList.RealLines[i].SyncUI(DeFine.WorkingWin.TransViewList);
+                        }));
                     }
                 }
             }
         }
-      
+
         public static bool ClearCloudCache(string ModName)
         {
             return CloudDBCache.ClearCloudCache(ModName);
@@ -135,7 +330,7 @@ namespace SSELex.TranslateManage
             this.Translated = Translated;
         }
 
-        public TranslatorHistoryCache(string Translated,bool IsCloud)
+        public TranslatorHistoryCache(string Translated, bool IsCloud)
         {
             this.ChangeTime = DateTime.Now;
             this.Translated = Translated;

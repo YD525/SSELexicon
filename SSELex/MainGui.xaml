@@ -71,7 +71,7 @@
             <Grid Grid.Row="0" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="160"/>
                     <ColumnDefinition Width="20"/>
                     <ColumnDefinition Width="25"/>
                     <ColumnDefinition Width="5"/>
@@ -85,8 +85,8 @@
                 </Label>
 
                 <Grid Grid.Column="1" Style="{DynamicResource ThreadInFo}" Visibility="Collapsed"  Name="ThreadInFo">
-                    <Label Style="{DynamicResource ThreadInFoFont}">
-                        Thread(0/0)
+                    <Label Style="{DynamicResource ThreadInFoFont}" Name="ThreadInFoFont">
+                        Thread(Current:0,Max:0)
                     </Label>
                 </Grid>
 
@@ -288,6 +288,10 @@
                     </Grid>
                 </Border>
 
+                <Border Name="LogView" Background="#FF282828" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Margin="10 5 10 25" CornerRadius="5" Height="100" Panel.ZIndex="999" Visibility="Collapsed">
+                    <TextBox Style="{DynamicResource InFoText}" Name="MainLog" VerticalScrollBarVisibility="Auto" Margin="5">
+                    </TextBox>
+                </Border>
                 <!--Mask-->
                 <Border Visibility="Collapsed" Name="Mask" Tag="0" Style="{DynamicResource MaskStyle}" MouseDown="Mask_MouseDown">
                 </Border>

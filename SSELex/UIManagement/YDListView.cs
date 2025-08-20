@@ -47,9 +47,19 @@ public class FakeGrid
     {
         for (int i = 0; i < ListViewHandle.VisibleRows.Count; i++)
         {
+            bool CanExit = false;
+
             if (RowStyleWin.GetKey(ListViewHandle.VisibleRows[i]).Equals(this.Key))
             {
-                RowStyleWin.SetTranslated(ListViewHandle.VisibleRows[i], this.TransText);
+                ListViewHandle.Parent.Dispatcher.Invoke(new Action(() =>
+                {
+                    RowStyleWin.SetTranslated(ListViewHandle.VisibleRows[i], this.TransText);
+                    CanExit = true;
+                }));
+            }
+
+            if (CanExit)
+            {
                 break;
             }
         }
@@ -157,7 +167,8 @@ public class YDListView
 
                 int SelectID = ParentView.KeyToSelectID(GetKey);
 
-                Action SelectAction = new Action(() => {
+                Action SelectAction = new Action(() =>
+                {
                     if (UPDate)
                     {
                         if (ParentView != null)
@@ -183,7 +194,7 @@ public class YDListView
                             {
                                 MainBorder.BorderBrush = new SolidColorBrush(Color.FromRgb(10, 97, 175));
                                 LastSelectBorder = MainBorder;
-                            }  
+                            }
                         }
                     }
                 });
