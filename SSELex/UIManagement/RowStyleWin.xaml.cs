@@ -295,8 +295,9 @@ namespace SSELex.UIManagement
                         if (GetTarget != null)
                         {
                             TranslatorBridge.SetTransData(GetKey, GetTarget.SourceText, Text.Text);
-                            GetTarget.SyncData();
-                            TranslatorExtend.SetTranslatorHistoryCache(GetKey, Text.Text);
+                            bool IsCloud = false;
+                            GetTarget.SyncData(ref IsCloud);
+                            TranslatorExtend.SetTranslatorHistoryCache(GetKey, Text.Text, IsCloud);
                         }
 
                         GetSelectionStart = Math.Min(GetSelectionStart, Text.Text.Length);

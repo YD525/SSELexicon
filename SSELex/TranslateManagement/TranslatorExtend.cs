@@ -64,7 +64,8 @@ namespace SSELex.TranslateManage
 
                     if (QueryGrid != null)
                     {
-                        QueryGrid.SyncData();
+                        bool IsCloud = false;
+                        QueryGrid.SyncData(ref IsCloud);
 
                         if (QueryGrid.TransText.Length > 0)
                         {
@@ -165,7 +166,7 @@ namespace SSELex.TranslateManage
             TranslatorHistoryCaches.Clear();
         }
 
-        public static void SetTranslatorHistoryCache(string Key, string Translated)
+        public static void SetTranslatorHistoryCache(string Key, string Translated,bool IsCloud)
         {
             int GetKey = Key.GetHashCode();
 
@@ -176,7 +177,7 @@ namespace SSELex.TranslateManage
 
             if (!TranslatorHistoryCaches[GetKey].Any(C => C.Translated == Translated))
             {
-                TranslatorHistoryCaches[GetKey].Add(new TranslatorHistoryCache(Translated));
+                TranslatorHistoryCaches[GetKey].Add(new TranslatorHistoryCache(Translated,IsCloud));
             }
         }
 
@@ -268,7 +269,8 @@ namespace SSELex.TranslateManage
                         for (int i = 0; i < GetListView.Rows; i++)
                         {
                             var Row = GetListView.RealLines[i];
-                            Row.SyncData();
+                            bool IsCloud = false;
+                            Row.SyncData(ref IsCloud);
 
                             if (Row.TransText.Trim().Length == 0)
                             {
@@ -361,6 +363,7 @@ namespace SSELex.TranslateManage
                                 {
                                     GetFakeGrid.TransText = GetGrid.TransText;
                                     GetFakeGrid.SyncUI(GetListView);
+                                    SetTranslatorHistoryCache(GetGrid.Key, GetGrid.TransText, true);
 
                                     Engine.TranslatedCount++;
                                     SetLog(string.Format("STRINGS({0}/{1})", Engine.TranslatedCount, GetListView.Rows));
@@ -460,7 +463,8 @@ namespace SSELex.TranslateManage
                 {
                     for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
                     {
-                        DeFine.WorkingWin.TransViewList.RealLines[i].SyncData();
+                        bool IsCloud = false;
+                        DeFine.WorkingWin.TransViewList.RealLines[i].SyncData(ref IsCloud);
 
                         DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
                         {
@@ -482,12 +486,6 @@ namespace SSELex.TranslateManage
         public DateTime ChangeTime;
         public string Translated = "";
         public bool IsCloud = false;
-
-        public TranslatorHistoryCache(string Translated)
-        {
-            this.ChangeTime = DateTime.Now;
-            this.Translated = Translated;
-        }
 
         public TranslatorHistoryCache(string Translated, bool IsCloud)
         {

@@ -63,7 +63,8 @@ namespace SSELex
                             {
                                 var GetRow = DeFine.WorkingWin.TransViewList.RealLines[i];
 
-                                GetRow.SyncData();
+                                bool IsCloud = false;
+                                GetRow.SyncData(ref IsCloud);
 
                                 if (GetRow.SourceText.Contains(SourceStr.Text))
                                 {
@@ -77,7 +78,7 @@ namespace SSELex
                                     }
                                     catch { }
 
-                                    TranslatorExtend.SetTranslatorHistoryCache(GetRow.Key, GetRow.TransText);
+                                    TranslatorExtend.SetTranslatorHistoryCache(GetRow.Key, GetRow.TransText,IsCloud);
 
                                     GetRow.SyncUI(DeFine.WorkingWin.TransViewList);
                                 }
@@ -100,7 +101,8 @@ namespace SSELex
                             {
                                 var GetRow = DeFine.WorkingWin.TransViewList.RealLines[i];
 
-                                GetRow.SyncData();
+                                bool IsCloud = false;
+                                GetRow.SyncData(ref IsCloud);
 
                                 if (GetRow.TransText.Contains(SourceStr.Text))
                                 {
@@ -114,7 +116,7 @@ namespace SSELex
                                     }
                                     catch { }
 
-                                    TranslatorExtend.SetTranslatorHistoryCache(GetRow.Key, GetRow.TransText);
+                                    TranslatorExtend.SetTranslatorHistoryCache(GetRow.Key, GetRow.TransText,IsCloud);
 
                                   
                                     GetRow.SyncUI(DeFine.WorkingWin.TransViewList);

@@ -1522,7 +1522,8 @@ namespace SSELex
 
                     if (GridHandle != null)
                     {
-                        GridHandle.SyncData();
+                        bool IsCloud = false;
+                        GridHandle.SyncData(ref IsCloud);
 
                         this.Dispatcher.Invoke(new Action(() =>
                         {
@@ -1834,7 +1835,7 @@ namespace SSELex
                         }
                         catch { }
 
-                        TranslatorExtend.SetTranslatorHistoryCache(GetGrid.Key, GetGrid.TransText);
+                        TranslatorExtend.SetTranslatorHistoryCache(GetGrid.Key, GetGrid.TransText,false);
 
                         GetGrid.SyncUI(TransViewList);
 
@@ -2412,7 +2413,8 @@ namespace SSELex
 
                         if (QueryGrid != null && TranslateTrd == null)
                         {
-                            QueryGrid.SyncData();
+                            bool IsCloud = false;
+                            QueryGrid.SyncData(ref IsCloud);
 
                             TranslationUnit NewUnit = new TranslationUnit(Engine.GetModName(), QueryGrid.Key,QueryGrid.Type,QueryGrid.SourceText,QueryGrid.TransText,"",Engine.From,Engine.To);
 

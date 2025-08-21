@@ -65,13 +65,15 @@ public class FakeGrid
         }
     }
 
-    public void SyncData()
+    public void SyncData(ref bool IsCloud)
     {
+        IsCloud = false;
         var QueryResult = TranslatorBridge.QueryTransData(this.Key, this.SourceText);
 
         if (QueryResult != null)
         {
             this.TransText = QueryResult.TransText;
+            IsCloud = QueryResult.FromCloud;
         }
 
         var FindDictionary = YDDictionaryHelper.CheckDictionary(this.Key);
