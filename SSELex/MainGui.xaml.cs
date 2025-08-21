@@ -2417,7 +2417,7 @@ namespace SSELex
                             TranslationUnit NewUnit = new TranslationUnit(Engine.GetModName(), QueryGrid.Key,QueryGrid.Type,QueryGrid.SourceText,QueryGrid.TransText,"",Engine.From,Engine.To);
 
                             bool CanSleep = false;
-                            bool CanAddCache = false;
+
                             CanAutoApply = true;
 
                             if (!QueryGrid.Key.EndsWith("(BookText)"))
@@ -2436,7 +2436,7 @@ namespace SSELex
 
                                     string GetTranslated = Translator.QuickTrans(
                                     NewUnit,
-                                    ref CanSleep, ref CanAddCache);
+                                    ref CanSleep);
 
                                     this.Dispatcher.Invoke(new Action(() =>
                                     {

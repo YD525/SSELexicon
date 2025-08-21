@@ -440,7 +440,7 @@ namespace SSELex
                         }));
                         bool CanSleep = false;
                         bool CanAddCache = false;
-                        var GetResult = Translator.QuickTrans(NewUnit, ref CanSleep,ref CanAddCache);
+                        var GetResult = Translator.QuickTrans(NewUnit, ref CanSleep);
 
                         this.Dispatcher.Invoke(new Action(() =>
                         {

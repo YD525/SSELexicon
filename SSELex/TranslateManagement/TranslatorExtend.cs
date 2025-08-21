@@ -16,6 +16,7 @@ using PhoenixEngine.RequestManagement;
 using Microsoft.VisualBasic;
 using static PhoenixEngine.EngineManagement.DataTransmission;
 using static SSELex.TranslateManage.TranslatorExtend;
+using System.Windows.Controls;
 
 namespace SSELex.TranslateManage
 {
@@ -30,7 +31,7 @@ namespace SSELex.TranslateManage
             DelegateHelper.SetDataCall += Recv;
             DelegateHelper.SetTranslationUnitCallBack += TranslationUnitStartWorkCall;
 
-            RegListener("RequestLog", new Action<int, object>((Sign,Any) =>
+            RegListener("RequestLog",new List<int>() {3,5}, new Action<int, object>((Sign,Any) =>
             {
                 if (Sign == 5 || Sign == 3)
                 {
@@ -48,19 +49,44 @@ namespace SSELex.TranslateManage
             }));
         }
 
+        /// <summary>
+        /// Protect the translation object being entered by the user from being changed
+        /// </summary>
+        /// <param name="Item"></param>
+        /// <returns></returns>
         public static bool TranslationUnitStartWorkCall(TranslationUnit Item)
         {
+            if (DeFine.WorkingWin != null)
+            {
+                if (DeFine.WorkingWin.TransViewList != null)
+                {
+                    FakeGrid? QueryGrid = DeFine.WorkingWin.TransViewList.KeyToFakeGrid(Item.Key);
+
+                    if (QueryGrid != null)
+                    {
+                        QueryGrid.SyncData();
+
+                        if (QueryGrid.TransText.Length > 0)
+                        {
+                            return false;
+                        }
+                    }
+                }  
+            }
+           
             return true;
         }
 
         public class RecvListener
         {
             public string Key = "";
+            public List<int> ActiveIDs = new List<int>();
             public Action<int, object> Method = null;
 
-            public RecvListener(string Key, Action<int, object> Func)
+            public RecvListener(string Key, List<int> ActiveIDs, Action<int, object> Func)
             { 
                 this.Key = Key;
+                this.ActiveIDs = ActiveIDs;
                 this.Method = Func;
             }
         }
@@ -81,7 +107,7 @@ namespace SSELex.TranslateManage
             }
         }
 
-        public static void RegListener(string Key, Action<int, object> Action)
+        public static void RegListener(string Key,List<int>ActiveIDs, Action<int, object> Action)
         {
             foreach (var Get in RecvListeners)
             {
@@ -91,7 +117,7 @@ namespace SSELex.TranslateManage
                 }
             }
 
-            RecvListeners.Add(new RecvListener(Key,Action));
+            RecvListeners.Add(new RecvListener(Key,ActiveIDs,Action));
         }
 
         public static List<RecvListener> RecvListeners = new List<RecvListener>();
@@ -105,9 +131,12 @@ namespace SSELex.TranslateManage
                 {
                     for (int i=0;i< RecvListeners.Count;i++)
                     {
-                        try 
+                        try
                         {
-                            RecvListeners[i].Method.Invoke(Sign, Any);
+                            if (RecvListeners[i].ActiveIDs.Contains(Sign))
+                            {
+                                RecvListeners[i].Method.Invoke(Sign, Any);
+                            }  
                         }
                         catch { }
                     }
