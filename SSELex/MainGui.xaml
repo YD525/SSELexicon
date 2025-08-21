@@ -411,8 +411,8 @@
                                         <ColumnDefinition Width="120"/>
                                         <ColumnDefinition Width="1*"/>
                                         <ColumnDefinition Width="50"/>
-                                        <ColumnDefinition Width="1*"/>
-                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="220"/>
+                                        <ColumnDefinition Width="0.7*"/>
                                         <ColumnDefinition Width="135"/>
                                     </Grid.ColumnDefinitions>
 

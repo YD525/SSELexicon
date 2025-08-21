@@ -276,7 +276,7 @@ namespace SSELex.TranslateManage
 
                         ProxyCenter.UsingProxy();
 
-                        SetTransBarTittle("Engine Initialization(1/2)");
+                        SetTransBarTittle("Preparing Translation Units...");
 
                         List<TranslationUnit> TranslationUnits = new List<TranslationUnit>();
 
@@ -330,8 +330,6 @@ namespace SSELex.TranslateManage
                             }
                         }
 
-                        SetTransBarTittle("Engine Initialization(2/2)");
-
                         TranslationCore = new BatchTranslationCore(Engine.From, Engine.To, TranslationUnits);
 
                         TranslationCore.Start();
@@ -342,9 +340,9 @@ namespace SSELex.TranslateManage
 
                         while (TranslationCore.WorkState <= 1)
                         {
-                            Thread.Sleep(500);
+                            Thread.Sleep(100);
 
-                            SetTransBarTittle("Word Sorting(" + TranslationCore.MarkLeadersPercent + "%)...");
+                            SetTransBarTittle("Analyzing Words(" + TranslationCore.MarkLeadersPercent + "%)...");
 
                             if (WaitStopSign())
                             {
