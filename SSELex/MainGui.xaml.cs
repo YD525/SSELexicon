@@ -126,8 +126,6 @@ namespace SSELex
 
             SyncConfig();
 
-            DelegateHelper.SetNodeCallCallback += UIHelper.NodeCallCallback;
-
             new Thread(() =>
             {
                 while (true)
@@ -2416,6 +2414,8 @@ namespace SSELex
                         {
                             QueryGrid.SyncData();
 
+                            TranslationUnit NewUnit = new TranslationUnit(Engine.GetModName(), QueryGrid.Key,QueryGrid.Type,QueryGrid.SourceText,QueryGrid.TransText,"",Engine.From,Engine.To);
+
                             bool CanSleep = false;
                             bool CanAddCache = false;
                             CanAutoApply = true;
@@ -2435,9 +2435,7 @@ namespace SSELex
                                     }));
 
                                     string GetTranslated = Translator.QuickTrans(
-                                    Engine.GetModName(), QueryGrid.Type, QueryGrid.Key,
-                                    QueryGrid.SourceText,
-                                    Engine.From, Engine.To,
+                                    NewUnit,
                                     ref CanSleep, ref CanAddCache);
 
                                     this.Dispatcher.Invoke(new Action(() =>
@@ -2474,7 +2472,7 @@ namespace SSELex
 
                                     try
                                     {
-                                        CurrentTextSegmentTranslator.TransBook(QueryGrid.Key, QueryGrid.SourceText);
+                                        CurrentTextSegmentTranslator.TransBook(NewUnit);
                                     }
                                     catch { }
 

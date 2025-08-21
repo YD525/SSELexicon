@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using PhoenixEngine.DataBaseManagement;
+using PhoenixEngine.EngineManagement;
 using PhoenixEngine.TranslateCore;
 using PhoenixEngine.TranslateManage;
 using PhoenixEngine.TranslateManagement;
@@ -429,6 +430,8 @@ namespace SSELex
 
                     string GetFromStr = FromStr.Text;
 
+                    TranslationUnit NewUnit = new TranslationUnit("Test", DeFine.WorkingWin.TransViewList.GetSelectedKey(), GetType, GetFromStr,"","", FilterFrom, FilterTo);
+
                     new Thread(() =>
                     {
                         this.Dispatcher.Invoke(new Action(() =>
@@ -437,7 +440,7 @@ namespace SSELex
                         }));
                         bool CanSleep = false;
                         bool CanAddCache = false;
-                        var GetResult = Translator.QuickTrans("Test", GetType, DeFine.WorkingWin.TransViewList.GetSelectedKey(), GetFromStr, FilterFrom, FilterTo, ref CanSleep,ref CanAddCache);
+                        var GetResult = Translator.QuickTrans(NewUnit, ref CanSleep,ref CanAddCache);
 
                         this.Dispatcher.Invoke(new Action(() =>
                         {

@@ -428,7 +428,7 @@ public class YDListView
         OneScroll.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
         OneScroll.HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled;
         OneScroll.Content = MainCanvas;
-        OneScroll.ScrollChanged += OnScrollChanged; // 监听滚动
+        OneScroll.ScrollChanged += OnScrollChanged; 
 
         this.Scroll = OneScroll;
 

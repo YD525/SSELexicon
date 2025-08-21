@@ -151,7 +151,7 @@ namespace SSELex.UIManage
 
         public static Grid CreatLine(double Height, string Type, string Key, string SourceText, string TransText, double Score)
         {
-            Grid MainGrid = DeFine.RowStyleWin.CreatLine(Height, new PhoenixEngine.TranslateManage.TranslationUnit(Engine.GetModName(), Key, Type, SourceText, TransText));
+            Grid MainGrid = DeFine.RowStyleWin.CreatLine(Height, new PhoenixEngine.TranslateManage.TranslationUnit(Engine.GetModName(), Key, Type, SourceText, TransText,"",Engine.From,Engine.To));
             return MainGrid;
         }
 

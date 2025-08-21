@@ -13,6 +13,9 @@ using Microsoft.VisualBasic.Logging;
 using PhoenixEngine.DelegateManagement;
 using Mutagen.Bethesda.Plugins;
 using PhoenixEngine.RequestManagement;
+using Microsoft.VisualBasic;
+using static PhoenixEngine.EngineManagement.DataTransmission;
+using static SSELex.TranslateManage.TranslatorExtend;
 
 namespace SSELex.TranslateManage
 {
@@ -24,10 +27,97 @@ namespace SSELex.TranslateManage
     {
         public static void Init()
         {
-            DelegateHelper.SetLog += LogCall;
+            DelegateHelper.SetDataCall += Recv;
+            DelegateHelper.SetTranslationUnitCallBack += TranslationUnitStartWorkCall;
+
+            RegListener("RequestLog", new Action<int, object>((Sign,Any) =>
+            {
+                if (Sign == 5 || Sign == 3)
+                {
+                    if (Any is AICall)
+                    {
+                        AICall GetCall = (AICall)Any;
+                        LogCall(GetCall.Platform.ToString() + "->\n\n\n" + "Send:\n" + GetCall.SendString + "\n\n\nRecv:\n" + GetCall.ReceiveString);
+                    }
+                    if (Any is PlatformCall)
+                    {
+                        PlatformCall GetCall = (PlatformCall)Any;
+                        LogCall(GetCall.Platform.ToString() + "->\n\n\n" + "Send:\n" + GetCall.SendString + "\n\n\nRecv:\n" + GetCall.ReceiveString);
+                    }
+                }
+            }));
         }
 
-        public static void LogCall(string Log, int LogViewType)
+        public static bool TranslationUnitStartWorkCall(TranslationUnit Item)
+        {
+            return true;
+        }
+
+        public class RecvListener
+        {
+            public string Key = "";
+            public Action<int, object> Method = null;
+
+            public RecvListener(string Key, Action<int, object> Func)
+            { 
+                this.Key = Key;
+                this.Method = Func;
+            }
+        }
+
+        private static object ListenerLocker = new object();
+        public static void RemoveListener(string Key)
+        {
+            lock (ListenerLocker)
+            {
+                for (int i = 0; i < RecvListeners.Count; i++)
+                {
+                    if (RecvListeners[i].Equals(Key))
+                    {
+                        RecvListeners.RemoveAt(i);
+                        break;
+                    }
+                }
+            }
+        }
+
+        public static void RegListener(string Key, Action<int, object> Action)
+        {
+            foreach (var Get in RecvListeners)
+            {
+                if (Get.Key.Equals(Key))
+                {
+                    return;
+                }
+            }
+
+            RecvListeners.Add(new RecvListener(Key,Action));
+        }
+
+        public static List<RecvListener> RecvListeners = new List<RecvListener>();
+
+        //Null = 0, CacheCall = 1, PreTranslateCall = 2, PlatformCall = 3, AICall = 5
+        public static void Recv(int Sign, object Any)
+        {
+            ThreadPool.QueueUserWorkItem(_ =>
+            {
+                lock (ListenerLocker)
+                {
+                    for (int i=0;i< RecvListeners.Count;i++)
+                    {
+                        try 
+                        {
+                            RecvListeners[i].Method.Invoke(Sign, Any);
+                        }
+                        catch { }
+                    }
+                }
+            });
+        }
+
+        
+
+        public static void LogCall(string Log)
         {
             if (DeFine.WorkingWin != null)
             {
@@ -184,7 +274,7 @@ namespace SSELex.TranslateManage
                                 if (CanSet)
                                 {
                                     TranslationUnits.Add(new TranslationUnit(Engine.GetModName(),
-                                  Row.Key, Row.Type, Row.SourceText, Row.TransText));
+                                  Row.Key, Row.Type, Row.SourceText, Row.TransText,"",Engine.From,Engine.To));
                                 }
                             }
                         }
