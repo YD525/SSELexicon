@@ -1288,7 +1288,9 @@
                                                         </Border>
                                                     </StackPanel>
                                                     <TextBox Style="{DynamicResource InFoText}"  Margin="5">
-                                                        Automatically generate related context based on translation history. This value limits the number of contexts the engine generates. Default is 3. Setting it too high may incur additional costs (if you are using a paid cloud translation service). Context helps ensure consistency when AI translates synonyms and slightly improves accuracy. This only applies to batch translation.
+                                                        This setting controls the maximum length of context provided to the AI for each translation. It uses a character count limit, with a default maximum of 200 characters.
+                                                        Providing context helps the AI maintain a consistent tone and accurately translate technical terms or industry-specific vocabulary, which can significantly improve translation quality. This is especially useful for ensuring consistent output for synonyms and related concepts.
+                                                        Setting this limit too high will increase the cost of your cloud translation service. This setting applies only to batch translations.
                                                     </TextBox>
                                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 5 5 10">
                                                         <Label Style="{DynamicResource NormalText}" VerticalAlignment="Center">

@@ -11,6 +11,7 @@ using static SSELex.TranslateManage.TranslatorExtend;
 using PhoenixEngine.EngineManagement;
 using System.Windows.Threading;
 using System.Windows.Documents;
+using PhoenixEngine.TranslateManage;
 
 namespace SSELex.UIManage
 {
@@ -226,7 +227,7 @@ namespace SSELex.UIManage
 
         public static bool LeftMenuIsShow = false;
 
-        public static void NodeCallCallback(string NodeName, bool? WorkState)
+        public static void NodeCallCallback(PlatformType Sign)
         {
             try
             {
@@ -237,47 +238,45 @@ namespace SSELex.UIManage
                     var IndicatorOn = (Style)Application.Current.FindResource("IndicatorOnStyle");
                     var IndicatorOff = (Style)Application.Current.FindResource("IndicatorOffStyle");
 
-                    ContentControl? LightControl = NodeName switch
+                    var platformToLightMap = new Dictionary<PlatformType, ContentControl>
+            {
+                { PlatformType.ChatGpt, DeFine.WorkingWin.ChatGptLight },
+                { PlatformType.Gemini, DeFine.WorkingWin.GeminiLight },
+                { PlatformType.Cohere, DeFine.WorkingWin.CohereLight },
+                { PlatformType.DeepSeek, DeFine.WorkingWin.DeepSeekLight },
+                { PlatformType.LMLocalAI, DeFine.WorkingWin.LMLocalAILight },
+                { PlatformType.Baichuan, DeFine.WorkingWin.BaichuanLight },
+                { PlatformType.DeepL, DeFine.WorkingWin.DeepLLight },
+                { PlatformType.GoogleApi, DeFine.WorkingWin.GoogleLight },
+                { PlatformType.PhoenixEngine, DeFine.WorkingWin.PreTranslateLight }
+            };
+
+                    if (!platformToLightMap.TryGetValue(Sign, out var lightControl) || lightControl == null)
                     {
-                        "PreTranslate" => DeFine.WorkingWin.PreTranslateLight,
-                        "Gemini" => DeFine.WorkingWin.GeminiLight,
-                        "ChatGpt" => DeFine.WorkingWin.ChatGptLight,
-                        "Cohere" => DeFine.WorkingWin.CohereLight,
-                        "DeepSeek" => DeFine.WorkingWin.DeepSeekLight,
-                        "Baichuan" => DeFine.WorkingWin.BaichuanLight,
-                        "LMLocalAI" => DeFine.WorkingWin.LMLocalAILight,
-                        "DeepL" => DeFine.WorkingWin.DeepLLight,
-                        "Google" => DeFine.WorkingWin.GoogleLight,
-                        _ => null
-                    };
-
-                    if (LightControl == null) return;
-
-                    LightControl.Style = IndicatorOn;
-                    _LastOnTime[NodeName] = DateTime.UtcNow;
-
-                    if (_NodeTimers.TryGetValue(NodeName, out var OldTimer))
-                    {
-                        OldTimer.Stop();
+                        return;
                     }
 
-                    var MinOn = TimeSpan.FromMilliseconds(200);
-                    
-                    var MaxOn = TimeSpan.FromSeconds(1);
+                    lightControl.Style = IndicatorOn;
+                    _LastOnTime[Sign.ToString()] = DateTime.UtcNow;
 
-                    var Timer = new DispatcherTimer
+                    if (_NodeTimers.TryGetValue(Sign.ToString(), out var oldTimer))
                     {
-                        Interval = MaxOn
+                        oldTimer.Stop();
+                    }
+
+                    var timer = new DispatcherTimer
+                    {
+                        Interval = TimeSpan.FromMilliseconds(500)
                     };
 
-                    Timer.Tick += (s, e) =>
+                    timer.Tick += (s, e) =>
                     {
-                        LightControl.Style = IndicatorOff;
-                        Timer.Stop();
+                        lightControl.Style = IndicatorOff;
+                        timer.Stop();
                     };
 
-                    _NodeTimers[NodeName] = Timer;
-                    Timer.Start();
+                    _NodeTimers[Sign.ToString()] = timer;
+                    timer.Start();
                 });
             }
             catch { }

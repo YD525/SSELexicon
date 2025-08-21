@@ -11,7 +11,8 @@ namespace SSELex.UIManagement
     {
         private static void SetLog(TextBox Handle, string Msg)
         {
-            Handle.Dispatcher.Invoke(new Action(() => {
+            Handle.Dispatcher.BeginInvoke(new Action(() =>
+            {
                 Handle.Text = Msg;
                 Handle.ScrollToEnd();
             }));

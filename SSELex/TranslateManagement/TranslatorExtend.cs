@@ -30,6 +30,19 @@ namespace SSELex.TranslateManage
             DelegateHelper.SetDataCall += Recv;
             DelegateHelper.SetTranslationUnitCallBack += TranslationUnitStartWorkCall;
 
+            RegListener("PreLog", new List<int>() { 2 }, new Action<int, object>((Sign, Any) =>
+            {
+                if (Sign == 2)
+                {
+                    if (Any is PreTranslateCall)
+                    {
+                        PreTranslateCall GetCall = (PreTranslateCall)Any;
+
+                        UIHelper.NodeCallCallback(GetCall.Platform);
+                    }
+                }
+            }));
+
             RegListener("MainLog", new List<int>() { 0 }, new Action<int, object>((Sign, Any) =>
             {
                 if (Sign == 0)
@@ -41,7 +54,7 @@ namespace SSELex.TranslateManage
                 }
             }));
 
-            RegListener("InputOutputLog", new List<int>() {3,5}, new Action<int, object>((Sign,Any) =>
+            RegListener("InputOutputLog", new List<int>() { 3, 5 }, new Action<int, object>((Sign, Any) =>
             {
                 if (Sign == 5 || Sign == 3)
                 {
@@ -49,15 +62,19 @@ namespace SSELex.TranslateManage
                     {
                         AICall GetCall = (AICall)Any;
 
-                        LogHelper.SetInputLog(GetCall.Platform.ToString() + "->\n\n\n" + GetCall.SendString);
-                        LogHelper.SetOutputLog(GetCall.Platform.ToString() + "->\n\n\n" + GetCall.ReceiveString);
+                        UIHelper.NodeCallCallback(GetCall.Platform);
+
+                        LogHelper.SetInputLog(GetCall.Platform.ToString() + "->\n" + GetCall.SendString);
+                        LogHelper.SetOutputLog(GetCall.Platform.ToString() + "->\n" + GetCall.ReceiveString);
                     }
                     if (Any is PlatformCall)
                     {
                         PlatformCall GetCall = (PlatformCall)Any;
 
-                        LogHelper.SetInputLog(GetCall.Platform.ToString() + "->\n\n\n" + GetCall.SendString);
-                        LogHelper.SetOutputLog(GetCall.Platform.ToString() + "->\n\n\n" + GetCall.ReceiveString);
+                        UIHelper.NodeCallCallback(GetCall.Platform);
+
+                        LogHelper.SetInputLog(GetCall.Platform.ToString() + "->\n" + GetCall.SendString);
+                        LogHelper.SetOutputLog(GetCall.Platform.ToString() + "->\n" + GetCall.ReceiveString);
                     }
                 }
             }));
@@ -86,9 +103,9 @@ namespace SSELex.TranslateManage
                             return false;
                         }
                     }
-                }  
+                }
             }
-           
+
             return true;
         }
 
@@ -99,40 +116,53 @@ namespace SSELex.TranslateManage
             public Action<int, object> Method = null;
 
             public RecvListener(string Key, List<int> ActiveIDs, Action<int, object> Func)
-            { 
+            {
                 this.Key = Key;
                 this.ActiveIDs = ActiveIDs;
                 this.Method = Func;
             }
         }
 
-        private static object ListenerLocker = new object();
+        private static ReaderWriterLockSlim ListenersLock = new ReaderWriterLockSlim();
         public static void RemoveListener(string Key)
         {
-            lock (ListenerLocker)
+            ListenersLock.EnterWriteLock();
+            try
             {
                 for (int i = 0; i < RecvListeners.Count; i++)
                 {
-                    if (RecvListeners[i].Equals(Key))
+                    if (RecvListeners[i].Key.Equals(Key))
                     {
                         RecvListeners.RemoveAt(i);
                         break;
                     }
                 }
             }
+            finally
+            {
+                ListenersLock.ExitWriteLock();
+            }
         }
 
-        public static void RegListener(string Key,List<int>ActiveIDs, Action<int, object> Action)
+        public static void RegListener(string Key, List<int> ActiveIDs, Action<int, object> Action)
         {
-            foreach (var Get in RecvListeners)
+            ListenersLock.EnterWriteLock();
+            try
             {
-                if (Get.Key.Equals(Key))
+                foreach (var Get in RecvListeners)
                 {
-                    return;
+                    if (Get.Key.Equals(Key))
+                    {
+                        return;
+                    }
                 }
-            }
 
-            RecvListeners.Add(new RecvListener(Key,ActiveIDs,Action));
+                RecvListeners.Add(new RecvListener(Key, ActiveIDs, Action));
+            }
+            finally
+            {
+                ListenersLock.ExitWriteLock();
+            }
         }
 
         public static List<RecvListener> RecvListeners = new List<RecvListener>();
@@ -142,30 +172,31 @@ namespace SSELex.TranslateManage
         {
             ThreadPool.QueueUserWorkItem(_ =>
             {
-                lock (ListenerLocker)
+                ListenersLock.EnterReadLock();
+
+                try
                 {
-                    for (int i=0;i< RecvListeners.Count;i++)
+                    for (int i = 0; i < RecvListeners.Count; i++)
                     {
-                        try
+                        if (RecvListeners[i].ActiveIDs.Contains(Sign))
                         {
-                            if (RecvListeners[i].ActiveIDs.Contains(Sign))
-                            {
-                                RecvListeners[i].Method.Invoke(Sign, Any);
-                            }  
+                            RecvListeners[i].Method.Invoke(Sign, Any);
                         }
-                        catch { }
                     }
+                }
+                finally
+                {
+                    ListenersLock.ExitReadLock();
                 }
             });
         }
-
-        
 
         public static void LogCall(string Log)
         {
             if (DeFine.WorkingWin != null)
             {
-                DeFine.WorkingWin.Dispatcher.Invoke(new Action(() => {
+                DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
+                {
                     DeFine.WorkingWin.MainLog.Text = Log;
                 }));
             }
@@ -180,7 +211,7 @@ namespace SSELex.TranslateManage
             TranslatorHistoryCaches.Clear();
         }
 
-        public static void SetTranslatorHistoryCache(string Key, string Translated,bool IsCloud)
+        public static void SetTranslatorHistoryCache(string Key, string Translated, bool IsCloud)
         {
             int GetKey = Key.GetHashCode();
 
@@ -191,7 +222,7 @@ namespace SSELex.TranslateManage
 
             if (!TranslatorHistoryCaches[GetKey].Any(C => C.Translated == Translated))
             {
-                TranslatorHistoryCaches[GetKey].Add(new TranslatorHistoryCache(Translated,IsCloud));
+                TranslatorHistoryCaches[GetKey].Add(new TranslatorHistoryCache(Translated, IsCloud));
             }
         }
 
@@ -325,7 +356,7 @@ namespace SSELex.TranslateManage
                                 if (CanSet)
                                 {
                                     TranslationUnits.Add(new TranslationUnit(Engine.GetModName(),
-                                  Row.Key, Row.Type, Row.SourceText, Row.TransText,"",Engine.From,Engine.To));
+                                  Row.Key, Row.Type, Row.SourceText, Row.TransText, "", Engine.From, Engine.To));
                                 }
                             }
                         }
@@ -412,7 +443,7 @@ namespace SSELex.TranslateManage
                     {
                         TranslationCore.Stop();
                     }
-                    
+
                     EndAction.Invoke();
 
                     SyncTransStateFreeze = false;
