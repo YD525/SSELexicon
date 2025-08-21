@@ -403,7 +403,7 @@
         <Setter Property="CornerRadius" Value="0 0 8 8"/>
         <Setter Property="Background"  Value="Black"/>
         <Setter Property="Panel.ZIndex"  Value="5"/>
-        <Setter Property="Opacity"  Value="0.5"/>
+        <Setter Property="Opacity"  Value="0.6"/>
     </Style>
 
     <Style x:Key="IndicatorOffStyle" TargetType="ContentControl">
@@ -582,6 +582,25 @@
         <Setter Property="Background" Value="{x:Null}"/>
         <Setter Property="BorderBrush" Value="{x:Null}"/>
         <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+
+    <Style x:Key="LogViewStyle" TargetType="Border">
+        <Setter Property="BorderBrush" Value="#FF4B4B4B"/>
+        <Setter Property="BorderThickness" Value="2 2 2 2"/>
+        <Setter Property="Background" Value="#FF282828"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="CornerRadius" Value="0 0 5 5"/>
+    </Style>
+    
+    <Style x:Key="LogViewButtonSelected" TargetType="Border">
+        <Setter Property="Background" Value="#FF676565"/>
+        <Setter Property="Cursor" Value="Hand"/>
+    </Style>
+
+    <Style x:Key="LogViewButtonUnSelected" TargetType="Border">
+        <Setter Property="Background" Value="#FF4B4B4B"/>
+        <Setter Property="Cursor" Value="Hand"/>
     </Style>
 
 </ResourceDictionary>

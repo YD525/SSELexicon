@@ -124,6 +124,8 @@ namespace SSELex
 
             ScanAnimator = new ScanAnimator(ScanTransform, ProcessBar, 60);
 
+            LastSetLogButton = InputLogButton;
+
             SyncConfig();
 
             new Thread(() =>
@@ -2967,8 +2969,57 @@ namespace SSELex
                 EngineConfig.AutoSetThreadLimit = false;
             }
         }
+
         #endregion
 
+
+        #region LogView
+
+        private Border? LastSetLogButton = null;
+        private void SelectLogNav(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is Border)
+            {
+                Border GetBorderHandle = (Border) sender;
+
+                if (GetBorderHandle.Child is Label)
+                {
+                    if (LastSetLogButton != null)
+                    {
+                        LastSetLogButton.Style = (Style)this.FindResource("LogViewButtonUnSelected");
+                    }
+
+                    string GetContent = ConvertHelper.ObjToStr(((Label)GetBorderHandle.Child).Content);
+
+                    if (GetContent == "InputLog")
+                    {
+                        InputLog.Visibility = Visibility.Visible;
+                        OutputLog.Visibility = Visibility.Collapsed;
+                        MainLog.Visibility = Visibility.Collapsed;
+                    }
+                    else
+                    if (GetContent == "OutputLog")
+                    {
+                        InputLog.Visibility = Visibility.Collapsed;
+                        OutputLog.Visibility = Visibility.Visible;
+                        MainLog.Visibility = Visibility.Collapsed;
+                    }
+                    else
+                    if (GetContent == "Log")
+                    {
+                        InputLog.Visibility = Visibility.Collapsed;
+                        OutputLog.Visibility = Visibility.Collapsed;
+                        MainLog.Visibility = Visibility.Visible;
+                    }
+
+                    GetBorderHandle.Style = (Style)this.FindResource("LogViewButtonSelected");
+
+                    LastSetLogButton = GetBorderHandle;
+                }
+              
+            }
+        }
+        #endregion
 
     }
 }

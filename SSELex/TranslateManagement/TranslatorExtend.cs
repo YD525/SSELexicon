@@ -13,7 +13,6 @@ using Microsoft.VisualBasic.Logging;
 using PhoenixEngine.DelegateManagement;
 using Mutagen.Bethesda.Plugins;
 using PhoenixEngine.RequestManagement;
-using Microsoft.VisualBasic;
 using static PhoenixEngine.EngineManagement.DataTransmission;
 using static SSELex.TranslateManage.TranslatorExtend;
 using System.Windows.Controls;
@@ -31,19 +30,34 @@ namespace SSELex.TranslateManage
             DelegateHelper.SetDataCall += Recv;
             DelegateHelper.SetTranslationUnitCallBack += TranslationUnitStartWorkCall;
 
-            RegListener("RequestLog",new List<int>() {3,5}, new Action<int, object>((Sign,Any) =>
+            RegListener("MainLog", new List<int>() { 0 }, new Action<int, object>((Sign, Any) =>
+            {
+                if (Sign == 0)
+                {
+                    if (Any is string)
+                    {
+                        LogHelper.SetMainLog((string)Any);
+                    }
+                }
+            }));
+
+            RegListener("InputOutputLog", new List<int>() {3,5}, new Action<int, object>((Sign,Any) =>
             {
                 if (Sign == 5 || Sign == 3)
                 {
                     if (Any is AICall)
                     {
                         AICall GetCall = (AICall)Any;
-                        LogCall(GetCall.Platform.ToString() + "->\n\n\n" + "Send:\n" + GetCall.SendString + "\n\n\nRecv:\n" + GetCall.ReceiveString);
+
+                        LogHelper.SetInputLog(GetCall.Platform.ToString() + "->\n\n\n" + GetCall.SendString);
+                        LogHelper.SetOutputLog(GetCall.Platform.ToString() + "->\n\n\n" + GetCall.ReceiveString);
                     }
                     if (Any is PlatformCall)
                     {
                         PlatformCall GetCall = (PlatformCall)Any;
-                        LogCall(GetCall.Platform.ToString() + "->\n\n\n" + "Send:\n" + GetCall.SendString + "\n\n\nRecv:\n" + GetCall.ReceiveString);
+
+                        LogHelper.SetInputLog(GetCall.Platform.ToString() + "->\n\n\n" + GetCall.SendString);
+                        LogHelper.SetOutputLog(GetCall.Platform.ToString() + "->\n\n\n" + GetCall.ReceiveString);
                     }
                 }
             }));
@@ -192,7 +206,7 @@ namespace SSELex.TranslateManage
             return null;
         }
 
-        public static void SetLog(string Log)
+        public static void SetTransBarTittle(string Log)
         {
             if (DeFine.WorkingWin != null)
             {
@@ -262,7 +276,7 @@ namespace SSELex.TranslateManage
 
                         ProxyCenter.UsingProxy();
 
-                        SetLog("Engine Initialization(1/2)");
+                        SetTransBarTittle("Engine Initialization(1/2)");
 
                         List<TranslationUnit> TranslationUnits = new List<TranslationUnit>();
 
@@ -278,7 +292,10 @@ namespace SSELex.TranslateManage
 
                                 if (Row.Key.EndsWith("(BookText)") && DeFine.WorkingWin.CurrentTransType == 2)
                                 {
-                                    DeFine.WorkingWin.SetLog("Skip Book fields:" + Row.Key);
+                                    if (DelegateHelper.SetDataCall != null)
+                                    {
+                                        DelegateHelper.SetDataCall(0, "Skip Book fields:" + Row.Key);
+                                    }
 
                                     CanSet = false;
                                 }
@@ -294,7 +311,10 @@ namespace SSELex.TranslateManage
 
                                             if (GetScore < 5)
                                             {
-                                                DeFine.WorkingWin.SetLog("Skip Dangerous fields:" + Row.Key);
+                                                if (DelegateHelper.SetDataCall != null)
+                                                {
+                                                    DelegateHelper.SetDataCall(0, "Skip Dangerous fields:" + Row.Key);
+                                                }
 
                                                 CanSet = false;
                                             }
@@ -310,7 +330,7 @@ namespace SSELex.TranslateManage
                             }
                         }
 
-                        SetLog("Engine Initialization(2/2)");
+                        SetTransBarTittle("Engine Initialization(2/2)");
 
                         TranslationCore = new BatchTranslationCore(Engine.From, Engine.To, TranslationUnits);
 
@@ -324,7 +344,7 @@ namespace SSELex.TranslateManage
                         {
                             Thread.Sleep(500);
 
-                            SetLog("Word Sorting(" + TranslationCore.MarkLeadersPercent + "%)...");
+                            SetTransBarTittle("Word Sorting(" + TranslationCore.MarkLeadersPercent + "%)...");
 
                             if (WaitStopSign())
                             {
@@ -340,7 +360,7 @@ namespace SSELex.TranslateManage
 
                         int ModifyCount = Engine.TranslatedCount;
 
-                        SetLog(string.Format("STRINGS({0}/{1})", ModifyCount, GetListView.Rows));
+                        SetTransBarTittle(string.Format("STRINGS({0}/{1})", ModifyCount, GetListView.Rows));
 
                         Thread.Sleep(1000);
 
@@ -366,7 +386,7 @@ namespace SSELex.TranslateManage
                                     SetTranslatorHistoryCache(GetGrid.Key, GetGrid.TransText, true);
 
                                     Engine.TranslatedCount++;
-                                    SetLog(string.Format("STRINGS({0}/{1})", Engine.TranslatedCount, GetListView.Rows));
+                                    SetTransBarTittle(string.Format("STRINGS({0}/{1})", Engine.TranslatedCount, GetListView.Rows));
                                 }
                             }
 

@@ -288,10 +288,49 @@
                     </Grid>
                 </Border>
 
-                <Border Name="LogView" Background="#FF282828" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Margin="10 5 10 25" CornerRadius="5" Height="100" Panel.ZIndex="999" Visibility="Collapsed">
-                    <TextBox Style="{DynamicResource InFoText}" Name="MainLog" VerticalScrollBarVisibility="Auto" Margin="5">
-                    </TextBox>
-                </Border>
+                <!--LogView-->
+                <Grid Name="LogView" Visibility="Collapsed" VerticalAlignment="Bottom" Margin="5 0 5 10" Height="200" Panel.ZIndex="999">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10 0 0 0">
+                        <Border Style="{DynamicResource LogViewButtonSelected}" PreviewMouseDown="SelectLogNav" Name="InputLogButton">
+                            <Label Style="{DynamicResource NormalText}" VerticalAlignment="Center" Padding="10 0 10 0">
+                                InputLog
+                            </Label>
+                        </Border>
+                        <Border Style="{DynamicResource LogViewButtonUnSelected}" PreviewMouseDown="SelectLogNav">
+                            <Label Style="{DynamicResource NormalText}" VerticalAlignment="Center" Padding="10 0 10 0">
+                                OutputLog
+                            </Label>
+                        </Border>
+                        <Border Style="{DynamicResource LogViewButtonUnSelected}" PreviewMouseDown="SelectLogNav">
+                            <Label Style="{DynamicResource NormalText}" VerticalAlignment="Center" Padding="10 0 10 0">
+                                Log
+                            </Label>
+                        </Border>
+                    </StackPanel>
+
+                    <Border Style="{DynamicResource LogViewStyle}" Background="#FF252525" Grid.Row="1">
+                        <Border.Resources>
+                            <Style TargetType="ScrollBar" BasedOn="{StaticResource for_scrollbar}" />
+                        </Border.Resources>
+
+                        <Grid>
+                            <TextBox Grid.Row="1" Style="{DynamicResource InFoText}" Name="InputLog" Visibility="Visible" VerticalScrollBarVisibility="Auto" Margin="5">
+                            </TextBox>
+                            <TextBox Grid.Row="1" Style="{DynamicResource InFoText}" Name="OutputLog" Visibility="Collapsed" VerticalScrollBarVisibility="Auto" Margin="5">
+                            </TextBox>
+                            <TextBox Grid.Row="1" Style="{DynamicResource InFoText}" Name="MainLog" Visibility="Collapsed" VerticalScrollBarVisibility="Auto" Margin="5">
+                            </TextBox>
+                        </Grid>
+                    </Border>
+                   
+                </Grid>
+                
+               
                 <!--Mask-->
                 <Border Visibility="Collapsed" Name="Mask" Tag="0" Style="{DynamicResource MaskStyle}" MouseDown="Mask_MouseDown">
                 </Border>
