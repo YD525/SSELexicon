@@ -30,6 +30,7 @@ public class FakeGrid
     public string Type = "";
     public string Key = "";
     public string SourceText = "";
+    private string RealSource = "";
     public string TransText = "";
     public double Score = 0;
 
@@ -53,7 +54,9 @@ public class FakeGrid
             {
                 ListViewHandle.Parent.Dispatcher.Invoke(new Action(() =>
                 {
+                    RowStyleWin.SetOriginal(ListViewHandle.VisibleRows[i],this.SourceText);
                     RowStyleWin.SetTranslated(ListViewHandle.VisibleRows[i], this.TransText);
+
                     CanExit = true;
                 }));
             }
@@ -76,15 +79,31 @@ public class FakeGrid
             IsCloud = QueryResult.FromCloud;
         }
 
+        bool FromDictionary = false;
+
         var FindDictionary = YDDictionaryHelper.CheckDictionary(this.Key);
 
         if (FindDictionary != null)
         {
-            if (FindDictionary.OriginalText.Trim().Length > 0)
+            if (!string.IsNullOrEmpty(FindDictionary.OriginalText))
             {
                 if (this.SourceText != FindDictionary.OriginalText)
                 {
+                    this.RealSource = this.SourceText;
                     this.SourceText = FindDictionary.OriginalText;
+                }
+
+                FromDictionary = true;
+            }
+        }
+
+        if (!FromDictionary)
+        {
+            if (!string.IsNullOrEmpty(this.RealSource))
+            {
+                if (this.SourceText != this.RealSource)
+                {
+                    this.SourceText = this.RealSource;
                 }
             }
         }

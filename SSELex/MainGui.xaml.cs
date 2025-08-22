@@ -926,9 +926,9 @@ namespace SSELex
 
                 if (CurrentTransType != 0)
                 {
+                    LoadSaveState = 1;
                     CheckLoadSaveButtonState();
                 }
-
             }
         }
 
@@ -1019,10 +1019,8 @@ namespace SSELex
                 }
             }));
 
-
             if (LoadSaveState == 0)
             {
-                LoadSaveState = 1;
                 LoadAny();
             }
             else
@@ -1050,7 +1048,7 @@ namespace SSELex
 
                     CalcStatistics();
 
-                    Thread.Sleep(500);
+                    Thread.Sleep(100);
 
                     if (TransViewList != null)
                     {
@@ -1370,25 +1368,23 @@ namespace SSELex
                     if (File.Exists(SetPath))
                     {
                         File.Delete(SetPath);
-
-                        YDDictionaryHelper.Dictionarys.Clear();
+                        
                         CallFuncCount++;
                     }
 
-                    if (CallFuncCount > 0)
-                    {
-                        if (TransViewList != null)
-                        {
-                            for (int i = 0; i < TransViewList.Rows; i++)
-                            {
-                                bool IsCloud = false;
-                                TransViewList.RealLines[i].SyncData(ref IsCloud);
+                    YDDictionaryHelper.Dictionarys.Clear();
 
-                                this.Dispatcher.Invoke(new Action(() => 
-                                {
-                                    TransViewList.RealLines[i].SyncUI(TransViewList);
-                                }));
-                            }
+                    if (TransViewList != null)
+                    {
+                        for (int i = 0; i < TransViewList.Rows; i++)
+                        {
+                            bool IsCloud = false;
+                            TransViewList.RealLines[i].SyncData(ref IsCloud);
+
+                            this.Dispatcher.Invoke(new Action(() =>
+                            {
+                                TransViewList.RealLines[i].SyncUI(TransViewList);
+                            }));
                         }
                     }
 

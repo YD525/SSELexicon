@@ -95,6 +95,17 @@ namespace SSELex.UIManagement
             return GetKey;
         }
 
+        public static void SetOriginal(Grid Grid,string Text)
+        {
+            Grid GetDataGrid = ((Grid)((Border)Grid.Children[0]).Child);
+
+            Grid GetOriginalGrid = (Grid)GetDataGrid.Children[2];
+
+            TextBox GetOriginal = (TextBox)GetOriginalGrid.Children[0];
+
+            GetOriginal.Text = Text;
+        }
+
         public static string GetOriginal(Grid Grid)
         {
             Grid GetDataGrid = ((Grid)((Border)Grid.Children[0]).Child);

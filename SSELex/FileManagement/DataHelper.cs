@@ -36,7 +36,6 @@ namespace SSELex.SkyrimModManager
                 }
             }
         }
-
         public static string GetPathAndFileName(ref string SourcePath)
         {
             string FileName = SourcePath.Substring(SourcePath.LastIndexOf(@"\") + @"\".Length);
@@ -180,7 +179,6 @@ namespace SSELex.SkyrimModManager
             Stream stream = new MemoryStream(bytes);
             return stream;
         }
-
         public static System.Text.Encoding GetFileEncodeType(string filename)
         {
             try
@@ -233,7 +231,6 @@ namespace SSELex.SkyrimModManager
             }
             catch { return Encoding.UTF8; }
         }
-
         public static void CopyDir(string Path, string TargetPath)
         {
             try
@@ -264,8 +261,6 @@ namespace SSELex.SkyrimModManager
                 throw;
             }
         }
-
-
         public static List<FileInformation> GetAllFile(string filepath, List<string> filetype = null)
         {
             DirectoryAllFiles.FileList.Clear();
