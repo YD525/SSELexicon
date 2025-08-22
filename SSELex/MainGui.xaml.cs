@@ -1557,7 +1557,13 @@ namespace SSELex
 
             ReloadData(true, true);
 
-            WritingArea.Height = new GridLength(DeFine.GlobalLocalSetting.WritingAreaHeight, GridUnitType.Pixel);
+            double AutoHeight = DeFine.GlobalLocalSetting.WritingAreaHeight;
+
+            if (AutoHeight < 100)
+            {
+                AutoHeight = 300;
+            }
+            WritingArea.Height = new GridLength(AutoHeight, GridUnitType.Pixel);
             SplictLine.Height = new GridLength(3.5, GridUnitType.Pixel);
         }
 
