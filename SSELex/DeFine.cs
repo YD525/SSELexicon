@@ -20,16 +20,17 @@ namespace SSELex
     //https://github.com/YD525/YDSkyrimToolR/
 
     public enum GameNames
-    { 
-       SkyrimLE = 0, SkyrimSE = 1
+    {
+        SkyrimLE = 0, SkyrimSE = 1
     }
     public class DeFine
     {
+        public static bool CanUpdateChart = false;
         public static int GlobalRequestTimeOut = 5000;
         public static int ViewMode = 0;
 
         public static SolidColorBrush DefBackGround = new SolidColorBrush(Color.FromRgb(11, 116, 209));
-        public static SolidColorBrush SelectBackGround = new SolidColorBrush(Color.FromRgb(7,82,149));
+        public static SolidColorBrush SelectBackGround = new SolidColorBrush(Color.FromRgb(7, 82, 149));
 
         public static string PapyrusCompilerPath = "";
 
@@ -43,7 +44,6 @@ namespace SSELex
         public static LocalSetting GlobalLocalSetting = new LocalSetting();
 
         public static MainGui WorkingWin = null;
-        public static DashBoardView CurrentDashBoardView = null;
         public static CodeView CurrentCodeView = new CodeView();
         public static ReplaceWin CurrentReplaceView = new ReplaceWin();
         public static TextEditor ActiveIDE = null;
@@ -59,7 +59,8 @@ namespace SSELex
 
             if (CurrentCodeView != null)
             {
-                CurrentCodeView.Dispatcher.Invoke(new Action(() => {
+                CurrentCodeView.Dispatcher.Invoke(new Action(() =>
+                {
                     CurrentCodeView.Hide();
                 }));
             }
@@ -71,7 +72,8 @@ namespace SSELex
 
         public static void HideCodeView()
         {
-            CurrentCodeView.Dispatcher.Invoke(new Action(() => {
+            CurrentCodeView.Dispatcher.Invoke(new Action(() =>
+            {
                 CurrentCodeView.Hide();
             }));
         }
@@ -148,9 +150,6 @@ namespace SSELex
             NewWindowThread.SetApartmentState(ApartmentState.STA);
             NewWindowThread.Start();
 
-            CurrentDashBoardView = new DashBoardView();
-            CurrentDashBoardView.Hide();
-
             LocalConfigView = new LocalConfig();
             LocalConfigView.Hide();
             LocalConfigView.Init();
@@ -163,7 +162,7 @@ namespace SSELex
         public double FormWidth { get; set; } = 1200;
         public Languages CurrentUILanguage { get; set; } = Languages.English;
         public string SkyrimPath { get; set; } = "";
-    
+
         public bool ShowCode { get; set; } = true;
         public bool AutoCompress { get; set; } = true;
         public GameNames GameType { get; set; } = GameNames.SkyrimSE;
@@ -184,43 +183,58 @@ namespace SSELex
 
         public bool AutoApply { get; set; } = false;
 
+        public int ChatGPTTokenUsage { get; set; } = 0;
+        public int GeminiTokenUsage { get; set; } = 0;
+        public int CohereTokenUsage { get; set; } = 0;
+        public int DeepSeekTokenUsage { get; set; } = 0;
+        public int BaichuanTokenUsage { get; set; } = 0;
+        public int LocalAITokenUsage { get; set; } = 0;
+
         public void ReadConfig()
         {
-            try { 
-            if (File.Exists(DeFine.GetFullPath(@"\setting.config")))
+            try
             {
-                var GetStr = Encoding.UTF8.GetString(DataHelper.ReadFile(DeFine.GetFullPath(@"\setting.config")));
-                if (GetStr.Trim().Length > 0)
+                if (File.Exists(DeFine.GetFullPath(@"\setting.config")))
                 {
-                    var GetSetting = JsonSerializer.Deserialize<LocalSetting>(GetStr);
-                    if (GetSetting != null)
+                    var GetStr = Encoding.UTF8.GetString(DataHelper.ReadFile(DeFine.GetFullPath(@"\setting.config")));
+                    if (GetStr.Trim().Length > 0)
                     {
-                        this.FormHeight = GetSetting.FormHeight;
-                        this.FormWidth = GetSetting.FormWidth;
-                        this.CurrentUILanguage = GetSetting.CurrentUILanguage;
-                        this.SkyrimPath = GetSetting.SkyrimPath;
-                        this.ShowCode = GetSetting.ShowCode;
-                        this.GameType = GetSetting.GameType;
-                        this.AutoCompress = GetSetting.AutoCompress;
-                        this.FileEncoding = GetSetting.FileEncoding;
-                        this.WritingAreaHeight = GetSetting.WritingAreaHeight;
-                        this.ViewMode = GetSetting.ViewMode;
-                        this.AutoLoadDictionaryFile = GetSetting.AutoLoadDictionaryFile;
-                        this.SourceLanguage = GetSetting.SourceLanguage;
-                        this.TargetLanguage = GetSetting.TargetLanguage;
-                        this.CanClearCloudTranslationCache = GetSetting.CanClearCloudTranslationCache;
-                        this.CanClearUserInputTranslationCache = GetSetting.CanClearUserInputTranslationCache;
-                        this.AutoSpeak = GetSetting.AutoSpeak;
-                        this.AutoApply = GetSetting.AutoApply;
+                        var GetSetting = JsonSerializer.Deserialize<LocalSetting>(GetStr);
+                        if (GetSetting != null)
+                        {
+                            this.FormHeight = GetSetting.FormHeight;
+                            this.FormWidth = GetSetting.FormWidth;
+                            this.CurrentUILanguage = GetSetting.CurrentUILanguage;
+                            this.SkyrimPath = GetSetting.SkyrimPath;
+                            this.ShowCode = GetSetting.ShowCode;
+                            this.GameType = GetSetting.GameType;
+                            this.AutoCompress = GetSetting.AutoCompress;
+                            this.FileEncoding = GetSetting.FileEncoding;
+                            this.WritingAreaHeight = GetSetting.WritingAreaHeight;
+                            this.ViewMode = GetSetting.ViewMode;
+                            this.AutoLoadDictionaryFile = GetSetting.AutoLoadDictionaryFile;
+                            this.SourceLanguage = GetSetting.SourceLanguage;
+                            this.TargetLanguage = GetSetting.TargetLanguage;
+                            this.CanClearCloudTranslationCache = GetSetting.CanClearCloudTranslationCache;
+                            this.CanClearUserInputTranslationCache = GetSetting.CanClearUserInputTranslationCache;
+                            this.AutoSpeak = GetSetting.AutoSpeak;
+                            this.AutoApply = GetSetting.AutoApply;
+
+                            this.ChatGPTTokenUsage = GetSetting.ChatGPTTokenUsage;
+                            this.GeminiTokenUsage = GetSetting.GeminiTokenUsage;
+                            this.CohereTokenUsage = GetSetting.CohereTokenUsage;
+                            this.DeepSeekTokenUsage = GetSetting.DeepSeekTokenUsage;
+                            this.BaichuanTokenUsage = GetSetting.BaichuanTokenUsage;
+                            this.LocalAITokenUsage = GetSetting.LocalAITokenUsage;
+                        }
+                    }
+                    else
+                    {
+                        LocalSetting CopySetting = this;
+                        var GetSettingContent = JsonSerializer.Serialize(CopySetting);
+                        DataHelper.WriteFile(DeFine.GetFullPath(@"\setting.config"), Encoding.UTF8.GetBytes(GetSettingContent));
                     }
                 }
-                else
-                {
-                    LocalSetting CopySetting = this;
-                    var GetSettingContent = JsonSerializer.Serialize(CopySetting);
-                    DataHelper.WriteFile(DeFine.GetFullPath(@"\setting.config"), Encoding.UTF8.GetBytes(GetSettingContent));
-                }
-            }
             }
             catch { }
         }

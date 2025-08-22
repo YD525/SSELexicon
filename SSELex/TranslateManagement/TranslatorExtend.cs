@@ -66,6 +66,8 @@ namespace SSELex.TranslateManage
 
                         LogHelper.SetInputLog(GetCall.Platform.ToString() + "->\n" + GetCall.SendString);
                         LogHelper.SetOutputLog(GetCall.Platform.ToString() + "->\n" + GetCall.ReceiveString);
+
+                        DashBoardService.TokenStatistics(GetCall.Platform, GetCall.SendString, GetCall.ReceiveString);
                     }
                     if (Any is PlatformCall)
                     {
@@ -172,26 +174,17 @@ namespace SSELex.TranslateManage
         {
             ThreadPool.QueueUserWorkItem(_ =>
             {
-                ListenersLock.EnterReadLock();
-
                 try
                 {
-                    try
+                    for (int i = 0; i < RecvListeners.Count; i++)
                     {
-                        for (int i = 0; i < RecvListeners.Count; i++)
+                        if (RecvListeners[i].ActiveIDs.Contains(Sign))
                         {
-                            if (RecvListeners[i].ActiveIDs.Contains(Sign))
-                            {
-                                RecvListeners[i].Method.Invoke(Sign, Any);
-                            }
+                            RecvListeners[i].Method.Invoke(Sign, Any);
                         }
                     }
-                    catch { }
                 }
-                finally
-                {
-                    ListenersLock.ExitReadLock();
-                }
+                catch { }
             });
         }
 

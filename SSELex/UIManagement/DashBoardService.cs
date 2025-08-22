@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using LiveCharts.Defaults;
+using System.Timers;
+using PhoenixEngine.TranslateManage;
+using static SSELex.MainGui;
 
 namespace SSELex.UIManagement
 {
-    public enum PlatformType
-    {
-        Null = 0, ChatGpt = 1, DeepSeek = 2, Gemini = 3, DeepL = 5, GoogleApi = 7, Baichuan = 8, Cohere = 9, LMLocalAI = 10
-    }
 
     public class QueryPlatformItem
     {
@@ -25,144 +26,199 @@ namespace SSELex.UIManagement
     }
     public class DashBoardService
     {
-        public static int Interval = 1000;
-
-        public static bool LockerStartListenService = false;
-        public static void StartListenService(bool Check, Action OneFunc)
+        public class SpeedMonitor
         {
-            if (!LockerStartListenService)
+            private DashBoardViewModel CurrentModel;
+
+            // Store Number Of Characters Processed Each Second
+            private Queue<int> RecentCounts = new Queue<int>();
+
+            // Timer Interval In Milliseconds
+            private const int IntervalMs = 1000;
+
+            // Timer
+            private System.Timers.Timer Timer;
+
+            // Current Second Count
+            public int CurrentSecondCount { get; private set; } = 0;
+
+            // Average Speed Over Recent Seconds
+            public double AverageSpeed { get; private set; } = 0.0;
+
+            // Number of seconds to calculate average
+            private const int AverageWindowSeconds = 30;
+
+            public SpeedMonitor(DashBoardViewModel Model)
             {
-                LockerStartListenService = true;
+                CurrentModel = Model;
 
-                new Thread(() =>
+                // Initialize Timer
+                Timer = new System.Timers.Timer(IntervalMs);
+                Timer.Elapsed += Timer_Elapsed;
+                Timer.Start();
+            }
+
+            private int ChartMaxPoints = 60;
+
+            /// <summary>
+            /// Add New Character Count For The Current Second
+            /// </summary>
+            /// <param name="Count">Number Of Characters Processed</param>
+            public void AddCount(int Count)
+            {
+                // Add To Current Second Count
+                CurrentSecondCount += Count;
+
+                // Update Chart With Current Consumption
+                if (CurrentModel.FontUsageSeries.Count > 0)
                 {
+                    // Add Current Second Value To Chart
+                    CurrentModel.FontUsageSeries[0].Values.Add(new ObservableValue(CurrentSecondCount));
 
-                    while (LockerStartListenService)
-                    {
-                        Thread.Sleep(DashBoardService.Interval);
+                    // Remove Oldest Value To Maintain Chart Length
+                    while (CurrentModel.FontUsageSeries[0].Values.Count > ChartMaxPoints)
+                        CurrentModel.FontUsageSeries[0].Values.RemoveAt(0);
+                }
+            }
 
-                        try
+            /// <summary>
+            /// Timer Elapsed Event, Updates Average Speed And Resets Current Second Count
+            /// </summary>
+            private void Timer_Elapsed(object Sender, ElapsedEventArgs E)
+            {
+                lock (RecentCounts)
+                {
+                    // Enqueue Current Second Count
+                    RecentCounts.Enqueue(CurrentSecondCount);
+
+                    // Keep Only Last AverageWindowSeconds For Average Calculation
+                    while (RecentCounts.Count > AverageWindowSeconds)
+                        RecentCounts.Dequeue();
+
+                    // Calculate Average Speed
+                    AverageSpeed = RecentCounts.Count > 0 ? (double)SumQueue(RecentCounts) / RecentCounts.Count : 0.0;
+
+                    // Reset Current Second Count
+                    CurrentSecondCount = 0;
+                }
+            }
+
+            /// <summary>
+            /// Calculate Sum Of Queue Values
+            /// </summary>
+            private int SumQueue(Queue<int> Queue)
+            {
+                int Sum = 0;
+                foreach (var Val in Queue)
+                    Sum += Val;
+                return Sum;
+            }
+        }
+
+        /// <summary>
+        /// Estimate Token Count For A Text String (Approximation For Cohere Or Other AI)
+        /// </summary>
+        /// <param name="text">Input Text To Be Sent To AI</param>
+        /// <returns>Estimated Token Count</returns>
+        public static int EstimateTokenCount(string Text)
+        {
+            // Return 0 If Input Text Is Null Or Empty
+            if (string.IsNullOrEmpty(Text))
+                return 0;
+
+            // Approximate: 1 Token ≈ 4 Characters (Common Approximation For English)
+            int EstimatedTokens = (int)Math.Ceiling(Text.Length / 4.0);
+
+            // Return Estimated Token Count
+            return EstimatedTokens;
+        }
+
+        public static void TokenStatistics(PlatformType Platform,string SendStr, string Json)
+        {
+            var TryGetToken = ExtractTotalTokens(Json);
+
+            if (Platform == PlatformType.Cohere && TryGetToken == 0)
+            {
+                TryGetToken = EstimateTokenCount(SendStr);
+            }
+
+            if (TryGetToken > 0)
+            {
+                switch (Platform)
+                {
+                    case PlatformType.ChatGpt:
                         {
-                            OneFunc.Invoke();
+                            DeFine.GlobalLocalSetting.ChatGPTTokenUsage += TryGetToken;
                         }
-                        catch { }
-                    }
-                }).Start();
-            }
-            else
-            {
-                LockerStartListenService = false;
-            }
-        }
-
-        public static Dictionary<PlatformType, int> FontUsageCounts = new Dictionary<PlatformType, int>();
-
-        private static readonly object _Lock = new object();
-        public static void SetUsage(PlatformType Type, int Count)
-        {
-            try
-            {
-                lock (_Lock)
-                {
-                    if (Type == PlatformType.Null)
-                    {
-                        return;
-                    }
-
-                    if (FontUsageCounts.ContainsKey(Type))
-                    {
-                        FontUsageCounts[Type] += Count;
-                    }
-                    else
-                    {
-                        FontUsageCounts.Add(Type, Count);
-                    }
+                        break;
+                    case PlatformType.Gemini:
+                        {
+                            DeFine.GlobalLocalSetting.GeminiTokenUsage += TryGetToken;
+                        }
+                        break;
+                    case PlatformType.Cohere:
+                        {
+                            DeFine.GlobalLocalSetting.CohereTokenUsage += TryGetToken;
+                        }
+                        break;
+                    case PlatformType.DeepSeek:
+                        {
+                            DeFine.GlobalLocalSetting.DeepSeekTokenUsage += TryGetToken;
+                        }
+                        break;
+                    case PlatformType.Baichuan:
+                        {
+                            DeFine.GlobalLocalSetting.BaichuanTokenUsage += TryGetToken;
+                        }
+                        break;
+                    case PlatformType.LMLocalAI:
+                        {
+                            DeFine.GlobalLocalSetting.LocalAITokenUsage += TryGetToken;
+                        }
+                        break;
                 }
-            }
-            catch { }
-        }
-        public static List<QueryPlatformItem> QueryData()
-        {
-            try
-            {
-                List<QueryPlatformItem> QueryPlatformItems = new List<QueryPlatformItem>();
-                for (int i = 0; i < FontUsageCounts.Count; i++)
-                {
-                    var GetItem = FontUsageCounts.ElementAt(i);
-                    if (GetItem.Value > 0)
-                    {
-                        QueryPlatformItems.Add(new QueryPlatformItem(GetItem.Key, GetItem.Value));
-                    }
-                }
-                return QueryPlatformItems;
-            }
-            catch
-            {
-                return new List<QueryPlatformItem>();
+
+                UPLoadView(SendStr);
             }
         }
 
-        public static void Clear()
+        /// <summary>
+        /// Extract Total Token Count From Any AI JSON Text (Fuzzy Match total_tokens / totalTokenCount etc.)
+        /// </summary>
+        /// <param name="json">Original JSON String</param>
+        /// <returns>Token Count, Return 0 If Not Found</returns>
+        public static int ExtractTotalTokens(string Json)
         {
-            FontUsageCounts.Clear();
-            DeltasHistory.Clear();
-        }
-
-        public static int GetTotalUsageCount()
-        {
-            try
-            {
-                int Total = 0;
-                for (int i = 0; i < FontUsageCounts.Count; i++)
-                {
-                    var GetKey = FontUsageCounts.ElementAt(i).Key;
-
-                    if (FontUsageCounts[GetKey] > 0)
-                    {
-                        Total += FontUsageCounts[GetKey];
-                    }
-                }
-                return Total;
-            }
-            catch
-            {
+            // Return 0 If Input String Is Null Or Empty
+            if (string.IsNullOrEmpty(Json))
                 return 0;
+
+            // Fuzzy Match total_tokens Or totalTokenCount, Ignore Case
+            var Match = Regex.Match(Json, @"(?i)""total[_]?tokens?""\s*:\s*(\d+)|""totalTokenCount""\s*:\s*(\d+)");
+            if (Match.Success)
+            {
+                // Get Matched Value From Correct Group
+                string Value = Match.Groups[1].Success ? Match.Groups[1].Value : Match.Groups[2].Value;
+
+                // Parse String To Int And Return If Success
+                if (int.TryParse(Value, out int Tokens))
+                    return Tokens;
             }
+
+            // Return 0 If No Match Found
+            return 0;
         }
 
-        private static int LastTotalCount = 0;
-        private static Queue<int> DeltasHistory = new Queue<int>();
-        private const int WindowSize = 5;
-        public static int GetCurrentSecondUsage()
+        public static void UPLoadView(string SendStr)
         {
-            try
+            if (DeFine.CanUpdateChart)
             {
-                int CurrentTotal = GetTotalUsageCount();
-                int CurrentDelta = CurrentTotal - LastTotalCount;
+                DeFine.WorkingWin.Dispatcher.BeginInvoke(new Action(() => {
 
-                if (CurrentDelta < 0) CurrentDelta = 0;
+                    DeFine.WorkingWin.UPDateChart(SendStr);
 
-                DeltasHistory.Enqueue(CurrentDelta);
-                if (DeltasHistory.Count > WindowSize)
-                {
-                    DeltasHistory.Dequeue();
-                }
-
-                LastTotalCount = CurrentTotal;
-
-                if (DeltasHistory.Count == 0) return 0;
-                return (int)DeltasHistory.Average();
+                }));
             }
-            catch
-            {
-                return 0;
-            }
-        }
-
-        public static void Init()
-        {
-            LastTotalCount = 0;
-            FontUsageCounts.Clear();
         }
     }
 }

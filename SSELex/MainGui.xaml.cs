@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using System.ComponentModel;
+using System.IO;
+using System.Security.Cryptography;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -7,6 +10,9 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
+using LiveCharts;
+using LiveCharts.Defaults;
+using LiveCharts.Wpf;
 using PhoenixEngine.ConvertManager;
 using PhoenixEngine.DelegateManagement;
 using PhoenixEngine.EngineManagement;
@@ -24,6 +30,7 @@ using static PhoenixEngine.SSELexiconBridge.NativeBridge;
 using static PhoenixEngine.TranslateCore.LanguageHelper;
 using static SSELex.SkyrimManage.EspReader;
 using static SSELex.UIManage.SkyrimDataLoader;
+using static SSELex.UIManagement.DashBoardService;
 
 namespace SSELex
 {
@@ -100,6 +107,10 @@ namespace SSELex
             DeFine.Init(this);
 
             TranslatorExtend.Init();
+
+            this.DataContext = CurrentModel;
+
+            InitDashBoard();
 
             DelegateHelper.SetBookTranslateCallback += BookTransCallBack;
 
@@ -792,11 +803,10 @@ namespace SSELex
 
             Translator.ClearAICache();
             SetLog("Load:" + FilePath);
-            DashBoardService.Clear();
+            
             ClosetTransTrd();
             if (System.IO.File.Exists(FilePath))
             {
-                DeFine.CurrentDashBoardView.Open(FilePath);
                 DeFine.GlobalLocalSetting.AutoLoadDictionaryFile = false;
                 //FromStr.Text = "";
                 //ToStr.Text = "";
@@ -1722,9 +1732,10 @@ namespace SSELex
         {
             XTGlowLoopStoryboard?.Stop();
         }
-
         public void ShowView(string View)
         {
+            DeFine.CanUpdateChart = false;
+
             SetSelectedNav(View);
 
             if (View == "About")
@@ -1743,6 +1754,7 @@ namespace SSELex
                         ModTransView.Visibility = Visibility.Visible;
                         AboutView.Visibility = Visibility.Collapsed;
                         SettingView.Visibility = Visibility.Collapsed;
+                        DashBoardView.Visibility = Visibility.Collapsed;
                     }
                     break;
                 case "DashBoard":
@@ -1750,6 +1762,9 @@ namespace SSELex
                         ModTransView.Visibility = Visibility.Collapsed;
                         AboutView.Visibility = Visibility.Collapsed;
                         SettingView.Visibility = Visibility.Collapsed;
+                        DashBoardView.Visibility = Visibility.Visible;
+                        DeFine.CanUpdateChart = true;
+                        UPDateChart();
                     }
                     break;
                 case "Settings":
@@ -1757,6 +1772,7 @@ namespace SSELex
                         ModTransView.Visibility = Visibility.Collapsed;
                         AboutView.Visibility = Visibility.Collapsed;
                         SettingView.Visibility = Visibility.Visible;
+                        DashBoardView.Visibility = Visibility.Collapsed;
                     }
                     break;
                 case "About":
@@ -1764,6 +1780,7 @@ namespace SSELex
                         AboutView.Visibility = Visibility.Visible;
                         ModTransView.Visibility = Visibility.Collapsed;
                         SettingView.Visibility = Visibility.Collapsed;
+                        DashBoardView.Visibility = Visibility.Collapsed;
 
                         ProgramVersion.Content = string.Format("SSE Lexicon(GPLv3) Version: {0}", DeFine.CurrentVersion);
                         TranslationEngineVersion.Content = string.Format("Translation Engine(LGPLv3) Version: {0}", Engine.Version);
@@ -3085,7 +3102,6 @@ namespace SSELex
 
         #endregion
 
-
         #region LogView
 
         private Border? LastSetLogButton = null;
@@ -3134,6 +3150,105 @@ namespace SSELex
         }
         #endregion
 
+        #region DashBoardView
+        public class DashBoardViewModel : INotifyPropertyChanged
+        {
+            public ChartValues<double>? _SetValues;
+            public ChartValues<double> SetValues
+            {
+                get => _SetValues;
+                set
+                {
+                    if (_SetValues != value)
+                    {
+                        _SetValues = value;
+                        OnPropertyChanged(nameof(SetValues));
+                    }
+                }
+            }
 
+            private SeriesCollection? _FontUsageSeries;
+            public SeriesCollection FontUsageSeries
+            {
+                get => _FontUsageSeries;
+                set
+                {
+                    if (_FontUsageSeries != value)
+                    {
+                        _FontUsageSeries = value;
+                        OnPropertyChanged(nameof(FontUsageSeries));
+                    }
+                }
+            }
+
+            public event PropertyChangedEventHandler? PropertyChanged;
+
+            public Func<double, string> Formatter { get; set; } = value => ((int)value).ToString();
+            protected void OnPropertyChanged(string propertyName)
+                => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private DashBoardViewModel CurrentModel = new DashBoardViewModel();
+
+        public void InitDashBoard()
+        {
+            CurrentModel.SetValues = new ChartValues<double>() { 0, 0, 0, 0, 0, 0 };
+
+            CurrentModel.FontUsageSeries = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    AreaLimit = -10,
+                    Values = new ChartValues<ObservableValue>
+                    {
+                        new ObservableValue(0),
+                        new ObservableValue(0),
+                        new ObservableValue(0),
+                        new ObservableValue(0),
+                        new ObservableValue(0),
+                        new ObservableValue(0),
+                        new ObservableValue(0),
+                        new ObservableValue(0),
+                        new ObservableValue(0),
+                        new ObservableValue(0),
+                        new ObservableValue(0),
+                        new ObservableValue(0),
+                        new ObservableValue(0),
+                        new ObservableValue(0),
+                        new ObservableValue(0),
+                        new ObservableValue(0),
+                        new ObservableValue(0),
+                        new ObservableValue(0)
+                    }
+                }
+            };
+        }
+
+        public SpeedMonitor CurrentMonitor = null;
+        //ChatGPT,Gemini,Cohere,DeepSeek,Baichuan,LocalAI
+        public void UPDateChart(string SendStr = "")
+        {
+            if (CurrentMonitor == null)
+            {
+                CurrentMonitor = new SpeedMonitor(CurrentModel);
+            }
+
+            if (SendStr.Length > 0)
+            {
+                CurrentMonitor.AddCount(SendStr.Length);
+            }
+
+            UsageCount.Content = $"Average Speed (last 30s): {CurrentMonitor.AverageSpeed:F1}";
+
+            CurrentModel.SetValues[0] = DeFine.GlobalLocalSetting.ChatGPTTokenUsage;
+            CurrentModel.SetValues[1] = DeFine.GlobalLocalSetting.GeminiTokenUsage;
+            CurrentModel.SetValues[2] = DeFine.GlobalLocalSetting.CohereTokenUsage;
+            CurrentModel.SetValues[3] = DeFine.GlobalLocalSetting.DeepSeekTokenUsage;
+            CurrentModel.SetValues[4] = DeFine.GlobalLocalSetting.BaichuanTokenUsage;
+            CurrentModel.SetValues[5] = DeFine.GlobalLocalSetting.LocalAITokenUsage;
+        }
+
+
+        #endregion
     }
 }

@@ -45,13 +45,13 @@ namespace SSELex
 
                 int Index = (int)Point.ChartPoint.Key;
 
-                string[] PlatformNames = new string[] { "ChatGPT", "Gemini", "Cohere","DeepSeek", "DeepL","Baichuan", "LocalAI", "Google"};
+                string[] PlatformNames = new string[] { "ChatGPT", "Gemini", "Cohere","DeepSeek","Baichuan", "LocalAI"};
 
                 string PlatformName = (Index >= 0 && Index < PlatformNames.Length)
                     ? PlatformNames[Index]
                     : "Unknown";
 
-                ValueText.Text = $"{PlatformName}: {Point.ChartPoint.Y} words";
+                ValueText.Text = $"{PlatformName}: {Point.ChartPoint.Y} Tokens";
             }
         }
 
