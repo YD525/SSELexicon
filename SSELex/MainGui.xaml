@@ -579,7 +579,7 @@
                                                 </TextBox>
 
                                                 <Border Name="RefreshDictionary" Style="{DynamicResource ButtonStyle}" Opacity="0.5" PreviewMouseDown="RefreshDictionary_PreviewMouseDown">
-                                                    <Label Style="{DynamicResource ButtonFont}">
+                                                    <Label Style="{DynamicResource ButtonFont}" Name="RefreshButton">
                                                         Refresh
                                                     </Label>
                                                 </Border>

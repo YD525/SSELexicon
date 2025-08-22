@@ -449,8 +449,6 @@ namespace SSELex.SkyrimManage
 
         public void ProcessCode()
         {
-            DeFine.ShowCodeView();
-
             foreach (var GetLine in this.PSCContent.Split('\n'))
             {
                 if (!GetLine.Trim().StartsWith(";"))

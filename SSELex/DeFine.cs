@@ -76,32 +76,6 @@ namespace SSELex
             }));
         }
 
-        public static void ShowCodeView()
-        {
-            //CurrentCodeView.Dispatcher.Invoke(new Action(() => {
-            //    CurrentCodeView.Show();
-            //}));
-
-            //if (DeFine.GlobalLocalSetting.ShowCode)
-            //{
-            //    if (DeFine.WorkingWin != null)
-            //    {
-            //        DeFine.WorkingWin.SyncCodeViewLocation();
-            //    }
-            //    CurrentCodeView.Dispatcher.Invoke(new Action(() => {
-            //        CurrentCodeView.Opacity = 1;
-            //        CurrentCodeView.IsHitTestVisible = true;
-            //    }));
-            //}
-            //else
-            //{
-            //    CurrentCodeView.Dispatcher.Invoke(new Action(() => {
-            //        CurrentCodeView.Opacity = 0;
-            //        CurrentCodeView.IsHitTestVisible = false;
-            //    }));
-            //}
-        }
-
         public static string GetFullPath(string Path)
         {
             string GetShellPath = System.Windows.Forms.Application.StartupPath;

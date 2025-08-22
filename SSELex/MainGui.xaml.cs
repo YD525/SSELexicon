@@ -266,11 +266,17 @@ namespace SSELex
             }
             if (e.Key == Key.F2)
             {
-                ApplyTranslatedText();
+                if (DeFine.GlobalLocalSetting.ViewMode == "Normal")
+                {
+                    ApplyTranslatedText();
+                }
             }
             if (e.Key == Key.F1)
             {
-                TranslateCurrent();
+                if (DeFine.GlobalLocalSetting.ViewMode == "Normal")
+                {
+                    TranslateCurrent();
+                }
             }
         }
 
@@ -1005,6 +1011,15 @@ namespace SSELex
         public int LoadSaveState = 0;
         private void AutoLoadOrSave(object sender, MouseButtonEventArgs e)
         {
+            this.LoadFileButton.Dispatcher.Invoke(new Action(() =>
+            {
+                if (ConvertHelper.ObjToStr(LoadFileButton.Content).Equals("Saving..."))
+                {
+                    return;
+                }
+            }));
+
+
             if (LoadSaveState == 0)
             {
                 LoadSaveState = 1;
@@ -1012,39 +1027,118 @@ namespace SSELex
             }
             else
             {
-                CancelBatchTranslation();
+                SaveFile();
+            }
 
-                EmptyFromAndToText();
+            CheckLoadSaveButtonState();
+        }
 
-                CalcStatistics();
-
-                LoadSaveState = 0;
-
-                CancelBtn.Opacity = 0.3;
-                CancelBtn.IsEnabled = false;
-
-                string GetFilePath = LastSetPath.Substring(0, LastSetPath.LastIndexOf(@"\")) + @"\";
-                string GetFileFullName = LastSetPath.Substring(LastSetPath.LastIndexOf(@"\") + @"\".Length);
-                string GetFileSuffix = GetFileFullName.Split('.')[1];
-                string GetFileName = GetFileFullName.Split('.')[0];
-
-                if (CurrentTransType == 3)
+        public void SaveFile()
+        {
+            new Thread(() =>
+            {
+                this.LoadFileButton.Dispatcher.Invoke(new Action(() =>
                 {
-                    if (Translator.TransData.Count > 0)
-                        if (GlobalPexReader != null)
+                    LoadFileButton.Content = "Saving...";
+                }));
+
+                try
+                {
+                    CancelBatchTranslation();
+
+                    EmptyFromAndToText();
+
+                    CalcStatistics();
+
+                    Thread.Sleep(500);
+
+                    if (TransViewList != null)
+                    {
+                        for (int i = 0; i < TransViewList.Rows; i++)
                         {
-                            if (!GlobalPexReader.SavePexFile(LastSetPath))
+                            bool IsCloud = false;
+
+                            TransViewList.RealLines[i].SyncData(ref IsCloud);
+
+                            string GetKey = TransViewList.RealLines[i].Key;
+
+                            string GetTransText = TransViewList.RealLines[i].TransText;
+
+                            if (string.IsNullOrEmpty(GetTransText))
                             {
-                                MessageBox.Show("Build Script Error!");
+                                GetTransText = TransViewList.RealLines[i].SourceText;
+                            }
+
+                            if (Translator.TransData.ContainsKey(GetKey))
+                            {
+                                Translator.TransData[GetKey] = GetTransText;
+                            }
+                            else
+                            {
+                                Translator.TransData.Add(GetKey, GetTransText);
                             }
                         }
-                }
-                if (CurrentTransType == 2)
-                {
-                    if (Translator.TransData.Count > 0)
-                        if (GlobalEspReader != null)
-                        {
-                            if (GlobalEspReader.CurrentReadMod != null)
+                    }
+
+                    LoadSaveState = 0;
+
+                    this.CancelBtn.Dispatcher.Invoke(new Action(() =>
+                    {
+                        CancelBtn.Opacity = 0.3;
+                        CancelBtn.IsEnabled = false;
+                    }));
+
+                    string GetFilePath = LastSetPath.Substring(0, LastSetPath.LastIndexOf(@"\")) + @"\";
+                    string GetFileFullName = LastSetPath.Substring(LastSetPath.LastIndexOf(@"\") + @"\".Length);
+                    string GetFileSuffix = GetFileFullName.Split('.')[1];
+                    string GetFileName = GetFileFullName.Split('.')[0];
+
+                    if (CurrentTransType == 3)
+                    {
+                        if (Translator.TransData.Count > 0)
+                            if (GlobalPexReader != null)
+                            {
+                                if (!GlobalPexReader.SavePexFile(LastSetPath))
+                                {
+                                    MessageBox.Show("Build Script Error!");
+                                }
+                            }
+                    }
+                    if (CurrentTransType == 2)
+                    {
+                        if (Translator.TransData.Count > 0)
+                            if (GlobalEspReader != null)
+                            {
+                                if (GlobalEspReader.CurrentReadMod != null)
+                                {
+                                    string GetBackUPPath = GetFilePath + GetFileFullName + ".backup";
+
+                                    if (!File.Exists(GetBackUPPath))
+                                    {
+                                        File.Copy(LastSetPath, GetBackUPPath);
+                                    }
+
+                                    if (File.Exists(LastSetPath))
+                                    {
+                                        File.Delete(LastSetPath);
+                                    }
+
+                                    SkyrimDataWriter.WriteAllMemoryData(ref GlobalEspReader);
+                                    GlobalEspReader.DefSaveMod(GlobalEspReader.CurrentReadMod, LastSetPath);
+
+                                    if (!File.Exists(LastSetPath))
+                                    {
+                                        MessageBox.Show("Save File Error!");
+                                        File.Copy(GetBackUPPath, LastSetPath);
+                                    }
+                                }
+                            }
+                    }
+                    else
+                    if (CurrentTransType == 1)
+                    {
+                        if (Translator.TransData.Count > 0)
+                            if (GlobalMCMReader != null)
                             {
                                 string GetBackUPPath = GetFilePath + GetFileFullName + ".backup";
 
@@ -1058,8 +1152,7 @@ namespace SSELex
                                     File.Delete(LastSetPath);
                                 }
 
-                                SkyrimDataWriter.WriteAllMemoryData(ref GlobalEspReader);
-                                GlobalEspReader.DefSaveMod(GlobalEspReader.CurrentReadMod, LastSetPath);
+                                GlobalMCMReader.SaveMCMConfig(LastSetPath);
 
                                 if (!File.Exists(LastSetPath))
                                 {
@@ -1067,43 +1160,17 @@ namespace SSELex
                                     File.Copy(GetBackUPPath, LastSetPath);
                                 }
                             }
-                        }
+                    }
+
+                    TranslatorExtend.WriteDictionary();
+                    YDDictionaryHelper.CreatDictionary();
                 }
-                else
-                if (CurrentTransType == 1)
+                catch (Exception Ex)
                 {
-                    if (Translator.TransData.Count > 0)
-                        if (GlobalMCMReader != null)
-                        {
-                            string GetBackUPPath = GetFilePath + GetFileFullName + ".backup";
-
-                            if (!File.Exists(GetBackUPPath))
-                            {
-                                File.Copy(LastSetPath, GetBackUPPath);
-                            }
-
-                            if (File.Exists(LastSetPath))
-                            {
-                                File.Delete(LastSetPath);
-                            }
-
-                            GlobalMCMReader.SaveMCMConfig(LastSetPath);
-
-                            if (!File.Exists(LastSetPath))
-                            {
-                                MessageBox.Show("Save File Error!");
-                                File.Copy(GetBackUPPath, LastSetPath);
-                            }
-                        }
+                    MessageBox.Show(Ex.Message);
                 }
-
-                TranslatorExtend.WriteDictionary();
-                YDDictionaryHelper.CreatDictionary();
-
                 CancelTransEsp(null, null);
-            }
-
-            CheckLoadSaveButtonState();
+            }).Start();
         }
 
         public void CheckLoadSaveButtonState()
@@ -1282,27 +1349,56 @@ namespace SSELex
 
         private void RefreshDictionary_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            var ModName = Engine.GetModName();
-
-            if (ModName.Trim().Length > 0)
+            if (ConvertHelper.ObjToStr(RefreshButton.Content).Equals("Refreshing..."))
             {
-                int CallFuncCount = 0;
-
-                string SetPath = DeFine.GetFullPath(@"\Librarys\" + ModName + ".Json");
-
-                if (File.Exists(SetPath))
-                {
-                    File.Delete(SetPath);
-                    CallFuncCount++;
-                }
-
-                MessageBoxExtend.Show(this, "Original source text has been refreshed from the current file.");
-
-                if (CallFuncCount > 0)
-                {
-                    DeFine.WorkingWin.ReloadData();
-                }
+                return;
             }
+
+            new Thread(() =>
+            {
+                RefreshButton.Dispatcher.Invoke(new Action(() => {
+                    RefreshButton.Content = "Refreshing...";
+                }));
+                var ModName = Engine.GetModName();
+
+                if (ModName.Trim().Length > 0)
+                {
+                    int CallFuncCount = 0;
+
+                    string SetPath = DeFine.GetFullPath(@"\Librarys\" + ModName + ".Json");
+
+                    if (File.Exists(SetPath))
+                    {
+                        File.Delete(SetPath);
+
+                        YDDictionaryHelper.Dictionarys.Clear();
+                        CallFuncCount++;
+                    }
+
+                    if (CallFuncCount > 0)
+                    {
+                        if (TransViewList != null)
+                        {
+                            for (int i = 0; i < TransViewList.Rows; i++)
+                            {
+                                bool IsCloud = false;
+                                TransViewList.RealLines[i].SyncData(ref IsCloud);
+
+                                this.Dispatcher.Invoke(new Action(() => 
+                                {
+                                    TransViewList.RealLines[i].SyncUI(TransViewList);
+                                }));
+                            }
+                        }
+                    }
+
+                    MessageBoxExtend.Show(this, "Original source text has been refreshed from the current file.");
+                }
+
+                RefreshButton.Dispatcher.Invoke(new Action(() => {
+                    RefreshButton.Content = "Refresh";
+                }));
+            }).Start();
         }
 
         public void InitIDE()
@@ -1837,7 +1933,7 @@ namespace SSELex
                         }
                         catch { }
 
-                        TranslatorExtend.SetTranslatorHistoryCache(GetGrid.Key, GetGrid.TransText,false);
+                        TranslatorExtend.SetTranslatorHistoryCache(GetGrid.Key, GetGrid.TransText, false);
 
                         GetGrid.SyncUI(TransViewList);
 
@@ -2174,7 +2270,7 @@ namespace SSELex
                     {
                         ScanAnimator.UpdateAnimationTarget();
                     }
-                } 
+                }
             }
         }
 
@@ -2418,7 +2514,7 @@ namespace SSELex
                             bool IsCloud = false;
                             QueryGrid.SyncData(ref IsCloud);
 
-                            TranslationUnit NewUnit = new TranslationUnit(Engine.GetModName(), QueryGrid.Key,QueryGrid.Type,QueryGrid.SourceText,QueryGrid.TransText,"",Engine.From,Engine.To);
+                            TranslationUnit NewUnit = new TranslationUnit(Engine.GetModName(), QueryGrid.Key, QueryGrid.Type, QueryGrid.SourceText, QueryGrid.TransText, "", Engine.From, Engine.To);
 
                             bool CanSleep = false;
 
@@ -3001,7 +3097,7 @@ namespace SSELex
         {
             if (sender is Border)
             {
-                Border GetBorderHandle = (Border) sender;
+                Border GetBorderHandle = (Border)sender;
 
                 if (GetBorderHandle.Child is Label)
                 {
@@ -3037,11 +3133,11 @@ namespace SSELex
 
                     LastSetLogButton = GetBorderHandle;
                 }
-              
+
             }
         }
         #endregion
 
-       
+
     }
 }

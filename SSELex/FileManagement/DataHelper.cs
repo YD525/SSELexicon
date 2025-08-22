@@ -36,7 +36,7 @@ namespace SSELex.SkyrimModManager
                 }
             }
         }
-       
+
         public static string GetPathAndFileName(ref string SourcePath)
         {
             string FileName = SourcePath.Substring(SourcePath.LastIndexOf(@"\") + @"\".Length);
@@ -97,20 +97,21 @@ namespace SSELex.SkyrimModManager
             }
 
         }
-        public static string ShowFileDialog(string SelectType,string Text)
+        public static string ShowFileDialog(string SelectType, string Text)
         {
-            try { 
-            Microsoft.Win32.OpenFileDialog FileDialog = new Microsoft.Win32.OpenFileDialog();
-            FileDialog.Filter = SelectType;
-            FileDialog.Title = Text;
-            if (FileDialog.ShowDialog() == true)
+            try
             {
-                return FileDialog.FileName;
-            }
-            return string.Empty;
+                Microsoft.Win32.OpenFileDialog FileDialog = new Microsoft.Win32.OpenFileDialog();
+                FileDialog.Filter = SelectType;
+                FileDialog.Title = Text;
+                if (FileDialog.ShowDialog() == true)
+                {
+                    return FileDialog.FileName;
+                }
+                return string.Empty;
             }
             catch { return string.Empty; }
-        } 
+        }
         public static string ReadFileByStr(string filepath, Encoding EnCoding)
         {
             try
@@ -178,57 +179,61 @@ namespace SSELex.SkyrimModManager
         {
             Stream stream = new MemoryStream(bytes);
             return stream;
-        } 
-       
+        }
+
         public static System.Text.Encoding GetFileEncodeType(string filename)
         {
-            System.IO.FileStream fs = new System.IO.FileStream(filename, System.IO.FileMode.Open, System.IO.FileAccess.Read);
-            System.IO.BinaryReader br = new System.IO.BinaryReader(fs);
-            Byte[] buffer = br.ReadBytes(2);
-            if (buffer[0] >= 0xEF)
+            try
             {
-                if (buffer[0] == 0xEF && buffer[1] == 0xBB)
+                System.IO.FileStream fs = new System.IO.FileStream(filename, System.IO.FileMode.Open, System.IO.FileAccess.Read);
+                System.IO.BinaryReader br = new System.IO.BinaryReader(fs);
+                Byte[] buffer = br.ReadBytes(2);
+                if (buffer[0] >= 0xEF)
+                {
+                    if (buffer[0] == 0xEF && buffer[1] == 0xBB)
+                    {
+                        fs.Close();
+                        br.Close();
+                        return System.Text.Encoding.UTF8;
+                    }
+                    else if (buffer[0] == 0xFE && buffer[1] == 0xFF)
+                    {
+                        fs.Close();
+                        br.Close();
+                        return System.Text.Encoding.BigEndianUnicode;
+                    }
+                    else if (buffer[0] == 0xFF && buffer[1] == 0xFE)
+                    {
+                        fs.Close();
+                        br.Close();
+                        return System.Text.Encoding.Unicode;
+                    }
+                    else
+                    {
+                        fs.Close();
+                        br.Close();
+                        return System.Text.Encoding.Default;
+                    }
+                }
+                if (buffer[0] == 0x3c)//UTF-8 without BOM
                 {
                     fs.Close();
                     br.Close();
                     return System.Text.Encoding.UTF8;
                 }
-                else if (buffer[0] == 0xFE && buffer[1] == 0xFF)
-                {
-                    fs.Close();
-                    br.Close();
-                    return System.Text.Encoding.BigEndianUnicode;
-                }
-                else if (buffer[0] == 0xFF && buffer[1] == 0xFE)
-                {
-                    fs.Close();
-                    br.Close();
-                    return System.Text.Encoding.Unicode;
-                }
+
                 else
                 {
                     fs.Close();
                     br.Close();
                     return System.Text.Encoding.Default;
                 }
-            }
-            if (buffer[0] == 0x3c)//UTF-8 without BOM
-            {
                 fs.Close();
                 br.Close();
-                return System.Text.Encoding.UTF8;
             }
-
-            else
-            {
-                fs.Close();
-                br.Close();
-                return System.Text.Encoding.Default;
-            }
-            fs.Close();
-            br.Close();
+            catch { return Encoding.UTF8; }
         }
-       
+
         public static void CopyDir(string Path, string TargetPath)
         {
             try
@@ -260,7 +265,7 @@ namespace SSELex.SkyrimModManager
             }
         }
 
-      
+
         public static List<FileInformation> GetAllFile(string filepath, List<string> filetype = null)
         {
             DirectoryAllFiles.FileList.Clear();
@@ -277,10 +282,10 @@ namespace SSELex.SkyrimModManager
                         nlist.Remove(autoget);
                     }
                 }
-             
+
                 return nlist;
             }
-            
+
             return list;
         }
     }
@@ -442,5 +447,5 @@ namespace SSELex.SkyrimModManager
         }
     }
 
-   
+
 }
