@@ -26,13 +26,13 @@ using SSELex.SkyrimManage;
 
 public class FakeGrid
 {
-    public double Height = 0;
-    public string Type = "";
-    public string Key = "";
-    public string SourceText = "";
-    private string RealSource = "";
-    public string TransText = "";
-    public double Score = 0;
+    public double Height { get; set; } = 0;
+    public string Type { get; set; } = "";
+    public string Key { get; set; } = "";
+    public string SourceText { get; set; } = "";
+    public string RealSource { get; set; } = "";
+    public string TransText { get; set; } = "";
+    public double Score { get; set; } = 0;
 
     public FakeGrid(double Height, string Type, string Key, string SourceText, string TransText, double Score)
     {

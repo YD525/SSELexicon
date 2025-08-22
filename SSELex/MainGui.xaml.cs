@@ -19,6 +19,7 @@ using PhoenixEngine.ConvertManager;
 using PhoenixEngine.DelegateManagement;
 using PhoenixEngine.EngineManagement;
 using PhoenixEngine.RequestManagement;
+using PhoenixEngine.SSELexiconBridge;
 using PhoenixEngine.TranslateCore;
 using PhoenixEngine.TranslateManage;
 using PhoenixEngine.TranslateManagement;
@@ -644,6 +645,7 @@ namespace SSELex
         public string LModName = "";
         string LastSetPath = "";
 
+        public RamCacheReader? GlobalRamCacheReader = null;
         public MCMReader? GlobalMCMReader = null;
         public EspReader? GlobalEspReader = null;
         public PexReader? GlobalPexReader = null;
@@ -839,6 +841,14 @@ namespace SSELex
 
                 YDDictionaryHelper.ReadDictionary(GetModName);
 
+                if (FilePath.ToLower().EndsWith(".txt"))
+                {
+                    GlobalRamCacheReader.Close();
+                    GlobalEspReader.Close();
+                    GlobalMCMReader.Close();
+                    GlobalPexReader.Close();
+
+                }
                 if (FilePath.ToLower().EndsWith(".pex"))
                 {
                     if (CheckINeed())
@@ -846,6 +856,7 @@ namespace SSELex
                         SetTittle(FModName);
                         CurrentTransType = 3;
 
+                        GlobalRamCacheReader.Close();
                         GlobalEspReader.Close();
                         GlobalMCMReader.Close();
                         GlobalPexReader.Close();
@@ -879,6 +890,7 @@ namespace SSELex
                     SetTittle(FModName);
                     CurrentTransType = 1;
 
+                    GlobalRamCacheReader.Close();
                     GlobalEspReader.Close();
                     GlobalMCMReader.Close();
                     GlobalPexReader.Close();
@@ -911,6 +923,7 @@ namespace SSELex
                     SetTittle(FModName);
                     CurrentTransType = 2;
 
+                    GlobalRamCacheReader.Close();
                     GlobalEspReader.Close();
                     GlobalMCMReader.Close();
                     GlobalPexReader.Close();
@@ -2634,6 +2647,75 @@ namespace SSELex
             }
         }
 
+        private void ImportRamCache_Click(object sender, RoutedEventArgs e)
+        {
+            var Dialog = new System.Windows.Forms.OpenFileDialog();
+            Dialog.Title = "Please select a file";
+            Dialog.Filter = "All files|*.*";
+            Dialog.Multiselect = false;
+
+            if (Dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string SelectedFile = Dialog.FileName;
+
+                if (File.Exists(SelectedFile))
+                {
+                    string GetRamCache = Encoding.UTF8.GetString(DataHelper.ReadFile(SelectedFile));
+                    List<FakeGrid>? RealLines = JsonSerializer.Deserialize<List<FakeGrid>>(GetRamCache);
+
+                    if (RealLines != null)
+                    {
+                        for (int i = 0; i < RealLines.Count; i++)
+                        {
+                            TranslatorBridge.SetTransCache(RealLines[i].Key, RealLines[i].TransText);
+                        }
+
+                        if (TransViewList != null)
+                        {
+                            for (int i = 0; i < TransViewList.Rows; i++)
+                            {
+                                bool IsCloud = false;
+                                TransViewList.RealLines[i].SyncData(ref IsCloud);
+                                TransViewList.RealLines[i].SyncUI(TransViewList);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void ExportToRamCache_Click(object sender, RoutedEventArgs e)
+        {
+            if (TransViewList != null)
+            {
+                if (TransViewList.Rows > 0)
+                {
+                    var GetWritePath = DataHelper.ShowSaveFileDialog(LModName + ".txt", "RamCache (*.txt)|*.txt");
+
+                    UPDateFile();
+
+                    var JsonOptions = new JsonSerializerOptions
+                    {
+                        WriteIndented = true,
+                        Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+                    };
+
+                    string GetJson = JsonSerializer.Serialize(TransViewList.RealLines, JsonOptions);
+
+                    if (GetWritePath != null)
+                    {
+                        if (GetWritePath.Trim().Length > 0)
+                        {
+                            if (File.Exists(GetWritePath))
+                            {
+                                File.Delete(GetWritePath);
+                            }
+                            DataHelper.WriteFile(GetWritePath, Encoding.UTF8.GetBytes(GetJson));
+                        }
+                    }
+                }
+            }
+        }
         private void ExportToDsd_Click(object sender, RoutedEventArgs e)
         {
             if (TransViewList != null)
@@ -3311,6 +3393,7 @@ namespace SSELex
 
             DeFine.GlobalLocalSetting.SaveConfig();
         }
+
 
         #endregion
     }

@@ -663,6 +663,10 @@
                                     <ContextMenu>
                                         <MenuItem Header="Export">
                                             <MenuItem Header="To DSD (Dynamic String Distributor)" Click="ExportToDsd_Click"/>
+                                            <MenuItem Header="To RamCache (SSE Lexicon)" Click="ExportToRamCache_Click"/>
+                                        </MenuItem>
+                                        <MenuItem Header="Import">
+                                            <MenuItem Header="Import RamCache File" Click="ImportRamCache_Click"/>
                                         </MenuItem>
                                     </ContextMenu>
                                 </Grid.ContextMenu>
