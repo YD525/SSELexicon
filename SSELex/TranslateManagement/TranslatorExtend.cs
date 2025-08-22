@@ -176,13 +176,17 @@ namespace SSELex.TranslateManage
 
                 try
                 {
-                    for (int i = 0; i < RecvListeners.Count; i++)
+                    try
                     {
-                        if (RecvListeners[i].ActiveIDs.Contains(Sign))
+                        for (int i = 0; i < RecvListeners.Count; i++)
                         {
-                            RecvListeners[i].Method.Invoke(Sign, Any);
+                            if (RecvListeners[i].ActiveIDs.Contains(Sign))
+                            {
+                                RecvListeners[i].Method.Invoke(Sign, Any);
+                            }
                         }
                     }
+                    catch { }
                 }
                 finally
                 {
@@ -299,6 +303,11 @@ namespace SSELex.TranslateManage
             {
                 if (TranslationStatus == StateControl.Run && !IsKeep)
                 {
+                    if (EngineConfig.AutoSetThreadLimit)
+                    {
+                        EngineConfig.MaxThreadCount = EngineConfig.AutoCalcThreadLimit();
+                    }
+
                     YDListView? GetListView = DeFine.WorkingWin.TransViewList;
 
                     if (GetListView != null)
@@ -453,15 +462,16 @@ namespace SSELex.TranslateManage
                 {
                     SyncTransStateFreeze = true;
 
-                    EndAction.Invoke();
-
                     if (TranslationCore != null)
                     {
-                        while (TranslationCore.TransMainTrd != null)
-                        {
-                            Thread.Sleep(10);
+                        try 
+                        { 
+                            TranslationCore.Close();
                         }
+                        catch { }
                     }
+
+                    EndAction.Invoke();
 
                     SyncTransStateFreeze = false;
                 }

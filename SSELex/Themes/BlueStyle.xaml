@@ -603,4 +603,119 @@
         <Setter Property="Cursor" Value="Hand"/>
     </Style>
 
+    <Style x:Key="ProcessBarTittleFont" TargetType="Label">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="Margin" Value="5 0 0 0"/>
+    </Style>
+
+    <Style x:Key="ColorA" TargetType="Border">
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="Background"  Value="White"/>
+        <Setter Property="Width"  Value="20"/>
+        <Setter Property="Height"  Value="20"/>
+        <Setter Property="Cursor"  Value="Hand"/>
+    </Style>
+
+    <Style x:Key="ColorB" TargetType="Border">
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="Background"  Value="#FF0B9BD4"/>
+        <Setter Property="Width"  Value="20"/>
+        <Setter Property="Height"  Value="20"/>
+        <Setter Property="Cursor"  Value="Hand"/>
+    </Style>
+
+    <Style x:Key="ColorC" TargetType="Border">
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="Background"  Value="#FFE59924"/>
+        <Setter Property="Width"  Value="20"/>
+        <Setter Property="Height"  Value="20"/>
+        <Setter Property="Cursor"  Value="Hand"/>
+    </Style>
+
+    <Style x:Key="NodeBackGround" TargetType="Grid">
+        <Setter Property="Background" Value="#FF282828"/>
+        <Setter Property="Cursor" Value="Hand"/>
+    </Style>
+
+    <Style x:Key="LineStyle" TargetType="Grid">
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Background" Value="#FF2A2A2A"/>
+    </Style>
+
+    <Style x:Key="LineBorderStyle" TargetType="Border">
+        <Setter Property="BorderThickness" Value="0 0 0 2"/>
+        <Setter Property="BorderBrush" Value="Black"/>
+    </Style>
+
+    <Style x:Key="NormalState" TargetType="Ellipse">
+        <Setter Property="Width" Value="10"/>
+        <Setter Property="Height" Value="10"/>
+        <Setter Property="Fill" Value="#FFE1E1E1"/>
+    </Style>
+
+    <Style x:Key="LineTypeFont" TargetType="Label">
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontSize" Value="13.9"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="LineKeyFont" TargetType="TextBox">
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="AcceptsReturn" Value="True"/>
+        <Setter Property="FontSize" Value="13.9"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="Background" Value="{x:Null}"/>
+        <Setter Property="BorderBrush" Value="{x:Null}"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="LineOriginalFont" TargetType="TextBox">
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="FontSize" Value="13.9"/>
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="CaretBrush" Value="#FFD4A000"/>
+        <Setter Property="SelectionTextBrush" Value="#FF199EF5"/>
+        <Setter Property="IsReadOnly" Value="True"/>
+        <Setter Property="AcceptsReturn" Value="True"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="Background" Value="{x:Null}"/>
+        <Setter Property="BorderBrush" Value="{x:Null}"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+    </Style>
+    <Style x:Key="LineTranslatedBorder" TargetType="Border">
+        <Setter Property="Background" Value="#FF1D1D1D"/>
+        <Setter Property="CornerRadius"  Value="5"/>
+        <Setter Property="Margin"  Value="5 2.5 5 2.5"/>
+    </Style>
+    <Style x:Key="LineTranslatedFont" TargetType="TextBox">
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="FontSize" Value="13.9"/>
+        <Setter Property="Margin" Value="5 0 5 0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="CaretBrush" Value="#FFD4A000"/>
+        <Setter Property="SelectionTextBrush" Value="#FF199EF5"/>
+        <Setter Property="AcceptsReturn" Value="True"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="Background" Value="{x:Null}"/>
+        <Setter Property="BorderBrush" Value="{x:Null}"/>
+        <Setter Property="Foreground" Value="White"/>
+    </Style>
 </ResourceDictionary>

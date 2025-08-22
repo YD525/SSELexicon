@@ -2689,6 +2689,15 @@ namespace SSELex
                 SUILanguages.Items.Add("English");
 
                 SUILanguages.SelectedValue = SUILanguages.Items[0];
+
+                if (DeFine.GlobalLocalSetting.ShowCode)
+                {
+                    ShowCodeView.IsChecked = true;
+                }
+                else
+                {
+                    ShowCodeView.IsChecked = false;
+                }
             }
             else
             if (Name.Equals("Engine Configs"))
@@ -2707,6 +2716,18 @@ namespace SSELex
                 {
                     SAutoSetThreadLimit.IsChecked = false;
                 }
+            }
+        }
+
+        private void ShowCodeView_Click(object sender, RoutedEventArgs e)
+        {
+            if (ShowCodeView.IsChecked == true)
+            {
+                DeFine.GlobalLocalSetting.ShowCode = true;
+            }
+            else
+            {
+                DeFine.GlobalLocalSetting.ShowCode = false;
             }
         }
 
@@ -3021,5 +3042,6 @@ namespace SSELex
         }
         #endregion
 
+       
     }
 }

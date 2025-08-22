@@ -183,7 +183,7 @@
                             <Rectangle Width="3" Height="60" Fill="White" VerticalAlignment="Bottom" />
                         </StackPanel>
 
-                        <Grid Background="#FF282828" Cursor="Hand" Grid.Row="6" Tag="Gemini" PreviewMouseDown="ChangeNode">
+                        <Grid Style="{DynamicResource NodeBackGround}" Grid.Row="6" Tag="Gemini" PreviewMouseDown="ChangeNode">
                             <ContentControl  Style="{DynamicResource IndicatorOffStyle}" Name="GeminiLight"/>
 
                             <StackPanel Orientation="Horizontal">
@@ -195,7 +195,7 @@
                             </StackPanel>
                         </Grid>
 
-                        <Grid Background="#FF282828" Cursor="Hand" Grid.Row="8" Tag="ChatGpt" PreviewMouseDown="ChangeNode">
+                        <Grid Style="{DynamicResource NodeBackGround}" Grid.Row="8" Tag="ChatGpt" PreviewMouseDown="ChangeNode">
                             <ContentControl  Style="{DynamicResource IndicatorOffStyle}" Name="ChatGptLight"/>
 
                             <StackPanel Orientation="Horizontal">
@@ -208,7 +208,7 @@
 
                         </Grid>
 
-                        <Grid Background="#FF282828" Cursor="Hand" Grid.Row="10" Tag="Cohere" PreviewMouseDown="ChangeNode">
+                        <Grid Style="{DynamicResource NodeBackGround}" Grid.Row="10" Tag="Cohere" PreviewMouseDown="ChangeNode">
                             <ContentControl  Style="{DynamicResource IndicatorOffStyle}" Name="CohereLight"/>
 
                             <StackPanel Orientation="Horizontal">
@@ -220,7 +220,7 @@
                             </StackPanel>
                         </Grid>
 
-                        <Grid Background="#FF282828" Cursor="Hand" Grid.Row="12" Tag="DeepSeek" PreviewMouseDown="ChangeNode">
+                        <Grid Style="{DynamicResource NodeBackGround}" Grid.Row="12" Tag="DeepSeek" PreviewMouseDown="ChangeNode">
                             <ContentControl Style="{DynamicResource  IndicatorOffStyle}" Name="DeepSeekLight"/>
 
                             <StackPanel Orientation="Horizontal">
@@ -232,7 +232,7 @@
                             </StackPanel>
                         </Grid>
 
-                        <Grid Background="#FF282828" Cursor="Hand" Grid.Row="14" Tag="Baichuan" PreviewMouseDown="ChangeNode">
+                        <Grid Style="{DynamicResource NodeBackGround}" Grid.Row="14" Tag="Baichuan" PreviewMouseDown="ChangeNode">
                             <ContentControl  Style="{DynamicResource IndicatorOffStyle}" Name="BaichuanLight"/>
 
                             <StackPanel Orientation="Horizontal">
@@ -244,7 +244,7 @@
                             </StackPanel>
                         </Grid>
 
-                        <Grid Background="#FF282828" Cursor="Hand" Grid.Row="16" Tag="LMLocalAI" PreviewMouseDown="ChangeNode">
+                        <Grid Style="{DynamicResource NodeBackGround}" Grid.Row="16" Tag="LMLocalAI" PreviewMouseDown="ChangeNode">
                             <ContentControl  Style="{DynamicResource IndicatorOffStyle}" Name="LMLocalAILight"/>
 
                             <StackPanel Orientation="Horizontal">
@@ -262,7 +262,7 @@
                             </Label>
                         </Grid>
 
-                        <Grid Background="#FF282828" Cursor="Hand" Grid.Row="20" Tag="DeepL" PreviewMouseDown="ChangeNode">
+                        <Grid Style="{DynamicResource NodeBackGround}" Grid.Row="20" Tag="DeepL" PreviewMouseDown="ChangeNode">
                             <ContentControl  Style="{DynamicResource IndicatorOffStyle}" Name="DeepLLight"/>
 
                             <StackPanel Orientation="Horizontal">
@@ -274,7 +274,7 @@
                             </StackPanel>
                         </Grid>
 
-                        <Grid Background="#FF282828" Cursor="Hand" Grid.Row="22" Tag="Google" PreviewMouseDown="ChangeNode">
+                        <Grid Style="{DynamicResource NodeBackGround}" Grid.Row="22" Tag="Google" PreviewMouseDown="ChangeNode">
                             <ContentControl  Style="{DynamicResource IndicatorOffStyle}" Name="GoogleLight"/>
 
                             <StackPanel Orientation="Horizontal">
@@ -451,9 +451,9 @@
                                             <Grid Panel.ZIndex="999">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="1*"/>
-                                                    <ColumnDefinition Width="75"/>
+                                                    <ColumnDefinition Width="50"/>
                                                 </Grid.ColumnDefinitions>
-                                                <Label Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="0" Margin="5 0 0 0" Name="TransProcess">
+                                                <Label Style="{DynamicResource ProcessBarTittleFont}" Name="TransProcess">
                                                     STRINGS(0/0)
                                                 </Label>
                                                 
@@ -618,13 +618,13 @@
                                             MarkLine
                                         </Label>
 
-                                        <Border CornerRadius="5" Background="White" Width="20" Height="20" Margin="5 0 0 0" Cursor="Hand" PreviewMouseDown="ChangeColor">
+                                        <Border Style="{DynamicResource ColorA}" Margin="5 0 0 0" PreviewMouseDown="ChangeColor">
                                         </Border>
 
-                                        <Border CornerRadius="5" Background="#FF0B9BD4" Width="20" Height="20" Margin="5 0 0 0" Cursor="Hand" PreviewMouseDown="ChangeColor">
+                                        <Border Style="{DynamicResource ColorB}" Margin="5 0 0 0" PreviewMouseDown="ChangeColor">
                                         </Border>
 
-                                        <Border CornerRadius="5" Background="#FFE59924" Width="20" Height="20" Margin="5 0 0 0" Cursor="Hand" PreviewMouseDown="ChangeColor">
+                                        <Border Style="{DynamicResource ColorC}" Margin="5 0 0 0" PreviewMouseDown="ChangeColor">
                                         </Border>
 
                                     </StackPanel>
@@ -1362,6 +1362,19 @@
                                 <Border  Style="{DynamicResource SettingFrame}" Tag="UI Configs" Visibility="Visible">
                                     <ScrollViewer VerticalScrollBarVisibility="Auto" Style="{DynamicResource for_scrollviewer}">
                                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 0 0 0" VerticalAlignment="Center" Width="500">
+                                            <Label Style="{DynamicResource TittleFont}">
+                                                Interface Configs
+                                            </Label>
+                                            
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 5 5 10">
+                                                <Label Style="{DynamicResource NormalText}" VerticalAlignment="Center">
+                                                    ShowCodeView
+                                                </Label>
+                                                <CheckBox Style="{DynamicResource ToggleCircleCheckBox}" VerticalAlignment="Center" Name="ShowCodeView" Click="ShowCodeView_Click">
+                                                </CheckBox>
+                                            </StackPanel>
+
+
                                             <Label Style="{DynamicResource TittleFont}">
                                                 Theme Configs
                                             </Label>
