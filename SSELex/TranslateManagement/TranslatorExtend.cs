@@ -495,7 +495,7 @@ namespace SSELex.TranslateManage
                 string GetSourceText = GetFakeGrid.SourceText;
                 var TargetText = GetFakeGrid.TransText;
 
-                YDDictionaryHelper.UPDateTransText(GetKey, GetSourceText, TargetText);
+                YDDictionaryHelper.UPDateTransText(GetKey, GetSourceText);
             }
 
             return ReplaceCount;

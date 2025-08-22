@@ -392,7 +392,7 @@
                         </Border>
                     </Grid>
 
-                    <Grid Name="ModTransView" Style="{DynamicResource FrameStyle}" Visibility="Collapsed">
+                    <Grid Name="ModTransView" Style="{DynamicResource FrameStyle}" Visibility="Visible">
                         <Grid Grid.Column="1">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="5"/>
@@ -658,7 +658,14 @@
                             </Grid>
 
                             <Grid Name="TransView" Style="{DynamicResource FrameStyle}" Grid.Row="6" Panel.ZIndex="990" Margin="10 0 10 0" Visibility="Visible">
-                              
+
+                                <Grid.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Export">
+                                            <MenuItem Header="To DSD (Dynamic String Distributor)" Click="ExportToDsd_Click"/>
+                                        </MenuItem>
+                                    </ContextMenu>
+                                </Grid.ContextMenu>
                             </Grid>
 
                             <GridSplitter  DragCompleted="GridSplitter_DragCompleted" Grid.Row="7" Height="3.5" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="#FF7B7B7B" ResizeDirection="Rows" ResizeBehavior="PreviousAndNext" ShowsPreview="True" />
@@ -836,7 +843,7 @@
                         </Grid>
                     </Grid>
 
-                    <Grid Name="DashBoardView" Style="{DynamicResource FrameStyle}" Visibility="Visible">
+                    <Grid Name="DashBoardView" Style="{DynamicResource FrameStyle}" Visibility="Collapsed">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="1*"/>
@@ -880,7 +887,7 @@
                                     </TextBlock>
                                     <Grid Grid.Row="2">
                                         <Label Name="UsageCount" Panel.ZIndex="999" Foreground="White" HorizontalAlignment="Right" VerticalContentAlignment="Bottom" Margin="0 0 5 5 ">
-                                                
+
                                         </Label>
                                         <lvc:CartesianChart Panel.ZIndex="10" Margin="0, 0, 0, 0" Series="{Binding FontUsageSeries}" Hoverable="False" DataTooltip="{x:Null}">
                                             <lvc:CartesianChart.AxisX>
@@ -890,7 +897,6 @@
                                     </Grid>
                                 </Grid>
                             </Border>
-                           
 
                             <Border Grid.Column="0" Margin="5" CornerRadius="5" Background="#FF303030">
                                 <Grid Margin="5">
@@ -957,7 +963,14 @@
 
                                 </Grid>
                             </Border>
-                            
+
+                            <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2">
+                                <Border  Style="{DynamicResource ButtonStyle}" PreviewMouseDown="ReSetToken_PreviewMouseDown" HorizontalAlignment="Center" Width="300">
+                                    <Label Style="{DynamicResource ButtonFont}">
+                                        Reset Token Count
+                                    </Label>
+                                </Border>
+                            </Grid>
                         </Grid>
                     </Grid>
 

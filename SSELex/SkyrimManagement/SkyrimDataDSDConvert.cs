@@ -35,6 +35,8 @@ namespace SSELex.SkyrimManagement
 
     public class SkyrimDataDSDConvert
     {
+        //I don't know much about the corresponding records, so the DSD export is definitely incomplete. I'll see if Cutleast can help me complete these records when the time comes.
+
         public static string GetTransData(string EditorID, string SetType)
         {
             string GetKey = SkyrimDataLoader.GenUniqueKey(EditorID, SetType);
@@ -86,7 +88,7 @@ namespace SSELex.SkyrimManagement
             }
             return "";
         }
-        public static string GenFormID(string FormID,string ModName)
+        public static string GenFormID(string FormID, string ModName)
         {
             string PaddedID = FormID.PadLeft(8, '0');
             return $"{PaddedID}|{ModName}";
@@ -105,8 +107,11 @@ namespace SSELex.SkyrimManagement
 
                 var GetName = ConvertHelper.ObjToStr(GetWorldspaceItem.Name);
 
+                string AutoKey = KeyGenerator.GenKey(GetWorldspaceItem.FormKey, GetWorldspaceItem.EditorID);
+
                 SetType = "Name";
-                GetTransStr = GetTransData(GetWorldspaceItem.EditorID, SetType);
+              
+                GetTransStr = GetTransData(AutoKey, SetType);
                 if (GetTransStr.Length > 0)
                 {
                     DSDItem NDSDItem = new DSDItem();
@@ -134,8 +139,11 @@ namespace SSELex.SkyrimManagement
 
                 var GetName = ConvertHelper.ObjToStr(GetQuestItem.Name);
 
+                string AutoKey = KeyGenerator.GenKey(GetQuestItem.FormKey, GetQuestItem.EditorID);
+
                 SetType = "Name";
-                GetTransStr = GetTransData(GetQuestItem.EditorID, SetType);
+             
+                GetTransStr = GetTransData(AutoKey, SetType);
                 if (GetTransStr.Length > 0)
                 {
                     DSDItem NDSDItem = new DSDItem();
@@ -150,7 +158,7 @@ namespace SSELex.SkyrimManagement
                 var GetDescription = ConvertHelper.ObjToStr(GetQuestItem.Description);
 
                 SetType = "Description";
-                GetTransStr = GetTransData(GetQuestItem.EditorID, SetType);
+                GetTransStr = GetTransData(AutoKey, SetType);
                 if (GetTransStr.Length > 0)
                 {
                     DSDItem NDSDItem = new DSDItem();
@@ -173,7 +181,7 @@ namespace SSELex.SkyrimManagement
                         if (GetDisplayText.Length > 0)
                         {
                             SetType = string.Format("DisplayText[{0}]", CountObjective);
-                            GetTransStr = GetTransData(GetQuestItem.EditorID, SetType);
+                            GetTransStr = GetTransData(AutoKey, SetType);
                             if (GetTransStr.Trim().Length > 0)
                             {
                                 DSDItem NDSDItem = new DSDItem();
@@ -204,7 +212,7 @@ namespace SSELex.SkyrimManagement
                             if (GetEntry.Length > 0)
                             {
                                 SetType = string.Format("Entry[{0}]", CountStage);
-                                GetTransStr = GetTransData(GetQuestItem.EditorID, SetType);
+                                GetTransStr = GetTransData(AutoKey, SetType);
                                 if (GetTransStr.Trim().Length > 0)
                                 {
 
@@ -238,8 +246,10 @@ namespace SSELex.SkyrimManagement
 
                 var GetName = ConvertHelper.ObjToStr(GetFactionItem.Name);
 
+                string AutoKey = KeyGenerator.GenKey(GetFactionItem.FormKey, GetFactionItem.EditorID);
+
                 SetType = "Name";
-                GetTransStr = GetTransData(GetFactionItem.EditorID, SetType);
+                GetTransStr = GetTransData(AutoKey, SetType);
                 if (GetTransStr.Length > 0)
                 {
                     DSDItem NDSDItem = new DSDItem();
@@ -257,35 +267,42 @@ namespace SSELex.SkyrimManagement
                     if (GetFactionItem.Ranks != null)
                         for (int ii = 0; ii < GetFactionItem.Ranks.Count; ii++)
                         {
-                            CountRank++;
-                            string GetFemale = ConvertHelper.ObjToStr(GetFactionItem.Ranks[ii].Title.Female);
-                            string GetMale = ConvertHelper.ObjToStr(GetFactionItem.Ranks[ii].Title.Male);
-
-                            SetType = string.Format("Female[{0}]", CountRank);
-                            GetTransStr = GetTransData(GetFactionItem.EditorID, SetType);
-                            if (GetTransStr.Trim().Length > 0)
+                            try
                             {
-                                DSDItem NDSDItem = new DSDItem();
-                                NDSDItem.editor_id = GetFactionItem.EditorID;
-                                NDSDItem.form_id = GenFormID(GetFactionItem.FormKey);
-                                NDSDItem.type = "FACT FNAM";
-                                NDSDItem.original = GetFemale;
-                                NDSDItem.@string = GetTransStr;
-                                DSDItems.Add(NDSDItem);
-                            }
+                                CountRank++;
+                                if (GetFactionItem.Ranks[ii].Title != null)
+                                {
+                                    string GetFemale = ConvertHelper.ObjToStr(GetFactionItem.Ranks[ii].Title.Female);
+                                    string GetMale = ConvertHelper.ObjToStr(GetFactionItem.Ranks[ii].Title.Male);
 
-                            SetType = string.Format("Male[{0}]", CountRank);
-                            GetTransStr = GetTransData(GetFactionItem.EditorID, SetType);
-                            if (GetTransStr.Trim().Length > 0)
-                            {
-                                DSDItem NDSDItem = new DSDItem();
-                                NDSDItem.editor_id = GetFactionItem.EditorID;
-                                NDSDItem.form_id = GenFormID(GetFactionItem.FormKey);
-                                NDSDItem.type = "FACT MNAM";
-                                NDSDItem.original = GetMale;
-                                NDSDItem.@string = GetTransStr;
-                                DSDItems.Add(NDSDItem);
+                                    SetType = string.Format("Female[{0}]", CountRank);
+                                    GetTransStr = GetTransData(AutoKey, SetType);
+                                    if (GetTransStr.Trim().Length > 0)
+                                    {
+                                        DSDItem NDSDItem = new DSDItem();
+                                        NDSDItem.editor_id = GetFactionItem.EditorID;
+                                        NDSDItem.form_id = GenFormID(GetFactionItem.FormKey);
+                                        NDSDItem.type = "FACT FNAM";
+                                        NDSDItem.original = GetFemale;
+                                        NDSDItem.@string = GetTransStr;
+                                        DSDItems.Add(NDSDItem);
+                                    }
+
+                                    SetType = string.Format("Male[{0}]", CountRank);
+                                    GetTransStr = GetTransData(AutoKey, SetType);
+                                    if (GetTransStr.Trim().Length > 0)
+                                    {
+                                        DSDItem NDSDItem = new DSDItem();
+                                        NDSDItem.editor_id = GetFactionItem.EditorID;
+                                        NDSDItem.form_id = GenFormID(GetFactionItem.FormKey);
+                                        NDSDItem.type = "FACT MNAM";
+                                        NDSDItem.original = GetMale;
+                                        NDSDItem.@string = GetTransStr;
+                                        DSDItems.Add(NDSDItem);
+                                    }
+                                }
                             }
+                            catch { }
                         }
                 }
             }
@@ -303,9 +320,11 @@ namespace SSELex.SkyrimManagement
                 var GetHashKey = Reader.Perks.ElementAt(i).Key;
                 var GetPerkItem = Reader.Perks[GetHashKey];
 
+                string AutoKey = KeyGenerator.GenKey(GetPerkItem.FormKey, GetPerkItem.EditorID);
+
                 var GetName = ConvertHelper.ObjToStr(GetPerkItem.Name);
                 SetType = "Name";
-                GetTransStr = GetTransData(GetPerkItem.EditorID, SetType);
+                GetTransStr = GetTransData(AutoKey, SetType);
                 if (GetTransStr.Length > 0)
                 {
                     DSDItem NDSDItem = new DSDItem();
@@ -319,7 +338,7 @@ namespace SSELex.SkyrimManagement
 
                 var GetDescription = ConvertHelper.ObjToStr(GetPerkItem.Description);
                 SetType = "Description";
-                GetTransStr = GetTransData(GetPerkItem.EditorID, SetType);
+                GetTransStr = GetTransData(AutoKey, SetType);
                 if (GetTransStr.Length > 0)
                 {
                     DSDItem NDSDItem = new DSDItem();
@@ -345,9 +364,11 @@ namespace SSELex.SkyrimManagement
                 var GetHashKey = Reader.Weapons.ElementAt(i).Key;
                 var GetWeapon = Reader.Weapons[GetHashKey];
 
+                string AutoKey = KeyGenerator.GenKey(GetWeapon.FormKey, GetWeapon.EditorID);
+
                 var GetName = ConvertHelper.ObjToStr(GetWeapon.Name);
                 SetType = "Name";
-                GetTransStr = GetTransData(GetWeapon.EditorID, SetType);
+                GetTransStr = GetTransData(AutoKey, SetType);
                 if (GetTransStr.Length > 0)
                 {
                     DSDItem NDSDItem = new DSDItem();
@@ -361,7 +382,7 @@ namespace SSELex.SkyrimManagement
 
                 var GetDescription = ConvertHelper.ObjToStr(GetWeapon.Description);
                 SetType = "Description";
-                GetTransStr = GetTransData(GetWeapon.EditorID, SetType);
+                GetTransStr = GetTransData(AutoKey, SetType);
                 if (GetTransStr.Length > 0)
                 {
                     DSDItem NDSDItem = new DSDItem();
@@ -387,9 +408,11 @@ namespace SSELex.SkyrimManagement
                 var GetHashKey = Reader.SoulGems.ElementAt(i).Key;
                 var GetSoulGem = Reader.SoulGems[GetHashKey];
 
+                string AutoKey = KeyGenerator.GenKey(GetSoulGem.FormKey, GetSoulGem.EditorID);
+
                 var GetName = ConvertHelper.ObjToStr(GetSoulGem.Name);
                 SetType = "Name";
-                GetTransStr = GetTransData(GetSoulGem.EditorID, SetType);
+                GetTransStr = GetTransData(AutoKey, SetType);
                 if (GetTransStr.Length > 0)
                 {
                     DSDItem NDSDItem = new DSDItem();
@@ -415,9 +438,11 @@ namespace SSELex.SkyrimManagement
                 var GetHashKey = Reader.Armors.ElementAt(i).Key;
                 var GetArmor = Reader.Armors[GetHashKey];
 
+                string AutoKey = KeyGenerator.GenKey(GetArmor.FormKey, GetArmor.EditorID);
+
                 var GetName = ConvertHelper.ObjToStr(GetArmor.Name);
                 SetType = "Name";
-                GetTransStr = GetTransData(GetArmor.EditorID, SetType);
+                GetTransStr = GetTransData(AutoKey, SetType);
                 if (GetTransStr.Length > 0)
                 {
                     DSDItem NDSDItem = new DSDItem();
@@ -431,7 +456,7 @@ namespace SSELex.SkyrimManagement
 
                 var GetDescription = ConvertHelper.ObjToStr(GetArmor.Description);
                 SetType = "Description";
-                GetTransStr = GetTransData(GetArmor.EditorID, SetType);
+                GetTransStr = GetTransData(AutoKey, SetType);
                 if (GetTransStr.Length > 0)
                 {
                     DSDItem NDSDItem = new DSDItem();
@@ -457,9 +482,11 @@ namespace SSELex.SkyrimManagement
                 var GetHashKey = Reader.Keys.ElementAt(i).Key;
                 var GetKey = Reader.Keys[GetHashKey];
 
+                string AutoKey = KeyGenerator.GenKey(GetKey.FormKey, GetKey.EditorID);
+
                 var GetName = ConvertHelper.ObjToStr(GetKey.Name);
                 SetType = "Name";
-                GetTransStr = GetTransData(GetKey.EditorID, SetType);
+                GetTransStr = GetTransData(AutoKey, SetType);
                 if (GetTransStr.Length > 0)
                 {
                     DSDItem NDSDItem = new DSDItem();
@@ -485,9 +512,11 @@ namespace SSELex.SkyrimManagement
                 var GetHashKey = Reader.Containers.ElementAt(i).Key;
                 var GetContainer = Reader.Containers[GetHashKey];
 
+                string AutoKey = KeyGenerator.GenKey(GetContainer.FormKey, GetContainer.EditorID);
+
                 var GetName = ConvertHelper.ObjToStr(GetContainer.Name);
                 SetType = "Name";
-                GetTransStr = GetTransData(GetContainer.EditorID, SetType);
+                GetTransStr = GetTransData(AutoKey, SetType);
                 if (GetTransStr.Length > 0)
                 {
                     DSDItem NDSDItem = new DSDItem();
@@ -513,9 +542,11 @@ namespace SSELex.SkyrimManagement
                 var GetHashKey = Reader.Activators.ElementAt(i).Key;
                 var GetActivator = Reader.Activators[GetHashKey];
 
+                string AutoKey = KeyGenerator.GenKey(GetActivator.FormKey, GetActivator.EditorID);
+
                 var GetName = ConvertHelper.ObjToStr(GetActivator.Name);
                 SetType = "Name" + GetActivator;
-                GetTransStr = GetTransData(GetActivator.EditorID, SetType);
+                GetTransStr = GetTransData(AutoKey, SetType);
                 if (GetTransStr.Length > 0)
                 {
                     DSDItem NDSDItem = new DSDItem();
@@ -531,7 +562,7 @@ namespace SSELex.SkyrimManagement
                 if (GetActivateTextOverride.Trim().Length > 0)
                 {
                     SetType = "ActivateTextOverride";
-                    GetTransStr = GetTransData(GetActivator.EditorID, SetType);
+                    GetTransStr = GetTransData(AutoKey, SetType);
                     if (GetTransStr.Length > 0)
                     {
                         DSDItem NDSDItem = new DSDItem();
@@ -558,9 +589,11 @@ namespace SSELex.SkyrimManagement
                 var GetHashKey = Reader.MiscItems.ElementAt(i).Key;
                 var GetMiscItem = Reader.MiscItems[GetHashKey];
 
+                string AutoKey = KeyGenerator.GenKey(GetMiscItem.FormKey, GetMiscItem.EditorID);
+
                 var GetName = ConvertHelper.ObjToStr(GetMiscItem.Name);
                 SetType = "Name";
-                GetTransStr = GetTransData(GetMiscItem.EditorID, SetType);
+                GetTransStr = GetTransData(AutoKey, SetType);
                 if (GetTransStr.Length > 0)
                 {
                     DSDItem NDSDItem = new DSDItem();
@@ -586,9 +619,11 @@ namespace SSELex.SkyrimManagement
                 var GetHashKey = Reader.Books.ElementAt(i).Key;
                 var Books = Reader.Books[GetHashKey];
 
+                string AutoKey = KeyGenerator.GenKey(Books.FormKey, Books.EditorID);
+
                 var GetName = ConvertHelper.ObjToStr(Books.Name);
                 SetType = "Name";
-                GetTransStr = GetTransData(Books.EditorID, SetType);
+                GetTransStr = GetTransData(AutoKey, SetType);
                 if (GetTransStr.Length > 0)
                 {
                     DSDItem NDSDItem = new DSDItem();
@@ -602,7 +637,7 @@ namespace SSELex.SkyrimManagement
 
                 var GetDescription = ConvertHelper.ObjToStr(Books.Description);
                 SetType = "Description";
-                GetTransStr = GetTransData(Books.EditorID, SetType);
+                GetTransStr = GetTransData(AutoKey, SetType);
                 if (GetTransStr.Length > 0)
                 {
                     DSDItem NDSDItem = new DSDItem();
@@ -616,7 +651,7 @@ namespace SSELex.SkyrimManagement
 
                 var GetBookText = ConvertHelper.ObjToStr(Books.BookText);
                 SetType = "BookText";
-                GetTransStr = GetTransData(Books.EditorID, SetType);
+                GetTransStr = GetTransData(AutoKey, SetType);
                 if (GetTransStr.Length > 0)
                 {
                     DSDItem NDSDItem = new DSDItem();
@@ -642,9 +677,11 @@ namespace SSELex.SkyrimManagement
                 var GetHashKey = Reader.Messages.ElementAt(i).Key;
                 var GetMessageItem = Reader.Messages[GetHashKey];
 
+                string AutoKey = KeyGenerator.GenKey(GetMessageItem.FormKey, GetMessageItem.EditorID);
+
                 var GetName = ConvertHelper.ObjToStr(GetMessageItem.Name);
                 SetType = "Name";
-                GetTransStr = GetTransData(GetMessageItem.EditorID, SetType);
+                GetTransStr = GetTransData(AutoKey, SetType);
                 if (GetTransStr.Length > 0)
                 {
                     DSDItem NDSDItem = new DSDItem();
@@ -658,7 +695,7 @@ namespace SSELex.SkyrimManagement
 
                 var GetDescription = ConvertHelper.ObjToStr(GetMessageItem.Description);
                 SetType = "Description";
-                GetTransStr = GetTransData(GetMessageItem.EditorID, SetType);
+                GetTransStr = GetTransData(AutoKey, SetType);
                 if (GetTransStr.Length > 0)
                 {
                     DSDItem NDSDItem = new DSDItem();
@@ -684,6 +721,8 @@ namespace SSELex.SkyrimManagement
                 var GetHashKey = Reader.Messages.ElementAt(i).Key;
                 var GetMessageItem = Reader.Messages[GetHashKey];
 
+                string AutoKey = KeyGenerator.GenKey(GetMessageItem.FormKey, GetMessageItem.EditorID);
+
                 if (GetMessageItem.MenuButtons != null)
                 {
                     if (GetMessageItem.MenuButtons.Count > 0)
@@ -692,7 +731,7 @@ namespace SSELex.SkyrimManagement
                         {
                             var GetButton = ConvertHelper.ObjToStr(GetMessageItem.MenuButtons[ir].Text);
                             SetType = string.Format("Button[{0}]", ir);
-                            GetTransStr = GetTransData(GetMessageItem.EditorID, SetType);
+                            GetTransStr = GetTransData(AutoKey, SetType);
                             if (GetTransStr.Length > 0)
                             {
                                 //??????????????????????????
@@ -723,11 +762,13 @@ namespace SSELex.SkyrimManagement
                 var GetHashKey = Reader.DialogTopics.ElementAt(i).Key;
                 var GetDialogTopicItem = Reader.DialogTopics[GetHashKey];
 
+                string AutoKey = KeyGenerator.GenKey(GetDialogTopicItem.FormKey, GetDialogTopicItem.EditorID);
+
                 var GetName = ConvertHelper.ObjToStr(GetDialogTopicItem.Name);
                 if (GetName.Length > 0)
                 {
                     SetType = "Name";
-                    GetTransStr = GetTransData(GetDialogTopicItem.EditorID, SetType);
+                    GetTransStr = GetTransData(AutoKey, SetType);
                     if (GetTransStr.Length > 0)
                     {
                         DSDItem NDSDItem = new DSDItem();
@@ -752,7 +793,7 @@ namespace SSELex.SkyrimManagement
 
                                 string GetValue = ConvertHelper.ObjToStr(GetDialogTopicItem.Responses[ii].Responses[iii].Text);
                                 SetType = string.Format("Response[{0}]", ForCount);
-                                GetTransStr = GetTransData(GetDialogTopicItem.EditorID, SetType);
+                                GetTransStr = GetTransData(AutoKey, SetType);
                                 if (GetTransStr.Length > 0)
                                 {
                                     //??????? DIAL INFO NAM1 or INFO NAM1...
@@ -782,9 +823,11 @@ namespace SSELex.SkyrimManagement
                 var GetHashKey = Reader.Spells.ElementAt(i).Key;
                 var GetSpellItem = Reader.Spells[GetHashKey];
 
+                string AutoKey = KeyGenerator.GenKey(GetSpellItem.FormKey, GetSpellItem.EditorID);
+
                 var GetName = ConvertHelper.ObjToStr(GetSpellItem.Name);
                 SetType = "Name";
-                GetTransStr = GetTransData(GetSpellItem.EditorID, SetType);
+                GetTransStr = GetTransData(AutoKey, SetType);
                 if (GetTransStr.Length > 0)
                 {
                     DSDItem NDSDItem = new DSDItem();
@@ -811,9 +854,11 @@ namespace SSELex.SkyrimManagement
                 var GetHashKey = Reader.ObjectEffects.ElementAt(i).Key;
                 var GetObjectEffect = Reader.ObjectEffects[GetHashKey];
 
+                string AutoKey = KeyGenerator.GenKey(GetObjectEffect.FormKey, GetObjectEffect.EditorID);
+
                 var GetName = ConvertHelper.ObjToStr(GetObjectEffect.Name);
                 SetType = "Name";
-                GetTransStr = GetTransData(GetObjectEffect.EditorID, SetType);
+                GetTransStr = GetTransData(AutoKey, SetType);
                 if (GetTransStr.Length > 0)
                 {
                     //??????????????? Not Found ENCH
@@ -840,9 +885,11 @@ namespace SSELex.SkyrimManagement
                 var GetHashKey = Reader.MagicEffects.ElementAt(i).Key;
                 var GetMagicEffect = Reader.MagicEffects[GetHashKey];
 
+                string AutoKey = KeyGenerator.GenKey(GetMagicEffect.FormKey, GetMagicEffect.EditorID);
+
                 var GetName = ConvertHelper.ObjToStr(GetMagicEffect.Name);
                 SetType = "Name";
-                GetTransStr = GetTransData(GetMagicEffect.EditorID, SetType);
+                GetTransStr = GetTransData(AutoKey, SetType);
                 if (GetTransStr.Length > 0)
                 {
                     DSDItem NDSDItem = new DSDItem();
@@ -856,7 +903,7 @@ namespace SSELex.SkyrimManagement
 
                 var GetDescription = ConvertHelper.ObjToStr(GetMagicEffect.Description);
                 SetType = "Description";
-                GetTransStr = GetTransData(GetMagicEffect.EditorID, SetType);
+                GetTransStr = GetTransData(AutoKey, SetType);
                 if (GetTransStr.Length > 0)
                 {
                     DSDItem NDSDItem = new DSDItem();
@@ -880,6 +927,7 @@ namespace SSELex.SkyrimManagement
 
                 var GetHashKey = Reader.Cells.ElementAt(i).Key;
                 var GetCell = Reader.Cells[GetHashKey];
+
                 int ForID = 0;
 
                 if (GetCell.SubBlocks != null)
@@ -889,10 +937,12 @@ namespace SSELex.SkyrimManagement
                         if (GetCell.SubBlocks[ii].Cells != null)
                             for (int iii = 0; iii < GetCell.SubBlocks[ii].Cells.Count; iii++)
                             {
+                                string AutoKey = KeyGenerator.GenKey(GetCell.SubBlocks[ii].Cells[iii].FormKey, GetCell.SubBlocks[ii].Cells[iii].EditorID);
+
                                 ForID++;
                                 var GetName = ConvertHelper.ObjToStr(GetCell.SubBlocks[ii].Cells[iii].Name);
                                 string SetType = string.Format("Cell[{0}]", ForID);
-                                GetTransStr = GetTransData(GetCell.SubBlocks[ii].Cells[iii].EditorID, SetType);
+                                GetTransStr = GetTransData(AutoKey, SetType);
                                 if (GetTransStr.Length > 0)
                                 {
                                     DSDItem NDSDItem = new DSDItem();

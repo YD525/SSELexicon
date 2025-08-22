@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel;
 using System.IO;
 using System.Security.Cryptography;
+using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,6 +24,7 @@ using PhoenixEngine.TranslateManage;
 using PhoenixEngine.TranslateManagement;
 using SSELex.FileManagement;
 using SSELex.SkyrimManage;
+using SSELex.SkyrimManagement;
 using SSELex.SkyrimModManager;
 using SSELex.TranslateManage;
 using SSELex.UIManage;
@@ -1060,33 +1063,7 @@ namespace SSELex
 
                     Thread.Sleep(100);
 
-                    if (TransViewList != null)
-                    {
-                        for (int i = 0; i < TransViewList.Rows; i++)
-                        {
-                            bool IsCloud = false;
-
-                            TransViewList.RealLines[i].SyncData(ref IsCloud);
-
-                            string GetKey = TransViewList.RealLines[i].Key;
-
-                            string GetTransText = TransViewList.RealLines[i].TransText;
-
-                            if (string.IsNullOrEmpty(GetTransText))
-                            {
-                                GetTransText = TransViewList.RealLines[i].SourceText;
-                            }
-
-                            if (Translator.TransData.ContainsKey(GetKey))
-                            {
-                                Translator.TransData[GetKey] = GetTransText;
-                            }
-                            else
-                            {
-                                Translator.TransData.Add(GetKey, GetTransText);
-                            }
-                        }
-                    }
+                    UPDateFile();
 
                     LoadSaveState = 0;
 
@@ -2626,6 +2603,79 @@ namespace SSELex
             TranslateCurrent();
         }
 
+        public void UPDateFile()
+        {
+            if (TransViewList != null)
+            {
+                for (int i = 0; i < TransViewList.Rows; i++)
+                {
+                    bool IsCloud = false;
+
+                    TransViewList.RealLines[i].SyncData(ref IsCloud);
+
+                    string GetKey = TransViewList.RealLines[i].Key;
+
+                    string GetTransText = TransViewList.RealLines[i].TransText;
+
+                    if (string.IsNullOrEmpty(GetTransText))
+                    {
+                        GetTransText = TransViewList.RealLines[i].SourceText;
+                    }
+
+                    if (Translator.TransData.ContainsKey(GetKey))
+                    {
+                        Translator.TransData[GetKey] = GetTransText;
+                    }
+                    else
+                    {
+                        Translator.TransData.Add(GetKey, GetTransText);
+                    }
+                }
+            }
+        }
+
+        private void ExportToDsd_Click(object sender, RoutedEventArgs e)
+        {
+            if (TransViewList != null)
+            {
+                if (CurrentTransType == 2 && TransViewList.Rows > 0)
+                {
+                    if (GlobalEspReader != null)
+                    {
+                        var GetWritePath = DataHelper.ShowSaveFileDialog(LModName + ".json", "DSD (*.json)|*.json");
+
+                        UPDateFile();
+
+                        var JsonOptions = new JsonSerializerOptions
+                        {
+                            WriteIndented = true,
+                            Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+                        };
+
+                        var GetData = SkyrimDataDSDConvert.EspExportAllByDSD(GlobalEspReader);
+                        string GetJson = JsonSerializer.Serialize(GetData, JsonOptions);
+
+                        if (GetWritePath != null)
+                        {
+                            if (GetWritePath.Trim().Length > 0)
+                            {
+                                if (File.Exists(GetWritePath))
+                                {
+                                    File.Delete(GetWritePath);
+                                }
+                                DataHelper.WriteFile(GetWritePath, Encoding.UTF8.GetBytes(GetJson));
+                            }
+                        }
+                    }
+                   
+                }
+                else
+                {
+                    MessageBoxExtend.Show(this, "The current file does not support exporting to DSD format.");
+                }
+            }
+        }
+
         #region Setting
 
         public void SelectFristSettingNav()
@@ -3248,6 +3298,19 @@ namespace SSELex
             CurrentModel.SetValues[5] = DeFine.GlobalLocalSetting.LocalAITokenUsage;
         }
 
+        private void ReSetToken_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            DeFine.GlobalLocalSetting.ChatGPTTokenUsage = 0;
+            DeFine.GlobalLocalSetting.GeminiTokenUsage = 0;
+            DeFine.GlobalLocalSetting.CohereTokenUsage = 0;
+            DeFine.GlobalLocalSetting.DeepSeekTokenUsage = 0;
+            DeFine.GlobalLocalSetting.BaichuanTokenUsage = 0;
+            DeFine.GlobalLocalSetting.LocalAITokenUsage = 0;
+
+            UPDateChart();
+
+            DeFine.GlobalLocalSetting.SaveConfig();
+        }
 
         #endregion
     }

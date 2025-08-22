@@ -20,25 +20,22 @@ namespace SSELex.SkyrimManage
     {
         public string Key { get; set; } = "";
         public string OriginalText { get; set; } = "";
-        public string TransText { get; set; } = "";
 
         public YDDictionary()
         { 
         
         }
 
-        public YDDictionary(string Key, string OriginalText, string TransText)
+        public YDDictionary(string Key, string OriginalText)
         { 
            this.Key = Key;
            this.OriginalText = OriginalText;
-           this.TransText = TransText;
         }
 
         public YDDictionary(YDDictionary Item)
         {
             this.Key = Item.Key;
             this.OriginalText = Item.OriginalText;
-            this.TransText = Item.TransText;
         }
     }
     public class YDDictionaryHelper
@@ -115,16 +112,16 @@ namespace SSELex.SkyrimManage
             return null;
         }
 
-        public static int UPDateTransText(string Key,string OriginalText, string TransText)
+        public static int UPDateTransText(string Key,string OriginalText)
         {   
             if (Dictionarys.ContainsKey(Key))
             {
-                Dictionarys[Key].TransText = TransText;
+                Dictionarys[Key].OriginalText = OriginalText;
                 return 1;
             }
             else
             {
-                Dictionarys.Add(Key,new YDDictionary(Key,OriginalText,TransText));
+                Dictionarys.Add(Key,new YDDictionary(Key,OriginalText));
                 return 2;
             }
         }
