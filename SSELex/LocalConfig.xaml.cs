@@ -8,7 +8,9 @@ using PhoenixEngine.TranslateCore;
 using PhoenixEngine.TranslateManage;
 using PhoenixEngine.TranslateManagement;
 using SSELex.ConvertManager;
+using SSELex.TranslateManage;
 using SSELex.UIManage;
+using static PhoenixEngine.EngineManagement.DataTransmission;
 using static SSELex.UIManage.SkyrimDataLoader;
 
 namespace SSELex
@@ -131,7 +133,30 @@ namespace SSELex
         #endregion
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            TranslatorExtend.RegListener("KeyWordsListen",new List<int>() {2},new Action<int,object>((Sign,Any) => 
+            {
+                if (Any is PreTranslateCall)
+                {
+                    PreTranslateCall GetPreCall = (PreTranslateCall)Any;
+                    if (GetPreCall.Key.Equals("TestLocalKey255"))
+                    {
+                        this.Dispatcher.Invoke(new Action(() => {
+                            MatchedKeywords.Items.Clear();
+                        }));
 
+                        foreach (var GetKey in GetPreCall.ReplaceTags)
+                        {
+                            this.Dispatcher.Invoke(new Action(() => {
+                                MatchedKeywords.Items.Add(GetKey.Key+"->"+GetKey.Value);
+                            }));
+                        }
+
+                        this.Dispatcher.Invoke(new Action(() => {
+                            Output.Text = GetPreCall.ReceiveString;
+                        }));
+                    }
+                }
+            }));
         }
 
         public void Init()
@@ -287,35 +312,6 @@ namespace SSELex
             catch { }
         }
 
-        public void SetKeyWords(List<ReplaceTag> KeyWords)
-        {
-            try
-            {
-                List<ReplaceTag> CopyKeyWords = new List<ReplaceTag>();
-                CopyKeyWords.AddRange(KeyWords);
-                this.Dispatcher.Invoke(new Action(() =>
-                {
-                    if (this.Visibility == Visibility.Visible)
-                    {
-                        MatchedKeywords.Items.Clear();
-                        foreach (var Get in CopyKeyWords)
-                        {
-                            if (Get.Key.StartsWith("__(") && Get.Key.EndsWith(")__"))
-                            {
-                                string Source = AdvancedDictionary.GetSourceByRowid(Get.Rowid);
-                                MatchedKeywords.Items.Add(Get.Rowid + "," + Source);
-                            }
-                            else
-                            {
-                                MatchedKeywords.Items.Add(Get.Rowid + "," + Get.Key);
-                            }
-                        }
-                    }
-                }));
-            }
-            catch { }
-        }
-
         private void AddKeyWord(object sender, MouseButtonEventArgs e)
         {
             string FromStr = ConvertHelper.ObjToStr(From.SelectedValue);
@@ -430,7 +426,7 @@ namespace SSELex
 
                     string GetFromStr = FromStr.Text;
 
-                    TranslationUnit NewUnit = new TranslationUnit("Test", DeFine.WorkingWin.TransViewList.GetSelectedKey(), GetType, GetFromStr,"","", FilterFrom, FilterTo,100);
+                    TranslationUnit NewUnit = new TranslationUnit("Test", "TestLocalKey255", GetType, GetFromStr,"","", FilterFrom, FilterTo,100);
 
                     new Thread(() =>
                     {

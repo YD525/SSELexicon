@@ -368,27 +368,30 @@ namespace SSELex
 
         public void ShowLeftMenu(bool Show)
         {
-            this.Dispatcher.Invoke(new Action(() =>
+            if (DeFine.WorkingWin != null)
             {
-                if (Show)
+                DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
                 {
-                    UIHelper.LeftMenuIsShow = true;
-                    Mask.Visibility = Visibility.Visible;
-                    Storyboard Storyboard = (Storyboard)this.Resources["ExpandMenu"];
-                    Storyboard.Begin();
+                    if (Show)
+                    {
+                        UIHelper.LeftMenuIsShow = true;
+                        Mask.Visibility = Visibility.Visible;
+                        Storyboard Storyboard = (Storyboard)this.Resources["ExpandMenu"];
+                        Storyboard.Begin();
 
-                    IsExpanded = true;
-                }
-                else
-                {
-                    UIHelper.LeftMenuIsShow = false;
-                    Mask.Visibility = Visibility.Collapsed;
-                    Storyboard Storyboard = (Storyboard)this.Resources["CollapseMenu"];
-                    Storyboard.Begin();
+                        IsExpanded = true;
+                    }
+                    else
+                    {
+                        UIHelper.LeftMenuIsShow = false;
+                        Mask.Visibility = Visibility.Collapsed;
+                        Storyboard Storyboard = (Storyboard)this.Resources["CollapseMenu"];
+                        Storyboard.Begin();
 
-                    IsExpanded = false;
-                }
-            }));
+                        IsExpanded = false;
+                    }
+                }));
+            }
         }
 
         private bool IsExpanded = false;
