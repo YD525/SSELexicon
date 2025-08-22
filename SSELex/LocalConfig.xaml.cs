@@ -430,7 +430,7 @@ namespace SSELex
 
                     string GetFromStr = FromStr.Text;
 
-                    TranslationUnit NewUnit = new TranslationUnit("Test", DeFine.WorkingWin.TransViewList.GetSelectedKey(), GetType, GetFromStr,"","", FilterFrom, FilterTo);
+                    TranslationUnit NewUnit = new TranslationUnit("Test", DeFine.WorkingWin.TransViewList.GetSelectedKey(), GetType, GetFromStr,"","", FilterFrom, FilterTo,100);
 
                     new Thread(() =>
                     {

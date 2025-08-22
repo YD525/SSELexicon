@@ -1673,6 +1673,21 @@ namespace SSELex
 
                     if (GridHandle != null)
                     {
+                        if (GridHandle.Score < 0)
+                        {
+                            LastSetKey = string.Empty;
+                            return;
+                        }
+
+                        if (GridHandle.Score < 5)
+                        {
+                            ToStr.Foreground = new SolidColorBrush(Colors.Red);
+                        }
+                        else
+                        {
+                            ToStr.Foreground = new SolidColorBrush(Colors.White);
+                        }
+
                         bool IsCloud = false;
                         GridHandle.SyncData(ref IsCloud);
 
@@ -2574,7 +2589,7 @@ namespace SSELex
                             bool IsCloud = false;
                             QueryGrid.SyncData(ref IsCloud);
 
-                            TranslationUnit NewUnit = new TranslationUnit(Engine.GetModName(), QueryGrid.Key, QueryGrid.Type, QueryGrid.SourceText, QueryGrid.TransText, "", Engine.From, Engine.To);
+                            TranslationUnit NewUnit = new TranslationUnit(Engine.GetModName(), QueryGrid.Key, QueryGrid.Type, QueryGrid.SourceText, QueryGrid.TransText, "", Engine.From, Engine.To,100);
 
                             bool CanSleep = false;
 

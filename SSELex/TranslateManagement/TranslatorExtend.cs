@@ -323,42 +323,33 @@ namespace SSELex.TranslateManage
                             {
                                 bool CanSet = true;
 
-                                if (Row.Key.EndsWith("(BookText)") && DeFine.WorkingWin.CurrentTransType == 2)
+                                if (Row.Type.Equals("Book"))
+                                {
+                                    if (Row.Key.EndsWith("(BookText)"))
+                                    {
+                                        if (DelegateHelper.SetDataCall != null)
+                                        {
+                                            DelegateHelper.SetDataCall(0, "Skip Book fields:" + Row.Key);
+                                        }
+
+                                        CanSet = false;
+                                    }
+                                }
+                                else
+                                if (Row.Score < 5)
                                 {
                                     if (DelegateHelper.SetDataCall != null)
                                     {
-                                        DelegateHelper.SetDataCall(0, "Skip Book fields:" + Row.Key);
+                                        DelegateHelper.SetDataCall(0, "Skip Dangerous fields:" + Row.Key);
                                     }
 
                                     CanSet = false;
-                                }
-                                else
-                                if (Row.Key.Contains("Score:") && Row.Key.Contains(",") && DeFine.WorkingWin.CurrentTransType == 3)
-                                {
-                                    string[] Params = Row.Key.Split(',');
-                                    if (Params.Length > 1)
-                                    {
-                                        if (Params[Params.Length - 1].Contains("Score:"))
-                                        {
-                                            double GetScore = ConvertHelper.ObjToDouble(Params[Params.Length - 1].Substring(Params[Params.Length - 1].IndexOf("Score:") + "Score:".Length));
-
-                                            if (GetScore < 5)
-                                            {
-                                                if (DelegateHelper.SetDataCall != null)
-                                                {
-                                                    DelegateHelper.SetDataCall(0, "Skip Dangerous fields:" + Row.Key);
-                                                }
-
-                                                CanSet = false;
-                                            }
-                                        }
-                                    }
                                 }
 
                                 if (CanSet)
                                 {
                                     TranslationUnits.Add(new TranslationUnit(Engine.GetModName(),
-                                  Row.Key, Row.Type, Row.SourceText, Row.TransText, "", Engine.From, Engine.To));
+                                  Row.Key, Row.Type, Row.SourceText, Row.TransText, "", Engine.From, Engine.To,Row.Score));
                                 }
                             }
                         }
