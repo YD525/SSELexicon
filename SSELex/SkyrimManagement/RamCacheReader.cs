@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using SSELex.SkyrimModManager;
+using static PhoenixEngine.SSELexiconBridge.NativeBridge;
 
 namespace SSELex.SkyrimManagement
 {
@@ -18,6 +19,14 @@ namespace SSELex.SkyrimManagement
             {
                 string GetRamCache = Encoding.UTF8.GetString(DataHelper.ReadFile(FilePath));
                 this.RamLines = JsonSerializer.Deserialize<List<FakeGrid>>(GetRamCache);
+
+                if (RamLines != null)
+                {
+                    foreach (var Get in RamLines)
+                    {
+                        TranslatorBridge.SetTransCache(Get.Key, Get.TransText);
+                    }
+                }
             }
         }
         public void Close()
@@ -25,36 +34,45 @@ namespace SSELex.SkyrimManagement
             RamLines?.Clear();
         }
 
-        public void Save(string OutPutPath)
+        public bool Save(string OutPutPath)
         {
-            if (RamLines != null)
+            try
             {
-                for (int i = 0; i < RamLines.Count; i++)
+                if (RamLines != null)
                 {
-                    bool IsCloud = false;
-                    RamLines[i].SyncData(ref IsCloud);
-                }
-
-
-                var JsonOptions = new JsonSerializerOptions
-                {
-                    WriteIndented = true,
-                    Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-                };
-
-                string GetJson = JsonSerializer.Serialize(RamLines, JsonOptions);
-
-                if (OutPutPath != null)
-                {
-                    if (OutPutPath.Trim().Length > 0)
+                    for (int i = 0; i < RamLines.Count; i++)
                     {
-                        if (File.Exists(OutPutPath))
+                        bool IsCloud = false;
+                        RamLines[i].SyncData(ref IsCloud);
+                    }
+
+
+                    var JsonOptions = new JsonSerializerOptions
+                    {
+                        WriteIndented = true,
+                        Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+                    };
+
+                    string GetJson = JsonSerializer.Serialize(RamLines, JsonOptions);
+
+                    if (OutPutPath != null)
+                    {
+                        if (OutPutPath.Trim().Length > 0)
                         {
-                            File.Delete(OutPutPath);
+                            if (File.Exists(OutPutPath))
+                            {
+                                File.Delete(OutPutPath);
+                            }
+                            DataHelper.WriteFile(OutPutPath, Encoding.UTF8.GetBytes(GetJson));
                         }
-                        DataHelper.WriteFile(OutPutPath, Encoding.UTF8.GetBytes(GetJson));
                     }
                 }
+
+                return true;
+            }
+            catch 
+            {
+                return false;
             }
         }
     }

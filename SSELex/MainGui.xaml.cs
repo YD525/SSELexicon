@@ -133,6 +133,7 @@ namespace SSELex
 
             ReloadLanguageMode();
 
+            GlobalRamCacheReader = new RamCacheReader();
             GlobalEspReader = new EspReader();
             GlobalMCMReader = new MCMReader();
             GlobalPexReader = new PexReader();
@@ -683,7 +684,7 @@ namespace SSELex
                         SkyrimDataLoader.Load(CurrentSelect, GlobalEspReader, TransViewList);
                     }
                     else
-                   if (CurrentTransType == 1)
+                    if (CurrentTransType == 1)
                     {
                         foreach (var GetItem in GlobalMCMReader.MCMItems)
                         {
@@ -693,6 +694,7 @@ namespace SSELex
                             }));
                         }
                     }
+                    else
                     if (CurrentTransType == 3)
                     {
                         foreach (var GetItem in GlobalPexReader.Strings)
@@ -700,6 +702,17 @@ namespace SSELex
                             this.Dispatcher.Invoke(new Action(() =>
                             {
                                 TransViewList.AddRowR(LineRenderer.CreatLine(GetItem.Type, GetItem.EditorID, GetItem.Key, GetItem.SourceText, GetItem.GetTextIfTransR(), GetItem.TranslationSafetyScore));
+                            }));
+                        }
+                    }
+                    else
+                    if (CurrentTransType == 6)
+                    {
+                        foreach (var GetItem in GlobalRamCacheReader.RamLines)
+                        {
+                            this.Dispatcher.Invoke(new Action(() =>
+                            {
+                                TransViewList.AddRowR(LineRenderer.CreatLine(GetItem.Type, "", GetItem.Key, GetItem.SourceText, GetItem.TransText, GetItem.Score));
                             }));
                         }
                     }
@@ -841,13 +854,38 @@ namespace SSELex
 
                 YDDictionaryHelper.ReadDictionary(GetModName);
 
-                if (FilePath.ToLower().EndsWith(".txt"))
+                if (FilePath.ToLower().EndsWith(".json"))
                 {
+                    SetTittle(FModName);
+                    CurrentTransType = 6;
+
                     GlobalRamCacheReader.Close();
                     GlobalEspReader.Close();
                     GlobalMCMReader.Close();
                     GlobalPexReader.Close();
 
+                    LastSetPath = FilePath;
+
+                    this.Dispatcher.Invoke(new Action(() =>
+                    {
+                        TransViewList.Clear();
+                    }));
+
+                    CanSetSelecter.Clear();
+
+                    GlobalRamCacheReader.Load(LastSetPath);
+
+                    this.Dispatcher.Invoke(new Action(() =>
+                    {
+                        CancelBtn.Opacity = 1;
+                        CancelBtn.IsEnabled = true;
+                        LoadSaveState = 1;
+                    }));
+
+                    ReSetTransTargetType();
+                    ReloadData();
+
+                    IsValidFile = true;
                 }
                 if (FilePath.ToLower().EndsWith(".pex"))
                 {
@@ -946,6 +984,7 @@ namespace SSELex
                     }));
 
                     ReSetTransTargetType();
+                    //ReloadData();
 
                     IsValidFile = true;
                 }
@@ -1076,7 +1115,14 @@ namespace SSELex
 
                     Thread.Sleep(100);
 
-                    UPDateFile();
+                    if (CurrentTransType == 6)
+                    {
+                        UPDateFile(false);
+                    }
+                    else
+                    {
+                        UPDateFile(true);
+                    }
 
                     LoadSaveState = 0;
 
@@ -1091,6 +1137,17 @@ namespace SSELex
                     string GetFileSuffix = GetFileFullName.Split('.')[1];
                     string GetFileName = GetFileFullName.Split('.')[0];
 
+                    if (CurrentTransType == 6)
+                    {
+                        if (Translator.TransData.Count > 0)
+                            if (GlobalRamCacheReader != null)
+                            {
+                                if (!GlobalRamCacheReader.Save(LastSetPath))
+                                {
+                                    MessageBox.Show("Build RamCache Error!");
+                                }
+                            }
+                    }
                     if (CurrentTransType == 3)
                     {
                         if (Translator.TransData.Count > 0)
@@ -2616,7 +2673,7 @@ namespace SSELex
             TranslateCurrent();
         }
 
-        public void UPDateFile()
+        public void UPDateFile(bool CanSetSource)
         {
             if (TransViewList != null)
             {
@@ -2630,9 +2687,12 @@ namespace SSELex
 
                     string GetTransText = TransViewList.RealLines[i].TransText;
 
-                    if (string.IsNullOrEmpty(GetTransText))
+                    if (CanSetSource)
                     {
-                        GetTransText = TransViewList.RealLines[i].SourceText;
+                        if (string.IsNullOrEmpty(GetTransText))
+                        {
+                            GetTransText = TransViewList.RealLines[i].SourceText;
+                        }
                     }
 
                     if (Translator.TransData.ContainsKey(GetKey))
@@ -2660,24 +2720,34 @@ namespace SSELex
 
                 if (File.Exists(SelectedFile))
                 {
-                    string GetRamCache = Encoding.UTF8.GetString(DataHelper.ReadFile(SelectedFile));
-                    List<FakeGrid>? RealLines = JsonSerializer.Deserialize<List<FakeGrid>>(GetRamCache);
-
-                    if (RealLines != null)
+                    if (TransViewList != null)
                     {
-                        for (int i = 0; i < RealLines.Count; i++)
+                        if (TransViewList.Rows > 0)
                         {
-                            TranslatorBridge.SetTransCache(RealLines[i].Key, RealLines[i].TransText);
-                        }
+                            string GetRamCache = Encoding.UTF8.GetString(DataHelper.ReadFile(SelectedFile));
+                            List<FakeGrid>? RealLines = JsonSerializer.Deserialize<List<FakeGrid>>(GetRamCache);
 
-                        if (TransViewList != null)
-                        {
-                            for (int i = 0; i < TransViewList.Rows; i++)
+                            if (RealLines != null)
                             {
-                                bool IsCloud = false;
-                                TransViewList.RealLines[i].SyncData(ref IsCloud);
-                                TransViewList.RealLines[i].SyncUI(TransViewList);
+                                for (int i = 0; i < RealLines.Count; i++)
+                                {
+                                    if (RealLines[i].SourceText != RealLines[i].TransText)
+                                    {
+                                        TranslatorBridge.SetTransCache(RealLines[i].Key, RealLines[i].TransText);
+                                    }
+                                }
+
+                                for (int i = 0; i < TransViewList.Rows; i++)
+                                {
+                                    bool IsCloud = false;
+                                    TransViewList.RealLines[i].SyncData(ref IsCloud);
+                                    TransViewList.RealLines[i].SyncUI(TransViewList);
+                                }
                             }
+                        }
+                        else
+                        {
+                            LoadAny(SelectedFile);
                         }
                     }
                 }
@@ -2690,9 +2760,9 @@ namespace SSELex
             {
                 if (TransViewList.Rows > 0)
                 {
-                    var GetWritePath = DataHelper.ShowSaveFileDialog(LModName + ".txt", "RamCache (*.txt)|*.txt");
+                    var GetWritePath = DataHelper.ShowSaveFileDialog(LModName + ".Json", "RamCache (*.Json)|*.Json");
 
-                    UPDateFile();
+                    UPDateFile(false);
 
                     var JsonOptions = new JsonSerializerOptions
                     {
@@ -2726,7 +2796,7 @@ namespace SSELex
                     {
                         var GetWritePath = DataHelper.ShowSaveFileDialog(LModName + ".json", "DSD (*.json)|*.json");
 
-                        UPDateFile();
+                        UPDateFile(false);
 
                         var JsonOptions = new JsonSerializerOptions
                         {
