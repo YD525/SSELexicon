@@ -1328,6 +1328,14 @@ namespace SSELex
             }
         }
 
+        public void CanEditTransView(bool Check)
+        {
+            this.Dispatcher.Invoke(new Action(() =>
+            {
+                TransView.IsHitTestVisible = Check;
+            }));
+        }
+
         public Thread? ClearCacheTrd = null;
 
         private void ClearCache_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -1347,10 +1355,6 @@ namespace SSELex
                             {
                                 try
                                 {
-                                    this.Dispatcher.Invoke(new Action(() =>
-                                    {
-                                        TransView.IsHitTestVisible = false;
-                                    }));
                                     ClearCacheFont.Dispatcher.Invoke(new Action(() =>
                                     {
                                         ClearCacheFont.Content = "Cleaning..";
@@ -1374,21 +1378,29 @@ namespace SSELex
                                             Engine.Vacuum();
                                             CallFuncCount++;
                                         }
+
+                                        ToStr.Dispatcher.Invoke(new Action(() => {
+                                            ToStr.Text = "";
+                                        }));
                                     }
 
                                     if (CallFuncCount > 0)
                                     {
                                         Engine.GetTranslatedCount(Engine.GetModName());
-                                        TranslatorExtend.ReSetAllTransText();
 
-                                        this.Dispatcher.Invoke(new Action(() =>
+                                        if (DeFine.WorkingWin.TransViewList != null)
                                         {
-                                            TransView.IsHitTestVisible = true;
-                                        }));
+                                            DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
+                                            {
+                                                DeFine.WorkingWin.TransViewList.QuickRefresh();
+                                            }));
+                                        }
                                     }
-
                                 }
-                                catch { }
+                                catch 
+                                {
+                                   
+                                }
 
                                 ClearCacheFont.Dispatcher.Invoke(new Action(() =>
                                 {
@@ -1436,16 +1448,7 @@ namespace SSELex
 
                     if (TransViewList != null)
                     {
-                        for (int i = 0; i < TransViewList.Rows; i++)
-                        {
-                            bool IsCloud = false;
-                            TransViewList.RealLines[i].SyncData(ref IsCloud);
-
-                            this.Dispatcher.Invoke(new Action(() =>
-                            {
-                                TransViewList.RealLines[i].SyncUI(TransViewList);
-                            }));
-                        }
+                        TransViewList.QuickRefresh();
                     }
 
                     MessageBoxExtend.Show(this, "Original source text has been refreshed from the current file.");
@@ -1639,18 +1642,29 @@ namespace SSELex
             LastSetKey = string.Empty;
         }
 
+        private string? LastSavedText = null;
         public void AutoApplyStr()
         {
             if (DeFine.GlobalLocalSetting.ViewMode == "Normal")
             {
-                if (DeFine.GlobalLocalSetting.AutoApply && CanAutoApply)
+                if (DeFine.GlobalLocalSetting.AutoApply)
                 {
                     if (LastSetKey.Trim().Length > 0)
                     {
-                        ApplyTranslatedText();
-                    }
+                        string CurrentText = ToStr.Text;
 
-                    CanAutoApply = false;
+                        if (LastSavedText != null)
+                        {
+                            if (CurrentText == LastSavedText)
+                            {
+                                return;
+                            }
+                        }
+
+                        ApplyTranslatedText();
+
+                        CurrentText = ToStr.Text;
+                    }
                 }
             }
         }
@@ -1664,6 +1678,11 @@ namespace SSELex
             }));
 
             EmptyFromAndToText();
+
+            if (LastSetKey != Key)
+            {
+                LastSavedText = null;
+            }
 
             LastSetKey = Key;
 
@@ -2009,11 +2028,26 @@ namespace SSELex
 
                     if (GetGrid != null)
                     {
+                        bool RefCloud = false;
+                        GetGrid.SyncData(ref RefCloud);
+
+                        if (GetGrid.TransText.Length > 0)
+                        {
+                            TranslatorExtend.SetTranslatorHistoryCache(GetGrid.Key, GetGrid.TransText, false);
+                        }
+
                         GetGrid.TransText = ToStr.Text;
 
                         try
                         {
-                            TranslatorBridge.SetTransData(GetGrid.Key, GetGrid.SourceText, GetGrid.TransText);
+                            if (CloudTransStr.Equals(GetGrid.TransText))
+                            {
+                                TranslatorBridge.SetCloudTransData(GetGrid.Key, GetGrid.SourceText, GetGrid.TransText);
+                            }
+                            else
+                            {
+                                TranslatorBridge.SetTransData(GetGrid.Key, GetGrid.SourceText, GetGrid.TransText);
+                            }
                         }
                         catch { }
 
@@ -2452,10 +2486,10 @@ namespace SSELex
             DeFine.CurrentReplaceView.Show();
         }
 
-        public bool CanAutoApply = false;
+      
         private void ToStr_MouseEnter(object sender, MouseEventArgs e)
         {
-            CanAutoApply = true;
+           
         }
 
         public void AutoSizeHistoryList()
@@ -2580,6 +2614,7 @@ namespace SSELex
         public object TranslateLocker = new object();
         public Thread? TranslateTrd = null;
 
+        public string CloudTransStr = "";
         private TextSegmentTranslator CurrentTextSegmentTranslator = null;
         public void TranslateCurrent()
         {
@@ -2602,14 +2637,9 @@ namespace SSELex
 
                             bool CanSleep = false;
 
-                            CanAutoApply = true;
-
                             if (!QueryGrid.Key.EndsWith("(BookText)"))
                             {
-                                this.Dispatcher.Invoke(new Action(() =>
-                                {
-                                    TransView.IsHitTestVisible = false;
-                                }));
+                                CanEditTransView(false);
 
                                 TranslateTrd = new Thread(() =>
                                 {
@@ -2622,10 +2652,9 @@ namespace SSELex
                                     NewUnit,
                                     ref CanSleep);
 
-                                    this.Dispatcher.Invoke(new Action(() =>
-                                    {
-                                        TransView.IsHitTestVisible = true;
-                                    }));
+                                    CloudTransStr = GetTranslated;
+
+                                    CanEditTransView(true);
 
                                     this.Dispatcher.Invoke(new Action(() =>
                                     {
@@ -2640,10 +2669,7 @@ namespace SSELex
                             }
                             else
                             {
-                                this.Dispatcher.Invoke(new Action(() =>
-                                {
-                                    TransView.IsHitTestVisible = false;
-                                }));
+                                CanEditTransView(false);
 
                                 CurrentTextSegmentTranslator = new TextSegmentTranslator();
 
@@ -2660,10 +2686,7 @@ namespace SSELex
                                     }
                                     catch { }
 
-                                    this.Dispatcher.Invoke(new Action(() =>
-                                    {
-                                        TransView.IsHitTestVisible = true;
-                                    }));
+                                    CanEditTransView(true);
 
                                     this.Dispatcher.Invoke(new Action(() =>
                                     {

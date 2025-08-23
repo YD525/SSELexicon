@@ -16,6 +16,8 @@ using static PhoenixEngine.SSELexiconBridge.NativeBridge;
 using PhoenixEngine.EngineManagement;
 using Mutagen.Bethesda.Skyrim;
 using SSELex.SkyrimManage;
+using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
+using DynamicData;
 
 // Copyright (C) 2025 YD525
 // Licensed under the GNU GPLv3
@@ -50,12 +52,12 @@ public class FakeGrid
         {
             bool CanExit = false;
 
-            if (RowStyleWin.GetKey(ListViewHandle.VisibleRows[i]).Equals(this.Key))
+            if (RowStyleWin.GetKey(ListViewHandle.VisibleRows[i].View).Equals(this.Key))
             {
                 ListViewHandle.Parent.Dispatcher.Invoke(new Action(() =>
                 {
-                    RowStyleWin.SetOriginal(ListViewHandle.VisibleRows[i],this.SourceText);
-                    RowStyleWin.SetTranslated(ListViewHandle.VisibleRows[i], this.TransText);
+                    RowStyleWin.SetOriginal(ListViewHandle.VisibleRows[i].View,this.SourceText);
+                    RowStyleWin.SetTranslated(ListViewHandle.VisibleRows[i].View, this.TransText);
 
                     CanExit = true;
                 }));
@@ -113,15 +115,26 @@ public class FakeGrid
     {
         for (int i = 0; i < ListViewHandle.VisibleRows.Count; i++)
         {
-            if (RowStyleWin.GetKey(ListViewHandle.VisibleRows[i]).Equals(this.Key))
+            if (RowStyleWin.GetKey(ListViewHandle.VisibleRows[i].View).Equals(this.Key))
             {
-                RowStyleWin.SetColor(ListViewHandle.VisibleRows[i], R, G, B);
+                RowStyleWin.SetColor(ListViewHandle.VisibleRows[i].View, R, G, B);
                 break;
             }
         }
     }
 }
 
+public class VisibleGrid
+{
+    public FakeGrid Data;
+    public Grid View;
+
+    public VisibleGrid(FakeGrid Data, Grid View)
+    {
+        this.Data = Data;
+        this.View = View;
+    }
+}
 public class YDListView
 {
     public Grid Parent = null;
@@ -131,7 +144,7 @@ public class YDListView
     public Thread UpdateTrd = null;
 
     public List<FakeGrid> RealLines = new List<FakeGrid>();
-    public List<Grid> VisibleRows = new List<Grid>();
+    public List<VisibleGrid> VisibleRows = new List<VisibleGrid>();
 
     public int Rows { get { return GetRows(); } }
     public int BufferRows = 3;
@@ -332,9 +345,9 @@ public class YDListView
         Grid? MatchGrid = null;
         foreach (var G in VisibleRows)
         {
-            if (RowStyleWin.GetKey(G).Equals(TargetLogicItem.Key))
+            if (RowStyleWin.GetKey(G.View).Equals(TargetLogicItem.Key))
             {
-                MatchGrid = G;
+                MatchGrid = G.View;
                 break;
             }
         }
@@ -359,9 +372,9 @@ public class YDListView
             {
                 foreach (var G in VisibleRows)
                 {
-                    if (RowStyleWin.GetKey(G).Equals(TargetLogicItem.Key))
+                    if (RowStyleWin.GetKey(G.View).Equals(TargetLogicItem.Key))
                     {
-                        SetSelectLine(G, true);
+                        SetSelectLine(G.View, true);
                         break;
                     }
                 }
@@ -388,9 +401,9 @@ public class YDListView
             Grid? MatchGrid = null;
             foreach (var G in VisibleRows)
             {
-                if (RowStyleWin.GetKey(G).Equals(TargetLogicItem.Key))
+                if (RowStyleWin.GetKey(G.View).Equals(TargetLogicItem.Key))
                 {
-                    MatchGrid = G;
+                    MatchGrid = G.View;
                     break;
                 }
             }
@@ -415,9 +428,9 @@ public class YDListView
                 {
                     foreach (var G in VisibleRows)
                     {
-                        if (RowStyleWin.GetKey(G).Equals(TargetLogicItem.Key))
+                        if (RowStyleWin.GetKey(G.View).Equals(TargetLogicItem.Key))
                         {
-                            SetSelectLine(G, true);
+                            SetSelectLine(G.View, true);
                             break;
                         }
                     }
@@ -517,6 +530,7 @@ public class YDListView
     {
         CanUpDate = true;
     }
+
 
     public void UpdateVisibleRows(bool ForceUPDate = false)
     {
@@ -629,8 +643,25 @@ public class YDListView
         foreach (UIElement Child in MainCanvas.Children)
         {
             if (Child is Grid G)
-                VisibleRows.Add(G);
+                VisibleRows.Add(new VisibleGrid(this.RealLines[(int)G.Tag],G));
         }
+    }
+
+
+    public void QuickRefresh()
+    {
+        this.Parent.Dispatcher.BeginInvoke(new Action(() => {
+            for (int i = 0; i < this.VisibleRows.Count; i++)
+            {
+                bool RefCache = false;
+                this.VisibleRows[i].Data.SyncData(ref RefCache);
+
+                Grid GetGrid = this.VisibleRows[i].View;
+
+                RowStyleWin.SetOriginal(GetGrid, this.VisibleRows[i].Data.SourceText);
+                RowStyleWin.SetTranslated(GetGrid, this.VisibleRows[i].Data.TransText);
+            }
+        }));
     }
 
     public object AddLocker = new object();
@@ -659,7 +690,7 @@ public class YDListView
 
                 for (int i = 0; i < this.VisibleRows.Count; i++)
                 {
-                    if (RowStyleWin.GetKey((Grid)this.VisibleRows[i]).Equals(Get.Key))
+                    if (RowStyleWin.GetKey((Grid)this.VisibleRows[i].View).Equals(Get.Key))
                     {
                         this.VisibleRows.RemoveAt(i);
                         break;
@@ -727,9 +758,9 @@ public class YDListView
     {
         foreach (var Get in this.VisibleRows)
         {
-            if (RowStyleWin.GetKey(Get).Equals(Key))
+            if (RowStyleWin.GetKey(Get.View).Equals(Key))
             {
-                if (IsGridInViewport(Get))
+                if (IsGridInViewport(Get.View))
                 {
                     return true;
                 }
@@ -747,9 +778,9 @@ public class YDListView
         {
             foreach (var Get in this.VisibleRows)
             {
-                if (RowStyleWin.GetKey(Get).Equals(Key))
+                if (RowStyleWin.GetKey(Get.View).Equals(Key))
                 {
-                    SetSelectLine(Get, UPDate);
+                    SetSelectLine(Get.View, UPDate);
                     break;
                 }
             }

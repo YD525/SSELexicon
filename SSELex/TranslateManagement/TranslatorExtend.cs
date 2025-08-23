@@ -498,26 +498,6 @@ namespace SSELex.TranslateManage
             Translator.TransData.Clear();
         }
 
-        public static void ReSetAllTransText()
-        {
-            if (DeFine.WorkingWin != null)
-            {
-                if (DeFine.WorkingWin.TransViewList != null)
-                {
-                    for (int i = 0; i < DeFine.WorkingWin.TransViewList.Rows; i++)
-                    {
-                        bool IsCloud = false;
-                        DeFine.WorkingWin.TransViewList.RealLines[i].SyncData(ref IsCloud);
-
-                        DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
-                        {
-                            DeFine.WorkingWin.TransViewList.RealLines[i].SyncUI(DeFine.WorkingWin.TransViewList);
-                        }));
-                    }
-                }
-            }
-        }
-
         public static bool ClearCloudCache(string ModName)
         {
             return CloudDBCache.ClearCloudCache(ModName);
