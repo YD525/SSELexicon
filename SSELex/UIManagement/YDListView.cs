@@ -4,20 +4,13 @@ using SSELex;
 using SSELex.UIManage;
 using System.Windows.Media;
 using SSELex.ConvertManager;
-using Loqui.Translators;
-using SSELex.TranslateManage;
 using System.Windows.Controls.Primitives;
-using System.Windows.Input;
 using System.Windows.Threading;
 using PhoenixEngine.TranslateManagement;
 using SSELex.UIManagement;
-using PhoenixEngine.SSELexiconBridge;
 using static PhoenixEngine.SSELexiconBridge.NativeBridge;
-using PhoenixEngine.EngineManagement;
-using Mutagen.Bethesda.Skyrim;
 using SSELex.SkyrimManage;
 using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
-using DynamicData;
 
 // Copyright (C) 2025 YD525
 // Licensed under the GNU GPLv3
