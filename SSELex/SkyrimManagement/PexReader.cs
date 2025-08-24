@@ -12,7 +12,10 @@ using static PhoenixEngine.SSELexiconBridge.NativeBridge;
 
 namespace SSELex.SkyrimManage
 {
-
+    // Copyright (C) 2025 YD525
+    // Licensed under the GNU GPLv3
+    // See LICENSE for details
+    //https://github.com/YD525/SSELexicon
     public class TempPathWrapper
     {
         private readonly List<string> TempPaths = new();
@@ -64,16 +67,11 @@ namespace SSELex.SkyrimManage
                     else if (Directory.Exists(Path))
                         Directory.Delete(Path, true);
                 }
-                catch { /* 忽略异常 */ }
+                catch {  }
             }
             TempPaths.Clear();
         }
     }
-
-    // Copyright (C) 2025 YD525
-    // Licensed under the GNU GPLv3
-    // See LICENSE for details
-    //https://github.com/YD525/YDSkyrimToolR/
 
     public class StringParam
     {
@@ -110,7 +108,6 @@ namespace SSELex.SkyrimManage
 
     public class PexReader
     {
-        //E:\ModOrganizer\MO2\Mods\mods
         public string PSCContent = "";
         public string TempFilePath = "";
         public List<string> CodeLines = new List<string>();

@@ -54,6 +54,7 @@ namespace SSELex.UIManage
             SetMagicEffects(ref Writer);
             SetObjectEffects(ref Writer);
             SetCells(ref Writer);
+            SetLocations(ref Writer);
         }
 
         public static void SetHazards(ref EspReader Writer)
@@ -1126,6 +1127,37 @@ namespace SSELex.UIManage
                 catch (System.Exception ex)
                 {
                     System.Console.WriteLine($"Error in SetCells main loop at index {i}: {ex.Message}");
+                }
+            }
+        }
+
+        public static void SetLocations(ref EspReader Writer)
+        {
+            string SetType = "";
+            for (int i = 0; i < Writer.Locations.Count; i++)
+            {
+                try
+                {
+                    string GetTransStr = "";
+
+                    var GetHashKey = Writer.Locations.ElementAt(i).Key;
+                    var GetLocation = Writer.Locations[GetHashKey];
+
+                    string AutoKey = KeyGenerator.GenKey(GetLocation.FormKey, GetLocation.EditorID);
+
+                    var GetName = ConvertHelper.ObjToStr(GetLocation.Name);
+                    SetType = "Name";
+                    GetTransStr = GetTransData(AutoKey, SetType);
+                    if (GetTransStr.Length > 0)
+                    {
+                        GetLocation.Name = GetTransStr;
+                    }
+                   
+                    Writer.Locations[GetHashKey] = GetLocation;
+                }
+                catch (System.Exception ex)
+                {
+                    System.Console.WriteLine($"Error in SetMagicEffects loop at index {i}: {ex.Message}");
                 }
             }
         }

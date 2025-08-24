@@ -38,6 +38,11 @@ using static SSELex.UIManagement.DashBoardService;
 
 namespace SSELex
 {
+    // Copyright (C) 2025 YD525
+    // Licensed under the GNU GPLv3
+    // See LICENSE for details
+    //https://github.com/YD525/SSELexicon
+
     /// <summary>
     /// Interaction logic for MainGui.xaml
     /// </summary>
@@ -1873,7 +1878,7 @@ namespace SSELex
                         DashBoardView.Visibility = Visibility.Collapsed;
 
                         ProgramVersion.Content = string.Format("SSE Lexicon(GPLv3) Version: {0}", DeFine.CurrentVersion);
-                        TranslationEngineVersion.Content = string.Format("Translation Engine(LGPLv3) Version: {0}", Engine.Version);
+                        TranslationEngineVersion.Content = string.Format("Translation Engine Version: {0}", Engine.Version);
                     }
                     break;
             }

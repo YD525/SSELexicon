@@ -13,7 +13,7 @@ namespace SSELex.UIManage
     {
         public enum ObjSelect
         {
-            Null = 99, All = 0, Hazards = 28,HeadParts = 27, Npcs = 26, Worldspaces = 1,Shouts = 25 ,Trees = 23, Ingestibles = 22, Quests = 2, Factions = 3, Perks = 5, Weapons = 6, SoulGems = 7, Armors = 8, Keys = 9, Containers = 10, Activators = 11, MiscItems = 12, Books = 13, Messages = 15, DialogTopics = 16, Spells = 17, MagicEffects = 18, ObjectEffects = 19, Cells = 20, Races = 21
+            Null = 99, All = 0, Hazards = 28,HeadParts = 27, Npcs = 26, Worldspaces = 1,Shouts = 25 ,Trees = 23, Ingestibles = 22, Quests = 2, Factions = 3, Perks = 5, Weapons = 6, SoulGems = 7, Armors = 8, Keys = 9, Containers = 10, Activators = 11, MiscItems = 12, Books = 13, Messages = 15, DialogTopics = 16, Spells = 17, MagicEffects = 18, ObjectEffects = 19, Cells = 20, Races = 21, Locations = 30
         }
 
         public static List<ObjSelect> QueryParams(EspReader Reader)
@@ -143,6 +143,11 @@ namespace SSELex.UIManage
             if (Reader.Cells.Count > 0)
             {
                 ObjSelects.Add(ObjSelect.Cells);
+            }
+
+            if (Reader.Locations.Count > 0)
+            {
+                ObjSelects.Add(ObjSelect.Locations);
             }
 
             ObjSelects.Add(ObjSelect.All);
@@ -287,6 +292,11 @@ namespace SSELex.UIManage
             {
                 LoadCells(Reader, View);
             }
+            else
+            if (Type == ObjSelect.Locations)
+            {
+                LoadLocations(Reader, View);
+            }
         }
 
         public static void LoadAll(EspReader Reader, YDListView View)
@@ -317,6 +327,7 @@ namespace SSELex.UIManage
             LoadMagicEffects(Reader, View);
             LoadObjectEffects(Reader, View);
             LoadCells(Reader, View);
+            LoadLocations(Reader, View);
         }
 
         public static string TryGetTransData(string EditorID, string SetType)
@@ -1579,6 +1590,40 @@ namespace SSELex.UIManage
                     catch (Exception ex)
                     {
                         MessageBox.Show($"Error loading Cell item at index {i}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+        }
+
+        public static void LoadLocations(EspReader Reader, YDListView View)
+        {
+            if (Reader.Locations != null)
+                for (int i = 0; i < Reader.Locations.Count; i++)
+                {
+                    try
+                    {
+                        string GetTransStr = "";
+
+                        var GetHashKey = Reader.Locations.ElementAt(i).Key;
+                        var GetLocationItem = Reader.Locations[GetHashKey];
+
+                        string AutoKey = KeyGenerator.GenKey(GetLocationItem.FormKey, GetLocationItem.EditorID);
+
+                        var GetName = ConvertHelper.ObjToStr(GetLocationItem.Name); //LCTN FULL
+                        if (GetName.Length > 0)
+                        {
+                            string SetType = "Name";
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("Location", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
+                            }));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error loading Location item at index {i}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
         }

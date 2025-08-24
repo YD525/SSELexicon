@@ -51,6 +51,7 @@ namespace SSELex.SkyrimManage
         public Dictionary<string, ObjectEffect> ObjectEffects = new Dictionary<string, ObjectEffect>();
         public Dictionary<string, CellBlock> Cells = new Dictionary<string, CellBlock>();
         public Dictionary<string, Container> Containers = new Dictionary<string, Container>();
+        public Dictionary<string, Location> Locations = new Dictionary<string, Location>();
 
         //...
 
@@ -86,6 +87,7 @@ namespace SSELex.SkyrimManage
             ObjectEffects.Clear();
             Cells.Clear();
             Containers.Clear();
+            Locations.Clear();
         }
 
         public void Close()
@@ -104,132 +106,159 @@ namespace SSELex.SkyrimManage
             {
                 foreach (var Get in this.CurrentReadMod.Hazards.ToList())
                 {
-                    Hazards.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
+                    if (Get != null)
+                        Hazards.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.HeadParts.ToList())
                 {
-                    HeadParts.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
+                    if (Get != null)
+                        HeadParts.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Npcs.ToList())
                 {
-                    Npcs.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
+                    if (Get != null)
+                        Npcs.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Worldspaces.ToList())
                 {
-                    Worldspaces.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
+                    if (Get != null)
+                        Worldspaces.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Shouts.ToList())
                 {
-                    Shouts.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
+                    if (Get != null)
+                        Shouts.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Trees.ToList())
                 {
-                    Trees.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
+                    if (Get != null)
+                        Trees.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Ingestibles.ToList())
                 {
-                    Ingestibles.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
+                    if (Get != null)
+                        Ingestibles.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Races.ToList())
                 {
-                    Races.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
+                    if (Get != null)
+                        Races.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Quests.ToList())
                 {
-                    Quests.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
+                    if (Get != null)
+                        Quests.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Factions.ToList())
                 {
-                    Factions.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
+                    if (Get != null)
+                        Factions.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Perks.ToList())
                 {
-                    Perks.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
+                    if (Get != null)
+                        Perks.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Weapons.ToList())
                 {
-                    Weapons.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
+                    if (Get != null)
+                        Weapons.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.SoulGems.ToList())
                 {
-                    SoulGems.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
+                    if (Get != null)
+                        SoulGems.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Armors.ToList())
                 {
-                    Armors.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
+                    if (Get != null)
+                        Armors.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Keys.ToList())
                 {
-                    Keys.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
+                    if (Get != null)
+                        Keys.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Containers.ToList())
                 {
-                    Containers.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
+                    if (Get != null)
+                        Containers.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Activators.ToList())
                 {
-                    Activators.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
+                    if (Get != null)
+                        Activators.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.MiscItems.ToList())
                 {
-                    MiscItems.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
+                    if (Get != null)
+                        MiscItems.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Books.ToList())
                 {
-                    Books.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
+                    if (Get != null)
+                        Books.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Messages.ToList())
                 {
-                    Messages.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
+                    if (Get != null)
+                        Messages.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.DialogTopics.ToList())
                 {
-                    DialogTopics.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
+                    if (Get != null)
+                        DialogTopics.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Spells.ToList())
                 {
-                    Spells.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
+                    if (Get != null)
+                        Spells.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.MagicEffects.ToList())
                 {
-                    MagicEffects.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
+                    if (Get != null)
+                        MagicEffects.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.ObjectEffects.ToList())
                 {
-                    ObjectEffects.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
+                    if (Get != null)
+                        ObjectEffects.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
 
                 foreach (var Get in this.CurrentReadMod.Cells.ToList())
                 {
                     if (Get != null)
-                    {
-                        Cells.Add(Get.GetHashCode().ToString(), Get);
-                    }
+                      Cells.Add(Get.GetHashCode().ToString(), Get);
                 }
 
+                foreach (var Get in this.CurrentReadMod.Locations.ToList())
+                {
+                    if (Get != null)
+                        Locations.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
+                }
             }
         }
 
@@ -321,10 +350,11 @@ namespace SSELex.SkyrimManage
                 }
 
                 ToRam();
+               
                 //foreach (var Item in CurrentReadMod.EnumerateMajorRecords())
                 //{
                 //    //LinkType
-                //    if (Item.FormKey.ToString().Contains("000809"))
+                //    if (Item.FormKey.ToString().Contains("87F928"))
                 //    {
 
                 //    }
@@ -751,56 +781,6 @@ namespace SSELex.SkyrimManage
             }
 
             return null;
-        }
-
-        public Language GetLang(Languages Lang)
-        {
-            if (Lang == Languages.SimplifiedChinese)
-            {
-                return Language.ChineseSimplified;
-            }
-
-            if (Lang == Languages.TraditionalChinese)
-            {
-                return Language.Chinese;
-            }
-
-            if (Lang == Languages.English)
-            {
-                return Language.English;
-            }
-
-            if (Lang == Languages.Turkish)
-            {
-                return Language.Turkish;
-            }
-
-            if (Lang == Languages.Japanese)
-            {
-                return Language.Japanese;
-            }
-
-            if (Lang == Languages.Brazilian)
-            {
-                return Language.Portuguese_Brazil;
-            }
-
-            if (Lang == Languages.Korean)
-            {
-                return Language.Korean;
-            }
-
-            if (Lang == Languages.Russian)
-            {
-                return Language.Russian;
-            }
-
-            if (Lang == Languages.German)
-            {
-                return Language.German;
-            }
-
-            return Language.English;
         }
 
         public bool DefSaveMod(SkyrimMod SourceMod, string OutPutPath)

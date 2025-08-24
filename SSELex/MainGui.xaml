@@ -1033,7 +1033,7 @@
                                     SSE Lexicon(GPLv3) Version: 0.0.0.0
                                 </Label>
                                 <Label Foreground="White" FontWeight="Bold" FontSize="15" HorizontalAlignment="Center" Name="TranslationEngineVersion">
-                                    Translation Engine(LGPLv3) Version: 0.0.0
+                                    Translation Engine Version: 0.0.0
                                 </Label>
 
                                 <TextBlock  FontSize="15" Margin="0 5 0 0" HorizontalAlignment="Center" Foreground="White" TextWrapping="Wrap" TextAlignment="Center">
