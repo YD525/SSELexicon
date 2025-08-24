@@ -7,12 +7,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <Copyright>The copyright of this program belongs to [YD525(developer)]. The purpose of this project is to reduce the workload of translators. This project is licensed under the GPL-3.0-only license.</Copyright>
+    <Copyright>Copyright © 2025 YD525</Copyright>
     <Authors></Authors>
     <PackageIcon>Logo.png</PackageIcon>
     <ApplicationIcon>Logo.ico</ApplicationIcon>
     <FileVersion>1.4.619</FileVersion>
     <AssemblyVersion>1.4.619</AssemblyVersion>
+    <PackageProjectUrl>https://github.com/YD525/SSELexicon</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
