@@ -424,6 +424,11 @@ namespace SSELex.TranslateManage
 
                         Engine.TranslatedCount = Engine.GetTranslatedCount(Engine.GetModName());
 
+                        if (GetListView != null)
+                        {
+                            GetListView.QuickRefresh();
+                        }
+
                         EndAction.Invoke();
                     }
                 }
