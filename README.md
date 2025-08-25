@@ -1,4 +1,4 @@
-# SSE Lexicon
+# SSE Lexicon - AI Translator
 
 **SSE Lexicon** is a fully open-source and free tool created to assist with Skyrim mod translation. It supports multiple file formats, including PEX, ESM, ESP, and MCM, offering enhanced convenience and flexibility for translators.  
 By utilizing advanced string processing and optional online translation integration, SSELex helps streamline translation tasks and improve overall efficiency.
