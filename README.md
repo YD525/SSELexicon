@@ -87,11 +87,6 @@ And of course, if you contribute something awesome, your name will be added to t
 If you have any questions or need help, feel free to drop by our Discord — I'm always happy to help:  
 [https://discord.gg/GRu7WtgqsB](https://discord.gg/GRu7WtgqsB)
 
-By the way, this entire tool is currently developed solely by me — **YD525**.  
-While it’s built on top of excellent open-source frameworks like Mutagen and Champollion,  
-the tool itself (logic, UI, workflow, translators, etc.) is written entirely by me.  
-It’s a lot of work, and yes... I’m tired. 😩  
-Your encouragement really means a lot!
 
 ---
 
