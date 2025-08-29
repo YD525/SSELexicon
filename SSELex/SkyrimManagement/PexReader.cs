@@ -91,6 +91,23 @@ namespace SSELex.SkyrimManage
         }
     }
 
+    public class PathInFo
+    {
+        public string FilePath = "";
+        public string FileFullName = "";
+
+        public string FileName = "";
+        public string FileType = "";
+        public PathInFo(string Path)
+        {
+            this.FilePath = Path.Substring(0, Path.LastIndexOf(@"\"));
+            this.FileFullName = Path.Substring(Path.LastIndexOf(@"\") + @"\".Length);
+
+            this.FileName = this.FileFullName.Substring(0, this.FileFullName.LastIndexOf("."));
+            this.FileType = this.FileFullName.Substring(this.FileFullName.LastIndexOf(".") + ".".Length);
+        }
+    }
+
     public class PexReader
     {
         public string PSCContent = "";
@@ -123,8 +140,26 @@ namespace SSELex.SkyrimManage
             CodeLines.Clear();
         }
 
+
+        public static void ForceDelete(string FilePath)
+        {
+            if (!File.Exists(FilePath))
+                return;
+
+            try
+            {
+                File.SetAttributes(FilePath, FileAttributes.Normal);
+
+                File.Delete(FilePath);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         #region ExecuteFunc
-        public string Execute(string ExePath, string Args, ref string OutPutMsg)
+        public string CallPapyrusAssemblerByReturn(string ExePath, string Args, ref string OutPutMsg)
         {
             ProcessStartInfo startInfo = new ProcessStartInfo
             {
@@ -158,7 +193,7 @@ namespace SSELex.SkyrimManage
             }
         }
 
-        public string ExecuteRR(string ExePath, string StartPath, string Args)
+        public string CallPapyrusAssembler(string ExePath, string StartPath, string Args)
         {
             ProcessStartInfo startInfo = new ProcessStartInfo
             {
@@ -188,23 +223,6 @@ namespace SSELex.SkyrimManage
             catch (Exception ex)
             {
                 return string.Empty;
-            }
-        }
-
-        public static void ForceDelete(string filePath)
-        {
-            if (!File.Exists(filePath))
-                return;
-
-            try
-            {
-                File.SetAttributes(filePath, FileAttributes.Normal);
-
-                File.Delete(filePath);
-            }
-            catch (Exception ex)
-            {
-                throw;
             }
         }
 
@@ -345,28 +363,29 @@ namespace SSELex.SkyrimManage
         public bool DeCodeFileToUsing(string FilePath)
         {
             if (!File.Exists(FilePath)) return false;
-            string GetFilePath = FilePath.Substring(0, FilePath.LastIndexOf(@"\"));
-            string GetFileFullName = FilePath.Substring(FilePath.LastIndexOf(@"\") + @"\".Length);
-            string GetFileType = GetFileFullName.Split('.')[1];
-            string GetFileName = GetFileFullName.Split('.')[0];
-            CurrentFileName = GetFileName;
 
-            if (File.Exists(DeFine.GetFullPath(@"Cache\") + GetFileName + "." + GetFileType))
+            PathInFo PathInFo = new PathInFo(FilePath);
+
+            CurrentFileName = PathInFo.FileName;
+
+            if (File.Exists(DeFine.GetFullPath(@"Cache\") + PathInFo.FileName + "." + PathInFo.FileType))
             {
-                ForceDelete(DeFine.GetFullPath(@"Cache\") + GetFileName + "." + GetFileType);
+                ForceDelete(DeFine.GetFullPath(@"Cache\") + PathInFo.FileName + "." + PathInFo.FileType);
             }
 
-            File.Copy(FilePath, DeFine.GetFullPath(@"Cache\") + GetFileName + "." + GetFileType);
-            TempFilePath = DeFine.GetFullPath(@"Cache\") + GetFileName + "." + GetFileType;
-            GetFilePath = DeFine.GetFullPath(@"Cache\");
+            File.Copy(FilePath, DeFine.GetFullPath(@"Cache\") + PathInFo.FileName + "." + PathInFo.FileType);
+            TempFilePath = DeFine.GetFullPath(@"Cache\") + PathInFo.FileName + "." + PathInFo.FileType;
 
-            string TempPath = DeFine.GetFullPath(@"Cache\") + GetFileName + "." + GetFileType;
+            string TempPath = DeFine.GetFullPath(@"Cache\") + PathInFo.FileName + "." + PathInFo.FileType;
             CallChampollion(DeFine.GetFullPath(@"Tool\Champollion.exe"), TempPath, DeFine.GetFullPath(@"Cache\"), DeFine.GetFullPath(@"Cache\"));
 
             //Wait for Champollion decompilation to complete
             WaitChampollion();
 
-            string GetPscFile = GetFilePath + GetFileName + ".psc";
+            string CurrentPath = DeFine.GetFullPath(@"Cache\");
+
+            string GetPscFile = CurrentPath + PathInFo.FileName + ".psc";
+
             if (File.Exists(GetPscFile))
             {
                 var FileData = DataHelper.ReadFile(GetPscFile);
@@ -377,9 +396,9 @@ namespace SSELex.SkyrimManage
                     ForceDelete(GetPscFile);
                 }
 
-                if (File.Exists(GetFilePath + @"\" + GetFileName + ".pas"))
+                if (File.Exists(CurrentPath + PathInFo.FileName + ".pas"))
                 {
-                    ForceDelete(GetFilePath + @"\" + GetFileName + ".pas");
+                    ForceDelete(CurrentPath + PathInFo.FileName + ".pas");
                 }
 
                 return true;
@@ -395,34 +414,31 @@ namespace SSELex.SkyrimManage
             string CompilerPath = "";
             if (SkyrimHelper.FindPapyrusCompilerPath(ref CompilerPath))
             {
-                string GetFilePath = TempFilePath.Substring(0, TempFilePath.LastIndexOf(@"\"));
-                string GetFileFullName = TempFilePath.Substring(TempFilePath.LastIndexOf(@"\") + @"\".Length);
-                string GetFileType = GetFileFullName.Split('.')[1];
-                string GetFileName = GetFileFullName.Split('.')[0];
+                PathInFo TempPathInFo = new PathInFo(TempFilePath);
 
                 string PapyrusAssembler = CompilerPath;
                 string GetWorkPath = FilePath.Substring(0, FilePath.LastIndexOf(@"\"));
-                string GenParam = string.Format("\"{0}\" -D -Q", GetFileName);
+                string GenParam = string.Format("\"{0}\" -D -Q", TempPathInFo.FileName);
                 //string GenParam = string.Format("\"{0}\" -D\n\"{1}\"", GetFileName, GetWorkPath + @"\");
 
-                if (File.Exists(DeFine.GetFullPath(@"\") + GetFileName + "." + GetFileType))
+                if (File.Exists(DeFine.GetFullPath(@"\") + TempPathInFo.FileName + "." + TempPathInFo.FileType))
                 {
-                    ForceDelete(DeFine.GetFullPath(@"\") + GetFileName + "." + GetFileType);
+                    ForceDelete(DeFine.GetFullPath(@"\") + TempPathInFo.FileName + "." + TempPathInFo.FileType);
                 }
 
-                File.Copy(TempFilePath, DeFine.GetFullPath(@"\") + GetFileName + "." + GetFileType);
+                File.Copy(TempFilePath, DeFine.GetFullPath(@"\") + TempPathInFo.FileName + "." + TempPathInFo.FileType);
 
                 string OutPutMsg = "";
 
-                Execute(PapyrusAssembler, GenParam, ref OutPutMsg);
+                CallPapyrusAssemblerByReturn(PapyrusAssembler, GenParam, ref OutPutMsg);
 
                 Thread.Sleep(500);
 
-                string SetDisassemblePath = DeFine.GetFullPath(GetFileName + "." + "disassemble.pas");
+                string SetDisassemblePath = DeFine.GetFullPath(TempPathInFo.FileName + "." + "disassemble.pas");
 
                 if (File.Exists(SetDisassemblePath))
                 {
-                    string SetCachePas = DeFine.GetFullPath(@"Cache\") + GetFileName + "." + "pas";
+                    string SetCachePas = DeFine.GetFullPath(@"Cache\") + TempPathInFo.FileName + "." + "pas";
                     if (File.Exists(SetCachePas))
                     {
                         ForceDelete(SetCachePas);
@@ -432,7 +448,7 @@ namespace SSELex.SkyrimManage
                     {
                         ForceDelete(SetDisassemblePath);
                     }
-                    string SetSource = DeFine.GetFullPath(GetFileName + "." + GetFileType);
+                    string SetSource = DeFine.GetFullPath(TempPathInFo.FileName + "." + TempPathInFo.FileType);
                     if (File.Exists(SetSource))
                     {
                         ForceDelete(SetSource);
@@ -687,7 +703,7 @@ namespace SSELex.SkyrimManage
                     ForceDelete(DeFine.GetFullPath(@"\" + CurrentFileName + ".pas"));
                 }
 
-                var Result = ExecuteRR(CompilerPath, GetWorkPath, "\"" + CurrentFileName + "\"");
+                var Result = CallPapyrusAssembler(CompilerPath, GetWorkPath, "\"" + CurrentFileName + "\"");
 
                 if (File.Exists(GetWorkPath + CurrentFileName + ".pas"))
                 {

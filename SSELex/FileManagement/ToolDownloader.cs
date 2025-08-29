@@ -86,7 +86,18 @@ namespace SSELex.FileManagement
             {
                 if (!WhiteList.Contains(GetFile.FileName))
                 {
-                    MessageBox.Show("Unknown file:" + GetFile.FilePath);
+                    if (GetFile.FileName.EndsWith(".pas"))
+                    {
+                        if (File.Exists(GetFile.FilePath))
+                        {
+                            File.Delete(GetFile.FilePath);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Unknown file:" + GetFile.FilePath);
+                    }
+                   
                     OtherFileCount++;
                 }
                 else
