@@ -539,12 +539,14 @@ namespace SSELex.SkyrimManage
 
         public class LinkValue
         {
-            public string Value = "";
+            public string Original = "";
+            public string Translated = "";
             public int DefLineID = 0;
             public string DefKey = "";
-            public LinkValue(string Value, int DefLineID,string DefKey)
+            public LinkValue(string Original, string Translated, int DefLineID,string DefKey)
             {
-                this.Value = Value;
+                this.Original = Original;
+                this.Translated = Translated;
                 this.DefLineID = DefLineID;
                 this.DefKey = DefKey;
             }
@@ -575,13 +577,14 @@ namespace SSELex.SkyrimManage
         {
             TranslatorExtend.ClearTranslatorHistoryCache();
             bool Sucess = false;
-            Dictionary<string, LinkValue> LinkTexts = new Dictionary<string, LinkValue>();
+
+            List<LinkValue> LinkTexts = new List<LinkValue>();
+
             foreach (var GetParam in this.Strings)
             {
                 if (Translator.TransData.ContainsKey(GetParam.Key))
                 {
-                    if (!LinkTexts.ContainsKey(GetParam.SourceText))
-                        LinkTexts.Add(GetParam.SourceText, new LinkValue(Translator.TransData[GetParam.Key], GetParam.LineID, GetParam.Key));
+                    LinkTexts.Add(new LinkValue(GetParam.SourceText, Translator.TransData[GetParam.Key], GetParam.LineID, GetParam.Key));
                 }
             }
 
@@ -593,58 +596,68 @@ namespace SSELex.SkyrimManage
 
             for (int i = 0; i < LinkTexts.Count; i++)
             {
-                string GetKey = LinkTexts.ElementAt(i).Key;
-                if (GetFileContent.Contains(GetKey))
+                string GetOriginal = LinkTexts[i].Original;
+
+                if (GetFileContent.Contains(GetOriginal))
                 {
-                    var GetLinkValue = LinkTexts[GetKey];
-                    string NewStr = GetLinkValue.Value;
-                    TranslationPreprocessor.NormalizePunctuation(ref NewStr);
-                    GetLinkValue.Value = NewStr;
-                    LinkTexts[GetKey] = GetLinkValue;
+                    string GetTranslated = LinkTexts[i].Translated;
+
+                    TranslationPreprocessor.NormalizePunctuation(ref GetTranslated);
 
                     for (int ir = 0; ir < Lines.Count; ir++)
                     {
                         try
                         {
                             string GetLine = Lines[ir];
-                            if (GetLine.Contains("@line") && GetLinkValue.Value.Trim().Length > 0)
+                            if (GetLine.Contains("@line"))
                             {
                                 string CheckID = GetLine.Substring(GetLine.IndexOf("@line") + "@line".Length).Trim();
-                                if (CheckID.Equals(GetLinkValue.DefLineID.ToString()))
+
+                                if (CheckID.Equals(LinkTexts[i].DefLineID.ToString()))
                                 {
-                                    if (Lines[ir].Contains(GetKey))
+                                    if (Lines[ir].Contains(GetOriginal))
                                     {
-                                        Lines[ir] = Lines[ir].Replace("\"" + GetKey + "\"", "\"" + GetLinkValue.Value + "\"");
+                                        Lines[ir] = Lines[ir].Replace("\"" + GetOriginal + "\"", "\"" + GetTranslated + "\"");
                                     }
                                 }
                                 else
                                 {
-                                    if (Lines[ir].Contains(GetKey))
+                                    //Some methods are missing the "@line" field. The specific reason is unclear. Here, you need to check whether the method name is consistent.
+
+                                    if (Lines[ir].Contains(GetOriginal))
                                     {
-                                        string QueryKey = LinkTexts[GetKey].DefKey;
+                                        //Get the original key
+                                        string QueryKey = LinkTexts[i].DefKey;
+
                                         QueryKey = QueryKey.Substring(0,QueryKey.LastIndexOf(","));
 
                                         foreach (var GetItem in HeuristicEngine.DStringItems)
                                         {
                                             if (GetItem.Key.Equals(QueryKey))
                                             {
+                                                //Here the details should be structured. This is some of the feature files analyzed. I use ">" to split them. In fact, it is mainly to help establish a unique key. But I was lazy and directly used it to get the method name.
                                                 int CheckFunc = 0;
                                                 foreach (var GetParam in GetItem.Feature.Split('>'))
                                                 {
                                                     if (GetParam.Trim().Length > 0)
                                                     {
+                                                        //GetLine =	CallMethod AddToggleOption self ::temp8 "Message" True 0  ;@line 62
+                                                        //GetParam = AddToggleOption
                                                         if (GetLine.Contains(GetParam.Trim()))
                                                         {
                                                             CheckFunc++;
                                                         }
                                                     }
                                                 }
+
                                                 if (CheckFunc > 0)
                                                 {
-                                                    int Count = Regex.Matches(Lines[ir], Regex.Escape("\"" + GetKey + "\"")).Count;
+                                                    int Count = Regex.Matches(Lines[ir], Regex.Escape("\"" + GetOriginal + "\"")).Count;
+
+                                                    //To prevent the method from having two identical parameters, you can actually determine the position of the parameter. This is currently simplified. However, there are problems. I wrote it this way because I was lazy.
                                                     if (Count < 2)
                                                     {
-                                                        Lines[ir] = Lines[ir].Replace("\"" + GetKey + "\"", "\"" + GetLinkValue.Value + "\"");
+                                                        Lines[ir] = Lines[ir].Replace("\"" + GetOriginal + "\"", "\"" + GetTranslated + "\"");
                                                     }
                                                 }
                                             }
