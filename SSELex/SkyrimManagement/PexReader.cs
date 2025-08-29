@@ -682,11 +682,11 @@ namespace SSELex.SkyrimManage
             string CompilerPath = "";
             if (SkyrimHelper.FindPapyrusCompilerPath(ref CompilerPath))
             {
-                if (File.Exists(OutPutPath + ".backup"))
+                if (!File.Exists(OutPutPath + ".backup"))
                 {
-                    ForceDelete(OutPutPath + ".backup");
+                    File.Copy(OutPutPath, OutPutPath + ".backup");
                 }
-                File.Copy(OutPutPath, OutPutPath + ".backup");
+                
                 ForceDelete(OutPutPath);
 
                 string GetWorkPath = CompilerPath.Substring(0, CompilerPath.LastIndexOf(@"\") + @"\".Length);
