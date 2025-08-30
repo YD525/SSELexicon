@@ -1,4 +1,5 @@
 ﻿using Mutagen.Bethesda.Plugins;
+using Mutagen.Bethesda.Skyrim;
 using SSELex.TranslateManagement;
 
 namespace SSELex.SkyrimManagement
@@ -20,6 +21,23 @@ namespace SSELex.SkyrimManagement
             }
 
             return MergeKey;
+        }
+
+        public static string GenKey(CellBlock? Item)
+        {
+            if (Item != null)
+            {
+                try 
+                { 
+                    return "[" + Item.BlockNumber + "->" + Item.GroupType.ToString() + "]";
+                }
+                catch 
+                {
+                    return Item.GetHashCode().ToString();
+                }
+            }
+
+            return string.Empty;
         }
     }
 }

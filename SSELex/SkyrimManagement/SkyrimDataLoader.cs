@@ -1560,7 +1560,7 @@ namespace SSELex.UIManage
                                             try
                                             {
                                                 ForID++;
-                                                var GetName = ConvertHelper.ObjToStr(GetChild.Name);
+                                                var GetName = ConvertHelper.ObjToStr(GetChild.Name);//CELL FULL
                                                 if (GetName.Length > 0)
                                                 {
                                                     string AutoKey = KeyGenerator.GenKey(GetChild.FormKey, GetChild.EditorID);
