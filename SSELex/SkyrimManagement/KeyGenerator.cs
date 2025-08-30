@@ -29,7 +29,7 @@ namespace SSELex.SkyrimManagement
             {
                 try 
                 { 
-                    return "[" + Item.BlockNumber + "->" + Item.GroupType.ToString() + "]";
+                    return "[" + Crc32Helper.ComputeCrc32(Item.BlockNumber + "->" + Item.GroupType.ToString()) + "]";
                 }
                 catch 
                 {
