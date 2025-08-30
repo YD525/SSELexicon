@@ -36,81 +36,7 @@ namespace SSELex.SkyrimModManager
                 }
             }
         }
-        public static string GetPathAndFileName(ref string SourcePath)
-        {
-            string FileName = SourcePath.Substring(SourcePath.LastIndexOf(@"\") + @"\".Length);
-            SourcePath = SourcePath.Substring(0, SourcePath.LastIndexOf(@"\") + @"\".Length);
-            return FileName;
-        }
-        public static bool TryMoveFile(string SourcePath, string VirtualPath)
-        {
-            string GetFullPath = VirtualPath;
 
-            string AppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-
-            AppData = AppData.Substring(0, AppData.LastIndexOf(@"\") + @"\".Length);
-
-            if (GetFullPath.StartsWith(@"Roaming\"))
-            {
-                GetFullPath = AppData + GetFullPath;
-            }
-            else
-           if (GetFullPath.StartsWith(@"Local\"))
-            {
-                GetFullPath = AppData + GetFullPath;
-            }
-            else
-           if (GetFullPath.StartsWith(@"LocalLow\"))
-            {
-                GetFullPath = AppData + GetFullPath;
-            }
-            else
-            {
-                GetFullPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + GetFullPath;
-            }
-
-            string GetTargetPath = GetFullPath.Substring(0, GetFullPath.LastIndexOf(@"\") + @"\".Length);
-            string GetTargetName = GetFullPath.Substring(GetFullPath.LastIndexOf(@"\") + @"\".Length);
-
-            GetTargetName = GetTargetName.Replace("\r\n", "");
-
-            if (!Directory.Exists(GetTargetPath))
-            {
-                Directory.CreateDirectory(GetTargetPath);
-            }
-
-            try
-            {
-                if (File.Exists(GetTargetPath + GetTargetName))
-                {
-                    File.Delete(GetTargetPath + GetTargetName);
-                }
-
-
-                File.Copy(SourcePath, GetTargetPath + GetTargetName);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-
-        }
-        public static string ShowFileDialog(string SelectType, string Text)
-        {
-            try
-            {
-                Microsoft.Win32.OpenFileDialog FileDialog = new Microsoft.Win32.OpenFileDialog();
-                FileDialog.Filter = SelectType;
-                FileDialog.Title = Text;
-                if (FileDialog.ShowDialog() == true)
-                {
-                    return FileDialog.FileName;
-                }
-                return string.Empty;
-            }
-            catch { return string.Empty; }
-        }
         public static string ReadFileByStr(string filepath, Encoding EnCoding)
         {
             try
@@ -179,58 +105,58 @@ namespace SSELex.SkyrimModManager
             Stream stream = new MemoryStream(bytes);
             return stream;
         }
-        public static System.Text.Encoding GetFileEncodeType(string filename)
+
+
+        public static System.Text.Encoding GetFileEncodeType(string FilePath)
         {
             try
             {
-                System.IO.FileStream fs = new System.IO.FileStream(filename, System.IO.FileMode.Open, System.IO.FileAccess.Read);
-                System.IO.BinaryReader br = new System.IO.BinaryReader(fs);
-                Byte[] buffer = br.ReadBytes(2);
+                System.IO.FileStream FileStream = new System.IO.FileStream(FilePath, System.IO.FileMode.Open, System.IO.FileAccess.Read);
+                System.IO.BinaryReader BinaryReader = new System.IO.BinaryReader(FileStream);
+                Byte[] buffer = BinaryReader.ReadBytes(2);
                 if (buffer[0] >= 0xEF)
                 {
                     if (buffer[0] == 0xEF && buffer[1] == 0xBB)
                     {
-                        fs.Close();
-                        br.Close();
+                        FileStream.Close();
+                        BinaryReader.Close();
                         return System.Text.Encoding.UTF8;
                     }
                     else if (buffer[0] == 0xFE && buffer[1] == 0xFF)
                     {
-                        fs.Close();
-                        br.Close();
+                        FileStream.Close();
+                        BinaryReader.Close();
                         return System.Text.Encoding.BigEndianUnicode;
                     }
                     else if (buffer[0] == 0xFF && buffer[1] == 0xFE)
                     {
-                        fs.Close();
-                        br.Close();
+                        FileStream.Close();
+                        BinaryReader.Close();
                         return System.Text.Encoding.Unicode;
                     }
                     else
                     {
-                        fs.Close();
-                        br.Close();
-                        return System.Text.Encoding.Default;
+                        FileStream.Close();
+                        BinaryReader.Close();
+                        return System.Text.Encoding.UTF8;
                     }
                 }
                 if (buffer[0] == 0x3c)//UTF-8 without BOM
                 {
-                    fs.Close();
-                    br.Close();
+                    FileStream.Close();
+                    BinaryReader.Close();
                     return System.Text.Encoding.UTF8;
                 }
-
                 else
                 {
-                    fs.Close();
-                    br.Close();
-                    return System.Text.Encoding.Default;
+                    FileStream.Close();
+                    BinaryReader.Close();
+                    return System.Text.Encoding.UTF8;
                 }
-                fs.Close();
-                br.Close();
             }
             catch { return Encoding.UTF8; }
         }
+
         public static void CopyDir(string Path, string TargetPath)
         {
             try
@@ -325,122 +251,5 @@ namespace SSELex.SkyrimModManager
         public string Filetype = "";
         public string FileName = "";
         public string FilePath = "";
-
-        public List<string> FileCode = new List<string>();
     }
-
-    public class DataItem : IComparable<DataItem>
-    {
-        public string DataPath = "";
-
-        public long LocalTime = 0;
-
-        public long Size = 0;
-
-        public string VirtualPath = "";
-
-        public string DataName = "";
-
-        public int CompareTo(DataItem Other)
-        {
-            if (this.LocalTime != Other.LocalTime)
-            {
-                return this.LocalTime.CompareTo(Other.LocalTime);
-            }
-
-            else return 0;
-        }
-
-        public DataItem(string Content)
-        {
-            string AppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-
-            AppData = AppData.Substring(0, AppData.LastIndexOf(@"\") + @"\".Length);
-
-            string GetPath = ConvertHelper.StringDivision(Content, "\"", "\"");
-
-            long Number = 0;
-
-            if (long.TryParse(GetPath, out Number))
-            {
-                Content = Content.Substring(("\"" + Number + "\"").Length);
-                GetPath = ConvertHelper.StringDivision(Content, "\"", "\"");
-            }
-
-            string GetInFo = Content.Substring(Content.IndexOf(GetPath) + (GetPath + "\"").Length);
-
-            if (GetInFo.Contains("{")) GetInFo = GetInFo.Split('{')[1];
-
-            foreach (var GetLine in GetInFo.Split(new char[2] { '\r', '\n' }))
-            {
-                if (GetLine.Contains("\""))
-                {
-                    string Name = "";
-                    string Value = "";
-
-                    foreach (var GetParam in GetLine.Split('"'))
-                    {
-                        if (GetParam.Trim().Replace(" ", "").Length > 0)
-                        {
-                            if (Name == "")
-                            {
-                                Name = GetParam;
-                            }
-                            else
-                            {
-                                Value = GetParam;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (Name == "size")
-                    {
-                        this.Size = ConvertHelper.ObjToLong(Value);
-                    }
-                    if (Name == "localtime")
-                    {
-                        this.LocalTime = ConvertHelper.ObjToLong(Value);
-                    }
-                }
-            }
-
-            string NewAppPath = AppData + @"Local\" + GetPath.Replace("/", @"\");
-
-            if (File.Exists(NewAppPath))
-            {
-                this.DataPath = NewAppPath;
-                this.DataName = NewAppPath.Substring(this.DataPath.LastIndexOf(@"\") + @"\".Length);
-                VirtualPath = @"Local\" + GetPath.Replace("/", @"\");
-            }
-
-            NewAppPath = AppData + @"Roaming\" + GetPath.Replace("/", @"\");
-
-            if (File.Exists(NewAppPath))
-            {
-                this.DataPath = NewAppPath;
-                this.DataName = NewAppPath.Substring(this.DataPath.LastIndexOf(@"\") + @"\".Length);
-                VirtualPath = @"Roaming\" + GetPath.Replace("/", @"\");
-            }
-
-            NewAppPath = AppData + @"LocalLow\" + GetPath.Replace("/", @"\");
-
-            if (File.Exists(NewAppPath))
-            {
-                this.DataPath = NewAppPath;
-                this.DataName = NewAppPath.Substring(this.DataPath.LastIndexOf(@"\") + @"\".Length);
-                VirtualPath = @"LocalLow\" + GetPath.Replace("/", @"\");
-            }
-
-            NewAppPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\" + GetPath.Replace("/", @"\");
-            if (File.Exists(NewAppPath))
-            {
-                this.DataPath = NewAppPath;
-                this.DataName = NewAppPath.Substring(this.DataPath.LastIndexOf(@"\") + @"\".Length);
-                VirtualPath = @"\" + GetPath.Replace("/", @"\");
-            }
-        }
-    }
-
-
 }

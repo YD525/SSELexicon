@@ -86,8 +86,10 @@ namespace SSELex.FileManagement
             {
                 if (!WhiteList.Contains(GetFile.FileName))
                 {
-                    if (GetFile.FileName.EndsWith(".pas"))
+                    string GetName = GetFile.FileName.ToLower();
+                    if (GetName.EndsWith(".pas") || GetName.EndsWith(".pex") || GetName.EndsWith(".psc"))
                     {
+                        //Delete residual decompiled files.
                         if (File.Exists(GetFile.FilePath))
                         {
                             File.Delete(GetFile.FilePath);
@@ -95,7 +97,7 @@ namespace SSELex.FileManagement
                     }
                     else
                     {
-                        MessageBox.Show("Unknown file:" + GetFile.FilePath);
+                        //MessageBox.Show("Unknown file:" + GetFile.FilePath);
                     }
                    
                     OtherFileCount++;
