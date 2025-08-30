@@ -1330,6 +1330,14 @@ namespace SSELex
                 DeFine.LocalConfigView.STo.SelectedValue = GetValue;
 
                 Engine.To = DeFine.GlobalLocalSetting.TargetLanguage;
+
+                if (TransViewList != null)
+                {
+                    if (TransViewList.Rows > 0)
+                    {
+                        TransViewList.QuickRefresh();
+                    }
+                }
             }
         }
 
