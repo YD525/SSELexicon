@@ -184,7 +184,7 @@ namespace SSELex.SkyrimManagement
 
             if (STRINGS.Count > 0)
             {
-                StringsSource Source = StringsSource.DL;
+                StringsSource Source = StringsSource.Normal;
 
                 using (var Writer = new StringsWriter(GameType,ModKey, SavePath, MutagenEncoding.Default))
                 {
