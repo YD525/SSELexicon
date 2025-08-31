@@ -110,6 +110,9 @@ namespace SSELex
         private ScanAnimator? ScanAnimator = null;
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            StringsFileReader TestReader = new StringsFileReader();
+            TestReader.Load(@"C:\\Users\\52508\\Desktop\\TempFolder\\SkyrimVR strings-16355-1-0\\data\\strings\\",Languages.Polish);
+
             DeFine.Init(this);
 
             TranslatorExtend.Init();
