@@ -392,7 +392,7 @@
                         </Border>
                     </Grid>
 
-                    <Grid Name="ModTransView" Style="{DynamicResource FrameStyle}" Visibility="Visible">
+                    <Grid Name="ModTransView" Style="{DynamicResource FrameStyle}" Visibility="Collapsed">
                         <Grid Grid.Column="1">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="5"/>
@@ -847,18 +847,98 @@
                         </Grid>
                     </Grid>
 
-                    <Grid Name="DashBoardView" Style="{DynamicResource FrameStyle}" Visibility="Collapsed">
+                    <Grid Name="DashBoardView" Style="{DynamicResource FrameStyle}" Visibility="Visible">
                         <Grid>
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="35"/>
                                 <RowDefinition Height="1*"/>
-                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="0.7*"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="1*"/>
                                 <ColumnDefinition Width="1*"/>
                             </Grid.ColumnDefinitions>
 
-                            <Border Grid.Column="1" Grid.Row="0" Margin="5" CornerRadius="5" Background="#FF303030">
+                            <Label Grid.Row="0" Foreground="White" VerticalAlignment="Center" FontWeight="Bold" Margin="5 0 0 0" FontSize="13">
+                                DashBoard
+                            </Label>
+                           
+                            <Border Grid.Column="0" Grid.Row="1" Margin="5" CornerRadius="5" Background="#FF303030">
+                                <Grid Margin="5">
+                                    <Grid.Effect>
+                                        <DropShadowEffect BlurRadius="15" Direction="-90" RenderingBias="Quality" Opacity=".2" ShadowDepth="1"/>
+                                    </Grid.Effect>
+                                    <Grid.OpacityMask>
+                                        <VisualBrush Visual="{Binding ElementName=Border2}" />
+                                    </Grid.OpacityMask>
+                                    <Grid.Resources>
+                                        <Style TargetType="lvc:ColumnSeries">
+                                            <Setter Property="StrokeThickness" Value="0"></Setter>
+                                            <Setter Property="Stroke" Value="White"></Setter>
+                                            <Setter Property="Fill" Value="White"></Setter>
+                                            <Setter Property="MaxColumnWidth" Value="5"></Setter>
+                                        </Style>
+                                        <Style TargetType="lvc:Axis">
+                                            <Setter Property="FontSize" Value="12"></Setter>
+                                            <Setter Property="Foreground" Value="#64FFFFFF"></Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="AxisOrientation" Value="Y">
+                                                    <Setter Property="IsMerged" Value="True"></Setter>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                        <Style TargetType="lvc:Separator">
+                                            <Setter Property="StrokeThickness" Value="1"></Setter>
+                                            <Setter Property="Stroke" Value="#4BFFFFFF"></Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="AxisOrientation" Value="X">
+                                                    <Setter Property="IsEnabled" Value="False"></Setter>
+                                                    <Setter Property="Step" Value="1"></Setter>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Resources>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height=".50*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Border x:Name="Border2" Grid.Row="0" Grid.RowSpan="4" CornerRadius="5" Background="White" />
+                                    <Border Grid.Row="0" Grid.RowSpan="3" Background="#FF363637"></Border>
+                                    
+                                    <TextBlock Grid.Row="0" TextAlignment="Center" Padding="10, 10, 0, 5" Foreground="White" FontSize="18">
+                Token Usage by Platform
+                                    </TextBlock>
+
+                                    <Border Grid.Row="0" HorizontalAlignment="Right" Style="{DynamicResource ButtonStyle}" PreviewMouseDown="ReSetToken_PreviewMouseDown" Height="30" Margin="0 0 5 0">
+                                        <Label Style="{DynamicResource ButtonFont}">
+                                            Reset
+                                        </Label>
+                                    </Border>
+                                    
+                                    <TextBlock Grid.Row="1" TextAlignment="Center" Foreground="#59FFFFFF" Padding="0,0,0,20" >AI Platform</TextBlock>
+
+                                    <lvc:CartesianChart Name="TimePowerChart" Grid.Row="2" Margin="10, 0, 10, 20">
+                                        <lvc:CartesianChart.DataTooltip>
+                                            <local:OnlyValueTooltip/>
+                                        </lvc:CartesianChart.DataTooltip>
+                                        <lvc:CartesianChart.Series>
+                                            <lvc:ColumnSeries Title="Length" Values="{Binding SetValues}"/>
+                                        </lvc:CartesianChart.Series>
+                                        <lvc:CartesianChart.AxisX>
+                                            <lvc:Axis Title="_" Labels="ChatGPT,Gemini,Cohere,DeepSeek,Baichuan,LocalAI" FontSize="10"/>
+                                        </lvc:CartesianChart.AxisX>
+                                        <lvc:CartesianChart.AxisY>
+                                            <lvc:Axis Title="Token Used" LabelFormatter="{Binding Formatter}"/>
+                                        </lvc:CartesianChart.AxisY>
+
+                                    </lvc:CartesianChart>
+
+                                </Grid>
+                            </Border>
+
+                            <Border Grid.Column="1" Grid.Row="1" Margin="5" CornerRadius="5" Background="#FF303030">
                                 <Grid Name="SpeedChart" Margin="5">
                                     <Grid.Effect>
                                         <DropShadowEffect BlurRadius="15" Direction="-90" RenderingBias="Quality" Opacity=".2" ShadowDepth="1"/>
@@ -902,78 +982,71 @@
                                 </Grid>
                             </Border>
 
-                            <Border Grid.Column="0" Margin="5" CornerRadius="5" Background="#FF303030">
-                                <Grid Margin="5">
-                                    <Grid.Effect>
-                                        <DropShadowEffect BlurRadius="15" Direction="-90" RenderingBias="Quality" Opacity=".2" ShadowDepth="1"/>
-                                    </Grid.Effect>
-                                    <Grid.OpacityMask>
-                                        <VisualBrush Visual="{Binding ElementName=Border2}" />
-                                    </Grid.OpacityMask>
-                                    <Grid.Resources>
-                                        <Style TargetType="lvc:ColumnSeries">
-                                            <Setter Property="StrokeThickness" Value="0"></Setter>
-                                            <Setter Property="Stroke" Value="White"></Setter>
-                                            <Setter Property="Fill" Value="White"></Setter>
-                                            <Setter Property="MaxColumnWidth" Value="5"></Setter>
-                                        </Style>
-                                        <Style TargetType="lvc:Axis">
-                                            <Setter Property="FontSize" Value="12"></Setter>
-                                            <Setter Property="Foreground" Value="#64FFFFFF"></Setter>
-                                            <Style.Triggers>
-                                                <Trigger Property="AxisOrientation" Value="Y">
-                                                    <Setter Property="IsMerged" Value="True"></Setter>
-                                                </Trigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                        <Style TargetType="lvc:Separator">
-                                            <Setter Property="StrokeThickness" Value="1"></Setter>
-                                            <Setter Property="Stroke" Value="#4BFFFFFF"></Setter>
-                                            <Style.Triggers>
-                                                <Trigger Property="AxisOrientation" Value="X">
-                                                    <Setter Property="IsEnabled" Value="False"></Setter>
-                                                    <Setter Property="Step" Value="1"></Setter>
-                                                </Trigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Grid.Resources>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"></RowDefinition>
-                                        <RowDefinition Height="Auto"></RowDefinition>
-                                        <RowDefinition Height=".50*"></RowDefinition>
-                                    </Grid.RowDefinitions>
-                                    <Border x:Name="Border2" Grid.Row="0" Grid.RowSpan="4" CornerRadius="5" Background="White" />
-                                    <Border Grid.Row="0" Grid.RowSpan="3" Background="#FF363637"></Border>
-                                    <TextBlock Grid.Row="0" TextAlignment="Center" Padding="10, 10, 0, 5" Foreground="White" FontSize="18">
-                                        Token Usage by Platform
-                                    </TextBlock>
-                                    <TextBlock Grid.Row="1" TextAlignment="Center" Foreground="#59FFFFFF" Padding="0,0,0,20" >AI Platform</TextBlock>
+                            <Label Grid.Row="2" Foreground="White" VerticalAlignment="Center" FontWeight="Bold" Margin="5 0 0 0" FontSize="13">
+                                Translation Records
+                            </Label>
+                            
+                            <Grid Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2">
 
-                                    <lvc:CartesianChart Name="TimePowerChart" Grid.Row="2" Margin="10, 0, 10, 20">
-                                        <lvc:CartesianChart.DataTooltip>
-                                            <local:OnlyValueTooltip/>
-                                        </lvc:CartesianChart.DataTooltip>
-                                        <lvc:CartesianChart.Series>
-                                            <lvc:ColumnSeries Title="Length" Values="{Binding SetValues}"/>
-                                        </lvc:CartesianChart.Series>
-                                        <lvc:CartesianChart.AxisX>
-                                            <lvc:Axis Title="_" Labels="ChatGPT,Gemini,Cohere,DeepSeek,Baichuan,LocalAI" FontSize="10"/>
-                                        </lvc:CartesianChart.AxisX>
-                                        <lvc:CartesianChart.AxisY>
-                                            <lvc:Axis Title="Token Used" LabelFormatter="{Binding Formatter}"/>
-                                        </lvc:CartesianChart.AxisY>
-                                        
-                                    </lvc:CartesianChart>
+                                <Border CornerRadius="9" Margin="5" Background="#FF363637" BorderBrush="#FF303030" BorderThickness="5">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                        </Grid.RowDefinitions>
 
-                                </Grid>
-                            </Border>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                        </Grid.ColumnDefinitions>
 
-                            <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2">
-                                <Border  Style="{DynamicResource ButtonStyle}" PreviewMouseDown="ReSetToken_PreviewMouseDown" HorizontalAlignment="Center" Width="300">
-                                    <Label Style="{DynamicResource ButtonFont}">
-                                        Reset Token Count
-                                    </Label>
+                                        <Border Grid.Row="0" Grid.Column="0" Background="#FF03678F" CornerRadius="5" Margin="5">
+                                            <Grid>
+
+                                                <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                                                    <Label Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold">
+                                                        XXX.esp
+                                                    </Label>
+
+                                                    <Label Grid.Row="1" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold">
+                                                        20%
+                                                    </Label>
+                                                </StackPanel>
+                                               
+
+                                                <Border Grid.Row="0" Grid.RowSpan="2" CornerRadius="5" Margin="0 0 5 5" Background="#FF12A2B8" Width="60" Height="25" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                                                    <Label Foreground="White" FontSize="10" VerticalAlignment="Center" HorizontalAlignment="Center">8/31/2025</Label>
+                                                </Border>
+                                            </Grid>
+                                        </Border>
+
+                                        <Border Grid.Row="0" Grid.Column="1" Background="#FF0795CD" CornerRadius="5" Margin="5" Cursor="Hand">
+                                            <Grid>
+
+                                                <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                                                    <Label Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold">
+                                                        XXX.esp
+                                                    </Label>
+
+                                                    <Label Grid.Row="1" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold">
+                                                        100%
+                                                    </Label>
+                                                </StackPanel>
+
+
+                                                <Border Grid.Row="0" Grid.RowSpan="2" CornerRadius="5" Margin="0 0 5 5" Background="#FF26B3C8" Width="60" Height="25" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                                                    <Label Foreground="White" FontSize="10" VerticalAlignment="Center" HorizontalAlignment="Center">9/1/2025</Label>
+                                                </Border>
+                                            </Grid>
+                                        </Border>
+
+                                    </Grid>
                                 </Border>
+
                             </Grid>
                         </Grid>
                     </Grid>
