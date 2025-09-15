@@ -161,7 +161,7 @@
                         <ListView Name="KeywordList" Grid.Row="0" Margin="0,5,0,5" ItemContainerStyle="{StaticResource ListViewItemStyle}">
                             <ListView.View>
                                 <GridView>
-                                    <GridViewColumn Header="ModName" Width="80"   DisplayMemberBinding="{Binding TargetModName}"/>
+                                    <GridViewColumn Header="ModName" Width="80"   DisplayMemberBinding="{Binding TargetFileName}"/>
                                     <GridViewColumn Header="Type" Width="85"   DisplayMemberBinding="{Binding Type}"/>
                                     <GridViewColumn Header="Source" Width="150"   DisplayMemberBinding="{Binding Source}"/>
                                     <GridViewColumn Header="Result" Width="150"   DisplayMemberBinding="{Binding Result}"/>

@@ -700,10 +700,10 @@ public class YDListView
         SetSelectLine((Grid)sender, true);
     }
 
-    public void ChangeFontColor(string ModName, int R, int G, int B)
+    public void ChangeFontColor(int FileUniqueKey, int R, int G, int B)
     {
         var GetLine = this.RealLines[SelectLineID];
-        FontColorFinder.SetColor(ModName, GetLine.Key, R, G, B);
+        FontColorFinder.SetColor(FileUniqueKey, GetLine.Key, R, G, B);
         GetLine.SetFontColor(this, R, G, B);
     }
 

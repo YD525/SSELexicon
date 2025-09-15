@@ -174,8 +174,20 @@ namespace SSELex.SkyrimManagement
             }
         }
 
+        //C:\\Users\\52508\\Desktop\\TempFolder\\SkyrimVR strings-16355-1-0\\
+
+        public string FindSourceStr()
+        {
+            return string.Empty;
+        }
+
         public void Save(string SavePath,string ModName, Languages To)
         {
+            if(SavePath.EndsWith(@"\"))
+            {
+                SavePath += @"\";
+            }
+
             Language ToLang = ToMutagenLang(To);
 
             ModKey ModKey = ModName;
@@ -184,16 +196,26 @@ namespace SSELex.SkyrimManagement
 
             if (STRINGS.Count > 0)
             {
+            
+                string GenPath = SavePath + string.Format("{0}_{1}.strings",GameType.ToString(), ToLang.ToString().ToLower());
+
                 StringsSource Source = StringsSource.Normal;
 
-                using (var Writer = new StringsWriter(GameType,ModKey, SavePath, MutagenEncoding.Default))
+                using (var Writer = new StringsWriter(GameType,ModKey, GenPath, MutagenEncoding.Default))
                 {
-                    TranslatedString TransItem = new TranslatedString(ToLang);
-                    TransItem.String = "Test";
-                    TransItem.Set(ToLang, "Test");
+                    for (int i = 0; i < this.STRINGS.Count; i++)
+                    {
+                        var GetKey = this.STRINGS.ElementAt(i).Key;
 
-                    //Key?
-                    uint key = Writer.Register(TransItem, Source);
+                        TranslatedString TransItem = new TranslatedString(ToLang);
+
+                        TransItem.String = FindSourceStr();
+                        TransItem.Set(ToLang, this.STRINGS[GetKey]);
+
+                        //Key?
+                        uint key = Writer.Register(TransItem, Source);
+                    }
+                  
                 }
             }
 

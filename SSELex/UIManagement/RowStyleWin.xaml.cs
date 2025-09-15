@@ -192,7 +192,7 @@ namespace SSELex.UIManagement
 
             Color FontColor = Colors.White;
 
-            var QueryColor = FontColorFinder.FindColor(Engine.GetModName(), Item.Key);
+            var QueryColor = FontColorFinder.FindColor(Engine.GetFileUniqueKey(), Item.Key);
 
             if (QueryColor != null)
             {

@@ -736,7 +736,7 @@ namespace SSELex
         }
         public bool CheckDictionary()
         {
-            string SetPath = DeFine.GetFullPath(@"\Librarys\" + Engine.GetModName() + ".Json");
+            string SetPath = DeFine.GetFullPath(@"\Librarys\" + Engine.LastLoadFileName + ".Json");
             if (File.Exists(SetPath))
             {
                 return true;
@@ -840,7 +840,7 @@ namespace SSELex
                 string GetFileName = FilePath.Substring(FilePath.LastIndexOf(@"\") + @"\".Length);
                 //Caption.Text = GetFileName;
 
-                Engine.ChangeModName(GetFileName);
+                Engine.LoadFile(FilePath);
 
                 string GetModName = GetFileName;
                 FModName = LModName = GetModName;
@@ -1035,7 +1035,7 @@ namespace SSELex
 
             EmptyFromAndToText();
 
-            Engine.ChangeModName(string.Empty);
+            Engine.ChangeUniqueKey(0);
 
             this.Dispatcher.Invoke(new Action(() =>
             {
@@ -1377,7 +1377,7 @@ namespace SSELex
                                     if (GetCloudTranslationCache == true)
                                     {
                                         Translator.ClearAICache();
-                                        if (Translator.ClearCloudCache(Engine.GetModName()))
+                                        if (Translator.ClearCloudCache(Engine.GetFileUniqueKey()))
                                         {
                                             Engine.Vacuum();
                                             CallFuncCount++;
@@ -1386,7 +1386,7 @@ namespace SSELex
                                     }
                                     if (GetUserTranslationCache == true)
                                     {
-                                        TranslatorExtend.ClearLocalCache(Engine.GetModName());
+                                        TranslatorExtend.ClearLocalCache(Engine.GetFileUniqueKey());
                                         {
                                             Engine.Vacuum();
                                             CallFuncCount++;
@@ -1399,7 +1399,7 @@ namespace SSELex
 
                                     if (CallFuncCount > 0)
                                     {
-                                        Engine.GetTranslatedCount(Engine.GetModName());
+                                        Engine.GetTranslatedCount(Engine.GetFileUniqueKey());
 
                                         if (DeFine.WorkingWin.TransViewList != null)
                                         {
@@ -1442,13 +1442,13 @@ namespace SSELex
                 RefreshButton.Dispatcher.Invoke(new Action(() => {
                     RefreshButton.Content = "Refreshing...";
                 }));
-                var ModName = Engine.GetModName();
+                var FileUniqueKey = Engine.GetFileUniqueKey();
 
-                if (ModName.Trim().Length > 0)
+                if (FileUniqueKey > 0)
                 {
                     int CallFuncCount = 0;
 
-                    string SetPath = DeFine.GetFullPath(@"\Librarys\" + ModName + ".Json");
+                    string SetPath = DeFine.GetFullPath(@"\Librarys\" + Engine.LastLoadFileName + ".Json");
 
                     if (File.Exists(SetPath))
                     {
@@ -2008,13 +2008,13 @@ namespace SSELex
 
                 if (TransViewList != null)
                 {
-                    TransViewList.ChangeFontColor(Engine.GetModName(), GetColor.R, GetColor.G, GetColor.B);
+                    TransViewList.ChangeFontColor(Engine.GetFileUniqueKey(), GetColor.R, GetColor.G, GetColor.B);
                 }
                 if (SearchResultsViewList != null)
                 {
                     if (SearchResultsView.Visibility == Visibility.Visible)
                     {
-                        SearchResultsViewList.ChangeFontColor(Engine.GetModName(), GetColor.R, GetColor.G, GetColor.B);
+                        SearchResultsViewList.ChangeFontColor(Engine.GetFileUniqueKey(), GetColor.R, GetColor.G, GetColor.B);
                     }
                 }
             }
@@ -2646,7 +2646,7 @@ namespace SSELex
                             bool IsCloud = false;
                             QueryGrid.SyncData(ref IsCloud);
 
-                            TranslationUnit NewUnit = new TranslationUnit(Engine.GetModName(), QueryGrid.Key, QueryGrid.Type, QueryGrid.SourceText, QueryGrid.TransText, "", Engine.From, Engine.To,100);
+                            TranslationUnit NewUnit = new TranslationUnit(Engine.GetFileUniqueKey(), QueryGrid.Key, QueryGrid.Type, QueryGrid.SourceText, QueryGrid.TransText, "", Engine.From, Engine.To,100);
 
                             bool CanSleep = false;
 

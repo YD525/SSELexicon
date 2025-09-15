@@ -224,7 +224,7 @@ namespace SSELex
                     {
                         KeywordList.Items.Add(new
                         {
-                            TargetModName = GetItem.TargetModName,
+                            TargetFileName = GetItem.TargetFileName,
                             Type = GetItem.Type,
                             Source = GetItem.Source,
                             Result = GetItem.Result,
@@ -426,7 +426,7 @@ namespace SSELex
 
                     string GetFromStr = FromStr.Text;
 
-                    TranslationUnit NewUnit = new TranslationUnit("Test", "TestLocalKey255", GetType, GetFromStr,"","", FilterFrom, FilterTo,100);
+                    TranslationUnit NewUnit = new TranslationUnit(-1, "TestLocalKey255", GetType, GetFromStr,"","", FilterFrom, FilterTo,100);
 
                     new Thread(() =>
                     {
@@ -444,7 +444,7 @@ namespace SSELex
                             ExecuteBtn.Content = "Execute";
                         }));
 
-                        Translator.ClearCloudCache("Test");
+                        Translator.ClearCloudCache(-1);
 
                     }).Start();
                 }

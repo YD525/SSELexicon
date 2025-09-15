@@ -348,7 +348,7 @@ namespace SSELex.TranslateManage
 
                                 if (CanSet)
                                 {
-                                    TranslationUnits.Add(new TranslationUnit(Engine.GetModName(),
+                                    TranslationUnits.Add(new TranslationUnit(Engine.GetFileUniqueKey(),
                                   Row.Key, Row.Type, Row.SourceText, Row.TransText, "", Engine.From, Engine.To,Row.Score));
                                 }
                             }
@@ -422,7 +422,7 @@ namespace SSELex.TranslateManage
 
                         TranslationStatus = StateControl.Cancel;
 
-                        Engine.TranslatedCount = Engine.GetTranslatedCount(Engine.GetModName());
+                        Engine.TranslatedCount = Engine.GetTranslatedCount(Engine.GetFileUniqueKey());
 
                         if (GetListView != null)
                         {
@@ -497,15 +497,15 @@ namespace SSELex.TranslateManage
             return ReplaceCount;
         }
 
-        public static void ClearLocalCache(string ModName)
+        public static void ClearLocalCache(int FileUniqueKey)
         {
-            LocalDBCache.DeleteCacheByModName(ModName, DeFine.GlobalLocalSetting.TargetLanguage);
+            LocalDBCache.DeleteCacheByFileUniqueKey(FileUniqueKey, DeFine.GlobalLocalSetting.TargetLanguage);
             Translator.TransData.Clear();
         }
 
-        public static bool ClearCloudCache(string ModName)
+        public static bool ClearCloudCache(int FileUniqueKey)
         {
-            return CloudDBCache.ClearCloudCache(ModName);
+            return CloudDBCache.ClearCloudCache(FileUniqueKey);
         }
     }
 
