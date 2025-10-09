@@ -677,21 +677,79 @@ public class YDListView
     {
         lock (DeleteLocker)
         {
-            if (this.RealLines.Count > Offset)
-            {
-                var Get = this.RealLines[Offset];
+            if (Offset < 0 || Offset >= RealLines.Count)
+                return;
 
-                for (int i = 0; i < this.VisibleRows.Count; i++)
+            // Record The Row To Be Deleted
+            var deletedRow = RealLines[Offset];
+            string key = deletedRow.Key;
+            double removedHeight = deletedRow.Height;
+
+            // Remove Data Row
+            RealLines.RemoveAt(Offset);
+
+            // Find The Corresponding UI Element In Canvas
+            FrameworkElement deletedElement = null;
+            for (int i = 0; i < MainCanvas.Children.Count; i++)
+            {
+                if (MainCanvas.Children[i] is FrameworkElement fe && fe.Tag is int tag && tag == Offset)
                 {
-                    if (RowStyleWin.GetKey((Grid)this.VisibleRows[i].View).Equals(Get.Key))
+                    deletedElement = fe;
+                    break;
+                }
+            }
+
+            double deletedTop = 0;
+            if (deletedElement != null)
+            {
+                deletedTop = Canvas.GetTop(deletedElement);
+
+                // Unsubscribe Events And Clear Child Elements
+                try { deletedElement.PreviewMouseDown -= MainGrid_PreviewMouseDown; } catch { }
+                if (deletedElement is Panel p) p.Children.Clear();
+
+                // Remove The Element From Canvas
+                MainCanvas.Children.Remove(deletedElement);
+            }
+
+            // Adjust Remaining Elements' Tag And Position
+            foreach (UIElement child in MainCanvas.Children)
+            {
+                if (child is FrameworkElement fe && fe.Tag is int tag)
+                {
+                    if (tag > Offset)
                     {
-                        this.VisibleRows.RemoveAt(i);
-                        break;
+                        // Update Tag Index
+                        fe.Tag = tag - 1;
+
+                        // Move Element Up To Fill The Gap
+                        double top = Canvas.GetTop(fe);
+                        Canvas.SetTop(fe, top - removedHeight);
                     }
                 }
-
-                UpdateVisibleRows();
             }
+
+            // Update VisibleRows Indexes And Remove The Deleted One
+            for (int i = VisibleRows.Count - 1; i >= 0; i--)
+            {
+                var v = VisibleRows[i];
+                if (v.Data == deletedRow)
+                {
+                    VisibleRows.RemoveAt(i);
+                }
+                else
+                {
+                    int index = RealLines.IndexOf(v.Data);
+                    if (index >= 0)
+                        v.View.Tag = index;
+                }
+            }
+
+            // Recalculate Canvas Height
+            MainCanvas.Height = RealLines.Sum(r => r.Height);
+
+            // Refresh Visible Area Without Clearing The Whole Canvas
+            UpdateVisibleRows(true);
         }
     }
 
