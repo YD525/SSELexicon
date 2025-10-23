@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using Cohere;
+using DynamicData;
 using Mutagen.Bethesda;
 using Mutagen.Bethesda.Plugins;
 using Mutagen.Bethesda.Skyrim;
@@ -12,13 +13,34 @@ namespace SSELex.SkyrimManagement
 {
     //https://mutagen-modding.github.io/Mutagen/Strings/#simple-string-access
 
+    public class StringItem
+    {
+        public StringsSource Type;
+        public string Key = "";
+        public uint ID = 0;
+        public string Value = "";
+
+        public StringItem(StringsSource Type,uint ID, string Value)
+        {
+            this.Type = Type;
+            this.ID = ID;
+            this.Value = Value;
+        }
+
+        public StringItem(StringsSource Type, string Key, uint ID, string Value)
+        {
+            this.Type = Type;
+            this.Key = Key;
+            this.ID = ID;
+            this.Value = Value; 
+        }
+    }
+
     //STRINGS DLSTRINGS ILSTRINGS
     public class StringsFileReader
     {
-        public Dictionary<uint, string> STRINGS = new Dictionary<uint, string>();
-        public Dictionary<uint, string> DLSTRINGS = new Dictionary<uint, string>();
-        public Dictionary<uint, string> ILSTRINGS = new Dictionary<uint, string>();
-
+        public string CurrentModPath = "";
+        public Dictionary<uint, StringItem> Strings = new Dictionary<uint, StringItem>();
 
         public static Language ToMutagenLang(Languages Lang)
         {
@@ -47,9 +69,12 @@ namespace SSELex.SkyrimManagement
 
         public void Close()
         {
-            STRINGS.Clear();
-            DLSTRINGS.Clear();
-            ILSTRINGS.Clear();
+            Clear();
+            CurrentModPath = string.Empty;
+        }
+        public void Clear()
+        {
+            Strings.Clear();
         }
 
         public Language? FindLang(string FileName)
@@ -67,22 +92,33 @@ namespace SSELex.SkyrimManagement
             return null;
         }
 
-        //C:\\Users\\52508\\Desktop\\TempFolder\\SkyrimVR strings-16355-1-0\\data\\strings\\
-
-        public void Load(string Path,Languages To)
+        public void SetModPath(string ModePath)
         {
-            Close();
+            CurrentModPath = ModePath;
+        }
 
-            if (!Path.EndsWith(@"\"))
+        public Languages CurrentLang = Languages.Null;
+
+        public void LoadStrings(Languages To)
+        {
+            Clear();
+            CurrentLang = To;
+
+            if (CurrentModPath.Length == 0)
             {
-                Path+= @"\";
+                return;
+            }
+
+            if (!CurrentModPath.EndsWith(@"\"))
+            {
+                CurrentModPath += @"\";
             }
 
             Language ToLang = ToMutagenLang(To);
 
             //Check whether the module path contains the stringsfile file
 
-            foreach (var GetFile in Directory.GetFiles(Path))
+            foreach (var GetFile in Directory.GetFiles(CurrentModPath, "*.*", SearchOption.AllDirectories))
             {
                 var FileName = GetFile.Substring(GetFile.LastIndexOf(@"\") + @"\".Length);
                 FileName = FileName.ToLower();
@@ -145,88 +181,27 @@ namespace SSELex.SkyrimManagement
 
             var StringsOverlay = new StringsLookupOverlay(Path, StringsSource, MutagenEncoding.GetEncoding(GameType, (Language)To));
 
-            Dictionary<uint, string> TempDictionary = new Dictionary<uint, string>();
-
             foreach (var GetItem in StringsOverlay)  
             {
                 uint GetId = GetItem.Key;
                 string GetValue = GetItem.Value;
 
-                if (!TempDictionary.ContainsKey(GetId))
-                {
-                    TempDictionary.Add(GetId,GetValue);
-                }
-            }
-
-            if (StringsSource == StringsSource.Normal)
-            {
-                STRINGS = TempDictionary;
-            }
-            else
-            if (StringsSource == StringsSource.DL)
-            {
-                DLSTRINGS = TempDictionary;
-            }
-            else
-            if (StringsSource == StringsSource.IL)
-            {
-                ILSTRINGS = TempDictionary;
+                Strings.Add(GetId, new StringItem(StringsSource, GetId, GetValue));
             }
         }
 
-        //C:\\Users\\52508\\Desktop\\TempFolder\\SkyrimVR strings-16355-1-0\\
-
-        public string FindSourceStr()
+        public void UPDateKey(uint? SetID,string Key)
         {
-            return string.Empty;
-        }
-
-        public void Save(string SavePath,string ModName, Languages To)
-        {
-            if(SavePath.EndsWith(@"\"))
+            if (SetID == null)
             {
-                SavePath += @"\";
+                return;
             }
 
-            Language ToLang = ToMutagenLang(To);
+            uint ID = (uint)SetID;
 
-            ModKey ModKey = ModName;
-
-            GameRelease GameType = FindGameType();
-
-            if (STRINGS.Count > 0)
+            if (Strings.ContainsKey(ID))
             {
-            
-                string GenPath = SavePath + string.Format("{0}_{1}.strings",GameType.ToString(), ToLang.ToString().ToLower());
-
-                StringsSource Source = StringsSource.Normal;
-
-                using (var Writer = new StringsWriter(GameType,ModKey, GenPath, MutagenEncoding.Default))
-                {
-                    for (int i = 0; i < this.STRINGS.Count; i++)
-                    {
-                        var GetKey = this.STRINGS.ElementAt(i).Key;
-
-                        TranslatedString TransItem = new TranslatedString(ToLang);
-
-                        TransItem.String = FindSourceStr();
-                        TransItem.Set(ToLang, this.STRINGS[GetKey]);
-
-                        //Key?
-                        uint key = Writer.Register(TransItem, Source);
-                    }
-                  
-                }
-            }
-
-            if (DLSTRINGS.Count > 0)
-            { 
-            
-            }
-
-            if (ILSTRINGS.Count > 0)
-            {
-
+                Strings[ID].Key = Key;
             }
         }
     }

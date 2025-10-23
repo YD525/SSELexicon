@@ -8,21 +8,20 @@ using Noggog;
 using System.IO;
 using System.IO.Abstractions;
 using System.Windows;
-using SSELex.UIManage;
 using Mutagen.Bethesda;
 using Mutagen.Bethesda.Strings;
 using Mutagen.Bethesda.Plugins.Exceptions;
 using SSELex.SkyrimManagement;
-using PhoenixEngine.TranslateCore;
-using PhoenixEngine.SSELexiconBridge;
 using static PhoenixEngine.SSELexiconBridge.NativeBridge;
-using SSELex.UIManagement;
 using SSELex.TranslateManage;
+using PhoenixEngine.EngineManagement;
 
 namespace SSELex.SkyrimManage
 {
     public class EspReader
     {
+        public StringsFileReader Strings = new StringsFileReader();
+
         public FileSystem GlobalFileSystem = null;
 
         public SkyrimMod? CurrentReadMod = null;
@@ -92,6 +91,7 @@ namespace SSELex.SkyrimManage
 
         public void Close()
         {
+            Strings.Close();
             TranslatorExtend.ClearTranslatorHistoryCache();
 
             ClearRam();
@@ -306,6 +306,10 @@ namespace SSELex.SkyrimManage
         }
         public SkyrimMod? ReadMod(string FilePath)
         {
+            string GetPath = FilePath.Substring(0, FilePath.LastIndexOf(@"\"));
+            Strings.SetModPath(GetPath);
+            Strings.LoadStrings(Engine.To);
+
             if (File.Exists(FilePath) && (FilePath.ToLower().EndsWith(".esp") || FilePath.ToLower().EndsWith(".esm") || FilePath.ToLower().EndsWith(".esl")))
             {
                 TranslatorBridge.ClearCache();

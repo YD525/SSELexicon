@@ -337,6 +337,11 @@ namespace SSELex.UIManage
             return TranslatorBridge.GetTransCache(GetKey);
         }
 
+        public static void BindingKey(uint?Key,string UniqueKey)
+        {
+            DeFine.WorkingWin?.GlobalEspReader?.Strings?.UPDateKey(Key, UniqueKey);
+        }
+
         public static void LoadHazards(EspReader Reader, YDListView View)
         {
             if (Reader.Hazards != null)
@@ -362,6 +367,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("Hazard", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                             }));
+
+                            BindingKey(GetHazardItem.Name.StringsKey, GetUniqueKey);
                         }
                     }
                     catch (Exception ex)
@@ -396,6 +403,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("HeadPart", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                             }));
+
+                            BindingKey(GetHeadPartItem.Name.StringsKey, GetUniqueKey);
                         }
                     }
                     catch (Exception ex)
@@ -430,6 +439,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("Npc", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                             }));
+
+                            BindingKey(GetNpcItem.Name.StringsKey, GetUniqueKey);
                         }
 
                         var GetShortName = ConvertHelper.ObjToStr(GetNpcItem.ShortName); //NPC SHRT
@@ -443,6 +454,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("Npc", GetHashKey, GetUniqueKey, GetShortName, GetTransStr, 999));
                             }));
+
+                            BindingKey(GetNpcItem.ShortName.StringsKey, GetUniqueKey);
                         }
                     }
                     catch (Exception ex)
@@ -477,6 +490,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("Worldspace", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                             }));
+
+                            BindingKey(GetWorldspaceItem.Name.StringsKey, GetUniqueKey);
                         }
                     }
                     catch (Exception ex)
@@ -511,6 +526,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("Shout", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                             }));
+
+                            BindingKey(GetShoutItem.Name.StringsKey, GetUniqueKey);
                         }
                     }
                     catch (Exception ex)
@@ -545,6 +562,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("Tree", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                             }));
+
+                            BindingKey(GetTreeItem.Name.StringsKey, GetUniqueKey);
                         }
                     }
                     catch (Exception ex)
@@ -579,6 +598,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("Ingestible", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                             }));
+
+                            BindingKey(GetIngestibleItem.Name.StringsKey, GetUniqueKey);
                         }
                     }
                     catch (Exception ex)
@@ -613,6 +634,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("Race", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                             }));
+
+                            BindingKey(GetRaceItem.Name.StringsKey, GetUniqueKey);
                         }
 
                         var GetDescription = ConvertHelper.ObjToStr(GetRaceItem.Description);
@@ -626,6 +649,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("Race", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, 999));
                             }));
+
+                            BindingKey(GetRaceItem.Description.StringsKey, GetUniqueKey);
                         }
                     }
                     catch (Exception ex)
@@ -660,6 +685,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("Quest", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                             }));
+
+                            BindingKey(GetQuestItem.Name.StringsKey, GetUniqueKey);
                         }
                         var GetDescription = ConvertHelper.ObjToStr(GetQuestItem.Description);
                         if (GetDescription.Length > 0)
@@ -672,6 +699,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("Quest", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, 999));
                             }));
+
+                            BindingKey(GetQuestItem.Description.StringsKey, GetUniqueKey);
                         }
 
                         if (GetQuestItem.Objectives != null)
@@ -695,6 +724,8 @@ namespace SSELex.UIManage
                                             {
                                                 View.AddRowR(LineRenderer.CreatLine("Quest", GetHashKey, GetUniqueKey, GetDisplayText, GetTransStr, 999));
                                             }));
+
+                                            BindingKey(GetObjectiveItem.DisplayText.StringsKey, GetUniqueKey);
                                         }
                                     }
                                     catch (Exception ex)
@@ -731,6 +762,8 @@ namespace SSELex.UIManage
                                                     {
                                                         View.AddRowR(LineRenderer.CreatLine("Quest", GetHashKey, GetUniqueKey, GetEntry, GetTransStr, 999));
                                                     }));
+
+                                                    BindingKey(GetLogEntrieItem.Entry.StringsKey, GetUniqueKey);
                                                 }
                                             }
                                             catch (Exception ex)
@@ -778,6 +811,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("Faction", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                             }));
+
+                            BindingKey(GetFactionItem.Name.StringsKey, GetUniqueKey);
                         }
 
                         if (GetFactionItem.Ranks != null)
@@ -805,6 +840,8 @@ namespace SSELex.UIManage
                                                     {
                                                         View.AddRowR(LineRenderer.CreatLine("Faction", GetHashKey, GetUniqueKey, GetFemale, GetTransStr, 999));
                                                     }));
+
+                                                    BindingKey(GetRank.Title.Female.StringsKey, GetUniqueKey);
                                                 }
                                                 if (GetMale.Trim().Length > 0)
                                                 {
@@ -816,6 +853,8 @@ namespace SSELex.UIManage
                                                     {
                                                         View.AddRowR(LineRenderer.CreatLine("Faction", GetHashKey, GetUniqueKey, GetMale, GetTransStr, 999));
                                                     }));
+
+                                                    BindingKey(GetRank.Title.Male.StringsKey, GetUniqueKey);
                                                 }
                                             }
                                         }
@@ -864,6 +903,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("Perk", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                             }));
+
+                            BindingKey(GetPerkItem.Name.StringsKey, GetUniqueKey);
                         }
 
                         var GetDescription = ConvertHelper.ObjToStr(GetPerkItem.Description);
@@ -877,6 +918,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("Perk", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, 999));
                             }));
+
+                            BindingKey(GetPerkItem.Description.StringsKey, GetUniqueKey);
                         }
                     }
                     catch (Exception ex)
@@ -911,6 +954,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("Weapon", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                             }));
+
+                            BindingKey(GetWeapon.Name.StringsKey, GetUniqueKey);
                         }
 
                         var GetDescription = ConvertHelper.ObjToStr(GetWeapon.Description);
@@ -924,6 +969,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("Weapon", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, 999));
                             }));
+
+                            BindingKey(GetWeapon.Description.StringsKey, GetUniqueKey);
                         }
                     }
                     catch (Exception ex)
@@ -958,6 +1005,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("SoulGem", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                             }));
+
+                            BindingKey(GetSoulGem.Name.StringsKey, GetUniqueKey);
                         }
                     }
                     catch (Exception ex)
@@ -992,6 +1041,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("Armor", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                             }));
+
+                            BindingKey(GetArmor.Name.StringsKey, GetUniqueKey);
                         }
 
                         var GetDescription = ConvertHelper.ObjToStr(GetArmor.Description);
@@ -1005,6 +1056,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("Armor", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, 999));
                             }));
+
+                            BindingKey(GetArmor.Description.StringsKey, GetUniqueKey);
                         }
                     }
                     catch (Exception ex)
@@ -1039,6 +1092,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("Key", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                             }));
+
+                            BindingKey(GetKey.Name.StringsKey, GetUniqueKey);
                         }
                     }
                     catch (Exception ex)
@@ -1073,6 +1128,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("Container", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                             }));
+
+                            BindingKey(GetContainer.Name.StringsKey, GetUniqueKey);
                         }
                     }
                     catch (Exception ex)
@@ -1107,6 +1164,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("Activator", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                             }));
+
+                            BindingKey(GetActivator.Name.StringsKey, GetUniqueKey);
                         }
 
                         var GetActivateTextOverride = ConvertHelper.ObjToStr(GetActivator.ActivateTextOverride);
@@ -1120,6 +1179,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("Activator", GetHashKey, GetUniqueKey, GetActivateTextOverride, GetTransStr, 999));
                             }));
+
+                            BindingKey(GetActivator.ActivateTextOverride.StringsKey, GetUniqueKey);
                         }
                     }
                     catch (Exception ex)
@@ -1154,6 +1215,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("MiscItem", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                             }));
+
+                            BindingKey(GetMiscItem.Name.StringsKey, GetUniqueKey);
                         }
                     }
                     catch (Exception ex)
@@ -1188,6 +1251,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("Book", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                             }));
+
+                            BindingKey(Books.Name.StringsKey, GetUniqueKey);
                         }
 
                         var GetDescription = ConvertHelper.ObjToStr(Books.Description);
@@ -1201,6 +1266,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("Book", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, 999));
                             }));
+
+                            BindingKey(Books.Description.StringsKey, GetUniqueKey);
                         }
 
                         var GetBookText = ConvertHelper.ObjToStr(Books.BookText);
@@ -1214,6 +1281,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("Book", GetHashKey, GetUniqueKey, GetBookText, GetTransStr, 999));
                             }));
+
+                            BindingKey(Books.BookText.StringsKey, GetUniqueKey);
                         }
                     }
                     catch (Exception ex)
@@ -1248,6 +1317,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("Message", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                             }));
+
+                            BindingKey(GetMessageItem.Name.StringsKey, GetUniqueKey);
                         }
 
                         var GetDescription = ConvertHelper.ObjToStr(GetMessageItem.Description);
@@ -1261,6 +1332,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("Message", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, 999));
                             }));
+
+                            BindingKey(GetMessageItem.Description.StringsKey, GetUniqueKey);
                         }
                     }
                     catch (Exception ex)
@@ -1304,6 +1377,8 @@ namespace SSELex.UIManage
                                             {
                                                 View.AddRowR(LineRenderer.CreatLine("Button", GetHashKey, GetUniqueKey, GetButton, GetTransStr, 999));
                                             }));
+
+                                            BindingKey(GetButtons[ir].Text.StringsKey, GetUniqueKey);
                                         }
                                     }
                                     catch (Exception ex)
@@ -1346,6 +1421,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("DialogTopic", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                             }));
+
+                            BindingKey(GetDialogTopicItem.Name.StringsKey, GetUniqueKey);
                         }
 
                         var GetResponses = GetDialogTopicItem.Responses;
@@ -1367,6 +1444,8 @@ namespace SSELex.UIManage
                                         {
                                             View.AddRowR(LineRenderer.CreatLine("DialogTopic", GetHashKey, GetUniqueKey, GetPrompt, GetTransStr, 999));
                                         }));
+
+                                        BindingKey(GetChild.Prompt.StringsKey, GetUniqueKey);
                                     }
 
                                     if (GetChild.Responses != null)
@@ -1387,6 +1466,8 @@ namespace SSELex.UIManage
                                                     {
                                                         View.AddRowR(LineRenderer.CreatLine("DialogTopic", GetHashKey, GetUniqueKey, GetValue, GetTransStr, 999));
                                                     }));
+
+                                                    BindingKey(GetChildA.Text.StringsKey, GetUniqueKey);
                                                 }
                                             }
                                             catch (Exception ex)
@@ -1433,6 +1514,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("Spell", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                             }));
+
+                            BindingKey(GetSpellItem.Name.StringsKey, GetUniqueKey);
                         }
 
                         var GetDescription = ConvertHelper.ObjToStr(GetSpellItem.Description);
@@ -1446,6 +1529,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("Spell", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, 999));
                             }));
+
+                            BindingKey(GetSpellItem.Description.StringsKey, GetUniqueKey);
                         }
                     }
                     catch (Exception ex)
@@ -1480,6 +1565,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("ObjectEffect", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                             }));
+
+                            BindingKey(GetObjectEffect.Name.StringsKey, GetUniqueKey);
                         }
                     }
                     catch (Exception ex)
@@ -1514,6 +1601,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("MagicEffect", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                             }));
+
+                            BindingKey(GetMagicEffect.Name.StringsKey, GetUniqueKey);
                         }
 
                         var GetDescription = ConvertHelper.ObjToStr(GetMagicEffect.Description);
@@ -1527,6 +1616,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("MagicEffect", GetHashKey, GetUniqueKey, GetDescription, GetTransStr, 999));
                             }));
+
+                            BindingKey(GetMagicEffect.Description.StringsKey, GetUniqueKey);
                         }
                     }
                     catch (Exception ex)
@@ -1573,6 +1664,8 @@ namespace SSELex.UIManage
                                                     {
                                                         View.AddRowR(LineRenderer.CreatLine("Cell", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                                                     }));
+
+                                                    BindingKey(GetChild.Name.StringsKey, GetUniqueKey);
                                                 }
                                             }
                                             catch (Exception ex)
@@ -1619,6 +1712,8 @@ namespace SSELex.UIManage
                             {
                                 View.AddRowR(LineRenderer.CreatLine("Location", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
                             }));
+
+                            BindingKey(GetLocationItem.Name.StringsKey, GetUniqueKey);
                         }
                     }
                     catch (Exception ex)
