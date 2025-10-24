@@ -1328,9 +1328,9 @@ namespace SSELex
 
                 Engine.To = DeFine.GlobalLocalSetting.TargetLanguage;
 
-                if (GlobalEspReader?.Strings.CurrentLang != Engine.To)
+                if (GlobalEspReader?.StringsReader?.CurrentLang != Engine.To)
                 {
-                    GlobalEspReader?.Strings.LoadStrings(Engine.To);
+                    GlobalEspReader?.StringsReader.LoadStrings(Engine.To);
                     ReloadData();
                 }
 

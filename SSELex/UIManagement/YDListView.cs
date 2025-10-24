@@ -39,6 +39,15 @@ public class FakeGrid
         this.Score = Score;
     }
 
+    public string GetSource()
+    {
+        if (this.RealSource.Length > 0)
+        {
+            return this.RealSource;
+        }
+        return this.SourceText;
+    }
+
     public void SyncUI(YDListView ListViewHandle)
     {
         for (int i = 0; i < ListViewHandle.VisibleRows.Count; i++)

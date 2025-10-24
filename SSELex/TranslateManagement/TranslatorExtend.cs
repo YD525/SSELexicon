@@ -346,6 +346,30 @@ namespace SSELex.TranslateManage
                                     CanSet = false;
                                 }
 
+                                if (DeFine.WorkingWin?.CurrentTransType == 2)
+                                {
+                                    var GetTrans = DeFine.WorkingWin.GlobalEspReader?.StringsReader.QueryData(Row.Key);
+
+                                    if (GetTrans != null)
+                                    {
+                                        //Added to context memory. Helps AI improve accuracy.
+                                        Engine.AddAIMemory(Row.GetSource(), GetTrans.Value);
+
+                                        Translator.TransData.Add(Row.Key, GetTrans.Value);
+
+                                        Row.TransText = GetTrans.Value;
+
+                                        Row.SyncUI(GetListView);
+
+                                        if (DelegateHelper.SetDataCall != null)
+                                        {
+                                            DelegateHelper.SetDataCall(0, "Skip StringsFile(" + GetTrans.Type.ToString() + ") fields:" + Row.Key);
+                                        }
+
+                                        CanSet = false;
+                                    }
+                                }
+
                                 if (CanSet)
                                 {
                                     TranslationUnits.Add(new TranslationUnit(Engine.GetFileUniqueKey(),

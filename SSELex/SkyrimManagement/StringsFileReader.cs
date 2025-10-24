@@ -41,6 +41,7 @@ namespace SSELex.SkyrimManagement
     {
         public string CurrentModPath = "";
         public Dictionary<uint, StringItem> Strings = new Dictionary<uint, StringItem>();
+        public Dictionary<string, uint> KeyBindings = new Dictionary<string, uint>();
 
         public static Language ToMutagenLang(Languages Lang)
         {
@@ -67,6 +68,15 @@ namespace SSELex.SkyrimManagement
             };
         }
 
+        public StringItem? QueryData(string UniqueKey)
+        {
+            if (KeyBindings.ContainsKey(UniqueKey))
+            {
+                return Strings[KeyBindings[UniqueKey]];
+            }
+            return null;
+        }
+
         public void Close()
         {
             Clear();
@@ -74,6 +84,7 @@ namespace SSELex.SkyrimManagement
         }
         public void Clear()
         {
+            KeyBindings.Clear();
             Strings.Clear();
         }
 
@@ -202,6 +213,7 @@ namespace SSELex.SkyrimManagement
             if (Strings.ContainsKey(ID))
             {
                 Strings[ID].Key = Key;
+                KeyBindings.Add(Key,ID);
             }
         }
     }

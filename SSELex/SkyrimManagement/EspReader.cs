@@ -20,7 +20,7 @@ namespace SSELex.SkyrimManage
 {
     public class EspReader
     {
-        public StringsFileReader Strings = new StringsFileReader();
+        public StringsFileReader StringsReader = new StringsFileReader();
 
         public FileSystem GlobalFileSystem = null;
 
@@ -91,7 +91,7 @@ namespace SSELex.SkyrimManage
 
         public void Close()
         {
-            Strings.Close();
+            StringsReader.Close();
             TranslatorExtend.ClearTranslatorHistoryCache();
 
             ClearRam();
@@ -307,8 +307,8 @@ namespace SSELex.SkyrimManage
         public SkyrimMod? ReadMod(string FilePath)
         {
             string GetPath = FilePath.Substring(0, FilePath.LastIndexOf(@"\"));
-            Strings.SetModPath(GetPath);
-            Strings.LoadStrings(Engine.To);
+            StringsReader.SetModPath(GetPath);
+            StringsReader.LoadStrings(Engine.To);
 
             if (File.Exists(FilePath) && (FilePath.ToLower().EndsWith(".esp") || FilePath.ToLower().EndsWith(".esm") || FilePath.ToLower().EndsWith(".esl")))
             {

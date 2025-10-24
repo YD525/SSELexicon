@@ -339,7 +339,7 @@ namespace SSELex.UIManage
 
         public static void BindingKey(uint?Key,string UniqueKey)
         {
-            DeFine.WorkingWin?.GlobalEspReader?.Strings?.UPDateKey(Key, UniqueKey);
+            DeFine.WorkingWin?.GlobalEspReader?.StringsReader?.UPDateKey(Key, UniqueKey);
         }
 
         public static void LoadHazards(EspReader Reader, YDListView View)
