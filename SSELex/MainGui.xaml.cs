@@ -1331,7 +1331,10 @@ namespace SSELex
                 if (GlobalEspReader?.StringsReader?.CurrentLang != Engine.To)
                 {
                     GlobalEspReader?.StringsReader.LoadStrings(Engine.To);
-                    ReloadData();
+                    if (GlobalEspReader?.StringsReader.Strings.Count > 0)
+                    {
+                        ReloadData();
+                    }
                 }
 
                 if (TransViewList != null)

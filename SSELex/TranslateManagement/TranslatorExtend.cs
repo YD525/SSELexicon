@@ -357,9 +357,13 @@ namespace SSELex.TranslateManage
 
                                         Translator.TransData.Add(Row.Key, GetTrans.Value);
 
-                                        Row.TransText = GetTrans.Value;
+                                        var GetFakeGrid = GetListView.KeyToFakeGrid(Row.Key);
+                                        if (GetFakeGrid != null)
+                                        {
+                                            Row.TransText = GetTrans.Value;
 
-                                        Row.SyncUI(GetListView);
+                                            Row.SyncUI(GetListView);
+                                        }  
 
                                         if (DelegateHelper.SetDataCall != null)
                                         {
