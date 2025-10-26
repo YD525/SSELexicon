@@ -281,5 +281,43 @@ namespace SSELex.UIManage
             }
             catch { }
         }
+
+        public enum StyleType
+        {
+            White = 0, Black = 1
+        }
+        public static void SetGlobalStyle(StyleType Style)
+        {
+            switch (Style)
+            {
+                case StyleType.White:
+                    {
+                        LoadResourceDictionary("/Themes/BlueStyle.xaml");
+                    }
+                    break;
+                case StyleType.Black:
+                    {
+                        LoadResourceDictionary("/Themes/RetroStyle.xaml");
+                    }
+                    break;
+            }
+        }
+        public static void LoadResourceDictionary(string resourceName)
+        {
+            var Dict = new ResourceDictionary();
+            Dict.Source = new Uri(resourceName, UriKind.Relative);
+            try
+            {
+                Application.Current.Resources.MergedDictionaries.Clear();
+            }
+            catch { }
+            try
+            {
+                Application.Current.Resources.MergedDictionaries.Add(Dict);
+            }
+            catch { }
+            Application.Current.MainWindow?.InvalidateVisual();
+            Application.Current.MainWindow?.UpdateLayout();
+        }
     }
 }

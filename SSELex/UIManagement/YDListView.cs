@@ -166,7 +166,7 @@ public class YDListView
     {
         if (LastSelectBorder != null)
         {
-            LastSelectBorder.BorderBrush = new SolidColorBrush(Colors.Black);
+            LastSelectBorder.BorderBrush = new SolidColorBrush((Color)Application.Current.Resources["LineANormal"]);
         }
 
         SelectLineID = ConvertHelper.ObjToInt(MainGrid.Tag);
@@ -192,7 +192,7 @@ public class YDListView
                 }
             }
 
-            MainBorder.BorderBrush = new SolidColorBrush(Color.FromRgb(10, 97, 175));
+            MainBorder.BorderBrush = new SolidColorBrush((Color)Application.Current.Resources["LineASelected"]);
             LastSelectBorder = MainBorder;
         }
         else
@@ -211,7 +211,7 @@ public class YDListView
                         {
                             ParentView.SetSelectLineByKey(GetKey, UPDate);
 
-                            MainBorder.BorderBrush = new SolidColorBrush(Color.FromRgb(10, 97, 175));
+                            MainBorder.BorderBrush = new SolidColorBrush((Color)Application.Current.Resources["LineASelected"]);
                             LastSelectBorder = MainBorder;
                         }
                     }
@@ -221,14 +221,14 @@ public class YDListView
                         {
                             if (LastSelectBorder != null)
                             {
-                                LastSelectBorder.BorderBrush = new SolidColorBrush(Colors.Black);
+                                LastSelectBorder.BorderBrush = new SolidColorBrush((Color)Application.Current.Resources["LineANormal"]);
                             }
                         }
                         else
                         {
                             if (LastSelectBorder != null)
                             {
-                                MainBorder.BorderBrush = new SolidColorBrush(Color.FromRgb(10, 97, 175));
+                                MainBorder.BorderBrush = new SolidColorBrush((Color)Application.Current.Resources["LineASelected"]);
                                 LastSelectBorder = MainBorder;
                             }
                         }
@@ -278,7 +278,7 @@ public class YDListView
 
                                     ParentView.Parent.Dispatcher.BeginInvoke(new Action(() =>
                                     {
-                                        MainBorder.BorderBrush = new SolidColorBrush(Color.FromRgb(10, 97, 175));
+                                        MainBorder.BorderBrush = new SolidColorBrush((Color)Application.Current.Resources["LineASelected"]);
                                         LastSelectBorder = MainBorder;
                                     }));
 

@@ -1737,15 +1737,6 @@ namespace SSELex
                             return;
                         }
 
-                        if (GridHandle.Score < 5)
-                        {
-                            ToStr.Foreground = new SolidColorBrush(Colors.Red);
-                        }
-                        else
-                        {
-                            ToStr.Foreground = new SolidColorBrush(Colors.White);
-                        }
-
                         bool IsCloud = false;
                         GridHandle.SyncData(ref IsCloud);
 

@@ -218,18 +218,26 @@ namespace SSELex.UIManagement
 
             Label GetType = (Label)GetStackPanel.Children[1];
             GetType.Content = Item.Type;
+
+            if(FontColor != Colors.White)
             GetType.Foreground = new SolidColorBrush(FontColor);
 
             Grid GetKeyGrid = (Grid)GetChildGrid.Children[1];
             TextBox GetKey = (TextBox)GetKeyGrid.Children[0];
             GetKey.Text = Item.Key;
+
+            if (FontColor != Colors.White)
             GetKey.Foreground = new SolidColorBrush(FontColor);
+
             GetKey.PreviewMouseWheel += OnePreviewMouseWheel;
 
             Grid GetOriginalGrid = (Grid)GetChildGrid.Children[2];
             TextBox GetOriginal = (TextBox)GetOriginalGrid.Children[0];
             GetOriginal.Text = Item.SourceText;
+
+            if (FontColor != Colors.White)
             GetOriginal.Foreground = new SolidColorBrush(FontColor);
+
             GetOriginal.PreviewMouseWheel += OnePreviewMouseWheel;
 
             Grid GetTranslatedGrid = (Grid)GetChildGrid.Children[3];
@@ -238,7 +246,10 @@ namespace SSELex.UIManagement
             TextBox GetTranslated = (TextBox)(GetTranslatedBorder.Child);
 
             GetTranslated.Text = Item.TransText;
+
+            if (FontColor != Colors.White)
             GetTranslated.Foreground = new SolidColorBrush(FontColor);
+
             GetTranslated.PreviewMouseWheel += OnePreviewMouseWheel;
 
             GetTranslated.MouseLeave += GetTranslated_MouseLeave;

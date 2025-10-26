@@ -16,7 +16,6 @@
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter  Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="FontSize" Value="13.5"/>
-
             <Setter Property="Foreground"  Value="Black"/>
         </Style>
         
@@ -424,7 +423,7 @@
                                                 <ColumnDefinition Width="1*"/>
                                             </Grid.ColumnDefinitions>
 
-                                            <Border Name="NormalModel" Style="{DynamicResource ModelUnSelected}" CornerRadius="5 0 0 5" Grid.Column="0" PreviewMouseDown="NormalModel_PreviewMouseDown">
+                                            <Border Name="NormalModel" Style="{DynamicResource ModelUnSelected}" CornerRadius="5 0 0 5" Grid.Column="0" PreviewMouseDown="NormalModel_PreviewMouseDown" >
                                                 <Grid>
                                                     <Label Style="{DynamicResource ModelFont}" Name="UINormal">
                                                         Normal
@@ -730,7 +729,7 @@
                                             </StackPanel>
 
                                             <Border Style="{DynamicResource IDEBorder}" Grid.Row="1">
-                                                <avalonEdit:TextEditor Margin="5" Name="FromStr" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" IsReadOnly="True"  FontFamily="Consolas" FontSize="16" ShowLineNumbers="True" Background="#FF202020" Foreground="White" WordWrap="True" TextOptions.TextFormattingMode="Display">
+                                                <avalonEdit:TextEditor Style="{DynamicResource IDEStyle}" Margin="5" Name="FromStr" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" IsReadOnly="True"  FontFamily="Consolas" FontSize="16" ShowLineNumbers="True" WordWrap="True" TextOptions.TextFormattingMode="Display">
 
                                                 </avalonEdit:TextEditor>
                                             </Border>
@@ -791,7 +790,7 @@
                                                 </Border>
                                             </Grid>
                                             <Border Style="{DynamicResource IDEBorder}" Grid.Row="1">
-                                                <avalonEdit:TextEditor MouseEnter="ToStr_MouseEnter" Margin="5" Name="ToStr" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" FontFamily="Consolas" FontSize="16" ShowLineNumbers="True" Background="#FF202020" Foreground="White" WordWrap="True" TextOptions.TextFormattingMode="Display" TextChanged="ToStr_TextChanged">
+                                                <avalonEdit:TextEditor Style="{DynamicResource IDEStyle}" MouseEnter="ToStr_MouseEnter" Margin="5" Name="ToStr" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" FontFamily="Consolas" FontSize="16" ShowLineNumbers="True" WordWrap="True" TextOptions.TextFormattingMode="Display" TextChanged="ToStr_TextChanged">
 
                                                 </avalonEdit:TextEditor>
                                             </Border>
@@ -1057,7 +1056,7 @@
                         </Grid>
                     </Grid>
 
-                    <Grid Name="AboutView" Style="{DynamicResource FrameStyle}" Visibility="Collapsed">
+                    <Grid Name="AboutView" Style="{DynamicResource FrameStyle}" Visibility="Collapsed" Background="#FF282828">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="1*"/>
@@ -1609,9 +1608,15 @@
                                                 Theme Configs
                                             </Label>
                                             <StackPanel Orientation="Horizontal" Margin="5 10 5 10" Cursor="Hand">
-                                                <Border Background="#FF0B74D1" Width="130" CornerRadius="5" Height="30" BorderThickness="1" BorderBrush="White">
+                                                <Border Background="#FF0B74D1" Width="130" CornerRadius="5" Height="30" BorderThickness="1">
                                                     <Label Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center">
                                                         Tech Dark Blue
+                                                    </Label>
+                                                </Border>
+
+                                                <Border Background="#FF972DD2" Width="130" CornerRadius="5" Height="30" BorderThickness="1" Margin="10 0 0 0">
+                                                    <Label Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                        Purple Style
                                                     </Label>
                                                 </Border>
                                             </StackPanel>
