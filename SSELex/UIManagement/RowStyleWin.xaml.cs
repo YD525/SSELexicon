@@ -361,8 +361,7 @@ namespace SSELex.UIManagement
             {
                 try
                 {
-                    string[] Params = GetKey.Split(',');
-                    if (Params.Length > 1)
+                    if (GetKey.Length > 0)
                     {
                         Task.Delay(200, Token).Wait(Token);
 
@@ -370,25 +369,21 @@ namespace SSELex.UIManagement
 
                         foreach (var Item in DeFine.WorkingWin.GlobalPexReader.HeuristicEngine.DStringItems)
                         {
-                            if (Item.Key.Contains(","))
+                            if (Item.Key.Equals(GetKey))
                             {
-                                if (Item.Key.Equals(Params[0] + "," + Params[1]))
+                                DeFine.ActiveIDE.Dispatcher.Invoke(() =>
                                 {
-                                    DeFine.ActiveIDE.Dispatcher.Invoke(() =>
-                                    {
-                                        int LineOffset = DeFine.ActiveIDE.Document.Text.IndexOf(Item.SourceLine);
-                                        if (LineOffset == -1) return;
+                                    int LineOffset = DeFine.ActiveIDE.Document.Text.IndexOf(Item.SourceLine);
+                                    if (LineOffset == -1) return;
 
-                                        int RelativeOffset = Item.SourceLine.IndexOf("\"" + Item.Str + "\"");
-                                        if (RelativeOffset == -1) return;
+                                    int RelativeOffset = Item.SourceLine.IndexOf("\"" + Item.Str + "\"");
+                                    if (RelativeOffset == -1) return;
 
-                                        int AbsoluteOffset = LineOffset + RelativeOffset;
-                                        DeFine.ActiveIDE.ScrollToLine(DeFine.ActiveIDE.Document.GetLineByOffset(AbsoluteOffset).LineNumber);
-                                        DeFine.ActiveIDE.Select(AbsoluteOffset, ("\"" + Item.Str + "\"").Length);
-                                    });
-                                }
+                                    int AbsoluteOffset = LineOffset + RelativeOffset;
+                                    DeFine.ActiveIDE.ScrollToLine(DeFine.ActiveIDE.Document.GetLineByOffset(AbsoluteOffset).LineNumber);
+                                    DeFine.ActiveIDE.Select(AbsoluteOffset, ("\"" + Item.Str + "\"").Length);
+                                });
                             }
-
                         }
                     }
                 }

@@ -830,7 +830,6 @@ namespace SSELex
             ClosetTransTrd();
             if (System.IO.File.Exists(FilePath))
             {
-                DeFine.GlobalLocalSetting.AutoLoadDictionaryFile = false;
                 //FromStr.Text = "";
                 //ToStr.Text = "";
 

@@ -72,18 +72,21 @@ namespace SSELex.SkyrimManage
 
         public string GetTextIfTransR()
         {
-            string GetKey = this.Key;
-            var GetResult = TranslatorBridge.GetTranslatorCache(GetKey);
-            if (GetResult != null)
+            if (this.TransText.Length == 0)
             {
-                this.TransText = GetResult;
-                if (this.TransText.Length > 0)
+                string GetKey = this.Key;
+                var GetResult = TranslatorBridge.GetTranslatorCache(GetKey);
+                if (GetResult != null)
                 {
-                    return this.TransText;
-                }
-                else
-                {
-                    return "";
+                    this.TransText = GetResult;
+                    if (this.TransText.Length > 0)
+                    {
+                        return this.TransText;
+                    }
+                    else
+                    {
+                        return "";
+                    }
                 }
             }
 
@@ -527,7 +530,7 @@ namespace SSELex.SkyrimManage
                     StringParam NStringParam = new StringParam();
                     NStringParam.DefLine = HeuristicEngine.DStringItems[i].SourceLine;
                     NStringParam.SourceText = HeuristicEngine.DStringItems[i].Str;
-                    NStringParam.Key = HeuristicEngine.DStringItems[i].Key + ",Score:" + HeuristicEngine.DStringItems[i].TranslationSafetyScore;
+                    NStringParam.Key = HeuristicEngine.DStringItems[i].Key;
                     NStringParam.TranslationSafetyScore = HeuristicEngine.DStringItems[i].TranslationSafetyScore;
                     NStringParam.EditorID = HeuristicEngine.DStringItems[i].Feature;
                     NStringParam.Type = "Papyrus";
@@ -535,6 +538,7 @@ namespace SSELex.SkyrimManage
                     Strings.Add(NStringParam);
                 }
             }
+            GC.Collect();
         }
 
         public class LinkValue

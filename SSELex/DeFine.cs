@@ -171,8 +171,6 @@ namespace SSELex
         public double WritingAreaHeight { get; set; } = 0;
         public string ViewMode { get; set; } = "Normal";
 
-        public bool AutoLoadDictionaryFile = false;
-
         public Languages SourceLanguage { get; set; } = Languages.Auto;
         public Languages TargetLanguage { get; set; } = Languages.English;
 
@@ -212,7 +210,6 @@ namespace SSELex
                             this.FileEncoding = GetSetting.FileEncoding;
                             this.WritingAreaHeight = GetSetting.WritingAreaHeight;
                             this.ViewMode = GetSetting.ViewMode;
-                            this.AutoLoadDictionaryFile = GetSetting.AutoLoadDictionaryFile;
                             this.SourceLanguage = GetSetting.SourceLanguage;
                             this.TargetLanguage = GetSetting.TargetLanguage;
                             this.CanClearCloudTranslationCache = GetSetting.CanClearCloudTranslationCache;
