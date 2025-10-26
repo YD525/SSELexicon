@@ -4,6 +4,8 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using SSELex.ConvertManager;
 using PhoenixEngine.TranslateCore;
+using SSELex.SkyrimManage;
+using System.IO;
 
 namespace SSELex.UIManage
 {
@@ -154,9 +156,48 @@ namespace SSELex.UIManage
                 return result;
             }
         }
+
+
+        public static void UPDateUI(string Key, string Value)
+        {
+            switch (Key)
+            {
+                case "﻿UINormal":
+                    {
+                        DeFine.WorkingWin.UINormal.Content = Value;
+                    }
+                break;
+                case "UIQuick":
+                    {
+                        DeFine.WorkingWin.UIQuick.Content = Value;
+                    }
+                break;
+                case "UITypeSelector":
+                    {
+                        DeFine.WorkingWin.UITypeSelector.Content = Value;
+                    }
+                break;
+                case "LoadFileButton":
+                    {
+                        DeFine.WorkingWin.LoadFileButton.Content = Value;
+                    }
+                break;
+            }
+        }
         public static void ChangeLanguage(Languages SetLanguage)
         {
-           
+            string SetPath = DeFine.GetFullPath(@"\Interface\Translations\SSE Lexicon_" + SetLanguage.ToString().ToUpper() + ".txt");
+            MCMReader NewReader = new MCMReader();
+            if (File.Exists(SetPath))
+            {
+                NewReader.LoadMCM(SetPath);
+
+                foreach (var GetMCMItem in NewReader.MCMItems)
+                {
+                    UPDateUI(GetMCMItem.EditorID,GetMCMItem.SourceText);
+                }
+            }
+
         }
     }
 }

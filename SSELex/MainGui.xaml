@@ -426,7 +426,7 @@
 
                                             <Border Name="NormalModel" Style="{DynamicResource ModelUnSelected}" CornerRadius="5 0 0 5" Grid.Column="0" PreviewMouseDown="NormalModel_PreviewMouseDown">
                                                 <Grid>
-                                                    <Label Style="{DynamicResource ModelFont}">
+                                                    <Label Style="{DynamicResource ModelFont}" Name="UINormal">
                                                         Normal
                                                     </Label>
                                                     <Grid Name="NormalModelBlock" Visibility="Collapsed" Style="{DynamicResource ModelSelectedBlock}">
@@ -436,7 +436,7 @@
 
                                             <Border Name="QuickModel" Style="{DynamicResource ModelSelected}"  CornerRadius="0 5 5 0" Grid.Column="1" PreviewMouseDown="QuickModel_PreviewMouseDown">
                                                 <Grid>
-                                                    <Label Style="{DynamicResource ModelFont}">
+                                                    <Label Style="{DynamicResource ModelFont}" Name="UIQuick">
                                                         Quick
                                                     </Label>
                                                     <Grid Name="QuickModelBlock" Visibility="Visible" Style="{DynamicResource ModelSelectedBlock}">
@@ -502,7 +502,7 @@
                                                     <ColumnDefinition Width="80"/>
                                                     <ColumnDefinition Width="1*"/>
                                                 </Grid.ColumnDefinitions>
-                                                <Label Style="{DynamicResource CaptionTextA}" Grid.Column="0">
+                                                <Label Style="{DynamicResource CaptionTextA}" Grid.Column="0" Name="UITypeSelector">
                                                     Type Selector
                                                 </Label>
                                                 <ComboBox IsTabStop="True" Name="TypeSelector" Grid.Column="1" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Height="30" Style="{StaticResource CustomComboBoxStyle}" Margin="0 0 8 0" SelectionChanged="TransTargetType_SelectionChanged">
@@ -558,13 +558,13 @@
                                         <ColumnDefinition Width="130"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <Label  Grid.Column="0" Style="{DynamicResource CaptionTextA}">
+                                    <Label  Grid.Column="0" Style="{DynamicResource CaptionTextA}" Name="UIFrom">
                                         From
                                     </Label>
                                     <ComboBox IsTabStop="True" Name="LangFrom" SelectionChanged="LangFrom_SelectionChanged" Grid.Column="1" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Height="30" Style="{StaticResource CustomComboBoxStyle}">
                                     </ComboBox>
 
-                                    <Label Grid.Column="2" Style="{DynamicResource CaptionTextA}">
+                                    <Label Grid.Column="2" Style="{DynamicResource CaptionTextA}" Name="UITo">
                                         To
                                     </Label>
 
@@ -575,7 +575,7 @@
 
                                         <Border Style="{DynamicResource SectionStyle}">
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBox  Width="70" Style="{DynamicResource CaptionText}">
+                                                <TextBox  Width="70" Style="{DynamicResource CaptionText}" Name="UIOriginalTextSource">
                                                     Original Text Source
                                                 </TextBox>
 
@@ -590,13 +590,13 @@
                                         <Border Style="{DynamicResource SectionStyle}">
                                             <StackPanel Orientation="Horizontal">
 
-                                                <TextBox  Width="100" Style="{DynamicResource CaptionText}">
+                                                <TextBox  Width="100" Style="{DynamicResource CaptionText}" Name="UICloudTranslationCache">
                                                     Cloud Translation Cache
                                                 </TextBox>
 
                                                 <CheckBox Margin="5 0 0 0" Name="CloudTranslationCache" VerticalAlignment="Center" Grid.Column="6" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="CloudTranslationCache_Click"/>
 
-                                                <TextBox  Width="100" Style="{DynamicResource CaptionText}">
+                                                <TextBox  Width="100" Style="{DynamicResource CaptionText}" Name="UIUserInputTranslationCache">
                                                     User Input Translation Cache
                                                 </TextBox>
 
@@ -615,7 +615,7 @@
 
                                     <StackPanel Orientation="Horizontal" Grid.Column="5" HorizontalAlignment="Right" Margin="0 0 0 0">
 
-                                        <Label Style="{DynamicResource CaptionTextA}" Margin="5 0 0 0">
+                                        <Label Style="{DynamicResource CaptionTextA}" Margin="5 0 0 0" Name="UIMarkLine">
                                             MarkLine
                                         </Label>
 
@@ -639,16 +639,16 @@
                                     <ColumnDefinition Width="1*"/>
                                     <ColumnDefinition Width="1*"/>
                                 </Grid.ColumnDefinitions>
-                                <Label Grid.Column="0" Style="{DynamicResource CaptionTextA}">
+                                <Label Grid.Column="0" Style="{DynamicResource CaptionTextA}" Name="UIType">
                                     Type
                                 </Label>
-                                <Label Grid.Column="1" Style="{DynamicResource CaptionTextA}">
+                                <Label Grid.Column="1" Style="{DynamicResource CaptionTextA}" Name="UIKey">
                                     Key
                                 </Label>
-                                <Label Grid.Column="2" Style="{DynamicResource CaptionTextA}">
+                                <Label Grid.Column="2" Style="{DynamicResource CaptionTextA}" Name="UIOriginal">
                                     Original
                                 </Label>
-                                <Label Grid.Column="3" Style="{DynamicResource CaptionTextA}">
+                                <Label Grid.Column="3" Style="{DynamicResource CaptionTextA}" Name="UITranslated">
                                     Translated
                                 </Label>
                             </Grid>
@@ -705,7 +705,7 @@
                                                 </Border>
 
                                                 <Border Name="CloneFromStrButton" Style="{DynamicResource LiteButton}" PreviewMouseDown="CloneFromStr">
-                                                    <Label Style="{DynamicResource LiteButtonFont}" Foreground="White">
+                                                    <Label Style="{DynamicResource LiteButtonFont}" Foreground="White" Name="UIClone">
                                                         Clone
                                                     </Label>
                                                 </Border>
@@ -745,19 +745,19 @@
                                                 </Border>
 
                                                 <Border Name="FormatToStrButton" Style="{DynamicResource LiteButton}" PreviewMouseDown="FormatToStr" ToolTip="Unified beautified strings">
-                                                    <Label Style="{DynamicResource LiteButtonFont}" Foreground="White">
+                                                    <Label Style="{DynamicResource LiteButtonFont}" Foreground="White" Name="UIFormat">
                                                         Format
                                                     </Label>
                                                 </Border>
 
                                                 <Border Name="ClearToStrButton" Style="{DynamicResource LiteButton}" PreviewMouseDown="ClearToStr">
-                                                    <Label Style="{DynamicResource LiteButtonFont}" Foreground="White">
+                                                    <Label Style="{DynamicResource LiteButtonFont}" Foreground="White" Name="UIClear">
                                                         Clear
                                                     </Label>
                                                 </Border>
 
                                                 <Border Name="ReplaceStrButton" Style="{DynamicResource LiteButton}" PreviewMouseDown="ReplaceStr">
-                                                    <Label Style="{DynamicResource LiteButtonFont}" Foreground="White">
+                                                    <Label Style="{DynamicResource LiteButtonFont}" Foreground="White" Name="UIReplace">
                                                         Replace
                                                     </Label>
                                                 </Border>

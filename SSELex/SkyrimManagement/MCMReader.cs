@@ -29,7 +29,7 @@ namespace SSELex.SkyrimManage
             this.EditorID = EditorID;
             if (this.EditorID.Contains("$"))
             {
-                this.EditorID = EditorID.Substring(1);
+                this.EditorID = EditorID.Replace("$","");
             }
             this.Key = SkyrimDataLoader.GenUniqueKey(this.EditorID, this.Type);
             this.SourceText = SourceText;

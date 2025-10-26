@@ -112,6 +112,8 @@ namespace SSELex
         {
             DeFine.Init(this);
 
+            UILanguageHelper.ChangeLanguage(Languages.SimplifiedChinese);
+
             TranslatorExtend.Init();
 
             this.DataContext = CurrentModel;
