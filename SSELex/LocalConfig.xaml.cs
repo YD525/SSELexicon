@@ -169,7 +169,7 @@ namespace SSELex
 
             TypeSelector.SelectedValue = ObjSelect.Null.ToString();
 
-            foreach (var Get in UILanguageHelper.SupportLanguages)
+            foreach (var Get in UILanguageHelper.GetSupportedLanguages())
             {
                 From.Items.Add(Get.ToString());
                 SFrom.Items.Add(Get.ToString());

@@ -1596,6 +1596,14 @@
                                                 </CheckBox>
                                             </StackPanel>
 
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 5 5 10">
+                                                <Label Style="{DynamicResource NormalText}" VerticalAlignment="Center">
+                                                    Interface language settings
+                                                </Label>
+                                                <ComboBox MinWidth="80" IsTabStop="True" Name="UILanguages" SelectionChanged="UILanguages_SelectionChanged" Width="150" VerticalAlignment="Center" Cursor="Hand" Height="30" Style="{StaticResource CustomComboBoxStyle}">
+                                                </ComboBox>
+                                            </StackPanel>
+
 
                                             <Label Style="{DynamicResource TittleFont}">
                                                 Theme Configs

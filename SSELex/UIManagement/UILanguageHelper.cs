@@ -103,36 +103,6 @@ namespace SSELex.UIManage
     {
         public static List<UIItem> UIItems = new List<UIItem>();
 
-        public static List<Languages> SupportLanguages = new List<Languages>
-        {
-            Languages.Auto,
-
-            Languages.English,
-            Languages.Japanese,
-            Languages.German,
-
-            Languages.Portuguese,
-            Languages.Brazilian,
-
-            Languages.French,
-            Languages.CanadianFrench,
-
-            Languages.SimplifiedChinese,
-            Languages.TraditionalChinese,
-            
-            Languages.Hindi,
-            Languages.Indonesian,
-            Languages.Italian,
-            Languages.Korean,
-            Languages.Polish,
-            Languages.Russian,
-            Languages.Spanish,
-            Languages.Turkish,
-            Languages.Urdu,
-            Languages.Ukrainian,
-            Languages.Vietnamese
-        };
-
         public static class VisualTreeHelperExtensions
         {
             public static List<T> GetAllChildren<T>(DependencyObject parent) where T : DependencyObject
@@ -157,6 +127,17 @@ namespace SSELex.UIManage
             }
         }
 
+        public static List<Languages> GetSupportedLanguages()
+        {
+            List<Languages> LanguageList = new List<Languages>();
+
+            foreach (var Language in Enum.GetValues(typeof(Languages)))
+            {
+                LanguageList.Add((Languages)Language); 
+            }
+
+            return LanguageList.OrderBy(lang => lang == Languages.Auto ? 0 : 1).ToList();
+        }
 
         public static void UPDateUI(string Key, string Value)
         {

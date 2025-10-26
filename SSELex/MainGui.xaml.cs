@@ -112,7 +112,17 @@ namespace SSELex
         {
             DeFine.Init(this);
 
-            UILanguageHelper.ChangeLanguage(Languages.English);
+            UILanguageHelper.ChangeLanguage(DeFine.GlobalLocalSetting.CurrentUILanguage);
+
+            UILanguages.Items.Clear();
+
+            foreach (var GetLang in UILanguageHelper.GetSupportedLanguages())
+            {
+                if(GetLang!= Languages.Auto)
+                UILanguages.Items.Add(GetLang.ToString());
+            }
+
+            UILanguages.SelectedValue = DeFine.GlobalLocalSetting.CurrentUILanguage.ToString();
 
             TranslatorExtend.Init();
 
@@ -571,7 +581,7 @@ namespace SSELex
         public void ReloadLanguageMode()
         {
             LangFrom.Items.Clear();
-            foreach (var Get in UILanguageHelper.SupportLanguages)
+            foreach (var Get in UILanguageHelper.GetSupportedLanguages())
             {
                 LangFrom.Items.Add(Get.ToString());
             }
@@ -579,7 +589,7 @@ namespace SSELex
             LangFrom.SelectedValue = DeFine.GlobalLocalSetting.SourceLanguage.ToString();
 
             LangTo.Items.Clear();
-            foreach (var Get in UILanguageHelper.SupportLanguages)
+            foreach (var Get in UILanguageHelper.GetSupportedLanguages())
             {
                 if (Get != Languages.Auto)
                 {
@@ -3533,5 +3543,15 @@ namespace SSELex
 
 
         #endregion
+
+        private void UILanguages_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string GetValue = ConvertHelper.ObjToStr(UILanguages.SelectedValue);
+            if (GetValue.Length > 0)
+            {
+               DeFine.GlobalLocalSetting.CurrentUILanguage = (Languages)Enum.Parse(typeof(Languages), GetValue);
+               UILanguageHelper.ChangeLanguage(DeFine.GlobalLocalSetting.CurrentUILanguage);
+            }
+        }
     }
 }
