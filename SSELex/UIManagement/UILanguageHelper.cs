@@ -184,8 +184,10 @@ namespace SSELex.UIManage
                 break;
             }
         }
+        public static Dictionary<string, string> UICache = new Dictionary<string, string>();
         public static void ChangeLanguage(Languages SetLanguage)
         {
+            UICache.Clear();
             string SetPath = DeFine.GetFullPath(@"\Interface\Translations\SSE Lexicon_" + SetLanguage.ToString().ToUpper() + ".txt");
             MCMReader NewReader = new MCMReader();
             if (File.Exists(SetPath))
@@ -195,6 +197,10 @@ namespace SSELex.UIManage
                 foreach (var GetMCMItem in NewReader.MCMItems)
                 {
                     UPDateUI(GetMCMItem.EditorID,GetMCMItem.SourceText);
+                    if (!UICache.ContainsKey(GetMCMItem.EditorID))
+                    {
+                        UICache.Add(GetMCMItem.EditorID,GetMCMItem.SourceText);
+                    }
                 }
             }
 

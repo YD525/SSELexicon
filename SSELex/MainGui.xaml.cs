@@ -1043,7 +1043,7 @@ namespace SSELex
                     SearchResultsViewList?.Clear();
                     SearchResultsView.Visibility = Visibility.Collapsed;
 
-                    LoadFileButton.Content = "LoadFile";
+                    LoadFileButton.Content = UILanguageHelper.UICache["LoadFileButton"];
 
                     ClosetTransTrd();
 
@@ -1084,7 +1084,7 @@ namespace SSELex
         {
             this.LoadFileButton.Dispatcher.Invoke(new Action(() =>
             {
-                if (ConvertHelper.ObjToStr(LoadFileButton.Content).Equals("Saving..."))
+                if (ConvertHelper.ObjToStr(LoadFileButton.Content).Equals(UILanguageHelper.UICache["LoadFileButton2"]))
                 {
                     return;
                 }
@@ -1108,7 +1108,7 @@ namespace SSELex
             {
                 this.LoadFileButton.Dispatcher.Invoke(new Action(() =>
                 {
-                    LoadFileButton.Content = "Saving...";
+                    LoadFileButton.Content = UILanguageHelper.UICache["LoadFileButton2"];
                 }));
 
                 try
@@ -1240,16 +1240,16 @@ namespace SSELex
             {
                 if (LoadSaveState == 0)
                 {
-                    LoadFileButton.Content = "Load File";
+                    LoadFileButton.Content = UILanguageHelper.UICache["LoadFileButton"];
                 }
                 else
                 {
-                    LoadFileButton.Content = "Save File";
+                    LoadFileButton.Content = UILanguageHelper.UICache["LoadFileButton1"];
                 }
             }
             else
             {
-                LoadFileButton.Content = "Load File";
+                LoadFileButton.Content = UILanguageHelper.UICache["LoadFileButton"];
                 LoadSaveState = 0;
             }
         }
