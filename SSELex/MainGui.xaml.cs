@@ -1364,7 +1364,7 @@ namespace SSELex
             {
                 if (TransViewList.Rows > 0)
                 {
-                    if (ConvertHelper.ObjToStr(ClearCacheFont.Content).Equals("ClearCache"))
+                    if (ConvertHelper.ObjToStr(ClearCacheButton.Content).Equals(UILanguageHelper.UICache["ClearCacheButton"]))
                     {
                         if (ClearCacheTrd == null)
                         {
@@ -1375,9 +1375,9 @@ namespace SSELex
                             {
                                 try
                                 {
-                                    ClearCacheFont.Dispatcher.Invoke(new Action(() =>
+                                    ClearCacheButton.Dispatcher.Invoke(new Action(() =>
                                     {
-                                        ClearCacheFont.Content = "Cleaning..";
+                                        ClearCacheButton.Content = UILanguageHelper.UICache["ClearCacheButton1"];
                                     }));
 
                                     int CallFuncCount = 0;
@@ -1422,9 +1422,9 @@ namespace SSELex
                                    
                                 }
 
-                                ClearCacheFont.Dispatcher.Invoke(new Action(() =>
+                                ClearCacheButton.Dispatcher.Invoke(new Action(() =>
                                 {
-                                    ClearCacheFont.Content = "ClearCache";
+                                    ClearCacheButton.Content = UILanguageHelper.UICache["ClearCacheButton"];
                                 }));
 
                                 ClearCacheTrd = null;
@@ -1439,7 +1439,7 @@ namespace SSELex
 
         private void RefreshDictionary_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (ConvertHelper.ObjToStr(RefreshButton.Content).Equals("Refreshing..."))
+            if (ConvertHelper.ObjToStr(RefreshButton.Content).Equals(UILanguageHelper.UICache["RefreshButton1"]))
             {
                 return;
             }
@@ -1447,7 +1447,7 @@ namespace SSELex
             new Thread(() =>
             {
                 RefreshButton.Dispatcher.Invoke(new Action(() => {
-                    RefreshButton.Content = "Refreshing...";
+                    RefreshButton.Content = UILanguageHelper.UICache["RefreshButton1"];
                 }));
                 var FileUniqueKey = Engine.GetFileUniqueKey();
 
@@ -1475,7 +1475,7 @@ namespace SSELex
                 }
 
                 RefreshButton.Dispatcher.Invoke(new Action(() => {
-                    RefreshButton.Content = "Refresh";
+                    RefreshButton.Content = UILanguageHelper.UICache["RefreshButton"];
                 }));
             }).Start();
         }
@@ -2553,14 +2553,14 @@ namespace SSELex
                 HistoryLayer.Visibility = Visibility.Visible;
 
                 AutoSizeHistoryList();
-                HistoryButtonFont.Content = "History↑";
+                HistoryButtonFont.Content = UILanguageHelper.UICache["HistoryButtonFont1"];
 
                 AutoLoadHistoryList();
             }
             else
             {
                 HistoryLayer.Visibility = Visibility.Collapsed;
-                HistoryButtonFont.Content = "History↓";
+                HistoryButtonFont.Content = UILanguageHelper.UICache["HistoryButtonFont"];
             }
         }
 
@@ -2644,7 +2644,7 @@ namespace SSELex
             {
                 if (TransViewList != null)
                 {
-                    if (ConvertHelper.ObjToStr(TranslateOTButtonFont.Content).Equals("Translate(F1)"))
+                    if (ConvertHelper.ObjToStr(TranslateOTButtonFont.Content).Equals(UILanguageHelper.UICache["TranslateOTButtonFont"]))
                     {
                         FakeGrid? QueryGrid = TransViewList.KeyToFakeGrid(LastSetKey);
 
@@ -2665,7 +2665,7 @@ namespace SSELex
                                 {
                                     this.Dispatcher.Invoke(new Action(() =>
                                     {
-                                        TranslateOTButtonFont.Content = "Translating..";
+                                        TranslateOTButtonFont.Content = UILanguageHelper.UICache["TranslateOTButtonFont1"];
                                     }));
 
                                     string GetTranslated = Translator.QuickTrans(
@@ -2678,7 +2678,7 @@ namespace SSELex
 
                                     this.Dispatcher.Invoke(new Action(() =>
                                     {
-                                        TranslateOTButtonFont.Content = "Translate(F1)";
+                                        TranslateOTButtonFont.Content = UILanguageHelper.UICache["TranslateOTButtonFont"];
                                         ToStr.Text = GetTranslated;
                                     }));
 
@@ -2697,7 +2697,7 @@ namespace SSELex
                                 {
                                     this.Dispatcher.Invoke(new Action(() =>
                                     {
-                                        TranslateOTButtonFont.Content = "Translating(Click to Cancel)..";
+                                        TranslateOTButtonFont.Content = UILanguageHelper.UICache["TranslateOTButtonFont2"];
                                     }));
 
                                     try
@@ -2710,7 +2710,7 @@ namespace SSELex
 
                                     this.Dispatcher.Invoke(new Action(() =>
                                     {
-                                        TranslateOTButtonFont.Content = "Translate(F1)";
+                                        TranslateOTButtonFont.Content = UILanguageHelper.UICache["TranslateOTButtonFont"];
                                     }));
 
                                     TranslateTrd = null;
@@ -2720,7 +2720,7 @@ namespace SSELex
                         }
                     }
                     else
-                    if (ConvertHelper.ObjToStr(TranslateOTButtonFont.Content).Equals("Translating(Click to Cancel).."))
+                    if (ConvertHelper.ObjToStr(TranslateOTButtonFont.Content).Equals(UILanguageHelper.UICache["TranslateOTButtonFont2"]))
                     {
                         if (CurrentTextSegmentTranslator != null)
                         {
@@ -2729,7 +2729,7 @@ namespace SSELex
 
                         this.Dispatcher.Invoke(new Action(() =>
                         {
-                            TranslateOTButtonFont.Content = "Translate(F1)";
+                            TranslateOTButtonFont.Content = UILanguageHelper.UICache["TranslateOTButtonFont"];
                         }));
                     }
                 }

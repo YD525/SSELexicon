@@ -550,28 +550,34 @@
                             <Grid Grid.Row="3" Margin="10 0 10 0">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="38"/>
-                                        <ColumnDefinition Width="1*"/>
-                                        <ColumnDefinition Width="25"/>
                                         <ColumnDefinition Width="1*"/>
                                         <ColumnDefinition Width="520"/>
                                         <ColumnDefinition Width="130"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <Label  Grid.Column="0" Style="{DynamicResource CaptionTextA}" Name="UIFrom">
-                                        From
-                                    </Label>
-                                    <ComboBox IsTabStop="True" Name="LangFrom" SelectionChanged="LangFrom_SelectionChanged" Grid.Column="1" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Height="30" Style="{StaticResource CustomComboBoxStyle}">
-                                    </ComboBox>
+                                    <Grid Grid.Column="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label  Grid.Column="0" Style="{DynamicResource CaptionTextA}" Name="UIFrom">
+                                            From
+                                        </Label>
+                                        <ComboBox  MinWidth="80" IsTabStop="True" Name="LangFrom" SelectionChanged="LangFrom_SelectionChanged" Grid.Column="1" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Height="30" Style="{StaticResource CustomComboBoxStyle}">
+                                        </ComboBox>
 
-                                    <Label Grid.Column="2" Style="{DynamicResource CaptionTextA}" Name="UITo">
-                                        To
-                                    </Label>
+                                        <Label Grid.Column="2" Style="{DynamicResource CaptionTextA}" Name="UITo">
+                                            To
+                                        </Label>
 
-                                    <ComboBox IsTabStop="True" Name="LangTo" SelectionChanged="LangTo_SelectionChanged" Grid.Column="3" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Height="30" Style="{StaticResource CustomComboBoxStyle}">
-                                    </ComboBox>
+                                        <ComboBox MinWidth="80" IsTabStop="True" Name="LangTo" SelectionChanged="LangTo_SelectionChanged" Grid.Column="3" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Height="30" Style="{StaticResource CustomComboBoxStyle}">
+                                        </ComboBox>
+                                    </Grid>
 
-                                    <StackPanel Orientation="Horizontal" Grid.Column="4">
+
+                                    <StackPanel Orientation="Horizontal" Grid.Column="1">
 
                                         <Border Style="{DynamicResource SectionStyle}">
                                             <StackPanel Orientation="Horizontal">
@@ -603,7 +609,7 @@
                                                 <CheckBox Margin="5 0 5 0" Name="UserTranslationCache" VerticalAlignment="Center" Grid.Column="6" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="UserTranslationCache_Click"/>
 
                                                 <Border Style="{DynamicResource ButtonStyle}" PreviewMouseDown="ClearCache_PreviewMouseDown">
-                                                    <Label Style="{DynamicResource ButtonFont}" Name="ClearCacheFont">
+                                                    <Label Style="{DynamicResource ButtonFont}" Name="ClearCacheButton">
                                                         ClearCache
                                                     </Label>
                                                 </Border>
@@ -696,7 +702,7 @@
                                                 <RowDefinition Height="1*"/>
                                             </Grid.RowDefinitions>
                                             <StackPanel Orientation="Horizontal" Margin="0 5 0 5">
-                                                <Label Style="{DynamicResource CaptionTextA}">
+                                                <Label Style="{DynamicResource CaptionTextA}" Name="UIOriginalCap">
                                                     Original:
                                                 </Label>
 
@@ -737,7 +743,7 @@
                                                 <RowDefinition Height="1*"/>
                                             </Grid.RowDefinitions>
                                             <StackPanel Orientation="Horizontal" Margin="0 5 0 5">
-                                                <Label Style="{DynamicResource CaptionTextA}" Margin="5 0 0 0">
+                                                <Label Style="{DynamicResource CaptionTextA}" Margin="5 0 0 0" Name="UITranslatedCap">
                                                     Translated:
                                                 </Label>
                                                 <Border  Style="{DynamicResource LiteButton}" PreviewMouseDown="SpeakToStr">
@@ -808,14 +814,14 @@
 
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1" Margin="0 0 5 0">
 
-                                                <Label Style="{DynamicResource CaptionTextA}" Margin="5 0 0 0">
+                                                <Label Style="{DynamicResource CaptionTextA}" Margin="5 0 0 0" Name="UIAutoSpeak">
                                                     AutoSpeak
                                                 </Label>
 
                                                 <CheckBox Margin="5 0 5 0" Name="AutoSpeak" VerticalAlignment="Center" Grid.Column="6" Foreground="White"  Click="AutoSpeak_Click"/>
 
-                                                
-                                                <Label Style="{DynamicResource CaptionTextA}">
+
+                                                <Label Style="{DynamicResource CaptionTextA}" Name="UIAutoApply">
                                                     AutoApply
                                                 </Label>
 
@@ -823,7 +829,7 @@
 
                                                 
                                                 <Border Name="CancelOTButton" Style="{DynamicResource LiteButton}" PreviewMouseDown="CancelTranslatedText">
-                                                    <Label  Style="{DynamicResource LiteButtonFont}" Foreground="White">
+                                                    <Label  Style="{DynamicResource LiteButtonFont}" Foreground="White" Name="UICancel">
                                                         Cancel
                                                     </Label>
                                                 </Border>
@@ -834,7 +840,7 @@
                                                 </Border>
                                                 
                                                 <Border Name="ApplyOTButton" ToolTip="HotKey Press F2" Style="{DynamicResource LiteButton}" PreviewMouseDown="ApplyTranslatedText">
-                                                    <Label   Style="{DynamicResource LiteButtonFont}" Foreground="White">
+                                                    <Label   Style="{DynamicResource LiteButtonFont}" Foreground="White" Name="UIApply">
                                                         Apply(F2)
                                                     </Label>
                                                 </Border>

@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using SSELex.ConvertManager;
 using SSELex.TranslateManage;
+using SSELex.UIManage;
 using static PhoenixEngine.SSELexiconBridge.NativeBridge;
 
 namespace SSELex
@@ -29,6 +30,12 @@ namespace SSELex
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            UIFindwhat.Content = UILanguageHelper.UICache["UIFindwhat"];
+            UIReplacewith.Content = UILanguageHelper.UICache["UIReplacewith"];
+            UIReplacein.Content = UILanguageHelper.UICache["UIReplacein"];
+            UIScope.Content = UILanguageHelper.UICache["UIScope"];
+            ReplaceButton.Content = UILanguageHelper.UICache["ReplaceButton"];
+
             Mode.Items.Clear();
             Mode.Items.Add("Source text");
             Mode.Items.Add("Translated text");

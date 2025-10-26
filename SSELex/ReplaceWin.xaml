@@ -7,20 +7,20 @@
         mc:Ignorable="d"
         Title="ReplaceStr" Height="80" Width="760" WindowStartupLocation="CenterOwner" Loaded="Window_Loaded" Closing="Window_Closing">
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-        <Label Content="Find what:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+        <Label Content="Find what:" VerticalAlignment="Center" Margin="0,0,5,0" Name="UIFindwhat"/>
         <TextBox Name="SourceStr" Width="80" VerticalAlignment="Center"/>
 
-        <Label Content="Replace with:" VerticalAlignment="Center" Margin="10,0,5,0"/>
+        <Label Content="Replace with:" VerticalAlignment="Center" Margin="10,0,5,0" Name="UIReplacewith"/>
         <TextBox Name="TargetStr" Width="80" VerticalAlignment="Center"/>
 
-        <Label Content="Replace in:" VerticalAlignment="Center" Margin="10,0,5,0"/>
+        <Label Content="Replace in:" VerticalAlignment="Center" Margin="10,0,5,0" Name="UIReplacein"/>
         <ComboBox Name="Mode" Width="130" VerticalAlignment="Center"/>
 
 
-        <Label Content="Scope:" VerticalAlignment="Center" Margin="10,0,5,0"/>
+        <Label Content="Scope:" VerticalAlignment="Center" Margin="10,0,5,0" Name="UIScope"/>
         <ComboBox Name="Scope" Width="80" VerticalAlignment="Center"/>
 
 
-        <Button Content="Replace" VerticalAlignment="Center" Margin="10,0,0,0" Click="Button_Click"/>
+        <Button Content="Replace" Name="ReplaceButton" VerticalAlignment="Center" Margin="10,0,0,0" Click="Button_Click"/>
     </StackPanel>
 </Window>
