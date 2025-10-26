@@ -1608,13 +1608,13 @@
                                                 Theme Configs
                                             </Label>
                                             <StackPanel Orientation="Horizontal" Margin="5 10 5 10" Cursor="Hand">
-                                                <Border Background="#FF0B74D1" Width="130" CornerRadius="5" Height="30" BorderThickness="1">
+                                                <Border Background="#FF0B74D1" Width="130" CornerRadius="5" Height="30" BorderThickness="1" PreviewMouseDown="ChangeTechDarkBlue">
                                                     <Label Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center">
                                                         Tech Dark Blue
                                                     </Label>
                                                 </Border>
 
-                                                <Border Background="#FF972DD2" Width="130" CornerRadius="5" Height="30" BorderThickness="1" Margin="10 0 0 0">
+                                                <Border Background="#FF972DD2" Width="130" CornerRadius="5" Height="30" BorderThickness="1" Margin="10 0 0 0"  PreviewMouseDown="ChangePurpleStyle">
                                                     <Label Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center">
                                                         Purple Style
                                                     </Label>

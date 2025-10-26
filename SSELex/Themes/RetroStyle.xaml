@@ -1191,4 +1191,6 @@
 
     <Color x:Key="LineANormal">White</Color>
     <Color x:Key="LineASelected">#FF6E07CA</Color>
+
+    <Color x:Key="DefFontColor">Black</Color>
 </ResourceDictionary>

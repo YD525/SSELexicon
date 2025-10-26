@@ -101,6 +101,17 @@ namespace SSELex
         #endregion
         public MainGui()
         {
+            DeFine.GlobalLocalSetting.ReadConfig();
+
+            if (DeFine.GlobalLocalSetting.Style == 1)
+            {
+                UIHelper.SetGlobalStyle(UIHelper.StyleType.BlueStyle);
+            }
+            if (DeFine.GlobalLocalSetting.Style == 2)
+            {
+                UIHelper.SetGlobalStyle(UIHelper.StyleType.RetroStyle);
+            }
+
             InitializeComponent();
         }
 
@@ -1742,6 +1753,16 @@ namespace SSELex
 
                         this.Dispatcher.Invoke(new Action(() =>
                         {
+                            if (GridHandle.Score < 5)
+                            {
+                                ToStr.Foreground = new SolidColorBrush(Colors.Red);
+                            }
+                            else
+                            {
+                                ToStr.Foreground = new SolidColorBrush((Color)Application.Current.Resources["DefFontColor"]);
+                            }
+
+
                             FromStr.Text = TransViewList.RealLines[TransViewList.SelectLineID].SourceText;
                             ToStr.Text = TransViewList.RealLines[TransViewList.SelectLineID].TransText;
 
@@ -3543,6 +3564,22 @@ namespace SSELex
                DeFine.GlobalLocalSetting.CurrentUILanguage = (Languages)Enum.Parse(typeof(Languages), GetValue);
                UILanguageHelper.ChangeLanguage(DeFine.GlobalLocalSetting.CurrentUILanguage);
             }
+        }
+
+        private void ChangeTechDarkBlue(object sender, MouseButtonEventArgs e)
+        {
+            DeFine.GlobalLocalSetting.Style = 1;
+            DeFine.GlobalLocalSetting.SaveConfig();
+
+            MessageBoxExtend.Show(this, "The theme is set successfully and will take effect after restarting the software.");
+        }
+
+        private void ChangePurpleStyle(object sender, MouseButtonEventArgs e)
+        {
+            DeFine.GlobalLocalSetting.Style = 2;
+            DeFine.GlobalLocalSetting.SaveConfig();
+
+            MessageBoxExtend.Show(this, "The theme is set successfully and will take effect after restarting the software.");
         }
     }
 }

@@ -284,18 +284,18 @@ namespace SSELex.UIManage
 
         public enum StyleType
         {
-            White = 0, Black = 1
+            BlueStyle = 0, RetroStyle = 1
         }
         public static void SetGlobalStyle(StyleType Style)
         {
             switch (Style)
             {
-                case StyleType.White:
+                case StyleType.BlueStyle:
                     {
                         LoadResourceDictionary("/Themes/BlueStyle.xaml");
                     }
                     break;
-                case StyleType.Black:
+                case StyleType.RetroStyle:
                     {
                         LoadResourceDictionary("/Themes/RetroStyle.xaml");
                     }

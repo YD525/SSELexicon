@@ -127,7 +127,7 @@ namespace SSELex
             RowStyleWin.Hide();
 
             MakeReady();
-            GlobalLocalSetting.ReadConfig();
+
             string GetFilePath = GetFullPath(@"\System.db");
 
             WorkingWin = Work;
@@ -158,6 +158,7 @@ namespace SSELex
 
     public class LocalSetting
     {
+        public int Style { get; set; } = 1;
         public double FormHeight { get; set; } = 850;
         public double FormWidth { get; set; } = 1200;
         public Languages CurrentUILanguage { get; set; } = Languages.English;
@@ -200,6 +201,7 @@ namespace SSELex
                         var GetSetting = JsonSerializer.Deserialize<LocalSetting>(GetStr);
                         if (GetSetting != null)
                         {
+                            this.Style = GetSetting.Style;
                             this.FormHeight = GetSetting.FormHeight;
                             this.FormWidth = GetSetting.FormWidth;
                             this.CurrentUILanguage = GetSetting.CurrentUILanguage;

@@ -219,14 +219,20 @@ namespace SSELex.UIManagement
             Label GetType = (Label)GetStackPanel.Children[1];
             GetType.Content = Item.Type;
 
-            if(FontColor != Colors.White)
+            if (FontColor == Colors.White)
+            { 
+               FontColor = (Color)Application.Current.Resources["DefFontColor"];
+            }
             GetType.Foreground = new SolidColorBrush(FontColor);
 
             Grid GetKeyGrid = (Grid)GetChildGrid.Children[1];
             TextBox GetKey = (TextBox)GetKeyGrid.Children[0];
             GetKey.Text = Item.Key;
 
-            if (FontColor != Colors.White)
+            if (FontColor == Colors.White)
+            { 
+               FontColor = (Color)Application.Current.Resources["DefFontColor"];
+            }
             GetKey.Foreground = new SolidColorBrush(FontColor);
 
             GetKey.PreviewMouseWheel += OnePreviewMouseWheel;
@@ -235,7 +241,10 @@ namespace SSELex.UIManagement
             TextBox GetOriginal = (TextBox)GetOriginalGrid.Children[0];
             GetOriginal.Text = Item.SourceText;
 
-            if (FontColor != Colors.White)
+            if (FontColor == Colors.White)
+            {
+                FontColor = (Color)Application.Current.Resources["DefFontColor"];
+            }
             GetOriginal.Foreground = new SolidColorBrush(FontColor);
 
             GetOriginal.PreviewMouseWheel += OnePreviewMouseWheel;
@@ -247,7 +256,10 @@ namespace SSELex.UIManagement
 
             GetTranslated.Text = Item.TransText;
 
-            if (FontColor != Colors.White)
+            if (FontColor == Colors.White)
+            { 
+               FontColor = (Color)Application.Current.Resources["DefFontColor"];
+            }
             GetTranslated.Foreground = new SolidColorBrush(FontColor);
 
             GetTranslated.PreviewMouseWheel += OnePreviewMouseWheel;
