@@ -324,6 +324,7 @@ namespace SSELex.UIManage
         public static Dictionary<string, string> UICache = new Dictionary<string, string>();
         public static void ChangeLanguage(Languages SetLanguage)
         {
+            NextLoad:
             UICache.Clear();
             string SetPath = DeFine.GetFullPath(@"\Interface\Translations\SSE Lexicon_" + SetLanguage.ToString().ToUpper() + ".txt");
             MCMReader NewReader = new MCMReader();
@@ -333,14 +334,19 @@ namespace SSELex.UIManage
 
                 foreach (var GetMCMItem in NewReader.MCMItems)
                 {
-                    UPDateUI(GetMCMItem.EditorID,GetMCMItem.SourceText);
+                    UPDateUI(GetMCMItem.EditorID, GetMCMItem.SourceText);
                     if (!UICache.ContainsKey(GetMCMItem.EditorID))
                     {
-                        UICache.Add(GetMCMItem.EditorID,GetMCMItem.SourceText);
+                        UICache.Add(GetMCMItem.EditorID, GetMCMItem.SourceText);
                     }
                 }
             }
-
+            else
+            {
+                SetLanguage = Languages.English;
+                MessageBox.Show("The interface translation file was not found.");
+                goto NextLoad;
+            }
         }
     }
 }

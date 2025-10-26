@@ -112,7 +112,7 @@ namespace SSELex
         {
             DeFine.Init(this);
 
-            UILanguageHelper.ChangeLanguage(Languages.SimplifiedChinese);
+            UILanguageHelper.ChangeLanguage(Languages.English);
 
             TranslatorExtend.Init();
 
