@@ -319,5 +319,67 @@ namespace SSELex.UIManage
             Application.Current.MainWindow?.InvalidateVisual();
             Application.Current.MainWindow?.UpdateLayout();
         }
+
+
+        public static Grid CreatMatchLine(string From,string Type,string Translated)
+        {
+            Grid NewLine = new Grid();
+            NewLine.Tag = Translated;
+            NewLine.Height = 50;
+            NewLine.Cursor = Cursors.Hand;
+
+            NewLine.Style = (Style)Application.Current.FindResource("LineStyle");
+            NewLine.Margin = new Thickness(0,0,0,1);
+
+            ColumnDefinition Column1st = new ColumnDefinition();
+            Column1st.Width = new GridLength(1,GridUnitType.Star);
+            ColumnDefinition Column2nd = new ColumnDefinition();
+            Column2nd.Width = new GridLength(1, GridUnitType.Star);
+            ColumnDefinition Column3rd = new ColumnDefinition();
+            Column3rd.Width = new GridLength(1, GridUnitType.Star);
+
+            NewLine.ColumnDefinitions.Add(Column1st);
+            NewLine.ColumnDefinitions.Add(Column2nd);
+            NewLine.ColumnDefinitions.Add(Column3rd);
+
+            Style LabelStyle = (Style)Application.Current.FindResource("LineTypeFont");
+
+            Label FromLab = new Label();
+            FromLab.Content = From;
+            FromLab.Style = LabelStyle;
+
+            NewLine.Children.Add(FromLab);
+            Grid.SetColumn(FromLab,0);
+
+            Label TypeLab = new Label();
+            TypeLab.Content = Type;
+            TypeLab.Style = LabelStyle;
+
+            NewLine.Children.Add(TypeLab);
+            Grid.SetColumn(TypeLab,1);
+
+            Label TranslatedLab = new Label();
+            TranslatedLab.Content = Translated;
+            TranslatedLab.Style = LabelStyle;
+
+            NewLine.Children.Add(TranslatedLab);
+            Grid.SetColumn(TranslatedLab,2);
+
+            NewLine.PreviewMouseDown += MatchLine_PreviewMouseDown;
+
+            return NewLine;
+        }
+
+        private static void MatchLine_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is Grid)
+            {
+                Grid GetGrid = (Grid)sender;
+                if (DeFine.WorkingWin != null)
+                {
+                    DeFine.WorkingWin.ToStr.Text = ConvertHelper.ObjToStr(GetGrid.Tag);
+                }
+            }
+        }
     }
 }

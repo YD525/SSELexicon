@@ -110,6 +110,7 @@ namespace SSELex.SkyrimManagement
 
         public Languages CurrentLang = Languages.Null;
 
+        public string CurrentFileName = "";
         public void LoadStrings(Languages To)
         {
             Clear();
@@ -141,6 +142,7 @@ namespace SSELex.SkyrimManagement
                     if(SourceLang == ToLang)
                     {
                         LoadSingleFile(GetFile, StringsSource.DL, SourceLang);
+                        CurrentFileName = FileName;
                     }
                 }
                 if (FileName.EndsWith(".ilstrings"))
@@ -150,6 +152,7 @@ namespace SSELex.SkyrimManagement
                     if (SourceLang == ToLang)
                     {
                         LoadSingleFile(GetFile, StringsSource.IL, SourceLang);
+                        CurrentFileName = FileName;
                     } 
                 }
                 if (FileName.EndsWith(".strings"))
@@ -159,6 +162,7 @@ namespace SSELex.SkyrimManagement
                     if (SourceLang == ToLang)
                     {
                         LoadSingleFile(GetFile, StringsSource.Normal, SourceLang);
+                        CurrentFileName = FileName;
                     } 
                 }
             }

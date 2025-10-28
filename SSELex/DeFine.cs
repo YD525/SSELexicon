@@ -49,6 +49,7 @@ namespace SSELex
         public static TextEditor ActiveIDE = null;
         public static LocalConfig LocalConfigView = null;
         public static RowStyleWin RowStyleWin = new RowStyleWin();
+        public static ExtendWin ExtendWin = null;
 
         public static void CloseAny()
         {
@@ -115,6 +116,16 @@ namespace SSELex
             }
         }
 
+        public static void ShowExtendWin()
+        {
+            ExtendWin.ShowUI();
+        }
+
+        public static void CloseExtendWin()
+        {
+            ExtendWin.CloseUI();
+        }
+
         public static void Init(MainGui Work)
         {
             if (ToolDownloader.SCanToolPath() == null)
@@ -153,6 +164,8 @@ namespace SSELex
             LocalConfigView = new LocalConfig();
             LocalConfigView.Hide();
             LocalConfigView.Init();
+
+            ExtendWin = new ExtendWin();
         }
     }
 

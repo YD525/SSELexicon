@@ -10,6 +10,9 @@
     <Compile Update="CodeView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="ExtendWin.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="LocalConfig.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

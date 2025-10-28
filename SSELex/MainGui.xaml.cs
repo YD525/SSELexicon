@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.IO;
 using System.Text;
 using System.Text.Json;
@@ -283,6 +284,19 @@ namespace SSELex
             }
 
             AutoSizeHistoryList();
+
+            if (DeFine.ExtendWin?.IsShow == true)
+            {
+                DeFine.ExtendWin.ShowUI();
+            }
+        }
+
+        private void Window_LocationChanged(object sender, EventArgs e)
+        {
+            if (DeFine.ExtendWin?.IsShow == true)
+            {
+                DeFine.ExtendWin.ShowUI();
+            }
         }
 
         private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -1530,6 +1544,7 @@ namespace SSELex
             if (DeFine.GlobalLocalSetting.ViewMode == "Normal")
             {
                 EnableNormalModel();
+                
             }
             else
             {
@@ -1609,6 +1624,8 @@ namespace SSELex
             }
             WritingArea.Height = new GridLength(AutoHeight, GridUnitType.Pixel);
             SplictLine.Height = new GridLength(3.5, GridUnitType.Pixel);
+
+            DeFine.ShowExtendWin();
         }
 
         public void EnableQuickModel()
@@ -1624,6 +1641,8 @@ namespace SSELex
 
             WritingArea.Height = new GridLength(0, GridUnitType.Pixel);
             SplictLine.Height = new GridLength(0, GridUnitType.Pixel);
+
+            DeFine.CloseExtendWin();
         }
 
         private void NormalModel_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -1788,6 +1807,8 @@ namespace SSELex
 
                             AutoLoadHistoryList();
                         }));
+
+                        DeFine.ExtendWin.SetOriginal(GridHandle.GetSource(), DeFine.WorkingWin.GlobalEspReader?.StringsReader.QueryData(GridHandle.Key));
                     }
                 }
             }
@@ -3581,5 +3602,7 @@ namespace SSELex
 
             MessageBoxExtend.Show(this, "The theme is set successfully and will take effect after restarting the software.");
         }
+
+        
     }
 }
