@@ -3106,11 +3106,6 @@ namespace SSELex
             else
             if (Name.Equals("UI Configs"))
             {
-                SUILanguages.Items.Clear();
-                SUILanguages.Items.Add("English");
-
-                SUILanguages.SelectedValue = SUILanguages.Items[0];
-
                 if (DeFine.GlobalLocalSetting.ShowCode)
                 {
                     ShowCodeView.IsChecked = true;

@@ -1620,17 +1620,6 @@
                                                     </Label>
                                                 </Border>
                                             </StackPanel>
-                                            <Label Style="{DynamicResource TittleFont}">
-                                                UILanguage Configs
-                                            </Label>
-                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 10 5 10">
-                                                <Label Style="{DynamicResource NormalText}">
-                                                    UILanguage:
-                                                </Label>
-
-                                                <ComboBox Style="{DynamicResource CustomComboBoxStyle}" Name="SUILanguages" Width="150">
-                                                </ComboBox>
-                                            </StackPanel>
                                         </StackPanel>
                                     </ScrollViewer>
                                 </Border>

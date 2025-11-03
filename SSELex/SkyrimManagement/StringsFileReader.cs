@@ -43,7 +43,7 @@ namespace SSELex.SkyrimManagement
         public Dictionary<uint, StringItem> Strings = new Dictionary<uint, StringItem>();
         public Dictionary<string, uint> KeyBindings = new Dictionary<string, uint>();
 
-        public static Language ToMutagenLang(Languages Lang)
+        public static Language? ToMutagenLang(Languages Lang)
         {
             return Lang switch
             {
@@ -63,8 +63,8 @@ namespace SSELex.SkyrimManagement
              
                 Languages.Hindi or Languages.Urdu or Languages.Indonesian or Languages.Vietnamese
                 or Languages.CanadianFrench or Languages.Portuguese or Languages.Ukrainian
-                or Languages.Auto => throw new NotSupportedException($"language {Lang} has no corresponding Language enum"),
-                _ => throw new NotSupportedException($"language {Lang} is not supported")
+                or Languages.Auto => null,
+                _ => null
             };
         }
 
@@ -126,7 +126,12 @@ namespace SSELex.SkyrimManagement
                 CurrentModPath += @"\";
             }
 
-            Language ToLang = ToMutagenLang(To);
+            Language? ToLang = ToMutagenLang(To);
+
+            if (ToLang == null)
+            {
+                return;
+            }
 
             //Check whether the module path contains the stringsfile file
 
