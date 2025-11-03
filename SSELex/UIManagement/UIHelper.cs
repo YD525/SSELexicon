@@ -358,9 +358,28 @@ namespace SSELex.UIManage
             NewLine.Children.Add(TypeLab);
             Grid.SetColumn(TypeLab,1);
 
-            Label TranslatedLab = new Label();
-            TranslatedLab.Content = Translated;
-            TranslatedLab.Style = LabelStyle;
+            TextBox TranslatedLab = new TextBox();
+            TranslatedLab.Margin = new Thickness(5);
+            TranslatedLab.Text = Translated;
+            TranslatedLab.IsReadOnly = true;
+            TranslatedLab.AcceptsReturn = true;
+            TranslatedLab.TextWrapping = TextWrapping.Wrap;
+            TranslatedLab.Background = null;
+            TranslatedLab.BorderBrush = null;
+            TranslatedLab.FontSize = 11;
+            TranslatedLab.BorderThickness = new Thickness(0);
+            TranslatedLab.VerticalContentAlignment = VerticalAlignment.Center;
+            TranslatedLab.HorizontalContentAlignment = HorizontalAlignment.Center;
+
+            if (DeFine.GlobalLocalSetting.Style == 1)
+            {
+                TranslatedLab.Foreground = new SolidColorBrush(Colors.White);
+            }
+            else
+            {
+                TranslatedLab.Foreground = new SolidColorBrush(Colors.Black);
+            }
+         
 
             NewLine.Children.Add(TranslatedLab);
             Grid.SetColumn(TranslatedLab,2);
