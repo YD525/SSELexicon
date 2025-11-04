@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Text.Unicode;
 using Noggog;
 using PhoenixEngine.TranslateManage;
 using SSELex.ConvertManager;
@@ -547,7 +548,7 @@ namespace SSELex.SkyrimManage
             public string Translated = "";
             public int DefLineID = 0;
             public string DefKey = "";
-            public LinkValue(string Original, string Translated, int DefLineID,string DefKey)
+            public LinkValue(string Original, string Translated, int DefLineID, string DefKey)
             {
                 this.Original = Original;
                 this.Translated = Translated;
@@ -577,6 +578,10 @@ namespace SSELex.SkyrimManage
             return RichText;
         }
 
+        public string RemoveCrlf(string Msg)
+        {
+            return Msg.Replace("\r\n", ".").Replace("\n", ".");
+        }
         public bool SavePexFile(string OutPutPath)
         {
             TranslatorExtend.ClearTranslatorHistoryCache();
@@ -592,76 +597,75 @@ namespace SSELex.SkyrimManage
                 }
             }
 
-            var Encoding = DataHelper.GetFileEncodeType(DeFine.GetFullPath(@"\Cache\" + CurrentFileName + ".pas"));
-
-            string GetFileContent = Encoding.GetString(DataHelper.ReadFile(DeFine.GetFullPath(@"\Cache\" + CurrentFileName + ".pas")));
+            string GetFileContent = DataHelper.GetFileEncodeType(DeFine.GetFullPath(@"\Cache\" + CurrentFileName + ".pas")).GetString(DataHelper.ReadFile(DeFine.GetFullPath(@"\Cache\" + CurrentFileName + ".pas")));
 
             List<string> Lines = GetFileContent.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None).ToList();
 
             for (int i = 0; i < LinkTexts.Count; i++)
             {
-                string GetOriginal = LinkTexts[i].Original;
-
-                if (GetFileContent.Contains(GetOriginal))
+                try
                 {
-                    string GetTranslated = LinkTexts[i].Translated;
+                    string GetOriginal = LinkTexts[i].Original;
 
-                    TranslationPreprocessor.NormalizePunctuation(ref GetTranslated);
-
-                    for (int ir = 0; ir < Lines.Count; ir++)
+                    if (GetFileContent.Contains(GetOriginal))
                     {
-                        try
+                        string GetTranslated = LinkTexts[i].Translated;
+
+                        TranslationPreprocessor.NormalizePunctuation(ref GetTranslated);
+
+                        for (int ir = 0; ir < Lines.Count; ir++)
                         {
-                            string GetLine = Lines[ir];
-                            if (GetLine.Contains("@line"))
+                            try
                             {
-                                string CheckID = GetLine.Substring(GetLine.IndexOf("@line") + "@line".Length).Trim();
-
-                                if (CheckID.Equals(LinkTexts[i].DefLineID.ToString()))
+                                string GetLine = Lines[ir];
+                                if (GetLine.Contains("@line"))
                                 {
-                                    if (Lines[ir].Contains(GetOriginal))
+                                    string CheckID = GetLine.Substring(GetLine.IndexOf("@line") + "@line".Length).Trim();
+
+                                    if (CheckID.Equals(LinkTexts[i].DefLineID.ToString()))
                                     {
-                                        Lines[ir] = Lines[ir].Replace("\"" + GetOriginal + "\"", "\"" + GetTranslated + "\"");
-                                    }
-                                }
-                                else
-                                {
-                                    //Some methods are missing the "@line" field. The specific reason is unclear. Here, you need to check whether the method name is consistent.
-
-                                    if (Lines[ir].Contains(GetOriginal))
-                                    {
-                                        //Get the original key
-                                        string QueryKey = LinkTexts[i].DefKey;
-
-                                        QueryKey = QueryKey.Substring(0,QueryKey.LastIndexOf(","));
-
-                                        foreach (var GetItem in HeuristicEngine.DStringItems)
+                                        if (Lines[ir].Contains(GetOriginal))
                                         {
-                                            if (GetItem.Key.Equals(QueryKey))
+                                            Lines[ir] = Lines[ir].Replace("\"" + GetOriginal + "\"", "\"" + RemoveCrlf(GetTranslated) + "\"");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        //Some methods are missing the "@line" field. The specific reason is unclear. Here, you need to check whether the method name is consistent.
+
+                                        if (Lines[ir].Contains(GetOriginal))
+                                        {
+                                            //Get the original key
+                                            string QueryKey = LinkTexts[i].DefKey;
+
+                                            foreach (var GetItem in HeuristicEngine.DStringItems)
                                             {
-                                                //Here the details should be structured. This is some of the feature files analyzed. I use ">" to split them. In fact, it is mainly to help establish a unique key. But I was lazy and directly used it to get the method name.
-                                                int CheckFunc = 0;
-                                                foreach (var GetParam in GetItem.Feature.Split('>'))
+                                                if (GetItem.Key.Equals(QueryKey))
                                                 {
-                                                    if (GetParam.Trim().Length > 0)
+                                                    //Here the details should be structured. This is some of the feature files analyzed. I use ">" to split them. In fact, it is mainly to help establish a unique key. But I was lazy and directly used it to get the method name.
+                                                    int CheckFunc = 0;
+                                                    foreach (var GetParam in GetItem.Feature.Split('>'))
                                                     {
-                                                        //GetLine =	CallMethod AddToggleOption self ::temp8 "Message" True 0  ;@line 62
-                                                        //GetParam = AddToggleOption
-                                                        if (GetLine.Contains(GetParam.Trim()))
+                                                        if (GetParam.Trim().Length > 0)
                                                         {
-                                                            CheckFunc++;
+                                                            //GetLine =	CallMethod AddToggleOption self ::temp8 "Message" True 0  ;@line 62
+                                                            //GetParam = AddToggleOption
+                                                            if (GetLine.Contains(GetParam.Trim()))
+                                                            {
+                                                                CheckFunc++;
+                                                            }
                                                         }
                                                     }
-                                                }
 
-                                                if (CheckFunc > 0)
-                                                {
-                                                    int Count = Regex.Matches(Lines[ir], Regex.Escape("\"" + GetOriginal + "\"")).Count;
-
-                                                    //To prevent the method from having two identical parameters, you can actually determine the position of the parameter. This is currently simplified. However, there are problems. I wrote it this way because I was lazy.
-                                                    if (Count < 2)
+                                                    if (CheckFunc > 0)
                                                     {
-                                                        Lines[ir] = Lines[ir].Replace("\"" + GetOriginal + "\"", "\"" + GetTranslated + "\"");
+                                                        int Count = Regex.Matches(Lines[ir], Regex.Escape("\"" + GetOriginal + "\"")).Count;
+
+                                                        //To prevent the method from having two identical parameters, you can actually determine the position of the parameter. This is currently simplified. However, there are problems. I wrote it this way because I was lazy.
+                                                        if (Count < 2)
+                                                        {
+                                                            Lines[ir] = Lines[ir].Replace("\"" + GetOriginal + "\"", "\"" + RemoveCrlf(GetTranslated) + "\"");
+                                                        }
                                                     }
                                                 }
                                             }
@@ -669,12 +673,16 @@ namespace SSELex.SkyrimManage
                                     }
                                 }
                             }
-                        }
-                        catch (Exception Ex)
-                        {
+                            catch (Exception Ex)
+                            {
 
+                            }
                         }
                     }
+                }
+                catch(Exception Ex) 
+                {
+                
                 }
             }
 
@@ -694,7 +702,7 @@ namespace SSELex.SkyrimManage
                 ForceDelete(DeFine.GetFullPath(@"\") + CurrentFileName + ".pas");
             }
 
-            DataHelper.WriteFile(DeFine.GetFullPath(@"\") + CurrentFileName + ".pas", Encoding.GetBytes(GetFileContent));
+            DataHelper.WriteFile(DeFine.GetFullPath(@"\") + CurrentFileName + ".pas", Encoding.UTF8.GetBytes(GetFileContent));
 
             string CompilerPath = "";
             if (SkyrimHelper.FindPapyrusCompilerPath(ref CompilerPath))
@@ -703,7 +711,7 @@ namespace SSELex.SkyrimManage
                 {
                     File.Copy(OutPutPath, OutPutPath + ".backup");
                 }
-                
+
                 ForceDelete(OutPutPath);
 
                 string GetWorkPath = CompilerPath.Substring(0, CompilerPath.LastIndexOf(@"\") + @"\".Length);

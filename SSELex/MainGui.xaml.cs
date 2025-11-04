@@ -2116,6 +2116,8 @@ namespace SSELex
 
                         TranslatorExtend.SetTranslatorHistoryCache(GetGrid.Key, GetGrid.TransText, false);
 
+                        GetGrid.SyncData(ref RefCloud);
+
                         GetGrid.SyncUI(TransViewList);
 
                         if (SearchResultsViewList != null)
