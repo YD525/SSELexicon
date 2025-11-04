@@ -34,8 +34,9 @@ namespace SSELex.UIManagement
             this.Hide();
         }
 
-        public static T CloneElement<T>(T source) where T : UIElement
+        public static T? CloneElement<T>(T source) where T : UIElement
         {
+            try {
             if (source == null) return null;
 
             string xaml = XamlWriter.Save(source);
@@ -43,6 +44,8 @@ namespace SSELex.UIManagement
             XmlReader xmlReader = XmlReader.Create(stringReader);
 
             return (T)XamlReader.Load(xmlReader);
+            }
+            catch { return null; }
         }
 
         public static void SetColor(Grid Grid,int R,int G,int B)
@@ -199,7 +202,13 @@ namespace SSELex.UIManagement
                 FontColor = Color.FromRgb((byte)QueryColor.R, (byte)QueryColor.G, (byte)QueryColor.B);
             }
 
-            Grid MainGrid = CloneElement(LineGrid);
+            Grid? MainGrid = CloneElement(LineGrid);
+
+            if (MainGrid == null)
+            {
+                return new Grid();
+            }
+
             MainGrid.Height = Height;
 
             Border MainBorder = (Border)MainGrid.Children[0];

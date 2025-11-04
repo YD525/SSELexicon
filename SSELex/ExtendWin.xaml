@@ -108,7 +108,7 @@
                     </Label>
 
                     <Label VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Grid.Column="1">
-                        Type
+                        Key
                     </Label>
 
                     <Label VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Grid.Column="2">

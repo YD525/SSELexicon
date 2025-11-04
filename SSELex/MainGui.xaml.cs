@@ -2559,8 +2559,7 @@ namespace SSELex
         {
             if (HistoryLayer.Visibility == Visibility.Visible)
             {
-                ChangeTimeCol.Width = 100;
-                IsCloudCol.Width = 50;
+                ChangeTimeCol.Width = 150;
                 double Width = HistoryLayer.ActualWidth - 150;
                 if (Width < 0) Width = 300;
                 TranslatedCol.Width = Width;
@@ -2581,7 +2580,6 @@ namespace SSELex
                         HistoryList.Items.Add(new
                         {
                             ChangeTime = Get.ChangeTime,
-                            IsCloud = Get.IsCloud,
                             Translated = Get.Translated
                         });
                     }

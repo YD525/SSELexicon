@@ -264,14 +264,9 @@ namespace SSELex.UIManage
                         ((GridView)DeFine.WorkingWin.HistoryList.View).Columns[0].Header = Value;
                     }
                 break;
-                case "IsCloud":
-                    {
-                        ((GridView)DeFine.WorkingWin.HistoryList.View).Columns[1].Header = Value;
-                    }
-                break;
                 case "Translated":
                     {
-                        ((GridView)DeFine.WorkingWin.HistoryList.View).Columns[2].Header = Value;
+                        ((GridView)DeFine.WorkingWin.HistoryList.View).Columns[1].Header = Value;
                     }
                 break;
                 //Footer
