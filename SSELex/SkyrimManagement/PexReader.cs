@@ -510,6 +510,7 @@ namespace SSELex.SkyrimManage
                     double GetHeight = DeFine.WorkingWin.Height;
                     double GetTop = DeFine.WorkingWin.Top;
                     double GetLeft = DeFine.WorkingWin.Left;
+                    double GetWidth = DeFine.WorkingWin.Width;
 
                     DeFine.CurrentCodeView.Dispatcher.Invoke(new Action(() =>
                     {
@@ -517,7 +518,7 @@ namespace SSELex.SkyrimManage
                         DeFine.CurrentCodeView.Show();
                         DeFine.ActiveIDE.Text = RichText;
                         DeFine.CurrentCodeView.ReSetFolding();
-                        DeFine.CurrentCodeView.Left = GetLeft - DeFine.CurrentCodeView.Width;
+                        DeFine.CurrentCodeView.Left = GetLeft + GetWidth + 5;
                         DeFine.CurrentCodeView.Top = GetTop;
                     }));
                 }
