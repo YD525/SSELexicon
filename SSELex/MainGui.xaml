@@ -1015,37 +1015,17 @@
 
                                                 <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                                                     <Label Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold">
-                                                        XXX.esp
+                                                        XXX
                                                     </Label>
 
                                                     <Label Grid.Row="1" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold">
-                                                        20%
+                                                        0%
                                                     </Label>
                                                 </StackPanel>
-                                               
+
 
                                                 <Border Grid.Row="0" Grid.RowSpan="2" CornerRadius="5" Margin="0 0 5 5" Background="#FF12A2B8" Width="60" Height="25" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                                                    <Label Foreground="White" FontSize="10" VerticalAlignment="Center" HorizontalAlignment="Center">8/31/2025</Label>
-                                                </Border>
-                                            </Grid>
-                                        </Border>
-
-                                        <Border Grid.Row="0" Grid.Column="1" Background="#FF0795CD" CornerRadius="5" Margin="5" Cursor="Hand">
-                                            <Grid>
-
-                                                <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-                                                    <Label Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold">
-                                                        XXX.esp
-                                                    </Label>
-
-                                                    <Label Grid.Row="1" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold">
-                                                        100%
-                                                    </Label>
-                                                </StackPanel>
-
-
-                                                <Border Grid.Row="0" Grid.RowSpan="2" CornerRadius="5" Margin="0 0 5 5" Background="#FF26B3C8" Width="60" Height="25" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                                                    <Label Foreground="White" FontSize="10" VerticalAlignment="Center" HorizontalAlignment="Center">9/1/2025</Label>
+                                                    <Label Foreground="White" FontSize="10" VerticalAlignment="Center" HorizontalAlignment="Center">0/00/0000</Label>
                                                 </Border>
                                             </Grid>
                                         </Border>
@@ -1122,6 +1102,11 @@
 
                                 <TextBlock Foreground="White" FontSize="20" FontWeight="DemiBold" Margin="0 10 0 0" HorizontalAlignment="Center" TextAlignment="Center">
                                     Special Thanks
+                                </TextBlock>
+
+                                <TextBlock Foreground="White" FontSize="14" TextWrapping="Wrap" TextAlignment="Center" Margin="20 5 20 0">
+                                     <Run Tag="https://github.com/Noggog" Text="Noggog" FontWeight="Bold" Cursor="Hand" Foreground="#FF44A0FF" MouseDown="OpenUrl_MouseDown"/>.
+                                     Helped me identify and correct some issues I encountered when reading ESP files,and gave me the idea to export Strings files.
                                 </TextBlock>
 
                                 <TextBlock Foreground="White" FontSize="14" TextWrapping="Wrap" TextAlignment="Center" Margin="20 5 20 0">
