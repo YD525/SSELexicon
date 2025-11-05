@@ -2018,8 +2018,16 @@ namespace SSELex
                                             }
                                         }
 
+                                        if (Engine.From == Engine.To)
+                                        {
+                                            MessageBoxExtend.Show(this, "The source language and target language cannot be the same!");
+                                            CallSucess = false;
+                                            return;
+                                        }
+
                                         if (EngineConfig.LMLocalAIEnable)
                                         {
+                                            EngineConfig.LMModel = string.Empty;
                                             new LMStudio().GetCurrentModel();
                                         }
 
