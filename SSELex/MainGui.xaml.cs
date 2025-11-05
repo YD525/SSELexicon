@@ -869,12 +869,12 @@ namespace SSELex
 
             IsValidFile = false;
 
-            Translator.ClearAICache();
             SetLog("Load:" + FilePath);
             
             ClosetTransTrd();
             if (System.IO.File.Exists(FilePath))
             {
+                 Translator.ClearAICache();
                 //FromStr.Text = "";
                 //ToStr.Text = "";
 
@@ -1409,6 +1409,7 @@ namespace SSELex
                 {
                     Engine.To = DeFine.GlobalLocalSetting.TargetLanguage;
                     UPDateUI();
+                    Translator.ClearAICache();
                 }
             }
         }
@@ -2012,7 +2013,7 @@ namespace SSELex
                                         {
                                             if (Engine.From == Languages.Auto)
                                             {
-                                                LangFrom.SelectedValue = DetectLanguage().ToString();
+                                                Engine.From = DetectLanguage();
                                             }
                                         }
 
