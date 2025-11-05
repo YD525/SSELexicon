@@ -3132,6 +3132,15 @@ namespace SSELex
                 {
                     SAutoSetThreadLimit.IsChecked = false;
                 }
+
+                if (DeFine.GlobalLocalSetting.EnableGlobalSearch)
+                {
+                    GlobalSearch.IsChecked = true;
+                }
+                else
+                {
+                    GlobalSearch.IsChecked = false;
+                }
             }
         }
 
@@ -3598,6 +3607,16 @@ namespace SSELex
             MessageBoxExtend.Show(this, "The theme is set successfully and will take effect after restarting the software.");
         }
 
-        
+        private void EnableGlobalSearch_Click(object sender, RoutedEventArgs e)
+        {
+            if (GlobalSearch.IsChecked == true)
+            {
+                DeFine.GlobalLocalSetting.EnableGlobalSearch = true;
+            }
+            else
+            {
+                DeFine.GlobalLocalSetting.EnableGlobalSearch = false;
+            }
+        }
     }
 }

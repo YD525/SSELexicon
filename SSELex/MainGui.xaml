@@ -1131,7 +1131,7 @@
                         </Grid>
                     </Grid>
 
-                    <Grid Name="SettingView" Style="{DynamicResource FrameStyle}" Visibility="Collapsed">
+                    <Grid Name="SettingView" Style="{DynamicResource FrameStyle}" Visibility="Visible">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="5"/>
@@ -1452,9 +1452,6 @@
                                                 </StackPanel>
                                             </Border>
 
-
-
-
                                             <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Left" Margin="0 5 0 10">
                                                 <StackPanel Orientation="Vertical" Margin="5">
                                                     <Label Style="{DynamicResource LinkFont}" MouseDown="OpenUrl_MouseDown" Margin="0 0 0 5">
@@ -1610,10 +1607,31 @@
                                     </ScrollViewer>
                                 </Border>
 
-                                <Border  Style="{DynamicResource SettingFrame}" Tag="Engine Configs" Visibility="Visible">
+                                <Border  Style="{DynamicResource SettingFrame}" Tag="Engine Configs" Visibility="Visible" Panel.ZIndex="999">
                                     <ScrollViewer VerticalScrollBarVisibility="Auto" Style="{DynamicResource for_scrollviewer}">
                                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 0 0 0" VerticalAlignment="Center" Width="500">
+                                            
                                             <Label Style="{DynamicResource TittleFont}">
+                                                DataBase Configs
+                                            </Label>
+                                            
+                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Stretch" Margin="0 5 0 10">
+                                                <Grid Margin="0 5 0 5">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="30"/>
+                                                        <ColumnDefinition Width="1*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <CheckBox Name="GlobalSearch" Style="{DynamicResource DefCheckBox}" VerticalAlignment="Center" Grid.Column="0" HorizontalAlignment="Center" Click="EnableGlobalSearch_Click">
+
+                                                    </CheckBox>
+                                                    <TextBox  Grid.Column="1" Style="{DynamicResource InFoText}">
+                                                        Allow retrieval of the entire database using source text. This option may speed up translation but could reduce accuracy, as the same text may have different meanings across mods.
+                                                    </TextBox>
+                                                </Grid>
+                                            </Border>
+                                            
+
+                                            <Label Style="{DynamicResource TittleFont}" Margin="0 10 0 0">
                                                 Engine Configs
                                             </Label>
 

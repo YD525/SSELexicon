@@ -16,6 +16,7 @@ using PhoenixEngine.RequestManagement;
 using static PhoenixEngine.EngineManagement.DataTransmission;
 using static SSELex.TranslateManage.TranslatorExtend;
 using System.Windows.Controls;
+using Noggog;
 
 namespace SSELex.TranslateManage
 {
@@ -313,6 +314,8 @@ namespace SSELex.TranslateManage
 
                         List<TranslationUnit> TranslationUnits = new List<TranslationUnit>();
 
+                        int GetSelfRowid = Engine.GetFileUniqueKey();
+
                         for (int i = 0; i < GetListView.Rows; i++)
                         {
                             var Row = GetListView.RealLines[i];
@@ -355,7 +358,15 @@ namespace SSELex.TranslateManage
                                         //Added to context memory. Helps AI improve accuracy.
                                         Engine.AddAIMemory(Row.GetSource(), GetTrans.Value);
 
-                                        Translator.TransData.Add(Row.Key, GetTrans.Value);
+                                        if (!Translator.TransData.ContainsKey(Row.Key))
+                                        {
+                                            Translator.TransData.Add(Row.Key, GetTrans.Value);
+                                        }
+                                        else
+                                        {
+                                            Translator.TransData[Row.Key] = GetTrans.Value;
+                                        }
+                                       
 
                                         var GetFakeGrid = GetListView.KeyToFakeGrid(Row.Key);
                                         if (GetFakeGrid != null)
@@ -368,6 +379,42 @@ namespace SSELex.TranslateManage
                                         if (DelegateHelper.SetDataCall != null)
                                         {
                                             DelegateHelper.SetDataCall(0, "Skip StringsFile(" + GetTrans.Type.ToString() + ") fields:" + Row.Key);
+                                        }
+
+                                        CanSet = false;
+                                    }
+                                }
+
+                                if (DeFine.GlobalLocalSetting.EnableGlobalSearch)
+                                {
+                                    var QueryData = CloudDBCache.MatchOtherCloudItem(GetSelfRowid,(int)Engine.To, Row.SourceText);
+
+                                    if (QueryData.Count > 0)
+                                    {
+                                        var GetData = QueryData[QueryData.Count - 1];
+
+                                        Engine.AddAIMemory(Row.GetSource(), GetData.Result);
+
+                                        if (!Translator.TransData.ContainsKey(Row.Key))
+                                        {
+                                            Translator.TransData.Add(Row.Key, GetData.Result);
+                                        }
+                                        else
+                                        {
+                                            Translator.TransData[Row.Key] = GetData.Result;
+                                        }
+
+                                        var GetFakeGrid = GetListView.KeyToFakeGrid(Row.Key);
+                                        if (GetFakeGrid != null)
+                                        {
+                                            Row.TransText = GetData.Result;
+
+                                            Row.SyncUI(GetListView);
+                                        }
+
+                                        if (DelegateHelper.SetDataCall != null)
+                                        {
+                                            DelegateHelper.SetDataCall(0, $"Database information matched, filename:{UniqueKeyHelper.RowidToOriginalKey(GetData.FileUniqueKey)}, value:{GetData.Result}");
                                         }
 
                                         CanSet = false;
