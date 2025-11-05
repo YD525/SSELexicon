@@ -17,6 +17,7 @@ using OneOf.Types;
 using PhoenixEngine.ConvertManager;
 using PhoenixEngine.DelegateManagement;
 using PhoenixEngine.EngineManagement;
+using PhoenixEngine.PlatformManagement.LocalAI;
 using PhoenixEngine.RequestManagement;
 using PhoenixEngine.TranslateCore;
 using PhoenixEngine.TranslateManage;
@@ -2017,6 +2018,11 @@ namespace SSELex
                                             }
                                         }
 
+                                        if (EngineConfig.LMLocalAIEnable)
+                                        {
+                                            new LMStudio().GetCurrentModel();
+                                        }
+
                                         TRun.Visibility = Visibility.Collapsed;
 
                                         TranslatorExtend.TranslationStatus = StateControl.Run;
@@ -3309,10 +3315,6 @@ namespace SSELex
         private void SLMPort_TextChanged(object sender, TextChangedEventArgs e)
         {
             EngineConfig.LMPort = ConvertHelper.ObjToInt(SLMPort.Text);
-        }
-        private void SLMModel_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            EngineConfig.LMModel = SLMModel.Text;
         }
         private void SLMHost_MouseLeave(object sender, MouseEventArgs e)
         {

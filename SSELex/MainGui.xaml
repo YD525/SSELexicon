@@ -1415,7 +1415,7 @@
                                                         </Label>
 
                                                         <Border Style="{DynamicResource DefTextBoxBorder}" Width="200">
-                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SLMModel" TextChanged="SLMModel_TextChanged">
+                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SLMModel" IsReadOnly="True">
                                                             </TextBox>
                                                         </Border>
 
