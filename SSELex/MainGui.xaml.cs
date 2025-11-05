@@ -588,6 +588,7 @@ namespace SSELex
                         {
                             try
                             {
+                                if(!Double.IsInfinity(GetRate))
                                 ProcessBar.Width = ProcessBarControl.ActualWidth * GetRate;
                             }
                             catch { }

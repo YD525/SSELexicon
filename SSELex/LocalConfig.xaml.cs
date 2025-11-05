@@ -1,9 +1,11 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Mutagen.Bethesda.Plugins;
 using PhoenixEngine.DataBaseManagement;
 using PhoenixEngine.TranslateCore;
 using PhoenixEngine.TranslateManage;
@@ -441,6 +443,7 @@ namespace SSELex
                         }));
                         bool CanSleep = false;
                         bool CanAddCache = false;
+
                         var GetResult = Translator.QuickTrans(NewUnit, ref CanSleep);
 
                         this.Dispatcher.Invoke(new Action(() =>
@@ -480,6 +483,54 @@ namespace SSELex
             }
 
             AutoReload();
+        }
+
+        public int ImportCount = 0;
+        public string LeftOver = "";
+        public void ProcessRecord(string Combined)
+        {
+            var Parts = Combined.Split(',');
+
+            for (int i = 0; i < Parts.Length - 1; i++)
+            {
+                string Record = Parts[i];
+                if (!string.IsNullOrWhiteSpace(Record))
+                {
+                    string[] Params = Record.Split('|');
+                    if (Params.Length == 4)
+                    {
+                        try
+                        {
+                            if (AdvancedDictionary.AddItem(new AdvancedDictionaryItem(
+                                string.Empty,
+                                string.Empty,
+                                SqlSafeCodec.Decode(Params[2]),
+                                SqlSafeCodec.Decode(Params[3]),
+                                Params[0],
+                                Params[1],
+                                1,
+                                1,
+                                string.Empty)))
+                            {
+                                ImportCount++;
+                            }
+                        }
+                        catch(Exception Ex) 
+                        {
+                        
+                        }
+                    }
+                }
+            }
+
+            LeftOver = Parts[Parts.Length - 1];
+        }
+        public void ProcessBuffer(char[] Buffer, int Count)
+        {
+            string Chunk = new string(Buffer, 0, Count);
+            string Combined = LeftOver + Chunk;
+
+            ProcessRecord(Combined);
         }
 
         public bool ExitAny = false;
@@ -525,7 +576,7 @@ namespace SSELex
                         Log.Dispatcher.Invoke(new Action(() =>
                         {
                             Log.Content = string.Format("Exporting dictionary...({0}%)({1}Record)",
-                            Math.Round(((double)(CurrentPage + 1) / (double)MaxPage) * 100, 0),
+                            Math.Round(((double)(CurrentPage) / (double)MaxPage) * 100, 0),
                             Count);
                         }));
                     }
@@ -548,7 +599,7 @@ namespace SSELex
                     }
                 }));
 
-            QuickExit:
+                QuickExit:
                 Thread.Sleep(100);
                 ExitAny = false;
                 ProcessWin.Dispatcher.Invoke(new Action(() =>
@@ -561,6 +612,67 @@ namespace SSELex
         private void CancelProcess(object sender, MouseButtonEventArgs e)
         {
             ExitAny = true;
+        }
+        private void ImportTable(object sender, MouseButtonEventArgs e)
+        {
+            ImportCount = 0;
+            LeftOver = string.Empty;
+
+            var Dialog = new System.Windows.Forms.OpenFileDialog();
+            Dialog.Title = "Please select a file";
+            Dialog.Filter = "Text|*.txt";
+            Dialog.Multiselect = false;
+
+            if (Dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string SelectedFile = Dialog.FileName;
+
+                if (File.Exists(SelectedFile))
+                {
+                    new Thread(() =>
+                    {
+                        ProcessWin.Dispatcher.Invoke(new Action(() =>
+                        {
+                            ProcessWin.Visibility = Visibility.Visible;
+                        }));
+
+                        int BufferSize = 1024 * 2;
+                        char[] Buffer = new char[BufferSize];
+
+                        using (var Reader = new StreamReader(SelectedFile, Encoding.UTF8))
+                        {
+                            while (true)
+                            {
+                                if (ExitAny) goto QuickExit;
+
+                                int ReadCount = Reader.ReadBlock(Buffer, 0, BufferSize);
+                                if (ReadCount == 0) break;   // EOF
+
+                                ProcessBuffer(Buffer, ReadCount);
+
+                                Log.Dispatcher.Invoke(new Action(() =>
+                                {
+                                    Log.Content = string.Format("Number of imported records:({0})", ImportCount);
+                                }));
+                            }
+
+                            if (!string.IsNullOrWhiteSpace(LeftOver))
+                            {
+                                ProcessRecord(LeftOver);
+                            }
+
+                            QuickExit:
+                            Thread.Sleep(100);
+                            ExitAny = false;
+                            ProcessWin.Dispatcher.Invoke(new Action(() =>
+                            {
+                                ProcessWin.Visibility = Visibility.Hidden;
+                            }));
+                        }
+
+                    }).Start();
+                }
+            }
         }
     }
 }

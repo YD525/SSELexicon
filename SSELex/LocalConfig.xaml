@@ -170,7 +170,7 @@
                             </Label>
                         </Border>
 
-                        <Border  CornerRadius="5" Background="#FF0B74D1" Grid.Row="1" Cursor="Hand" Margin="5 5 0 5" >
+                        <Border  CornerRadius="5" Background="#FF0B74D1" Grid.Row="1" Cursor="Hand" Margin="5 5 0 5" PreviewMouseDown="ImportTable">
                             <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
                                 Import Table
                             </Label>

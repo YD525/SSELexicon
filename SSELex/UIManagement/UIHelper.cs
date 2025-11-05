@@ -126,14 +126,13 @@ namespace SSELex.UIManage
             return FormattedText.Width;
         }
 
-        public static TextBox FakeTextBox = new TextBox();
         public static FakeGrid CreatFakeLine(string Type, string Key, string SourceText, string TransText, double Score)
         {
             double AutoHeight = DefLineHeight;
 
-            FontFamily FontFamily = FakeTextBox.FontFamily;
+            FontFamily FontFamily = SystemFonts.MessageFontFamily;
 
-            double ActualTextWidth = MeasureTextWidth(SourceText, FakeTextBox.FontSize, FontFamily);
+            double ActualTextWidth = MeasureTextWidth(SourceText, SystemFonts.MessageFontSize, FontFamily);
 
             var GetTextWidthRange = (DeFine.WorkingWin.ActualWidth / 3) - 135;
 
