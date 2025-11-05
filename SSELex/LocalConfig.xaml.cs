@@ -153,7 +153,7 @@ namespace SSELex
                         {
                             this.Dispatcher.Invoke(new Action(() =>
                             {
-                                MatchedKeywords.Items.Add(GetKey.Key + "->" + GetKey.Value);
+                                MatchedKeywords.Items.Add(GetKey.Rowid + "," + GetKey.Key + "->" + GetKey.Value);
                             }));
                         }
 
@@ -444,7 +444,7 @@ namespace SSELex
                         bool CanSleep = false;
                         bool CanAddCache = false;
 
-                        var GetResult = Translator.QuickTrans(NewUnit, ref CanSleep);
+                        var GetResult = Translator.QuickTrans(NewUnit, ref CanSleep,true);
 
                         this.Dispatcher.Invoke(new Action(() =>
                         {
