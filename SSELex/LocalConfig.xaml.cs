@@ -1,13 +1,15 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Text;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using PhoenixEngine.DataBaseManagement;
-using PhoenixEngine.EngineManagement;
 using PhoenixEngine.TranslateCore;
 using PhoenixEngine.TranslateManage;
 using PhoenixEngine.TranslateManagement;
 using SSELex.ConvertManager;
+using SSELex.SkyrimModManager;
 using SSELex.TranslateManage;
 using SSELex.UIManage;
 using static PhoenixEngine.EngineManagement.DataTransmission;
@@ -133,25 +135,28 @@ namespace SSELex
         #endregion
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            TranslatorExtend.RegListener("KeyWordsListen",new List<int>() {2},new Action<int,object>((Sign,Any) => 
+            TranslatorExtend.RegListener("KeyWordsListen", new List<int>() { 2 }, new Action<int, object>((Sign, Any) =>
             {
                 if (Any is PreTranslateCall)
                 {
                     PreTranslateCall GetPreCall = (PreTranslateCall)Any;
                     if (GetPreCall.Key.Equals("TestLocalKey255"))
                     {
-                        this.Dispatcher.Invoke(new Action(() => {
+                        this.Dispatcher.Invoke(new Action(() =>
+                        {
                             MatchedKeywords.Items.Clear();
                         }));
 
                         foreach (var GetKey in GetPreCall.ReplaceTags)
                         {
-                            this.Dispatcher.Invoke(new Action(() => {
-                                MatchedKeywords.Items.Add(GetKey.Key+"->"+GetKey.Value);
+                            this.Dispatcher.Invoke(new Action(() =>
+                            {
+                                MatchedKeywords.Items.Add(GetKey.Key + "->" + GetKey.Value);
                             }));
                         }
 
-                        this.Dispatcher.Invoke(new Action(() => {
+                        this.Dispatcher.Invoke(new Action(() =>
+                        {
                             Output.Text = GetPreCall.ReceiveString;
                         }));
                     }
@@ -426,7 +431,7 @@ namespace SSELex
 
                     string GetFromStr = FromStr.Text;
 
-                    TranslationUnit NewUnit = new TranslationUnit(-1, "TestLocalKey255", GetType, GetFromStr,"","", FilterFrom, FilterTo,100);
+                    TranslationUnit NewUnit = new TranslationUnit(-1, "TestLocalKey255", GetType, GetFromStr, "", "", FilterFrom, FilterTo, 100);
 
                     new Thread(() =>
                     {
@@ -475,6 +480,87 @@ namespace SSELex
             }
 
             AutoReload();
+        }
+
+        public bool ExitAny = false;
+        private void ExportAll(object sender, MouseButtonEventArgs e)
+        {
+            new Thread(() =>
+            {
+                ProcessWin.Dispatcher.Invoke(new Action(() =>
+                {
+                    ProcessWin.Visibility = Visibility.Visible;
+                }));
+
+                string SetOutPutPath = DeFine.GetFullPath(@"\Cache\Output.txt");
+
+                if (File.Exists(SetOutPutPath))
+                {
+                    File.Delete(SetOutPutPath);
+                }
+
+                int Count = 0;
+                int MaxPage = 1;
+                int CurrentPage = 0;
+
+                using (var Writer = new StreamWriter(SetOutPutPath, true, Encoding.UTF8))
+                {
+                    while (CurrentPage < MaxPage)
+                    {
+                        if (ExitAny) goto QuickExit;
+                        var GetData = AdvancedDictionary.QueryByPage((int)FilterFrom, (int)FilterTo, CurrentPage);
+
+                        Count += GetData.CurrentPage.Count;
+
+
+                        foreach (var Get in GetData.CurrentPage)
+                        {
+                            if (ExitAny) goto QuickExit;
+                            Writer.Write(string.Format("{0}|{1}|{2}|{3},", Get.From, Get.To, SqlSafeCodec.Encode(Get.Source), SqlSafeCodec.Encode(Get.Result)));
+                        }
+
+                        MaxPage = GetData.MaxPage;
+                        CurrentPage++;
+
+                        Log.Dispatcher.Invoke(new Action(() =>
+                        {
+                            Log.Content = string.Format("Exporting dictionary...({0}%)({1}Record)",
+                            Math.Round(((double)(CurrentPage + 1) / (double)MaxPage) * 100, 0),
+                            Count);
+                        }));
+                    }
+                }
+
+                string TimeStamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+
+                this.Dispatcher.Invoke(new Action(() =>
+                {
+                    var GetWritePath = DataHelper.ShowSaveFileDialog("Sql_" + TimeStamp + ".txt", "Text (*.txt)|*.txt");
+
+                    if (GetWritePath != null)
+                    {
+                        File.Copy(SetOutPutPath, GetWritePath);
+
+                        if (SetOutPutPath.ToLower().EndsWith(".txt"))
+                        {
+                            File.Delete(SetOutPutPath);
+                        }
+                    }
+                }));
+
+            QuickExit:
+                Thread.Sleep(100);
+                ExitAny = false;
+                ProcessWin.Dispatcher.Invoke(new Action(() =>
+                {
+                    ProcessWin.Visibility = Visibility.Hidden;
+                }));
+            }).Start();
+        }
+
+        private void CancelProcess(object sender, MouseButtonEventArgs e)
+        {
+            ExitAny = true;
         }
     }
 }
