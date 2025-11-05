@@ -83,7 +83,15 @@ namespace SSELex
                  NMessageBoxExtend.Height = GetFormHeight;
                  SetOwnerWindowMultithread(GetHandler(NMessageBoxExtend), GetTargetHandle);
 
-                 NMessageBoxExtend.Dispatcher.Invoke(new Action(() => {
+                 NMessageBoxExtend.Dispatcher.Invoke(new Action(() => 
+                 {
+                     if (OneType == MsgType.Waring)
+                     {
+                         NMessageBoxExtend.MainBackground.Background = new SolidColorBrush(Color.FromRgb(175,41,10));
+                         NMessageBoxExtend.ConfirmBtn.Background = new SolidColorBrush(Color.FromRgb(87,5,5));
+                         NMessageBoxExtend.CancelBtn.Background = new SolidColorBrush(Color.FromRgb(157,19,19));
+                     }
+
                      NMessageBoxExtend.Title = Tittle;
                      NMessageBoxExtend.Caption.Content = Tittle;
                      NMessageBoxExtend.CurrentMsg.Text = Msg;

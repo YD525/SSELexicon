@@ -38,7 +38,7 @@
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="1" Name="GroundColor">
-                <Border Background="#FF0A61AF" CornerRadius="8" Panel.ZIndex="100">
+                <Border Background="#FF0A61AF" CornerRadius="8" Panel.ZIndex="100" Name="MainBackground">
                 </Border>
 
                 <Grid Panel.ZIndex="200">

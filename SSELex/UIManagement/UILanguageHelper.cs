@@ -275,11 +275,6 @@ namespace SSELex.UIManage
                         DeFine.WorkingWin.UIAutoSpeak.Content = Value;
                     }
                 break;
-                case "UIAutoApply":
-                    {
-                        DeFine.WorkingWin.UIAutoApply.Content = Value;
-                    }
-                break;
                 case "UICancel":
                     {
                         DeFine.WorkingWin.UICancel.Content = Value;

@@ -297,10 +297,7 @@ namespace SSELex.TranslateManage
             {
                 if (TranslationStatus == StateControl.Run && !IsKeep)
                 {
-                    if (EngineConfig.AutoSetThreadLimit)
-                    {
-                        EngineConfig.MaxThreadCount = EngineConfig.AutoCalcThreadLimit();
-                    }
+                    EngineConfig.SyncTrdCount();
 
                     YDListView? GetListView = DeFine.WorkingWin.TransViewList;
 
@@ -497,12 +494,7 @@ namespace SSELex.TranslateManage
 
                         TranslationStatus = StateControl.Cancel;
 
-                        Engine.TranslatedCount = Engine.GetTranslatedCount(Engine.GetFileUniqueKey());
-
-                        if (GetListView != null)
-                        {
-                            GetListView.QuickRefresh();
-                        }
+                        DeFine.WorkingWin?.UPDateUI();
 
                         EndAction.Invoke();
                     }

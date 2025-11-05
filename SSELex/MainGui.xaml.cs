@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.IO;
 using System.Text;
 using System.Text.Json;
@@ -14,6 +13,7 @@ using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using LiveCharts;
 using LiveCharts.Defaults;
 using LiveCharts.Wpf;
+using OneOf.Types;
 using PhoenixEngine.ConvertManager;
 using PhoenixEngine.DelegateManagement;
 using PhoenixEngine.EngineManagement;
@@ -296,6 +296,11 @@ namespace SSELex
             if (DeFine.ExtendWin?.IsShow == true)
             {
                 DeFine.ExtendWin.ShowUI();
+
+                if (DeFine.ExtendWin.WindowState == WindowState.Minimized)
+                {
+                    DeFine.ExtendWin.WindowState = WindowState.Normal;
+                }
             }
         }
 
@@ -306,8 +311,6 @@ namespace SSELex
                 if (TransView.IsHitTestVisible == true)
                 {
                     e.Handled = true;
-
-                    AutoApplyStr();
 
                     if (SearchResultsView.Visibility == Visibility.Visible)
                     {
@@ -608,7 +611,9 @@ namespace SSELex
             LangFrom.Items.Clear();
             foreach (var Get in UILanguageHelper.GetSupportedLanguages())
             {
-                LangFrom.Items.Add(Get.ToString());
+                string GetLang = Get.ToString();
+                if(GetLang.ToLower() != "null")
+                LangFrom.Items.Add(GetLang);
             }
 
             LangFrom.SelectedValue = DeFine.GlobalLocalSetting.SourceLanguage.ToString();
@@ -618,7 +623,9 @@ namespace SSELex
             {
                 if (Get != Languages.Auto)
                 {
-                    LangTo.Items.Add(Get.ToString());
+                    string GetLang = Get.ToString();
+                    if (GetLang.ToLower() != "null")
+                    LangTo.Items.Add(GetLang);
                 }
             }
 
@@ -1353,16 +1360,13 @@ namespace SSELex
             }
         }
 
-        private void LangTo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        public void UPDateUI()
         {
-            string GetValue = ConvertHelper.ObjToStr(LangTo.SelectedValue);
+            Application.Current.Dispatcher.Invoke(new Action(() => {
+                EmptyFromAndToText();
+                Translator.TransData.Clear();
+                Engine.GetTranslatedCount(Engine.GetFileUniqueKey());
 
-            if (GetValue.Trim().Length > 0)
-            {
-                DeFine.GlobalLocalSetting.TargetLanguage = Enum.Parse<Languages>(GetValue);
-                DeFine.LocalConfigView.STo.SelectedValue = GetValue;
-
-                Engine.To = DeFine.GlobalLocalSetting.TargetLanguage;
 
                 if (GlobalEspReader?.StringsReader?.CurrentLang != Engine.To)
                 {
@@ -1380,6 +1384,31 @@ namespace SSELex
                         TransViewList.QuickRefresh();
                     }
                 }
+
+                if (SearchResultsViewList != null)
+                {
+                    if (SearchResultsView.Visibility == Visibility.Visible)
+                    {
+                        SearchResultsViewList.QuickRefresh();
+                    }
+                }
+            }));
+        }
+
+        private void LangTo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string GetValue = ConvertHelper.ObjToStr(LangTo.SelectedValue);
+
+            if (GetValue.Trim().Length > 0)
+            {
+                DeFine.GlobalLocalSetting.TargetLanguage = Enum.Parse<Languages>(GetValue);
+                DeFine.LocalConfigView.STo.SelectedValue = GetValue;
+
+                if (Engine.To != DeFine.GlobalLocalSetting.TargetLanguage)
+                {
+                    Engine.To = DeFine.GlobalLocalSetting.TargetLanguage;
+                    UPDateUI();
+                }
             }
         }
 
@@ -1395,6 +1424,11 @@ namespace SSELex
 
         private void ClearCache_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
+            if (MessageBoxExtend.Show(this, "Waring", "Are you sure you want to clear the database records? Doing so will lose all translated content. (Note: Under no circumstances should you click this button arbitrarily.)", MsgAction.YesNo, MsgType.Waring) <= 0)
+            {
+                return;
+            }
+
             if (TransViewList != null)
             {
                 if (TransViewList.Rows > 0)
@@ -1419,12 +1453,12 @@ namespace SSELex
                                     if (GetCloudTranslationCache == true)
                                     {
                                         Translator.ClearAICache();
+
                                         if (Translator.ClearCloudCache(Engine.GetFileUniqueKey()))
                                         {
                                             Engine.Vacuum();
                                             CallFuncCount++;
                                         }
-
                                     }
                                     if (GetUserTranslationCache == true)
                                     {
@@ -1439,18 +1473,7 @@ namespace SSELex
                                         }));
                                     }
 
-                                    if (CallFuncCount > 0)
-                                    {
-                                        Engine.GetTranslatedCount(Engine.GetFileUniqueKey());
-
-                                        if (DeFine.WorkingWin.TransViewList != null)
-                                        {
-                                            DeFine.WorkingWin.Dispatcher.Invoke(new Action(() =>
-                                            {
-                                                DeFine.WorkingWin.TransViewList.QuickRefresh();
-                                            }));
-                                        }
-                                    }
+                                    UPDateUI();
                                 }
                                 catch 
                                 {
@@ -1474,6 +1497,10 @@ namespace SSELex
 
         private void RefreshDictionary_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
+            if (MessageBoxExtend.Show(this, "Msg", "Are you sure you want to refresh the original text record? Doing so will lose the mod's original text information.", MsgAction.YesNo, MsgType.Info) <= 0)
+            {
+                return;
+            }
             if (ConvertHelper.ObjToStr(RefreshButton.Content).Equals(UILanguageHelper.UICache["RefreshButton1"]))
             {
                 return;
@@ -1594,15 +1621,6 @@ namespace SSELex
             {
                 AutoSpeak.IsChecked = false;
             }
-
-            if (DeFine.GlobalLocalSetting.AutoApply)
-            {
-                AutoApply.IsChecked = true;
-            }
-            else
-            {
-                AutoApply.IsChecked = false;
-            }
         }
 
         public void EnableNormalModel()
@@ -1702,47 +1720,10 @@ namespace SSELex
             LastSetKey = string.Empty;
         }
 
-        private string? LastSavedText = null;
-        public void AutoApplyStr()
-        {
-            if (DeFine.GlobalLocalSetting.ViewMode == "Normal")
-            {
-                if (DeFine.GlobalLocalSetting.AutoApply)
-                {
-                    if (LastSetKey.Trim().Length > 0)
-                    {
-                        string CurrentText = ToStr.Text;
-
-                        if (LastSavedText != null)
-                        {
-                            if (CurrentText == LastSavedText)
-                            {
-                                return;
-                            }
-                        }
-
-                        ApplyTranslatedText();
-
-                        CurrentText = ToStr.Text;
-                    }
-                }
-            }
-        }
-
         public string LastSetKey = "";
         public void SetSelectFromAndToText(string Key)
         {
-            this.Dispatcher.Invoke(new Action(() =>
-            {
-                AutoApplyStr();
-            }));
-
             EmptyFromAndToText();
-
-            if (LastSetKey != Key)
-            {
-                LastSavedText = null;
-            }
 
             LastSetKey = Key;
 
@@ -1808,7 +1789,7 @@ namespace SSELex
                             AutoLoadHistoryList();
                         }));
 
-                        DeFine.ExtendWin.SetOriginal(GridHandle.GetSource(), DeFine.WorkingWin.GlobalEspReader?.StringsReader.QueryData(GridHandle.Key));
+                        DeFine.ExtendWin.SetOriginal(GridHandle.SourceText, DeFine.WorkingWin.GlobalEspReader?.StringsReader.QueryData(GridHandle.Key));
                     }
                 }
             }
@@ -1828,6 +1809,24 @@ namespace SSELex
             }
         }
 
+        public Languages DetectLanguage()
+        {
+            LanguageDetect OneDetect = new LanguageDetect();
+
+            for (int i = 0; i < TransViewList?.RealLines.Count; i++)
+            {
+                if (i > 999)
+                {
+                    break;
+                }
+                bool IsCloud = false;
+                TransViewList.RealLines[i].SyncData(ref IsCloud);
+                LanguageHelper.DetectLanguage(ref OneDetect, TransViewList.RealLines[i].SourceText);
+            }
+
+            return OneDetect.GetMaxLang();
+        }
+
         private void ShowLocalEngineSettingView(object sender, MouseButtonEventArgs e)
         {
             DeFine.LocalConfigView.Owner = this;
@@ -1838,15 +1837,16 @@ namespace SSELex
 
                 for (int i = 0; i < TransViewList.RealLines.Count; i++)
                 {
-                    LanguageHelper.DetectLanguage(ref OneDetect, TransViewList.RealLines[i].SourceText);
-                    if (i > (TransViewList.RealLines.Count / 2))
+                    if (i > 999)
                     {
                         break;
                     }
+                    bool IsCloud = false;
+                    TransViewList.RealLines[i].SyncData(ref IsCloud);
+                    LanguageHelper.DetectLanguage(ref OneDetect, TransViewList.RealLines[i].SourceText);
                 }
 
                 DeFine.LocalConfigView.SFrom.SelectedValue = OneDetect.GetMaxLang().ToString();
-
             }
         }
 
@@ -1908,6 +1908,9 @@ namespace SSELex
                         AboutView.Visibility = Visibility.Collapsed;
                         SettingView.Visibility = Visibility.Collapsed;
                         DashBoardView.Visibility = Visibility.Collapsed;
+
+                        DeFine.ExtendWin.CanShow = true;
+                        DeFine.ExtendWin.Show();
                     }
                     break;
                 case "DashBoard":
@@ -1918,6 +1921,9 @@ namespace SSELex
                         DashBoardView.Visibility = Visibility.Visible;
                         DeFine.CanUpdateChart = true;
                         UPDateChart();
+
+                        DeFine.ExtendWin.CanShow = false;
+                        DeFine.ExtendWin.Hide();
                     }
                     break;
                 case "Settings":
@@ -1926,6 +1932,9 @@ namespace SSELex
                         AboutView.Visibility = Visibility.Collapsed;
                         SettingView.Visibility = Visibility.Visible;
                         DashBoardView.Visibility = Visibility.Collapsed;
+
+                        DeFine.ExtendWin.CanShow = false;
+                        DeFine.ExtendWin.Hide();
                     }
                     break;
                 case "About":
@@ -1937,6 +1946,9 @@ namespace SSELex
 
                         ProgramVersion.Content = string.Format("SSE Lexicon(GPLv3) Version: {0}", DeFine.CurrentVersion);
                         TranslationEngineVersion.Content = string.Format("Translation Engine Version: {0}", Engine.Version);
+
+                        DeFine.ExtendWin.CanShow = false;
+                        DeFine.ExtendWin.Hide();
                     }
                     break;
             }
@@ -1995,6 +2007,14 @@ namespace SSELex
                                 {
                                     if (ConvertHelper.ObjToStr(TransProcess.Content).StartsWith("STRINGS("))
                                     {
+                                        if (DeFine.GlobalLocalSetting.EnableLanguageDetect)
+                                        {
+                                            if (Engine.From == Languages.Auto)
+                                            {
+                                                LangFrom.SelectedValue = DetectLanguage().ToString();
+                                            }
+                                        }
+
                                         TRun.Visibility = Visibility.Collapsed;
 
                                         TranslatorExtend.TranslationStatus = StateControl.Run;
@@ -2459,13 +2479,11 @@ namespace SSELex
 
         private void UPSelecter_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            AutoApplyStr();
             TransViewList?.UP();
         }
 
         private void DownSelecter_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            AutoApplyStr();
             TransViewList?.Down();
         }
 
@@ -2516,18 +2534,6 @@ namespace SSELex
             else
             {
                 DeFine.GlobalLocalSetting.AutoSpeak = false;
-            }
-        }
-
-        private void AutoApply_Click(object sender, RoutedEventArgs e)
-        {
-            if (AutoApply.IsChecked == true)
-            {
-                DeFine.GlobalLocalSetting.AutoApply = true;
-            }
-            else
-            {
-                DeFine.GlobalLocalSetting.AutoApply = false;
             }
         }
 
@@ -3141,6 +3147,15 @@ namespace SSELex
                 {
                     GlobalSearch.IsChecked = false;
                 }
+
+                if (DeFine.GlobalLocalSetting.EnableLanguageDetect)
+                {
+                    SEnableLanguageDetect.IsChecked = true;
+                }
+                else
+                {
+                    SEnableLanguageDetect.IsChecked = false;
+                }
             }
         }
 
@@ -3616,6 +3631,18 @@ namespace SSELex
             else
             {
                 DeFine.GlobalLocalSetting.EnableGlobalSearch = false;
+            }
+        }
+
+        private void SEnableLanguageDetect_Click(object sender, RoutedEventArgs e)
+        {
+            if (SEnableLanguageDetect.IsChecked == true)
+            {
+                DeFine.GlobalLocalSetting.EnableLanguageDetect = true;
+            }
+            else
+            {
+                DeFine.GlobalLocalSetting.EnableLanguageDetect = false;
             }
         }
     }

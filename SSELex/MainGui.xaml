@@ -821,13 +821,6 @@
                                                 <CheckBox Margin="5 0 5 0" Name="AutoSpeak" VerticalAlignment="Center" Grid.Column="6" Foreground="White"  Click="AutoSpeak_Click"/>
 
 
-                                                <Label Style="{DynamicResource CaptionTextA}" Name="UIAutoApply">
-                                                    AutoApply
-                                                </Label>
-
-                                                <CheckBox Margin="5 0 5 0" Name="AutoApply" VerticalAlignment="Center" Grid.Column="6" Foreground="White" Click="AutoApply_Click"/>
-
-                                                
                                                 <Border Name="CancelOTButton" Style="{DynamicResource LiteButton}" PreviewMouseDown="CancelTranslatedText">
                                                     <Label  Style="{DynamicResource LiteButtonFont}" Foreground="White" Name="UICancel">
                                                         Cancel
@@ -1071,7 +1064,7 @@
                                                 </LinearGradientBrush.GradientStops>
                                             </LinearGradientBrush>
                                         </Label.Foreground>
-                                        XT
+                                        RE
                                     </Label>
                                 </StackPanel>
 
@@ -1131,7 +1124,7 @@
                         </Grid>
                     </Grid>
 
-                    <Grid Name="SettingView" Style="{DynamicResource FrameStyle}" Visibility="Visible">
+                    <Grid Name="SettingView" Style="{DynamicResource FrameStyle}" Visibility="Collapsed">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="5"/>
@@ -1195,7 +1188,7 @@
                             </Grid>
 
                             <Grid Grid.Row="2" Name="SettingFrames">
-                                <Border  Style="{DynamicResource SettingFrame}" Tag="Request And ApiKey Configs" Visibility="Visible">
+                                <Border  Style="{DynamicResource SettingFrame}" Tag="Request And ApiKey Configs">
                                     <ScrollViewer VerticalScrollBarVisibility="Auto" Style="{DynamicResource for_scrollviewer}">
 
                                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 0 0 0" VerticalAlignment="Center">
@@ -1563,7 +1556,7 @@
                                     </ScrollViewer>
                                 </Border>
 
-                                <Border  Style="{DynamicResource SettingFrame}" Tag="UI Configs" Visibility="Visible">
+                                <Border  Style="{DynamicResource SettingFrame}" Tag="UI Configs" Visibility="Collapsed">
                                     <ScrollViewer VerticalScrollBarVisibility="Auto" Style="{DynamicResource for_scrollviewer}">
                                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 0 0 0" VerticalAlignment="Center" Width="500">
                                             <Label Style="{DynamicResource TittleFont}">
@@ -1607,7 +1600,7 @@
                                     </ScrollViewer>
                                 </Border>
 
-                                <Border  Style="{DynamicResource SettingFrame}" Tag="Engine Configs" Visibility="Visible" Panel.ZIndex="999">
+                                <Border  Style="{DynamicResource SettingFrame}" Tag="Engine Configs" Visibility="Collapsed">
                                     <ScrollViewer VerticalScrollBarVisibility="Auto" Style="{DynamicResource for_scrollviewer}">
                                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 0 0 0" VerticalAlignment="Center" Width="500">
                                             
@@ -1681,6 +1674,15 @@
                                                     <TextBox Style="{DynamicResource InFoText}"  Margin="5 5 5 10">
                                                         Set the maximum number of threads allowed to be created during batch translation.
                                                     </TextBox>
+
+                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 5 5 10">
+                                                        <Label Style="{DynamicResource NormalText}">
+                                                            LanguageDetect:
+                                                        </Label>
+                                                        <CheckBox VerticalAlignment="Center" Style="{DynamicResource DefCheckBox}" Margin="5 0 0 0" Name="SEnableLanguageDetect" Click="SEnableLanguageDetect_Click">
+                                                            Enable 
+                                                        </CheckBox>
+                                                    </StackPanel>
                                                 </StackPanel>
                                             </Border>
                                         </StackPanel>

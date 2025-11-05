@@ -40,7 +40,7 @@ namespace SSELex
 
         public static string BackupPath = @"\BackUpData\";
 
-        public static string CurrentVersion = "3.1.2.6";
+        public static string CurrentVersion = "3.1.2.7";
         public static LocalSetting GlobalLocalSetting = new LocalSetting();
 
         public static MainGui WorkingWin = null;
@@ -193,8 +193,6 @@ namespace SSELex
 
         public bool AutoSpeak { get; set; } = false;
 
-        public bool AutoApply { get; set; } = false;
-
         public int ChatGPTTokenUsage { get; set; } = 0;
         public int GeminiTokenUsage { get; set; } = 0;
         public int CohereTokenUsage { get; set; } = 0;
@@ -202,6 +200,7 @@ namespace SSELex
         public int BaichuanTokenUsage { get; set; } = 0;
         public int LocalAITokenUsage { get; set; } = 0;
         public bool EnableGlobalSearch { get; set; } = false;
+        public bool EnableLanguageDetect { get; set; } = true;
         public void ReadConfig()
         {
             try
@@ -230,7 +229,6 @@ namespace SSELex
                             this.CanClearCloudTranslationCache = GetSetting.CanClearCloudTranslationCache;
                             this.CanClearUserInputTranslationCache = GetSetting.CanClearUserInputTranslationCache;
                             this.AutoSpeak = GetSetting.AutoSpeak;
-                            this.AutoApply = GetSetting.AutoApply;
 
                             this.ChatGPTTokenUsage = GetSetting.ChatGPTTokenUsage;
                             this.GeminiTokenUsage = GetSetting.GeminiTokenUsage;
@@ -240,6 +238,7 @@ namespace SSELex
                             this.LocalAITokenUsage = GetSetting.LocalAITokenUsage;
 
                             this.EnableGlobalSearch = GetSetting.EnableGlobalSearch;
+                            this.EnableLanguageDetect = GetSetting.EnableLanguageDetect;
                         }
                     }
                     else

@@ -90,6 +90,8 @@ namespace SSELex
             this.Hide();
         }
 
+        public bool CanShow = true;
+
         public void ShowUI()
         {
             IsShow = true;
@@ -98,6 +100,7 @@ namespace SSELex
             this.Left = DeFine.WorkingWin.Left - this.Width;
             this.Top = DeFine.WorkingWin.Top;
 
+            if(CanShow)
             this.Show();
         }
 
