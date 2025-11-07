@@ -850,7 +850,7 @@ namespace SSELex
             {
                 this.Dispatcher.Invoke(new Action(() =>
                 {
-                    Caption.Content = string.Format("SSELexicon XT - {0}", Tittle);
+                    Caption.Content = string.Format("SSELex - {0}", Tittle);
                     this.Title = Tittle;
                 }));
             }
@@ -858,8 +858,8 @@ namespace SSELex
             {
                 this.Dispatcher.Invoke(new Action(() =>
                 {
-                    Caption.Content = "SSELexicon XT";
-                    this.Title = "SSELexicon XT";
+                    Caption.Content = "SSELex";
+                    this.Title = "SSELex";
                 }));
             }
         }
