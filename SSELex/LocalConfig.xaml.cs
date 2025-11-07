@@ -487,51 +487,6 @@ namespace SSELex
 
         public int ImportCount = 0;
         public string LeftOver = "";
-        public void ProcessRecord(string Combined)
-        {
-            var Parts = Combined.Split(',');
-
-            for (int i = 0; i < Parts.Length - 1; i++)
-            {
-                string Record = Parts[i];
-                if (!string.IsNullOrWhiteSpace(Record))
-                {
-                    string[] Params = Record.Split('|');
-                    if (Params.Length == 4)
-                    {
-                        try
-                        {
-                            if (AdvancedDictionary.AddItem(new AdvancedDictionaryItem(
-                                string.Empty,
-                                string.Empty,
-                                SqlSafeCodec.Decode(Params[2]),
-                                SqlSafeCodec.Decode(Params[3]),
-                                Params[0],
-                                Params[1],
-                                1,
-                                1,
-                                string.Empty)))
-                            {
-                                ImportCount++;
-                            }
-                        }
-                        catch(Exception Ex) 
-                        {
-                        
-                        }
-                    }
-                }
-            }
-
-            LeftOver = Parts[Parts.Length - 1];
-        }
-        public void ProcessBuffer(char[] Buffer, int Count)
-        {
-            string Chunk = new string(Buffer, 0, Count);
-            string Combined = LeftOver + Chunk;
-
-            ProcessRecord(Combined);
-        }
 
         public bool ExitAny = false;
         private void ExportAll(object sender, MouseButtonEventArgs e)
@@ -567,7 +522,7 @@ namespace SSELex
                         foreach (var Get in GetData.CurrentPage)
                         {
                             if (ExitAny) goto QuickExit;
-                            Writer.Write(string.Format("{0}|{1}|{2}|{3},", Get.From, Get.To, SqlSafeCodec.Encode(Get.Source), SqlSafeCodec.Encode(Get.Result)));
+                            Writer.Write(string.Format("{0}|{1}|{2}|{3}|{4}|{5}|{6}|{7},", Get.From, Get.To,Get.ExactMatch,Get.IgnoreCase, SqlSafeCodec.Encode(Get.TargetFileName), SqlSafeCodec.Encode(Get.Type), SqlSafeCodec.Encode(Get.Source), SqlSafeCodec.Encode(Get.Result)));
                         }
 
                         MaxPage = GetData.MaxPage;
@@ -608,10 +563,50 @@ namespace SSELex
                 }));
             }).Start();
         }
-
-        private void CancelProcess(object sender, MouseButtonEventArgs e)
+        public void ProcessRecord(string Combined)
         {
-            ExitAny = true;
+            var Parts = Combined.Split(',');
+
+            for (int i = 0; i < Parts.Length - 1; i++)
+            {
+                string Record = Parts[i];
+                if (!string.IsNullOrWhiteSpace(Record))
+                {
+                    string[] Params = Record.Split('|');
+                    if (Params.Length == 8)
+                    {
+                        try
+                        {
+                            if (AdvancedDictionary.AddItem(new AdvancedDictionaryItem(
+                                SqlSafeCodec.Decode(Params[4]),
+                                SqlSafeCodec.Decode(Params[5]),
+                                SqlSafeCodec.Decode(Params[6]),
+                                SqlSafeCodec.Decode(Params[7]),
+                                Params[0],
+                                Params[1],
+                                Params[2],
+                                Params[3],
+                                string.Empty)))
+                            {
+                                ImportCount++;
+                            }
+                        }
+                        catch (Exception Ex)
+                        {
+
+                        }
+                    }
+                }
+            }
+
+            LeftOver = Parts[Parts.Length - 1];
+        }
+        public void ProcessBuffer(char[] Buffer, int Count)
+        {
+            string Chunk = new string(Buffer, 0, Count);
+            string Combined = LeftOver + Chunk;
+
+            ProcessRecord(Combined);
         }
         private void ImportTable(object sender, MouseButtonEventArgs e)
         {
@@ -673,6 +668,10 @@ namespace SSELex
                     }).Start();
                 }
             }
+        }
+        private void CancelProcess(object sender, MouseButtonEventArgs e)
+        {
+            ExitAny = true;
         }
     }
 }
