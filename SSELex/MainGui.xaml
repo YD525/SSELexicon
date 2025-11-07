@@ -1098,13 +1098,13 @@
                                 </TextBlock>
 
                                 <TextBlock Foreground="White" FontSize="14" TextWrapping="Wrap" TextAlignment="Center" Margin="20 5 20 0">
+                                    Some of the color schemes and layout ideas were inspired by suggestions from 
+                                    <Run Tag="https://next.nexusmods.com/profile/Cutleast" Text="Cutleast" FontWeight="Bold" Cursor="Hand" Foreground="#FF44A0FF" MouseDown="OpenUrl_MouseDown"/>.
+                                </TextBlock>
+                                
+                                <TextBlock Foreground="White" FontSize="14" TextWrapping="Wrap" TextAlignment="Center" Margin="20 5 20 0">
                                      <Run Tag="https://github.com/Noggog" Text="Noggog" FontWeight="Bold" Cursor="Hand" Foreground="#FF44A0FF" MouseDown="OpenUrl_MouseDown"/>.
                                      Helped me identify and correct some issues I encountered when reading ESP files,and gave me the idea to export Strings files.
-                                </TextBlock>
-
-                                <TextBlock Foreground="White" FontSize="14" TextWrapping="Wrap" TextAlignment="Center" Margin="20 5 20 0">
-                                    Some of the color schemes and layout ideas were inspired by suggestions from 
-                                    <Run Tag="https://github.com/Cutleast" Text="Cutleast" FontWeight="Bold" Cursor="Hand" Foreground="#FF44A0FF" MouseDown="OpenUrl_MouseDown"/>.
                                 </TextBlock>
 
                                 <TextBlock Foreground="White" FontSize="14" TextWrapping="Wrap" TextAlignment="Center" Margin="20 5 20 0">
