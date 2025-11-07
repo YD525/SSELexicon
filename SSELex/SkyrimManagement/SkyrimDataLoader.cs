@@ -13,7 +13,7 @@ namespace SSELex.UIManage
     {
         public enum ObjSelect
         {
-            Null = 99, All = 0, Hazards = 28,HeadParts = 27, Npcs = 26, Worldspaces = 1,Shouts = 25 ,Trees = 23, Ingestibles = 22, Quests = 2, Factions = 3, Perks = 5, Weapons = 6, SoulGems = 7, Armors = 8, Keys = 9, Containers = 10, Activators = 11, MiscItems = 12, Books = 13, Messages = 15, DialogTopics = 16, Spells = 17, MagicEffects = 18, ObjectEffects = 19, Cells = 20, Races = 21, Locations = 30
+            Null = 99, All = 0, Hazard = 28,HeadPart = 27, Npc = 26, Worldspace = 1,Shout = 25 ,Tree = 23, Ingestible = 22, Quest = 2, Faction = 3, Perk = 5, Weapon = 6, SoulGem = 7, Armor = 8, Key = 9, Container = 10, Activator = 11, MiscItem = 12, Book = 13, Message = 15, DialogTopic = 16, Spell = 17, MagicEffect = 18, ObjectEffect = 19, Cell = 20, Race = 21, Location = 30
         }
 
         public static List<ObjSelect> QueryParams(EspReader Reader)
@@ -22,132 +22,132 @@ namespace SSELex.UIManage
 
             if (Reader.Hazards.Count > 0)
             {
-                ObjSelects.Add(ObjSelect.Hazards);
+                ObjSelects.Add(ObjSelect.Hazard);
             }
 
             if (Reader.HeadParts.Count > 0)
             {
-                ObjSelects.Add(ObjSelect.HeadParts);
+                ObjSelects.Add(ObjSelect.HeadPart);
             }
 
             if (Reader.Npcs.Count > 0)
             {
-                ObjSelects.Add(ObjSelect.Npcs);
+                ObjSelects.Add(ObjSelect.Npc);
             }
 
             if (Reader.Worldspaces.Count > 0)
             {
-                ObjSelects.Add(ObjSelect.Worldspaces);
+                ObjSelects.Add(ObjSelect.Worldspace);
             }
 
             if (Reader.Shouts.Count > 0)
             {
-                ObjSelects.Add(ObjSelect.Shouts);
+                ObjSelects.Add(ObjSelect.Shout);
             }
 
             if (Reader.Trees.Count > 0)
             {
-                ObjSelects.Add(ObjSelect.Trees);
+                ObjSelects.Add(ObjSelect.Tree);
             }
 
             if (Reader.Ingestibles.Count > 0)
             {
-                ObjSelects.Add(ObjSelect.Ingestibles);
+                ObjSelects.Add(ObjSelect.Ingestible);
             }
 
             if (Reader.Races.Count > 0)
             {
-                ObjSelects.Add(ObjSelect.Races);
+                ObjSelects.Add(ObjSelect.Race);
             }
 
             if (Reader.Quests.Count > 0)
             {
-                ObjSelects.Add(ObjSelect.Quests);
+                ObjSelects.Add(ObjSelect.Quest);
             }
 
             if (Reader.Factions.Count > 0)
             {
-                ObjSelects.Add(ObjSelect.Factions);
+                ObjSelects.Add(ObjSelect.Faction);
             }
 
             if (Reader.Perks.Count > 0)
             {
-                ObjSelects.Add(ObjSelect.Perks);
+                ObjSelects.Add(ObjSelect.Perk);
             }
 
             if (Reader.Weapons.Count > 0)
             {
-                ObjSelects.Add(ObjSelect.Weapons);
+                ObjSelects.Add(ObjSelect.Weapon);
             }
 
             if (Reader.SoulGems.Count > 0)
             {
-                ObjSelects.Add(ObjSelect.SoulGems);
+                ObjSelects.Add(ObjSelect.SoulGem);
             }
 
             if (Reader.Armors.Count > 0)
             {
-                ObjSelects.Add(ObjSelect.Armors);
+                ObjSelects.Add(ObjSelect.Armor);
             }
 
             if (Reader.Keys.Count > 0)
             {
-                ObjSelects.Add(ObjSelect.Keys);
+                ObjSelects.Add(ObjSelect.Key);
             }
 
             if (Reader.Containers.Count > 0)
             {
-                ObjSelects.Add(ObjSelect.Containers);
+                ObjSelects.Add(ObjSelect.Container);
             }
 
             if (Reader.Activators.Count > 0)
             {
-                ObjSelects.Add(ObjSelect.Activators);
+                ObjSelects.Add(ObjSelect.Activator);
             }
 
             if (Reader.MiscItems.Count > 0)
             {
-                ObjSelects.Add(ObjSelect.MiscItems);
+                ObjSelects.Add(ObjSelect.MiscItem);
             }
 
             if (Reader.Books.Count > 0)
             {
-                ObjSelects.Add(ObjSelect.Books);
+                ObjSelects.Add(ObjSelect.Book);
             }
 
             if (Reader.Messages.Count > 0)
             {
-                ObjSelects.Add(ObjSelect.Messages);
+                ObjSelects.Add(ObjSelect.Message);
             }
 
             if (Reader.DialogTopics.Count > 0)
             {
-                ObjSelects.Add(ObjSelect.DialogTopics);
+                ObjSelects.Add(ObjSelect.DialogTopic);
             }
 
             if (Reader.Spells.Count > 0)
             {
-                ObjSelects.Add(ObjSelect.Spells);
+                ObjSelects.Add(ObjSelect.Spell);
             }
 
             if (Reader.MagicEffects.Count > 0)
             {
-                ObjSelects.Add(ObjSelect.MagicEffects);
+                ObjSelects.Add(ObjSelect.MagicEffect);
             }
 
             if (Reader.ObjectEffects.Count > 0)
             {
-                ObjSelects.Add(ObjSelect.ObjectEffects);
+                ObjSelects.Add(ObjSelect.ObjectEffect);
             }
 
             if (Reader.Cells.Count > 0)
             {
-                ObjSelects.Add(ObjSelect.Cells);
+                ObjSelects.Add(ObjSelect.Cell);
             }
 
             if (Reader.Locations.Count > 0)
             {
-                ObjSelects.Add(ObjSelect.Locations);
+                ObjSelects.Add(ObjSelect.Location);
             }
 
             ObjSelects.Add(ObjSelect.All);
@@ -167,133 +167,133 @@ namespace SSELex.UIManage
                 LoadAll(Reader, View);
                 return;
             }
-            if (Type == ObjSelect.Hazards)
+            if (Type == ObjSelect.Hazard)
             {
                 LoadHazards(Reader, View);
             }
             else
-           if (Type == ObjSelect.HeadParts)
+           if (Type == ObjSelect.HeadPart)
             {
                 LoadHeadParts(Reader, View);
             }
             else
-            if (Type == ObjSelect.Npcs)
+            if (Type == ObjSelect.Npc)
             {
                 LoadNpcs(Reader, View);
             }
             else
-            if (Type == ObjSelect.Worldspaces)
+            if (Type == ObjSelect.Worldspace)
             {
                 LoadWorldspaces(Reader, View);
             }
             else
-            if (Type == ObjSelect.Shouts)
+            if (Type == ObjSelect.Shout)
             {
                 LoadShouts(Reader, View);
             }
             else
-            if (Type == ObjSelect.Trees)
+            if (Type == ObjSelect.Tree)
             {
                 LoadTrees(Reader, View);
             }
             else
-            if (Type == ObjSelect.Ingestibles)
+            if (Type == ObjSelect.Ingestible)
             {
                 LoadIngestibles(Reader, View);
             }
             else
-            if (Type == ObjSelect.Races)
+            if (Type == ObjSelect.Race)
             {
                 LoadRaces(Reader, View);
             }
             else
-            if (Type == ObjSelect.Quests)
+            if (Type == ObjSelect.Quest)
             {
                 LoadQuests(Reader, View);
             }
             else
-            if (Type == ObjSelect.Factions)
+            if (Type == ObjSelect.Faction)
             {
                 LoadFactions(Reader, View);
             }
             else
-            if (Type == ObjSelect.Perks)
+            if (Type == ObjSelect.Perk)
             {
                 LoadPerks(Reader, View);
             }
             else
-            if (Type == ObjSelect.Weapons)
+            if (Type == ObjSelect.Weapon)
             {
                 LoadWeapons(Reader, View);
             }
             else
-            if (Type == ObjSelect.SoulGems)
+            if (Type == ObjSelect.SoulGem)
             {
                 LoadSoulGems(Reader, View);
             }
             else
-            if (Type == ObjSelect.Armors)
+            if (Type == ObjSelect.Armor)
             {
                 LoadArmors(Reader, View);
             }
             else
-            if (Type == ObjSelect.Keys)
+            if (Type == ObjSelect.Key)
             {
                 LoadKeys(Reader, View);
             }
             else
-            if (Type == ObjSelect.Containers)
+            if (Type == ObjSelect.Container)
             {
                 LoadContainers(Reader, View);
             }
             else
-            if (Type == ObjSelect.Activators)
+            if (Type == ObjSelect.Activator)
             {
                 LoadActivators(Reader, View);
             }
             else
-            if (Type == ObjSelect.MiscItems)
+            if (Type == ObjSelect.MiscItem)
             {
                 LoadMiscItems(Reader, View);
             }
             else
-            if (Type == ObjSelect.Books)
+            if (Type == ObjSelect.Book)
             {
                 LoadBooks(Reader, View);
             }
             else
-            if (Type == ObjSelect.Messages)
+            if (Type == ObjSelect.Message)
             {
                 LoadMessages(Reader, View);
                 LoadMessageButtons(Reader, View);
             }
             else
-            if (Type == ObjSelect.DialogTopics)
+            if (Type == ObjSelect.DialogTopic)
             {
                 LoadDialogTopics(Reader, View);
             }
             else
-            if (Type == ObjSelect.Spells)
+            if (Type == ObjSelect.Spell)
             {
                 LoadSpells(Reader, View);
             }
             else
-            if (Type == ObjSelect.MagicEffects)
+            if (Type == ObjSelect.MagicEffect)
             {
                 LoadMagicEffects(Reader, View);
             }
             else
-            if (Type == ObjSelect.ObjectEffects)
+            if (Type == ObjSelect.ObjectEffect)
             {
                 LoadObjectEffects(Reader, View);
             }
             else
-            if (Type == ObjSelect.Cells)
+            if (Type == ObjSelect.Cell)
             {
                 LoadCells(Reader, View);
             }
             else
-            if (Type == ObjSelect.Locations)
+            if (Type == ObjSelect.Location)
             {
                 LoadLocations(Reader, View);
             }
