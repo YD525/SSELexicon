@@ -1119,7 +1119,7 @@
                                 </TextBlock>
 
                                 <TextBlock Foreground="White" FontSize="14" TextWrapping="Wrap" TextAlignment="Center" Margin="20 5 20 0">
-                                    Suggested multi-color highlighting and improvements to keyword search by
+                                    Suggested multi-color highlighting, improved keyword search, and helped me test the program —
                                     <Run Tag="https://next.nexusmods.com/profile/Kanie17" Text="Kanie17" FontWeight="Bold"  Cursor="Hand" Foreground="#FF44A0FF"  MouseDown="OpenUrl_MouseDown"/>
                                 </TextBlock>
 
