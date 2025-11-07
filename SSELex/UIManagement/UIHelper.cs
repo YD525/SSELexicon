@@ -324,8 +324,28 @@ namespace SSELex.UIManage
         {
             Grid NewLine = new Grid();
             NewLine.Tag = Translated;
-            NewLine.Height = 50;
+            NewLine.Height = 38;
             NewLine.Cursor = Cursors.Hand;
+
+            NewLine.MouseEnter += new MouseEventHandler((object sender, MouseEventArgs e) => 
+            {
+                var GetLastGrid = (Grid)sender;
+                ((Grid)((Grid)sender).Children[0]).Background = new SolidColorBrush((Color)Application.Current.Resources["LineASelected"]);
+            });
+
+            NewLine.MouseLeave += new MouseEventHandler((object sender, MouseEventArgs e) =>
+            {
+                var GetLastGrid = (Grid)sender;
+                ((Grid)((Grid)sender).Children[0]).Background = new SolidColorBrush((Color)Application.Current.Resources["LineANormal"]);
+            });
+
+            RowDefinition Row1st = new RowDefinition();
+            Row1st.Height = new GridLength(1,GridUnitType.Star);
+            RowDefinition Row2nd = new RowDefinition();
+            Row2nd.Height = new GridLength(1,GridUnitType.Pixel);
+
+            NewLine.RowDefinitions.Add(Row1st);
+            NewLine.RowDefinitions.Add(Row2nd);
 
             NewLine.Style = (Style)Application.Current.FindResource("LineStyle");
             NewLine.Margin = new Thickness(0,0,0,1);
@@ -341,6 +361,12 @@ namespace SSELex.UIManage
             NewLine.ColumnDefinitions.Add(Column2nd);
             NewLine.ColumnDefinitions.Add(Column3rd);
 
+            Grid BottomGrid = new Grid();
+            Grid.SetRow(BottomGrid, 1);
+            Grid.SetColumnSpan(BottomGrid, 3);
+
+            NewLine.Children.Add(BottomGrid);
+
             Style LabelStyle = (Style)Application.Current.FindResource("LineTypeFont");
 
             Label FromLab = new Label();
@@ -352,7 +378,21 @@ namespace SSELex.UIManage
 
             Label TypeLab = new Label();
             TypeLab.Content = Type;
+
             TypeLab.Style = LabelStyle;
+            Brush DefaultBrush = (Brush)TypeLab.Foreground;
+
+            TypeLab.MouseEnter += new MouseEventHandler((object sender, MouseEventArgs e) => {
+                TypeLab.Foreground = new SolidColorBrush((Color)Application.Current.Resources["LineASelected"]);
+            });
+
+            TypeLab.MouseLeave += new MouseEventHandler((object sender, MouseEventArgs e) => {
+                TypeLab.Foreground = DefaultBrush;
+            });
+
+            TypeLab.MouseLeftButtonDown+= new MouseButtonEventHandler((object sender, MouseButtonEventArgs e) =>{
+                DeFine.WorkingWin.TransViewList?.Goto(ConvertHelper.ObjToStr(TypeLab.Content));
+            });
 
             NewLine.Children.Add(TypeLab);
             Grid.SetColumn(TypeLab,1);
@@ -369,6 +409,15 @@ namespace SSELex.UIManage
             TranslatedLab.BorderThickness = new Thickness(0);
             TranslatedLab.VerticalContentAlignment = VerticalAlignment.Center;
             TranslatedLab.HorizontalContentAlignment = HorizontalAlignment.Center;
+            TranslatedLab.Cursor = Cursors.Hand;
+
+            TranslatedLab.MouseEnter += new MouseEventHandler((object sender, MouseEventArgs e) => {
+                TranslatedLab.Foreground = new SolidColorBrush((Color)Application.Current.Resources["LineASelected"]);
+            });
+
+            TranslatedLab.MouseLeave += new MouseEventHandler((object sender, MouseEventArgs e) => {
+                TranslatedLab.Foreground = DefaultBrush;
+            });
 
             if (DeFine.GlobalLocalSetting.Style == 1)
             {
@@ -377,8 +426,7 @@ namespace SSELex.UIManage
             else
             {
                 TranslatedLab.Foreground = new SolidColorBrush(Colors.Black);
-            }
-         
+            }     
 
             NewLine.Children.Add(TranslatedLab);
             Grid.SetColumn(TranslatedLab,2);
@@ -388,6 +436,18 @@ namespace SSELex.UIManage
             return NewLine;
         }
 
+
+        private static T? FindParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            DependencyObject parent = VisualTreeHelper.GetParent(child);
+            while (parent != null)
+            {
+                if (parent is T parentT)
+                    return parentT;
+                parent = VisualTreeHelper.GetParent(parent);
+            }
+            return null;
+        }
         private static void MatchLine_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             if (sender is Grid)
@@ -395,7 +455,13 @@ namespace SSELex.UIManage
                 Grid GetGrid = (Grid)sender;
                 if (DeFine.WorkingWin != null)
                 {
-                    DeFine.WorkingWin.ToStr.Text = ConvertHelper.ObjToStr(GetGrid.Tag);
+                    if (e.OriginalSource is DependencyObject source)
+                    {
+                        if (FindParent<TextBox>(source) != null)
+                        {
+                            DeFine.WorkingWin.ToStr.Text = ConvertHelper.ObjToStr(GetGrid.Tag);
+                        }
+                    }
                 }
             }
         }

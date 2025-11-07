@@ -891,5 +891,46 @@ public class YDListView
             )
             .ToList();
     }
+
+    public void Goto(string Key)
+    {
+        if (string.IsNullOrEmpty(Key))
+            return;
+
+        int TargetIndex = -1;
+        for (int i = 0; i < RealLines.Count; i++)
+        {
+            if (RealLines[i].Key.Equals(Key))
+            {
+                TargetIndex = i;
+                break;
+            }
+        }
+
+        if (TargetIndex == -1)
+            return;
+
+        double Offset = 0;
+        for (int i = 0; i < TargetIndex; i++)
+        {
+            Offset += RealLines[i].Height;
+        }
+
+        Scroll.ScrollToVerticalOffset(Offset);
+
+        UpdateVisibleRows(true);
+
+        Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+        {
+            foreach (var vg in VisibleRows)
+            {
+                if (RowStyleWin.GetKey(vg.View).Equals(Key))
+                {
+                    SetSelectLine(vg.View, true);
+                    break;
+                }
+            }
+        }));
+    }
 }
 
