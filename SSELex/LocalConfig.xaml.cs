@@ -662,6 +662,7 @@ namespace SSELex
                             ProcessWin.Dispatcher.Invoke(new Action(() =>
                             {
                                 ProcessWin.Visibility = Visibility.Hidden;
+                                AutoReload();
                             }));
                         }
 
