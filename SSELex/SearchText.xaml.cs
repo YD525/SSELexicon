@@ -14,11 +14,6 @@ using System.Windows.Shapes;
 
 namespace SSELex
 {
-    // Copyright (C) 2025 YD525
-    // Licensed under the GNU GPLv3
-    // See LICENSE for details
-    //https://github.com/YD525/YDSkyrimToolR/
-
     /// <summary>
     /// Interaction logic for SearchText.xaml
     /// </summary>

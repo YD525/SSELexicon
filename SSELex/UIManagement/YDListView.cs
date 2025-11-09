@@ -17,8 +17,6 @@ using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 // See LICENSE for details
 //https://github.com/YD525/SSELexicon
 
-//V5
-
 public class FakeGrid
 {
     public double Height { get; set; } = 0;

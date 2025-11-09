@@ -20,10 +20,6 @@ using Noggog;
 
 namespace SSELex.TranslateManage
 {
-    // Copyright (C) 2025 YD525
-    // Licensed under the GNU GPLv3
-    // See LICENSE for details
-    //https://github.com/YD525/SSELexicon
     public class TranslatorExtend
     {
         public static void Init()

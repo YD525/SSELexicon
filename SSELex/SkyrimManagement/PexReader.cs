@@ -13,10 +13,6 @@ using static PhoenixEngine.SSELexiconBridge.NativeBridge;
 
 namespace SSELex.SkyrimManage
 {
-    // Copyright (C) 2025 YD525
-    // Licensed under the GNU GPLv3
-    // See LICENSE for details
-    //https://github.com/YD525/SSELexicon
     public class TempPathWrapper
     {
         private readonly List<string> TempPaths = new();
