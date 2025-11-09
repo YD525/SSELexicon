@@ -37,11 +37,6 @@ using static SSELex.UIManagement.DashBoardService;
 
 namespace SSELex
 {
-    // Copyright (C) 2025 YD525
-    // Licensed under the GNU GPLv3
-    // See LICENSE for details
-    //https://github.com/YD525/SSELexicon
-
     /// <summary>
     /// Interaction logic for MainGui.xaml
     /// </summary>
