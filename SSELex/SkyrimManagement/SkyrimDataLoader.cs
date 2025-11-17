@@ -13,7 +13,7 @@ namespace SSELex.UIManage
     {
         public enum ObjSelect
         {
-            Null = 99, All = 0, Hazard = 28,HeadPart = 27, Npc = 26, Worldspace = 1,Shout = 25 ,Tree = 23, Ingestible = 22, Quest = 2, Faction = 3, Perk = 5, Weapon = 6, SoulGem = 7, Armor = 8, Key = 9, Container = 10, Activator = 11, MiscItem = 12, Book = 13, Message = 15, DialogTopic = 16, Spell = 17, MagicEffect = 18, ObjectEffect = 19, Cell = 20, Race = 21, Location = 30
+            Null = 99, All = 0, Hazard = 28,HeadPart = 27, Npc = 26, Worldspace = 1,Shout = 25 ,Tree = 23, Ingestible = 22, Quest = 2, Faction = 3, Perk = 5, Weapon = 6, SoulGem = 7, Armor = 8, Key = 9, Container = 10, Activator = 11, MiscItem = 12, Book = 13, Message = 15, DialogTopic = 16, Spell = 17, MagicEffect = 18, ObjectEffect = 19, Cell = 20, Race = 21, Location = 30,Door = 31, Furniture = 32
         }
 
         public static List<ObjSelect> QueryParams(EspReader Reader)
@@ -38,6 +38,16 @@ namespace SSELex.UIManage
             if (Reader.Worldspaces.Count > 0)
             {
                 ObjSelects.Add(ObjSelect.Worldspace);
+            }
+
+            if (Reader.Doors.Count > 0)
+            {
+                ObjSelects.Add(ObjSelect.Door);
+            }
+
+            if (Reader.Furnitures.Count > 0)
+            {
+                ObjSelects.Add(ObjSelect.Furniture);
             }
 
             if (Reader.Shouts.Count > 0)
@@ -172,7 +182,7 @@ namespace SSELex.UIManage
                 LoadHazards(Reader, View);
             }
             else
-           if (Type == ObjSelect.HeadPart)
+            if (Type == ObjSelect.HeadPart)
             {
                 LoadHeadParts(Reader, View);
             }
@@ -185,6 +195,16 @@ namespace SSELex.UIManage
             if (Type == ObjSelect.Worldspace)
             {
                 LoadWorldspaces(Reader, View);
+            }
+            else
+            if (Type == ObjSelect.Door)
+            {
+                LoadDoors(Reader, View);
+            }
+            else
+            if (Type == ObjSelect.Furniture)
+            {
+                LoadFurnitures(Reader, View);
             }
             else
             if (Type == ObjSelect.Shout)
@@ -305,6 +325,8 @@ namespace SSELex.UIManage
             LoadHeadParts(Reader, View);
             LoadNpcs(Reader, View);
             LoadWorldspaces(Reader, View);
+            LoadDoors(Reader, View);
+            LoadFurnitures(Reader, View);
             LoadShouts(Reader, View);
             LoadTrees(Reader, View);
             LoadIngestibles(Reader, View);
@@ -497,6 +519,78 @@ namespace SSELex.UIManage
                     catch (Exception ex)
                     {
                         MessageBox.Show($"Error loading Worldspace item at index {i}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+        }
+
+        public static void LoadFurnitures(EspReader Reader, YDListView View)
+        {
+            if (Reader.Furnitures != null)
+                for (int i = 0; i < Reader.Furnitures.Count; i++)
+                {
+                    try
+                    {
+                        string GetTransStr = "";
+
+                        var GetHashKey = Reader.Furnitures.ElementAt(i).Key;
+                        var GetFurnitureItem = Reader.Furnitures[GetHashKey];
+
+                        string AutoKey = KeyGenerator.GenKey(GetFurnitureItem.FormKey, GetFurnitureItem.EditorID);
+
+                        var GetName = ConvertHelper.ObjToStr(GetFurnitureItem.Name);
+                        if (GetName.Length > 0)
+                        {
+                            string SetType = "Name";//FURN FULL
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("Furniture", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
+                            }));
+
+                            BindingKey(GetFurnitureItem.Name.StringsKey, GetUniqueKey);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error loading Furniture item at index {i}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+        }
+
+        public static void LoadDoors(EspReader Reader, YDListView View)
+        {
+            if (Reader.Doors != null)
+                for (int i = 0; i < Reader.Doors.Count; i++)
+                {
+                    try
+                    {
+                        string GetTransStr = "";
+
+                        var GetHashKey = Reader.Doors.ElementAt(i).Key;
+                        var GetDoorItem = Reader.Doors[GetHashKey];
+
+                        string AutoKey = KeyGenerator.GenKey(GetDoorItem.FormKey, GetDoorItem.EditorID);
+
+                        var GetName = ConvertHelper.ObjToStr(GetDoorItem.Name);
+                        if (GetName.Length > 0)
+                        {
+                            string SetType = "Name";//DOOR FULL
+                            GetTransStr = TryGetTransData(AutoKey, SetType);
+                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                View.AddRowR(LineRenderer.CreatLine("Door", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
+                            }));
+
+                            BindingKey(GetDoorItem.Name.StringsKey, GetUniqueKey);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error loading Door item at index {i}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
         }

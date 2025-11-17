@@ -32,6 +32,8 @@ namespace SSELex.UIManage
             SetHeadParts(ref Writer);
             SetNpcs(ref Writer);
             SetWorldspaces(ref Writer);
+            SetDoors(ref Writer);
+            SetFurnitures(ref Writer);
             SetShouts(ref Writer);
             SetTrees(ref Writer);
             SetIngestibles(ref Writer);
@@ -180,7 +182,67 @@ namespace SSELex.UIManage
                 }
                 catch (System.Exception ex)
                 {
-                    System.Console.WriteLine($"Error in SetWorldspaces loop at index {i}: {ex.Message}");
+                    System.Console.WriteLine($"Error in Set Worldspaces loop at index {i}: {ex.Message}");
+                }
+            }
+        }
+
+        public static void SetFurnitures(ref EspReader Writer)
+        {
+            string SetType = "";
+            for (int i = 0; i < Writer.Furnitures.Count; i++)
+            {
+                try
+                {
+                    string GetTransStr = "";
+
+                    var GetHashKey = Writer.Furnitures.ElementAt(i).Key;
+                    var GetFurnitureItem = Writer.Furnitures[GetHashKey];
+
+                    string AutoKey = KeyGenerator.GenKey(GetFurnitureItem.FormKey, GetFurnitureItem.EditorID);
+
+                    SetType = "Name";
+                    GetTransStr = GetTransData(AutoKey, SetType);
+                    if (GetTransStr.Length > 0)
+                    {
+                        GetFurnitureItem.Name = GetTransStr;
+                    }
+
+                    Writer.Furnitures[GetHashKey] = GetFurnitureItem;
+                }
+                catch (System.Exception ex)
+                {
+                    System.Console.WriteLine($"Error in Set Furnitures loop at index {i}: {ex.Message}");
+                }
+            }
+        }
+
+        public static void SetDoors(ref EspReader Writer)
+        {
+            string SetType = "";
+            for (int i = 0; i < Writer.Doors.Count; i++)
+            {
+                try
+                {
+                    string GetTransStr = "";
+
+                    var GetHashKey = Writer.Doors.ElementAt(i).Key;
+                    var GetDoorItem = Writer.Doors[GetHashKey];
+
+                    string AutoKey = KeyGenerator.GenKey(GetDoorItem.FormKey, GetDoorItem.EditorID);
+
+                    SetType = "Name";
+                    GetTransStr = GetTransData(AutoKey, SetType);
+                    if (GetTransStr.Length > 0)
+                    {
+                        GetDoorItem.Name = GetTransStr;
+                    }
+
+                    Writer.Doors[GetHashKey] = GetDoorItem;
+                }
+                catch (System.Exception ex)
+                {
+                    System.Console.WriteLine($"Error in Set Doors loop at index {i}: {ex.Message}");
                 }
             }
         }

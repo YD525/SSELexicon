@@ -51,7 +51,8 @@ namespace SSELex.SkyrimManage
         public Dictionary<string, CellBlock> Cells = new Dictionary<string, CellBlock>();
         public Dictionary<string, Container> Containers = new Dictionary<string, Container>();
         public Dictionary<string, Location> Locations = new Dictionary<string, Location>();
-
+        public Dictionary<string, Door> Doors = new Dictionary<string, Door>();
+        public Dictionary<string, Furniture> Furnitures = new Dictionary<string, Furniture>();
         //...
 
         public EspReader()
@@ -87,6 +88,8 @@ namespace SSELex.SkyrimManage
             Cells.Clear();
             Containers.Clear();
             Locations.Clear();
+            Doors.Clear();
+            Furnitures.Clear();
         }
 
         public void Close()
@@ -259,6 +262,23 @@ namespace SSELex.SkyrimManage
                     if (Get != null)
                         Locations.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
                 }
+
+                foreach (var Get in this.CurrentReadMod.Doors.ToList())
+                {
+                    if (Get != null)
+                        Doors.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
+                }
+
+                foreach (var Get in this.CurrentReadMod.Furniture.ToList())
+                {
+                    if (Get != null)
+                        Furnitures.Add(KeyGenerator.GenKey(Get.FormKey, Get.EditorID), Get);
+                }
+
+                //foreach (var Item in CurrentReadMod.EnumerateMajorRecords<PlacedObject>())
+                //{
+                //    PlacedObjects.Add(KeyGenerator.GenKey(Item.FormKey, Item.EditorID),Item);
+                //}
             }
         }
 
@@ -354,13 +374,13 @@ namespace SSELex.SkyrimManage
                 }
 
                 ToRam();
-               
+
                 //foreach (var Item in CurrentReadMod.EnumerateMajorRecords())
                 //{
                 //    //LinkType
-                //    if (Item.FormKey.ToString().Contains("87F928"))
+                //    if (Item.FormKey.ToString().Contains("D9D50"))
                 //    {
-
+                       
                 //    }
                 //}
 
