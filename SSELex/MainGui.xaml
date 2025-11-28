@@ -599,24 +599,34 @@
 
                                         <Border Style="{DynamicResource SectionStyle}" Grid.Column="1">
                                             <Grid>
-                                                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="0.75*"/>
+                                                    <ColumnDefinition Width="0.25*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="0.7*"/>
+                                                        <ColumnDefinition Width="0.3*"/>
+                                                        <ColumnDefinition Width="0.7*"/>
+                                                        <ColumnDefinition Width="0.3*"/>
+                                                    </Grid.ColumnDefinitions>
 
-                                                    <TextBox  Width="100" Style="{DynamicResource CaptionText}" Name="UICloudTranslationCache">
+                                                    <TextBox Style="{DynamicResource CaptionText}" Name="UICloudTranslationCache" Grid.Column="0">
                                                         Cloud Translation Cache
                                                     </TextBox>
 
-                                                    <CheckBox Margin="5 0 0 0" Name="CloudTranslationCache" VerticalAlignment="Center" Grid.Column="6" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="CloudTranslationCache_Click"/>
+                                                    <CheckBox Grid.Column="1" Margin="5 0 0 0" Name="CloudTranslationCache" VerticalAlignment="Center" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="CloudTranslationCache_Click"/>
 
-                                                    <TextBox  Width="100" Style="{DynamicResource CaptionText}" Name="UIUserInputTranslationCache">
+                                                    <TextBox Grid.Column="2"  Style="{DynamicResource CaptionText}" Name="UIUserInputTranslationCache">
                                                         User Input Translation Cache
                                                     </TextBox>
 
-                                                    <CheckBox Margin="5 0 5 0" Name="UserTranslationCache" VerticalAlignment="Center" Grid.Column="6" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="UserTranslationCache_Click"/>
+                                                    <CheckBox Grid.Column="3" Margin="5 0 5 0" Name="UserTranslationCache" VerticalAlignment="Center" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="UserTranslationCache_Click"/>
 
-                                                </StackPanel>
+                                                </Grid>
 
 
-                                                <Border HorizontalAlignment="Right" Style="{DynamicResource ButtonStyle}" PreviewMouseDown="ClearCache_PreviewMouseDown">
+                                                <Border Style="{DynamicResource ButtonStyle}" PreviewMouseDown="ClearCache_PreviewMouseDown" Grid.Column="1">
                                                     <Label Style="{DynamicResource ButtonFont}" Name="ClearCacheButton">
                                                         ClearCache
                                                     </Label>
@@ -1502,7 +1512,7 @@
                                                     </TextBox>
                                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 5 5 10">
                                                         <Label Style="{DynamicResource NormalText}" VerticalAlignment="Center">
-                                                            Enable
+                                                            Context Generation
                                                         </Label>
                                                         <CheckBox Style="{DynamicResource ToggleCircleCheckBox}" VerticalAlignment="Center" Name="SContextEnable" Click="SContextEnable_Click">
                                                         </CheckBox>

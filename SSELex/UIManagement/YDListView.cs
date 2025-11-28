@@ -886,6 +886,9 @@ public class YDListView
                 ||
                 (!string.IsNullOrEmpty(Line.TransText) &&
                  Line.TransText.IndexOf(Keyword, StringComparison.OrdinalIgnoreCase) >= 0)
+                ||
+                (!string.IsNullOrEmpty(Line.Key) &&
+                Line.Key.IndexOf(Keyword, StringComparison.OrdinalIgnoreCase) >= 0)
             )
             .ToList();
     }

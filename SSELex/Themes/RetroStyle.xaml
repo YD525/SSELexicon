@@ -670,6 +670,7 @@
     </Style>
 
     <Style x:Key="LineKeyFont" TargetType="TextBox">
+        <Setter Property="IsReadOnly" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="AcceptsReturn" Value="True"/>
         <Setter Property="FontSize" Value="13.9"/>
