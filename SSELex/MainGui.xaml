@@ -71,7 +71,6 @@
             <Grid Grid.Row="0" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="160"/>
                     <ColumnDefinition Width="20"/>
                     <ColumnDefinition Width="25"/>
                     <ColumnDefinition Width="5"/>
@@ -84,27 +83,27 @@
                     SSELex RE
                 </Label>
 
-                <Grid Grid.Column="1" Style="{DynamicResource ThreadInFo}" Visibility="Collapsed"  Name="ThreadInFo">
+                <Grid Grid.Column="0" HorizontalAlignment="Right" Style="{DynamicResource ThreadInFo}" Visibility="Collapsed"  Name="ThreadInFo">
                     <Label Style="{DynamicResource ThreadInFoFont}" Name="ThreadInFoFont">
                         Thread(Current:0,Max:0)
                     </Label>
                 </Grid>
 
-                <Border Style="{DynamicResource BlockButton}" Grid.Column="3" PreviewMouseDown="ShowLeftMenu">
+                <Border Style="{DynamicResource BlockButton}" Grid.Column="2" PreviewMouseDown="ShowLeftMenu">
                     <Grid>
                         <ContentControl Style="{DynamicResource NoteIconStyle}" Name="NoteEffect" Panel.ZIndex="1"/>
                     </Grid>
                 </Border>
 
 
-                <Border Style="{DynamicResource BlockButton}" Grid.Column="5" PreviewMouseDown="Min_PreviewMouseDown">
+                <Border Style="{DynamicResource BlockButton}" Grid.Column="4" PreviewMouseDown="Min_PreviewMouseDown">
                     <ContentControl Style="{DynamicResource MinimizeIconStyle}"/>
                 </Border>
 
-                <Border Style="{DynamicResource BlockButton}" Grid.Column="6" PreviewMouseDown="AutoMax_PreviewMouseDown">
+                <Border Style="{DynamicResource BlockButton}" Grid.Column="5" PreviewMouseDown="AutoMax_PreviewMouseDown">
                     <ContentControl Style="{DynamicResource MaximizeIconStyle}"/>
                 </Border>
-                <Border Style="{DynamicResource BlockButton}" Grid.Column="7" PreviewMouseDown="Close_PreviewMouseDown">
+                <Border Style="{DynamicResource BlockButton}" Grid.Column="6" PreviewMouseDown="Close_PreviewMouseDown">
                     <ContentControl Style="{DynamicResource CloseIconStyle}" Grid.Column="3"/>
                 </Border>
             </Grid>
@@ -551,8 +550,8 @@
                             <Grid Grid.Row="3" Margin="10 0 10 0">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="1*"/>
-                                        <ColumnDefinition Width="520"/>
+                                        <ColumnDefinition Width="1.2*"/>
+                                        <ColumnDefinition Width="2*"/>
                                         <ColumnDefinition Width="130"/>
                                     </Grid.ColumnDefinitions>
 
@@ -578,47 +577,56 @@
                                     </Grid>
 
 
-                                    <StackPanel Orientation="Horizontal" Grid.Column="1">
+                                    <Grid Grid.Column="1">
 
-                                        <Border Style="{DynamicResource SectionStyle}">
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBox  Width="70" Style="{DynamicResource CaptionText}" Name="UIOriginalTextSource">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2.7*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Border Style="{DynamicResource SectionStyle}" Grid.Column="0">
+                                            <Grid>
+                                                <TextBox HorizontalAlignment="Left" Width="70" Style="{DynamicResource CaptionText}" Name="UIOriginalTextSource">
                                                     Original Text Source
                                                 </TextBox>
 
-                                                <Border Name="RefreshDictionary" Style="{DynamicResource ButtonStyle}" Opacity="0.5" PreviewMouseDown="RefreshDictionary_PreviewMouseDown">
+                                                <Border HorizontalAlignment="Right" Name="RefreshDictionary" Style="{DynamicResource ButtonStyle}" Opacity="0.5" PreviewMouseDown="RefreshDictionary_PreviewMouseDown">
                                                     <Label Style="{DynamicResource ButtonFont}" Name="RefreshButton">
                                                         Refresh
                                                     </Label>
                                                 </Border>
-                                            </StackPanel>
+                                            </Grid>
                                         </Border>
 
-                                        <Border Style="{DynamicResource SectionStyle}">
-                                            <StackPanel Orientation="Horizontal">
+                                        <Border Style="{DynamicResource SectionStyle}" Grid.Column="1">
+                                            <Grid>
+                                                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
 
-                                                <TextBox  Width="100" Style="{DynamicResource CaptionText}" Name="UICloudTranslationCache">
-                                                    Cloud Translation Cache
-                                                </TextBox>
+                                                    <TextBox  Width="100" Style="{DynamicResource CaptionText}" Name="UICloudTranslationCache">
+                                                        Cloud Translation Cache
+                                                    </TextBox>
 
-                                                <CheckBox Margin="5 0 0 0" Name="CloudTranslationCache" VerticalAlignment="Center" Grid.Column="6" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="CloudTranslationCache_Click"/>
+                                                    <CheckBox Margin="5 0 0 0" Name="CloudTranslationCache" VerticalAlignment="Center" Grid.Column="6" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="CloudTranslationCache_Click"/>
 
-                                                <TextBox  Width="100" Style="{DynamicResource CaptionText}" Name="UIUserInputTranslationCache">
-                                                    User Input Translation Cache
-                                                </TextBox>
+                                                    <TextBox  Width="100" Style="{DynamicResource CaptionText}" Name="UIUserInputTranslationCache">
+                                                        User Input Translation Cache
+                                                    </TextBox>
 
-                                                <CheckBox Margin="5 0 5 0" Name="UserTranslationCache" VerticalAlignment="Center" Grid.Column="6" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="UserTranslationCache_Click"/>
+                                                    <CheckBox Margin="5 0 5 0" Name="UserTranslationCache" VerticalAlignment="Center" Grid.Column="6" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="UserTranslationCache_Click"/>
 
-                                                <Border Style="{DynamicResource ButtonStyle}" PreviewMouseDown="ClearCache_PreviewMouseDown">
+                                                </StackPanel>
+
+
+                                                <Border HorizontalAlignment="Right" Style="{DynamicResource ButtonStyle}" PreviewMouseDown="ClearCache_PreviewMouseDown">
                                                     <Label Style="{DynamicResource ButtonFont}" Name="ClearCacheButton">
                                                         ClearCache
                                                     </Label>
                                                 </Border>
+                                            </Grid>
 
-                                            </StackPanel>
+
                                         </Border>
 
-                                    </StackPanel>
+                                    </Grid>
 
                                     <StackPanel Orientation="Horizontal" Grid.Column="5" HorizontalAlignment="Right" Margin="0 0 0 0">
 

@@ -137,6 +137,7 @@
     <Style x:Key="ThreadInFo" TargetType="Grid">
         <Setter Property="Background" Value="#FF323232"/>
         <Setter Property="IsHitTestVisible" Value="False"/>
+        <Setter Property="HorizontalAlignment" Value="Right"/>
     </Style>
 
     <Style x:Key="ThreadInFoFont" TargetType="Label">
@@ -145,6 +146,7 @@
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="FontWeight" Value="DemiBold"/>
         <Setter Property="IsHitTestVisible" Value="False"/>
+        <Setter Property="Padding" Value="5 0 5 0"/>
     </Style>
 
     <Style x:Key="CaptionFont" TargetType="Label">
