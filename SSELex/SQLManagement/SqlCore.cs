@@ -86,17 +86,17 @@ namespace SSELex.SQLManager
                 return State;
             }
         }
-        public DataTable ExecuteQuery(string SqlOrder)
+        public List<Dictionary<string, object>> ExecuteQuery(string SqlOrder)
         {
             lock (LockerDB)
             {
-                DataTable Table = null;
+                List<Dictionary<string, object>> Table = null;
 
                 switch (this.ThisType)
                 {
                     case SqlType.SQLite:
                         {
-                            Table = (SQLHelper as SQLiteHelper).ExecuteDataTable(SqlOrder);
+                            Table = (SQLHelper as SQLiteHelper).ExecuteQuery(SqlOrder);
                         }
                         break;
                     case SqlType.SqlServer:
