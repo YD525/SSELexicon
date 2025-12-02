@@ -84,22 +84,25 @@ namespace SSELex.TranslateManage
         /// </summary>
         /// <param name="Item"></param>
         /// <returns></returns>
-        public static bool TranslationUnitStartWorkCall(TranslationUnit Item)
+        public static bool TranslationUnitStartWorkCall(TranslationUnit Item,int State)
         {
-            if (DeFine.WorkingWin != null)
+            if (State == 1 || State == 2)
             {
-                if (DeFine.WorkingWin.TransViewList != null)
+                if (DeFine.WorkingWin != null)
                 {
-                    FakeGrid? QueryGrid = DeFine.WorkingWin.TransViewList.KeyToFakeGrid(Item.Key);
-
-                    if (QueryGrid != null)
+                    if (DeFine.WorkingWin.TransViewList != null)
                     {
-                        bool IsCloud = false;
-                        QueryGrid.SyncData(ref IsCloud);
+                        FakeGrid? QueryGrid = DeFine.WorkingWin.TransViewList.KeyToFakeGrid(Item.Key);
 
-                        if (QueryGrid.TransText.Length > 0)
+                        if (QueryGrid != null)
                         {
-                            return false;
+                            bool IsCloud = false;
+                            QueryGrid.SyncData(ref IsCloud);
+
+                            if (QueryGrid.TransText.Length > 0)
+                            {
+                                return false;
+                            }
                         }
                     }
                 }
