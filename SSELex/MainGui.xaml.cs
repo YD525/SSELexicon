@@ -285,6 +285,15 @@ namespace SSELex
             {
                 DeFine.ExtendWin.ShowUI();
             }
+
+            if (this.Width < 900)
+            {
+                this.ControlRow.Height = new GridLength(60, GridUnitType.Pixel);
+            }
+            else
+            {
+                this.ControlRow.Height = new GridLength(40, GridUnitType.Pixel);
+            }
         }
 
         private void Window_LocationChanged(object sender, EventArgs e)
@@ -3639,6 +3648,8 @@ namespace SSELex
             {
                 EngineConfig.EnableGlobalSearch = false;
             }
+
+            EngineConfig.Save();
         }
 
         private void SEnableLanguageDetect_Click(object sender, RoutedEventArgs e)

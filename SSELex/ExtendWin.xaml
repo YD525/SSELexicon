@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SSELex"
         mc:Ignorable="d"
-        Title="ExtendWin" Height="450" Width="350" Style="{DynamicResource DefWin}" Closing="Window_Closing">
+        Title="ExtendWin" Height="450" Width="300" Style="{DynamicResource DefWin}" Closing="Window_Closing" ShowInTaskbar="False">
     <Window.Resources>
 
         <Style x:Key="ListViewItemStyle" TargetType="{x:Type ListViewItem}">
