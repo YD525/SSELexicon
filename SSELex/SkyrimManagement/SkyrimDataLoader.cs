@@ -13,7 +13,7 @@ namespace SSELex.UIManage
     {
         public enum ObjSelect
         {
-            Null = 99, All = 0, Hazard = 28,HeadPart = 27, Npc = 26, Worldspace = 1,Shout = 25 ,Tree = 23, Ingestible = 22, Quest = 2, Faction = 3, Perk = 5, Weapon = 6, SoulGem = 7, Armor = 8, Key = 9, Container = 10, Activator = 11, MiscItem = 12, Book = 13, Message = 15, DialogTopic = 16, Spell = 17, MagicEffect = 18, ObjectEffect = 19, Cell = 20, Race = 21, Location = 30,Door = 31, Furniture = 32
+            Null = 99, All = 0, Hazard = 28,/*HeadPart = 27, */Npc = 26, Worldspace = 1,Shout = 25 ,Tree = 23, Ingestible = 22, Quest = 2, Faction = 3, Perk = 5, Weapon = 6, SoulGem = 7, Armor = 8, Key = 9, Container = 10, Activator = 11, MiscItem = 12, Book = 13, Message = 15, DialogTopic = 16, Spell = 17, MagicEffect = 18, ObjectEffect = 19, Cell = 20, Race = 21, Location = 30,Door = 31, Furniture = 32
         }
 
         public static List<ObjSelect> QueryParams(EspReader Reader)
@@ -25,10 +25,10 @@ namespace SSELex.UIManage
                 ObjSelects.Add(ObjSelect.Hazard);
             }
 
-            if (Reader.HeadParts.Count > 0)
-            {
-                ObjSelects.Add(ObjSelect.HeadPart);
-            }
+            //if (Reader.HeadParts.Count > 0)
+            //{
+            //    ObjSelects.Add(ObjSelect.HeadPart);
+            //}
 
             if (Reader.Npcs.Count > 0)
             {
@@ -181,11 +181,11 @@ namespace SSELex.UIManage
             {
                 LoadHazards(Reader, View);
             }
-            else
-            if (Type == ObjSelect.HeadPart)
-            {
-                LoadHeadParts(Reader, View);
-            }
+            //else
+            //if (Type == ObjSelect.HeadPart)
+            //{
+            //    LoadHeadParts(Reader, View);
+            //}
             else
             if (Type == ObjSelect.Npc)
             {
@@ -322,7 +322,7 @@ namespace SSELex.UIManage
         public static void LoadAll(EspReader Reader, YDListView View)
         {
             LoadHazards(Reader, View);
-            LoadHeadParts(Reader, View);
+            //LoadHeadParts(Reader, View);
             LoadNpcs(Reader, View);
             LoadWorldspaces(Reader, View);
             LoadDoors(Reader, View);
@@ -400,41 +400,41 @@ namespace SSELex.UIManage
                 }
         }
 
-        public static void LoadHeadParts(EspReader Reader, YDListView View)
-        {
-            if (Reader.HeadParts != null)
-                for (int i = 0; i < Reader.HeadParts.Count; i++)
-                {
-                    try
-                    {
-                        string GetTransStr = "";
+        //public static void LoadHeadParts(EspReader Reader, YDListView View)
+        //{
+        //    if (Reader.HeadParts != null)
+        //        for (int i = 0; i < Reader.HeadParts.Count; i++)
+        //        {
+        //            try
+        //            {
+        //                string GetTransStr = "";
 
-                        var GetHashKey = Reader.HeadParts.ElementAt(i).Key;
-                        var GetHeadPartItem = Reader.HeadParts[GetHashKey];
+        //                var GetHashKey = Reader.HeadParts.ElementAt(i).Key;
+        //                var GetHeadPartItem = Reader.HeadParts[GetHashKey];
 
-                        string AutoKey = KeyGenerator.GenKey(GetHeadPartItem.FormKey, GetHeadPartItem.EditorID);
+        //                string AutoKey = KeyGenerator.GenKey(GetHeadPartItem.FormKey, GetHeadPartItem.EditorID);
 
-                        var GetName = ConvertHelper.ObjToStr(GetHeadPartItem.Name); //HDPT FULL
-                        if (GetName.Length > 0)
-                        {
-                            string SetType = "Name";
-                            GetTransStr = TryGetTransData(AutoKey, SetType);
-                            string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
+        //                var GetName = ConvertHelper.ObjToStr(GetHeadPartItem.Name); //HDPT FULL
+        //                if (GetName.Length > 0)
+        //                {
+        //                    string SetType = "Name";
+        //                    GetTransStr = TryGetTransData(AutoKey, SetType);
+        //                    string GetUniqueKey = GenUniqueKey(AutoKey, SetType);
 
-                            Application.Current.Dispatcher.Invoke(new Action(() =>
-                            {
-                                View.AddRowR(LineRenderer.CreatLine("HeadPart", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
-                            }));
+        //                    Application.Current.Dispatcher.Invoke(new Action(() =>
+        //                    {
+        //                        View.AddRowR(LineRenderer.CreatLine("HeadPart", GetHashKey, GetUniqueKey, GetName, GetTransStr, 999));
+        //                    }));
 
-                            BindingKey(GetHeadPartItem.Name.StringsKey, GetUniqueKey);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"Error loading HeadPart item at index {i}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                }
-        }
+        //                    BindingKey(GetHeadPartItem.Name.StringsKey, GetUniqueKey);
+        //                }
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                MessageBox.Show($"Error loading HeadPart item at index {i}: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        //            }
+        //        }
+        //}
 
         public static void LoadNpcs(EspReader Reader, YDListView View)
         {

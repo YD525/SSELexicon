@@ -29,7 +29,7 @@ namespace SSELex.UIManage
         public static void ReplaceAllToMemory(ref EspReader Writer)
         {
             SetHazards(ref Writer);
-            SetHeadParts(ref Writer);
+            //SetHeadParts(ref Writer);
             SetNpcs(ref Writer);
             SetWorldspaces(ref Writer);
             SetDoors(ref Writer);
@@ -89,35 +89,35 @@ namespace SSELex.UIManage
             }
         }
 
-        public static void SetHeadParts(ref EspReader Writer)
-        {
-            string SetType = "";
-            for (int i = 0; i < Writer.HeadParts.Count; i++)
-            {
-                try
-                {
-                    string GetTransStr = "";
+        //public static void SetHeadParts(ref EspReader Writer)
+        //{
+        //    string SetType = "";
+        //    for (int i = 0; i < Writer.HeadParts.Count; i++)
+        //    {
+        //        try
+        //        {
+        //            string GetTransStr = "";
 
-                    var GetHashKey = Writer.HeadParts.ElementAt(i).Key;
-                    var GetHeadPartItem = Writer.HeadParts[GetHashKey];
+        //            var GetHashKey = Writer.HeadParts.ElementAt(i).Key;
+        //            var GetHeadPartItem = Writer.HeadParts[GetHashKey];
 
-                    string AutoKey = KeyGenerator.GenKey(GetHeadPartItem.FormKey, GetHeadPartItem.EditorID);
+        //            string AutoKey = KeyGenerator.GenKey(GetHeadPartItem.FormKey, GetHeadPartItem.EditorID);
 
-                    SetType = "Name";
-                    GetTransStr = GetTransData(AutoKey, SetType);
-                    if (GetTransStr.Length > 0)
-                    {
-                        GetHeadPartItem.Name = GetTransStr;
-                    }
+        //            SetType = "Name";
+        //            GetTransStr = GetTransData(AutoKey, SetType);
+        //            if (GetTransStr.Length > 0)
+        //            {
+        //                GetHeadPartItem.Name = GetTransStr;
+        //            }
 
-                    Writer.HeadParts[GetHashKey] = GetHeadPartItem;
-                }
-                catch (System.Exception ex)
-                {
-                    System.Console.WriteLine($"Error in SetHeadParts loop at index {i}: {ex.Message}");
-                }
-            }
-        }
+        //            Writer.HeadParts[GetHashKey] = GetHeadPartItem;
+        //        }
+        //        catch (System.Exception ex)
+        //        {
+        //            System.Console.WriteLine($"Error in SetHeadParts loop at index {i}: {ex.Message}");
+        //        }
+        //    }
+        //}
 
         public static void SetNpcs(ref EspReader Writer)
         {
