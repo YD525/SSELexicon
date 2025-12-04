@@ -194,7 +194,6 @@ namespace SSELex
         public int DeepSeekTokenUsage { get; set; } = 0;
         public int BaichuanTokenUsage { get; set; } = 0;
         public int LocalAITokenUsage { get; set; } = 0;
-        public bool EnableGlobalSearch { get; set; } = false;
         public bool EnableLanguageDetect { get; set; } = true;
         public void ReadConfig()
         {
@@ -232,7 +231,6 @@ namespace SSELex
                             this.BaichuanTokenUsage = GetSetting.BaichuanTokenUsage;
                             this.LocalAITokenUsage = GetSetting.LocalAITokenUsage;
 
-                            this.EnableGlobalSearch = GetSetting.EnableGlobalSearch;
                             this.EnableLanguageDetect = GetSetting.EnableLanguageDetect;
                         }
                     }

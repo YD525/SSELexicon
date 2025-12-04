@@ -3150,7 +3150,7 @@ namespace SSELex
                     SAutoSetThreadLimit.IsChecked = false;
                 }
 
-                if (DeFine.GlobalLocalSetting.EnableGlobalSearch)
+                if (EngineConfig.EnableGlobalSearch)
                 {
                     GlobalSearch.IsChecked = true;
                 }
@@ -3633,11 +3633,11 @@ namespace SSELex
         {
             if (GlobalSearch.IsChecked == true)
             {
-                DeFine.GlobalLocalSetting.EnableGlobalSearch = true;
+                EngineConfig.EnableGlobalSearch = true;
             }
             else
             {
-                DeFine.GlobalLocalSetting.EnableGlobalSearch = false;
+                EngineConfig.EnableGlobalSearch = false;
             }
         }
 

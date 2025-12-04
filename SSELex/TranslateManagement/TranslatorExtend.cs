@@ -381,7 +381,7 @@ namespace SSELex.TranslateManage
                                     }
                                 }
 
-                                if (DeFine.GlobalLocalSetting.EnableGlobalSearch)
+                                if (EngineConfig.EnableGlobalSearch)
                                 {
                                     var QueryData = CloudDBCache.MatchOtherCloudItem(GetSelfRowid,(int)Engine.To, Row.SourceText);
 
