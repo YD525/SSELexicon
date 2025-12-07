@@ -3682,13 +3682,17 @@ namespace SSELex
                 TransViewList.RealLines[i].SyncData(ref IsCloud);
                 if ((GetLine.SourceText + GetLine.RealSource).Trim().Length > 0)
                 {
-                    if (GetLine.TransText.Length == 0 ||
-                     LanguageHelper.DetectLanguageByLine(GetLine.SourceText) ==
-                     LanguageHelper.DetectLanguageByLine(GetLine.TransText)
-                     )
+                    var SourceLang = LanguageHelper.DetectLanguageByLine(GetLine.SourceText);
+                    if (SourceLang != Engine.To)
                     {
-                        TransViewList.Goto(TransViewList.RealLines[i].Key);
-                        break;
+                        if (GetLine.TransText.Length == 0 ||
+                         SourceLang ==
+                         LanguageHelper.DetectLanguageByLine(GetLine.TransText)
+                         )
+                        {
+                            TransViewList.Goto(TransViewList.RealLines[i].Key);
+                            break;
+                        }
                     }
                 }
             }
