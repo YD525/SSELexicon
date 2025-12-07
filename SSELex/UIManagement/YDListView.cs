@@ -919,10 +919,10 @@ public class YDListView
 
         Scroll.ScrollToVerticalOffset(Offset);
 
-        UpdateVisibleRows(true);
-
-        Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+        Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
         {
+            UpdateVisibleRows(true);
+
             foreach (var vg in VisibleRows)
             {
                 if (RowStyleWin.GetKey(vg.View).Equals(Key))
@@ -931,6 +931,8 @@ public class YDListView
                     break;
                 }
             }
+
+            SelectLineID = TargetIndex;
         }));
     }
 }

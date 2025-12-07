@@ -2143,9 +2143,9 @@ namespace SSELex
 
                         try
                         {
-                            if (CloudTransStr.Equals(GetGrid.TransText))
+                            if (CloudDBCache.FindCache(Engine.GetFileUniqueKey(),GetGrid.Key,Engine.To).Equals(GetGrid.TransText))
                             {
-                                TranslatorBridge.SetCloudTransData(GetGrid.Key, GetGrid.SourceText, GetGrid.TransText);
+                                LocalDBCache.DeleteCache(Engine.GetFileUniqueKey(),GetGrid.Key,Engine.To);
                             }
                             else
                             {
@@ -2703,7 +2703,7 @@ namespace SSELex
         public object TranslateLocker = new object();
         public Thread? TranslateTrd = null;
 
-        public string CloudTransStr = "";
+   
         private TextSegmentTranslator CurrentTextSegmentTranslator = null;
         public void TranslateCurrent()
         {
@@ -2721,6 +2721,11 @@ namespace SSELex
                         {
                             bool IsCloud = false;
                             QueryGrid.SyncData(ref IsCloud);
+
+                            if (QueryGrid.TransText.Length > 0)
+                            {
+                                CloudDBCache.DeleteCache(Engine.GetFileUniqueKey(),QueryGrid.Key,Engine.To);
+                            }
 
                             TranslationUnit NewUnit = new TranslationUnit(Engine.GetFileUniqueKey(), QueryGrid.Key, QueryGrid.Type, QueryGrid.SourceText, QueryGrid.TransText, "", Engine.From, Engine.To,100);
 
@@ -2740,8 +2745,6 @@ namespace SSELex
                                     string GetTranslated = Translator.QuickTrans(
                                     NewUnit,
                                     ref CanSleep);
-
-                                    CloudTransStr = GetTranslated;
 
                                     CanEditTransView(true);
 
@@ -3661,6 +3664,27 @@ namespace SSELex
             else
             {
                 DeFine.GlobalLocalSetting.EnableLanguageDetect = false;
+            }
+        }
+
+        private void NextUntranslated_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            for (int i = 0; i < TransViewList?.RealLines.Count; i++)
+            {
+                bool IsCloud = false;
+                var GetLine = TransViewList.RealLines[i];
+                TransViewList.RealLines[i].SyncData(ref IsCloud);
+                if ((GetLine.SourceText + GetLine.RealSource).Trim().Length > 0)
+                {
+                    if (GetLine.TransText.Length == 0 ||
+                     LanguageHelper.DetectLanguageByLine(GetLine.SourceText) ==
+                     LanguageHelper.DetectLanguageByLine(GetLine.TransText)
+                     )
+                    {
+                        TransViewList.Goto(TransViewList.RealLines[i].Key);
+                        break;
+                    }
+                }
             }
         }
     }

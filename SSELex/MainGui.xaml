@@ -751,6 +751,12 @@
                                                         ⬇
                                                     </Label>
                                                 </Border>
+
+                                                <Border Name="NextUntranslated" Style="{DynamicResource LiteButton}" PreviewMouseDown="NextUntranslated_PreviewMouseDown">
+                                                    <Label Style="{DynamicResource LiteButtonFont}" Foreground="White" Name="UINextUntranslated">
+                                                        NextUntranslated
+                                                    </Label>
+                                                </Border>
                                             </StackPanel>
 
                                             <Border Style="{DynamicResource IDEBorder}" Grid.Row="1">

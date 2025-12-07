@@ -35,7 +35,7 @@ namespace SSELex
 
         public static string BackupPath = @"\BackUpData\";
 
-        public static string CurrentVersion = "3.1.3.3";
+        public static string CurrentVersion = "3.1.3.5";
         public static LocalSetting GlobalLocalSetting = new LocalSetting();
 
         public static MainGui WorkingWin = null;
@@ -114,6 +114,7 @@ namespace SSELex
         public static void ShowExtendWin()
         {
             ExtendWin.ShowUI();
+            ExtendWin.Owner = DeFine.WorkingWin;
         }
 
         public static void CloseExtendWin()
