@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.IO;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Text.Json;
 using System.Windows;
@@ -2146,6 +2147,11 @@ namespace SSELex
                             if (CloudDBCache.FindCache(Engine.GetFileUniqueKey(),GetGrid.Key,Engine.To).Equals(GetGrid.TransText))
                             {
                                 LocalDBCache.DeleteCache(Engine.GetFileUniqueKey(),GetGrid.Key,Engine.To);
+
+                                if (Translator.TransData.ContainsKey(GetGrid.Key))
+                                {
+                                    Translator.TransData[GetGrid.Key] = GetGrid.TransText;
+                                }
                             }
                             else
                             {
@@ -2157,8 +2163,8 @@ namespace SSELex
                         TranslatorExtend.SetTranslatorHistoryCache(GetGrid.Key, GetGrid.TransText, false);
 
                         GetGrid.SyncData(ref RefCloud);
-
                         GetGrid.SyncUI(TransViewList);
+                        DeFine.ExtendWin.SetOriginal(GetGrid.SourceText, DeFine.WorkingWin.GlobalEspReader?.StringsReader.QueryData(GetGrid.Key));
 
                         if (SearchResultsViewList != null)
                         {

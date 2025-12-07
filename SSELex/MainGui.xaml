@@ -722,7 +722,7 @@
 
                                         <Grid Grid.Column="0">
                                             <Grid.RowDefinitions>
-                                                <RowDefinition Height="35"/>
+                                                <RowDefinition Height="37"/>
                                                 <RowDefinition Height="1*"/>
                                             </Grid.RowDefinitions>
                                             <StackPanel Orientation="Horizontal" Margin="0 5 0 5">
@@ -769,7 +769,7 @@
 
                                         <Grid Grid.Column="1">
                                             <Grid.RowDefinitions>
-                                                <RowDefinition Height="35"/>
+                                                <RowDefinition Height="37"/>
                                                 <RowDefinition Height="1*"/>
                                             </Grid.RowDefinitions>
                                             <StackPanel Orientation="Horizontal" Margin="0 5 0 5">
