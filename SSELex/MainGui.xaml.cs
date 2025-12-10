@@ -1377,7 +1377,7 @@ namespace SSELex
 
                 if (GlobalEspReader?.StringsReader?.CurrentLang != Engine.To)
                 {
-                    GlobalEspReader?.StringsReader.LoadStrings(Engine.To);
+                    GlobalEspReader?.StringsReader.LoadStrings(LastSetPath,Engine.To);
                     if (GlobalEspReader?.StringsReader.Strings.Count > 0)
                     {
                         ReloadData();

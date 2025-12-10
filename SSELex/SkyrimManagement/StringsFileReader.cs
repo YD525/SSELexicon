@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Text;
 using Cohere;
 using DynamicData;
 using Mutagen.Bethesda;
@@ -6,6 +7,7 @@ using Mutagen.Bethesda.Plugins;
 using Mutagen.Bethesda.Skyrim;
 using Mutagen.Bethesda.Strings;
 using Mutagen.Bethesda.Strings.DI;
+using Noggog;
 using PhoenixEngine.EngineManagement;
 using PhoenixEngine.TranslateCore;
 
@@ -39,8 +41,8 @@ namespace SSELex.SkyrimManagement
     //STRINGS DLSTRINGS ILSTRINGS
     public class StringsFileReader
     {
-        public string CurrentModPath = "";
-        public Dictionary<uint, StringItem> Strings = new Dictionary<uint, StringItem>();
+        public Dictionary<uint, StringItem> Strings =new Dictionary<uint, StringItem>();
+
         public Dictionary<string, uint> KeyBindings = new Dictionary<string, uint>();
 
         public static Language? ToMutagenLang(Languages Lang)
@@ -80,7 +82,6 @@ namespace SSELex.SkyrimManagement
         public void Close()
         {
             Clear();
-            CurrentModPath = string.Empty;
         }
         public void Clear()
         {
@@ -103,73 +104,86 @@ namespace SSELex.SkyrimManagement
             return null;
         }
 
-        public void SetModPath(string ModePath)
+        public string FindName(string FullFileName)
         {
-            CurrentModPath = ModePath;
+            FullFileName = FullFileName.ToLower();
+            if (FullFileName.Contains("_"))
+            {
+                return FullFileName.Split('_')[0];
+            }
+            return FullFileName;
         }
+       
 
         public Languages CurrentLang = Languages.Null;
 
         public string CurrentFileName = "";
-        public void LoadStrings(Languages To)
+        public void LoadStrings(string ModPath,Languages To)
         {
             Clear();
             CurrentLang = To;
 
-            if (CurrentModPath.Length == 0)
-            {
-                return;
-            }
-
-            if (!CurrentModPath.EndsWith(@"\"))
-            {
-                CurrentModPath += @"\";
-            }
-
             Language? ToLang = ToMutagenLang(To);
+
+            if (ToLang == Language.ChineseSimplified)
+            {
+                ToLang = Language.Chinese;
+            }
 
             if (ToLang == null)
             {
                 return;
             }
 
-            //Check whether the module path contains the stringsfile file
+            string ModFileName = Path.GetFileName(ModPath);
 
-            foreach (var GetFile in Directory.GetFiles(CurrentModPath, "*.*", SearchOption.AllDirectories))
+            if (ModFileName.Contains("."))
+            {
+                ModFileName = ModFileName.Split('.')[0];
+            }
+
+            ModFileName = ModFileName.ToLower();
+
+            string StringFilesPath = DeFine.GetFullPath(@"\Strings");
+
+            if (!Directory.Exists(StringFilesPath))
+            { 
+               Directory.CreateDirectory(StringFilesPath);
+            }
+
+            foreach (var GetFile in Directory.GetFiles(StringFilesPath, "*.*", SearchOption.AllDirectories))
             {
                 var FileName = GetFile.Substring(GetFile.LastIndexOf(@"\") + @"\".Length);
                 FileName = FileName.ToLower();
 
-                if (FileName.EndsWith(".dlstrings"))
+                if (FileName.EndsWith(".dlstrings") || FileName.EndsWith(".ilstrings") || FileName.EndsWith(".strings"))
                 {
-                    var SourceLang = FindLang(GetFile);
-
-                    if(SourceLang == ToLang)
+                    var SourceLang = FindLang(FileName);
+                    var TransFileName = FindName(FileName).ToLower();
+                    if (SourceLang == ToLang && TransFileName.Equals(ModFileName))
                     {
-                        LoadSingleFile(GetFile, StringsSource.DL, SourceLang);
-                        CurrentFileName = FileName;
+                        if (FileName.EndsWith(".dlstrings"))
+                        {
+                            LoadSingleFile(GetFile, StringsSource.DL, SourceLang);
+                            CurrentFileName = FileName;
+                        }
+                        else
+                        if (FileName.EndsWith(".ilstrings"))
+                        {
+                            LoadSingleFile(GetFile, StringsSource.IL, SourceLang);
+                            CurrentFileName = FileName;
+                        }
+                        else
+                        if (FileName.EndsWith(".strings"))
+                        {
+                            LoadSingleFile(GetFile, StringsSource.Normal, SourceLang);
+                            CurrentFileName = FileName;
+                        }
                     }
+                      
                 }
-                if (FileName.EndsWith(".ilstrings"))
-                {
-                    var SourceLang = FindLang(GetFile);
 
-                    if (SourceLang == ToLang)
-                    {
-                        LoadSingleFile(GetFile, StringsSource.IL, SourceLang);
-                        CurrentFileName = FileName;
-                    } 
-                }
-                if (FileName.EndsWith(".strings"))
-                {
-                    var SourceLang = FindLang(GetFile);
-
-                    if (SourceLang == ToLang)
-                    {
-                        LoadSingleFile(GetFile, StringsSource.Normal, SourceLang);
-                        CurrentFileName = FileName;
-                    } 
-                }
+                
             }
         }
 
@@ -199,14 +213,14 @@ namespace SSELex.SkyrimManagement
 
             GameRelease GameType = FindGameType();
 
-            var StringsOverlay = new StringsLookupOverlay(Path, StringsSource, MutagenEncoding.GetEncoding(GameType, (Language)To));
+            var StringsOverlay = new StringsLookupOverlay(Path, StringsSource, MutagenEncoding._utf8);
 
             foreach (var GetItem in StringsOverlay)  
             {
                 uint GetId = GetItem.Key;
                 string GetValue = GetItem.Value;
 
-                Strings.Add(GetId, new StringItem(StringsSource, GetId, GetValue));
+                Strings.Add(GetId,new StringItem(StringsSource, GetId, GetValue));
             }
         }
 
@@ -222,7 +236,7 @@ namespace SSELex.SkyrimManagement
             if (Strings.ContainsKey(ID))
             {
                 Strings[ID].Key = Key;
-                KeyBindings.Add(Key,ID);
+                KeyBindings.Add(Key, ID);
             }
         }
     }

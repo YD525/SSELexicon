@@ -327,8 +327,7 @@ namespace SSELex.SkyrimManage
         public SkyrimMod? ReadMod(string FilePath)
         {
             string GetPath = FilePath.Substring(0, FilePath.LastIndexOf(@"\"));
-            StringsReader.SetModPath(GetPath);
-            StringsReader.LoadStrings(Engine.To);
+            StringsReader.LoadStrings(FilePath,Engine.To);
 
             if (File.Exists(FilePath) && (FilePath.ToLower().EndsWith(".esp") || FilePath.ToLower().EndsWith(".esm") || FilePath.ToLower().EndsWith(".esl")))
             {
