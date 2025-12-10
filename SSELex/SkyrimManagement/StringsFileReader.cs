@@ -41,7 +41,7 @@ namespace SSELex.SkyrimManagement
     //STRINGS DLSTRINGS ILSTRINGS
     public class StringsFileReader
     {
-        public Dictionary<uint, StringItem> Strings =new Dictionary<uint, StringItem>();
+        public Dictionary<uint, StringItem> Strings = new Dictionary<uint, StringItem>();
 
         public Dictionary<string, uint> KeyBindings = new Dictionary<string, uint>();
 
@@ -144,6 +144,7 @@ namespace SSELex.SkyrimManagement
 
             ModFileName = ModFileName.ToLower();
 
+            //Users need to place the StringFile file inside the "Strings" folder in the program's root directory.
             string StringFilesPath = DeFine.GetFullPath(@"\Strings");
 
             if (!Directory.Exists(StringFilesPath))
