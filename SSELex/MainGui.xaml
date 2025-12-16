@@ -1157,6 +1157,11 @@
                                     <Run Tag="https://next.nexusmods.com/profile/Kanie17" Text="Kanie17" FontWeight="Bold"  Cursor="Hand" Foreground="#FF44A0FF"  MouseDown="OpenUrl_MouseDown"/>
                                 </TextBlock>
 
+                                <TextBlock Foreground="White" FontSize="14" TextWrapping="Wrap" TextAlignment="Center" Margin="20 5 20 0">
+                                    Help SSELex Creating dictionary files —
+                                    <Run Tag="https://www.nexusmods.com/profile/50809501" Text="50809501" FontWeight="Bold"  Cursor="Hand" Foreground="#FF44A0FF"  MouseDown="OpenUrl_MouseDown"/>
+                                </TextBlock>
+
                             </StackPanel>
                         </Grid>
                     </Grid>
