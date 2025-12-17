@@ -197,8 +197,8 @@ namespace SSELex
                             MatchView.Dispatcher.Invoke(new Action(() =>
                             {
                                 MatchView.Children.Add(UIHelper.CreatMatchLine(
-                                AutoFileName,
                                 FindItem.Type.ToString(),
+                                FindItem.ID.ToString(),
                                 FindItem.Value
                                 ));
                             }));
