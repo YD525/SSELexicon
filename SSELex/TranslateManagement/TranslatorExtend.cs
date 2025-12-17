@@ -17,6 +17,7 @@ using static PhoenixEngine.EngineManagement.DataTransmission;
 using static SSELex.TranslateManage.TranslatorExtend;
 using System.Windows.Controls;
 using Noggog;
+using static Mutagen.Bethesda.Skyrim.DialogBranch;
 
 namespace SSELex.TranslateManage
 {
@@ -84,7 +85,7 @@ namespace SSELex.TranslateManage
         /// </summary>
         /// <param name="Item"></param>
         /// <returns></returns>
-        public static bool TranslationUnitStartWorkCall(TranslationUnit Item,int State)
+        public static bool TranslationUnitStartWorkCall(TranslationUnit Item, int State)
         {
             if (State == 1 || State == 2)
             {
@@ -345,6 +346,7 @@ namespace SSELex.TranslateManage
                                     CanSet = false;
                                 }
 
+                                bool HasAddAIMemory = false;
                                 if (DeFine.WorkingWin?.CurrentTransType == 2)
                                 {
                                     var GetTrans = DeFine.WorkingWin.GlobalEspReader?.StringsReader.QueryData(Row.Key);
@@ -353,6 +355,7 @@ namespace SSELex.TranslateManage
                                     {
                                         //Added to context memory. Helps AI improve accuracy.
                                         Engine.AddAIMemory(Row.GetSource(), GetTrans.Value);
+                                        HasAddAIMemory = true;
 
                                         if (!Translator.TransData.ContainsKey(Row.Key))
                                         {
@@ -362,7 +365,7 @@ namespace SSELex.TranslateManage
                                         {
                                             Translator.TransData[Row.Key] = GetTrans.Value;
                                         }
-                                       
+
 
                                         var GetFakeGrid = GetListView.KeyToFakeGrid(Row.Key);
                                         if (GetFakeGrid != null)
@@ -370,7 +373,7 @@ namespace SSELex.TranslateManage
                                             Row.TransText = GetTrans.Value;
 
                                             Row.SyncUI(GetListView);
-                                        }  
+                                        }
 
                                         if (DelegateHelper.SetDataCall != null)
                                         {
@@ -383,13 +386,14 @@ namespace SSELex.TranslateManage
 
                                 if (EngineConfig.EnableGlobalSearch)
                                 {
-                                    var QueryData = CloudDBCache.MatchOtherCloudItem(GetSelfRowid,(int)Engine.To, Row.SourceText);
+                                    var QueryData = CloudDBCache.MatchOtherCloudItem(GetSelfRowid, (int)Engine.To, Row.SourceText);
 
                                     if (QueryData.Count > 0)
                                     {
                                         var GetData = QueryData[QueryData.Count - 1];
 
                                         Engine.AddAIMemory(Row.GetSource(), GetData.Result);
+                                        HasAddAIMemory = true;
 
                                         if (!Translator.TransData.ContainsKey(Row.Key))
                                         {
@@ -398,6 +402,37 @@ namespace SSELex.TranslateManage
                                         else
                                         {
                                             Translator.TransData[Row.Key] = GetData.Result;
+                                        }
+
+                                        if (DeFine.GlobalLocalSetting.AutoUpdateStringsFileToDatabase)
+                                        {
+                                            string AutoType = Row.Type;
+
+                                            if (AutoType == "Papyrus" || AutoType == "MCM")
+                                            {
+                                                AutoType = string.Empty;
+                                            }
+                                            else
+                                            if (AutoType != "Npc" && AutoType != "Worldspace" && AutoType != "Faction" && AutoType != "Armor" && AutoType != "Weapon")
+                                            {
+                                                AutoType = string.Empty;
+                                            }
+
+                                            AdvancedDictionaryItem NewItem = new AdvancedDictionaryItem(
+                                                string.Empty,//The rule applies to all files.
+                                                AutoType,//Automatically determine the type of the current term
+                                                Row.GetSource(),//Get the source text corresponding to stringsfile id
+                                                GetData.Result,//Get the translation content
+                                                Engine.From,//Get source language
+                                                Engine.To,//Get target language
+                                                1,//Use full-word matching
+                                                0,//Case sensitivity is not ignored
+                                                string.Empty
+                                                );
+                                            if (!AdvancedDictionary.CheckSame(NewItem))
+                                            {
+                                                AdvancedDictionary.AddItem(NewItem);
+                                            }
                                         }
 
                                         var GetFakeGrid = GetListView.KeyToFakeGrid(Row.Key);
@@ -417,15 +452,28 @@ namespace SSELex.TranslateManage
                                     }
                                 }
 
+                                if (!HasAddAIMemory && DeFine.GlobalLocalSetting.ForceTranslationConsistency)
+                                {
+                                    if (!string.IsNullOrEmpty(Row.TransText))
+                                    {
+                                        Engine.AddAIMemory(Row.GetSource(), Row.TransText);
+                                    }
+                                }
+
                                 if (CanSet)
                                 {
                                     TranslationUnits.Add(new TranslationUnit(Engine.GetFileUniqueKey(),
-                                  Row.Key, Row.Type, Row.SourceText, Row.TransText, "", Engine.From, Engine.To,Row.Score));
+                                  Row.Key, Row.Type, Row.SourceText, Row.TransText, "", Engine.From, Engine.To, Row.Score));
                                 }
                             }
                         }
 
                         TranslationCore = new BatchTranslationCore(Engine.From, Engine.To, TranslationUnits);
+
+                        if (!DeFine.GlobalLocalSetting.EnableAnalyzingWords)
+                        {
+                            TranslationCore.SkipWordAnalysis = true;
+                        }
 
                         TranslationCore.Start();
 
@@ -519,8 +567,8 @@ namespace SSELex.TranslateManage
 
                     if (TranslationCore != null)
                     {
-                        try 
-                        { 
+                        try
+                        {
                             TranslationCore.Close();
                         }
                         catch { }

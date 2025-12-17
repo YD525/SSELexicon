@@ -26,7 +26,7 @@ namespace SSELex.SkyrimManage
 
         public SkyrimMod? CurrentReadMod = null;
         public Dictionary<string, Hazard> Hazards = new Dictionary<string, Hazard>();
-        //public Dictionary<string, HeadPart> HeadParts = new Dictionary<string, HeadPart>();
+        public Dictionary<string, HeadPart> HeadParts = new Dictionary<string, HeadPart>();
         public Dictionary<string, Npc> Npcs = new Dictionary<string, Npc>();
         public Dictionary<string, Worldspace> Worldspaces = new Dictionary<string, Worldspace>();
         public Dictionary<string, Shout> Shouts = new Dictionary<string, Shout>();
@@ -63,7 +63,7 @@ namespace SSELex.SkyrimManage
         public void ClearRam()
         {
             Hazards.Clear();
-            //HeadParts.Clear();
+            HeadParts.Clear();
             Npcs.Clear();
             Worldspaces.Clear();
             Shouts.Clear();

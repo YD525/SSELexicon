@@ -196,7 +196,10 @@ namespace SSELex
         public int BaichuanTokenUsage { get; set; } = 0;
         public int LocalAITokenUsage { get; set; } = 0;
         public bool EnableLanguageDetect { get; set; } = true;
+
+        public bool EnableAnalyzingWords { get; set; } = true;
         public bool AutoUpdateStringsFileToDatabase { get; set; } = false;
+        public bool ForceTranslationConsistency { get; set; } = false;
         public void ReadConfig()
         {
             try
@@ -234,7 +237,10 @@ namespace SSELex
                             this.LocalAITokenUsage = GetSetting.LocalAITokenUsage;
 
                             this.EnableLanguageDetect = GetSetting.EnableLanguageDetect;
+                            this.EnableAnalyzingWords = GetSetting.EnableAnalyzingWords;
                             this.AutoUpdateStringsFileToDatabase = GetSetting.AutoUpdateStringsFileToDatabase;
+
+                            this.ForceTranslationConsistency = GetSetting.ForceTranslationConsistency;
                         }
                     }
                     else

@@ -1645,7 +1645,67 @@
                                 <Border  Style="{DynamicResource SettingFrame}" Tag="Engine Configs" Visibility="Collapsed">
                                     <ScrollViewer VerticalScrollBarVisibility="Auto" Style="{DynamicResource for_scrollviewer}">
                                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 0 0 0" VerticalAlignment="Center" Width="500">
-                                            
+
+                                            <Label Style="{DynamicResource TittleFont}">
+                                                Force Translation Consistency
+                                            </Label>
+
+                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Stretch" Margin="0 5 0 10">
+                                                <Grid Margin="0 5 0 5">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="30"/>
+                                                        <ColumnDefinition Width="1*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <CheckBox Name="ForceTranslationConsistency" Style="{DynamicResource DefCheckBox}" VerticalAlignment="Center" Grid.Column="0" HorizontalAlignment="Center" Click="ForceTranslationConsistency_Click">
+
+                                                    </CheckBox>
+                                                    <TextBox  Grid.Column="1" Style="{DynamicResource InFoText}">
+                                                        Once this feature is enabled, any translated fields will be added to the AI ​​cache, including all content from both manual and cloud translations. (Enabling this feature helps the AI ​​mimic the style of user translations.)
+                                                    </TextBox>
+                                                </Grid>
+                                            </Border>
+
+                                            <Label Style="{DynamicResource TittleFont}">
+                                                Automatic Training Database
+                                            </Label>
+
+                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Stretch" Margin="0 5 0 10">
+                                                <Grid Margin="0 5 0 5">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="30"/>
+                                                        <ColumnDefinition Width="1*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <CheckBox Name="AutoUpdateStringsFileToDatabase" Style="{DynamicResource DefCheckBox}" VerticalAlignment="Center" Grid.Column="0" HorizontalAlignment="Center" Click="AutoUpdateStringsFileToDatabase_Click">
+
+                                                    </CheckBox>
+                                                    <TextBox  Grid.Column="1" Style="{DynamicResource InFoText}">
+                                                        When enabled, matched entries from strings files will be automatically imported into the Advanced Dictionary, allowing strings file records to be efficiently reused.
+                                                        Entries from a single strings file can be shared across multiple mods, maximizing their usefulness.
+                                                        This is an experimental feature designed to improve the efficiency of strings file utilization.
+                                                    </TextBox>
+                                                </Grid>
+                                            </Border>
+
+
+                                            <Label Style="{DynamicResource TittleFont}">
+                                                Word Analysis
+                                            </Label>
+
+                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Stretch" Margin="0 5 0 10">
+                                                <Grid Margin="0 5 0 5">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="30"/>
+                                                        <ColumnDefinition Width="1*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <CheckBox Name="EnableAnalyzingWords" Style="{DynamicResource DefCheckBox}" VerticalAlignment="Center" Grid.Column="0" HorizontalAlignment="Center" Click="EnableAnalyzingWords_Click">
+
+                                                    </CheckBox>
+                                                    <TextBox  Grid.Column="1" Style="{DynamicResource InFoText}">
+                                                        Tokenize all entries and sort them, then prioritize translating the words with the highest hit rate. This helps build context. (It can only improve accuracy somewhat, as it's difficult to determine precisely due to multi-threading.)
+                                                    </TextBox>
+                                                </Grid>
+                                            </Border>
+
                                             <Label Style="{DynamicResource TittleFont}">
                                                 DataBase Configs
                                             </Label>

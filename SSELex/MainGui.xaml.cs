@@ -3168,6 +3168,33 @@ namespace SSELex
                     SAutoSetThreadLimit.IsChecked = false;
                 }
 
+                if (DeFine.GlobalLocalSetting.AutoUpdateStringsFileToDatabase)
+                {
+                    AutoUpdateStringsFileToDatabase.IsChecked = true;
+                }
+                else
+                {
+                    AutoUpdateStringsFileToDatabase.IsChecked = false;
+                }
+
+                if (DeFine.GlobalLocalSetting.ForceTranslationConsistency)
+                {
+                    ForceTranslationConsistency.IsChecked = true;
+                }
+                else
+                {
+                    ForceTranslationConsistency.IsChecked = false;
+                }
+
+                if (DeFine.GlobalLocalSetting.EnableAnalyzingWords)
+                {
+                    EnableAnalyzingWords.IsChecked = true;
+                }
+                else
+                {
+                    EnableAnalyzingWords.IsChecked = false;
+                }
+
                 if (EngineConfig.EnableGlobalSearch)
                 {
                     GlobalSearch.IsChecked = true;
@@ -3647,6 +3674,45 @@ namespace SSELex
             MessageBoxExtend.Show(this, "The theme is set successfully and will take effect after restarting the software.");
         }
 
+        private void AutoUpdateStringsFileToDatabase_Click(object sender, RoutedEventArgs e)
+        {
+            if (AutoUpdateStringsFileToDatabase.IsChecked == true)
+            {
+                DeFine.GlobalLocalSetting.AutoUpdateStringsFileToDatabase = true;
+            }
+            else
+            {
+                DeFine.GlobalLocalSetting.AutoUpdateStringsFileToDatabase = false;
+            }
+
+            DeFine.GlobalLocalSetting.SaveConfig();
+        }
+        private void ForceTranslationConsistency_Click(object sender, RoutedEventArgs e)
+        {
+            if (ForceTranslationConsistency.IsChecked == true)
+            {
+                DeFine.GlobalLocalSetting.ForceTranslationConsistency = true;
+            }
+            else
+            {
+                DeFine.GlobalLocalSetting.ForceTranslationConsistency = false;
+            }
+
+            DeFine.GlobalLocalSetting.SaveConfig();
+        }
+        private void EnableAnalyzingWords_Click(object sender, RoutedEventArgs e)
+        {
+            if (EnableAnalyzingWords.IsChecked == true)
+            {
+                DeFine.GlobalLocalSetting.EnableAnalyzingWords = true;
+            }
+            else
+            {
+                DeFine.GlobalLocalSetting.EnableAnalyzingWords = false;
+            }
+
+            DeFine.GlobalLocalSetting.SaveConfig();
+        }
         private void EnableGlobalSearch_Click(object sender, RoutedEventArgs e)
         {
             if (GlobalSearch.IsChecked == true)

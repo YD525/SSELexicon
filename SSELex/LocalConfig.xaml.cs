@@ -164,6 +164,8 @@ namespace SSELex
                     }
                 }
             }));
+
+            ExactMatch.IsChecked = true;
         }
 
         public void Init()
