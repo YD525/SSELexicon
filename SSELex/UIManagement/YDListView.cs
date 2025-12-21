@@ -12,10 +12,11 @@ using static PhoenixEngine.SSELexiconBridge.NativeBridge;
 using SSELex.SkyrimManage;
 using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 
-// Copyright (C) 2025 YD525
-// Licensed under the GNU GPLv3
-// See LICENSE for details
-//https://github.com/YD525/SSELexicon
+
+// Copyright (c) 2025 YD525
+// Licensed under the MIT License.
+// See LICENSE file in the project root for full license information.
+//https://github.com/YD525/SSELexicon/UIManagement/YDListView.cs
 
 public class FakeGrid
 {
