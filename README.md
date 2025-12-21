@@ -81,4 +81,18 @@ Join our Discord community: [https://discord.gg/GRu7WtgqsB](https://discord.gg/G
 
 Feel free to drop by and chat — always happy to talk code (or just vent boredom).
 
+## ⚠️ Notice on Original Context Generation Technology
+
+The context generation mechanism, including fine‑grained term segmentation and constraint‑based translation workflows,
+implemented in many modern AI‑assisted translation tools has been independently developed by various projects.
+
+It has come to our attention that certain third‑party projects have incorporated or referenced similar context generation
+and terminology consistency techniques without proper attribution to the original source.
+
+If you are using or adapting solutions inspired by this repository or other foundational work in this domain,
+please ensure appropriate credit is given and that usage complies with the respective project licenses.
+
+For clarity: “context generation” in this context refers to mechanisms for extracting, structuring,
+and feeding term‑level or phrase‑level data into AI translation workflows to achieve consistent translation outputs.
+
 ---
