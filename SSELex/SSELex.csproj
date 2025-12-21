@@ -165,6 +165,7 @@
     <Compile Include="SearchText.xaml.cs">
       <DependentUpon>SearchText.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SkyrimManagement\EspReader.cs" />
     <Compile Include="SkyrimManagement\FileAttributesHelper.cs" />
     <Compile Include="SkyrimManagement\MCMReader.cs" />
     <Compile Include="SkyrimManagement\PexReader.cs" />
