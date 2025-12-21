@@ -1,0 +1,1645 @@
+﻿<Window x:Class="SSELex.MainGui"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+        xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
+        xmlns:local="clr-namespace:SSELex"
+        mc:Ignorable="d"
+        Title="SSELex"  Height="850" Width="980" Loaded="Window_Loaded" Style="{DynamicResource DefWin}" PreviewKeyDown="Window_PreviewKeyDown" WindowStartupLocation="CenterScreen" AllowDrop="True" PreviewDragEnter="ModTransView_DragEnter" PreviewDrop="ModTransView_Drop"  PreviewDragLeave="ModTransView_DragLeave" Closing="Window_Closing" SizeChanged="Window_SizeChanged" LocationChanged="Window_LocationChanged">
+
+    <Window.Resources>
+
+        <Style x:Key="ListViewItemStyle" TargetType="{x:Type ListViewItem}">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter  Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="13.5"/>
+            <Setter Property="Foreground"  Value="Black"/>
+        </Style>
+
+        <Storyboard x:Key="XTGlowLoop">
+            <DoubleAnimation
+            Storyboard.TargetName="LinearGradientBrushTranslate"
+            Storyboard.TargetProperty="X"
+            From="0"
+            To="2000"
+            Duration="0:0:30"
+            RepeatBehavior="Forever" />
+        </Storyboard>
+
+        <Storyboard x:Key="ExpandMenu">
+            <DoubleAnimation Storyboard.TargetName="LeftMenu"
+                         Storyboard.TargetProperty="Height"
+                         From="0" To="450" Duration="0:0:0.3"
+                         AccelerationRatio="0.3" DecelerationRatio="0.7"/>
+        </Storyboard>
+
+        <Storyboard x:Key="CollapseMenu">
+            <DoubleAnimation Storyboard.TargetName="LeftMenu"
+                         Storyboard.TargetProperty="Height"
+                         From="450" To="0" Duration="0:0:0.3"
+                         AccelerationRatio="0.3" DecelerationRatio="0.7"/>
+        </Storyboard>
+
+        <Storyboard x:Key="ExpandStoryboard">
+            <DoubleAnimation Storyboard.TargetName="NavPanel"
+                         Storyboard.TargetProperty="Width"
+                          From="0" To="50" Duration="0:0:0.3"
+                         AccelerationRatio="0.3" DecelerationRatio="0.7"/>
+        </Storyboard>
+
+        <Storyboard x:Key="CollapseStoryboard">
+            <DoubleAnimation Storyboard.TargetName="NavPanel"
+                         Storyboard.TargetProperty="Width"
+                         From="50" To="0" Duration="0:0:0.3"
+                         AccelerationRatio="0.3" DecelerationRatio="0.7"/>
+        </Storyboard>
+
+    </Window.Resources>
+
+    <Border Style="{DynamicResource BorderWinBackground}" Name="MainBackGround">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="8"/>
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" MouseLeftButtonDown="WinHead_MouseLeftButtonDown" Style="{DynamicResource PanelHeader}">
+            </Border>
+            <Grid Grid.Row="0" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="25"/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="25"/>
+                    <ColumnDefinition Width="25"/>
+                    <ColumnDefinition Width="25"/>
+                    <ColumnDefinition Width="5"/>
+                </Grid.ColumnDefinitions>
+                <Label Name="Caption" Style="{DynamicResource CaptionFont}" Grid.Column="0">
+                    SSELex Remake
+                </Label>
+
+                <Grid Grid.Column="0" HorizontalAlignment="Right" Style="{DynamicResource ThreadInFo}" Visibility="Collapsed"  Name="ThreadInFo">
+                    <Label Style="{DynamicResource ThreadInFoFont}" Name="ThreadInFoFont">
+                        Thread(Current:0,Max:0)
+                    </Label>
+                </Grid>
+
+                <Border Style="{DynamicResource BlockButton}" Grid.Column="2" PreviewMouseDown="ShowLeftMenu">
+                    <Grid>
+                        <ContentControl Style="{DynamicResource NoteIconStyle}" Name="NoteEffect" Panel.ZIndex="1"/>
+                    </Grid>
+                </Border>
+
+
+                <Border Style="{DynamicResource BlockButton}" Grid.Column="4" PreviewMouseDown="Min_PreviewMouseDown">
+                    <ContentControl Style="{DynamicResource MinimizeIconStyle}"/>
+                </Border>
+
+                <Border Style="{DynamicResource BlockButton}" Grid.Column="5" PreviewMouseDown="AutoMax_PreviewMouseDown">
+                    <ContentControl Style="{DynamicResource MaximizeIconStyle}"/>
+                </Border>
+                <Border Style="{DynamicResource BlockButton}" Grid.Column="6" PreviewMouseDown="Close_PreviewMouseDown">
+                    <ContentControl Style="{DynamicResource CloseIconStyle}" Grid.Column="3"/>
+                </Border>
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <!--LeftMenu-->
+                <Border Style="{DynamicResource LeftMenu}" Name="LeftMenu" Height="0">
+                    <Grid Name="Nodes">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="1"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="1"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="1"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0">
+                            <Label Style="{DynamicResource ClassFont}">
+                                Local Engine
+                            </Label>
+                        </Grid>
+
+                        <Grid Background="#FF282828" Cursor="Hand" Grid.Row="2" Tag="PreTranslate" PreviewMouseDown="ChangeNode">
+                            <ContentControl  Style="{DynamicResource IndicatorOffStyle}" Name="PreTranslateLight"/>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Grid Style="{DynamicResource NodeDisable}">
+                                </Grid>
+                                <Label Style="{DynamicResource NodeFont}">
+                                    PreTranslate Node
+                                </Label>
+                            </StackPanel>
+
+                        </Grid>
+
+                        <Grid Grid.Row="4">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <Label Style="{DynamicResource ClassFont}">
+                                    AI Translation Service
+                                </Label>
+
+
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 5 0">
+                                <Label Style="{DynamicResource CheckBoxFont}" Margin="5 0 0 0">
+                                    Context Generation
+                                </Label>
+
+                                <CheckBox Name="ContextGeneration" VerticalAlignment="Center" Margin="0 0 0 0" Grid.Column="6" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="ContextGeneration_Click"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <StackPanel Orientation="Vertical" Grid.Row="6" Grid.RowSpan="12" HorizontalAlignment="Left" Panel.ZIndex="9" Margin="-18 0 0 0" Name="RightContextIndicator" Visibility="Collapsed">
+                            <Rectangle Width="3" Height="60" Fill="White" />
+
+                            <TextBlock Text="Context Generation" Style="{DynamicResource ContextStyle}"/>
+
+                            <Rectangle Width="3" Height="60" Fill="White" VerticalAlignment="Bottom" />
+                        </StackPanel>
+
+                        <Grid Style="{DynamicResource NodeBackGround}" Grid.Row="6" Tag="ChatGpt" PreviewMouseDown="ChangeNode">
+                            <ContentControl  Style="{DynamicResource IndicatorOffStyle}" Name="ChatGptLight"/>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Grid Style="{DynamicResource NodeDisable}">
+                                </Grid>
+                                <Label Style="{DynamicResource NodeFont}">
+                                    ChatGpt Node
+                                </Label>
+                            </StackPanel>
+
+                        </Grid>
+
+                        <Grid Style="{DynamicResource NodeBackGround}" Grid.Row="8" Tag="LMLocalAI" PreviewMouseDown="ChangeNode">
+                            <ContentControl  Style="{DynamicResource IndicatorOffStyle}" Name="LMLocalAILight"/>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Grid Style="{DynamicResource NodeDisable}">
+                                </Grid>
+                                <Label Style="{DynamicResource NodeFont}">
+                                    LocalAI Node
+                                </Label>
+                            </StackPanel>
+                        </Grid>
+
+
+                        <Grid Style="{DynamicResource NodeBackGround}" Grid.Row="10" Tag="Gemini" PreviewMouseDown="ChangeNode">
+                            <ContentControl  Style="{DynamicResource IndicatorOffStyle}" Name="GeminiLight"/>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Grid Style="{DynamicResource NodeDisable}">
+                                </Grid>
+                                <Label Style="{DynamicResource NodeFont}">
+                                    Gemini Node
+                                </Label>
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Style="{DynamicResource NodeBackGround}" Grid.Row="12" Tag="Cohere" PreviewMouseDown="ChangeNode">
+                            <ContentControl  Style="{DynamicResource IndicatorOffStyle}" Name="CohereLight"/>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Grid Style="{DynamicResource NodeDisable}">
+                                </Grid>
+                                <Label Style="{DynamicResource NodeFont}">
+                                    Cohere Node
+                                </Label>
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Style="{DynamicResource NodeBackGround}" Grid.Row="14" Tag="DeepSeek" PreviewMouseDown="ChangeNode">
+                            <ContentControl Style="{DynamicResource  IndicatorOffStyle}" Name="DeepSeekLight"/>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Grid Style="{DynamicResource NodeDisable}">
+                                </Grid>
+                                <Label Style="{DynamicResource NodeFont}">
+                                    DeepSeek Node
+                                </Label>
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Style="{DynamicResource NodeBackGround}" Grid.Row="16" Tag="Baichuan" PreviewMouseDown="ChangeNode">
+                            <ContentControl  Style="{DynamicResource IndicatorOffStyle}" Name="BaichuanLight"/>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Grid Style="{DynamicResource NodeDisable}">
+                                </Grid>
+                                <Label Style="{DynamicResource NodeFont}">
+                                    Baichuan Node
+                                </Label>
+                            </StackPanel>
+                        </Grid>
+
+
+                        <Grid Grid.Row="18">
+                            <Label Style="{DynamicResource ClassFont}">
+                                Cloud Translation Service
+                            </Label>
+                        </Grid>
+
+                        <Grid Style="{DynamicResource NodeBackGround}" Grid.Row="20" Tag="DeepL" PreviewMouseDown="ChangeNode">
+                            <ContentControl  Style="{DynamicResource IndicatorOffStyle}" Name="DeepLLight"/>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Grid Style="{DynamicResource NodeDisable}">
+                                </Grid>
+                                <Label Style="{DynamicResource NodeFont}">
+                                    DeepL Node
+                                </Label>
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Style="{DynamicResource NodeBackGround}" Grid.Row="22" Tag="Google" PreviewMouseDown="ChangeNode">
+                            <ContentControl  Style="{DynamicResource IndicatorOffStyle}" Name="GoogleLight"/>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Grid Style="{DynamicResource NodeDisable}">
+                                </Grid>
+                                <Label Style="{DynamicResource NodeFont}">
+                                    Google Node
+                                </Label>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Border>
+
+                <!--LogView-->
+                <Grid Name="LogView" Visibility="Collapsed" VerticalAlignment="Bottom" Margin="5 0 5 10" Height="200" Panel.ZIndex="999">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10 0 0 0">
+                        <Border Style="{DynamicResource LogViewButtonSelected}" PreviewMouseDown="SelectLogNav" Name="InputLogButton">
+                            <Label Style="{DynamicResource NormalText}" VerticalAlignment="Center" Padding="10 0 10 0">
+                                InputLog
+                            </Label>
+                        </Border>
+                        <Border Style="{DynamicResource LogViewButtonUnSelected}" PreviewMouseDown="SelectLogNav">
+                            <Label Style="{DynamicResource NormalText}" VerticalAlignment="Center" Padding="10 0 10 0">
+                                OutputLog
+                            </Label>
+                        </Border>
+                        <Border Style="{DynamicResource LogViewButtonUnSelected}" PreviewMouseDown="SelectLogNav">
+                            <Label Style="{DynamicResource NormalText}" VerticalAlignment="Center" Padding="10 0 10 0">
+                                Log
+                            </Label>
+                        </Border>
+                    </StackPanel>
+
+                    <Border Style="{DynamicResource LogViewStyle}" Background="#FF252525" Grid.Row="1">
+                        <Border.Resources>
+                            <Style TargetType="ScrollBar" BasedOn="{StaticResource for_scrollbar}" />
+                        </Border.Resources>
+
+                        <Grid>
+                            <TextBox Grid.Row="1" Style="{DynamicResource InFoText}" Name="InputLog" Visibility="Visible" VerticalScrollBarVisibility="Auto" Margin="5">
+                            </TextBox>
+                            <TextBox Grid.Row="1" Style="{DynamicResource InFoText}" Name="OutputLog" Visibility="Collapsed" VerticalScrollBarVisibility="Auto" Margin="5">
+                            </TextBox>
+                            <TextBox Grid.Row="1" Style="{DynamicResource InFoText}" Name="MainLog" Visibility="Collapsed" VerticalScrollBarVisibility="Auto" Margin="5">
+                            </TextBox>
+                        </Grid>
+                    </Border>
+
+                </Grid>
+
+
+                <!--Mask-->
+                <Border Visibility="Collapsed" Name="Mask" Tag="0" Style="{DynamicResource MaskStyle}" MouseDown="Mask_MouseDown">
+                </Border>
+
+                <!--MainNav-->
+                <StackPanel Orientation="Horizontal" Panel.ZIndex="200">
+                    <Border Style="{DynamicResource MenuStyle}" Name="NavPanel" Width="0">
+                        <Grid Name="MainNav">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Row="0">
+                                <Border Tag="TransHub" ToolTip="TransHub" Style="{DynamicResource MenuBlockStyle}" PreviewMouseDown="ShowView">
+                                    <svgc:SvgViewbox IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="Fill" Source="/Material/Lang.svg"  Width="21" Height="21" Opacity="1"/>
+                                </Border>
+                            </Grid>
+
+                            <Grid Grid.Row="1">
+                                <Border Tag="DashBoard" ToolTip="DashBoard" Style="{DynamicResource MenuBlockStyle}" PreviewMouseDown="ShowView">
+                                    <svgc:SvgViewbox IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="Fill" Source="/Material/Dashboard.svg"  Width="21" Height="21" Opacity="1"/>
+                                </Border>
+                            </Grid>
+
+                            <Grid Grid.Row="2">
+                                <Border Tag="Settings" ToolTip="Settings" Style="{DynamicResource MenuBlockStyle}" PreviewMouseDown="ShowView">
+                                    <ContentControl IsHitTestVisible="False" Style="{DynamicResource SettingIconStyle}" Panel.ZIndex="1" Cursor="Hand" Height="21" Width="21" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 0"/>
+                                </Border>
+                            </Grid>
+
+                            <Grid Grid.Row="3">
+                                <Border Tag="About" ToolTip="About" Style="{DynamicResource MenuBlockStyle}" PreviewMouseDown="ShowView">
+                                    <svgc:SvgViewbox IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="Fill" Source="/Material/About.svg"  Width="21" Height="21" Opacity="1"/>
+                                </Border>
+                            </Grid>
+                        </Grid>
+                    </Border>
+
+                    <Border Style="{DynamicResource NavStyle}" Grid.Column="1" PreviewMouseDown="ShowNav" Margin="-0.5 0 0 0">
+                        <ContentControl Style="{DynamicResource TriangleExpandIconStyle}" Name="NavBtn">
+                            <ContentControl.RenderTransform>
+                                <RotateTransform Angle="0" CenterX="10" CenterY="10"/>
+                            </ContentControl.RenderTransform>
+                        </ContentControl>
+                    </Border>
+                </StackPanel>
+
+                <Grid Style="{DynamicResource Frame}">
+
+                    <Grid Name="DragDropView" Visibility="Collapsed">
+                        <Border Style="{DynamicResource DragDropViewStyle}">
+                            <Label Style="{DynamicResource DragDropViewFontStyle}">
+                                Drag and drop here
+                            </Label>
+                        </Border>
+                    </Grid>
+
+                    <Grid Name="ModTransView" Style="{DynamicResource FrameStyle}" Visibility="Visible">
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="45"/>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="40" Name="ControlRow" />
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="1*" Name="ListViewArea"/>
+                                <RowDefinition Height="3.5" Name="SplictLine"/>
+                                <RowDefinition Height="260" Name="WritingArea"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Row="1" Margin="10 0 10 0">
+                                <Grid Grid.Column="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="120"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="220"/>
+                                        <ColumnDefinition Width="0.7*"/>
+                                        <ColumnDefinition Width="135"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Border Style="{DynamicResource ModelSelectStyle}" Grid.Column="0" Name="ViewModel">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Border Name="NormalModel" Style="{DynamicResource ModelUnSelected}" CornerRadius="5 0 0 5" Grid.Column="0" PreviewMouseDown="NormalModel_PreviewMouseDown" >
+                                                <Grid>
+                                                    <Label Style="{DynamicResource ModelFont}" Name="UINormal">
+                                                        Normal
+                                                    </Label>
+                                                    <Grid Name="NormalModelBlock" Visibility="Collapsed" Style="{DynamicResource ModelSelectedBlock}">
+                                                    </Grid>
+                                                </Grid>
+                                            </Border>
+
+                                            <Border Name="QuickModel" Style="{DynamicResource ModelSelected}"  CornerRadius="0 5 5 0" Grid.Column="1" PreviewMouseDown="QuickModel_PreviewMouseDown">
+                                                <Grid>
+                                                    <Label Style="{DynamicResource ModelFont}" Name="UIQuick">
+                                                        Quick
+                                                    </Label>
+                                                    <Grid Name="QuickModelBlock" Visibility="Visible" Style="{DynamicResource ModelSelectedBlock}">
+                                                    </Grid>
+                                                </Grid>
+                                            </Border>
+
+                                        </Grid>
+                                    </Border>
+
+                                    <Border Style="{DynamicResource ProcessBarBackgroundStyle}" Grid.Column="1" Name="ProcessBarControl">
+                                        <Grid>
+                                            <Grid Panel.ZIndex="999">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <ColumnDefinition Width="50"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Label Style="{DynamicResource ProcessBarTittleFont}" Name="TransProcess">
+                                                    STRINGS(0/0)
+                                                </Label>
+
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"  Grid.Column="1" Margin="0 0 5 0">
+                                                    <Border Style="{DynamicResource TransStateBlock}" PreviewMouseDown="ChangeTransState" Visibility="Visible"  Name="TRun">
+                                                        <ContentControl Style="{DynamicResource PlayIconStyle}"/>
+                                                    </Border>
+                                                    <Border Style="{DynamicResource TransStateBlock}" PreviewMouseDown="ChangeTransState" Visibility="Collapsed" Name="TStop">
+                                                        <ContentControl Style="{DynamicResource PauseIconStyle}"/>
+                                                    </Border>
+                                                    <Border Style="{DynamicResource TransStateBlock}" PreviewMouseDown="ChangeTransState" Visibility="Collapsed" Name="TCancel">
+                                                        <ContentControl Style="{DynamicResource CancelPlayIconStyleL}"/>
+                                                    </Border>
+                                                </StackPanel>
+
+                                            </Grid>
+                                            <Border Name="ProcessBar" Style="{DynamicResource ProcessBarStyle}" SizeChanged="ProcessBar_SizeChanged" Width="0">
+                                                <Grid ClipToBounds="True">
+                                                    <!-- ScanLine -->
+                                                    <Rectangle Width="30" HorizontalAlignment="Left" RadiusX="5" RadiusY="5" Opacity="0.67">
+                                                        <Rectangle.Fill>
+                                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                                <GradientStop Color="#00FFFFFF" Offset="0"/>
+                                                                <GradientStop Color="#B3FFFFFF" Offset="0.5"/>
+                                                                <GradientStop Color="#00FFFFFF" Offset="1"/>
+                                                            </LinearGradientBrush>
+                                                        </Rectangle.Fill>
+                                                        <Rectangle.RenderTransform>
+                                                            <TranslateTransform x:Name="ScanTransform"/>
+                                                        </Rectangle.RenderTransform>
+                                                    </Rectangle>
+                                                </Grid>
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+
+                                    <Border  Style="{DynamicResource LiteButtonLight}" Margin="5" Grid.Column="2" PreviewMouseDown="ShowLocalEngineSettingView">
+                                        <ContentControl Style="{DynamicResource SettingIconStyle}" Panel.ZIndex="1" Cursor="Hand" Height="20" Width="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 0"/>
+                                    </Border>
+
+                                    <Grid Margin="5 0 5 0"  Grid.Column="3">
+                                        <Border Margin="0 0 0 0" CornerRadius="5">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="80"/>
+                                                    <ColumnDefinition Width="1*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Label Style="{DynamicResource CaptionTextA}" Grid.Column="0" Name="UITypeSelector">
+                                                    Type Selector
+                                                </Label>
+                                                <ComboBox IsTabStop="True" Name="TypeSelector" Grid.Column="1" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Height="30" Style="{StaticResource CustomComboBoxStyle}" Margin="0 0 8 0" SelectionChanged="TransTargetType_SelectionChanged">
+                                                </ComboBox>
+                                            </Grid>
+                                        </Border>
+                                    </Grid>
+
+                                    <Border Style="{DynamicResource SearchBox}" Grid.Column="4">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="30"/>
+                                                <ColumnDefinition Width="1*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <ContentControl Style="{DynamicResource MagnifyingGlassIconStyle}" Panel.ZIndex="1" Height="15" Width="15"/>
+
+                                            <Border Style="{DynamicResource SearchBoxPic}" Grid.Column="1">
+                                                <TextBox Style="{DynamicResource SearchBoxText}" Name="SearchBox" Grid.Column="1" TextChanged="SearchBox_TextChanged">
+
+                                                </TextBox>
+                                            </Border>
+
+                                        </Grid>
+                                    </Border>
+
+                                    <Grid Grid.Column="5">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Border  Style="{DynamicResource ButtonStyle}" Width="80" PreviewMouseDown="AutoLoadOrSave">
+                                                <Label Name="LoadFileButton" Style="{DynamicResource ButtonFont}">
+                                                    Load File
+                                                </Label>
+                                            </Border>
+
+                                            <Border Name="CancelBtn" Style="{DynamicResource ButtonStyle}" Width="45" Opacity="0.5" PreviewMouseDown="CancelTransEsp" IsEnabled="False">
+                                                <ContentControl Style="{DynamicResource CancelPlayIconStyle}" Panel.ZIndex="1"/>
+                                            </Border>
+                                        </StackPanel>
+                                    </Grid>
+
+                                </Grid>
+
+                            </Grid>
+
+                            <Grid Grid.Row="3" Margin="10 0 10 0">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1.2*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="130"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid Grid.Column="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label  Grid.Column="0" Style="{DynamicResource CaptionTextA}" Name="UIFrom">
+                                            From
+                                        </Label>
+                                        <ComboBox  MinWidth="80" IsTabStop="True" Name="LangFrom" SelectionChanged="LangFrom_SelectionChanged" Grid.Column="1" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Height="30" Style="{StaticResource CustomComboBoxStyle}">
+                                        </ComboBox>
+
+                                        <Label Grid.Column="2" Style="{DynamicResource CaptionTextA}" Name="UITo">
+                                            To
+                                        </Label>
+
+                                        <ComboBox MinWidth="80" IsTabStop="True" Name="LangTo" SelectionChanged="LangTo_SelectionChanged" Grid.Column="3" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Height="30" Style="{StaticResource CustomComboBoxStyle}">
+                                        </ComboBox>
+                                    </Grid>
+
+
+                                    <Grid Grid.Column="1">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2.7*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Border Style="{DynamicResource SectionStyle}" Grid.Column="0">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <ColumnDefinition Width="30"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <TextBox Grid.Column="0" HorizontalAlignment="Left" Style="{DynamicResource CaptionText}" Name="UIOriginalTextSource">
+                                                    Original Text Source
+                                                </TextBox>
+
+                                                <Border Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" Name="RefreshDictionary" Style="{DynamicResource ButtonStyle}" Opacity="0.5" PreviewMouseDown="RefreshDictionary_PreviewMouseDown">
+                                                    <Label Style="{DynamicResource ButtonFont}" Name="RefreshButton">
+                                                        Refresh
+                                                    </Label>
+                                                </Border>
+                                            </Grid>
+                                        </Border>
+
+                                        <Border Style="{DynamicResource SectionStyle}" Grid.Column="1">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="0.75*"/>
+                                                    <ColumnDefinition Width="0.25*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="0.7*"/>
+                                                        <ColumnDefinition Width="40"/>
+                                                        <ColumnDefinition Width="0.7*"/>
+                                                        <ColumnDefinition Width="40"/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <TextBox Style="{DynamicResource CaptionText}" Name="UICloudTranslationCache" Grid.Column="0">
+                                                        Cloud Translation Cache
+                                                    </TextBox>
+
+                                                    <CheckBox Grid.Column="1" Name="CloudTranslationCache" VerticalAlignment="Center" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="CloudTranslationCache_Click"/>
+
+                                                    <TextBox Grid.Column="2"  Style="{DynamicResource CaptionText}" Name="UIUserInputTranslationCache">
+                                                        User Input Translation Cache
+                                                    </TextBox>
+
+                                                    <CheckBox Grid.Column="3" Name="UserTranslationCache" VerticalAlignment="Center" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="UserTranslationCache_Click"/>
+
+                                                </Grid>
+
+
+                                                <Border Style="{DynamicResource ButtonStyle}" PreviewMouseDown="ClearCache_PreviewMouseDown" Grid.Column="1">
+                                                    <Label Style="{DynamicResource ButtonFont}" Name="ClearCacheButton">
+                                                        ClearCache
+                                                    </Label>
+                                                </Border>
+                                            </Grid>
+
+
+                                        </Border>
+
+                                    </Grid>
+
+                                    <StackPanel Orientation="Horizontal" Grid.Column="5" HorizontalAlignment="Right" Margin="0 0 0 0">
+
+                                        <Label Style="{DynamicResource CaptionTextA}" Margin="5 0 0 0" Name="UIMarkLine">
+                                            MarkLine
+                                        </Label>
+
+                                        <Border Style="{DynamicResource ColorA}" Margin="5 0 0 0" PreviewMouseDown="ChangeColor">
+                                        </Border>
+
+                                        <Border Style="{DynamicResource ColorB}" Margin="5 0 0 0" PreviewMouseDown="ChangeColor">
+                                        </Border>
+
+                                        <Border Style="{DynamicResource ColorC}" Margin="5 0 0 0" PreviewMouseDown="ChangeColor">
+                                        </Border>
+
+                                    </StackPanel>
+                                </Grid>
+                            </Grid>
+
+                            <Grid Height="30" Style="{DynamicResource ListViewHeader}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="0.5*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Style="{DynamicResource CaptionTextA}" Name="UIType">
+                                    Type
+                                </Label>
+                                <Label Grid.Column="1" Style="{DynamicResource CaptionTextA}" Name="UIKey">
+                                    Key
+                                </Label>
+                                <Label Grid.Column="2" Style="{DynamicResource CaptionTextA}" Name="UIOriginal">
+                                    Original
+                                </Label>
+                                <Label Grid.Column="3" Style="{DynamicResource CaptionTextA}" Name="UITranslated">
+                                    Translated
+                                </Label>
+                            </Grid>
+
+                            <Grid Name="SearchResultsView" Style="{DynamicResource FrameStyle}" Grid.Row="6" Panel.ZIndex="999" Margin="10 0 10 0" Visibility="Collapsed">
+
+                            </Grid>
+
+                            <Grid Name="TransView" Style="{DynamicResource FrameStyle}" Grid.Row="6" Panel.ZIndex="990" Margin="10 0 10 0" Visibility="Visible">
+
+                                <Grid.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Export">
+                                            <MenuItem Header="To DSD (Dynamic String Distributor)" Click="ExportToDsd_Click"/>
+                                            <MenuItem Header="To RamCache (SSE Lexicon)" Click="ExportToRamCache_Click"/>
+                                        </MenuItem>
+                                        <MenuItem Header="Import">
+                                            <MenuItem Header="Import RamCache File" Click="ImportRamCache_Click"/>
+                                        </MenuItem>
+                                    </ContextMenu>
+                                </Grid.ContextMenu>
+                            </Grid>
+
+                            <GridSplitter  DragCompleted="GridSplitter_DragCompleted" Grid.Row="7" Height="3.5" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="#FF7B7B7B" ResizeDirection="Rows" ResizeBehavior="PreviousAndNext" ShowsPreview="True" />
+
+                            <Grid Grid.Row="8" Style="{DynamicResource ExtendBoxStyle}">
+                                <Grid.Resources>
+                                    <Style TargetType="ScrollBar" BasedOn="{StaticResource for_scrollbar}" />
+                                </Grid.Resources>
+                                <Grid Grid.Row="3" Name="ExtendBox">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="35"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Grid Grid.Row="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Grid Grid.Column="0">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="37"/>
+                                                <RowDefinition Height="1*"/>
+                                            </Grid.RowDefinitions>
+                                            <StackPanel Orientation="Horizontal" Margin="0 5 0 5">
+                                                <Label Style="{DynamicResource CaptionTextA}" Name="UIOriginalCap">
+                                                    Original:
+                                                </Label>
+
+                                                <Border Style="{DynamicResource LiteButton}" PreviewMouseDown="SpeakFromStr">
+                                                    <svgc:SvgViewbox  Stretch="UniformToFill" Source="/Material/Speaker.svg"  Margin="3 0 3 0" Width="17" Panel.ZIndex="900" Height="15" Cursor="Hand" Opacity="1"/>
+                                                </Border>
+
+                                                <Border Name="CloneFromStrButton" Style="{DynamicResource LiteButton}" PreviewMouseDown="CloneFromStr">
+                                                    <Label Style="{DynamicResource LiteButtonFont}" Foreground="White" Name="UIClone">
+                                                        Clone
+                                                    </Label>
+                                                </Border>
+
+                                                <Border Name="UPSelecter" Style="{DynamicResource LiteButton}" PreviewMouseDown="UPSelecter_PreviewMouseDown">
+                                                    <Label Foreground="White">
+                                                        ⬆
+                                                    </Label>
+                                                </Border>
+
+                                                <Border Name="DownSelecter" Style="{DynamicResource LiteButton}" PreviewMouseDown="DownSelecter_PreviewMouseDown" ToolTip="HotKey Press Tab">
+                                                    <Label Foreground="White">
+                                                        ⬇
+                                                    </Label>
+                                                </Border>
+
+                                                <Border Name="NextUntranslated" Style="{DynamicResource LiteButton}" PreviewMouseDown="NextUntranslated_PreviewMouseDown">
+                                                    <Label Style="{DynamicResource LiteButtonFont}" Foreground="White" Name="UINextUntranslated">
+                                                        NextUntranslated
+                                                    </Label>
+                                                </Border>
+                                            </StackPanel>
+
+                                            <Border Style="{DynamicResource IDEBorder}" Grid.Row="1">
+                                                <avalonEdit:TextEditor Style="{DynamicResource IDEStyle}" Margin="5" Name="FromStr" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" IsReadOnly="True"  FontFamily="Consolas" FontSize="16" ShowLineNumbers="True" WordWrap="True" TextOptions.TextFormattingMode="Display">
+
+                                                </avalonEdit:TextEditor>
+                                            </Border>
+
+                                        </Grid>
+
+                                        <Grid Grid.Column="1">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="37"/>
+                                                <RowDefinition Height="1*"/>
+                                            </Grid.RowDefinitions>
+                                            <StackPanel Orientation="Horizontal" Margin="0 5 0 5">
+                                                <Label Style="{DynamicResource CaptionTextA}" Margin="5 0 0 0" Name="UITranslatedCap">
+                                                    Translated:
+                                                </Label>
+                                                <Border  Style="{DynamicResource LiteButton}" PreviewMouseDown="SpeakToStr">
+                                                    <svgc:SvgViewbox  Stretch="UniformToFill" Source="/Material/Speaker.svg"  Margin="3 0 3 0" Width="17" Panel.ZIndex="900" Height="15" Cursor="Hand" Opacity="1"/>
+                                                </Border>
+
+                                                <Border Name="FormatToStrButton" Style="{DynamicResource LiteButton}" PreviewMouseDown="FormatToStr" ToolTip="Unified beautified strings">
+                                                    <Label Style="{DynamicResource LiteButtonFont}" Foreground="White" Name="UIFormat">
+                                                        Format
+                                                    </Label>
+                                                </Border>
+
+                                                <Border Name="ClearToStrButton" Style="{DynamicResource LiteButton}" PreviewMouseDown="ClearToStr">
+                                                    <Label Style="{DynamicResource LiteButtonFont}" Foreground="White" Name="UIClear">
+                                                        Clear
+                                                    </Label>
+                                                </Border>
+
+                                                <Border Name="ReplaceStrButton" Style="{DynamicResource LiteButton}" PreviewMouseDown="ReplaceStr">
+                                                    <Label Style="{DynamicResource LiteButtonFont}" Foreground="White" Name="UIReplace">
+                                                        Replace
+                                                    </Label>
+                                                </Border>
+
+                                                <Border Name="ShowHistoryButton" Style="{DynamicResource LiteButton}" PreviewMouseDown="ShowHistorys">
+                                                    <Label Name="HistoryButtonFont" Style="{DynamicResource LiteButtonFont}" Foreground="White">
+                                                        History↓
+                                                    </Label>
+                                                </Border>
+
+                                            </StackPanel>
+
+
+                                            <Grid Grid.Row="1" Panel.ZIndex="999" Visibility="Collapsed" Name="HistoryLayer">
+                                                <Border Style="{DynamicResource TopLayerBorder}">
+                                                    <ListView Name="HistoryList" Grid.Row="0" Margin="0,5,0,5" ItemContainerStyle="{StaticResource ListViewItemStyle}" SelectionChanged="HistoryList_SelectionChanged">
+                                                        <ListView.View>
+                                                            <GridView>
+                                                                <GridViewColumn Header="ChangeTime" Width="100"   DisplayMemberBinding="{Binding ChangeTime}" x:Name="ChangeTimeCol"/>
+                                                                <GridViewColumn Header="Translated" Width="360"   DisplayMemberBinding="{Binding Translated}" x:Name="TranslatedCol"/>
+                                                            </GridView>
+                                                        </ListView.View>
+                                                    </ListView>
+                                                </Border>
+                                            </Grid>
+                                            <Border Style="{DynamicResource IDEBorder}" Grid.Row="1">
+                                                <avalonEdit:TextEditor Style="{DynamicResource IDEStyle}" MouseEnter="ToStr_MouseEnter" Margin="5" Name="ToStr" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" FontFamily="Consolas" FontSize="16" ShowLineNumbers="True" WordWrap="True" TextOptions.TextFormattingMode="Display" TextChanged="ToStr_TextChanged">
+
+                                                </avalonEdit:TextEditor>
+                                            </Border>
+
+                                        </Grid>
+                                    </Grid>
+                                    <Grid Grid.Row="1">
+
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <StackPanel Orientation="Horizontal" Grid.Column="0" Name="CurrentKeyBox">
+                                                <TextBox Name="CurrentLog" IsTabStop="True" Style="{DynamicResource LogText}" Margin="5 0 0 0">
+
+                                                </TextBox>
+                                            </StackPanel>
+
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1" Margin="0 0 5 0">
+
+                                                <Label Style="{DynamicResource CaptionTextA}" Margin="5 0 0 0" Name="UIAutoSpeak">
+                                                    AutoSpeak
+                                                </Label>
+
+                                                <CheckBox Margin="5 0 5 0" Name="AutoSpeak" VerticalAlignment="Center" Grid.Column="6" Foreground="White"  Click="AutoSpeak_Click"/>
+
+
+                                                <Border Name="CancelOTButton" Style="{DynamicResource LiteButton}" PreviewMouseDown="CancelTranslatedText">
+                                                    <Label  Style="{DynamicResource LiteButtonFont}" Foreground="White" Name="UICancel">
+                                                        Cancel
+                                                    </Label>
+                                                </Border>
+                                                <Border Name="TranslateOTButton" ToolTip="HotKey Press F1" Style="{DynamicResource LiteButton}" PreviewMouseDown="TranslateOTButton_PreviewMouseDown">
+                                                    <Label  Style="{DynamicResource LiteButtonFont}" Foreground="White" Name="TranslateOTButtonFont">
+                                                        Translate(F1)
+                                                    </Label>
+                                                </Border>
+
+                                                <Border Name="ApplyOTButton" ToolTip="HotKey Press F2" Style="{DynamicResource LiteButton}" PreviewMouseDown="ApplyTranslatedText">
+                                                    <Label   Style="{DynamicResource LiteButtonFont}" Foreground="White" Name="UIApply">
+                                                        Apply(F2)
+                                                    </Label>
+                                                </Border>
+                                            </StackPanel>
+                                        </Grid>
+
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+
+                    <Grid Name="DashBoardView" Style="{DynamicResource FrameStyle}" Visibility="Hidden">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="0.7*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Label Grid.Row="0" Foreground="White" VerticalAlignment="Center" FontWeight="Bold" Margin="5 0 0 0" FontSize="13">
+                                DashBoard
+                            </Label>
+
+                          
+                        </Grid>
+                    </Grid>
+
+                    <Grid Name="AboutView" Style="{DynamicResource FrameStyle}" Visibility="Collapsed" Background="#FF282828">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Width="500">
+                                <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center">
+                                    <Label Grid.Row="0" Foreground="White" FontWeight="DemiBold"  FontSize="50">
+                                        SSE Lexicon
+                                    </Label>
+                                    <Label Grid.Row="0" FontWeight="ExtraBold" FontSize="50">
+                                        <Label.Foreground>
+                                            <LinearGradientBrush SpreadMethod="Repeat">
+                                                <LinearGradientBrush.Transform>
+                                                    <TranslateTransform x:Name="LinearGradientBrushTranslate" />
+                                                </LinearGradientBrush.Transform>
+                                                <LinearGradientBrush.GradientStops>
+                                                    <GradientStop Offset="0.00" Color="#FF007ACC" />
+                                                    <GradientStop Offset="0.20" Color="#FF0090FF" />
+                                                    <GradientStop Offset="0.40" Color="#FF00B0FF" />
+                                                    <GradientStop Offset="0.60" Color="#FF33C5FF" />
+                                                    <GradientStop Offset="0.80" Color="#FF66D1FF" />
+                                                    <GradientStop Offset="1.00" Color="#FF99DDFF" />
+
+                                                    <GradientStop Offset="2.00" Color="#FF007ACC" />
+                                                    <GradientStop Offset="2.20" Color="#FF0090FF" />
+                                                    <GradientStop Offset="2.40" Color="#FF00B0FF" />
+                                                    <GradientStop Offset="2.60" Color="#FF33C5FF" />
+                                                    <GradientStop Offset="2.80" Color="#FF66D1FF" />
+                                                    <GradientStop Offset="3.00" Color="#FF99DDFF" />
+                                                </LinearGradientBrush.GradientStops>
+                                            </LinearGradientBrush>
+                                        </Label.Foreground>
+                                        Lite
+                                    </Label>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" Margin="0 -5 0 0"   HorizontalAlignment="Center">
+                                    <Label Foreground="White" FontSize="15">
+                                        Created by YD525
+                                    </Label>
+                                    <TextBlock Foreground="White" FontSize="15" VerticalAlignment="Center">
+                                       ( <Run Tag="https://www.nexusmods.com/skyrimspecialedition/mods/143056" Text="Nexus Mods" FontWeight="Bold" Cursor="Hand" Foreground="#FF44A0FF" MouseDown="OpenUrl_MouseDown"/> | <Run  Tag="https://github.com/YD525" Text="GitHub" FontWeight="Bold" Cursor="Hand" Foreground="#FF44A0FF" MouseDown="OpenUrl_MouseDown"/> )
+                                    </TextBlock>
+                                </StackPanel>
+
+                                <Label Foreground="White" FontSize="15" Margin="0 -5 0 0" HorizontalAlignment="Center">
+                                    Licensed under the GNU General Public License 3.0 (GPLv3)
+                                </Label>
+
+                                <Label Foreground="White" FontWeight="Bold" FontSize="15" HorizontalAlignment="Center" Name="ProgramVersion">
+                                    SSE Lexicon(GPLv3) Version: 0.0.0.0
+                                </Label>
+                                <Label Foreground="White" FontWeight="Bold" FontSize="15" HorizontalAlignment="Center" Name="TranslationEngineVersion">
+                                    Translation Engine Version: 0.0.0
+                                </Label>
+
+                                <TextBlock  FontSize="15" Margin="0 5 0 0" HorizontalAlignment="Center" Foreground="White" TextWrapping="Wrap" TextAlignment="Center">
+       If you like it, please give me a star on GitHub or endorse me on Nexus Mods. 
+       Every download and endorsement motivates me to keep improving and updating this project.
+                                </TextBlock>
+
+                                <TextBlock Foreground="White" FontSize="20" FontWeight="DemiBold" Margin="0 10 0 0" HorizontalAlignment="Center" TextAlignment="Center">
+                                    Special Thanks
+                                </TextBlock>
+
+                                <TextBlock Foreground="White" FontSize="14" TextWrapping="Wrap" TextAlignment="Center" Margin="20 5 20 0">
+                                    Some of the color schemes and layout ideas were inspired by suggestions from 
+                                    <Run Tag="https://next.nexusmods.com/profile/Cutleast" Text="Cutleast" FontWeight="Bold" Cursor="Hand" Foreground="#FF44A0FF" MouseDown="OpenUrl_MouseDown"/>.
+                                </TextBlock>
+
+                                <TextBlock Foreground="White" FontSize="14" TextWrapping="Wrap" TextAlignment="Center" Margin="20 5 20 0">
+                                     <Run Tag="https://github.com/Noggog" Text="Noggog" FontWeight="Bold" Cursor="Hand" Foreground="#FF44A0FF" MouseDown="OpenUrl_MouseDown"/>.
+                                     Helped me identify and correct some issues I encountered when reading ESP files,and gave me the idea to export Strings files.
+                                </TextBlock>
+
+                                <TextBlock Foreground="White" FontSize="14" TextWrapping="Wrap" TextAlignment="Center" Margin="20 5 20 0">
+                                    The idea for hotpatch updates and improvements to the underlying framework — specifically addressing issues with loading certain ESP files using Mutagen.Bethesda.Skyrim — came from 
+                                    <Run Tag="https://github.com/Noggog" Text="Noggog" FontWeight="Bold" Cursor="Hand" Foreground="#FF44A0FF"  MouseDown="OpenUrl_MouseDown"/>.
+                                </TextBlock>
+
+                                <TextBlock Foreground="White" FontSize="14" TextWrapping="Wrap" TextAlignment="Center" Margin="20 5 20 0">
+                                    The implementation of Dynamic String Distributor (DSD) JSON file export was based on suggestions from both 
+                                    <Run Tag="https://github.com/Cutleast" Text="Cutleast" FontWeight="Bold"  Cursor="Hand" Foreground="#FF44A0FF"  MouseDown="OpenUrl_MouseDown"/> and 
+                                    <Run Tag="https://github.com/SkyHorizon3" Text="SkyHorizon3" FontWeight="Bold" Cursor="Hand" Foreground="#FF44A0FF"  MouseDown="OpenUrl_MouseDown"/>.
+                                </TextBlock>
+
+                                <TextBlock Foreground="White" FontSize="14" TextWrapping="Wrap" TextAlignment="Center" Margin="20 5 20 0">
+                                      Help me understand the structure of Skyrim files. —
+                                    <Run Tag="https://next.nexusmods.com/profile/walkswithwolf" Text="walkswithwolf" FontWeight="Bold"  Cursor="Hand" Foreground="#FF44A0FF"  MouseDown="OpenUrl_MouseDown"/>
+                                </TextBlock>
+
+                                <TextBlock Foreground="White" FontSize="14" TextWrapping="Wrap" TextAlignment="Center" Margin="20 5 20 0">
+                                    Suggested multi-color highlighting, improved keyword search, and helped me test the program —
+                                    <Run Tag="https://next.nexusmods.com/profile/Kanie17" Text="Kanie17" FontWeight="Bold"  Cursor="Hand" Foreground="#FF44A0FF"  MouseDown="OpenUrl_MouseDown"/>
+                                </TextBlock>
+
+                                <TextBlock Foreground="White" FontSize="14" TextWrapping="Wrap" TextAlignment="Center" Margin="20 5 20 0">
+                                    Help SSELex Creating dictionary files —
+                                    <Run Tag="https://www.nexusmods.com/profile/50809501" Text="50809501" FontWeight="Bold"  Cursor="Hand" Foreground="#FF44A0FF"  MouseDown="OpenUrl_MouseDown"/>
+                                </TextBlock>
+
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+
+                    <Grid Name="SettingView" Style="{DynamicResource FrameStyle}" Visibility="Collapsed">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="45"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="5"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Row="1" Margin="5">
+                                <StackPanel Orientation="Horizontal" Margin="5 0 5 0" Name="SettingNavs">
+                                    <Border  Width="160" Style="{DynamicResource ModelSelected}" CornerRadius="5 0 0 5" Grid.Column="0" PreviewMouseDown="SelectSettingNav">
+                                        <Grid>
+                                            <Label Style="{DynamicResource ModelFont}">
+                                                Request And ApiKey Configs
+                                            </Label>
+                                            <Grid Visibility="Visible" Style="{DynamicResource ModelSelectedBlock}">
+                                            </Grid>
+                                        </Grid>
+                                    </Border>
+
+                                    <Border Width="100" Style="{DynamicResource ModelUnSelected}" Grid.Column="1" PreviewMouseDown="SelectSettingNav">
+                                        <Grid>
+                                            <Label Style="{DynamicResource ModelFont}">
+                                                AI Configs
+                                            </Label>
+                                            <Grid Visibility="Collapsed"  Style="{DynamicResource ModelSelectedBlock}">
+                                            </Grid>
+                                        </Grid>
+                                    </Border>
+
+                                    <Border Width="100" Style="{DynamicResource ModelUnSelected}" Grid.Column="1" PreviewMouseDown="SelectSettingNav">
+                                        <Grid>
+                                            <Label Style="{DynamicResource ModelFont}">
+                                                Game Configs
+                                            </Label>
+                                            <Grid Visibility="Collapsed"  Style="{DynamicResource ModelSelectedBlock}">
+                                            </Grid>
+                                        </Grid>
+                                    </Border>
+
+                                    <Border Width="100" Style="{DynamicResource ModelUnSelected}" Grid.Column="1" PreviewMouseDown="SelectSettingNav">
+                                        <Grid>
+                                            <Label Style="{DynamicResource ModelFont}">
+                                                UI Configs
+                                            </Label>
+                                            <Grid Visibility="Collapsed"  Style="{DynamicResource ModelSelectedBlock}">
+                                            </Grid>
+                                        </Grid>
+                                    </Border>
+
+                                    <Border Width="100" Style="{DynamicResource ModelUnSelected}"  CornerRadius="0 5 5 0" Grid.Column="1" PreviewMouseDown="SelectSettingNav">
+                                        <Grid>
+                                            <Label Style="{DynamicResource ModelFont}">
+                                                Engine Configs
+                                            </Label>
+                                            <Grid Visibility="Collapsed"  Style="{DynamicResource ModelSelectedBlock}">
+                                            </Grid>
+                                        </Grid>
+                                    </Border>
+                                </StackPanel>
+                            </Grid>
+
+                            <Grid Grid.Row="2" Name="SettingFrames">
+                                <Border  Style="{DynamicResource SettingFrame}" Tag="Request And ApiKey Configs">
+                                    <ScrollViewer VerticalScrollBarVisibility="Auto" Style="{DynamicResource for_scrollviewer}">
+
+                                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 0 0 0" VerticalAlignment="Center">
+                                            <Label Style="{DynamicResource TittleFont}">
+                                                Request Configs
+                                            </Label>
+
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 5 5 10">
+                                                <Label Style="{DynamicResource NormalText}">
+                                                    TimeOut:
+                                                </Label>
+                                                <Border  Style="{DynamicResource DefTextBoxBorder}" Width="100" >
+                                                    <TextBox Style="{DynamicResource DefTextBox}" Name="STimeOut" TextChanged="STimeOut_TextChanged">
+                                                    </TextBox>
+                                                </Border>
+                                            </StackPanel>
+
+
+                                            <Label Style="{DynamicResource TittleFont}">
+                                                HttpProxy Configs
+                                            </Label>
+
+
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 5 5 10">
+                                                <Label Style="{DynamicResource NormalText}">
+                                                    Url:
+                                                </Label>
+
+                                                <Border  Style="{DynamicResource DefTextBoxBorder}" Width="230" >
+                                                    <TextBox Style="{DynamicResource DefTextBox}" Name="SProxyUrl" TextChanged="SProxyUrl_TextChanged">
+                                                    </TextBox>
+                                                </Border>
+
+                                                <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
+                                                    UserName:
+                                                </Label>
+
+                                                <Border  Style="{DynamicResource DefTextBoxBorder}" Width="100" >
+                                                    <TextBox Style="{DynamicResource DefTextBox}" Name="SProxyUserName" TextChanged="SProxyUserName_TextChanged">
+                                                    </TextBox>
+                                                </Border>
+
+                                                <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
+                                                    Password:
+                                                </Label>
+
+                                                <Border  Style="{DynamicResource DefTextBoxBorder}" Width="100" >
+                                                    <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="SProxyPassword" PasswordChanged="SProxyPassword_PasswordChanged">
+                                                    </PasswordBox>
+                                                </Border>
+                                            </StackPanel>
+
+
+                                            <Label Style="{DynamicResource TittleFont}">
+                                                APIKey Configs
+                                            </Label>
+
+                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Left" Margin="0 5 0 10">
+                                                <StackPanel Orientation="Vertical" Margin="5">
+                                                    <Label Style="{DynamicResource LinkFont}" MouseDown="OpenUrl_MouseDown" Margin="0 0 0 5">
+                                                        https://aistudio.google.com/apikey
+                                                    </Label>
+                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                                        <Label Style="{DynamicResource NormalText}">
+                                                            Gemini ApiKey:
+                                                        </Label>
+
+                                                        <Border Style="{DynamicResource DefTextBoxBorder}" Width="300">
+                                                            <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="SGeminiKey" PasswordChanged="SGeminiKey_PasswordChanged">
+                                                            </PasswordBox>
+                                                        </Border>
+
+                                                        <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
+                                                            Mode:
+                                                        </Label>
+
+                                                        <Border  Style="{DynamicResource DefTextBoxBorder}" Width="100">
+                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SGeminiModel" TextChanged="SGeminiModel_TextChanged">
+                                                            </TextBox>
+                                                        </Border>
+
+                                                        <ComboBox Name="SGeminiModelSelect" IsTabStop="True" Margin="5 0 0 0" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Width="50" Height="30" Style="{StaticResource CustomComboBoxStyle}" SelectionChanged="SGeminiModelSelect_SelectionChanged">
+                                                        </ComboBox>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Border>
+
+                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Left" Margin="0 5 0 10">
+                                                <StackPanel Orientation="Vertical" Margin="5">
+                                                    <Label Style="{DynamicResource LinkFont}" MouseDown="OpenUrl_MouseDown" Margin="0 0 0 5">
+                                                        https://platform.openai.com/api-keys
+                                                    </Label>
+
+                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                                        <Label Style="{DynamicResource NormalText}">
+                                                            ChatGpt ApiKey:
+                                                        </Label>
+
+                                                        <Border  Style="{DynamicResource DefTextBoxBorder}" Width="300" >
+                                                            <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="SChatGptKey" PasswordChanged="SChatGptKey_PasswordChanged">
+                                                            </PasswordBox>
+                                                        </Border>
+
+                                                        <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
+                                                            Mode:
+                                                        </Label>
+
+                                                        <Border Style="{DynamicResource DefTextBoxBorder}" Width="100">
+                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SChatGptModel" TextChanged="SChatGptModel_TextChanged">
+                                                            </TextBox>
+                                                        </Border>
+
+                                                        <ComboBox Name="SChatGptModelSelect" IsTabStop="True" Margin="5 0 0 0" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Width="50" Height="30" Style="{StaticResource CustomComboBoxStyle}" SelectionChanged="SChatGptModelSelect_SelectionChanged">
+                                                        </ComboBox>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Border>
+
+                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Left" Margin="0 5 0 10">
+                                                <StackPanel Orientation="Vertical" Margin="5">
+                                                    <Label Style="{DynamicResource LinkFont}" MouseDown="OpenUrl_MouseDown" Margin="0 0 0 5">
+                                                        https://dashboard.cohere.com/api-keys
+                                                    </Label>
+                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                                        <Label Style="{DynamicResource NormalText}">
+                                                            Cohere ApiKey:
+                                                        </Label>
+
+                                                        <Border  Style="{DynamicResource DefTextBoxBorder}" Width="300">
+                                                            <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="SCohereKey" PasswordChanged="SCohereKey_PasswordChanged">
+                                                            </PasswordBox>
+                                                        </Border>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Border>
+
+                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Left" Margin="0 5 0 10">
+                                                <StackPanel Orientation="Vertical" Margin="5">
+                                                    <Label Style="{DynamicResource LinkFont}" MouseDown="OpenUrl_MouseDown" Margin="0 0 0 5">
+                                                        https://platform.deepseek.com/api_keys
+                                                    </Label>
+                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                                        <Label Style="{DynamicResource NormalText}">
+                                                            DeepSeek ApiKey:
+                                                        </Label>
+
+                                                        <Border Style="{DynamicResource DefTextBoxBorder}" Width="300">
+                                                            <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="SDeepSeekKey" PasswordChanged="SDeepSeekKey_PasswordChanged">
+                                                            </PasswordBox>
+                                                        </Border>
+
+                                                        <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
+                                                            Mode:
+                                                        </Label>
+
+                                                        <Border Style="{DynamicResource DefTextBoxBorder}" Width="100">
+                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SDeepSeekModel" TextChanged="SDeepSeekModel_TextChanged">
+                                                            </TextBox>
+                                                        </Border>
+
+                                                        <ComboBox Name="SDeepSeekModelSelect" IsTabStop="True" Margin="5 0 0 0" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Width="50" Height="30" Style="{StaticResource CustomComboBoxStyle}" SelectionChanged="SDeepSeekModelSelect_SelectionChanged">
+                                                        </ComboBox>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Border>
+
+
+                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Left" Margin="0 5 0 10">
+                                                <StackPanel Orientation="Vertical" Margin="5">
+
+                                                    <Label Style="{DynamicResource LinkFont}" MouseDown="OpenUrl_MouseDown" Margin="0 0 0 5">
+                                                        https://platform.baichuan-ai.com/docs/api
+                                                    </Label>
+                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                                        <Label Style="{DynamicResource NormalText}">
+                                                            Baichuan ApiKey:
+                                                        </Label>
+
+                                                        <Border Style="{DynamicResource DefTextBoxBorder}" Width="300">
+                                                            <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="SBaichuanKey" PasswordChanged="SBaichuanKey_PasswordChanged">
+                                                            </PasswordBox>
+                                                        </Border>
+
+                                                        <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
+                                                            Mode:
+                                                        </Label>
+
+                                                        <Border Style="{DynamicResource DefTextBoxBorder}" Width="100">
+                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SBaichuanModel" TextChanged="SBaichuanModel_TextChanged">
+                                                            </TextBox>
+                                                        </Border>
+
+                                                        <ComboBox Name="SBaichuanModelSelect" IsTabStop="True" Margin="5 0 0 0" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Width="50" Height="30" Style="{StaticResource CustomComboBoxStyle}" SelectionChanged="SBaichuanModelSelect_SelectionChanged">
+                                                        </ComboBox>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Border>
+                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Left" Margin="0 5 0 10">
+                                                <StackPanel Orientation="Vertical" Margin="5">
+                                                    <Label Style="{DynamicResource LinkFont}" MouseDown="OpenUrl_MouseDown" Margin="0 0 0 5">
+                                                        https://lmstudio.ai/
+                                                    </Label>
+                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                                        <Label Style="{DynamicResource NormalText}">
+                                                            LocalAI(LM) Host:
+                                                        </Label>
+
+                                                        <Border Style="{DynamicResource DefTextBoxBorder}" Width="150">
+                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SLMHost" TextChanged="SLMHost_TextChanged" MouseLeave="SLMHost_MouseLeave">
+                                                            </TextBox>
+                                                        </Border>
+
+                                                        <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
+                                                            Port:
+                                                        </Label>
+
+                                                        <Border Style="{DynamicResource DefTextBoxBorder}" Width="50">
+                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SLMPort" TextChanged="SLMPort_TextChanged">
+                                                            </TextBox>
+                                                        </Border>
+
+                                                        <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
+                                                            Mode:
+                                                        </Label>
+
+                                                        <Border Style="{DynamicResource DefTextBoxBorder}" Width="200">
+                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SLMModel" IsReadOnly="True">
+                                                            </TextBox>
+                                                        </Border>
+
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Border>
+
+                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Left" Margin="0 5 0 10">
+                                                <StackPanel Orientation="Vertical" Margin="5">
+                                                    <Label Style="{DynamicResource LinkFont}" MouseDown="OpenUrl_MouseDown" Margin="0 0 0 5">
+                                                        https://www.deepl.com/your-account/keys
+                                                    </Label>
+                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                                        <Label Style="{DynamicResource NormalText}">
+                                                            DeepL ApiKey:
+                                                        </Label>
+
+                                                        <Border Style="{DynamicResource DefTextBoxBorder}" Width="300">
+                                                            <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="SDeepLKey" PasswordChanged="SDeepLKey_PasswordChanged">
+                                                            </PasswordBox>
+                                                        </Border>
+
+                                                        <CheckBox Style="{DynamicResource DefCheckBox}" Margin="5 0 0 0" Name="IsFreeDeepL" Click="IsFreeDeepL_Click">
+                                                            It is a free DeepL key
+                                                        </CheckBox>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Border>
+
+                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Left" Margin="0 5 0 10">
+                                                <StackPanel Orientation="Vertical" Margin="5">
+                                                    <Label Style="{DynamicResource LinkFont}" MouseDown="OpenUrl_MouseDown" Margin="0 0 0 5">
+                                                        https://cloud.google.com/translate/docs
+                                                    </Label>
+                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 0 0 0">
+                                                        <Label Style="{DynamicResource NormalText}">
+                                                            Google ApiKey:
+                                                        </Label>
+
+                                                        <Border Style="{DynamicResource DefTextBoxBorder}" Width="300">
+                                                            <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="GoogleKey" PasswordChanged="GoogleKey_PasswordChanged">
+                                                            </PasswordBox>
+                                                        </Border>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Border>
+
+                                        </StackPanel>
+                                    </ScrollViewer>
+                                </Border>
+
+                                <Border  Style="{DynamicResource SettingFrame}" Tag="AI Configs" Visibility="Collapsed">
+                                    <ScrollViewer VerticalScrollBarVisibility="Auto" Style="{DynamicResource for_scrollviewer}">
+                                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 0 0 0" VerticalAlignment="Center" Width="500">
+                                            <Label Style="{DynamicResource TittleFont}">
+                                                Context Configs
+                                            </Label>
+                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Stretch" Margin="0 5 0 10">
+                                                <StackPanel Orientation="Vertical">
+                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 5 5 10">
+                                                        <Label Style="{DynamicResource NormalText}">
+                                                            Context Generation Limit:
+                                                        </Label>
+                                                        <Border  Style="{DynamicResource DefTextBoxBorder}" Width="100" >
+                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SContextLimit" TextChanged="SContextLimit_TextChanged">
+                                                            </TextBox>
+                                                        </Border>
+                                                    </StackPanel>
+                                                    <TextBox Style="{DynamicResource InFoText}"  Margin="5">
+                                                        This setting controls the maximum length of context provided to the AI for each translation. It uses a character count limit, with a default maximum of 200 characters.
+                                                        Providing context helps the AI maintain a consistent tone and accurately translate technical terms or industry-specific vocabulary, which can significantly improve translation quality. This is especially useful for ensuring consistent output for synonyms and related concepts.
+                                                        Setting this limit too high will increase the cost of your cloud translation service. This setting applies only to batch translations.
+                                                    </TextBox>
+                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 5 5 10">
+                                                        <Label Style="{DynamicResource NormalText}" VerticalAlignment="Center">
+                                                            Context Generation
+                                                        </Label>
+                                                        <CheckBox Style="{DynamicResource ToggleCircleCheckBox}" VerticalAlignment="Center" Name="SContextEnable" Click="SContextEnable_Click">
+                                                        </CheckBox>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Border>
+
+                                            <Label Style="{DynamicResource TittleFont}">
+                                                AI Keyword Configs
+                                            </Label>
+                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Stretch" Margin="0 5 0 10">
+                                                <StackPanel Orientation="Vertical">
+                                                    <Label Style="{DynamicResource NormalText}" Margin="0 5 0 0">
+                                                        AI Keyword:
+                                                    </Label>
+                                                    <Border  Style="{DynamicResource DefTextBoxBorder}" Margin="5">
+                                                        <TextBox Margin="5" IsTabStop="True" TextWrapping="Wrap" AcceptsReturn="True" Height="200" VerticalContentAlignment="Top" Style="{DynamicResource DefTextBox}" Name="SAIKeyword" TextChanged="SAIKeyword_TextChanged">
+                                                        </TextBox>
+                                                    </Border>
+                                                    <TextBox Style="{DynamicResource InFoText}"  Margin="5 5 5 10">
+                                                        Append user-defined keywords at the end when requesting AI.
+                                                    </TextBox>
+                                                </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+
+                                    </ScrollViewer>
+                                </Border>
+
+                                <Border  Style="{DynamicResource SettingFrame}" Tag="Game Configs" Visibility="Collapsed">
+                                    <ScrollViewer VerticalScrollBarVisibility="Auto" Style="{DynamicResource for_scrollviewer}">
+                                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 0 0 0" VerticalAlignment="Center" Width="500">
+                                            <Label Style="{DynamicResource TittleFont}">
+                                                Game Configs
+                                            </Label>
+
+                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Stretch" Margin="0 5 0 10">
+                                                <StackPanel Orientation="Vertical">
+
+                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 10 5 10">
+                                                        <Label Style="{DynamicResource NormalText}">
+                                                            Game:
+                                                        </Label>
+
+                                                        <ComboBox Style="{DynamicResource CustomComboBoxStyle}" Name="SGame" Width="100" SelectionChanged="SGame_SelectionChanged">
+                                                        </ComboBox>
+                                                    </StackPanel>
+
+                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 5 5 10">
+                                                        <Label Style="{DynamicResource NormalText}">
+                                                            ESP | ESM | ESL FileEncoding:
+                                                        </Label>
+
+                                                        <ComboBox Style="{DynamicResource CustomComboBoxStyle}" Name="SGameFileEncoding" Width="100" SelectionChanged="SGameFileEncoding_SelectionChanged">
+                                                        </ComboBox>
+                                                    </StackPanel>
+
+                                                </StackPanel>
+                                            </Border>
+
+                                        </StackPanel>
+                                    </ScrollViewer>
+                                </Border>
+
+                                <Border  Style="{DynamicResource SettingFrame}" Tag="UI Configs" Visibility="Collapsed">
+                                    <ScrollViewer VerticalScrollBarVisibility="Auto" Style="{DynamicResource for_scrollviewer}">
+                                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 0 0 0" VerticalAlignment="Center" Width="500">
+                                            <Label Style="{DynamicResource TittleFont}">
+                                                Interface Configs
+                                            </Label>
+
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 5 5 10">
+                                                <Label Style="{DynamicResource NormalText}" VerticalAlignment="Center">
+                                                    ShowCodeView
+                                                </Label>
+                                                <CheckBox Style="{DynamicResource ToggleCircleCheckBox}" VerticalAlignment="Center" Name="ShowCodeView" Click="ShowCodeView_Click">
+                                                </CheckBox>
+                                            </StackPanel>
+
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 5 5 10">
+                                                <Label Style="{DynamicResource NormalText}" VerticalAlignment="Center">
+                                                    Interface language settings
+                                                </Label>
+                                                <ComboBox MinWidth="80" IsTabStop="True" Name="UILanguages" SelectionChanged="UILanguages_SelectionChanged" Width="150" VerticalAlignment="Center" Cursor="Hand" Height="30" Style="{StaticResource CustomComboBoxStyle}">
+                                                </ComboBox>
+                                            </StackPanel>
+
+
+                                            <Label Style="{DynamicResource TittleFont}">
+                                                Theme Configs
+                                            </Label>
+                                            <StackPanel Orientation="Horizontal" Margin="5 10 5 10" Cursor="Hand">
+                                                <Border Background="#FF0B74D1" Width="130" CornerRadius="5" Height="30" BorderThickness="1" PreviewMouseDown="ChangeTechDarkBlue">
+                                                    <Label Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                        Tech Dark Blue
+                                                    </Label>
+                                                </Border>
+
+                                                <Border Background="#FF972DD2" Width="130" CornerRadius="5" Height="30" BorderThickness="1" Margin="10 0 0 0"  PreviewMouseDown="ChangePurpleStyle">
+                                                    <Label Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                        Purple Style
+                                                    </Label>
+                                                </Border>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </ScrollViewer>
+                                </Border>
+
+                                <Border  Style="{DynamicResource SettingFrame}" Tag="Engine Configs" Visibility="Collapsed">
+                                    <ScrollViewer VerticalScrollBarVisibility="Auto" Style="{DynamicResource for_scrollviewer}">
+                                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 0 0 0" VerticalAlignment="Center" Width="500">
+
+                                            <Label Style="{DynamicResource TittleFont}">
+                                                Force Translation Consistency
+                                            </Label>
+
+                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Stretch" Margin="0 5 0 10">
+                                                <Grid Margin="0 5 0 5">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="30"/>
+                                                        <ColumnDefinition Width="1*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <CheckBox Name="ForceTranslationConsistency" Style="{DynamicResource DefCheckBox}" VerticalAlignment="Center" Grid.Column="0" HorizontalAlignment="Center" Click="ForceTranslationConsistency_Click">
+
+                                                    </CheckBox>
+                                                    <TextBox  Grid.Column="1" Style="{DynamicResource InFoText}">
+                                                        Once this feature is enabled, any translated fields will be added to the AI ​​cache, including all content from both manual and cloud translations. (Enabling this feature helps the AI ​​mimic the style of user translations.)
+                                                    </TextBox>
+                                                </Grid>
+                                            </Border>
+
+                                            <Label Style="{DynamicResource TittleFont}">
+                                                Automatic Training Database
+                                            </Label>
+
+                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Stretch" Margin="0 5 0 10">
+                                                <Grid Margin="0 5 0 5">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="30"/>
+                                                        <ColumnDefinition Width="1*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <CheckBox Name="AutoUpdateStringsFileToDatabase" Style="{DynamicResource DefCheckBox}" VerticalAlignment="Center" Grid.Column="0" HorizontalAlignment="Center" Click="AutoUpdateStringsFileToDatabase_Click">
+
+                                                    </CheckBox>
+                                                    <TextBox  Grid.Column="1" Style="{DynamicResource InFoText}">
+                                                        When enabled, matched entries from strings files will be automatically imported into the Advanced Dictionary, allowing strings file records to be efficiently reused.
+                                                        Entries from a single strings file can be shared across multiple mods, maximizing their usefulness.
+                                                        This is an experimental feature designed to improve the efficiency of strings file utilization.
+                                                    </TextBox>
+                                                </Grid>
+                                            </Border>
+
+
+                                            <Label Style="{DynamicResource TittleFont}">
+                                                Word Analysis
+                                            </Label>
+
+                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Stretch" Margin="0 5 0 10">
+                                                <Grid Margin="0 5 0 5">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="30"/>
+                                                        <ColumnDefinition Width="1*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <CheckBox Name="EnableAnalyzingWords" Style="{DynamicResource DefCheckBox}" VerticalAlignment="Center" Grid.Column="0" HorizontalAlignment="Center" Click="EnableAnalyzingWords_Click">
+
+                                                    </CheckBox>
+                                                    <TextBox  Grid.Column="1" Style="{DynamicResource InFoText}">
+                                                        Tokenize all entries and sort them, then prioritize translating the words with the highest hit rate. This helps build context. (It can only improve accuracy somewhat, as it's difficult to determine precisely due to multi-threading.)
+                                                    </TextBox>
+                                                </Grid>
+                                            </Border>
+
+                                            <Label Style="{DynamicResource TittleFont}">
+                                                DataBase Configs
+                                            </Label>
+
+                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Stretch" Margin="0 5 0 10">
+                                                <Grid Margin="0 5 0 5">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="30"/>
+                                                        <ColumnDefinition Width="1*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <CheckBox Name="GlobalSearch" Style="{DynamicResource DefCheckBox}" VerticalAlignment="Center" Grid.Column="0" HorizontalAlignment="Center" Click="EnableGlobalSearch_Click">
+
+                                                    </CheckBox>
+                                                    <TextBox  Grid.Column="1" Style="{DynamicResource InFoText}">
+                                                        Allow retrieval of the entire database using source text. This option may speed up translation but could reduce accuracy, as the same text may have different meanings across mods.
+                                                    </TextBox>
+                                                </Grid>
+                                            </Border>
+
+
+                                            <Label Style="{DynamicResource TittleFont}" Margin="0 10 0 0">
+                                                Engine Configs
+                                            </Label>
+
+                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Stretch" Margin="0 5 0 10">
+                                                <StackPanel Orientation="Vertical">
+                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 10 5 5">
+                                                        <Label Style="{DynamicResource NormalText}">
+                                                            Throttling Ratio:
+                                                        </Label>
+                                                        <Border  Style="{DynamicResource DefTextBoxBorder}" Width="100" >
+                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SThrottlingRatio" TextChanged="SThrottlingRatio_TextChanged">
+                                                            </TextBox>
+                                                        </Border>
+                                                    </StackPanel>
+
+                                                    <TextBox Style="{DynamicResource InFoText}"  Margin="5 5 5 10">
+                                                        When the number of threads reaches the specified percentage of the maximum number of threads (default 0.7 = 70%), the current limiting policy is triggered.
+                                                    </TextBox>
+
+                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 10 5 5">
+                                                        <Label Style="{DynamicResource NormalText}">
+                                                            Rotation Delay:
+                                                        </Label>
+                                                        <Border  Style="{DynamicResource DefTextBoxBorder}" Width="100" >
+                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SRotationDelay" TextChanged="SRotationDelay_TextChanged">
+                                                            </TextBox>
+                                                        </Border>
+                                                    </StackPanel>
+
+                                                    <TextBox Style="{DynamicResource InFoText}"  Margin="5 5 5 10">
+                                                        Sleep time after triggering the throttling policy.(default 200 milliseconds) (If you don't understand, don't mess around.)
+                                                    </TextBox>
+
+                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 5 5 10">
+                                                        <Label Style="{DynamicResource NormalText}">
+                                                            Max Thread Limit:
+                                                        </Label>
+                                                        <Border  Style="{DynamicResource DefTextBoxBorder}" Width="100" >
+                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SMaxThread" TextChanged="SMaxThread_TextChanged">
+                                                            </TextBox>
+                                                        </Border>
+                                                        <CheckBox Style="{DynamicResource DefCheckBox}" Margin="5 0 0 0" Name="SAutoSetThreadLimit" Click="SAutoSetThreadLimit_Click">
+                                                            Auto Set Limit
+                                                        </CheckBox>
+                                                    </StackPanel>
+
+                                                    <TextBox Style="{DynamicResource InFoText}"  Margin="5 5 5 10">
+                                                        Set the maximum number of threads allowed to be created during batch translation.
+                                                    </TextBox>
+
+                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 5 5 10">
+                                                        <Label Style="{DynamicResource NormalText}">
+                                                            LanguageDetect:
+                                                        </Label>
+                                                        <CheckBox VerticalAlignment="Center" Style="{DynamicResource DefCheckBox}" Margin="5 0 0 0" Name="SEnableLanguageDetect" Click="SEnableLanguageDetect_Click">
+                                                            Enable
+                                                        </CheckBox>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+                                    </ScrollViewer>
+                                </Border>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+
+                <Border  CornerRadius="0 0 8 8" Style="{DynamicResource Panel}">
+                </Border>
+            </Grid>
+
+
+
+
+
+        </Grid>
+    </Border>
+
+</Window>
