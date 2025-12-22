@@ -171,34 +171,9 @@ namespace SSELex.UIManage
                         DeFine.WorkingWin.UITo.Content = Value;
                     }
                 break;
-                case "UIOriginalTextSource":
-                    {
-                        DeFine.WorkingWin.UIOriginalTextSource.Text = Value;
-                    }
-                break;
                 case "RefreshButton":
                     {
                         DeFine.WorkingWin.RefreshButton.Content = Value;
-                    }
-                break;
-                case "UICloudTranslationCache":
-                    {
-                        DeFine.WorkingWin.UICloudTranslationCache.Text = Value;
-                    }
-                break;
-                case "UIUserInputTranslationCache":
-                    {
-                        DeFine.WorkingWin.UIUserInputTranslationCache.Text = Value;
-                    }
-                break;
-                case "ClearCacheButton":
-                    {
-                        DeFine.WorkingWin.ClearCacheButton.Content = Value;
-                    }
-                break;
-                case "UIMarkLine":
-                    {
-                        DeFine.WorkingWin.UIMarkLine.Content = Value;
                     }
                 break;
                 case "UIClone":

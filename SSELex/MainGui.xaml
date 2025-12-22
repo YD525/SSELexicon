@@ -539,82 +539,7 @@
                                             <ColumnDefinition Width="1*"/>
                                             <ColumnDefinition Width="2.7*"/>
                                         </Grid.ColumnDefinitions>
-                                        <Border Style="{DynamicResource SectionStyle}" Grid.Column="0">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="1*"/>
-                                                    <ColumnDefinition Width="30"/>
-                                                </Grid.ColumnDefinitions>
-
-                                                <TextBox Grid.Column="0" HorizontalAlignment="Left" Style="{DynamicResource CaptionText}" Name="UIOriginalTextSource">
-                                                    Original Text 
-                                                </TextBox>
-
-                                                <Border Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" Name="RefreshDictionary" Style="{DynamicResource ButtonStyle}" Opacity="0.5" PreviewMouseDown="RefreshDictionary_PreviewMouseDown">
-                                                    <Label Style="{DynamicResource ButtonFont}" Name="RefreshButton">
-                                                        Refresh
-                                                    </Label>
-                                                </Border>
-                                            </Grid>
-                                        </Border>
-
-                                        <Border Style="{DynamicResource SectionStyle}" Grid.Column="1">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="0.75*"/>
-                                                    <ColumnDefinition Width="0.25*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="0.7*"/>
-                                                        <ColumnDefinition Width="40"/>
-                                                        <ColumnDefinition Width="0.7*"/>
-                                                        <ColumnDefinition Width="40"/>
-                                                    </Grid.ColumnDefinitions>
-
-                                                    <TextBox Style="{DynamicResource CaptionText}" Name="UICloudTranslationCache" Grid.Column="0">
-                                                        Cloud
-                                                    </TextBox>
-
-                                                    <CheckBox Grid.Column="1" Name="CloudTranslationCache" VerticalAlignment="Center" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="CloudTranslationCache_Click"/>
-
-                                                    <TextBox Grid.Column="2"  Style="{DynamicResource CaptionText}" Name="UIUserInputTranslationCache">
-                                                        User Input
-                                                    </TextBox>
-
-                                                    <CheckBox Grid.Column="3" Name="UserTranslationCache" VerticalAlignment="Center" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="UserTranslationCache_Click"/>
-
-                                                </Grid>
-
-
-                                                <Border Style="{DynamicResource ButtonStyle}" PreviewMouseDown="ClearCache_PreviewMouseDown" Grid.Column="1">
-                                                    <Label Style="{DynamicResource ButtonFont}" Name="ClearCacheButton">
-                                                        ClearCache
-                                                    </Label>
-                                                </Border>
-                                            </Grid>
-
-
-                                        </Border>
-
                                     </Grid>
-
-                                    <StackPanel Orientation="Horizontal" Grid.Column="5" HorizontalAlignment="Right" Margin="0 0 0 0">
-
-                                        <Label Style="{DynamicResource CaptionTextA}" Margin="5 0 0 0" Name="UIMarkLine">
-                                            MarkLine
-                                        </Label>
-
-                                        <Border Style="{DynamicResource ColorA}" Margin="5 0 0 0" PreviewMouseDown="ChangeColor">
-                                        </Border>
-
-                                        <Border Style="{DynamicResource ColorB}" Margin="5 0 0 0" PreviewMouseDown="ChangeColor">
-                                        </Border>
-
-                                        <Border Style="{DynamicResource ColorC}" Margin="5 0 0 0" PreviewMouseDown="ChangeColor">
-                                        </Border>
-
-                                    </StackPanel>
                                 </Grid>
                             </Grid>
 
@@ -631,12 +556,33 @@
                                 <Label Grid.Column="1" Style="{DynamicResource CaptionTextA}" Name="UIKey">
                                     Key
                                 </Label>
-                                <Label Grid.Column="2" Style="{DynamicResource CaptionTextA}" Name="UIOriginal">
-                                    Original
-                                </Label>
-                                <Label Grid.Column="3" Style="{DynamicResource CaptionTextA}" Name="UITranslated">
-                                    Translated
-                                </Label>
+                                <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <Label Style="{DynamicResource CaptionTextA}" Name="UIOriginal">
+                                        Original
+                                    </Label>
+                                    <Border Name="RefreshDictionary" Style="{DynamicResource ButtonStyle}" Height="25" Opacity="0.5" PreviewMouseDown="RefreshDictionary_PreviewMouseDown">
+                                        <Label Style="{DynamicResource ButtonFont}" Name="RefreshButton">
+                                            Refresh
+                                        </Label>
+                                    </Border>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" Grid.Column="3" HorizontalAlignment="Center">
+                                    <Label Style="{DynamicResource CaptionTextA}" Name="UITranslated">
+                                        Translated
+                                    </Label>
+
+                                    <Border Style="{DynamicResource ColorA}" Margin="5 0 0 0" PreviewMouseDown="ChangeColor">
+                                    </Border>
+
+                                    <Border Style="{DynamicResource ColorB}" Margin="5 0 0 0" PreviewMouseDown="ChangeColor">
+                                    </Border>
+
+                                    <Border Style="{DynamicResource ColorC}" Margin="5 0 0 0" PreviewMouseDown="ChangeColor">
+                                    </Border>
+
+                                </StackPanel>
+                               
                             </Grid>
 
                             <Grid Name="SearchResultsView" Style="{DynamicResource FrameStyle}" Grid.Row="6" Panel.ZIndex="999" Margin="10 0 10 0" Visibility="Collapsed">
