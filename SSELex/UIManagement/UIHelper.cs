@@ -249,12 +249,9 @@ namespace SSELex.UIManage
             {
                 { PlatformType.ChatGpt, DeFine.WorkingWin.ChatGptLight },
                 { PlatformType.Gemini, DeFine.WorkingWin.GeminiLight },
-                { PlatformType.Cohere, DeFine.WorkingWin.CohereLight },
                 { PlatformType.DeepSeek, DeFine.WorkingWin.DeepSeekLight },
                 { PlatformType.LMLocalAI, DeFine.WorkingWin.LMLocalAILight },
-                { PlatformType.Baichuan, DeFine.WorkingWin.BaichuanLight },
                 { PlatformType.DeepL, DeFine.WorkingWin.DeepLLight },
-                { PlatformType.GoogleApi, DeFine.WorkingWin.GoogleLight },
                 { PlatformType.PhoenixEngine, DeFine.WorkingWin.PreTranslateLight }
             };
 

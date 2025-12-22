@@ -1,14 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using LiveCharts.Defaults;
-using System.Timers;
 using PhoenixEngine.TranslateManage;
-using static SSELex.MainGui;
 
 namespace SSELex.UIManagement
 {
@@ -28,8 +21,6 @@ namespace SSELex.UIManagement
     {
         public class SpeedMonitor
         {
-            private DashBoardViewModel CurrentModel;
-
             // Store Number Of Characters Processed Each Second
             private Queue<int> RecentCounts = new Queue<int>();
 
@@ -48,71 +39,12 @@ namespace SSELex.UIManagement
             // Number of seconds to calculate average
             private const int AverageWindowSeconds = 30;
 
-            public SpeedMonitor(DashBoardViewModel Model)
-            {
-                CurrentModel = Model;
-
-                // Initialize Timer
-                Timer = new System.Timers.Timer(IntervalMs);
-                Timer.Elapsed += Timer_Elapsed;
-                Timer.Start();
-            }
+          
 
             private int ChartMaxPoints = 60;
 
-            /// <summary>
-            /// Add New Character Count For The Current Second
-            /// </summary>
-            /// <param name="Count">Number Of Characters Processed</param>
-            public void AddCount(int Count)
-            {
-                // Add To Current Second Count
-                CurrentSecondCount += Count;
+          
 
-                // Update Chart With Current Consumption
-                if (CurrentModel.FontUsageSeries.Count > 0)
-                {
-                    // Add Current Second Value To Chart
-                    CurrentModel.FontUsageSeries[0].Values.Add(new ObservableValue(CurrentSecondCount));
-
-                    // Remove Oldest Value To Maintain Chart Length
-                    while (CurrentModel.FontUsageSeries[0].Values.Count > ChartMaxPoints)
-                        CurrentModel.FontUsageSeries[0].Values.RemoveAt(0);
-                }
-            }
-
-            /// <summary>
-            /// Timer Elapsed Event, Updates Average Speed And Resets Current Second Count
-            /// </summary>
-            private void Timer_Elapsed(object Sender, ElapsedEventArgs E)
-            {
-                lock (RecentCounts)
-                {
-                    // Enqueue Current Second Count
-                    RecentCounts.Enqueue(CurrentSecondCount);
-
-                    // Keep Only Last AverageWindowSeconds For Average Calculation
-                    while (RecentCounts.Count > AverageWindowSeconds)
-                        RecentCounts.Dequeue();
-
-                    // Calculate Average Speed
-                    AverageSpeed = RecentCounts.Count > 0 ? (double)SumQueue(RecentCounts) / RecentCounts.Count : 0.0;
-
-                    // Reset Current Second Count
-                    CurrentSecondCount = 0;
-                }
-            }
-
-            /// <summary>
-            /// Calculate Sum Of Queue Values
-            /// </summary>
-            private int SumQueue(Queue<int> Queue)
-            {
-                int Sum = 0;
-                foreach (var Val in Queue)
-                    Sum += Val;
-                return Sum;
-            }
         }
 
         /// <summary>

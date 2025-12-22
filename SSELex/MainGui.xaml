@@ -31,7 +31,7 @@
         <Storyboard x:Key="ExpandMenu">
             <DoubleAnimation Storyboard.TargetName="LeftMenu"
                          Storyboard.TargetProperty="Height"
-                         From="0" To="450" Duration="0:0:0.3"
+                         From="0" To="350" Duration="0:0:0.3"
                          AccelerationRatio="0.3" DecelerationRatio="0.7"/>
         </Storyboard>
 
@@ -126,13 +126,7 @@
                             <RowDefinition Height="1"/>
                             <RowDefinition Height="1*"/>
                             <RowDefinition Height="1"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1"/>
                             <RowDefinition Height="30"/>
-                            <RowDefinition Height="1"/>
-                            <RowDefinition Height="1*"/>
                             <RowDefinition Height="1"/>
                             <RowDefinition Height="1*"/>
                         </Grid.RowDefinitions>
@@ -174,11 +168,11 @@
                         </Grid>
 
                         <StackPanel Orientation="Vertical" Grid.Row="6" Grid.RowSpan="12" HorizontalAlignment="Left" Panel.ZIndex="9" Margin="-18 0 0 0" Name="RightContextIndicator" Visibility="Collapsed">
-                            <Rectangle Width="3" Height="60" Fill="White" />
+                            <Rectangle Width="3" Height="39" Fill="White" />
 
-                            <TextBlock Text="Context Generation" Style="{DynamicResource ContextStyle}"/>
+                            <TextBlock Text="AI Memory" Style="{DynamicResource ContextStyle}"/>
 
-                            <Rectangle Width="3" Height="60" Fill="White" VerticalAlignment="Bottom" />
+                            <Rectangle Width="3" Height="39" Fill="White" VerticalAlignment="Bottom" />
                         </StackPanel>
 
                         <Grid Style="{DynamicResource NodeBackGround}" Grid.Row="6" Tag="ChatGpt" PreviewMouseDown="ChangeNode">
@@ -219,19 +213,7 @@
                             </StackPanel>
                         </Grid>
 
-                        <Grid Style="{DynamicResource NodeBackGround}" Grid.Row="12" Tag="Cohere" PreviewMouseDown="ChangeNode">
-                            <ContentControl  Style="{DynamicResource IndicatorOffStyle}" Name="CohereLight"/>
-
-                            <StackPanel Orientation="Horizontal">
-                                <Grid Style="{DynamicResource NodeDisable}">
-                                </Grid>
-                                <Label Style="{DynamicResource NodeFont}">
-                                    Cohere Node
-                                </Label>
-                            </StackPanel>
-                        </Grid>
-
-                        <Grid Style="{DynamicResource NodeBackGround}" Grid.Row="14" Tag="DeepSeek" PreviewMouseDown="ChangeNode">
+                        <Grid Style="{DynamicResource NodeBackGround}" Grid.Row="12" Tag="DeepSeek" PreviewMouseDown="ChangeNode">
                             <ContentControl Style="{DynamicResource  IndicatorOffStyle}" Name="DeepSeekLight"/>
 
                             <StackPanel Orientation="Horizontal">
@@ -243,20 +225,7 @@
                             </StackPanel>
                         </Grid>
 
-                        <Grid Style="{DynamicResource NodeBackGround}" Grid.Row="16" Tag="Baichuan" PreviewMouseDown="ChangeNode">
-                            <ContentControl  Style="{DynamicResource IndicatorOffStyle}" Name="BaichuanLight"/>
-
-                            <StackPanel Orientation="Horizontal">
-                                <Grid Style="{DynamicResource NodeDisable}">
-                                </Grid>
-                                <Label Style="{DynamicResource NodeFont}">
-                                    Baichuan Node
-                                </Label>
-                            </StackPanel>
-                        </Grid>
-
-
-                        <Grid Grid.Row="18">
+                        <Grid Grid.Row="14">
                             <Label Style="{DynamicResource ClassFont}">
                                 Cloud Translation Service
                             </Label>
@@ -270,18 +239,6 @@
                                 </Grid>
                                 <Label Style="{DynamicResource NodeFont}">
                                     DeepL Node
-                                </Label>
-                            </StackPanel>
-                        </Grid>
-
-                        <Grid Style="{DynamicResource NodeBackGround}" Grid.Row="22" Tag="Google" PreviewMouseDown="ChangeNode">
-                            <ContentControl  Style="{DynamicResource IndicatorOffStyle}" Name="GoogleLight"/>
-
-                            <StackPanel Orientation="Horizontal">
-                                <Grid Style="{DynamicResource NodeDisable}">
-                                </Grid>
-                                <Label Style="{DynamicResource NodeFont}">
-                                    Google Node
                                 </Label>
                             </StackPanel>
                         </Grid>

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System;
-using System.ComponentModel;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -12,9 +11,6 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
-using LiveCharts;
-using LiveCharts.Defaults;
-using LiveCharts.Wpf;
 using PhoenixEngine.ConvertManager;
 using PhoenixEngine.DelegateManagement;
 using PhoenixEngine.EngineManagement;
@@ -134,10 +130,6 @@ namespace SSELex
             UILanguages.SelectedValue = DeFine.GlobalLocalSetting.CurrentUILanguage.ToString();
 
             TranslatorExtend.Init();
-
-            this.DataContext = CurrentModel;
-
-            InitDashBoard();
 
             DelegateHelper.SetBookTranslateCallback += BookTransCallBack;
 
@@ -1921,8 +1913,16 @@ namespace SSELex
                         SettingView.Visibility = Visibility.Collapsed;
                         DashBoardView.Visibility = Visibility.Collapsed;
 
-                        DeFine.ExtendWin.CanShow = true;
-                        DeFine.ExtendWin.Show();
+                        if (DeFine.GlobalLocalSetting.ViewMode == "Normal")
+                        {
+                            DeFine.ExtendWin.CanShow = true;
+                            DeFine.ExtendWin.Show();
+                        }
+                        else
+                        {
+                            DeFine.ExtendWin.CanShow = false;
+                            DeFine.ExtendWin.Hide();
+                        }
                     }
                     break;
                 case "DashBoard":
@@ -3448,78 +3448,7 @@ namespace SSELex
         #endregion
 
         #region DashBoardView
-        public class DashBoardViewModel : INotifyPropertyChanged
-        {
-            public ChartValues<double> _SetValues;
-            public ChartValues<double> SetValues
-            {
-                get => _SetValues;
-                set
-                {
-                    if (_SetValues != value)
-                    {
-                        _SetValues = value;
-                        OnPropertyChanged(nameof(SetValues));
-                    }
-                }
-            }
-
-            private SeriesCollection _FontUsageSeries;
-            public SeriesCollection FontUsageSeries
-            {
-                get => _FontUsageSeries;
-                set
-                {
-                    if (_FontUsageSeries != value)
-                    {
-                        _FontUsageSeries = value;
-                        OnPropertyChanged(nameof(FontUsageSeries));
-                    }
-                }
-            }
-
-            public event PropertyChangedEventHandler PropertyChanged;
-
-            public Func<double, string> Formatter { get; set; } = value => ((int)value).ToString();
-            protected void OnPropertyChanged(string propertyName)
-                => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private DashBoardViewModel CurrentModel = new DashBoardViewModel();
-
-        public void InitDashBoard()
-        {
-            CurrentModel.SetValues = new ChartValues<double>() { 0, 0, 0, 0, 0, 0 };
-
-            CurrentModel.FontUsageSeries = new SeriesCollection
-            {
-                new LineSeries
-                {
-                    AreaLimit = -10,
-                    Values = new ChartValues<ObservableValue>
-                    {
-                        new ObservableValue(0),
-                        new ObservableValue(0),
-                        new ObservableValue(0),
-                        new ObservableValue(0),
-                        new ObservableValue(0),
-                        new ObservableValue(0),
-                        new ObservableValue(0),
-                        new ObservableValue(0),
-                        new ObservableValue(0),
-                        new ObservableValue(0),
-                        new ObservableValue(0),
-                        new ObservableValue(0),
-                        new ObservableValue(0),
-                        new ObservableValue(0),
-                        new ObservableValue(0),
-                        new ObservableValue(0),
-                        new ObservableValue(0),
-                        new ObservableValue(0)
-                    }
-                }
-            };
-        }
+      
 
         public SpeedMonitor CurrentMonitor = null;
         //ChatGPT,Gemini,Cohere,DeepSeek,Baichuan,LocalAI

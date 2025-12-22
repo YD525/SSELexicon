@@ -10,7 +10,6 @@ using PhoenixEngine.TranslateManagement;
 using SSELex.UIManagement;
 using static PhoenixEngine.SSELexiconBridge.NativeBridge;
 using SSELex.SkyrimManage;
-using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.Threading;
 using System.Collections.Generic;
 using System;
