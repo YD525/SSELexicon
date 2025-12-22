@@ -41,9 +41,8 @@ This step is **mandatory** — the SSELex project will not build correctly witho
 
 This project makes use of the following key open-source libraries/frameworks:
 
-- Read ESP using my own DLL - https://github.com/YD525/EspReader
 - [Champollion](https://github.com/Orvid/Champollion) – developed by [Orvid], for decompiling Papyrus compiled scripts.  
-- [Papyrus-compiler](https://github.com/russo-2025/papyrus-compiler) – used to compile .pas script files.Downloading the official components is fine too. They're the same.
+- [Papyrus-compiler](https://github.com/russo-2025/papyrus-compiler/tree/master/bin/Original%20Compiler) – used to compile .pas script files.Downloading the official components is fine too. They're the same,You just need to download them and put them in the Tool\Original Compiler directory of the program. (You can also get them from CK.)
 
 Other dependencies (such as **AvalonEdit**, various helper libraries, etc.) are also used.  
 Please refer to their respective LICENSE files for further information.
