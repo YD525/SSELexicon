@@ -379,10 +379,7 @@
 
     <Style x:Key="ListViewHeader" TargetType="Grid">
         <Setter Property="Background" Value="#FFF0D6FF"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
-        <Setter Property="Grid.Row" Value="5"/>
         <Setter Property="Margin" Value="10 0 10 0"/>
-        <Setter Property="Height" Value="30"/>
     </Style>
 
     <RotateTransform x:Key="RotateTextTransform" Angle="-90"/>

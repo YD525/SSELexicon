@@ -504,8 +504,8 @@
 
                             <Grid Style="{DynamicResource ListViewHeader}" Grid.Row="3">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="120"/>
-                                    <ColumnDefinition Width="0.5*"/>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="150"/>
                                     <ColumnDefinition Width="1*"/>
                                     <ColumnDefinition Width="1*"/>
                                 </Grid.ColumnDefinitions>
@@ -556,9 +556,9 @@
                                 </Grid.ContextMenu>
                             </Grid>
 
-                            <GridSplitter  DragCompleted="GridSplitter_DragCompleted" Grid.Row="7" Height="3.5" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="#FF7B7B7B" ResizeDirection="Rows" ResizeBehavior="PreviousAndNext" ShowsPreview="True" />
+                            <GridSplitter  DragCompleted="GridSplitter_DragCompleted" Grid.Row="5" Height="3.5" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="#FF7B7B7B" ResizeDirection="Rows" ResizeBehavior="PreviousAndNext" ShowsPreview="True" />
 
-                            <Grid Grid.Row="8" Style="{DynamicResource ExtendBoxStyle}">
+                            <Grid Grid.Row="6" Style="{DynamicResource ExtendBoxStyle}">
                                 <Grid.Resources>
                                     <Style TargetType="ScrollBar" BasedOn="{StaticResource for_scrollbar}" />
                                 </Grid.Resources>
