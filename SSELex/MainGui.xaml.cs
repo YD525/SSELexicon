@@ -121,6 +121,10 @@ namespace SSELex
         {
             DeFine.Init(this);
 
+            var ModData = EspInterop.LoadEsp("C:\\Users\\52508\\Desktop\\1TestMod\\Chatty NPCs-133266-1-5-1737407563\\Chatty NPCs.esp");
+
+            EspInterop.SearchBySig();
+
             UILanguageHelper.ChangeLanguage(DeFine.GlobalLocalSetting.CurrentUILanguage);
 
             UILanguages.Items.Clear();
