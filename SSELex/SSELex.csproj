@@ -147,12 +147,14 @@
     <Compile Include="SearchText.xaml.cs">
       <DependentUpon>SearchText.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SkyrimManagement\DSDConverter.cs" />
     <Compile Include="SkyrimManagement\EspReader.cs" />
     <Compile Include="SkyrimManagement\FileAttributesHelper.cs" />
     <Compile Include="SkyrimManagement\MCMReader.cs" />
     <Compile Include="SkyrimManagement\PexReader.cs" />
     <Compile Include="SkyrimManagement\RamCacheReader.cs" />
     <Compile Include="SkyrimManagement\SkyrimHelper.cs" />
+    <Compile Include="SkyrimManagement\StringsFileReader.cs" />
     <Compile Include="SkyrimManagement\YDDictionaryHelper.cs" />
     <Compile Include="SkyrimModManagement\SkyrimHelper.cs" />
     <Compile Include="SQLManagement\SqlCore.cs" />
