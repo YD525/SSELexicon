@@ -348,7 +348,7 @@
                         </Border>
                     </Grid>
 
-                    <Grid Name="ModTransView" Style="{DynamicResource FrameStyle}" Visibility="Visible">
+                    <Grid Name="ModTransView" Style="{DynamicResource FrameStyle}" Visibility="Hidden">
                         <Grid Grid.Column="1">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="5"/>
@@ -750,7 +750,7 @@
                         </Grid>
                     </Grid>
 
-                    <Grid Name="AboutView" Style="{DynamicResource FrameStyle}" Visibility="Collapsed" Background="#FF282828">
+                    <Grid Name="AboutView" Style="{DynamicResource FrameStyle}" Visibility="Visible" Background="#FF282828">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="1*"/>
@@ -797,45 +797,64 @@
                                     </TextBlock>
                                 </StackPanel>
 
-                                <Label Foreground="White" FontSize="15" Margin="0 -5 0 0" HorizontalAlignment="Center">
-                                    Licensed under the GNU General Public License 3.0 (GPLv3)
-                                </Label>
-
                                 <Label Foreground="White" FontWeight="Bold" FontSize="15" HorizontalAlignment="Center" Name="ProgramVersion">
-                                    SSE Lexicon(GPLv3) Version: 0.0.0.0
+                                    Main Program Version: 0.0.0.0
                                 </Label>
                                 <Label Foreground="White" FontWeight="Bold" FontSize="15" HorizontalAlignment="Center" Name="TranslationEngineVersion">
                                     Translation Engine Version: 0.0.0
                                 </Label>
 
-                                <TextBlock  FontSize="15" Margin="0 5 0 0" HorizontalAlignment="Center" Foreground="White" TextWrapping="Wrap" TextAlignment="Center">
-       If you like it, please give me a star on GitHub or endorse me on Nexus Mods. 
-       Every download and endorsement motivates me to keep improving and updating this project.
-                                </TextBlock>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <TextBlock HorizontalAlignment="Center" Foreground="White" FontSize="14">
+                                            Interface improvements - 
+                                           <Run Cursor="Hand" Tag="https://github.com/YD525" FontWeight="Bold"  Foreground="#FF44A0FF"  Text="YD525" MouseDown="OpenUrl_MouseDown"/>
+                                            ,
+                                           <Run Cursor="Hand" Tag="https://github.com/cutleast" FontWeight="Bold"  Foreground="#FF44A0FF"  Text="Cutleast" MouseDown="OpenUrl_MouseDown"/>
+                                    </TextBlock>
 
-                                <TextBlock Foreground="White" FontSize="20" FontWeight="DemiBold" Margin="0 10 0 0" HorizontalAlignment="Center" TextAlignment="Center">
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 5 0 0">
+
+                                    <TextBlock HorizontalAlignment="Center" Foreground="White" FontSize="14">
+                                        <Run Text="ESP file parsing  - " />
+                                        YD525
+                                        <Run Text=", " />
+                                        Cutleast
+                                        <Run Text=", " />      
+                                        <Run Cursor="Hand" Tag="https://www.nexusmods.com/skyrimspecialedition/mods/111491" FontWeight="Bold"  Foreground="#FF44A0FF"  Text="SSEAT" MouseDown="OpenUrl_MouseDown"/>                          
+                                    </TextBlock>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 5 0 0">
+
+                                    <TextBlock HorizontalAlignment="Center" Foreground="White" FontSize="14">
+                                          PhoenixR  - YD525,
+                                          <Run Cursor="Hand" Tag="https://github.com/Wuerfelhusten" FontWeight="Bold"  Foreground="#FF44A0FF" Text="Wuerfelhusten" MouseDown="OpenUrl_MouseDown"/>
+                                          ,SSEATTeam
+                                    </TextBlock>
+
+                                </StackPanel>
+
+                                <TextBlock Foreground="White" FontSize="20" FontWeight="DemiBold" Margin="0 20 0 0" HorizontalAlignment="Center" TextAlignment="Center">
                                     Special Thanks
                                 </TextBlock>
 
                                 <TextBlock Foreground="White" FontSize="14" TextWrapping="Wrap" TextAlignment="Center" Margin="20 5 20 0">
-                                    Some of the color schemes and layout ideas were inspired by suggestions from 
-                                    <Run Tag="https://next.nexusmods.com/profile/Cutleast" Text="Cutleast" FontWeight="Bold" Cursor="Hand" Foreground="#FF44A0FF" MouseDown="OpenUrl_MouseDown"/>.
+                                     The implementation of Dynamic String Distributor (DSD) JSON file export was based on suggestions from both 
+                                     Cutleast and 
+                                    <Run Tag="https://github.com/SkyHorizon3" Text="SkyHorizon3" FontWeight="Bold" Cursor="Hand" Foreground="#FF44A0FF"  MouseDown="OpenUrl_MouseDown"/>.
                                 </TextBlock>
 
                                 <TextBlock Foreground="White" FontSize="14" TextWrapping="Wrap" TextAlignment="Center" Margin="20 5 20 0">
-                                     <Run Tag="https://github.com/Noggog" Text="Noggog" FontWeight="Bold" Cursor="Hand" Foreground="#FF44A0FF" MouseDown="OpenUrl_MouseDown"/>.
+                                     <Run Tag="https://github.com/Noggog" Text="Noggog" FontWeight="Bold" Cursor="Hand" Foreground="#FF44A0FF" MouseDown="OpenUrl_MouseDown"/>,
+                                     <Run Tag="https://github.com/Mutagen-Modding/Mutagen" Text="Mutagen" FontWeight="Bold" Cursor="Hand" Foreground="#FF44A0FF" MouseDown="OpenUrl_MouseDown"/>,
                                      Helped me identify and correct some issues I encountered when reading ESP files,and gave me the idea to export Strings files.
                                 </TextBlock>
 
                                 <TextBlock Foreground="White" FontSize="14" TextWrapping="Wrap" TextAlignment="Center" Margin="20 5 20 0">
                                     The idea for hotpatch updates and improvements to the underlying framework — specifically addressing issues with loading certain ESP files using Mutagen.Bethesda.Skyrim — came from 
                                     <Run Tag="https://github.com/Noggog" Text="Noggog" FontWeight="Bold" Cursor="Hand" Foreground="#FF44A0FF"  MouseDown="OpenUrl_MouseDown"/>.
-                                </TextBlock>
-
-                                <TextBlock Foreground="White" FontSize="14" TextWrapping="Wrap" TextAlignment="Center" Margin="20 5 20 0">
-                                    The implementation of Dynamic String Distributor (DSD) JSON file export was based on suggestions from both 
-                                    <Run Tag="https://github.com/Cutleast" Text="Cutleast" FontWeight="Bold"  Cursor="Hand" Foreground="#FF44A0FF"  MouseDown="OpenUrl_MouseDown"/> and 
-                                    <Run Tag="https://github.com/SkyHorizon3" Text="SkyHorizon3" FontWeight="Bold" Cursor="Hand" Foreground="#FF44A0FF"  MouseDown="OpenUrl_MouseDown"/>.
                                 </TextBlock>
 
                                 <TextBlock Foreground="White" FontSize="14" TextWrapping="Wrap" TextAlignment="Center" Margin="20 5 20 0">
