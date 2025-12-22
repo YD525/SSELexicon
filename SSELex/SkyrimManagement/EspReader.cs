@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.SessionState;
+using PhoenixEngine.EngineManagement;
+using SSELex.SkyrimManage;
 
 namespace SSELex.SkyrimManagement
 {
@@ -265,9 +267,9 @@ namespace SSELex.SkyrimManagement
 
                     foreach (var Sub in GetRecord.SubRecords)
                     {
-                        var MergeSig = ParentSig + ":" + Sub.Sig;
+                        var MergeSig = Engine.GetFileUniqueKey() + ":" + ParentFormID + ":" + ParentSig + ":" + Sub.Sig;
 
-                        string UniqueKey = ParentFormID + "-" + MergeSig;
+                        string UniqueKey ="[" + Crc32Helper.ComputeCrc32(MergeSig) + "]" + " " + Sub.Sig;
 
                         RecordItem NRecordItem = new RecordItem();
                         NRecordItem.StringID = Sub.StringID;

@@ -547,7 +547,7 @@
                                                 </Grid.ColumnDefinitions>
 
                                                 <TextBox Grid.Column="0" HorizontalAlignment="Left" Style="{DynamicResource CaptionText}" Name="UIOriginalTextSource">
-                                                    Original Text Source
+                                                    Original Text 
                                                 </TextBox>
 
                                                 <Border Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" Name="RefreshDictionary" Style="{DynamicResource ButtonStyle}" Opacity="0.5" PreviewMouseDown="RefreshDictionary_PreviewMouseDown">
@@ -573,13 +573,13 @@
                                                     </Grid.ColumnDefinitions>
 
                                                     <TextBox Style="{DynamicResource CaptionText}" Name="UICloudTranslationCache" Grid.Column="0">
-                                                        Cloud Translation Cache
+                                                        Cloud
                                                     </TextBox>
 
                                                     <CheckBox Grid.Column="1" Name="CloudTranslationCache" VerticalAlignment="Center" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="CloudTranslationCache_Click"/>
 
                                                     <TextBox Grid.Column="2"  Style="{DynamicResource CaptionText}" Name="UIUserInputTranslationCache">
-                                                        User Input Translation Cache
+                                                        User Input
                                                     </TextBox>
 
                                                     <CheckBox Grid.Column="3" Name="UserTranslationCache" VerticalAlignment="Center" Foreground="White" Style="{DynamicResource ToggleCircleCheckBox}" Click="UserTranslationCache_Click"/>
