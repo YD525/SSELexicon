@@ -382,10 +382,7 @@
 
     <Style x:Key="ListViewHeader" TargetType="Grid">
         <Setter Property="Background" Value="#FF202020"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
-        <Setter Property="Grid.Row" Value="5"/>
         <Setter Property="Margin" Value="10 0 10 0"/>
-        <Setter Property="Height" Value="30"/>
     </Style>
 
     <RotateTransform x:Key="RotateTextTransform" Angle="-90"/>

@@ -109,7 +109,6 @@ namespace SSELex
             InitializeComponent();
         }
 
-        public YDListView SearchResultsViewList = null;
         public YDListView TransViewList = null;
 
         private ScanAnimator ScanAnimator = null;
@@ -139,11 +138,6 @@ namespace SSELex
             {
                 TransViewList = new YDListView(TransView);
                 TransViewList.Clear();
-            }
-
-            if (SearchResultsViewList == null)
-            {
-                SearchResultsViewList = new YDListView(SearchResultsView);
             }
 
             ReloadLanguageMode();
@@ -278,15 +272,6 @@ namespace SSELex
             {
                 DeFine.ExtendWin.ShowUI();
             }
-
-            if (this.Width < 900)
-            {
-                this.ControlRow.Height = new GridLength(60, GridUnitType.Pixel);
-            }
-            else
-            {
-                this.ControlRow.Height = new GridLength(40, GridUnitType.Pixel);
-            }
         }
 
         private void Window_LocationChanged(object sender, EventArgs e)
@@ -310,14 +295,7 @@ namespace SSELex
                 {
                     e.Handled = true;
 
-                    if (SearchResultsView.Visibility == Visibility.Visible)
-                    {
-                        SearchResultsViewList?.Down();
-                    }
-                    else
-                    {
-                        TransViewList?.Down();
-                    }
+                    TransViewList?.Down();
                 }
             }
             if (e.Key == Key.F2)
@@ -607,28 +585,28 @@ namespace SSELex
 
         public void ReloadLanguageMode()
         {
-            LangFrom.Items.Clear();
-            foreach (var Get in UILanguageHelper.GetSupportedLanguages())
-            {
-                string GetLang = Get.ToString();
-                if (GetLang.ToLower() != "null")
-                    LangFrom.Items.Add(GetLang);
-            }
+            //LangFrom.Items.Clear();
+            //foreach (var Get in UILanguageHelper.GetSupportedLanguages())
+            //{
+            //    string GetLang = Get.ToString();
+            //    if (GetLang.ToLower() != "null")
+            //        LangFrom.Items.Add(GetLang);
+            //}
 
-            LangFrom.SelectedValue = DeFine.GlobalLocalSetting.SourceLanguage.ToString();
+            //LangFrom.SelectedValue = DeFine.GlobalLocalSetting.SourceLanguage.ToString();
 
-            LangTo.Items.Clear();
-            foreach (var Get in UILanguageHelper.GetSupportedLanguages())
-            {
-                if (Get != Languages.Auto)
-                {
-                    string GetLang = Get.ToString();
-                    if (GetLang.ToLower() != "null")
-                        LangTo.Items.Add(GetLang);
-                }
-            }
+            //LangTo.Items.Clear();
+            //foreach (var Get in UILanguageHelper.GetSupportedLanguages())
+            //{
+            //    if (Get != Languages.Auto)
+            //    {
+            //        string GetLang = Get.ToString();
+            //        if (GetLang.ToLower() != "null")
+            //            LangTo.Items.Add(GetLang);
+            //    }
+            //}
 
-            LangTo.SelectedValue = DeFine.GlobalLocalSetting.TargetLanguage.ToString();
+            //LangTo.SelectedValue = DeFine.GlobalLocalSetting.TargetLanguage.ToString();
         }
 
 
@@ -1085,8 +1063,6 @@ namespace SSELex
                 try
                 {
                     SearchBox.Text = string.Empty;
-                    SearchResultsViewList?.Clear();
-                    SearchResultsView.Visibility = Visibility.Collapsed;
 
                     LoadFileButton.Content = UILanguageHelper.UICache["LoadFileButton"];
 
@@ -1324,26 +1300,9 @@ namespace SSELex
                 EmptyFromAndToText();
 
                 TransView.Visibility = Visibility.Hidden;
-
-                if (SearchResultsViewList != null && TransViewList != null)
-                {
-                    SearchResultsViewList.SelectLineID = -1;
-                    SearchResultsViewList.IsSearchBox = true;
-                    SearchResultsViewList.ParentView = TransViewList;
-
-                    SearchResultsViewList.Clear();
-
-                    foreach (var GetLine in TransViewList.QuickSearch(SearchBox.Text.Trim()))
-                    {
-                        SearchResultsViewList.AddRowR(GetLine);
-                    }
-                }
-
-                SearchResultsView.Visibility = Visibility.Visible;
             }
             else
             {
-                SearchResultsView.Visibility = Visibility.Collapsed;
                 TransView.Visibility = Visibility.Visible;
             }
         }
@@ -1352,15 +1311,15 @@ namespace SSELex
 
         private void LangFrom_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            string GetValue = ConvertHelper.ObjToStr(LangFrom.SelectedValue);
+            //string GetValue = ConvertHelper.ObjToStr(LangFrom.SelectedValue);
 
-            if (GetValue.Trim().Length > 0)
-            {
-                DeFine.GlobalLocalSetting.SourceLanguage = (Languages)Enum.Parse(typeof(Languages), GetValue);
-                DeFine.LocalConfigView.SFrom.SelectedValue = GetValue;
+            //if (GetValue.Trim().Length > 0)
+            //{
+            //    DeFine.GlobalLocalSetting.SourceLanguage = (Languages)Enum.Parse(typeof(Languages), GetValue);
+            //    DeFine.LocalConfigView.SFrom.SelectedValue = GetValue;
 
-                Engine.From = DeFine.GlobalLocalSetting.SourceLanguage;
-            }
+            //    Engine.From = DeFine.GlobalLocalSetting.SourceLanguage;
+            //}
         }
 
         public void UPDateUI()
@@ -1387,33 +1346,25 @@ namespace SSELex
                         TransViewList.QuickRefresh();
                     }
                 }
-
-                if (SearchResultsViewList != null)
-                {
-                    if (SearchResultsView.Visibility == Visibility.Visible)
-                    {
-                        SearchResultsViewList.QuickRefresh();
-                    }
-                }
             }));
         }
 
         private void LangTo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            string GetValue = ConvertHelper.ObjToStr(LangTo.SelectedValue);
+            //string GetValue = ConvertHelper.ObjToStr(LangTo.SelectedValue);
 
-            if (GetValue.Trim().Length > 0)
-            {
-                DeFine.GlobalLocalSetting.TargetLanguage = (Languages)Enum.Parse(typeof(Languages), GetValue);
-                DeFine.LocalConfigView.STo.SelectedValue = GetValue;
+            //if (GetValue.Trim().Length > 0)
+            //{
+            //    DeFine.GlobalLocalSetting.TargetLanguage = (Languages)Enum.Parse(typeof(Languages), GetValue);
+            //    DeFine.LocalConfigView.STo.SelectedValue = GetValue;
 
-                if (Engine.To != DeFine.GlobalLocalSetting.TargetLanguage)
-                {
-                    Engine.To = DeFine.GlobalLocalSetting.TargetLanguage;
-                    UPDateUI();
-                    Translator.ClearAICache();
-                }
-            }
+            //    if (Engine.To != DeFine.GlobalLocalSetting.TargetLanguage)
+            //    {
+            //        Engine.To = DeFine.GlobalLocalSetting.TargetLanguage;
+            //        UPDateUI();
+            //        Translator.ClearAICache();
+            //    }
+            //}
         }
 
         public void CanEditTransView(bool Check)
@@ -1583,8 +1534,8 @@ namespace SSELex
                 EmptyFromAndToText();
             }
 
-            LangFrom.SelectedValue = DeFine.GlobalLocalSetting.SourceLanguage.ToString();
-            LangTo.SelectedValue = DeFine.GlobalLocalSetting.TargetLanguage.ToString();
+            //LangFrom.SelectedValue = DeFine.GlobalLocalSetting.SourceLanguage.ToString();
+            //LangTo.SelectedValue = DeFine.GlobalLocalSetting.TargetLanguage.ToString();
 
             //if (DeFine.GlobalLocalSetting.CanClearCloudTranslationCache)
             //{
@@ -2105,13 +2056,6 @@ namespace SSELex
                 {
                     TransViewList.ChangeFontColor(Engine.GetFileUniqueKey(), GetColor.R, GetColor.G, GetColor.B);
                 }
-                if (SearchResultsViewList != null)
-                {
-                    if (SearchResultsView.Visibility == Visibility.Visible)
-                    {
-                        SearchResultsViewList.ChangeFontColor(Engine.GetFileUniqueKey(), GetColor.R, GetColor.G, GetColor.B);
-                    }
-                }
             }
         }
 
@@ -2169,14 +2113,6 @@ namespace SSELex
                         GetGrid.SyncData(ref RefCloud);
                         GetGrid.SyncUI(TransViewList);
                         //DeFine.ExtendWin.SetOriginal(GetGrid.SourceText, DeFine.WorkingWin.GlobalEspReader.StringsReader.QueryData(GetGrid.Key));
-
-                        if (SearchResultsViewList != null)
-                        {
-                            if (SearchResultsView.Visibility == Visibility.Visible)
-                            {
-                                GetGrid.SyncUI(SearchResultsViewList);
-                            }
-                        }
                     }
 
                     UIHelper.ShowButton(ApplyOTButton, false);

@@ -354,9 +354,7 @@
                                 <RowDefinition Height="5"/>
                                 <RowDefinition Height="45"/>
                                 <RowDefinition Height="5"/>
-                                <RowDefinition Height="40" Name="ControlRow" />
-                                <RowDefinition Height="5"/>
-                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="35"/>
                                 <RowDefinition Height="1*" Name="ListViewArea"/>
                                 <RowDefinition Height="3.5" Name="SplictLine"/>
                                 <RowDefinition Height="260" Name="WritingArea"/>
@@ -503,47 +501,8 @@
 
                             </Grid>
 
-                            <Grid Grid.Row="3" Margin="10 0 10 0">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="1.2*"/>
-                                        <ColumnDefinition Width="2*"/>
-                                        <ColumnDefinition Width="130"/>
-                                    </Grid.ColumnDefinitions>
 
-                                    <Grid Grid.Column="0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <Label  Grid.Column="0" Style="{DynamicResource CaptionTextA}" Name="UIFrom">
-                                            From
-                                        </Label>
-                                        <ComboBox  MinWidth="80" IsTabStop="True" Name="LangFrom" SelectionChanged="LangFrom_SelectionChanged" Grid.Column="1" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Height="30" Style="{StaticResource CustomComboBoxStyle}">
-                                        </ComboBox>
-
-                                        <Label Grid.Column="2" Style="{DynamicResource CaptionTextA}" Name="UITo">
-                                            To
-                                        </Label>
-
-                                        <ComboBox MinWidth="80" IsTabStop="True" Name="LangTo" SelectionChanged="LangTo_SelectionChanged" Grid.Column="3" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Height="30" Style="{StaticResource CustomComboBoxStyle}">
-                                        </ComboBox>
-                                    </Grid>
-
-
-                                    <Grid Grid.Column="1">
-
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="1*"/>
-                                            <ColumnDefinition Width="2.7*"/>
-                                        </Grid.ColumnDefinitions>
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-
-                            <Grid Height="30" Style="{DynamicResource ListViewHeader}">
+                            <Grid Style="{DynamicResource ListViewHeader}" Grid.Row="3">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="120"/>
                                     <ColumnDefinition Width="0.5*"/>
@@ -580,16 +539,9 @@
 
                                     <Border Style="{DynamicResource ColorC}" Margin="5 0 0 0" PreviewMouseDown="ChangeColor">
                                     </Border>
-
                                 </StackPanel>
-                               
                             </Grid>
-
-                            <Grid Name="SearchResultsView" Style="{DynamicResource FrameStyle}" Grid.Row="6" Panel.ZIndex="999" Margin="10 0 10 0" Visibility="Collapsed">
-
-                            </Grid>
-
-                            <Grid Name="TransView" Style="{DynamicResource FrameStyle}" Grid.Row="6" Panel.ZIndex="990" Margin="10 0 10 0" Visibility="Visible">
+                            <Grid Name="TransView" Style="{DynamicResource FrameStyle}" Grid.Row="4" Panel.ZIndex="990" Margin="10 0 10 0" Visibility="Visible">
 
                                 <Grid.ContextMenu>
                                     <ContextMenu>

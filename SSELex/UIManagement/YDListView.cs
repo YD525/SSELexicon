@@ -159,8 +159,6 @@ public class YDListView
 
     public bool IsSearchBox = false;
 
-    public YDListView ParentView = null;
-
     public Thread SelectLineThread = null;
     private CancellationTokenSource CancelSelectLineThread = null;
     private CancellationToken? CancelToken = null;
@@ -180,145 +178,21 @@ public class YDListView
         Grid GetTranslatedGrid = (Grid)GetChildGrid.Children[3];
         TextBox GetTranslated = (TextBox)(((Border)GetTranslatedGrid.Children[0]).Child);
 
-        if (!IsSearchBox)
+
+        if (UPDate)
         {
-            if (UPDate)
+            GetTranslated.Focus();
+            string GetKey = RowStyleWin.GetKey(MainGrid);
+            DeFine.WorkingWin.SetSelectFromAndToText(GetKey);
+
+            if (DeFine.GlobalLocalSetting.ShowCode && DeFine.WorkingWin.CurrentTransType == 3)
             {
-                GetTranslated.Focus();
-                string GetKey = RowStyleWin.GetKey(MainGrid);
-                DeFine.WorkingWin.SetSelectFromAndToText(GetKey);
-
-                if (DeFine.GlobalLocalSetting.ShowCode && DeFine.WorkingWin.CurrentTransType == 3)
-                {
-                    RowStyleWin.SelectLineFromIDE(GetKey);
-                }
-            }
-
-            MainBorder.BorderBrush = new SolidColorBrush((Color)Application.Current.Resources["LineASelected"]);
-            LastSelectBorder = MainBorder;
-        }
-        else
-        {
-            if (ParentView != null)
-            {
-                string GetKey = RowStyleWin.GetKey(MainGrid);
-
-                int SelectID = ParentView.KeyToSelectID(GetKey);
-
-                Action SelectAction = new Action(() =>
-                {
-                    if (UPDate)
-                    {
-                        if (ParentView != null)
-                        {
-                            ParentView.SetSelectLineByKey(GetKey, UPDate);
-
-                            MainBorder.BorderBrush = new SolidColorBrush((Color)Application.Current.Resources["LineASelected"]);
-                            LastSelectBorder = MainBorder;
-                        }
-                    }
-                    else
-                    {
-                        if (SelectID == -1)
-                        {
-                            if (LastSelectBorder != null)
-                            {
-                                LastSelectBorder.BorderBrush = new SolidColorBrush((Color)Application.Current.Resources["LineANormal"]);
-                            }
-                        }
-                        else
-                        {
-                            if (LastSelectBorder != null)
-                            {
-                                MainBorder.BorderBrush = new SolidColorBrush((Color)Application.Current.Resources["LineASelected"]);
-                                LastSelectBorder = MainBorder;
-                            }
-                        }
-                    }
-                });
-
-                if (UPDate)
-                {
-                    if (!ParentView.IsKeyInViewport(GetKey))
-                    {
-                        if (SelectLineThread == null)
-                        {
-                            CancelSelectLineThread = new CancellationTokenSource();
-
-                            CancelToken = CancelSelectLineThread.Token;
-
-                            SelectLineThread = new Thread(() =>
-                            {
-                                try
-                                {
-                                    ParentView.Parent.Dispatcher.BeginInvoke(new Action(() =>
-                                    {
-                                        ParentView.ScrollTo(SelectID);
-                                    }));
-
-                                    bool IsVisible = false;
-
-                                    while (!IsVisible)
-                                    {
-                                        CancelToken?.ThrowIfCancellationRequested();
-
-                                        Thread.Sleep(50);
-                                        ParentView.Parent.Dispatcher.BeginInvoke(new Action(() =>
-                                        {
-                                            IsVisible = ParentView.IsKeyInViewport(GetKey);
-                                        }));
-                                    }
-
-                                    CancelToken?.ThrowIfCancellationRequested();
-
-                                    ParentView.Parent.Dispatcher.BeginInvoke(new Action(() =>
-                                    {
-                                        ParentView.SetSelectLineByKey(GetKey, true);
-                                    }));
-
-                                    CancelToken?.ThrowIfCancellationRequested();
-
-                                    ParentView.Parent.Dispatcher.BeginInvoke(new Action(() =>
-                                    {
-                                        MainBorder.BorderBrush = new SolidColorBrush((Color)Application.Current.Resources["LineASelected"]);
-                                        LastSelectBorder = MainBorder;
-                                    }));
-
-                                    SelectLineThread = null;
-                                }
-                                catch
-                                {
-                                    SelectLineThread = null;
-                                }
-                            });
-
-                            SelectLineThread.Start();
-                        }
-                        else
-                        {
-                            if (CancelSelectLineThread != null)
-                            {
-                                CancelSelectLineThread.Cancel();
-                                SelectLineThread = null;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        SelectAction.Invoke();
-                    }
-                }
-                else
-                {
-                    SelectAction.Invoke();
-                }
-
-                if (UPDate && SelectLineID != -1)
-                {
-                    DeFine.WorkingWin.SetSelectFromAndToText(GetKey);
-                }
+                RowStyleWin.SelectLineFromIDE(GetKey);
             }
         }
+
+        MainBorder.BorderBrush = new SolidColorBrush((Color)Application.Current.Resources["LineASelected"]);
+        LastSelectBorder = MainBorder;
     }
 
     private bool IsGridInViewport(Grid Grid)

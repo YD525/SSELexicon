@@ -161,16 +161,6 @@ namespace SSELex.UIManage
                         DeFine.WorkingWin.LoadFileButton.Content = Value;
                     }
                 break;
-                case "UIFrom":
-                    {
-                        DeFine.WorkingWin.UIFrom.Content = Value;
-                    }
-                break;
-                case "UITo":
-                    {
-                        DeFine.WorkingWin.UITo.Content = Value;
-                    }
-                break;
                 case "RefreshButton":
                     {
                         DeFine.WorkingWin.RefreshButton.Content = Value;
