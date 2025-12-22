@@ -284,35 +284,11 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Tool\Original Compiler\ScriptCompile.bat">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Tool\Original Compiler\TESV_Papyrus_Flags.flg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Tool\Original Compiler\antlr.runtime.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Tool\Original Compiler\Antlr3.Runtime.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Tool\Original Compiler\Antlr3.Utility.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Tool\Original Compiler\PapyrusAssembler.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Tool\Original Compiler\PCompiler.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Tool\Original Compiler\StringTemplate.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="Interface\Translations\SSE Lexicon_Brazilian.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -366,6 +342,9 @@
     <Resource Include="Material\Setting.svg" />
     <Resource Include="Material\SettingICO.svg" />
     <Resource Include="Material\Speaker.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Tool\Original Compiler\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
