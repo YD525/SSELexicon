@@ -55,7 +55,7 @@ I would like to give special thanks to the developers of
 
 [Cutleast](https://github.com/Cutleast) It helped me solve some problems with reading ESP files.
 
-[Mutagen.Bethesda](https://github.com/Mutagen-Modding/Mutagen)
+[Mutagen.Bethesda](https://github.com/Mutagen-Modding/Mutagen) This framework was a huge help!
 
 [Noggog](https://github.com/Noggog) for helping me understand how StringsFile reads and writes.
 
