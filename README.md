@@ -51,8 +51,9 @@ Please refer to their respective LICENSE files for further information.
 
 ### 🙏 Special Thanks
 
-I would like to give special thanks to the developers of  
-- [Mutagen.Bethesda](https://github.com/Mutagen-Modding/Mutagen)  
+I would like to give special thanks to the developers of 
+
+[Cutleast](https://github.com/Cutleast) It helped me solve some problems with reading ESP files.
 
 [Noggog](https://github.com/Noggog) for helping me understand how StringsFile reads and writes.
 
