@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.SessionState;
 
 namespace SSELex.SkyrimManagement
 {
@@ -33,6 +34,11 @@ namespace SSELex.SkyrimManagement
         public string GetUniqueKey()
         {
             return $"{Sig}:{FormID}";
+        }
+
+        public string GetFormIDHex()
+        {
+            return $"{FormID:X8}";
         }
 
         public string GetEditorID()
@@ -88,6 +94,18 @@ namespace SSELex.SkyrimManagement
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void C_Close();
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void C_Clear();
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr C_GetRecordSig(IntPtr record);
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern uint C_GetRecordFormID(IntPtr record);
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern uint C_GetRecordFlags(IntPtr record);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         private static extern int C_GetSubRecordCount(IntPtr record);
@@ -156,7 +174,6 @@ namespace SSELex.SkyrimManagement
             {
                 for (int i = 0; i < Count; i++)
                 {
-                    //EspRecord* 
                     IntPtr RecordPtr = Marshal.ReadIntPtr(ResultsPtr, i * IntPtr.Size);
 
                     if (RecordPtr == IntPtr.Zero)
@@ -164,13 +181,14 @@ namespace SSELex.SkyrimManagement
 
                     var Record = new EspRecordInfo();
 
-                    byte[] SigBytes = new byte[4];
-                    Marshal.Copy(RecordPtr, SigBytes, 0, 4);
-                    Record.Sig = Encoding.ASCII.GetString(SigBytes).TrimEnd('\0');
+                    IntPtr SigPtr = C_GetRecordSig(RecordPtr);
+                    if (SigPtr != IntPtr.Zero)
+                    {
+                        Record.Sig = Marshal.PtrToStringAnsi(SigPtr);
+                    }
 
-                    Record.FormID = (uint)Marshal.ReadInt32(RecordPtr, 4);
-
-                    Record.Flags = (uint)Marshal.ReadInt32(RecordPtr, 8);
+                    Record.FormID = C_GetRecordFormID(RecordPtr);
+                    Record.Flags = C_GetRecordFlags(RecordPtr);
 
                     int SubRecordCount = C_GetSubRecordCount(RecordPtr);
 
@@ -178,10 +196,10 @@ namespace SSELex.SkyrimManagement
                     {
                         var SubRecord = new SubRecordData();
 
-                        IntPtr SigPtr = C_GetSubRecordSig(RecordPtr, j);
-                        if (SigPtr != IntPtr.Zero)
+                        IntPtr SubSigPtr = C_GetSubRecordSig(RecordPtr, j);
+                        if (SubSigPtr != IntPtr.Zero)
                         {
-                            SubRecord.Sig = Marshal.PtrToStringAnsi(SigPtr);
+                            SubRecord.Sig = Marshal.PtrToStringAnsi(SubSigPtr);
                         }
 
                         IntPtr ContentPtr = C_GetSubRecordString(RecordPtr, j);
@@ -216,6 +234,64 @@ namespace SSELex.SkyrimManagement
             {
                 FreeSearchResults(ResultsPtr, Count);
             }
+        }
+    }
+
+    public static class EspReader
+    {
+        public class RecordItem
+        {
+            public uint StringID = 0;//StringsFile id
+            public string FormID = "";
+            public string ParentSig = "";
+            public string ChildSig = "";
+            public string UniqueKey = "";
+            public string String = "";
+        }
+
+        public static List<RecordItem> Records = new List<RecordItem>();
+        public static List<RecordItem> LoadEsp(string Path)
+        {
+            Records.Clear();
+            List<RecordItem> RecordItems = new List<RecordItem>();
+            var State = EspInterop.LoadEsp(Path);
+
+            if (State >= 0)
+            {
+                foreach (var GetRecord in EspInterop.SearchBySig("ALL"))
+                {
+                    string ParentFormID = GetRecord.GetFormIDHex();
+                    string ParentSig = GetRecord.Sig;
+
+                    foreach (var Sub in GetRecord.SubRecords)
+                    {
+                        var MergeSig = ParentSig + ":" + Sub.Sig;
+
+                        string UniqueKey = ParentFormID + "-" + MergeSig;
+
+                        RecordItem NRecordItem = new RecordItem();
+                        NRecordItem.StringID = Sub.StringID;
+                        NRecordItem.FormID = ParentFormID;
+                        NRecordItem.ParentSig = ParentSig;
+                        NRecordItem.ChildSig = Sub.Sig;
+                        NRecordItem.UniqueKey = UniqueKey;
+                        NRecordItem.String = Sub.Content;
+
+                        if (NRecordItem.String.Length > 0)
+                        {
+                            RecordItems.Add(NRecordItem);
+                        }
+                    }
+                }
+            }
+
+            Records = RecordItems;
+            return RecordItems;
+        }
+
+        public static void Close()
+        {
+            EspInterop.C_Clear();
         }
     }
 }

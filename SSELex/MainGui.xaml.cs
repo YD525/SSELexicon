@@ -121,10 +121,6 @@ namespace SSELex
         {
             DeFine.Init(this);
 
-            var LoadState = EspInterop.LoadEsp("C:\\Users\\52508\\Desktop\\1TestMod\\Chatty NPCs-133266-1-5-1737407563\\Chatty NPCs.esp");
-
-            var ModData = EspInterop.SearchBySig();
-
             UILanguageHelper.ChangeLanguage(DeFine.GlobalLocalSetting.CurrentUILanguage);
 
             UILanguages.Items.Clear();
@@ -919,7 +915,7 @@ namespace SSELex
                     CurrentTransType = 6;
 
                     GlobalRamCacheReader.Close();
-                    //GlobalEspReader.Close();
+                    EspReader.Close();
                     GlobalMCMReader.Close();
                     GlobalPexReader.Close();
 
@@ -954,7 +950,7 @@ namespace SSELex
                         CurrentTransType = 3;
 
                         GlobalRamCacheReader.Close();
-                        //GlobalEspReader.Close();
+                        EspReader.Close();
                         GlobalMCMReader.Close();
                         GlobalPexReader.Close();
 
@@ -988,7 +984,7 @@ namespace SSELex
                     CurrentTransType = 1;
 
                     GlobalRamCacheReader.Close();
-                    //GlobalEspReader.Close();
+                    EspReader.Close();
                     GlobalMCMReader.Close();
                     GlobalPexReader.Close();
 
@@ -1021,7 +1017,7 @@ namespace SSELex
                     CurrentTransType = 2;
 
                     GlobalRamCacheReader.Close();
-                    //GlobalEspReader.Close();
+                   
                     GlobalMCMReader.Close();
                     GlobalPexReader.Close();
 
@@ -1031,6 +1027,10 @@ namespace SSELex
                     {
                         TransViewList.Clear();
                     }));
+
+                    EspReader.LoadEsp(FilePath);
+
+                    UIHelper.TransViewSyncEspRecord(TransViewList);
                     //GlobalEspReader.DefReadMod(FilePath);
                     //CanSetSelecter.Clear();
                     //CanSetSelecter.AddRange(SkyrimDataLoader.QueryParams(GlobalEspReader));

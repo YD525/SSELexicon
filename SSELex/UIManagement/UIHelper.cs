@@ -16,6 +16,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System;
+using SSELex.SkyrimManagement;
+using SSELex.UIManagement;
 
 namespace SSELex.UIManage
 {
@@ -154,6 +156,13 @@ namespace SSELex.UIManage
             return MainGrid;
         }
 
+        public static void TransViewSyncEspRecord(YDListView View)
+        {
+            foreach (var GetRecord in EspReader.Records)
+            {
+                View.AddRowR(LineRenderer.CreatLine(GetRecord.ParentSig, GetRecord.FormID, GetRecord.UniqueKey, GetRecord.String, "", 999));
+            }
+        }
 
         private static CancellationTokenSource AutoCancelSelectIDETrd;
         public static Thread AutoSelectIDETrd = null;
