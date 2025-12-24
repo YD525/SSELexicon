@@ -1907,7 +1907,7 @@ namespace SSELex
                         SettingView.Visibility = Visibility.Collapsed;
                         DashBoardView.Visibility = Visibility.Collapsed;
 
-                        ProgramVersion.Content = string.Format("SSE Lexicon(GPLv3) Version: {0}", DeFine.CurrentVersion);
+                        ProgramVersion.Content = string.Format("Main Program Version: {0}", DeFine.CurrentVersion);
                         TranslationEngineVersion.Content = string.Format("Translation Engine Version: {0}", Engine.Version);
 
                         DeFine.ExtendWin.CanShow = false;

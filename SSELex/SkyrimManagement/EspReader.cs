@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,10 +20,13 @@ namespace SSELex.SkyrimManagement
         public bool IsLocalized { get; set; }
         public uint StringID { get; set; }
         public string Content { get; set; }
+        public int OccurrenceIndex { get; set; }  // 新增
+        public int GlobalIndex { get; set; }       // 新增
     }
 
     public class EspRecordInfo
     {
+        public IntPtr Handle { get; set; }  // 新增：保存C++端的指针
         public string Sig { get; set; }
         public uint FormID { get; set; }
         public uint Flags { get; set; }
@@ -94,12 +98,43 @@ namespace SSELex.SkyrimManagement
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void FreeSearchResults(IntPtr arr, int count);
 
+        // SubRecordData 相关函数
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void C_Close();
+        public static extern IntPtr C_GetSubRecordData_Ptr(IntPtr record, int index);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void C_Clear();
+        public static extern int C_SubRecordData_GetOccurrenceIndex(IntPtr subRecord);
 
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int C_SubRecordData_GetGlobalIndex(IntPtr subRecord);
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr C_SubRecordData_GetSig(IntPtr subRecord);
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr C_SubRecordData_GetString(IntPtr subRecord);
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int C_SubRecordData_GetStringUtf8(IntPtr subRecord, byte[] buffer, int bufferSize);
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int C_SubRecordData_GetSigUtf8(IntPtr subRecord, byte[] buffer, int bufferSize);
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static extern bool C_SubRecordData_IsLocalized(IntPtr subRecord);
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern uint C_SubRecordData_GetStringID(IntPtr subRecord);
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int C_SubRecordData_GetDataSize(IntPtr subRecord);
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static extern bool C_SubRecordData_GetData(IntPtr subRecord, byte[] buffer, int bufferSize);
+
+        // Record 相关函数
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr C_GetRecordSig(IntPtr record);
 
@@ -113,24 +148,10 @@ namespace SSELex.SkyrimManagement
         private static extern int C_GetSubRecordCount(IntPtr record);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr C_GetSubRecordSig(IntPtr record, int index);
+        public static extern void C_Close();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr C_GetSubRecordString(IntPtr record, int index);
-
-        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool C_IsSubRecordLocalized(IntPtr record, int index);
-
-        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern uint C_GetSubRecordStringID(IntPtr record, int index);
-
-        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern int C_GetSubRecordDataSize(IntPtr record, int index);
-
-        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.I1)]
-        private static extern bool C_GetSubRecordData(IntPtr record, int index, byte[] buffer, int bufferSize);
+        public static extern void C_Clear();
 
         #endregion
 
@@ -182,6 +203,7 @@ namespace SSELex.SkyrimManagement
                         continue;
 
                     var Record = new EspRecordInfo();
+                    Record.Handle = RecordPtr;
 
                     IntPtr SigPtr = C_GetRecordSig(RecordPtr);
                     if (SigPtr != IntPtr.Zero)
@@ -196,28 +218,25 @@ namespace SSELex.SkyrimManagement
 
                     for (int j = 0; j < SubRecordCount; j++)
                     {
+                        IntPtr SubRecordPtr = C_GetSubRecordData_Ptr(RecordPtr, j);
+                        if (SubRecordPtr == IntPtr.Zero)
+                            continue;
+
                         var SubRecord = new SubRecordData();
 
-                        IntPtr SubSigPtr = C_GetSubRecordSig(RecordPtr, j);
-                        if (SubSigPtr != IntPtr.Zero)
-                        {
-                            SubRecord.Sig = Marshal.PtrToStringAnsi(SubSigPtr);
-                        }
+                        SubRecord.Sig = GetSubRecordSigUtf8(SubRecordPtr);
+                        SubRecord.Content = GetSubRecordStringUtf8(SubRecordPtr);
+                        SubRecord.IsLocalized = C_SubRecordData_IsLocalized(SubRecordPtr);
+                        SubRecord.StringID = C_SubRecordData_GetStringID(SubRecordPtr);
 
-                        IntPtr ContentPtr = C_GetSubRecordString(RecordPtr, j);
-                        if (ContentPtr != IntPtr.Zero)
-                        {
-                            SubRecord.Content = Marshal.PtrToStringAnsi(ContentPtr);
-                        }
+                        SubRecord.OccurrenceIndex = C_SubRecordData_GetOccurrenceIndex(SubRecordPtr);
+                        SubRecord.GlobalIndex = C_SubRecordData_GetGlobalIndex(SubRecordPtr);
 
-                        SubRecord.IsLocalized = C_IsSubRecordLocalized(RecordPtr, j);
-                        SubRecord.StringID = C_GetSubRecordStringID(RecordPtr, j);
-
-                        int DataSize = C_GetSubRecordDataSize(RecordPtr, j);
+                        int DataSize = C_SubRecordData_GetDataSize(SubRecordPtr);
                         if (DataSize > 0)
                         {
                             SubRecord.Data = new byte[DataSize];
-                            C_GetSubRecordData(RecordPtr, j, SubRecord.Data, DataSize);
+                            C_SubRecordData_GetData(SubRecordPtr, SubRecord.Data, DataSize);
                         }
                         else
                         {
@@ -237,13 +256,48 @@ namespace SSELex.SkyrimManagement
                 FreeSearchResults(ResultsPtr, Count);
             }
         }
+
+        public static string MarshalUtf8String(IntPtr Ptr)
+        {
+            if (Ptr == IntPtr.Zero) return string.Empty;
+
+            int Len = 0;
+            while (Marshal.ReadByte(Ptr, Len) != 0) Len++;
+
+            if (Len == 0) return string.Empty;
+
+            byte[] buffer = new byte[Len];
+            Marshal.Copy(Ptr, buffer, 0, Len);
+
+            return Encoding.UTF8.GetString(buffer);
+        }
+
+        private static string GetSubRecordStringUtf8(IntPtr SubRecordPtr)
+        {
+            int Len = C_SubRecordData_GetStringUtf8(SubRecordPtr, null, 0);
+            if (Len <= 0) return string.Empty;
+
+            byte[] Buffer = new byte[Len + 1];
+            C_SubRecordData_GetStringUtf8(SubRecordPtr, Buffer, Buffer.Length);
+
+            return Encoding.UTF8.GetString(Buffer, 0, Len);
+        }
+
+        private static string GetSubRecordSigUtf8(IntPtr SubRecordPtr)
+        {
+            byte[] Buffer = new byte[8]; 
+            int Len = C_SubRecordData_GetSigUtf8(SubRecordPtr, Buffer, Buffer.Length);
+            if (Len <= 0) return string.Empty;
+
+            return Encoding.UTF8.GetString(Buffer, 0, Len);
+        }
     }
 
     public static class EspReader
     {
         public class RecordItem
         {
-            public uint StringID = 0;//StringsFile id
+            public uint StringID = 0;      // StringsFile id
             public string FormID = "";
             public string ParentSig = "";
             public string ChildSig = "";
@@ -251,11 +305,13 @@ namespace SSELex.SkyrimManagement
             public string String = "";
         }
 
-        public static List<RecordItem> Records = new List<RecordItem>();
-        public static List<RecordItem> LoadEsp(string Path)
+        public static Dictionary<string, RecordItem> Records = new Dictionary<string, RecordItem>();
+        public static List<string> Types = new List<string>();
+
+        public static Dictionary<string, RecordItem> LoadEsp(string Path)
         {
             Records.Clear();
-            List<RecordItem> RecordItems = new List<RecordItem>();
+
             var State = EspInterop.LoadEsp(Path);
 
             if (State >= 0)
@@ -267,28 +323,35 @@ namespace SSELex.SkyrimManagement
 
                     foreach (var Sub in GetRecord.SubRecords)
                     {
-                        var MergeSig = Engine.GetFileUniqueKey() + ":" + ParentFormID + ":" + ParentSig + ":" + Sub.Sig;
+                        var MergeSig = Engine.GetFileUniqueKey() + ":" + ParentFormID + ":" + ParentSig + ":" + Sub.Sig + ":" + Sub.GlobalIndex+":" + Sub.OccurrenceIndex;
+                        string UniqueKey = "[" + Crc32Helper.ComputeCrc32(MergeSig) + "]" + " " + Sub.Sig;
 
-                        string UniqueKey ="[" + Crc32Helper.ComputeCrc32(MergeSig) + "]" + " " + Sub.Sig;
-
-                        RecordItem NRecordItem = new RecordItem();
-                        NRecordItem.StringID = Sub.StringID;
-                        NRecordItem.FormID = ParentFormID;
-                        NRecordItem.ParentSig = ParentSig;
-                        NRecordItem.ChildSig = Sub.Sig;
-                        NRecordItem.UniqueKey = UniqueKey;
-                        NRecordItem.String = Sub.Content;
+                        RecordItem NRecordItem = new RecordItem
+                        {
+                            StringID = Sub.StringID,
+                            FormID = ParentFormID,
+                            ParentSig = ParentSig,
+                            ChildSig = Sub.Sig,
+                            UniqueKey = UniqueKey,
+                            String = Sub.Content,
+                        };
 
                         if (NRecordItem.String.Length > 0)
                         {
-                            RecordItems.Add(NRecordItem);
+                            if (!Records.ContainsKey(NRecordItem.UniqueKey))
+                            {
+                                Records.Add(NRecordItem.UniqueKey, NRecordItem);
+                            }
+                            else
+                            {
+                                throw new Exception("Warning: Duplicate key detected: {NRecordItem.UniqueKey}");
+                            }
                         }
                     }
                 }
             }
 
-            Records = RecordItems;
-            return RecordItems;
+            return Records;
         }
 
         public static void Close()

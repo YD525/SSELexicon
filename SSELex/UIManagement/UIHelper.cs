@@ -158,8 +158,9 @@ namespace SSELex.UIManage
 
         public static void TransViewSyncEspRecord(YDListView View)
         {
-            foreach (var GetRecord in EspReader.Records)
+            foreach (var GetKey in EspReader.Records.Keys)
             {
+                var GetRecord = EspReader.Records[GetKey];
                 View.AddRowR(LineRenderer.CreatLine(GetRecord.ParentSig, GetRecord.FormID, GetRecord.UniqueKey, GetRecord.String, "", 999));
             }
         }

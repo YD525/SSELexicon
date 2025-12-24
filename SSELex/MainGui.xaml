@@ -61,7 +61,7 @@
     <Border Style="{DynamicResource BorderWinBackground}" Name="MainBackGround">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
+                <RowDefinition Height="50"/>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="8"/>
             </Grid.RowDefinitions>
@@ -348,7 +348,7 @@
                         </Border>
                     </Grid>
 
-                    <Grid Name="ModTransView" Style="{DynamicResource FrameStyle}" Visibility="Hidden">
+                    <Grid Name="ModTransView" Style="{DynamicResource FrameStyle}" Visibility="Visible">
                         <Grid Grid.Column="1">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="5"/>
@@ -750,7 +750,7 @@
                         </Grid>
                     </Grid>
 
-                    <Grid Name="AboutView" Style="{DynamicResource FrameStyle}" Visibility="Visible" Background="#FF282828">
+                    <Grid Name="AboutView" Style="{DynamicResource FrameStyle}" Visibility="Hidden" Background="#FF282828">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="1*"/>
