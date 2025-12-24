@@ -20,13 +20,13 @@ namespace SSELex.SkyrimManagement
         public bool IsLocalized { get; set; }
         public uint StringID { get; set; }
         public string Content { get; set; }
-        public int OccurrenceIndex { get; set; }  // 新增
-        public int GlobalIndex { get; set; }       // 新增
+        public int OccurrenceIndex { get; set; }  
+        public int GlobalIndex { get; set; }       
     }
 
     public class EspRecordInfo
     {
-        public IntPtr Handle { get; set; }  // 新增：保存C++端的指针
+        public IntPtr Handle { get; set; }  // Intptr
         public string Sig { get; set; }
         public uint FormID { get; set; }
         public uint Flags { get; set; }
@@ -98,7 +98,7 @@ namespace SSELex.SkyrimManagement
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         private static extern void FreeSearchResults(IntPtr arr, int count);
 
-        // SubRecordData 相关函数
+        // SubRecordData Api
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr C_GetSubRecordData_Ptr(IntPtr record, int index);
 
@@ -134,7 +134,7 @@ namespace SSELex.SkyrimManagement
         [return: MarshalAs(UnmanagedType.I1)]
         public static extern bool C_SubRecordData_GetData(IntPtr subRecord, byte[] buffer, int bufferSize);
 
-        // Record 相关函数
+        // Record Api
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr C_GetRecordSig(IntPtr record);
 
