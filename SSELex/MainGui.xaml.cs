@@ -482,7 +482,7 @@ namespace SSELex
         {
             if (CurrentTransType == 2)
             {
-                if (ConvertHelper.ObjToStr(TypeSelector.SelectedValue).Equals("All"))
+                if (ConvertHelper.ObjToStr(TypeSelector.SelectedValue).Equals("ALL"))
                 {
                     if (TransViewList != null)
                         GlobalTransCount = TransViewList.RealLines.Count;
