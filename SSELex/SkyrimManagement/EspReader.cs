@@ -308,10 +308,49 @@ namespace SSELex.SkyrimManagement
         public static Dictionary<string, RecordItem> Records = new Dictionary<string, RecordItem>();
         public static List<string> Types = new List<string>();
 
-        public static Dictionary<string, RecordItem> LoadEsp(string Path)
+        public static void SelectSig(string Sig)
         {
             Records.Clear();
 
+            foreach (var GetRecord in EspInterop.SearchBySig(Sig))
+            {
+                string ParentFormID = GetRecord.GetFormIDHex();
+                string ParentSig = GetRecord.Sig;
+
+                foreach (var Sub in GetRecord.SubRecords)
+                {
+                    var MergeSig = Engine.GetFileUniqueKey() + ":" + ParentFormID + ":" + ParentSig + ":" + Sub.Sig + ":" + Sub.GlobalIndex + ":" + Sub.OccurrenceIndex;
+                    string UniqueKey = "[" + Crc32Helper.ComputeCrc32(MergeSig) + "]" + " " + Sub.Sig;
+
+                    RecordItem NRecordItem = new RecordItem
+                    {
+                        StringID = Sub.StringID,
+                        FormID = ParentFormID,
+                        ParentSig = ParentSig,
+                        ChildSig = Sub.Sig,
+                        UniqueKey = UniqueKey,
+                        String = Sub.Content,
+                    };
+
+                    if (NRecordItem.String.Length > 0)
+                    {
+                        if (!Records.ContainsKey(NRecordItem.UniqueKey))
+                        {
+                            Records.Add(NRecordItem.UniqueKey, NRecordItem);
+                        }
+                        else
+                        {
+                            throw new Exception("Warning: Duplicate key detected: {NRecordItem.UniqueKey}");
+                        }
+                    }
+                }
+            }
+        }
+
+        public static bool LoadEsp(string Path)
+        {
+            Records.Clear();
+            Types.Clear();
             var State = EspInterop.LoadEsp(Path);
 
             if (State >= 0)
@@ -321,37 +360,16 @@ namespace SSELex.SkyrimManagement
                     string ParentFormID = GetRecord.GetFormIDHex();
                     string ParentSig = GetRecord.Sig;
 
-                    foreach (var Sub in GetRecord.SubRecords)
+                    if (!Types.Contains(ParentSig))
                     {
-                        var MergeSig = Engine.GetFileUniqueKey() + ":" + ParentFormID + ":" + ParentSig + ":" + Sub.Sig + ":" + Sub.GlobalIndex+":" + Sub.OccurrenceIndex;
-                        string UniqueKey = "[" + Crc32Helper.ComputeCrc32(MergeSig) + "]" + " " + Sub.Sig;
-
-                        RecordItem NRecordItem = new RecordItem
-                        {
-                            StringID = Sub.StringID,
-                            FormID = ParentFormID,
-                            ParentSig = ParentSig,
-                            ChildSig = Sub.Sig,
-                            UniqueKey = UniqueKey,
-                            String = Sub.Content,
-                        };
-
-                        if (NRecordItem.String.Length > 0)
-                        {
-                            if (!Records.ContainsKey(NRecordItem.UniqueKey))
-                            {
-                                Records.Add(NRecordItem.UniqueKey, NRecordItem);
-                            }
-                            else
-                            {
-                                throw new Exception("Warning: Duplicate key detected: {NRecordItem.UniqueKey}");
-                            }
-                        }
+                        Types.Add(ParentSig);
                     }
                 }
+
+                return true;
             }
 
-            return Records;
+            return false;
         }
 
         public static void Close()

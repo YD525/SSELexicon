@@ -682,6 +682,8 @@ namespace SSELex
 
         public object LockerAddTrd = new object();
         public bool ReadTrdWorkState = false;
+
+        public Thread DataLoadingTrd = null;
         public void ReloadDataFunc(bool UseHotReload = false)
         {
             lock (LockerAddTrd)
@@ -707,7 +709,31 @@ namespace SSELex
                 {
                     if (CurrentTransType == 2)
                     {
-                       // SkyrimDataLoader.Load(CurrentSelect, GlobalEspReader, TransViewList);
+                        EspReader.SelectSig(CurrentSig);
+
+                        if (DataLoadingTrd != null)
+                        {
+                            try
+                            {
+                                DataLoadingTrd.Abort();
+                            } catch { }
+
+                            DataLoadingTrd = null;
+
+                            TransViewList.Parent.Dispatcher.Invoke(new Action(() => {
+                                TransViewList.Clear();
+                            }));
+                        }
+
+                        DataLoadingTrd = new Thread(() => 
+                        {
+                            UIHelper.TransViewSyncEspRecord(TransViewList);
+                            DataLoadingTrd = null;
+                        });
+
+                        DataLoadingTrd.Start();
+
+                        // SkyrimDataLoader.Load(CurrentSelect, GlobalEspReader, TransViewList);
                     }
                     else
                     if (CurrentTransType == 1)
@@ -762,15 +788,19 @@ namespace SSELex
             return false;
         }
 
-        public void ReSetTransTargetType()
+        public void ReSetTransTargetType(List<string>Types)
         {
-            //TypeSelector.Items.Clear();
-            //foreach (var GetType in CanSetSelecter)
-            //{
-            //    TypeSelector.Items.Add(GetType.ToString());
-            //}
-
-            //TypeSelector.SelectedValue = ObjSelect.All.ToString();
+            TypeSelector.Items.Clear();
+            if (Types!=null)
+            if (Types.Count > 0)
+            {
+                TypeSelector.Items.Add("ALL");
+                foreach (var Type in Types)
+                {
+                    TypeSelector.Items.Add(Type);
+                }
+                TypeSelector.SelectedValue = TypeSelector.Items[0];
+            }
         }
 
         private System.Timers.Timer ReloadDebounceTimer;
@@ -896,8 +926,6 @@ namespace SSELex
                         TransViewList.Clear();
                     }));
 
-                    //CanSetSelecter.Clear();
-
                     GlobalRamCacheReader.Load(LastSetPath);
 
                     this.Dispatcher.Invoke(new Action(() =>
@@ -907,7 +935,7 @@ namespace SSELex
                         LoadSaveState = 1;
                     }));
 
-                    ReSetTransTargetType();
+                    ReSetTransTargetType(null);
                     ReloadData();
 
                     IsValidFile = true;
@@ -931,8 +959,6 @@ namespace SSELex
                             TransViewList.Clear();
                         }));
 
-                        //CanSetSelecter.Clear();
-
                         GlobalPexReader.LoadPexFile(LastSetPath);
 
                         this.Dispatcher.Invoke(new Action(() =>
@@ -942,7 +968,7 @@ namespace SSELex
                             LoadSaveState = 1;
                         }));
 
-                        ReSetTransTargetType();
+                        ReSetTransTargetType(null);
                         ReloadData();
 
                         IsValidFile = true;
@@ -965,8 +991,6 @@ namespace SSELex
                         TransViewList.Clear();
                     }));
 
-                    //CanSetSelecter.Clear();
-
                     GlobalMCMReader.LoadMCM(LastSetPath);
 
                     this.Dispatcher.Invoke(new Action(() =>
@@ -976,7 +1000,7 @@ namespace SSELex
                         LoadSaveState = 1;
                     }));
 
-                    ReSetTransTargetType();
+                    ReSetTransTargetType(null);
                     ReloadData();
 
                     IsValidFile = true;
@@ -1000,7 +1024,6 @@ namespace SSELex
 
                     EspReader.LoadEsp(FilePath);
 
-                    UIHelper.TransViewSyncEspRecord(TransViewList);
                     //GlobalEspReader.DefReadMod(FilePath);
                     //CanSetSelecter.Clear();
                     //CanSetSelecter.AddRange(SkyrimDataLoader.QueryParams(GlobalEspReader));
@@ -1012,7 +1035,7 @@ namespace SSELex
                         LoadSaveState = 1;
                     }));
 
-                    ReSetTransTargetType();
+                    ReSetTransTargetType(EspReader.Types);
                     //ReloadData();
 
                     IsValidFile = true;
@@ -1274,14 +1297,14 @@ namespace SSELex
                 LoadSaveState = 0;
             }
         }
-
+        public string CurrentSig = "";
         private void TransTargetType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             string GetSelectValue = ConvertHelper.ObjToStr((sender as ComboBox).SelectedValue);
             if (GetSelectValue.Trim().Length > 0)
             {
                 ClosetTransTrd();
-                //CurrentSelect = Enum.Parse<ObjSelect>(GetSelectValue);
+                CurrentSig = GetSelectValue;
                 ReloadData();
             }
         }

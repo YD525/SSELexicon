@@ -161,7 +161,11 @@ namespace SSELex.UIManage
             foreach (var GetKey in EspReader.Records.Keys)
             {
                 var GetRecord = EspReader.Records[GetKey];
-                View.AddRowR(LineRenderer.CreatLine(GetRecord.ParentSig, GetRecord.FormID, GetRecord.UniqueKey, GetRecord.String, "", 999));
+
+                View.Parent.Dispatcher.Invoke(new Action(() => 
+                {
+                    View.AddRowR(LineRenderer.CreatLine(GetRecord.ParentSig, GetRecord.FormID, GetRecord.UniqueKey, GetRecord.String, "", 999));
+                }));
             }
         }
 
