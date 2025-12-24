@@ -158,6 +158,12 @@ namespace SSELex.UIManage
 
         public static void TransViewSyncEspRecord(YDListView View)
         {
+            var CanVasHandle = View.GetMainCanvas();
+            CanVasHandle.Dispatcher.Invoke(new Action(() =>
+            {
+                CanVasHandle.IsEnabled = false;
+            }));
+
             foreach (var GetKey in EspReader.Records.Keys)
             {
                 var GetRecord = EspReader.Records[GetKey];
@@ -167,6 +173,11 @@ namespace SSELex.UIManage
                     View.AddRowR(LineRenderer.CreatLine(GetRecord.ParentSig, GetRecord.FormID, GetRecord.UniqueKey, GetRecord.String, "", 999));
                 }));
             }
+
+            CanVasHandle.Dispatcher.Invoke(new Action(() =>
+            {
+                CanVasHandle.IsEnabled = true;
+            }));
         }
 
         private static CancellationTokenSource AutoCancelSelectIDETrd;
