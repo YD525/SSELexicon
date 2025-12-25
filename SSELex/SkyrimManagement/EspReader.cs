@@ -347,6 +347,7 @@ namespace SSELex.SkyrimManagement
             }
         }
 
+        //Fast Load Esp
         public static bool LoadEsp(string Path)
         {
             Records.Clear();

@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System;
 using SSELex.SkyrimManagement;
 using SSELex.UIManagement;
+using System.Globalization;
 
 namespace SSELex.UIManage
 {
@@ -110,36 +111,54 @@ namespace SSELex.UIManage
         public static double DefLineHeight = 42;
         public static double DefFontSize = 15;
 
-        public static double MeasureTextWidth(string Text, double FontSize, FontFamily FontFamily)
-        {
-            var Typeface = new Typeface(FontFamily, FontStyles.Normal, FontWeights.Normal, FontStretches.Normal);
+        public static readonly Typeface _TypeFace =
+    new Typeface(SystemFonts.MessageFontFamily,
+                 FontStyles.Normal,
+                 FontWeights.Normal,
+                 FontStretches.Normal);
 
-            var FormattedText = new FormattedText(
+        public static double MeasureTextWidth(string Text, double FontSize)
+        {
+            if (string.IsNullOrEmpty(Text))
+                return 0;
+
+  
+            if (Text.Length < 16)
+                return Text.Length * FontSize * 0.6;
+
+            var Font = new FormattedText(
                 Text,
-                System.Globalization.CultureInfo.CurrentCulture,
+                CultureInfo.InvariantCulture,
                 FlowDirection.LeftToRight,
-                Typeface,
+                _TypeFace,
                 FontSize,
                 Brushes.Black,
-                new NumberSubstitution(),
+                null,
                 1);
 
-            return FormattedText.Width;
+            return Font.WidthIncludingTrailingWhitespace;
         }
 
-        public static FakeGrid CreatFakeLine(string Type, string Key, string SourceText, string TransText, double Score)
+        public static FakeGrid CreatFakeLine(string Type,string Key,string SourceText,string TransText,double Score)
         {
             double AutoHeight = DefLineHeight;
 
-            FontFamily FontFamily = SystemFonts.MessageFontFamily;
-
-            double ActualTextWidth = MeasureTextWidth(SourceText, SystemFonts.MessageFontSize, FontFamily);
-
-            var GetTextWidthRange = (DeFine.WorkingWin.ActualWidth / 3) - 135;
-
-            if (ActualTextWidth > GetTextWidthRange)
+            if (!string.IsNullOrEmpty(SourceText))
             {
-                AutoHeight = 82;
+                var MaxWidth = (DeFine.WorkingWin.ActualWidth / 3) - 135;
+
+                int RoughCharLimit = (int)(MaxWidth / (SystemFonts.MessageFontSize * 0.6));
+
+                if (SourceText.Length > RoughCharLimit)
+                {
+                    AutoHeight = 82;
+                }
+                else
+                {
+                    double Width = MeasureTextWidth(SourceText, SystemFonts.MessageFontSize);
+                    if (Width > MaxWidth)
+                        AutoHeight = 82;
+                }
             }
 
             return new FakeGrid(AutoHeight, Type, Key, SourceText, TransText, Score);
