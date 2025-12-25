@@ -43,7 +43,7 @@ This project uses the following key open-source libraries/frameworks:
 
 - [AvalonEdit](https://github.com/icsharpcode/AvalonEdit) – WPF text editor component used for code/text display.  
 - [Newtonsoft.Json](https://www.newtonsoft.com/json) – JSON parsing and serialization library.  
-- [System.Data.SQLite](https://system.data.sqlite.org/index.html/doc/trunk/www/index.wiki) – SQLite database engine for .NET, used for reading/writing local SQLite databases. Licensed under Public Domain / MIT-style license.
+- [System.Data.SQLite](https://system.data.sqlite.org/index.html/doc/trunk/www/index.wiki) – SQLite database engine for .NET, used for reading/writing local SQLite databases.
 
 Other dependencies (such as various helper libraries) are also used.  
 Please refer to their respective LICENSE files for more information.
@@ -56,6 +56,9 @@ The following components are required for compiling `.pex` (Papyrus) scripts:
 
 - [Champollion](https://github.com/Orvid/Champollion) – Developed by [Orvid], used for decompiling Papyrus compiled scripts.  
 - [Papyrus-compiler](https://github.com/russo-2025/papyrus-compiler/tree/master/bin/Original%20Compiler) – Used to compile `.pas` script files. You can also download the official components and place them in the `Tool\Original Compiler` directory of the program (the same files can be obtained from CK).
+
+Other dependencies (such as various helper libraries) are also used.  
+Please refer to their respective LICENSE files for more information.
 
 ---
 
