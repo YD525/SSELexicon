@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using SSELex.SkyrimManagement;
 
 namespace SSELex.TranslateManage
 {
@@ -343,39 +344,54 @@ namespace SSELex.TranslateManage
                                 bool HasAddAIMemory = false;
                                 if (DeFine.WorkingWin?.CurrentTransType == 2)
                                 {
-                                    //var GetTrans = DeFine.WorkingWin.GlobalEspReader.StringsReader.QueryData(Row.Key);
+                                    var GetTrans = EspReader.StringsReader.QueryData(Row.Key);
 
-                                    //if (GetTrans != null)
-                                    //{
-                                    //    //Added to context memory. Helps AI improve accuracy.
-                                    //    Engine.AddAIMemory(Row.GetSource(), GetTrans.Value);
-                                    //    HasAddAIMemory = true;
+                                    if (GetTrans != null)
+                                    {
+                                        //Added to context memory. Helps AI improve accuracy.
+                                        Engine.AddAIMemory(Row.GetSource(), GetTrans.Value);
+                                        HasAddAIMemory = true;
 
-                                    //    if (!Translator.TransData.ContainsKey(Row.Key))
-                                    //    {
-                                    //        Translator.TransData.Add(Row.Key, GetTrans.Value);
-                                    //    }
-                                    //    else
-                                    //    {
-                                    //        Translator.TransData[Row.Key] = GetTrans.Value;
-                                    //    }
+                                        if (!Translator.TransData.ContainsKey(Row.Key))
+                                        {
+                                            Translator.TransData.Add(Row.Key, GetTrans.Value);
+                                        }
+                                        else
+                                        {
+                                            Translator.TransData[Row.Key] = GetTrans.Value;
+                                        }
 
 
-                                    //    var GetFakeGrid = GetListView.KeyToFakeGrid(Row.Key);
-                                    //    if (GetFakeGrid != null)
-                                    //    {
-                                    //        Row.TransText = GetTrans.Value;
+                                        var GetFakeGrid = GetListView.KeyToFakeGrid(Row.Key);
+                                        if (GetFakeGrid != null)
+                                        {
+                                            Row.TransText = GetTrans.Value;
 
-                                    //        Row.SyncUI(GetListView);
-                                    //    }
+                                            Row.SyncUI(GetListView);
+                                        }
 
-                                    //    if (DelegateHelper.SetDataCall != null)
-                                    //    {
-                                    //        DelegateHelper.SetDataCall(0, "Skip StringsFile(" + GetTrans.Type.ToString() + ") fields:" + Row.Key);
-                                    //    }
+                                        if (DelegateHelper.SetDataCall != null)
+                                        {
+                                            DelegateHelper.SetDataCall(0, "Skip StringsFile(" + GetTrans.Type.ToString() + ") fields:" + Row.Key);
+                                        }
 
-                                    //    CanSet = false;
-                                    //}
+                                        CanSet = false;
+                                    }
+                                    else
+                                    {
+                                        if (EspReader.Records.ContainsKey(Row.Key))
+                                        {
+                                            if (EspReader.Records[Row.Key].StringID > 0)
+                                            {
+                                                if (DelegateHelper.SetDataCall != null)
+                                                {
+                                                    DelegateHelper.SetDataCall(0, "Skip StringsFile(" + EspReader.Records[Row.Key].String + ") fields:" + Row.Key);
+                                                }
+
+                                                CanSet = false;
+                                            }
+                                        }
+                                    }
                                 }
 
                                 if (EngineConfig.EnableGlobalSearch)

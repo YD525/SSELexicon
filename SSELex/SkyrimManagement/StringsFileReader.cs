@@ -23,7 +23,7 @@ namespace SSELex.SkyrimManagement
 
         public StringItem QueryData(string Key)
         {
-            return new StringItem();
+            return null;
         }
     }
 }

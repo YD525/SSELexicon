@@ -150,12 +150,52 @@ namespace SSELex.SkyrimManagement
         private static extern int C_GetSubRecordCount(IntPtr record);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern bool C_ModifySubRecord(
+         uint FormID,
+         IntPtr RecordSig,
+         IntPtr SubSig,
+         int OccurrenceIndex,
+         int GlobalIndex,
+         IntPtr NewUtf8Data
+        );
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void C_Close();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void C_Clear();
 
         #endregion
+
+        private static IntPtr StringToUtf8IntPtr(string str)
+        {
+            byte[] utf8Bytes = Encoding.UTF8.GetBytes(str + "\0"); 
+            IntPtr ptr = Marshal.AllocHGlobal(utf8Bytes.Length);
+            Marshal.Copy(utf8Bytes, 0, ptr, utf8Bytes.Length);
+            return ptr;
+        }
+
+        public static bool ModifySubRecord(uint formId,string recordSig,string subSig,int occurrenceIndex,int globalIndex,string newUtf8Data)
+        {
+            IntPtr ptrRecordSig = IntPtr.Zero;
+            IntPtr ptrSubSig = IntPtr.Zero;
+            IntPtr ptrNewData = IntPtr.Zero;
+
+            try
+            {
+                ptrRecordSig = StringToUtf8IntPtr(recordSig ?? "");
+                ptrSubSig = StringToUtf8IntPtr(subSig ?? "");
+                ptrNewData = StringToUtf8IntPtr(newUtf8Data ?? "");
+
+                return C_ModifySubRecord(formId, ptrRecordSig, ptrSubSig, occurrenceIndex, globalIndex, ptrNewData);
+            }
+            finally
+            {
+                if (ptrRecordSig != IntPtr.Zero) Marshal.FreeCoTaskMem(ptrRecordSig);
+                if (ptrSubSig != IntPtr.Zero) Marshal.FreeCoTaskMem(ptrSubSig);
+                if (ptrNewData != IntPtr.Zero) Marshal.FreeCoTaskMem(ptrNewData);
+            }
+        }
 
         public static void SetFilter(Dictionary<string, string[]> filterConfig)
         {
@@ -301,11 +341,15 @@ namespace SSELex.SkyrimManagement
         public class RecordItem
         {
             public uint StringID = 0;      // StringsFile id
+            public uint RealFormID = 0;
             public string FormID = "";
             public string ParentSig = "";
             public string ChildSig = "";
             public string UniqueKey = "";
             public string String = "";
+            public int GlobalIndex = 0;
+            public int OccurrenceIndex = 0;
+            public bool IsModify = false;
         }
 
         public static Dictionary<string, RecordItem> Records = new Dictionary<string, RecordItem>();
@@ -317,6 +361,7 @@ namespace SSELex.SkyrimManagement
 
             foreach (var GetRecord in EspInterop.SearchBySig(Sig))
             {
+                uint RealFormID = GetRecord.FormID;
                 string ParentFormID = GetRecord.GetFormIDHex();
                 string ParentSig = GetRecord.Sig;
 
@@ -327,12 +372,15 @@ namespace SSELex.SkyrimManagement
 
                     RecordItem NRecordItem = new RecordItem
                     {
+                        RealFormID = RealFormID,
                         StringID = Sub.StringID,
                         FormID = ParentFormID,
                         ParentSig = ParentSig,
                         ChildSig = Sub.Sig,
                         UniqueKey = UniqueKey,
                         String = Sub.Content,
+                        GlobalIndex = Sub.GlobalIndex,
+                        OccurrenceIndex = Sub.OccurrenceIndex
                     };
 
                     if (NRecordItem.String.Length > 0)
@@ -374,6 +422,21 @@ namespace SSELex.SkyrimManagement
             }
 
             return false;
+        }
+
+        public static void TestSaveEsp()
+        {
+            int ModifyCount = 0;
+            for (int i = 0; i < Records.Count; i++)
+            {
+                var Record = Records[Records.ElementAt(i).Key];
+
+                if (EspInterop.ModifySubRecord(Record.RealFormID, Record.ParentSig, Record.ChildSig, Record.OccurrenceIndex, Record.GlobalIndex, "测试"))
+                {
+                    ModifyCount++;
+                }
+            }
+            GC.Collect();
         }
 
         public static void Close()

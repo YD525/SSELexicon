@@ -1332,13 +1332,15 @@ Fill="White"/>
                                                         </ComboBox>
                                                     </StackPanel>
 
-                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 5 5 10">
+                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 10 5 10">
                                                         <Label Style="{DynamicResource NormalText}">
-                                                            ESP | ESM | ESL FileEncoding:
+                                                            Skyrim Install Path:
                                                         </Label>
 
-                                                        <ComboBox Style="{DynamicResource CustomComboBoxStyle}" Name="SGameFileEncoding" Width="100" SelectionChanged="SGameFileEncoding_SelectionChanged">
-                                                        </ComboBox>
+                                                        <Border Style="{DynamicResource DefTextBoxBorder}" Width="300">
+                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SkyrimPath">
+                                                            </TextBox>
+                                                        </Border>
                                                     </StackPanel>
 
                                                 </StackPanel>
@@ -1527,14 +1529,6 @@ Fill="White"/>
                                                         Set the maximum number of threads allowed to be created during batch translation.
                                                     </TextBox>
 
-                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 5 5 10">
-                                                        <Label Style="{DynamicResource NormalText}">
-                                                            LanguageDetect:
-                                                        </Label>
-                                                        <CheckBox VerticalAlignment="Center" Style="{DynamicResource DefCheckBox}" Margin="5 0 0 0" Name="SEnableLanguageDetect" Click="SEnableLanguageDetect_Click">
-                                                            Enable
-                                                        </CheckBox>
-                                                    </StackPanel>
                                                 </StackPanel>
                                             </Border>
                                         </StackPanel>

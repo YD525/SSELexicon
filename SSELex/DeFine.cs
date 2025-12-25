@@ -194,7 +194,6 @@ namespace SSELex
         public int DeepSeekTokenUsage { get; set; } = 0;
         public int BaichuanTokenUsage { get; set; } = 0;
         public int LocalAITokenUsage { get; set; } = 0;
-        public bool EnableLanguageDetect { get; set; } = true;
 
         public bool EnableAnalyzingWords { get; set; } = true;
         public bool AutoUpdateStringsFileToDatabase { get; set; } = false;
@@ -234,7 +233,6 @@ namespace SSELex
                             this.BaichuanTokenUsage = GetSetting.BaichuanTokenUsage;
                             this.LocalAITokenUsage = GetSetting.LocalAITokenUsage;
 
-                            this.EnableLanguageDetect = GetSetting.EnableLanguageDetect;
                             this.EnableAnalyzingWords = GetSetting.EnableAnalyzingWords;
                             this.AutoUpdateStringsFileToDatabase = GetSetting.AutoUpdateStringsFileToDatabase;
 

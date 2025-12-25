@@ -1211,6 +1211,7 @@ namespace SSELex
                     }
                     if (CurrentTransType == 2)
                     {
+                        EspReader.TestSaveEsp();
                         //if (Translator.TransData.Count > 0)
                         //    if (GlobalEspReader != null)
                         //    {
@@ -1993,14 +1994,7 @@ namespace SSELex
                                 {
                                     if (ConvertHelper.ObjToStr(TransProcess.Content).StartsWith("STRINGS("))
                                     {
-                                        if (DeFine.GlobalLocalSetting.EnableLanguageDetect)
-                                        {
-                                            if (Engine.From == Languages.Auto)
-                                            {
-                                                Engine.From = DetectLanguage();
-                                            }
-                                        }
-
+                                      
                                         if (Engine.From == Engine.To)
                                         {
                                             MessageBoxExtend.Show(this, "The source language and target language cannot be the same!");
@@ -3076,15 +3070,6 @@ namespace SSELex
                 {
                     GlobalSearch.IsChecked = false;
                 }
-
-                if (DeFine.GlobalLocalSetting.EnableLanguageDetect)
-                {
-                    SEnableLanguageDetect.IsChecked = true;
-                }
-                else
-                {
-                    SEnableLanguageDetect.IsChecked = false;
-                }
             }
         }
 
@@ -3320,15 +3305,6 @@ namespace SSELex
             }
         }
 
-        private void SGameFileEncoding_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            string GetFileEncoding = ConvertHelper.ObjToStr(SGameFileEncoding.SelectedValue);
-            if (GetFileEncoding.Trim().Length > 0)
-            {
-                //DeFine.GlobalLocalSetting.FileEncoding = Enum.Parse<EncodingTypes>(GetFileEncoding);
-            }
-        }
-
         private void SThrottlingRatio_TextChanged(object sender, TextChangedEventArgs e)
         {
             EngineConfig.ThrottleRatio = ConvertHelper.ObjToDouble(SThrottlingRatio.Text);
@@ -3527,18 +3503,6 @@ namespace SSELex
             }
 
             EngineConfig.Save();
-        }
-
-        private void SEnableLanguageDetect_Click(object sender, RoutedEventArgs e)
-        {
-            if (SEnableLanguageDetect.IsChecked == true)
-            {
-                DeFine.GlobalLocalSetting.EnableLanguageDetect = true;
-            }
-            else
-            {
-                DeFine.GlobalLocalSetting.EnableLanguageDetect = false;
-            }
         }
 
         private void NextUntranslated_PreviewMouseDown(object sender, MouseButtonEventArgs e)
