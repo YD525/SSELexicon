@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using PhoenixEngine.EngineManagement;
 using PhoenixEngine.TranslateCore;
 using PhoenixEngine.TranslateManagement;
+using SSELex.SkyrimManage;
 using SSELex.SkyrimManagement;
 using SSELex.UIManage;
 
@@ -100,8 +101,8 @@ namespace SSELex
             this.Left = DeFine.WorkingWin.Left - this.Width;
             this.Top = DeFine.WorkingWin.Top;
 
-            if(CanShow)
-            this.Show();
+            if (CanShow)
+                this.Show();
         }
 
         private CancellationTokenSource _CancellationTokenSource;
@@ -112,36 +113,36 @@ namespace SSELex
             _CancellationTokenSource?.Cancel();
         }
 
-        //public void SetOriginal(string Original, StringItem StringItem)
-        //{
-        //    uint StringKey = 0;
-        //    if (IsShow)
-        //    {
-        //        if (StringItem != null)
-        //        {
-        //            StringKey = StringItem.ID;
-        //        }
+        public void SetOriginal(string Original, StringItem StringItem)
+        {
+            uint StringKey = 0;
+            if (IsShow)
+            {
+                if (StringItem != null)
+                {
+                    StringKey = StringItem.ID;
+                }
 
-        //        if (SearchTrd != null)
-        //        {
-        //            CancelSearch();
+                if (SearchTrd != null)
+                {
+                    CancelSearch();
 
-        //            SearchTrd = null;
-        //        }
+                    SearchTrd = null;
+                }
 
-        //        _CancellationTokenSource = new CancellationTokenSource();
-                
+                _CancellationTokenSource = new CancellationTokenSource();
 
-        //        SearchTrd = new Thread(() =>
-        //        {
-        //            MatchTransItem(Original, StringKey, _CancellationTokenSource.Token);
-        //            SearchTrd = null;
-        //        });
 
-        //        SearchTrd.Start();
+                SearchTrd = new Thread(() =>
+                {
+                    MatchTransItem(Original, StringKey, _CancellationTokenSource.Token);
+                    SearchTrd = null;
+                });
 
-        //    }
-        //}
+                SearchTrd.Start();
+
+            }
+        }
 
         public void MatchTransItem(string Original, uint StringKey, CancellationToken CancellationToken)
         {
@@ -174,36 +175,36 @@ namespace SSELex
             if (StringKey != 0)
                 if (DeFine.WorkingWin.CurrentTransType == 2)
                 {
-                    //if (DeFine.WorkingWin.GlobalEspReader != null)
-                    //{
-                    //    if (DeFine.WorkingWin.GlobalEspReader.StringsReader?.Strings?.ContainsKey(StringKey) == true)
-                    //    {
-                    //        string AutoFileName = DeFine.WorkingWin.GlobalEspReader.StringsReader.CurrentFileName;
-                    //        var FindItem = DeFine.WorkingWin.GlobalEspReader.StringsReader.Strings[StringKey];
+                    if (EspReader.StringsReader != null)
+                    {
+                        if (EspReader.StringsReader.Strings.ContainsKey(StringKey) == true)
+                        {
+                            string AutoFileName = EspReader.StringsReader.CurrentFileName;
+                            var FindItem = EspReader.StringsReader.Strings[StringKey];
 
-                    //        if (FindItem.Type == Mutagen.Bethesda.Strings.StringsSource.DL)
-                    //        {
-                    //            AutoFileName += ".dlstrings";
-                    //        }
-                    //        else
-                    //        if (FindItem.Type == Mutagen.Bethesda.Strings.StringsSource.IL)
-                    //        {
-                    //            AutoFileName += ".ilstrings";
-                    //        }
-                    //        else
-                    //        {
-                    //            AutoFileName += ".strings";
-                    //        }
-                    //        MatchView.Dispatcher.Invoke(new Action(() =>
-                    //        {
-                    //            MatchView.Children.Add(UIHelper.CreatMatchLine(
-                    //            FindItem.Type.ToString(),
-                    //            FindItem.ID.ToString(),
-                    //            FindItem.Value
-                    //            ));
-                    //        }));
-                    //    }
-                    //}
+                            if (FindItem.Type == StringsFileType.DL)
+                            {
+                                AutoFileName += ".dlstrings";
+                            }
+                            else
+                            if (FindItem.Type == StringsFileType.IL)
+                            {
+                                AutoFileName += ".ilstrings";
+                            }
+                            else
+                            {
+                                AutoFileName += ".strings";
+                            }
+                            MatchView.Dispatcher.Invoke(new Action(() =>
+                            {
+                                MatchView.Children.Add(UIHelper.CreatMatchLine(
+                                FindItem.Type.ToString(),
+                                FindItem.ID.ToString(),
+                                FindItem.Value
+                                ));
+                            }));
+                        }
+                    }
                 }
         }
 

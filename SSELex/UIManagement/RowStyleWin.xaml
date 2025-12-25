@@ -46,12 +46,33 @@
                         </Grid>
 
                         <Grid Grid.Column="3">
-                            <Border Style="{DynamicResource LineTranslatedBorder}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="0"/>
+                            </Grid.ColumnDefinitions>
+                      
+                            <Border Style="{DynamicResource LineTranslatedBorder}" Grid.Column="0">
                                 <TextBox Style="{DynamicResource LineTranslatedFont}">
 
                                 </TextBox>
                             </Border>
-                          
+
+                            <Grid  Margin="0 2 0 2" Grid.Column="1" Height="35" Opacity="0.8">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                </Grid.RowDefinitions>
+                                <Border Grid.Row="0" Height="11" Width="11" Style="{DynamicResource ColorA}">
+                                </Border>
+
+                                <Border Grid.Row="1"  Height="11" Width="11" Style="{DynamicResource ColorB}">
+                                </Border>
+
+                                <Border Grid.Row="2" Height="11" Width="11" Style="{DynamicResource ColorC}">
+                                </Border>
+                            </Grid>
+
                         </Grid>
                     </Grid>
                 </Border>

@@ -297,6 +297,7 @@ namespace SSELex.SkyrimManagement
 
     public static class EspReader
     {
+        public static StringsFileReader StringsReader = new StringsFileReader();
         public class RecordItem
         {
             public uint StringID = 0;      // StringsFile id

@@ -143,6 +143,15 @@ namespace SSELex.UIManagement
             SetTranslated.Text = Translated;
         }
 
+        public ColumnDefinition GetColorCol(Grid Grid)
+        {
+            Grid SetDataGrid = ((Grid)((Border)Grid.Children[0]).Child);
+
+            Grid SetTranslatedGrid = (Grid)SetDataGrid.Children[3];
+
+            return SetTranslatedGrid.ColumnDefinitions[1];
+        }
+
         public static TextBox GetTranslatedTextBoxHandle(Grid Grid)
         {
             Grid SetDataGrid = ((Grid)((Border)Grid.Children[0]).Child);
@@ -258,6 +267,12 @@ namespace SSELex.UIManagement
             Grid GetTranslatedGrid = (Grid)GetChildGrid.Children[3];
             Border GetTranslatedBorder = (Border)GetTranslatedGrid.Children[0];
 
+            Grid GetColorGrid = (Grid)GetTranslatedGrid.Children[1];
+
+            ((Border)GetColorGrid.Children[0]).PreviewMouseDown += ChangeColor;
+            ((Border)GetColorGrid.Children[1]).PreviewMouseDown += ChangeColor;
+            ((Border)GetColorGrid.Children[2]).PreviewMouseDown += ChangeColor;
+
             TextBox GetTranslated = (TextBox)(GetTranslatedBorder.Child);
 
             GetTranslated.Text = Item.TransText;
@@ -317,6 +332,8 @@ namespace SSELex.UIManagement
             return MainGrid;
         }
 
+
+  
 
         private void GetTranslated_LostFocus(object sender, RoutedEventArgs e)
         {
@@ -439,6 +456,20 @@ namespace SSELex.UIManagement
             {
                 ScrollViewer.ScrollToVerticalOffset(ScrollViewer.VerticalOffset - e.Delta);
                 e.Handled = true; 
+            }
+        }
+
+        public void ChangeColor(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is Border)
+            {
+                Border ButtonHandle = (Border)sender;
+                Color GetColor = ((SolidColorBrush)ButtonHandle.Background).Color;
+
+                if (DeFine.WorkingWin.TransViewList != null)
+                {
+                    DeFine.WorkingWin.TransViewList.ChangeFontColor(Engine.GetFileUniqueKey(), GetColor.R, GetColor.G, GetColor.B);
+                }
             }
         }
     }

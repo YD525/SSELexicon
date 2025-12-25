@@ -1767,7 +1767,7 @@ namespace SSELex
                             AutoLoadHistoryList();
                         }));
 
-                        //DeFine.ExtendWin.SetOriginal(GridHandle.SourceText, DeFine.WorkingWin.GlobalEspReader?.StringsReader.QueryData(GridHandle.Key));
+                        DeFine.ExtendWin.SetOriginal(GridHandle.SourceText, EspReader.StringsReader.QueryData(GridHandle.Key));
                     }
                 }
             }

@@ -610,26 +610,17 @@
     </Style>
 
     <Style x:Key="ColorA" TargetType="Border">
-        <Setter Property="CornerRadius" Value="5"/>
         <Setter Property="Background"  Value="White"/>
-        <Setter Property="Width"  Value="20"/>
-        <Setter Property="Height"  Value="20"/>
         <Setter Property="Cursor"  Value="Hand"/>
     </Style>
 
     <Style x:Key="ColorB" TargetType="Border">
-        <Setter Property="CornerRadius" Value="5"/>
         <Setter Property="Background"  Value="#FF0B9BD4"/>
-        <Setter Property="Width"  Value="20"/>
-        <Setter Property="Height"  Value="20"/>
         <Setter Property="Cursor"  Value="Hand"/>
     </Style>
 
     <Style x:Key="ColorC" TargetType="Border">
-        <Setter Property="CornerRadius" Value="5"/>
         <Setter Property="Background"  Value="#FFE59924"/>
-        <Setter Property="Width"  Value="20"/>
-        <Setter Property="Height"  Value="20"/>
         <Setter Property="Cursor"  Value="Hand"/>
     </Style>
 

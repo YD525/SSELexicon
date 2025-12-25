@@ -557,15 +557,6 @@
                                     <Label Style="{DynamicResource CaptionTextA}" Name="UITranslated">
                                         Translated
                                     </Label>
-
-                                    <Border Style="{DynamicResource ColorA}" Margin="5 0 0 0" PreviewMouseDown="ChangeColor">
-                                    </Border>
-
-                                    <Border Style="{DynamicResource ColorB}" Margin="5 0 0 0" PreviewMouseDown="ChangeColor">
-                                    </Border>
-
-                                    <Border Style="{DynamicResource ColorC}" Margin="5 0 0 0" PreviewMouseDown="ChangeColor">
-                                    </Border>
                                 </StackPanel>
                             </Grid>
                             <Grid Name="TransView" Style="{DynamicResource FrameStyle}" Grid.Row="4" Panel.ZIndex="990" Margin="10 0 10 0" Visibility="Visible">

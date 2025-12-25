@@ -156,6 +156,7 @@ public class YDListView
 
     public int SelectLineID = 0;
     public Border LastSelectBorder = null;
+    public ColumnDefinition LastSetColorCol = null;
 
     public bool IsSearchBox = false;
 
@@ -168,6 +169,10 @@ public class YDListView
         {
             LastSelectBorder.BorderBrush = new SolidColorBrush((Color)Application.Current.Resources["LineANormal"]);
         }
+        if (LastSetColorCol != null)
+        {
+            LastSetColorCol.Width = new GridLength(0, GridUnitType.Pixel);
+        }
 
         SelectLineID = ConvertHelper.ObjToInt(MainGrid.Tag);
 
@@ -178,6 +183,7 @@ public class YDListView
         Grid GetTranslatedGrid = (Grid)GetChildGrid.Children[3];
         TextBox GetTranslated = (TextBox)(((Border)GetTranslatedGrid.Children[0]).Child);
 
+        GetTranslatedGrid.ColumnDefinitions[1].Width = new GridLength(15,GridUnitType.Pixel);
 
         if (UPDate)
         {
@@ -193,6 +199,7 @@ public class YDListView
 
         MainBorder.BorderBrush = new SolidColorBrush((Color)Application.Current.Resources["LineASelected"]);
         LastSelectBorder = MainBorder;
+        LastSetColorCol = GetTranslatedGrid.ColumnDefinitions[1];
     }
 
     private bool IsGridInViewport(Grid Grid)
