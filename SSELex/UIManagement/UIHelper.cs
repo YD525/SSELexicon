@@ -19,6 +19,7 @@ using System;
 using SSELex.SkyrimManagement;
 using SSELex.UIManagement;
 using System.Globalization;
+using System.Linq;
 
 namespace SSELex.UIManage
 {
@@ -183,15 +184,30 @@ namespace SSELex.UIManage
                 CanVasHandle.IsEnabled = false;
             }));
 
-            View.Parent.Dispatcher.Invoke(new Action(() =>
+            var AllRecords = EspReader.Records.Values.ToList();
+
+            const int BatchSize = 10000;
+            int Total = AllRecords.Count;
+
+            for (int i = 0; i < Total; i += BatchSize)
             {
-                foreach (var GetKey in EspReader.Records.Keys)
+                var Batch = AllRecords.Skip(i).Take(BatchSize).ToList();
+
+                View.Parent.Dispatcher.Invoke(new Action(() =>
                 {
-                    var GetRecord = EspReader.Records[GetKey];
-                    View.AddRowR(LineRenderer.CreatLine(GetRecord.ParentSig, GetRecord.FormID, GetRecord.UniqueKey, GetRecord.String, "", 999));
-                }
-            }));
-           
+                    foreach (var Record in Batch)
+                    {
+                        View.AddRowR(LineRenderer.CreatLine(
+                            Record.ParentSig,
+                            Record.FormID,
+                            Record.UniqueKey,
+                            Record.String,
+                            "",
+                            999));
+                    }
+                }), System.Windows.Threading.DispatcherPriority.Background);
+            }
+
             CanVasHandle.Dispatcher.Invoke(new Action(() =>
             {
                 CanVasHandle.IsEnabled = true;
