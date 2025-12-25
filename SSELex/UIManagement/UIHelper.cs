@@ -183,16 +183,15 @@ namespace SSELex.UIManage
                 CanVasHandle.IsEnabled = false;
             }));
 
-            foreach (var GetKey in EspReader.Records.Keys)
+            View.Parent.Dispatcher.Invoke(new Action(() =>
             {
-                var GetRecord = EspReader.Records[GetKey];
-
-                View.Parent.Dispatcher.Invoke(new Action(() => 
+                foreach (var GetKey in EspReader.Records.Keys)
                 {
+                    var GetRecord = EspReader.Records[GetKey];
                     View.AddRowR(LineRenderer.CreatLine(GetRecord.ParentSig, GetRecord.FormID, GetRecord.UniqueKey, GetRecord.String, "", 999));
-                }));
-            }
-
+                }
+            }));
+           
             CanVasHandle.Dispatcher.Invoke(new Action(() =>
             {
                 CanVasHandle.IsEnabled = true;
