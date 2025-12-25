@@ -37,15 +37,25 @@ This step is **mandatory** — the SSELex project will not build correctly witho
 
 ---
 
-## 🧩 Third-party Libraries
+## 🧩 Third-party Components
 
-This project makes use of the following key open-source libraries/frameworks:
+This project uses the following key open-source libraries/frameworks:
 
-- [Champollion](https://github.com/Orvid/Champollion) – developed by [Orvid], for decompiling Papyrus compiled scripts.  
-- [Papyrus-compiler](https://github.com/russo-2025/papyrus-compiler/tree/master/bin/Original%20Compiler) – used to compile .pas script files.Downloading the official components is fine too. They're the same,You just need to download them and put them in the Tool\Original Compiler directory of the program. (You can also get them from CK.)
+- [AvalonEdit](https://github.com/icsharpcode/AvalonEdit) – WPF text editor component used for code/text display.  
+- [Newtonsoft.Json](https://www.newtonsoft.com/json) – JSON parsing and serialization library.  
+- [System.Data.SQLite](https://system.data.sqlite.org/index.html/doc/trunk/www/index.wiki) – SQLite database engine for .NET, used for reading/writing local SQLite databases. Licensed under Public Domain / MIT-style license.
 
-Other dependencies (such as **AvalonEdit**, various helper libraries, etc.) are also used.  
-Please refer to their respective LICENSE files for further information.
+Other dependencies (such as various helper libraries) are also used.  
+Please refer to their respective LICENSE files for more information.
+
+---
+
+## 🧩 PEX Compilation Dependencies
+
+The following components are required for compiling `.pex` (Papyrus) scripts:
+
+- [Champollion](https://github.com/Orvid/Champollion) – Developed by [Orvid], used for decompiling Papyrus compiled scripts.  
+- [Papyrus-compiler](https://github.com/russo-2025/papyrus-compiler/tree/master/bin/Original%20Compiler) – Used to compile `.pas` script files. You can also download the official components and place them in the `Tool\Original Compiler` directory of the program (the same files can be obtained from CK).
 
 ---
 
