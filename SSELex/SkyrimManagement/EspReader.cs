@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.SessionState;
+using System.Windows.Documents;
+using PhoenixEngine.ConvertManager;
 using PhoenixEngine.EngineManagement;
 using SSELex.SkyrimManage;
 
@@ -320,7 +322,7 @@ namespace SSELex.SkyrimManagement
                 foreach (var Sub in GetRecord.SubRecords)
                 {
                     var MergeSig = Engine.GetFileUniqueKey() + ":" + ParentFormID + ":" + ParentSig + ":" + Sub.Sig + ":" + Sub.GlobalIndex + ":" + Sub.OccurrenceIndex;
-                    string UniqueKey = "[" + Crc32Helper.ComputeCrc32(MergeSig) + "]" + " " + Sub.Sig;
+                    string UniqueKey = "[" + Crc32Helper.ComputeCrc32(MergeSig) + "]" + Sub.Sig;
 
                     RecordItem NRecordItem = new RecordItem
                     {

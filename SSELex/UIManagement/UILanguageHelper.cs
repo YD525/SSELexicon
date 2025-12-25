@@ -1,8 +1,6 @@
-﻿using SharpVectors.Converters;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using SSELex.ConvertManager;
 using PhoenixEngine.TranslateCore;
 using SSELex.SkyrimManage;
 using System.IO;
@@ -12,95 +10,9 @@ using System;
 
 namespace SSELex.UIManage
 {
-    public class UIItem
-    {
-        public Dictionary<Languages, string> Contents;
-        public Dictionary<Languages, string> ToolTips;
-        public object Control;
-
-        public UIItem(object Control, Dictionary<Languages, string> Contents, Dictionary<Languages, string> ToolTips)
-        {
-            this.Control = Control;
-            this.Contents = Contents;
-            this.ToolTips = ToolTips;
-        }
-
-        public string QueryContent(Languages SetLanguage)
-        {
-            if (Contents.ContainsKey(SetLanguage))
-            {
-                return Contents[SetLanguage];
-            }
-            return string.Empty;
-        }
-
-        public string QueryToolTip(Languages SetLanguage)
-        {
-            if (ToolTips.ContainsKey(SetLanguage))
-            {
-                return ToolTips[SetLanguage];
-            }
-            return string.Empty;
-        }
-
-        public void Apply(Languages SetLanguage)
-        {
-            var GetToolTip = QueryToolTip(SetLanguage);
-            var GetContent = QueryContent(SetLanguage);
-
-            if (Control is SvgViewbox)
-            {
-                SvgViewbox GetSvgViewbox = (SvgViewbox)Control;
-                GetSvgViewbox.ToolTip = GetToolTip;
-            }
-            else
-            if (Control is ComboBox)
-            {
-                ComboBox GetComboBox = (ComboBox)Control;
-                GetComboBox.ToolTip = GetToolTip;
-            }
-            else
-            if (Control is Button)
-            {
-                Button GetButton = (Button)Control;
-                GetButton.ToolTip = GetToolTip;
-                GetButton.Content = GetContent;
-            }
-            else
-            if (Control is TextBox)
-            {
-                TextBox GetTextBox = (TextBox)Control;
-                GetTextBox.ToolTip = GetToolTip;
-            }
-            else
-            if (Control is Label)
-            {
-                Label GetLabel = (Label)Control;
-                GetLabel.ToolTip = GetToolTip;
-                GetLabel.Content = GetContent;
-
-            }
-            else
-            if (Control is Grid)
-            {
-                Grid GetGrid = (Grid)Control;
-                GetGrid.ToolTip = GetToolTip;
-            }
-            else
-            if (Control is StackPanel)
-            {
-                Grid GetStackPanel = (Grid)Control;
-                GetStackPanel.ToolTip = GetToolTip;
-            }
-        }
-    }
-
-
 
     public class UILanguageHelper
     {
-        public static List<UIItem> UIItems = new List<UIItem>();
-
         public static class VisualTreeHelperExtensions
         {
             public static List<T> GetAllChildren<T>(DependencyObject parent) where T : DependencyObject
