@@ -151,6 +151,9 @@ namespace SSELex.SkyrimManagement
         private static extern int C_GetSubRecordCount(IntPtr record);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool C_ModifySubRecordByPtr(IntPtr SubRecordPtr, IntPtr NewUtf8Data);
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         private static extern bool C_ModifySubRecord(
          uint FormID,
          IntPtr RecordSig,
@@ -191,6 +194,22 @@ namespace SSELex.SkyrimManagement
             IntPtr ptr = Marshal.AllocHGlobal(utf8Bytes.Length);
             Marshal.Copy(utf8Bytes, 0, ptr, utf8Bytes.Length);
             return ptr;
+        }
+
+        public static bool ModifySubRecordByPtr(IntPtr subRecordPtr, string newUtf8Data)
+        {
+            if (subRecordPtr == IntPtr.Zero) return false;
+
+            IntPtr ptrNewData = IntPtr.Zero;
+            try
+            {
+                ptrNewData = StringToUtf8IntPtr(newUtf8Data ?? "");
+                return C_ModifySubRecordByPtr(subRecordPtr, ptrNewData);
+            }
+            finally
+            {
+                if (ptrNewData != IntPtr.Zero) Marshal.FreeCoTaskMem(ptrNewData);
+            }
         }
 
         public static bool ModifySubRecord(uint formId,string recordSig,string subSig,int occurrenceIndex,int globalIndex,string newUtf8Data)
@@ -368,6 +387,7 @@ namespace SSELex.SkyrimManagement
             public string String = "";
             public int GlobalIndex = 0;
             public int OccurrenceIndex = 0;
+            public IntPtr NativePtr = IntPtr.Zero;
             public bool IsModify = false;
         }
 
@@ -399,7 +419,8 @@ namespace SSELex.SkyrimManagement
                         UniqueKey = UniqueKey,
                         String = Sub.Content,
                         GlobalIndex = Sub.GlobalIndex,
-                        OccurrenceIndex = Sub.OccurrenceIndex
+                        OccurrenceIndex = Sub.OccurrenceIndex,
+                        NativePtr = Sub.NativePtr
                     };
 
                     if (NRecordItem.String.Length > 0)
@@ -450,7 +471,8 @@ namespace SSELex.SkyrimManagement
             {
                 var Record = Records[Records.ElementAt(i).Key];
 
-                if (EspInterop.ModifySubRecord(Record.RealFormID, Record.ParentSig, Record.ChildSig, Record.OccurrenceIndex, Record.GlobalIndex,i.ToString()))
+                //Modifying the pointer directly avoids the need for a loop, otherwise saving would be too slow.
+                if (EspInterop.ModifySubRecordByPtr(Record.NativePtr,i.ToString()))
                 {
                     ModifyCount++;
                 }
