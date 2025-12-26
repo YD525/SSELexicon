@@ -1357,20 +1357,20 @@ namespace SSELex
                     {
                         GetKey = TransViewList.RealLines[i].Key;
 
-                        if (CurrentSearchData.KeyWords.ContainsKey(GetKey))
+                        if (CurrentSearchData.KeyWords.ContainsKey(SearchAny))
                         {
-                            PreOffset = CurrentSearchData.KeyWords[GetKey];
+                            PreOffset = CurrentSearchData.KeyWords[SearchAny];
                         }
                         else
                         {
                             PreOffset = -1;
-                            CurrentSearchData.KeyWords.Add(GetKey, PreOffset);
+                            CurrentSearchData.KeyWords.Add(SearchAny, PreOffset);
                         }
 
                         if (i > PreOffset)
                         {
                             TransViewList.Goto(GetKey);
-                            CurrentSearchData.KeyWords[GetKey] = i;
+                            CurrentSearchData.KeyWords[SearchAny] = i;
                             Complete = 1;
                         }
                     }
@@ -1378,7 +1378,7 @@ namespace SSELex
                 if (PreOffset != -1 && Complete == 0)
                 {
                     //Reset Counter
-                    CurrentSearchData.KeyWords.Remove(GetKey);
+                    CurrentSearchData.KeyWords.Remove(SearchAny);
                     //Jump back to the first matching target
                     goto NextSearch;
                 }
