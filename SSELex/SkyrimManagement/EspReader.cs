@@ -160,12 +160,29 @@ namespace SSELex.SkyrimManagement
         );
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern bool C_SaveEsp(IntPtr utf8Path);
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void C_Close();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void C_Clear();
 
         #endregion
+
+        public static bool SaveEsp(string path)
+        {
+            IntPtr ptr = IntPtr.Zero;
+            try
+            {
+                ptr = StringToUtf8IntPtr(path);
+                return C_SaveEsp(ptr);
+            }
+            finally
+            {
+                if (ptr != IntPtr.Zero) Marshal.FreeHGlobal(ptr);
+            }
+        }
 
         private static IntPtr StringToUtf8IntPtr(string str)
         {
@@ -431,12 +448,13 @@ namespace SSELex.SkyrimManagement
             {
                 var Record = Records[Records.ElementAt(i).Key];
 
-                if (EspInterop.ModifySubRecord(Record.RealFormID, Record.ParentSig, Record.ChildSig, Record.OccurrenceIndex, Record.GlobalIndex, "测试"))
+                if (EspInterop.ModifySubRecord(Record.RealFormID, Record.ParentSig, Record.ChildSig, Record.OccurrenceIndex, Record.GlobalIndex,i.ToString()))
                 {
                     ModifyCount++;
                 }
             }
-            GC.Collect();
+
+            EspInterop.SaveEsp(DeFine.GetFullPath(@"\Test.esp"));
         }
 
         public static void Close()

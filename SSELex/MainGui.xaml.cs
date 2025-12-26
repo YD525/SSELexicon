@@ -1212,6 +1212,9 @@ namespace SSELex
                     if (CurrentTransType == 2)
                     {
                         EspReader.TestSaveEsp();
+
+                        //EspReader.TestSaveEsp();
+
                         //if (Translator.TransData.Count > 0)
                         //    if (GlobalEspReader != null)
                         //    {
