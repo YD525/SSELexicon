@@ -23,7 +23,8 @@ namespace SSELex.SkyrimManagement
         public uint StringID { get; set; }
         public string Content { get; set; }
         public int OccurrenceIndex { get; set; }  
-        public int GlobalIndex { get; set; }       
+        public int GlobalIndex { get; set; }
+        public IntPtr NativePtr { get; set; }
     }
 
     public class EspRecordInfo
@@ -290,6 +291,7 @@ namespace SSELex.SkyrimManagement
 
                         SubRecord.OccurrenceIndex = C_SubRecordData_GetOccurrenceIndex(SubRecordPtr);
                         SubRecord.GlobalIndex = C_SubRecordData_GetGlobalIndex(SubRecordPtr);
+                        SubRecord.NativePtr = SubRecordPtr;
 
                         int DataSize = C_SubRecordData_GetDataSize(SubRecordPtr);
                         if (DataSize > 0)
