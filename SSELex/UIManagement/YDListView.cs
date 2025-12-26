@@ -8,8 +8,7 @@ using Loqui.Translators;
 using SSELex.TranslateManage;
 
 // Copyright (C) 2025 YD525
-// Licensed under the GNU GPLv3
-// See LICENSE for details
+// Licensed under the CC BY-NC-ND 4.0
 //https://github.com/YD525/YDSkyrimToolR/
 
 //R3
