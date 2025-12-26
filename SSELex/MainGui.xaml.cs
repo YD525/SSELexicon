@@ -1709,7 +1709,19 @@ namespace SSELex
 
             LastSetKey = Key;
 
-            SetLog("Key:" + LastSetKey);
+            if (CurrentTransType == 2)
+            {
+                if (EspReader.Records.ContainsKey(LastSetKey))
+                {
+                    var GetRecord = EspReader.Records[LastSetKey];
+                    SetLog("Select:" + GetRecord.FormID + " | " + GetRecord.ParentSig + " " + GetRecord.ChildSig);
+                }
+            }
+            else
+            {
+                SetLog("Select:" + LastSetKey);
+            }
+           
 
             if (Key.Length > 0)
             {
