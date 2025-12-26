@@ -7,12 +7,14 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Newtonsoft.Json.Linq;
 using PhoenixEngine.DataBaseManagement;
 using PhoenixEngine.EngineManagement;
 using PhoenixEngine.TranslateCore;
 using PhoenixEngine.TranslateManage;
 using PhoenixEngine.TranslateManagement;
 using SSELex.ConvertManager;
+using SSELex.SkyrimManagement;
 using SSELex.SkyrimModManager;
 using SSELex.TranslateManage;
 using SSELex.UIManage;
@@ -67,7 +69,7 @@ namespace SSELex
                         Image LockerImg = LockerGrid.Child as Image;
                         LockerImg.Opacity = 0.9;
                     }
-                    LockerGrid.Background = new SolidColorBrush(Color.FromRgb(0, 61, 109));
+                    LockerGrid.Background = new SolidColorBrush(Color.FromRgb(95, 95, 95));
                 }
             }
         }
@@ -84,7 +86,7 @@ namespace SSELex
                         Image LockerImg = LockerGrid.Child as Image;
                         LockerImg.Opacity = 0.6;
                     }
-                    LockerGrid.Background = new SolidColorBrush(Color.FromRgb(0, 84, 149));
+                    LockerGrid.Background = new SolidColorBrush(Color.FromRgb(59, 59, 59));
                 }
             }
         }
@@ -169,15 +171,22 @@ namespace SSELex
             ExactMatch.IsChecked = true;
         }
 
+        public void SetTypes()
+        {
+            TypeSelector.Items.Clear();
+            TypeSelector.Items.Add("ALL");
+
+            foreach (var Value in EspReader.Types)
+            {
+                TypeSelector.Items.Add(Value);
+            }
+
+            TypeSelector.SelectedValue = TypeSelector.Items[0];
+        }
+
         public void Init()
         {
-            //foreach (var Value in Enum.GetValues(typeof(ObjSelect)))
-            //{
-            //    TypeSelector.Items.Add(Value.ToString());
-            //}
-            //TypeSelector.Items.Remove("All");
-
-            //TypeSelector.SelectedValue = ObjSelect.Null.ToString();
+            SetTypes();
 
             foreach (var Get in UILanguageHelper.GetSupportedLanguages())
             {
@@ -241,11 +250,8 @@ namespace SSELex
                             Type = GetItem.Type,
                             Source = GetItem.Source,
                             Result = GetItem.Result,
-                            From = GetItem.From,
-                            To = GetItem.To,
                             ExactMatch = GetItem.ExactMatch,
                             IgnoreCase = GetItem.IgnoreCase,
-                            Regex = GetItem.Regex,
                             Rowid = GetItem.Rowid
                         });
                     }
@@ -386,12 +392,13 @@ namespace SSELex
             }
 
             string GetType = ConvertHelper.ObjToStr(TypeSelector.SelectedValue);
-            //if (GetType.Equals(ObjSelect.Null.ToString()))
-            //{
-            //    GetType = string.Empty;
-            //}
 
-            if (AdvancedDictionary.AddItem(new AdvancedDictionaryItem(TargetModName.Text, GetType, SourceStr.Text, TargetStr.Text, FromID, ToID, GetExactMatch, GetIgnoreCase, Regex.Text)))
+            if (GetType.Equals("ALL"))
+            {
+                GetType = string.Empty;
+            }
+
+            if (AdvancedDictionary.AddItem(new AdvancedDictionaryItem(TargetModName.Text, GetType, SourceStr.Text, TargetStr.Text, FromID, ToID, GetExactMatch, GetIgnoreCase, string.Empty)))
             {
                 SFrom.SelectedValue = FromStr;
                 STo.SelectedValue = ToStr;

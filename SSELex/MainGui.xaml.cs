@@ -855,7 +855,7 @@ namespace SSELex
             {
                 this.Dispatcher.Invoke(new Action(() =>
                 {
-                    Caption.Content = string.Format("SSELex - {0}", Tittle);
+                    Caption.Content = string.Format("SSELex Lite - {0}", Tittle);
                     this.Title = Tittle;
                 }));
             }
@@ -863,8 +863,8 @@ namespace SSELex
             {
                 this.Dispatcher.Invoke(new Action(() =>
                 {
-                    Caption.Content = "SSELex";
-                    this.Title = "SSELex";
+                    Caption.Content = "SSELex Lite";
+                    this.Title = "SSELex Lite";
                 }));
             }
         }
@@ -1813,6 +1813,7 @@ namespace SSELex
         {
             DeFine.LocalConfigView.Owner = this;
             DeFine.LocalConfigView.Show();
+            DeFine.LocalConfigView.SetTypes();
             if (DeFine.GlobalLocalSetting.SourceLanguage == Languages.Auto)
             {
                 LanguageDetect OneDetect = new LanguageDetect();

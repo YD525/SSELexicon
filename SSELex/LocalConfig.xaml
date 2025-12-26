@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SSELex"
         mc:Ignorable="d"
-        Title="LocalConfig" Height="665" MinWidth="975" Width="975"  Style="{DynamicResource DefWin}" Loaded="Window_Loaded" Closing="Window_Closing" WindowStartupLocation="CenterOwner">
+        Title="LocalConfig" Height="665" MinWidth="770" Width="975"  Style="{DynamicResource DefWin}" Loaded="Window_Loaded" Closing="Window_Closing" WindowStartupLocation="CenterOwner">
     <Window.Resources>
 
         <Style x:Key="ListViewItemStyle" TargetType="{x:Type ListViewItem}">
@@ -17,7 +17,7 @@
         </Style>
 
     </Window.Resources>
-    <Border MouseLeftButtonDown="WinHead_MouseLeftButtonDown"  Style="{DynamicResource DefWinBackground}" Background="#FF005495" Name="MainBackGround">
+    <Border MouseLeftButtonDown="WinHead_MouseLeftButtonDown"  Style="{DynamicResource DefWinBackground}" Background="#FF3B3B3B" Name="MainBackGround">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="35"/>
@@ -33,18 +33,18 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Name="NodePanel">
-                    
-                    <Border Tag="Min" PreviewMouseDown="AnyHeaderButtonClick" CornerRadius="5"  Grid.Column="1" Height="25" Width="25"   Background="#FF005495"  MouseEnter="RMouserEffectByEnter" MouseLeave="RMouserEffectByLeave" Cursor="Hand">
+
+                    <Border Tag="Min" PreviewMouseDown="AnyHeaderButtonClick" CornerRadius="5"  Grid.Column="1" Height="25" Width="25"   Background="#FF3B3B3B"  MouseEnter="RMouserEffectByEnter" MouseLeave="RMouserEffectByLeave" Cursor="Hand">
                         <ContentControl Style="{DynamicResource MinimizeIconStyle}"/>
                     </Border>
 
 
-                    <Border Tag="MaxWin"  PreviewMouseDown="AnyHeaderButtonClick" CornerRadius="5"  Grid.Column="3" Height="25" Width="25"  Background="#FF005495"  MouseEnter="RMouserEffectByEnter" MouseLeave="RMouserEffectByLeave" Cursor="Hand">
+                    <Border Tag="MaxWin"  PreviewMouseDown="AnyHeaderButtonClick" CornerRadius="5"  Grid.Column="3" Height="25" Width="25"  Background="#FF3B3B3B"  MouseEnter="RMouserEffectByEnter" MouseLeave="RMouserEffectByLeave" Cursor="Hand">
                         <ContentControl Style="{DynamicResource MaximizeIconStyle}"/>
                     </Border>
 
 
-                    <Border Tag="Close" PreviewMouseDown="AnyHeaderButtonClick" CornerRadius="5"  Grid.Column="5" Height="25" Width="25"  Background="#FF005495"  MouseEnter="RMouserEffectByEnter" MouseLeave="RMouserEffectByLeave" Cursor="Hand">
+                    <Border Tag="Close" PreviewMouseDown="AnyHeaderButtonClick" CornerRadius="5"  Grid.Column="5" Height="25" Width="25"  Background="#FF3B3B3B"  MouseEnter="RMouserEffectByEnter" MouseLeave="RMouserEffectByLeave" Cursor="Hand">
                         <ContentControl Style="{DynamicResource CloseIconStyle}" Grid.Column="3"/>
                     </Border>
                 </StackPanel>
@@ -94,7 +94,7 @@
                             <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Name="FromStr" TextChanged="FromStr_TextChanged">
                             </TextBox>
 
-                            <Border  CornerRadius="5" Background="#FF0B74D1" Grid.Row="1" Margin="0 5 0 5" Cursor="Hand" PreviewMouseDown="Execute_PreviewMouseDown">
+                            <Border  CornerRadius="5" Background="#FF7B7B7B" Grid.Row="1" Margin="0 5 0 5" Cursor="Hand" PreviewMouseDown="Execute_PreviewMouseDown">
                                 <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Name="ExecuteBtn">
                                     Execute
                                 </Label>
@@ -119,7 +119,7 @@
                             </Grid.RowDefinitions>
                             <ListBox Grid.Row="0" Name="MatchedKeywords">
                             </ListBox>
-                            <Border  CornerRadius="5" Background="#FF0B74D1" Grid.Row="1" Margin="0 5 0 5" Cursor="Hand" PreviewMouseDown="DeleteSelectItem">
+                            <Border  CornerRadius="5" Background="#FF7B7B7B" Grid.Row="1" Margin="0 5 0 5" Cursor="Hand" PreviewMouseDown="DeleteSelectItem">
                                 <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
                                     Delete Selected Keyword
                                 </Label>
@@ -171,13 +171,13 @@
                         </Label>
 
 
-                        <Border  CornerRadius="5" Background="#FF0B74D1" Grid.Row="1" Cursor="Hand" Margin="0 5 0 5" PreviewMouseDown="ExportAll">
+                        <Border  CornerRadius="5" Background="#FF7B7B7B" Grid.Row="1" Cursor="Hand" Margin="0 5 0 5" PreviewMouseDown="ExportAll">
                             <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
                                 Export Table
                             </Label>
                         </Border>
 
-                        <Border  CornerRadius="5" Background="#FF0B74D1" Grid.Row="1" Cursor="Hand" Margin="5 5 0 5" PreviewMouseDown="ImportTable">
+                        <Border  CornerRadius="5" Background="#FF7B7B7B" Grid.Row="1" Cursor="Hand" Margin="5 5 0 5" PreviewMouseDown="ImportTable">
                             <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
                                 Import Table
                             </Label>
@@ -201,9 +201,6 @@
                                     <GridViewColumn Header="Result" Width="150"   DisplayMemberBinding="{Binding Result}"/>
                                     <GridViewColumn Header="ExactMatch" Width="80" DisplayMemberBinding="{Binding ExactMatch}"/>
                                     <GridViewColumn Header="IgnoreCase" Width="80" DisplayMemberBinding="{Binding IgnoreCase}"/>
-                                    <GridViewColumn Header="From" Width="30"   DisplayMemberBinding="{Binding From}"/>
-                                    <GridViewColumn Header="To" Width="30"   DisplayMemberBinding="{Binding To}"/>
-                                    <GridViewColumn Header="Regex" Width="200" DisplayMemberBinding="{Binding Regex}"/>
                                     <GridViewColumn Header="Rowid" Width="1" DisplayMemberBinding="{Binding Rowid}"/>
                                 </GridView>
                             </ListView.View>
@@ -248,18 +245,6 @@
                             </Label>
                             <ComboBox Grid.Column="3" VerticalContentAlignment="Center" Name="TypeSelector">
                             </ComboBox>
-                        </Grid>
-
-                        <Grid Margin="0 5 0 0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="40"/>
-                                <ColumnDefinition Width="1*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0">
-                                Regex
-                            </Label>
-                            <TextBox Name="Regex" Grid.Column="1" VerticalContentAlignment="Center">
-                            </TextBox>
                         </Grid>
 
                         <Grid Margin="0 5 0 0">
@@ -320,7 +305,7 @@
                         </Grid>
                         
                         <Grid Margin="0 5 0 0">
-                            <Border  CornerRadius="5" Background="#FF0B74D1" Grid.Row="1" Margin="0 5 0 5" Cursor="Hand" PreviewMouseDown="AddKeyWord">
+                            <Border  CornerRadius="5" Background="#FF7B7B7B" Grid.Row="1" Margin="0 5 0 5" Cursor="Hand" PreviewMouseDown="AddKeyWord">
                                 <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
                                     Add Keyword
                                 </Label>
