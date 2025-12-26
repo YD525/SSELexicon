@@ -3599,5 +3599,13 @@ namespace SSELex
                 }
             }
         }
+
+        private void SearchBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                QuickSearch();
+            }
+        }
     }
 }
