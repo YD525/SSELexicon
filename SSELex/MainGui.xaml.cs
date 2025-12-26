@@ -1343,6 +1343,11 @@ namespace SSELex
                 EmptyFromAndToText();
 
                 //If we simply highlight all the matched items, that works well for mods with few items. However, it's not ideal for mods with tens of thousands of lines of data. Therefore, we need to search item by item. When the user presses Enter, the system jumps to the first matched item, and pressing it again jumps to the second. The counter is reset when all items are finally matched.
+                NextSearch:
+                int PreOffset = -1;
+                int Complete = 0;
+                string GetKey = "";
+
                 for (int i = 0; i < TransViewList.RealLines.Count; i++)
                 {
                     if (TransViewList.RealLines[i].Key == SearchAny ||
@@ -1350,12 +1355,38 @@ namespace SSELex
                         TransViewList.RealLines[i].TransText == SearchAny
                         )
                     {
-                        string GetKey = TransViewList.RealLines[i].Key;
-                        TransViewList.Goto(GetKey);
+                        GetKey = TransViewList.RealLines[i].Key;
+
+                        if (CurrentSearchData.KeyWords.ContainsKey(GetKey))
+                        {
+                            PreOffset = CurrentSearchData.KeyWords[GetKey];
+                        }
+                        else
+                        {
+                            PreOffset = -1;
+                            CurrentSearchData.KeyWords.Add(GetKey, PreOffset);
+                        }
+
+                        if (PreOffset > -1)
+                        {
+                            if (i > PreOffset)
+                            {
+                                TransViewList.Goto(GetKey);
+                                CurrentSearchData.KeyWords[GetKey] = i;
+                                Complete = 1;
+                            }
+                        }
                     }
                 }
+                if (PreOffset != -1 && Complete == 0)
+                {
+                    //Reset Counter
+                    CurrentSearchData.KeyWords.Remove(GetKey);
+                    //Jump back to the first matching target
+                    goto NextSearch;
+                }
 
-               
+
             }
         }
 
