@@ -24,7 +24,6 @@ namespace SSELex.SkyrimManagement
         public string Content { get; set; }
         public int OccurrenceIndex { get; set; }  
         public int GlobalIndex { get; set; }
-        public IntPtr NativePtr { get; set; }
     }
 
     public class EspRecordInfo
@@ -151,7 +150,7 @@ namespace SSELex.SkyrimManagement
         private static extern int C_GetSubRecordCount(IntPtr record);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool C_ModifySubRecordByPtr(IntPtr SubRecordPtr, IntPtr NewUtf8Data);
+        public static extern bool C_ModifySubRecordByOffset(int IsCell, int RecordOffset, int SubOffset, IntPtr NewUtf8Data);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         private static extern bool C_ModifySubRecord(
@@ -196,19 +195,24 @@ namespace SSELex.SkyrimManagement
             return ptr;
         }
 
-        public static bool ModifySubRecordByPtr(IntPtr subRecordPtr, string newUtf8Data)
+        public static bool ModifySubRecordByOffset(bool IsCell,int GlobalIndex,int OccurrenceIndex, string NewUtf8Data)
         {
-            if (subRecordPtr == IntPtr.Zero) return false;
-
-            IntPtr ptrNewData = IntPtr.Zero;
+            IntPtr PtrNewData = IntPtr.Zero;
             try
             {
-                ptrNewData = StringToUtf8IntPtr(newUtf8Data ?? "");
-                return C_ModifySubRecordByPtr(subRecordPtr, ptrNewData);
+                PtrNewData = StringToUtf8IntPtr(NewUtf8Data ?? "");
+                if (IsCell)
+                {
+                    return C_ModifySubRecordByOffset(1,GlobalIndex, OccurrenceIndex, PtrNewData);
+                }
+                else
+                {
+                    return C_ModifySubRecordByOffset(0, GlobalIndex, OccurrenceIndex, PtrNewData);
+                }
             }
             finally
             {
-                if (ptrNewData != IntPtr.Zero) Marshal.FreeCoTaskMem(ptrNewData);
+                if (PtrNewData != IntPtr.Zero) Marshal.FreeHGlobal(PtrNewData);
             }
         }
 
@@ -228,9 +232,9 @@ namespace SSELex.SkyrimManagement
             }
             finally
             {
-                if (ptrRecordSig != IntPtr.Zero) Marshal.FreeCoTaskMem(ptrRecordSig);
-                if (ptrSubSig != IntPtr.Zero) Marshal.FreeCoTaskMem(ptrSubSig);
-                if (ptrNewData != IntPtr.Zero) Marshal.FreeCoTaskMem(ptrNewData);
+                if (ptrRecordSig != IntPtr.Zero) Marshal.FreeHGlobal(ptrRecordSig);
+                if (ptrSubSig != IntPtr.Zero) Marshal.FreeHGlobal(ptrSubSig);
+                if (ptrNewData != IntPtr.Zero) Marshal.FreeHGlobal(ptrNewData);
             }
         }
 
@@ -310,7 +314,6 @@ namespace SSELex.SkyrimManagement
 
                         SubRecord.OccurrenceIndex = C_SubRecordData_GetOccurrenceIndex(SubRecordPtr);
                         SubRecord.GlobalIndex = C_SubRecordData_GetGlobalIndex(SubRecordPtr);
-                        SubRecord.NativePtr = SubRecordPtr;
 
                         int DataSize = C_SubRecordData_GetDataSize(SubRecordPtr);
                         if (DataSize > 0)
@@ -387,7 +390,6 @@ namespace SSELex.SkyrimManagement
             public string String = "";
             public int GlobalIndex = 0;
             public int OccurrenceIndex = 0;
-            public IntPtr NativePtr = IntPtr.Zero;
             public bool IsModify = false;
         }
 
@@ -419,8 +421,7 @@ namespace SSELex.SkyrimManagement
                         UniqueKey = UniqueKey,
                         String = Sub.Content,
                         GlobalIndex = Sub.GlobalIndex,
-                        OccurrenceIndex = Sub.OccurrenceIndex,
-                        NativePtr = Sub.NativePtr
+                        OccurrenceIndex = Sub.OccurrenceIndex
                     };
 
                     if (NRecordItem.String.Length > 0)
@@ -472,7 +473,14 @@ namespace SSELex.SkyrimManagement
                 var Record = Records[Records.ElementAt(i).Key];
 
                 //Modifying the pointer directly avoids the need for a loop, otherwise saving would be too slow.
-                if (EspInterop.ModifySubRecordByPtr(Record.NativePtr,i.ToString()))
+                bool IsCell = false;
+
+                if (Record.ParentSig == "CELL")
+                {
+                    IsCell = true;
+                }
+
+                if (EspInterop.ModifySubRecordByOffset(IsCell, Record.GlobalIndex,Record.OccurrenceIndex,i.ToString()))
                 {
                     ModifyCount++;
                 }
