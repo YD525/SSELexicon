@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using PhoenixEngine.DataBaseManagement;
+using PhoenixEngine.EngineManagement;
 using PhoenixEngine.TranslateCore;
 using PhoenixEngine.TranslateManage;
 using PhoenixEngine.TranslateManagement;
@@ -180,10 +181,13 @@ namespace SSELex
 
             foreach (var Get in UILanguageHelper.GetSupportedLanguages())
             {
-                From.Items.Add(Get.ToString());
-                SFrom.Items.Add(Get.ToString());
-                To.Items.Add(Get.ToString());
-                STo.Items.Add(Get.ToString());
+                if (Get != Languages.Null)
+                {
+                    From.Items.Add(Get.ToString());
+                    SFrom.Items.Add(Get.ToString());
+                    To.Items.Add(Get.ToString());
+                    STo.Items.Add(Get.ToString());
+                }
             }
 
             From.Items.Remove(Languages.Auto.ToString());
@@ -291,6 +295,9 @@ namespace SSELex
             {
                 FilterFrom = (Languages)Enum.Parse(typeof(Languages), GetLang.Trim());
             }
+
+            Engine.From = FilterFrom;
+
             if (CanReload > 0)
                 AutoReload();
         }
@@ -302,6 +309,11 @@ namespace SSELex
             {
                 FilterTo = (Languages)Enum.Parse(typeof(Languages), GetLang.Trim());
             }
+
+            Engine.To = FilterTo;
+            DeFine.GlobalLocalSetting.TargetLanguage = FilterTo;
+            DeFine.GlobalLocalSetting.SaveConfig();
+
             if (CanReload > 0)
                 AutoReload();
         }

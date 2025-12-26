@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SSELex"
         mc:Ignorable="d"
-        Title="LocalConfig" Height="650" MinWidth="975" Width="975"  Style="{DynamicResource DefWin}" Loaded="Window_Loaded" Closing="Window_Closing" WindowStartupLocation="CenterOwner">
+        Title="LocalConfig" Height="665" MinWidth="975" Width="975"  Style="{DynamicResource DefWin}" Loaded="Window_Loaded" Closing="Window_Closing" WindowStartupLocation="CenterOwner">
     <Window.Resources>
 
         <Style x:Key="ListViewItemStyle" TargetType="{x:Type ListViewItem}">
@@ -28,7 +28,7 @@
             <Grid Grid.Row="0" Name="Header" Margin="10 0 10 0">
                 <StackPanel Orientation="Horizontal">
                     <Label HorizontalAlignment="Left" Name="MainCaption" Foreground="White" VerticalAlignment="Center">
-                        Preprocessor Settings
+                        Engine Settings
                     </Label>
                 </StackPanel>
 
@@ -142,27 +142,34 @@
                 <Grid Grid.Column="2" Margin="5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="35"/>
+                        <RowDefinition Height="35"/>
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="0.5*"/>
                     </Grid.RowDefinitions>
-
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="0">
                         <Label FontWeight="Bold" FontSize="15" Grid.Row="0">
-                            Keywords List
+                            Language Translation
                         </Label>
-                        
+
                         <Label Grid.Column="0" VerticalAlignment="Center">
-                            From 
+                            From
                         </Label>
-                        <ComboBox Name="SFrom" Grid.Column="1" VerticalContentAlignment="Center" Margin="5" Width="100" SelectionChanged="SFrom_SelectionChanged">
+                        <ComboBox Name="SFrom" Grid.Column="1" VerticalContentAlignment="Center" Margin="5" Width="130" SelectionChanged="SFrom_SelectionChanged">
                         </ComboBox>
 
                         <Label Grid.Column="2" VerticalAlignment="Center">
-                            To 
+                            To
                         </Label>
-                        <ComboBox Name="STo" Grid.Column="3" VerticalContentAlignment="Center" Margin="5" Width="100" SelectionChanged="STo_SelectionChanged">
+                        <ComboBox Name="STo" Grid.Column="3" VerticalContentAlignment="Center" Margin="5" Width="130" SelectionChanged="STo_SelectionChanged">
                         </ComboBox>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="1">
+                        <Label FontWeight="Bold" FontSize="15" Grid.Row="0">
+                            Keywords List
+                        </Label>
+
 
                         <Border  CornerRadius="5" Background="#FF0B74D1" Grid.Row="1" Cursor="Hand" Margin="0 5 0 5" PreviewMouseDown="ExportAll">
                             <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -178,7 +185,7 @@
 
                     </StackPanel>
                   
-                    <Grid Grid.Row="1">
+                    <Grid Grid.Row="2">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="1*"/>
                             <RowDefinition Height="35"/>
@@ -217,13 +224,13 @@
                         </Grid>
                     </Grid>
 
-                    <StackPanel Orientation="Horizontal" Grid.Row="2">
+                    <StackPanel Orientation="Horizontal" Grid.Row="3">
                         <Label FontWeight="Bold" FontSize="15" >
                             Add New Keyword
                         </Label>
                     </StackPanel>
                     
-                    <StackPanel Orientation="Vertical" Grid.Row="3">
+                    <StackPanel Orientation="Vertical" Grid.Row="4">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="70"/>

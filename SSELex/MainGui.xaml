@@ -61,7 +61,7 @@
     <Border Style="{DynamicResource BorderWinBackground}" Name="MainBackGround">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
+                <RowDefinition Height="35"/>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="8"/>
             </Grid.RowDefinitions>
@@ -79,7 +79,7 @@
                     <ColumnDefinition Width="5"/>
                 </Grid.ColumnDefinitions>
                 <Label Name="Caption" Style="{DynamicResource CaptionFont}" Grid.Column="0">
-                    SSELex Remake
+                    SSELex Lite
                 </Label>
 
                 <Grid Grid.Column="0" HorizontalAlignment="Right" Style="{DynamicResource ThreadInFo}" Visibility="Collapsed"  Name="ThreadInFo">
@@ -603,7 +603,7 @@
                                                 </Label>
 
                                                 <Border Style="{DynamicResource LiteButton}" PreviewMouseDown="SpeakFromStr">
-                                                    <Viewbox Width="17" Height="15" Stretch="Uniform">
+                                                    <Viewbox Width="19" Height="17" Stretch="Uniform">
                                                         <Canvas Width="1024" Height="1024">
                                                             <Path Data="M872.802928 755.99406 872.864326 755.99406 872.864326 755.624646Z" 
                   Fill="White"/>
@@ -660,7 +660,7 @@
                                                     Translated:
                                                 </Label>
                                                 <Border  Style="{DynamicResource LiteButton}" PreviewMouseDown="SpeakToStr">
-                                                    <Viewbox Width="17" Height="15" Stretch="Uniform">
+                                                    <Viewbox Width="19" Height="17" Stretch="Uniform">
                                                         <Canvas Width="1024" Height="1024">
                                                             <Path Data="M872.802928 755.99406 872.864326 755.99406 872.864326 755.624646Z" 
 Fill="White"/>

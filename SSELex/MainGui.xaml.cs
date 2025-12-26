@@ -1829,6 +1829,7 @@ namespace SSELex
                 }
 
                 DeFine.LocalConfigView.SFrom.SelectedValue = OneDetect.GetMaxLang().ToString();
+                DeFine.LocalConfigView.STo.SelectedValue = DeFine.GlobalLocalSetting.TargetLanguage.ToString();
             }
         }
 
