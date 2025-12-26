@@ -502,7 +502,7 @@
                                             <ContentControl Style="{DynamicResource MagnifyingGlassIconStyle}" Panel.ZIndex="1" Height="15" Width="15"/>
 
                                             <Border Style="{DynamicResource SearchBoxPic}" Grid.Column="1">
-                                                <TextBox Style="{DynamicResource SearchBoxText}" Name="SearchBox" Grid.Column="1" KeyDown="SearchBox_KeyDown">
+                                                <TextBox Style="{DynamicResource SearchBoxText}" Name="SearchBox" Grid.Column="1" KeyDown="SearchBox_KeyDown" ToolTip="Press Enter to retrieve the next target.">
 
                                                 </TextBox>
                                             </Border>
