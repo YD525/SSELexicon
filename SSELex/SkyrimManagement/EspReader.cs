@@ -472,7 +472,6 @@ namespace SSELex.SkyrimManagement
             {
                 var Record = Records[Records.ElementAt(i).Key];
 
-                //Modifying the pointer directly avoids the need for a loop, otherwise saving would be too slow.
                 bool IsCell = false;
 
                 if (Record.ParentSig == "CELL")
