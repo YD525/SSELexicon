@@ -1333,9 +1333,16 @@ namespace SSELex
             if (SearchBox.Text.Trim().Length > 0)
             {
                 string FristChar = SearchBox.Text.Substring(0, 1);
+
+                if (!CurrentSearchData.FristChar.Equals(FristChar))
+                {
+                    CurrentSearchData.KeyWords.Clear();
+                }
+
                 string SearchAny = SearchBox.Text;
                 EmptyFromAndToText();
 
+                //If we simply highlight all the matched items, that works well for mods with few items. However, it's not ideal for mods with tens of thousands of lines of data. Therefore, we need to search item by item. When the user presses Enter, the system jumps to the first matched item, and pressing it again jumps to the second. The counter is reset when all items are finally matched.
                 for (int i = 0; i < TransViewList.RealLines.Count; i++)
                 {
                     if (TransViewList.RealLines[i].Key == SearchAny ||
