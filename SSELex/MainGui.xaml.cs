@@ -1367,14 +1367,11 @@ namespace SSELex
                             CurrentSearchData.KeyWords.Add(GetKey, PreOffset);
                         }
 
-                        if (PreOffset > -1)
+                        if (i > PreOffset)
                         {
-                            if (i > PreOffset)
-                            {
-                                TransViewList.Goto(GetKey);
-                                CurrentSearchData.KeyWords[GetKey] = i;
-                                Complete = 1;
-                            }
+                            TransViewList.Goto(GetKey);
+                            CurrentSearchData.KeyWords[GetKey] = i;
+                            Complete = 1;
                         }
                     }
                 }
