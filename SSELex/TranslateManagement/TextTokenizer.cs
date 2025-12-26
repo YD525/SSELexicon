@@ -9,8 +9,8 @@ using SSELex.TranslateManage;
 
 namespace SSELex.TranslateManagement
 {
-    // Copyright (C) 2025 YD525
-    // Licensed under the GNU GPLv3
+   // Copyright (C) 2025 YD525
+    // Licensed under the CC BY-NC-ND 4.0
     // See LICENSE for details
     //https://github.com/YD525/PhoenixEngine
     public class TextTokenizer
