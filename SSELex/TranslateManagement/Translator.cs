@@ -8,7 +8,6 @@ using System.Windows.Media;
 using SSELex.TranslateManagement;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using Mutagen.Bethesda.Skyrim;
 
 namespace SSELex.TranslateManage
 {
