@@ -1324,7 +1324,7 @@ namespace SSELex
         public class SearchData
         {
             public string FristChar = "";
-            public List<string> KeyWords = new List<string>();
+            public Dictionary<string,int> KeyWords = new Dictionary<string, int>();
         }
 
         public SearchData CurrentSearchData = new SearchData();
