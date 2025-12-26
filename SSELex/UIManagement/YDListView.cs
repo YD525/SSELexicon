@@ -17,7 +17,7 @@ using System.Linq;
 
 
 // Copyright (c) 2025 YD525
-// Licensed under the MIT License.
+// Licensed under the CC BY-NC-ND 4.0 License.
 // See LICENSE file in the project root for full license information.
 //https://github.com/YD525/SSELexicon/UIManagement/YDListView.cs
 
