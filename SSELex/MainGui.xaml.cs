@@ -1324,13 +1324,17 @@ namespace SSELex
         {
             if (SearchBox.Text.Trim().Length > 0)
             {
+                string SearchAny = SearchBox.Text;
                 EmptyFromAndToText();
 
-                TransView.Visibility = Visibility.Hidden;
-            }
-            else
-            {
-                TransView.Visibility = Visibility.Visible;
+                for (int i = 0; i < TransViewList.RealLines.Count; i++)
+                {
+                    if (TransViewList.RealLines[i].Key == SearchAny ||
+                        
+                        )
+                }
+
+               
             }
         }
 
