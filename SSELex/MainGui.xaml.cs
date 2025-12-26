@@ -1320,18 +1320,32 @@ namespace SSELex
             QuickSearch();
         }
 
+
+        public class SearchData
+        {
+            public string FristChar = "";
+            public List<string> KeyWords = new List<string>();
+        }
+
+        public SearchData CurrentSearchData = new SearchData();
         public void QuickSearch()
         {
             if (SearchBox.Text.Trim().Length > 0)
             {
+                string FristChar = SearchBox.Text.Substring(0, 1);
                 string SearchAny = SearchBox.Text;
                 EmptyFromAndToText();
 
                 for (int i = 0; i < TransViewList.RealLines.Count; i++)
                 {
                     if (TransViewList.RealLines[i].Key == SearchAny ||
-                        
+                        TransViewList.RealLines[i].SourceText == SearchAny ||
+                        TransViewList.RealLines[i].TransText == SearchAny
                         )
+                    {
+                        string GetKey = TransViewList.RealLines[i].Key;
+                        TransViewList.Goto(GetKey);
+                    }
                 }
 
                
