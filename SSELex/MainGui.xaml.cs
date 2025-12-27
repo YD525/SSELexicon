@@ -31,6 +31,7 @@ using static PhoenixEngine.TranslateCore.LanguageHelper;
 using static SSELex.UIManagement.DashBoardService;
 using Newtonsoft.Json;
 using Microsoft.SqlServer.Server;
+using System.Windows.Threading;
 
 namespace SSELex
 {
@@ -1332,6 +1333,7 @@ namespace SSELex
         {
             if (SearchBox.Text.Trim().Length > 0)
             {
+                NextSearch:
                 string FristChar = SearchBox.Text.Substring(0, 1);
 
                 if (!CurrentSearchData.FristChar.Equals(FristChar))
@@ -1339,20 +1341,22 @@ namespace SSELex
                     CurrentSearchData.KeyWords.Clear();
                 }
 
+                CurrentSearchData.FristChar = FristChar;
+
                 string SearchAny = SearchBox.Text;
                 EmptyFromAndToText();
 
                 //If we simply highlight all the matched items, that works well for mods with few items. However, it's not ideal for mods with tens of thousands of lines of data. Therefore, we need to search item by item. When the user presses Enter, the system jumps to the first matched item, and pressing it again jumps to the second. The counter is reset when all items are finally matched.
-                NextSearch:
+
                 int PreOffset = -1;
                 int Complete = 0;
                 string GetKey = "";
 
                 for (int i = 0; i < TransViewList.RealLines.Count; i++)
                 {
-                    if (TransViewList.RealLines[i].Key == SearchAny ||
-                        TransViewList.RealLines[i].SourceText == SearchAny ||
-                        TransViewList.RealLines[i].TransText == SearchAny
+                    if (TransViewList.RealLines[i].Key.Contains(SearchAny) ||
+                        TransViewList.RealLines[i].SourceText.Contains(SearchAny) ||
+                        TransViewList.RealLines[i].TransText.Contains(SearchAny)
                         )
                     {
                         GetKey = TransViewList.RealLines[i].Key;
@@ -1372,18 +1376,23 @@ namespace SSELex
                             TransViewList.Goto(GetKey);
                             CurrentSearchData.KeyWords[SearchAny] = i;
                             Complete = 1;
+                            break;
                         }
                     }
                 }
-                if (PreOffset != -1 && Complete == 0)
+                if (PreOffset != -1 && Complete == 0 && CurrentSearchData.KeyWords.Count > 0)
                 {
                     //Reset Counter
                     CurrentSearchData.KeyWords.Remove(SearchAny);
-                    //Jump back to the first matching target
                     goto NextSearch;
                 }
-
-
+                else
+                {
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+                    {
+                        SearchBox.Focus();
+                    }));
+                }
             }
         }
 
