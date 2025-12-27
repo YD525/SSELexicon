@@ -1384,6 +1384,7 @@ namespace SSELex
                 {
                     //Reset Counter
                     CurrentSearchData.KeyWords.Remove(SearchAny);
+                    //Jump back to the first matching target
                     goto NextSearch;
                 }
                 else
