@@ -191,6 +191,10 @@ namespace SSELex.UIManage
             {
                 SetLanguage = Languages.English;
                 MessageBox.Show("The interface translation file was not found.");
+
+                DeFine.GlobalLocalSetting.CurrentUILanguage = Languages.English;
+                DeFine.GlobalLocalSetting.SaveConfig();
+
                 goto NextLoad;
             }
         }
