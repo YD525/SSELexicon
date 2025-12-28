@@ -11,7 +11,9 @@ using System.Web.SessionState;
 using System.Windows.Documents;
 using PhoenixEngine.ConvertManager;
 using PhoenixEngine.EngineManagement;
+using PhoenixEngine.TranslateManage;
 using SSELex.SkyrimManage;
+using static PhoenixEngine.SSELexiconBridge.NativeBridge;
 
 namespace SSELex.SkyrimManagement
 {
@@ -538,6 +540,39 @@ namespace SSELex.SkyrimManagement
             }
 
             EspInterop.SaveEsp(DeFine.GetFullPath(@"\Test.esp"));
+        }
+
+        public static int SaveEsp(string OutPutPath)
+        {
+            int ModifyCount = 0;
+
+            for (int i = 0; i < Records.Count; i++)
+            {
+                var Record = Records[Records.ElementAt(i).Key];
+
+                bool IsCell = false;
+
+                if (Record.ParentSig == "CELL")
+                {
+                    IsCell = true;
+                }
+
+                var GetTransData = TranslatorBridge.GetTranslatorCache(Record.UniqueKey);
+                if (GetTransData != null)
+                {
+                    if (GetTransData.Length > 0)
+                    {
+                        if (EspInterop.ModifySubRecordByOffset(IsCell, Record.GlobalIndex, Record.OccurrenceIndex, i.ToString()))
+                        {
+                            ModifyCount++;
+                        }
+                    }
+                }
+            }
+
+            EspInterop.SaveEsp(OutPutPath);
+
+            return ModifyCount;
         }
 
         public static void Close()
