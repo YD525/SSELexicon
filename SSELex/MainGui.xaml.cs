@@ -1107,6 +1107,8 @@ namespace SSELex
 
             Engine.ChangeUniqueKey(0);
 
+            CurrentSearchData = new SearchData();
+
             this.Dispatcher.Invoke(new Action(() =>
             {
                 try
