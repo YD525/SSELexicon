@@ -175,12 +175,12 @@ namespace SSELex
             if (StringKey != 0)
                 if (DeFine.WorkingWin.CurrentTransType == 2)
                 {
-                    if (EspReader.StringsReader != null)
+                    if (EspReader.ToStringsFile != null)
                     {
-                        if (EspReader.StringsReader.Strings.ContainsKey(StringKey) == true)
+                        if (EspReader.ToStringsFile.Strings.ContainsKey(StringKey) == true)
                         {
-                            string AutoFileName = EspReader.StringsReader.CurrentFileName;
-                            var FindItem = EspReader.StringsReader.Strings[StringKey];
+                            string AutoFileName = EspReader.ToStringsFile.CurrentFileName;
+                            var FindItem = EspReader.ToStringsFile.Strings[StringKey];
 
                             if (FindItem.Type == StringsFileType.DL)
                             {

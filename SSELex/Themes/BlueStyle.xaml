@@ -253,7 +253,7 @@
     
     <Style x:Key="ButtonStyle" TargetType="Border">
         <Setter Property="Height"  Value="35"/>
-        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="CornerRadius" Value="3"/>
         <Setter Property="Background"  Value="#FF7B7B7B"/>
         <Setter Property="Margin"  Value="5 0 0 0"/>
         <Setter Property="Cursor"  Value="Hand"/>

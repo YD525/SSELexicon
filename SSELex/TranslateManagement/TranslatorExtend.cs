@@ -344,7 +344,7 @@ namespace SSELex.TranslateManage
                                 bool HasAddAIMemory = false;
                                 if (DeFine.WorkingWin?.CurrentTransType == 2)
                                 {
-                                    var GetTrans = EspReader.StringsReader.QueryData(Row.Key);
+                                    var GetTrans = EspReader.ToStringsFile.QueryData(Row.Key);
 
                                     if (GetTrans != null)
                                     {

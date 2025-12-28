@@ -37,6 +37,13 @@ namespace SSELex.SkyrimManagement
             return null;
         }
 
+        public void Close()
+        {
+            Strings.Clear();
+            CurrentFileName = string.Empty;
+            CurrentLanguage = Languages.English;
+        }
+
         public StringsFileReader()
         {
             Strings = new Dictionary<uint, StringItem>();
@@ -100,6 +107,9 @@ namespace SSELex.SkyrimManagement
                     byte[] DataBuffer = Reader.ReadBytes((int)DataSize);
 
                     int LoadedCount = 0;
+
+                    bool HasLengthPrefix = (FileType == StringsFileType.DL || FileType == StringsFileType.IL);
+
                     foreach (var Entry in Directory)
                     {
                         uint StringID = Entry.StringID;
@@ -108,15 +118,37 @@ namespace SSELex.SkyrimManagement
                         if (Offset >= DataSize)
                             continue;
 
-                        uint Length = BitConverter.ToUInt32(DataBuffer, (int)Offset);
+                        string Text;
 
-                        if (Offset + 4 + Length > DataSize)
-                            continue;
+                        if (HasLengthPrefix)
+                        {
+                            if (Offset + 4 > DataSize)
+                                continue;
 
-                        byte[] StringBytes = new byte[Length];
-                        Array.Copy(DataBuffer, Offset + 4, StringBytes, 0, Length);
+                            uint Length = BitConverter.ToUInt32(DataBuffer, (int)Offset);
 
-                        string Text = Encoding.UTF8.GetString(StringBytes).TrimEnd('\0');
+                            if (Offset + 4 + Length > DataSize)
+                                continue;
+
+                            byte[] StringBytes = new byte[Length];
+                            Array.Copy(DataBuffer, Offset + 4, StringBytes, 0, Length);
+
+                            Text = Encoding.UTF8.GetString(StringBytes).TrimEnd('\0');
+                        }
+                        else
+                        {
+                            int EndPos = (int)Offset;
+                            while (EndPos < DataSize && DataBuffer[EndPos] != 0)
+                            {
+                                EndPos++;
+                            }
+
+                            int Length = EndPos - (int)Offset;
+                            byte[] StringBytes = new byte[Length];
+                            Array.Copy(DataBuffer, Offset, StringBytes, 0, Length);
+
+                            Text = Encoding.UTF8.GetString(StringBytes);
+                        }
 
                         var Item = new StringItem
                         {
@@ -125,7 +157,11 @@ namespace SSELex.SkyrimManagement
                             Value = Text
                         };
 
-                        // 直接加入字典，Key 是 StringID
+                        if (Strings.ContainsKey(StringID))
+                        {
+                            Console.WriteLine($"⚠ Warning: Duplicate StringID {StringID} (0x{StringID:X8})");
+                        }
+
                         Strings[StringID] = Item;
                         LoadedCount++;
                     }
@@ -304,9 +340,10 @@ namespace SSELex.SkyrimManagement
 
         private string BuildStringsFilePath(string EspPath, Languages Language, string FileType)
         {
+            string LangName = Enum.GetName(typeof(Languages), Language);
             string Directory = Path.GetDirectoryName(EspPath);
             string BaseName = Path.GetFileNameWithoutExtension(EspPath);
-            string CapitalizedLanguage = CapitalizeFirstLetter(Language.ToString().ToLower());
+            string CapitalizedLanguage = CapitalizeFirstLetter(LangName);
 
             string StringsDirectory = Path.Combine(Directory, "Strings");
             string FileName = $"{BaseName}_{CapitalizedLanguage}.{FileType}";

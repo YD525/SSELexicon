@@ -303,6 +303,10 @@ namespace SSELex
             }
 
             Engine.From = FilterFrom;
+            DeFine.GlobalLocalSetting.SourceLanguage = FilterFrom;
+            DeFine.GlobalLocalSetting.SaveConfig();
+
+            DeFine.WorkingWin.ReloadStringsFile();
 
             if (CanReload > 0)
                 AutoReload();
@@ -319,6 +323,8 @@ namespace SSELex
             Engine.To = FilterTo;
             DeFine.GlobalLocalSetting.TargetLanguage = FilterTo;
             DeFine.GlobalLocalSetting.SaveConfig();
+
+            DeFine.WorkingWin.ReloadStringsFile();
 
             if (CanReload > 0)
                 AutoReload();

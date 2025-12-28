@@ -546,6 +546,11 @@
                                     <Label Style="{DynamicResource CaptionTextA}" Name="UIOriginal">
                                         Original
                                     </Label>
+                                    <Border CornerRadius="3" Background="Orange" Height="25" Name="FromStringsFile" Visibility="Collapsed">
+                                        <Label VerticalAlignment="Center" Foreground="White">
+                                            From StringsFile
+                                        </Label>
+                                    </Border>
                                     <Border Name="RefreshDictionary" Style="{DynamicResource ButtonStyle}" Height="25" Opacity="0.5" PreviewMouseDown="RefreshDictionary_PreviewMouseDown">
                                         <Label Style="{DynamicResource ButtonFont}" Name="RefreshButton">
                                             Refresh
@@ -1147,37 +1152,6 @@ Fill="White"/>
                                                 </StackPanel>
                                             </Border>
 
-
-                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Left" Margin="0 5 0 10">
-                                                <StackPanel Orientation="Vertical" Margin="5">
-
-                                                    <Label Style="{DynamicResource LinkFont}" MouseDown="OpenUrl_MouseDown" Margin="0 0 0 5">
-                                                        https://platform.baichuan-ai.com/docs/api
-                                                    </Label>
-                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                                        <Label Style="{DynamicResource NormalText}">
-                                                            Baichuan ApiKey:
-                                                        </Label>
-
-                                                        <Border Style="{DynamicResource DefTextBoxBorder}" Width="300">
-                                                            <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="SBaichuanKey" PasswordChanged="SBaichuanKey_PasswordChanged">
-                                                            </PasswordBox>
-                                                        </Border>
-
-                                                        <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
-                                                            Mode:
-                                                        </Label>
-
-                                                        <Border Style="{DynamicResource DefTextBoxBorder}" Width="100">
-                                                            <TextBox Style="{DynamicResource DefTextBox}" Name="SBaichuanModel" TextChanged="SBaichuanModel_TextChanged">
-                                                            </TextBox>
-                                                        </Border>
-
-                                                        <ComboBox Name="SBaichuanModelSelect" IsTabStop="True" Margin="5 0 0 0" VerticalAlignment="Center" Cursor="Hand" HorizontalAlignment="Stretch" Width="50" Height="30" Style="{StaticResource CustomComboBoxStyle}" SelectionChanged="SBaichuanModelSelect_SelectionChanged">
-                                                        </ComboBox>
-                                                    </StackPanel>
-                                                </StackPanel>
-                                            </Border>
                                             <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Left" Margin="0 5 0 10">
                                                 <StackPanel Orientation="Vertical" Margin="5">
                                                     <Label Style="{DynamicResource LinkFont}" MouseDown="OpenUrl_MouseDown" Margin="0 0 0 5">
@@ -1236,25 +1210,7 @@ Fill="White"/>
                                                     </StackPanel>
                                                 </StackPanel>
                                             </Border>
-
-                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Left" Margin="0 5 0 10">
-                                                <StackPanel Orientation="Vertical" Margin="5">
-                                                    <Label Style="{DynamicResource LinkFont}" MouseDown="OpenUrl_MouseDown" Margin="0 0 0 5">
-                                                        https://cloud.google.com/translate/docs
-                                                    </Label>
-                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 0 0 0">
-                                                        <Label Style="{DynamicResource NormalText}">
-                                                            Google ApiKey:
-                                                        </Label>
-
-                                                        <Border Style="{DynamicResource DefTextBoxBorder}" Width="300">
-                                                            <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="GoogleKey" PasswordChanged="GoogleKey_PasswordChanged">
-                                                            </PasswordBox>
-                                                        </Border>
-                                                    </StackPanel>
-                                                </StackPanel>
-                                            </Border>
-
+                                            
                                         </StackPanel>
                                     </ScrollViewer>
                                 </Border>
@@ -1528,6 +1484,15 @@ Fill="White"/>
                                                     <TextBox Style="{DynamicResource InFoText}"  Margin="5 5 5 10">
                                                         Set the maximum number of threads allowed to be created during batch translation.
                                                     </TextBox>
+
+                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 5 5 10">
+                                                        <Label Style="{DynamicResource NormalText}">
+                                                            LanguageDetect:
+                                                        </Label>
+                                                        <CheckBox VerticalAlignment="Center" Style="{DynamicResource DefCheckBox}" Margin="5 0 0 0" Name="SEnableLanguageDetect" Click="SEnableLanguageDetect_Click">
+                                                            Enable
+                                                        </CheckBox>
+                                                    </StackPanel>
 
                                                 </StackPanel>
                                             </Border>

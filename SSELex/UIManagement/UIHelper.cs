@@ -176,6 +176,36 @@ namespace SSELex.UIManage
             return MainGrid;
         }
 
+        public static void SyncFromStringsFile(YDListView View)
+        {
+            var CanVasHandle = View.GetMainCanvas();
+            CanVasHandle.Dispatcher.Invoke(new Action(() =>
+            {
+                CanVasHandle.IsEnabled = false;
+            }));
+
+            for (int i = 0; i < View.RealLines.Count; i++)
+            {
+                var Line = View.RealLines[i];
+
+                if (EspReader.Records.ContainsKey(Line.Key))
+                {
+                    var GetRealRecord = EspReader.Records[Line.Key];
+                    if (EspReader.FromStringsFile.Strings.ContainsKey(GetRealRecord.StringID))
+                    {
+                        View.RealLines[i].SourceText = EspReader.FromStringsFile.Strings[GetRealRecord.StringID].Value;
+                        View.RealLines[i].RealSource = string.Empty;
+                        View.RealLines[i].SyncUI(View);
+                    }
+                }
+            }
+
+            CanVasHandle.Dispatcher.Invoke(new Action(() =>
+            {
+                CanVasHandle.IsEnabled = true;
+            }));
+        }
+
         public static void TransViewSyncEspRecord(YDListView View)
         {
             var CanVasHandle = View.GetMainCanvas();

@@ -198,6 +198,8 @@ namespace SSELex
         public bool EnableAnalyzingWords { get; set; } = true;
         public bool AutoUpdateStringsFileToDatabase { get; set; } = false;
         public bool ForceTranslationConsistency { get; set; } = false;
+
+        public bool EnableLanguageDetect { get; set; } = true;
         public void ReadConfig()
         {
             try
@@ -237,6 +239,8 @@ namespace SSELex
                             this.AutoUpdateStringsFileToDatabase = GetSetting.AutoUpdateStringsFileToDatabase;
 
                             this.ForceTranslationConsistency = GetSetting.ForceTranslationConsistency;
+
+                            this.EnableLanguageDetect = GetSetting.EnableLanguageDetect;
                         }
                     }
                     else

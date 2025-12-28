@@ -684,6 +684,25 @@ namespace SSELex
         public object LockerAddTrd = new object();
         public bool ReadTrdWorkState = false;
 
+        public void ReloadStringsFile()
+        {
+            EspReader.LoadStringsFile();
+
+            if (EspReader.FromStringsFile.Strings.Count > 0)
+            {
+                Application.Current.Dispatcher.Invoke(new Action(() => {
+                    FromStringsFile.Visibility = Visibility.Visible;
+                    UIHelper.SyncFromStringsFile(TransViewList);
+                }));
+            }
+            else
+            {
+                Application.Current.Dispatcher.Invoke(new Action(() => {
+                    FromStringsFile.Visibility = Visibility.Collapsed;
+                }));
+            }
+        }
+
         public Thread DataLoadingTrd = null;
         public void ReloadDataFunc(bool UseHotReload = false)
         {
@@ -729,6 +748,9 @@ namespace SSELex
                         DataLoadingTrd = new Thread(() => 
                         {
                             UIHelper.TransViewSyncEspRecord(TransViewList);
+
+                            ReloadStringsFile();
+
                             DataLoadingTrd = null;
                         });
 
@@ -1025,10 +1047,6 @@ namespace SSELex
 
                     EspReader.LoadEsp(FilePath);
 
-                    //GlobalEspReader.DefReadMod(FilePath);
-                    //CanSetSelecter.Clear();
-                    //CanSetSelecter.AddRange(SkyrimDataLoader.QueryParams(GlobalEspReader));
-
                     this.Dispatcher.Invoke(new Action(() =>
                     {
                         CancelBtn.Opacity = 1;
@@ -1040,6 +1058,12 @@ namespace SSELex
                     //ReloadData();
 
                     IsValidFile = true;
+                  
+
+                    if (DeFine.GlobalLocalSetting.EnableLanguageDetect)
+                    {
+                        Engine.From = DetectLang();
+                    }
                 }
 
                 if (CurrentTransType != 0)
@@ -1104,6 +1128,8 @@ namespace SSELex
 
                     TypeSelector.Items.Clear();
                     YDDictionaryHelper.Close();
+
+                    FromStringsFile.Visibility = Visibility.Collapsed;
                 }
                 catch { }
             }));
@@ -1846,7 +1872,7 @@ namespace SSELex
                             AutoLoadHistoryList();
                         }));
 
-                        DeFine.ExtendWin.SetOriginal(GridHandle.SourceText, EspReader.StringsReader.QueryData(GridHandle.Key));
+                        DeFine.ExtendWin.SetOriginal(GridHandle.SourceText, EspReader.ToStringsFile.QueryData(GridHandle.Key));
                     }
                 }
             }
@@ -1884,18 +1910,15 @@ namespace SSELex
             return OneDetect.GetMaxLang();
         }
 
-        private void ShowLocalEngineSettingView(object sender, MouseButtonEventArgs e)
+        public Languages DetectLang()
         {
-            DeFine.LocalConfigView.Owner = this;
-            DeFine.LocalConfigView.Show();
-            DeFine.LocalConfigView.SetTypes();
-            if (DeFine.GlobalLocalSetting.SourceLanguage == Languages.Auto)
+            if (TransViewList.RealLines.Count > 0)
             {
                 LanguageDetect OneDetect = new LanguageDetect();
 
                 for (int i = 0; i < TransViewList.RealLines.Count; i++)
                 {
-                    if (i > 999)
+                    if (i > 2000)
                     {
                         break;
                     }
@@ -1904,9 +1927,29 @@ namespace SSELex
                     LanguageHelper.DetectLanguage(ref OneDetect, TransViewList.RealLines[i].SourceText);
                 }
 
-                DeFine.LocalConfigView.SFrom.SelectedValue = OneDetect.GetMaxLang().ToString();
-                DeFine.LocalConfigView.STo.SelectedValue = DeFine.GlobalLocalSetting.TargetLanguage.ToString();
+               return OneDetect.GetMaxLang();
             }
+            else
+            {
+                return Languages.English;
+            }
+        }
+        private void ShowLocalEngineSettingView(object sender, MouseButtonEventArgs e)
+        {
+            DeFine.LocalConfigView.Owner = this;
+            DeFine.LocalConfigView.Show();
+            DeFine.LocalConfigView.SetTypes();
+
+            if (TransViewList.RealLines.Count > 0)
+            {
+                DeFine.LocalConfigView.SFrom.SelectedValue = Engine.From.ToString();
+            }
+            else
+            {
+                DeFine.LocalConfigView.SFrom.SelectedValue = Languages.English.ToString();
+            }
+
+            DeFine.LocalConfigView.STo.SelectedValue = DeFine.GlobalLocalSetting.TargetLanguage.ToString();
         }
 
         private void ShowView(object sender, MouseButtonEventArgs e)
@@ -3031,10 +3074,6 @@ namespace SSELex
                 SDeepSeekModelSelect.Items.Add("deepseek-reasoner");
                 SDeepSeekModelSelect.SelectedValue = null;
 
-                SBaichuanModelSelect.Items.Clear();
-                SBaichuanModelSelect.Items.Add("Baichuan4-Turbo");
-                SBaichuanModelSelect.SelectedValue = null;
-
                 SLMHost.Text = EngineConfig.LMHost;
                 SLMPort.Text = EngineConfig.LMPort.ToString();
                 SLMModel.Text = EngineConfig.LMModel;
@@ -3149,6 +3188,15 @@ namespace SSELex
                 else
                 {
                     GlobalSearch.IsChecked = false;
+                }
+
+                if (DeFine.GlobalLocalSetting.EnableLanguageDetect)
+                {
+                    SEnableLanguageDetect.IsChecked = true;
+                }
+                else
+                {
+                    SEnableLanguageDetect.IsChecked = false;
                 }
             }
         }
@@ -3276,24 +3324,6 @@ namespace SSELex
             }
         }
 
-        private void SBaichuanKey_PasswordChanged(object sender, RoutedEventArgs e)
-        {
-          
-        }
-        private void SBaichuanModel_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            
-        }
-        private void SBaichuanModelSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            string GetModel = ConvertHelper.ObjToStr(SBaichuanModelSelect.SelectedValue);
-
-            if (GetModel.Trim().Length > 0)
-            {
-                SBaichuanModel.Text = GetModel;
-            }
-        }
-
         private void SLMHost_TextChanged(object sender, TextChangedEventArgs e)
         {
             EngineConfig.LMHost = SLMHost.Text;
@@ -3344,12 +3374,6 @@ namespace SSELex
                 EngineConfig.IsFreeDeepL = false;
             }
         }
-
-        private void GoogleKey_PasswordChanged(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
         private void SContextLimit_TextChanged(object sender, TextChangedEventArgs e)
         {
             EngineConfig.ContextLimit = ConvertHelper.ObjToInt(SContextLimit.Text);
@@ -3615,6 +3639,18 @@ namespace SSELex
             if (e.Key == Key.Enter)
             {
                 QuickSearch();
+            }
+        }
+
+        private void SEnableLanguageDetect_Click(object sender, RoutedEventArgs e)
+        {
+            if (SEnableLanguageDetect.IsChecked == true)
+            {
+                DeFine.GlobalLocalSetting.EnableLanguageDetect = true;
+            }
+            else
+            {
+                DeFine.GlobalLocalSetting.EnableLanguageDetect = false;
             }
         }
     }

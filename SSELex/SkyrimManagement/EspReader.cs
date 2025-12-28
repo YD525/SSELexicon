@@ -413,7 +413,9 @@ namespace SSELex.SkyrimManagement
 
     public static class EspReader
     {
-        public static StringsFileReader StringsReader = new StringsFileReader();
+        public static StringsFileReader FromStringsFile = new StringsFileReader();
+        public static StringsFileReader ToStringsFile = new StringsFileReader();
+        public static string EspPath = "";
         public class RecordItem
         {
             public uint StringID = 0;      // StringsFile id
@@ -485,6 +487,8 @@ namespace SSELex.SkyrimManagement
             Types.Clear();
             var State = EspInterop.LoadEsp(Path);
 
+            EspPath = Path;
+
             if (State >= 0)
             {
                 foreach (var GetRecord in EspInterop.SearchBySig("ALL"))
@@ -502,6 +506,15 @@ namespace SSELex.SkyrimManagement
             }
 
             return false;
+        }
+
+        public static void LoadStringsFile()
+        {
+            FromStringsFile.Close();
+            ToStringsFile.Close();
+
+            FromStringsFile.LoadStringsFiles(EspPath,Engine.From);
+            ToStringsFile.LoadStringsFiles(EspPath,Engine.To);
         }
 
         public static void TestSaveEsp()
@@ -529,6 +542,9 @@ namespace SSELex.SkyrimManagement
 
         public static void Close()
         {
+            EspPath = String.Empty;
+            FromStringsFile.Close();
+            ToStringsFile.Close();
             EspInterop.C_Clear();
         }
     }
