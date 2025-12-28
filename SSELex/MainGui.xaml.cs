@@ -1120,7 +1120,7 @@ namespace SSELex
                     ClosetTransTrd();
 
                     TransViewList?.Clear();
-                    //GlobalEspReader?.Close();
+                    EspReader.Close();
                     GlobalMCMReader?.Close();
                     GlobalPexReader?.Close();
 
@@ -1384,6 +1384,9 @@ namespace SSELex
 
                 for (int i = 0; i < TransViewList.RealLines.Count; i++)
                 {
+                    bool IsCloud = false;
+                    TransViewList.RealLines[i].SyncData(ref IsCloud);
+
                     if (TransViewList.RealLines[i].Key.Contains(SearchAny) ||
                         TransViewList.RealLines[i].SourceText.Contains(SearchAny) ||
                         TransViewList.RealLines[i].TransText.Contains(SearchAny)
