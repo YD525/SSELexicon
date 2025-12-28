@@ -32,6 +32,7 @@ using static SSELex.UIManagement.DashBoardService;
 using Newtonsoft.Json;
 using Microsoft.SqlServer.Server;
 using System.Windows.Threading;
+using System.Windows.Forms.VisualStyles;
 
 namespace SSELex
 {
@@ -1194,10 +1195,12 @@ namespace SSELex
 
                     if (CurrentTransType == 6)
                     {
+                        //Set Trans Data
                         UPDateFile(false);
                     }
                     else
                     {
+                        //Set Trans Data
                         UPDateFile(true);
                     }
 
@@ -1251,7 +1254,7 @@ namespace SSELex
                         }
                         else
                         {
-                            string GetBackUPPath = GetFilePath + GetFileFullName + ".backup";
+                            string GetBackUPPath = LastSetPath + ".backup";
 
                             if (!File.Exists(GetBackUPPath))
                             {
@@ -1439,20 +1442,11 @@ namespace SSELex
 
         public void UPDateUI()
         {
-            Application.Current.Dispatcher.Invoke(new Action(() => {
+            Application.Current.Dispatcher.Invoke(new Action(() => 
+            {
                 EmptyFromAndToText();
                 Translator.TransData.Clear();
                 Engine.GetTranslatedCount(Engine.GetFileUniqueKey());
-
-
-                //if (GlobalEspReader?.StringsReader?.CurrentLang != Engine.To)
-                //{
-                //    GlobalEspReader?.StringsReader.LoadStrings(LastSetPath, Engine.To);
-                //    if (GlobalEspReader?.StringsReader.Strings.Count > 0)
-                //    {
-                //        ReloadData();
-                //    }
-                //}
 
                 if (TransViewList != null)
                 {

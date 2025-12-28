@@ -307,6 +307,7 @@ namespace SSELex
             DeFine.GlobalLocalSetting.SaveConfig();
 
             DeFine.WorkingWin.ReloadStringsFile();
+            DeFine.WorkingWin.UPDateUI();
 
             if (CanReload > 0)
                 AutoReload();
@@ -325,6 +326,7 @@ namespace SSELex
             DeFine.GlobalLocalSetting.SaveConfig();
 
             DeFine.WorkingWin.ReloadStringsFile();
+            DeFine.WorkingWin.UPDateUI();
 
             if (CanReload > 0)
                 AutoReload();

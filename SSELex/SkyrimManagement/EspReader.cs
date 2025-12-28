@@ -159,8 +159,8 @@ namespace SSELex.SkyrimManagement
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         private static extern int C_GetSubRecordCount(IntPtr record);
 
-        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool C_ModifySubRecordByOffset(int IsCell, int RecordOffset, int SubOffset, IntPtr NewUtf8Data);
+        //[DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        //public static extern bool C_ModifySubRecordByOffset(int IsCell, int RecordOffset, int SubOffset, IntPtr NewUtf8Data);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         private static extern bool C_ModifySubRecord(
@@ -230,26 +230,26 @@ namespace SSELex.SkyrimManagement
             return ptr;
         }
 
-        public static bool ModifySubRecordByOffset(bool IsCell,int GlobalIndex,int OccurrenceIndex, string NewUtf8Data)
-        {
-            IntPtr PtrNewData = IntPtr.Zero;
-            try
-            {
-                PtrNewData = StringToUtf8IntPtr(NewUtf8Data ?? "");
-                if (IsCell)
-                {
-                    return C_ModifySubRecordByOffset(1,GlobalIndex, OccurrenceIndex, PtrNewData);
-                }
-                else
-                {
-                    return C_ModifySubRecordByOffset(0, GlobalIndex, OccurrenceIndex, PtrNewData);
-                }
-            }
-            finally
-            {
-                if (PtrNewData != IntPtr.Zero) Marshal.FreeHGlobal(PtrNewData);
-            }
-        }
+        //public static bool ModifySubRecordByOffset(bool IsCell,int GlobalIndex,int OccurrenceIndex, string NewUtf8Data)
+        //{
+        //    IntPtr PtrNewData = IntPtr.Zero;
+        //    try
+        //    {
+        //        PtrNewData = StringToUtf8IntPtr(NewUtf8Data ?? "");
+        //        if (IsCell)
+        //        {
+        //            return C_ModifySubRecordByOffset(1,GlobalIndex, OccurrenceIndex, PtrNewData);
+        //        }
+        //        else
+        //        {
+        //            return C_ModifySubRecordByOffset(0, GlobalIndex, OccurrenceIndex, PtrNewData);
+        //        }
+        //    }
+        //    finally
+        //    {
+        //        if (PtrNewData != IntPtr.Zero) Marshal.FreeHGlobal(PtrNewData);
+        //    }
+        //}
 
         public static bool ModifySubRecord(uint formId,string recordSig,string subSig,int occurrenceIndex,int globalIndex,string newUtf8Data)
         {
@@ -533,7 +533,7 @@ namespace SSELex.SkyrimManagement
                     IsCell = true;
                 }
 
-                if (EspInterop.ModifySubRecordByOffset(IsCell, Record.GlobalIndex,Record.OccurrenceIndex,i.ToString()))
+                if (EspInterop.ModifySubRecord(Record.RealFormID, Record.ParentSig,Record.ChildSig,Record.OccurrenceIndex,Record.GlobalIndex,i.ToString()))
                 {
                     ModifyCount++;
                 }
@@ -544,6 +544,8 @@ namespace SSELex.SkyrimManagement
 
         public static int SaveEsp(string OutPutPath)
         {
+            var Get = Translator.TransData;
+
             int ModifyCount = 0;
 
             for (int i = 0; i < Records.Count; i++)
@@ -557,15 +559,15 @@ namespace SSELex.SkyrimManagement
                     IsCell = true;
                 }
 
-                var GetTransData = TranslatorBridge.GetTranslatorCache(Record.UniqueKey);
+                var GetTransData = TranslatorBridge.GetTransCache(Record.UniqueKey);
                 if (GetTransData != null)
                 {
-                    if (GetTransData.Length > 0)
+                    if (GetTransData.Length > 0 && GetTransData != Record.String)
                     {
-                        if (EspInterop.ModifySubRecordByOffset(IsCell, Record.GlobalIndex, Record.OccurrenceIndex, i.ToString()))
+                        if (EspInterop.ModifySubRecord(Record.RealFormID, Record.ParentSig, Record.ChildSig, Record.OccurrenceIndex, Record.GlobalIndex, GetTransData))
                         {
                             ModifyCount++;
-                        }
+                        }                     
                     }
                 }
             }

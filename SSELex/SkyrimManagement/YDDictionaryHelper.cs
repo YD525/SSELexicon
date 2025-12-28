@@ -48,7 +48,7 @@ namespace SSELex.SkyrimManage
         public static void CreatDictionary()
         {
             string ModName = CurrentModName;
-            string SetPath = DeFine.GetFullPath(@"Librarys\" + ModName) + ".Json";
+            string SetPath = DeFine.GetFullPath(@"\Librarys\" + ModName) + ".Json";
 
             CurrentFile = new YDDictionaryFile();
 
