@@ -1238,37 +1238,36 @@ namespace SSELex
                     }
                     if (CurrentTransType == 2)
                     {
-                        EspReader.TestSaveEsp();
+                        string TempFilePath = LastSetPath + ".Temp";
 
-                        //EspReader.TestSaveEsp();
+                        int ModifyCount = EspReader.SaveEsp(TempFilePath);
 
-                        //if (Translator.TransData.Count > 0)
-                        //    if (GlobalEspReader != null)
-                        //    {
-                        //        if (GlobalEspReader.CurrentReadMod != null)
-                        //        {
-                        //            string GetBackUPPath = GetFilePath + GetFileFullName + ".backup";
+                        if (ModifyCount == 0)
+                        {
+                            if (File.Exists(TempFilePath))
+                            {
+                                File.Delete(TempFilePath);
+                            }
+                        }
+                        else
+                        {
+                            string GetBackUPPath = GetFilePath + GetFileFullName + ".backup";
 
-                        //            if (!File.Exists(GetBackUPPath))
-                        //            {
-                        //                File.Copy(LastSetPath, GetBackUPPath);
-                        //            }
+                            if (!File.Exists(GetBackUPPath))
+                            {
+                                File.Copy(LastSetPath, GetBackUPPath);
+                            }
 
-                        //            if (File.Exists(LastSetPath))
-                        //            {
-                        //                File.Delete(LastSetPath);
-                        //            }
+                            if (File.Exists(LastSetPath))
+                            {
+                                File.Delete(LastSetPath);
+                            }
 
-                        //            SkyrimDataWriter.WriteAllMemoryData(ref GlobalEspReader);
-                        //            GlobalEspReader.DefSaveMod(GlobalEspReader.CurrentReadMod, LastSetPath);
-
-                        //            if (!File.Exists(LastSetPath))
-                        //            {
-                        //                MessageBox.Show("Save File Error!");
-                        //                File.Copy(GetBackUPPath, LastSetPath);
-                        //            }
-                        //        }
-                        //    }
+                            if (File.Exists(TempFilePath))
+                            {
+                                File.Move(TempFilePath, LastSetPath);
+                            }
+                        }
                     }
                     else
                     if (CurrentTransType == 1)
