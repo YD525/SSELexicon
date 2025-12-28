@@ -470,6 +470,10 @@ namespace SSELex.SkyrimManagement
                             throw new Exception("Warning: Duplicate key detected: {NRecordItem.UniqueKey}");
                         }
                     }
+                    else
+                    {
+                        
+                    }
                 }
             }
         }
