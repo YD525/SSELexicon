@@ -74,7 +74,7 @@ namespace SSELex.SkyrimManage
             CurrentModName = ModName;
             Dictionarys.Clear();
 
-            string SetPath = DeFine.GetFullPath(@"Librarys\" + ModName) + ".Json";
+            string SetPath = DeFine.GetFullPath(@"\Librarys\" + ModName) + ".Json";
             if (File.Exists(SetPath))
             {
                 string GetData = Encoding.UTF8.GetString(DataHelper.ReadFile(SetPath));

@@ -552,19 +552,12 @@ namespace SSELex.SkyrimManagement
             {
                 var Record = Records[Records.ElementAt(i).Key];
 
-                bool IsCell = false;
-
-                if (Record.ParentSig == "CELL")
-                {
-                    IsCell = true;
-                }
-
                 var GetTransData = TranslatorBridge.GetTransCache(Record.UniqueKey);
                 if (GetTransData != null)
                 {
                     if (GetTransData.Length > 0 && GetTransData != Record.String)
                     {
-                        if (EspInterop.ModifySubRecord(Record.RealFormID, Record.ParentSig, Record.ChildSig, Record.OccurrenceIndex, Record.GlobalIndex, GetTransData))
+                        if (EspInterop.ModifySubRecord(Record.RealFormID, Record.ParentSig, Record.ChildSig, Record.OccurrenceIndex, Record.GlobalIndex, Record.String + i))
                         {
                             ModifyCount++;
                         }                     
