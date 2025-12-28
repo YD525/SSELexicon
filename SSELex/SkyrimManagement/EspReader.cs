@@ -68,7 +68,15 @@ namespace SSELex.SkyrimManagement
     {
         private const string DllName = "EspReader.dll";
 
+        public static string Version = "";
+
         #region P/Invoke 
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr C_GetVersion();
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern int C_GetVersionLength();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void C_Init();
@@ -187,6 +195,31 @@ namespace SSELex.SkyrimManagement
             }
         }
 
+        public static string GetVersion()
+        {
+            try
+            {
+                int length = C_GetVersionLength();
+                if (length <= 0)
+                {
+                    return "Unknown";
+                }
+
+                IntPtr ptr = C_GetVersion();
+                if (ptr == IntPtr.Zero)
+                {
+                    return "Unknown";
+                }
+
+                return Marshal.PtrToStringAnsi(ptr, length);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting version: {ex.Message}");
+                return "Error";
+            }
+        }
+
         private static IntPtr StringToUtf8IntPtr(string str)
         {
             byte[] utf8Bytes = Encoding.UTF8.GetBytes(str + "\0"); 
@@ -253,6 +286,8 @@ namespace SSELex.SkyrimManagement
             C_Init();
             C_InitDefaultFilter();
             C_SetDefaultFilter();
+
+            EspInterop.Version = GetVersion();
         }
 
         public static int LoadEsp(string Path)
