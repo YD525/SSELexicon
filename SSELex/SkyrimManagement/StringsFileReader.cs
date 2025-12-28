@@ -177,90 +177,92 @@ namespace SSELex.SkyrimManagement
             }
         }
 
-        public bool SaveStringsFile(string FilePath, IEnumerable<StringItem> StringsToSave)
-        {
-            try
-            {
-                var SortedStrings = StringsToSave.OrderBy(Item => Item.ID).ToList();
+        //We'll leave this for now. If the ESP file is bound to StringsFile, the modified data needs to be written to StringsFile instead of ESP. For now, just displaying an "not supported" message will suffice.
 
-                using (BinaryWriter Writer = new BinaryWriter(File.Create(FilePath)))
-                {
-                    uint Count = (uint)SortedStrings.Count;
-                    var Directory = new List<(uint StringID, uint Offset)>();
-                    var DataStream = new MemoryStream();
+        //public bool SaveStringsFile(string FilePath, IEnumerable<StringItem> StringsToSave)
+        //{
+        //    try
+        //    {
+        //        var SortedStrings = StringsToSave.OrderBy(Item => Item.ID).ToList();
 
-                    foreach (var Item in SortedStrings)
-                    {
-                        uint StringID = Item.ID;
-                        uint CurrentOffset = (uint)DataStream.Position;
+        //        using (BinaryWriter Writer = new BinaryWriter(File.Create(FilePath)))
+        //        {
+        //            uint Count = (uint)SortedStrings.Count;
+        //            var Directory = new List<(uint StringID, uint Offset)>();
+        //            var DataStream = new MemoryStream();
 
-                        byte[] StringBytes = Encoding.UTF8.GetBytes(Item.Value);
-                        byte[] StringBytesWithNull = new byte[StringBytes.Length + 1];
-                        Array.Copy(StringBytes, StringBytesWithNull, StringBytes.Length);
-                        StringBytesWithNull[StringBytes.Length] = 0;
+        //            foreach (var Item in SortedStrings)
+        //            {
+        //                uint StringID = Item.ID;
+        //                uint CurrentOffset = (uint)DataStream.Position;
 
-                        uint Length = (uint)StringBytesWithNull.Length;
-                        DataStream.Write(BitConverter.GetBytes(Length), 0, 4);
-                        DataStream.Write(StringBytesWithNull, 0, StringBytesWithNull.Length);
+        //                byte[] StringBytes = Encoding.UTF8.GetBytes(Item.Value);
+        //                byte[] StringBytesWithNull = new byte[StringBytes.Length + 1];
+        //                Array.Copy(StringBytes, StringBytesWithNull, StringBytes.Length);
+        //                StringBytesWithNull[StringBytes.Length] = 0;
 
-                        Directory.Add((StringID, CurrentOffset));
-                    }
+        //                uint Length = (uint)StringBytesWithNull.Length;
+        //                DataStream.Write(BitConverter.GetBytes(Length), 0, 4);
+        //                DataStream.Write(StringBytesWithNull, 0, StringBytesWithNull.Length);
 
-                    byte[] DataBuffer = DataStream.ToArray();
-                    uint DataSize = (uint)DataBuffer.Length;
+        //                Directory.Add((StringID, CurrentOffset));
+        //            }
 
-                    Writer.Write(Count);
-                    Writer.Write(DataSize);
+        //            byte[] DataBuffer = DataStream.ToArray();
+        //            uint DataSize = (uint)DataBuffer.Length;
 
-                    foreach (var Entry in Directory)
-                    {
-                        Writer.Write(Entry.StringID);
-                        Writer.Write(Entry.Offset);
-                    }
+        //            Writer.Write(Count);
+        //            Writer.Write(DataSize);
 
-                    Writer.Write(DataBuffer);
-                }
+        //            foreach (var Entry in Directory)
+        //            {
+        //                Writer.Write(Entry.StringID);
+        //                Writer.Write(Entry.Offset);
+        //            }
 
-                return true;
-            }
-            catch (Exception Ex)
-            {
-                Console.WriteLine($"Error saving strings file {FilePath}: {Ex.Message}");
-                return false;
-            }
-        }
+        //            Writer.Write(DataBuffer);
+        //        }
 
-        public bool SaveAllStringsFiles(string EspPath, Languages Language = Languages.English)
-        {
-            bool AllSuccess = true;
+        //        return true;
+        //    }
+        //    catch (Exception Ex)
+        //    {
+        //        Console.WriteLine($"Error saving strings file {FilePath}: {Ex.Message}");
+        //        return false;
+        //    }
+        //}
 
-            var StringsGroup = Strings.Values.Where(Item => Item.Type == StringsFileType.Strings);
-            var ILStringsGroup = Strings.Values.Where(Item => Item.Type == StringsFileType.IL);
-            var DLStringsGroup = Strings.Values.Where(Item => Item.Type == StringsFileType.DL);
+        //public bool SaveAllStringsFiles(string EspPath, Languages Language = Languages.English)
+        //{
+        //    bool AllSuccess = true;
 
-            if (StringsGroup.Any())
-            {
-                string StringsPath = BuildStringsFilePath(EspPath, Language, "STRINGS");
-                if (!SaveStringsFile(StringsPath, StringsGroup))
-                    AllSuccess = false;
-            }
+        //    var StringsGroup = Strings.Values.Where(Item => Item.Type == StringsFileType.Strings);
+        //    var ILStringsGroup = Strings.Values.Where(Item => Item.Type == StringsFileType.IL);
+        //    var DLStringsGroup = Strings.Values.Where(Item => Item.Type == StringsFileType.DL);
 
-            if (ILStringsGroup.Any())
-            {
-                string ILStringsPath = BuildStringsFilePath(EspPath, Language, "ILSTRINGS");
-                if (!SaveStringsFile(ILStringsPath, ILStringsGroup))
-                    AllSuccess = false;
-            }
+        //    if (StringsGroup.Any())
+        //    {
+        //        string StringsPath = BuildStringsFilePath(EspPath, Language, "STRINGS");
+        //        if (!SaveStringsFile(StringsPath, StringsGroup))
+        //            AllSuccess = false;
+        //    }
 
-            if (DLStringsGroup.Any())
-            {
-                string DLStringsPath = BuildStringsFilePath(EspPath, Language, "DLSTRINGS");
-                if (!SaveStringsFile(DLStringsPath, DLStringsGroup))
-                    AllSuccess = false;
-            }
+        //    if (ILStringsGroup.Any())
+        //    {
+        //        string ILStringsPath = BuildStringsFilePath(EspPath, Language, "ILSTRINGS");
+        //        if (!SaveStringsFile(ILStringsPath, ILStringsGroup))
+        //            AllSuccess = false;
+        //    }
 
-            return AllSuccess;
-        }
+        //    if (DLStringsGroup.Any())
+        //    {
+        //        string DLStringsPath = BuildStringsFilePath(EspPath, Language, "DLSTRINGS");
+        //        if (!SaveStringsFile(DLStringsPath, DLStringsGroup))
+        //            AllSuccess = false;
+        //    }
+
+        //    return AllSuccess;
+        //}
 
         public string GetString(uint StringID)
         {
