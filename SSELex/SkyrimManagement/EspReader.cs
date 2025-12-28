@@ -25,7 +25,7 @@ namespace SSELex.SkyrimManagement
         public uint StringID { get; set; }
         public string Content { get; set; }
         public int OccurrenceIndex { get; set; }  
-        public int GlobalIndex { get; set; }
+        public int Index { get; set; }
     }
 
     public class EspRecordInfo
@@ -35,6 +35,8 @@ namespace SSELex.SkyrimManagement
         public uint FormID { get; set; }
         public uint Flags { get; set; }
         public List<SubRecordData> SubRecords { get; set; }
+
+        public int Index { get; set; }
 
         public EspRecordInfo()
         {
@@ -118,7 +120,7 @@ namespace SSELex.SkyrimManagement
         public static extern int C_SubRecordData_GetOccurrenceIndex(IntPtr subRecord);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int C_SubRecordData_GetGlobalIndex(IntPtr subRecord);
+        public static extern int C_SubRecordData_GetIndex(IntPtr subRecord);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr C_SubRecordData_GetSig(IntPtr subRecord);
@@ -157,10 +159,13 @@ namespace SSELex.SkyrimManagement
         private static extern uint C_GetRecordFlags(IntPtr record);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        private static extern int C_GetRecordIndex(IntPtr record);
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         private static extern int C_GetSubRecordCount(IntPtr record);
 
-        //[DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        //public static extern bool C_ModifySubRecordByOffset(int IsCell, int RecordOffset, int SubOffset, IntPtr NewUtf8Data);
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool C_ModifySubRecordByOffset(int IsCell, int RecordOffset, int SubOffset, IntPtr NewUtf8Data);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         private static extern bool C_ModifySubRecord(
@@ -230,26 +235,26 @@ namespace SSELex.SkyrimManagement
             return ptr;
         }
 
-        //public static bool ModifySubRecordByOffset(bool IsCell,int GlobalIndex,int OccurrenceIndex, string NewUtf8Data)
-        //{
-        //    IntPtr PtrNewData = IntPtr.Zero;
-        //    try
-        //    {
-        //        PtrNewData = StringToUtf8IntPtr(NewUtf8Data ?? "");
-        //        if (IsCell)
-        //        {
-        //            return C_ModifySubRecordByOffset(1,GlobalIndex, OccurrenceIndex, PtrNewData);
-        //        }
-        //        else
-        //        {
-        //            return C_ModifySubRecordByOffset(0, GlobalIndex, OccurrenceIndex, PtrNewData);
-        //        }
-        //    }
-        //    finally
-        //    {
-        //        if (PtrNewData != IntPtr.Zero) Marshal.FreeHGlobal(PtrNewData);
-        //    }
-        //}
+        public static bool ModifySubRecordByOffset(bool IsCell, int ParentIndex, int SubIndex, string NewUtf8Data)
+        {
+            IntPtr PtrNewData = IntPtr.Zero;
+            try
+            {
+                PtrNewData = StringToUtf8IntPtr(NewUtf8Data ?? "");
+                if (IsCell)
+                {
+                    return C_ModifySubRecordByOffset(1, ParentIndex, SubIndex, PtrNewData);
+                }
+                else
+                {
+                    return C_ModifySubRecordByOffset(0, ParentIndex, SubIndex, PtrNewData);
+                }
+            }
+            finally
+            {
+                if (PtrNewData != IntPtr.Zero) Marshal.FreeHGlobal(PtrNewData);
+            }
+        }
 
         public static bool ModifySubRecord(uint formId,string recordSig,string subSig,int occurrenceIndex,int globalIndex,string newUtf8Data)
         {
@@ -333,6 +338,7 @@ namespace SSELex.SkyrimManagement
 
                     Record.FormID = C_GetRecordFormID(RecordPtr);
                     Record.Flags = C_GetRecordFlags(RecordPtr);
+                    Record.Index = C_GetRecordIndex(RecordPtr);
 
                     int SubRecordCount = C_GetSubRecordCount(RecordPtr);
 
@@ -350,7 +356,7 @@ namespace SSELex.SkyrimManagement
                         SubRecord.StringID = C_SubRecordData_GetStringID(SubRecordPtr);
 
                         SubRecord.OccurrenceIndex = C_SubRecordData_GetOccurrenceIndex(SubRecordPtr);
-                        SubRecord.GlobalIndex = C_SubRecordData_GetGlobalIndex(SubRecordPtr);
+                        SubRecord.Index = C_SubRecordData_GetIndex(SubRecordPtr);
 
                         int DataSize = C_SubRecordData_GetDataSize(SubRecordPtr);
                         if (DataSize > 0)
@@ -427,7 +433,8 @@ namespace SSELex.SkyrimManagement
             public string ChildSig = "";
             public string UniqueKey = "";
             public string String = "";
-            public int GlobalIndex = 0;
+            public int ParentIndex = 0;
+            public int SubIndex = 0;
             public int OccurrenceIndex = 0;
             public bool IsModify = false;
         }
@@ -447,7 +454,7 @@ namespace SSELex.SkyrimManagement
 
                 foreach (var Sub in GetRecord.SubRecords)
                 {
-                    var MergeSig = Engine.GetFileUniqueKey() + ":" + ParentFormID + ":" + ParentSig + ":" + Sub.Sig + ":" + Sub.GlobalIndex + ":" + Sub.OccurrenceIndex;
+                    var MergeSig = Engine.GetFileUniqueKey() + ":" + ParentFormID + ":" + ParentSig + ":" + Sub.Sig + ":" + Sub.Index;
                     string UniqueKey = "[" + Crc32Helper.ComputeCrc32(MergeSig) + "]" + Sub.Sig;
 
                     RecordItem NRecordItem = new RecordItem
@@ -459,7 +466,8 @@ namespace SSELex.SkyrimManagement
                         ChildSig = Sub.Sig,
                         UniqueKey = UniqueKey,
                         String = Sub.Content,
-                        GlobalIndex = Sub.GlobalIndex,
+                        ParentIndex = GetRecord.Index,
+                        SubIndex = Sub.Index,
                         OccurrenceIndex = Sub.OccurrenceIndex
                     };
 
@@ -519,28 +527,28 @@ namespace SSELex.SkyrimManagement
             ToStringsFile.LoadStringsFiles(EspPath,Engine.To);
         }
 
-        public static void TestSaveEsp()
-        {
-            int ModifyCount = 0;
-            for (int i = 0; i < Records.Count; i++)
-            {
-                var Record = Records[Records.ElementAt(i).Key];
+        //public static void TestSaveEsp()
+        //{
+        //    int ModifyCount = 0;
+        //    for (int i = 0; i < Records.Count; i++)
+        //    {
+        //        var Record = Records[Records.ElementAt(i).Key];
 
-                bool IsCell = false;
+        //        bool IsCell = false;
 
-                if (Record.ParentSig == "CELL")
-                {
-                    IsCell = true;
-                }
+        //        if (Record.ParentSig == "CELL")
+        //        {
+        //            IsCell = true;
+        //        }
 
-                if (EspInterop.ModifySubRecord(Record.RealFormID, Record.ParentSig,Record.ChildSig,Record.OccurrenceIndex,Record.GlobalIndex,i.ToString()))
-                {
-                    ModifyCount++;
-                }
-            }
+        //        if (EspInterop.ModifySubRecord(Record.RealFormID, Record.ParentSig,Record.ChildSig,Record.OccurrenceIndex,Record.SubIndex,i.ToString()))
+        //        {
+        //            ModifyCount++;
+        //        }
+        //    }
 
-            EspInterop.SaveEsp(DeFine.GetFullPath(@"\Test.esp"));
-        }
+        //    EspInterop.SaveEsp(DeFine.GetFullPath(@"\Test.esp"));
+        //}
 
         public static int SaveEsp(string OutPutPath)
         {
@@ -557,7 +565,14 @@ namespace SSELex.SkyrimManagement
                 {
                     if (GetTransData.Length > 0 && GetTransData != Record.String)
                     {
-                        if (EspInterop.ModifySubRecord(Record.RealFormID, Record.ParentSig, Record.ChildSig, Record.OccurrenceIndex, Record.GlobalIndex, Record.String + i))
+                        bool IsCell = false;
+
+                        if (Record.ParentSig == "CELL")
+                        {
+                            IsCell = true;
+                        }
+
+                        if (EspInterop.ModifySubRecordByOffset(IsCell,Record.ParentIndex,Record.SubIndex, GetTransData))
                         {
                             ModifyCount++;
                         }                     
