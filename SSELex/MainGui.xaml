@@ -562,6 +562,13 @@
                                     <Label Style="{DynamicResource CaptionTextA}" Name="UITranslated">
                                         Translated
                                     </Label>
+
+                                    <Border Name="ClearCache" Style="{DynamicResource ButtonStyle}" Height="25" PreviewMouseDown="ClearCache_PreviewMouseDown">
+                                        <Label Style="{DynamicResource ButtonFont}" Name="ClearCacheButton">
+                                            ClearCache
+                                        </Label>
+                                    </Border>
+                                   
                                 </StackPanel>
                             </Grid>
                             <Grid Name="TransView" Style="{DynamicResource FrameStyle}" Grid.Row="4" Panel.ZIndex="990" Margin="10 0 10 0" Visibility="Visible">
