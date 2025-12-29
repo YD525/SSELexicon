@@ -35,8 +35,9 @@ namespace SSELex.SkyrimManagement
         public uint FormID { get; set; }
         public uint Flags { get; set; }
         public List<SubRecordData> SubRecords { get; set; }
-
         public int Index { get; set; }
+
+        public string EditorID { get; set; }
 
         public EspRecordInfo()
         {
@@ -154,6 +155,9 @@ namespace SSELex.SkyrimManagement
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         private static extern uint C_GetRecordFormID(IntPtr record);
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr C_GetRecordEditorID(IntPtr record);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         private static extern uint C_GetRecordFlags(IntPtr record);
@@ -306,6 +310,18 @@ namespace SSELex.SkyrimManagement
             return -1;
         }
 
+        public static string GetRecordEditorID(IntPtr RecordPtr)
+        {
+            if (RecordPtr == IntPtr.Zero)
+                return string.Empty;
+
+            IntPtr EditorIDPtr = C_GetRecordEditorID(RecordPtr);
+
+            if (EditorIDPtr == IntPtr.Zero)
+                return string.Empty;
+
+            return Marshal.PtrToStringAnsi(EditorIDPtr) ?? string.Empty;
+        }
         public static List<EspRecordInfo> SearchBySig(string ParentSig = "ALL", string ChildSig = "")
         {
             int Count;
@@ -337,6 +353,7 @@ namespace SSELex.SkyrimManagement
                     }
 
                     Record.FormID = C_GetRecordFormID(RecordPtr);
+                    Record.EditorID = GetRecordEditorID(RecordPtr);
                     Record.Flags = C_GetRecordFlags(RecordPtr);
                     Record.Index = C_GetRecordIndex(RecordPtr);
 
@@ -429,6 +446,7 @@ namespace SSELex.SkyrimManagement
             public uint StringID = 0;      // StringsFile id
             public uint RealFormID = 0;
             public string FormID = "";
+            public string EditorID = "";
             public string ParentSig = "";
             public string ChildSig = "";
             public string UniqueKey = "";
@@ -452,6 +470,8 @@ namespace SSELex.SkyrimManagement
                 string ParentFormID = GetRecord.GetFormIDHex();
                 string ParentSig = GetRecord.Sig;
 
+                string ParentEditorID = GetRecord.EditorID;
+
                 foreach (var Sub in GetRecord.SubRecords)
                 {
                     var MergeSig = Engine.GetFileUniqueKey() + ":" + ParentFormID + ":" + ParentSig + ":" + Sub.Sig + ":" + Sub.Index;
@@ -462,6 +482,7 @@ namespace SSELex.SkyrimManagement
                         RealFormID = RealFormID,
                         StringID = Sub.StringID,
                         FormID = ParentFormID,
+                        EditorID = ParentEditorID,
                         ParentSig = ParentSig,
                         ChildSig = Sub.Sig,
                         UniqueKey = UniqueKey,
