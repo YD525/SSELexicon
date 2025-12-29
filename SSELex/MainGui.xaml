@@ -114,21 +114,21 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="1"/>
-                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="40"/>
                             <RowDefinition Height="1"/>
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="1"/>
-                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="40"/>
                             <RowDefinition Height="1"/>
-                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="40"/>
                             <RowDefinition Height="1"/>
-                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="40"/>
                             <RowDefinition Height="1"/>
-                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="40"/>
                             <RowDefinition Height="1"/>
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="1"/>
-                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="40"/>
                         </Grid.RowDefinitions>
 
                         <Grid Grid.Row="0">
@@ -167,13 +167,18 @@
                             </StackPanel>
                         </Grid>
 
-                        <StackPanel Orientation="Vertical" Grid.Row="6" Grid.RowSpan="12" HorizontalAlignment="Left" Panel.ZIndex="9" Margin="-18 0 0 0" Name="RightContextIndicator" Visibility="Collapsed">
-                            <Rectangle Width="3" Height="39" Fill="White" />
+                        <Grid Grid.Row="5" Grid.RowSpan="9" VerticalAlignment="Stretch" HorizontalAlignment="Left" Panel.ZIndex="9" Margin="-18 0 0 0" Name="RightContextIndicator" Visibility="Collapsed">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="65"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+                            <Rectangle Width="3" Grid.Row="0" Fill="White" />
 
-                            <TextBlock Text="AI Memory" Style="{DynamicResource ContextStyle}"/>
+                            <TextBlock Text="AI Mem" Grid.Row="1" Style="{DynamicResource ContextStyle}"/>
 
-                            <Rectangle Width="3" Height="39" Fill="White" VerticalAlignment="Bottom" />
-                        </StackPanel>
+                            <Rectangle Width="3" Grid.Row="2" Fill="White"/>
+                        </Grid>
 
                         <Grid Style="{DynamicResource NodeBackGround}" Grid.Row="6" Tag="ChatGpt" PreviewMouseDown="ChangeNode">
                             <ContentControl  Style="{DynamicResource IndicatorOffStyle}" Name="ChatGptLight"/>
@@ -231,7 +236,7 @@
                             </Label>
                         </Grid>
 
-                        <Grid Style="{DynamicResource NodeBackGround}" Grid.Row="20" Tag="DeepL" PreviewMouseDown="ChangeNode">
+                        <Grid Style="{DynamicResource NodeBackGround}" Grid.Row="16" Tag="DeepL" PreviewMouseDown="ChangeNode">
                             <ContentControl  Style="{DynamicResource IndicatorOffStyle}" Name="DeepLLight"/>
 
                             <StackPanel Orientation="Horizontal">

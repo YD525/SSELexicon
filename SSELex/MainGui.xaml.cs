@@ -3119,9 +3119,15 @@ namespace SSELex
             CollapseAnimation.From = CalcLeftMenuHeight();
         }
 
-        public double CalcLeftMenuHeight()
+
+        private double CalcLeftMenuHeight()
         {
-            return 0;
+            double AutoHeight = 0;
+            foreach (var GetRow in Nodes.RowDefinitions)
+            {
+                AutoHeight += GetRow.Height.Value;
+            }
+            return AutoHeight;
         }
 
 
