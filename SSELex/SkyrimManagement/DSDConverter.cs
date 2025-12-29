@@ -21,7 +21,7 @@ namespace SSELex.SkyrimManagement
             public List<DSDItem> DSDItems = new List<DSDItem>();
         }
 
-        public static DSDFile EspExportAllByDSD()
+        public static DSDFile RecordsToDSDFile()
         {
             DSDFile NewDSDFile = new DSDFile();
             List <DSDItem> DSDItems = new List<DSDItem>();
