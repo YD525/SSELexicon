@@ -454,12 +454,12 @@ namespace SSELex
             if (ContextGeneration.IsChecked == true)
             {
                 RightContextIndicator.Visibility = Visibility.Visible;
-                EngineConfig.ContextEnable = true;
+                EngineConfig.Config.ContextEnable = true;
             }
             else
             {
                 RightContextIndicator.Visibility = Visibility.Collapsed;
-                EngineConfig.ContextEnable = false;
+                EngineConfig.Config.ContextEnable = false;
             }
 
             EngineConfig.Save();
@@ -525,12 +525,12 @@ namespace SSELex
 
                         if (TranslatorExtend.TranslationCore.IsWork && !TranslatorExtend.TranslationCore.IsStop)
                         {
-                            ThreadInFoFont.Content = string.Format("Thread(Current:{0},Max:{1})", TranslatorExtend.TranslationCore.ThreadUsage.CurrentThreads, EngineConfig.MaxThreadCount);
+                            ThreadInFoFont.Content = string.Format("Thread(Current:{0},Max:{1})", TranslatorExtend.TranslationCore.ThreadUsage.CurrentThreads, EngineConfig.Config.MaxThreadCount);
                         }
                         else
                         if (TranslatorExtend.TranslationCore.IsWork && TranslatorExtend.TranslationCore.IsStop)
                         {
-                            ThreadInFoFont.Content = string.Format("Thread(Current:0,Max:{0})", EngineConfig.MaxThreadCount);
+                            ThreadInFoFont.Content = string.Format("Thread(Current:0,Max:{0})", EngineConfig.Config.MaxThreadCount);
                         }
                     }
 
@@ -1602,7 +1602,7 @@ namespace SSELex
                 UserTranslationCache.IsChecked = false;
             }
 
-            if (EngineConfig.ContextEnable)
+            if (EngineConfig.Config.ContextEnable)
             {
                 ContextGeneration.IsChecked = true;
                 RightContextIndicator.Visibility = Visibility.Visible;
@@ -2056,9 +2056,9 @@ namespace SSELex
                                             return;
                                         }
 
-                                        if (EngineConfig.LMLocalAIEnable)
+                                        if (EngineConfig.Config.LMLocalAIEnable)
                                         {
-                                            EngineConfig.LMModel = string.Empty;
+                                            EngineConfig.Config.LMModel = string.Empty;
                                             new LMStudio().GetCurrentModel();
                                         }
 
@@ -2228,7 +2228,7 @@ namespace SSELex
                                 {
                                     case "PreTranslate":
                                         {
-                                            if (EngineConfig.PreTranslateEnable)
+                                            if (EngineConfig.Config.PreTranslateEnable)
                                             {
                                                 GetStateGrid.Style = NodeEnable;
                                             }
@@ -2240,7 +2240,7 @@ namespace SSELex
                                         break;
                                     case "Gemini":
                                         {
-                                            if (EngineConfig.GeminiApiEnable)
+                                            if (EngineConfig.Config.GeminiApiEnable)
                                             {
                                                 GetStateGrid.Style = NodeEnable;
                                             }
@@ -2252,7 +2252,7 @@ namespace SSELex
                                         break;
                                     case "ChatGpt":
                                         {
-                                            if (EngineConfig.ChatGptApiEnable)
+                                            if (EngineConfig.Config.ChatGptApiEnable)
                                             {
                                                 GetStateGrid.Style = NodeEnable;
                                             }
@@ -2264,7 +2264,7 @@ namespace SSELex
                                         break;
                                     case "DeepSeek":
                                         {
-                                            if (EngineConfig.DeepSeekApiEnable)
+                                            if (EngineConfig.Config.DeepSeekApiEnable)
                                             {
                                                 GetStateGrid.Style = NodeEnable;
                                             }
@@ -2276,7 +2276,7 @@ namespace SSELex
                                         break;
                                     case "LMLocalAI":
                                         {
-                                            if (EngineConfig.LMLocalAIEnable)
+                                            if (EngineConfig.Config.LMLocalAIEnable)
                                             {
                                                 GetStateGrid.Style = NodeEnable;
                                             }
@@ -2288,7 +2288,7 @@ namespace SSELex
                                         break;
                                     case "DeepL":
                                         {
-                                            if (EngineConfig.DeepLApiEnable)
+                                            if (EngineConfig.Config.DeepLApiEnable)
                                             {
                                                 GetStateGrid.Style = NodeEnable;
                                             }
@@ -2333,84 +2333,84 @@ namespace SSELex
                         {
                             case "PreTranslate":
                                 {
-                                    if (!EngineConfig.PreTranslateEnable)
+                                    if (!EngineConfig.Config.PreTranslateEnable)
                                     {
-                                        EngineConfig.PreTranslateEnable = true;
+                                        EngineConfig.Config.PreTranslateEnable = true;
                                         GetStateGrid.Style = NodeEnable;
                                     }
                                     else
                                     {
-                                        EngineConfig.PreTranslateEnable = false;
+                                        EngineConfig.Config.PreTranslateEnable = false;
                                         GetStateGrid.Style = NodeDisable;
                                     }
                                 }
                                 break;
                             case "Gemini":
                                 {
-                                    if (!EngineConfig.GeminiApiEnable)
+                                    if (!EngineConfig.Config.GeminiApiEnable)
                                     {
-                                        EngineConfig.GeminiApiEnable = true;
+                                        EngineConfig.Config.GeminiApiEnable = true;
                                         GetStateGrid.Style = NodeEnable;
                                     }
                                     else
                                     {
-                                        EngineConfig.GeminiApiEnable = false;
+                                        EngineConfig.Config.GeminiApiEnable = false;
                                         GetStateGrid.Style = NodeDisable;
                                     }
                                 }
                                 break;
                             case "ChatGpt":
                                 {
-                                    if (!EngineConfig.ChatGptApiEnable)
+                                    if (!EngineConfig.Config.ChatGptApiEnable)
                                     {
-                                        EngineConfig.ChatGptApiEnable = true;
+                                        EngineConfig.Config.ChatGptApiEnable = true;
                                         GetStateGrid.Style = NodeEnable;
                                     }
                                     else
                                     {
-                                        EngineConfig.ChatGptApiEnable = false;
+                                        EngineConfig.Config.ChatGptApiEnable = false;
                                         GetStateGrid.Style = NodeDisable;
                                     }
                                 }
                                 break;
                             case "DeepSeek":
                                 {
-                                    if (!EngineConfig.DeepSeekApiEnable)
+                                    if (!EngineConfig.Config.DeepSeekApiEnable)
                                     {
-                                        EngineConfig.DeepSeekApiEnable = true;
+                                        EngineConfig.Config.DeepSeekApiEnable = true;
                                         GetStateGrid.Style = NodeEnable;
                                     }
                                     else
                                     {
-                                        EngineConfig.DeepSeekApiEnable = false;
+                                        EngineConfig.Config.DeepSeekApiEnable = false;
                                         GetStateGrid.Style = NodeDisable;
                                     }
                                 }
                                 break;
                             case "LMLocalAI":
                                 {
-                                    if (!EngineConfig.LMLocalAIEnable)
+                                    if (!EngineConfig.Config.LMLocalAIEnable)
                                     {
-                                        EngineConfig.LMLocalAIEnable = true;
+                                        EngineConfig.Config.LMLocalAIEnable = true;
                                         GetStateGrid.Style = NodeEnable;
                                     }
                                     else
                                     {
-                                        EngineConfig.LMLocalAIEnable = false;
+                                        EngineConfig.Config.LMLocalAIEnable = false;
                                         GetStateGrid.Style = NodeDisable;
                                     }
                                 }
                                 break;
                             case "DeepL":
                                 {
-                                    if (!EngineConfig.DeepLApiEnable)
+                                    if (!EngineConfig.Config.DeepLApiEnable)
                                     {
-                                        EngineConfig.DeepLApiEnable = true;
+                                        EngineConfig.Config.DeepLApiEnable = true;
                                         GetStateGrid.Style = NodeEnable;
                                     }
                                     else
                                     {
-                                        EngineConfig.DeepLApiEnable = false;
+                                        EngineConfig.Config.DeepLApiEnable = false;
                                         GetStateGrid.Style = NodeDisable;
                                     }
                                 }
@@ -2962,11 +2962,11 @@ namespace SSELex
         {
             if (GlobalSearch.IsChecked == true)
             {
-                EngineConfig.EnableGlobalSearch = true;
+                EngineConfig.Config.EnableGlobalSearch = true;
             }
             else
             {
-                EngineConfig.EnableGlobalSearch = false;
+                EngineConfig.Config.EnableGlobalSearch = false;
             }
 
             EngineConfig.Save();
@@ -3217,22 +3217,22 @@ namespace SSELex
         {
             if (Name.Equals("Request And ApiKey Configs"))
             {
-                STimeOut.Text = EngineConfig.GlobalRequestTimeOut.ToString();
+                STimeOut.Text = EngineConfig.Config.GlobalRequestTimeOut.ToString();
 
-                SProxyUrl.Text = EngineConfig.ProxyUrl;
-                SProxyUserName.Text = EngineConfig.ProxyUserName;
-                SProxyPassword.Password = EngineConfig.ProxyPassword;
+                SProxyUrl.Text = EngineConfig.Config.ProxyUrl;
+                SProxyUserName.Text = EngineConfig.Config.ProxyUserName;
+                SProxyPassword.Password = EngineConfig.Config.ProxyPassword;
 
-                SGeminiKey.Password = EngineConfig.GeminiKey;
-                SGeminiModel.Text = EngineConfig.GeminiModel;
+                SGeminiKey.Password = EngineConfig.Config.GeminiKey;
+                SGeminiModel.Text = EngineConfig.Config.GeminiModel;
 
                 SGeminiModelSelect.Items.Clear();
                 SGeminiModelSelect.Items.Add("gemini-2.5-flash");
                 SGeminiModelSelect.Items.Add("gemini-2.0-flash");
                 SGeminiModelSelect.SelectedValue = null;
 
-                SChatGptKey.Password = EngineConfig.ChatGptKey;
-                SChatGptModel.Text = EngineConfig.ChatGptModel;
+                SChatGptKey.Password = EngineConfig.Config.ChatGptKey;
+                SChatGptModel.Text = EngineConfig.Config.ChatGptModel;
                 SChatGptModelSelect.Items.Clear();
                 SChatGptModelSelect.Items.Add("gpt-5-nano");
                 SChatGptModelSelect.Items.Add("gpt-5-mini");
@@ -3242,20 +3242,20 @@ namespace SSELex
                 SChatGptModelSelect.SelectedValue = null;
 
 
-                SDeepSeekKey.Password = EngineConfig.DeepSeekKey;
-                SDeepSeekModel.Text = EngineConfig.DeepSeekModel;
+                SDeepSeekKey.Password = EngineConfig.Config.DeepSeekKey;
+                SDeepSeekModel.Text = EngineConfig.Config.DeepSeekModel;
                 SDeepSeekModelSelect.Items.Clear();
                 SDeepSeekModelSelect.Items.Add("deepseek-chat");
                 SDeepSeekModelSelect.Items.Add("deepseek-reasoner");
                 SDeepSeekModelSelect.SelectedValue = null;
 
-                SLMHost.Text = EngineConfig.LMHost;
-                SLMPort.Text = EngineConfig.LMPort.ToString();
-                SLMModel.Text = EngineConfig.LMModel;
+                SLMHost.Text = EngineConfig.Config.LMHost;
+                SLMPort.Text = EngineConfig.Config.LMPort.ToString();
+                SLMModel.Text = EngineConfig.Config.LMModel;
 
-                SDeepLKey.Password = EngineConfig.DeepLKey;
+                SDeepLKey.Password = EngineConfig.Config.DeepLKey;
 
-                if (EngineConfig.IsFreeDeepL)
+                if (EngineConfig.Config.IsFreeDeepL)
                 {
                     IsFreeDeepL.IsChecked = true;
                 }
@@ -3268,9 +3268,9 @@ namespace SSELex
             else
             if (Name.Equals("AI Configs"))
             {
-                SContextLimit.Text = EngineConfig.ContextLimit.ToString();
+                SContextLimit.Text = EngineConfig.Config.ContextLimit.ToString();
 
-                if (EngineConfig.ContextEnable)
+                if (EngineConfig.Config.ContextEnable)
                 {
                     SContextEnable.IsChecked = true;
                 }
@@ -3279,7 +3279,7 @@ namespace SSELex
                     SContextEnable.IsChecked = false;
                 }
 
-                SAIKeyword.Text = EngineConfig.UserCustomAIPrompt;
+                SAIKeyword.Text = EngineConfig.Config.UserCustomAIPrompt;
             }
             else
             if (Name.Equals("Game Configs"))
@@ -3314,13 +3314,13 @@ namespace SSELex
             else
             if (Name.Equals("Engine Configs"))
             {
-                SThrottlingRatio.Text = EngineConfig.ThrottleRatio.ToString();
+                SThrottlingRatio.Text = EngineConfig.Config.ThrottleRatio.ToString();
 
-                SRotationDelay.Text = EngineConfig.ThrottleDelayMs.ToString();
+                SRotationDelay.Text = EngineConfig.Config.ThrottleDelayMs.ToString();
 
-                SMaxThread.Text = EngineConfig.MaxThreadCount.ToString();
+                SMaxThread.Text = EngineConfig.Config.MaxThreadCount.ToString();
 
-                if (EngineConfig.AutoSetThreadLimit)
+                if (EngineConfig.Config.AutoSetThreadLimit)
                 {
                     SAutoSetThreadLimit.IsChecked = true;
                 }
@@ -3356,7 +3356,7 @@ namespace SSELex
                     EnableAnalyzingWords.IsChecked = false;
                 }
 
-                if (EngineConfig.EnableGlobalSearch)
+                if (EngineConfig.Config.EnableGlobalSearch)
                 {
                     GlobalSearch.IsChecked = true;
                 }
@@ -3424,29 +3424,29 @@ namespace SSELex
 
             if (GetTimeOut > 0)
             {
-                EngineConfig.GlobalRequestTimeOut = GetTimeOut;
+                EngineConfig.Config.GlobalRequestTimeOut = GetTimeOut;
             }
         }
         private void SProxyUrl_TextChanged(object sender, TextChangedEventArgs e)
         {
-            EngineConfig.ProxyUrl = SProxyUrl.Text;
+            EngineConfig.Config.ProxyUrl = SProxyUrl.Text;
         }
         private void SProxyUserName_TextChanged(object sender, TextChangedEventArgs e)
         {
-            EngineConfig.ProxyUserName = SProxyUserName.Text;
+            EngineConfig.Config.ProxyUserName = SProxyUserName.Text;
         }
         private void SProxyPassword_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            EngineConfig.ProxyPassword = SProxyPassword.Password;
+            EngineConfig.Config.ProxyPassword = SProxyPassword.Password;
         }
 
         private void SGeminiKey_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            EngineConfig.GeminiKey = SGeminiKey.Password;
+            EngineConfig.Config.GeminiKey = SGeminiKey.Password;
         }
         private void SGeminiModel_TextChanged(object sender, TextChangedEventArgs e)
         {
-            EngineConfig.GeminiModel = SGeminiModel.Text;
+            EngineConfig.Config.GeminiModel = SGeminiModel.Text;
         }
         private void SGeminiModelSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -3460,11 +3460,11 @@ namespace SSELex
 
         private void SChatGptKey_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            EngineConfig.ChatGptKey = SChatGptKey.Password;
+            EngineConfig.Config.ChatGptKey = SChatGptKey.Password;
         }
         private void SChatGptModel_TextChanged(object sender, TextChangedEventArgs e)
         {
-            EngineConfig.ChatGptModel = SChatGptModel.Text;
+            EngineConfig.Config.ChatGptModel = SChatGptModel.Text;
         }
         private void SChatGptModelSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -3476,18 +3476,13 @@ namespace SSELex
             }
         }
 
-        private void SCohereKey_PasswordChanged(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
         private void SDeepSeekKey_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            EngineConfig.DeepSeekKey = SDeepSeekKey.Password;
+            EngineConfig.Config.DeepSeekKey = SDeepSeekKey.Password;
         }
         private void SDeepSeekModel_TextChanged(object sender, TextChangedEventArgs e)
         {
-            EngineConfig.DeepSeekModel = SDeepSeekModel.Text;
+            EngineConfig.Config.DeepSeekModel = SDeepSeekModel.Text;
         }
         private void SDeepSeekModelSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -3501,11 +3496,11 @@ namespace SSELex
 
         private void SLMHost_TextChanged(object sender, TextChangedEventArgs e)
         {
-            EngineConfig.LMHost = SLMHost.Text;
+            EngineConfig.Config.LMHost = SLMHost.Text;
         }
         private void SLMPort_TextChanged(object sender, TextChangedEventArgs e)
         {
-            EngineConfig.LMPort = ConvertHelper.ObjToInt(SLMPort.Text);
+            EngineConfig.Config.LMPort = ConvertHelper.ObjToInt(SLMPort.Text);
         }
         private void SLMHost_MouseLeave(object sender, MouseEventArgs e)
         {
@@ -3523,11 +3518,11 @@ namespace SSELex
 
                     if (Port > 0 && Port != 80)
                     {
-                        EngineConfig.LMHost = HostWithScheme;
-                        EngineConfig.LMPort = Port;
+                        EngineConfig.Config.LMHost = HostWithScheme;
+                        EngineConfig.Config.LMPort = Port;
 
-                        SLMHost.Text = EngineConfig.LMHost;
-                        SLMPort.Text = EngineConfig.LMPort.ToString();
+                        SLMHost.Text = EngineConfig.Config.LMHost;
+                        SLMPort.Text = EngineConfig.Config.LMPort.ToString();
                     }
                 }
             }
@@ -3535,41 +3530,41 @@ namespace SSELex
 
         private void SDeepLKey_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            EngineConfig.DeepLKey = SDeepLKey.Password;
+            EngineConfig.Config.DeepLKey = SDeepLKey.Password;
         }
 
         private void IsFreeDeepL_Click(object sender, RoutedEventArgs e)
         {
             if (IsFreeDeepL.IsChecked == true)
             {
-                EngineConfig.IsFreeDeepL = true;
+                EngineConfig.Config.IsFreeDeepL = true;
             }
             else
             {
-                EngineConfig.IsFreeDeepL = false;
+                EngineConfig.Config.IsFreeDeepL = false;
             }
         }
         private void SContextLimit_TextChanged(object sender, TextChangedEventArgs e)
         {
-            EngineConfig.ContextLimit = ConvertHelper.ObjToInt(SContextLimit.Text);
+            EngineConfig.Config.ContextLimit = ConvertHelper.ObjToInt(SContextLimit.Text);
         }
 
         private void SAIKeyword_TextChanged(object sender, TextChangedEventArgs e)
         {
-            EngineConfig.UserCustomAIPrompt = SAIKeyword.Text.Trim();
+            EngineConfig.Config.UserCustomAIPrompt = SAIKeyword.Text.Trim();
         }
 
         private void SContextEnable_Click(object sender, RoutedEventArgs e)
         {
             if (SContextEnable.IsChecked == true)
             {
-                EngineConfig.ContextEnable = true;
+                EngineConfig.Config.ContextEnable = true;
                 ContextGeneration.IsChecked = true;
                 RightContextIndicator.Visibility = Visibility.Visible;
             }
             else
             {
-                EngineConfig.ContextEnable = false;
+                EngineConfig.Config.ContextEnable = false;
                 ContextGeneration.IsChecked = false;
                 RightContextIndicator.Visibility = Visibility.Collapsed;
             }
@@ -3586,28 +3581,28 @@ namespace SSELex
 
         private void SThrottlingRatio_TextChanged(object sender, TextChangedEventArgs e)
         {
-            EngineConfig.ThrottleRatio = ConvertHelper.ObjToDouble(SThrottlingRatio.Text);
+            EngineConfig.Config.ThrottleRatio = ConvertHelper.ObjToDouble(SThrottlingRatio.Text);
         }
 
         private void SRotationDelay_TextChanged(object sender, TextChangedEventArgs e)
         {
-            EngineConfig.ThrottleDelayMs = ConvertHelper.ObjToInt(SRotationDelay.Text);
+            EngineConfig.Config.ThrottleDelayMs = ConvertHelper.ObjToInt(SRotationDelay.Text);
         }
 
         private void SMaxThread_TextChanged(object sender, TextChangedEventArgs e)
         {
-            EngineConfig.MaxThreadCount = ConvertHelper.ObjToInt(SMaxThread.Text);
+            EngineConfig.Config.MaxThreadCount = ConvertHelper.ObjToInt(SMaxThread.Text);
         }
 
         private void SAutoSetThreadLimit_Click(object sender, RoutedEventArgs e)
         {
             if (SAutoSetThreadLimit.IsChecked == true)
             {
-                EngineConfig.AutoSetThreadLimit = true;
+                EngineConfig.Config.AutoSetThreadLimit = true;
             }
             else
             {
-                EngineConfig.AutoSetThreadLimit = false;
+                EngineConfig.Config.AutoSetThreadLimit = false;
             }
         }
 
