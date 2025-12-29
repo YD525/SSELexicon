@@ -376,7 +376,23 @@
                     </Grid>
 
                     <Grid Name="ModTransView" Style="{DynamicResource FrameStyle}" Visibility="Visible">
-                        <Grid Grid.Column="1">
+                        <!--Child Layer-->
+                        <Grid Name="ClearCacheView"  Style="{DynamicResource ChildFrameStyle}" Panel.ZIndex="99" Background="#FF373737" Width="200" Height="150">
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="1*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border Grid.Row="0" Cursor="Hand" PreviewMouseDown="ClearCacheViewClose_PreviewMouseDown" HorizontalAlignment="Right" Margin="0 0 5 0">
+                                        <ContentControl Style="{DynamicResource CloseIconStyle}"/>
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </Grid>
+
+                        <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="5"/>
                                 <RowDefinition Height="45"/>

@@ -3658,5 +3658,10 @@ namespace SSELex
                 TransViewList.RealLines[i].SyncUI(TransViewList);
             }
         }
+
+        private void ClearCacheViewClose_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            ClearCacheView.Visibility = Visibility.Collapsed;
+        }
     }
 }

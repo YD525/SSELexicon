@@ -290,6 +290,10 @@
         <Setter Property="VerticalAlignment" Value="Bottom"/>
     </Style>
 
+    <Style x:Key="ChildFrameStyle" TargetType="Grid">
+        <Setter Property="Background" Value="#FF373737"/>
+    </Style>
+
     <Style x:Key="FrameStyle" TargetType="Grid">
         <Setter Property="Background" Value="#FF2A2A2A"/>
     </Style>
