@@ -1494,6 +1494,8 @@ namespace SSELex
 
         private void ClearCache_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
+            ClearCacheView.Visibility = Visibility.Visible;
+
             //if (MessageBoxExtend.Show(this, "Waring", "Are you sure you want to clear the database records? Doing so will lose all translated content. (Note: Under no circumstances should you click this button arbitrarily.)", MsgAction.YesNo, MsgType.Waring) <= 0)
             //{
             //    return;
