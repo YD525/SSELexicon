@@ -2906,7 +2906,7 @@ namespace SSELex
             {
                 if (TransViewList.Rows > 0)
                 {
-                    var GetWritePath = DataHelper.ShowSaveFileDialog(LModName + ".Json", "RamCache (*.Json)|*.Json");
+                    var GetWritePath = DataHelper.ShowSaveFileDialog(LModName + "_C.Json", "RamCache (*.Json)|*.Json");
 
                     UPDateFile(false);
 
@@ -3651,7 +3651,7 @@ namespace SSELex
         {
             for (int i = 0; i < TransViewList.RealLines.Count; i++)
             {
-                TransViewList.RealLines[i].TransText = TransViewList.RealLines[i].SourceText + i.ToString();
+                TransViewList.RealLines[i].TransText = TransViewList.RealLines[i].SourceText + i.ToString() + "ラララ";
 
                 Translator.TransData[TransViewList.RealLines[i].Key] = TransViewList.RealLines[i].TransText;
 
