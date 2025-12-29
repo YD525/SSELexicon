@@ -420,11 +420,13 @@ namespace SSELex
         {
             if (IsExpanded)
             {
+                SyncAnimation();
                 ShowLeftMenu(false);
                 LogView.Visibility = Visibility.Collapsed;
             }
             else
             {
+                SyncAnimation();
                 ShowLeftMenu(true);
                 LogView.Visibility = Visibility.Visible;
             }
@@ -2890,6 +2892,239 @@ namespace SSELex
             }
         }
 
+        private void UILanguages_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string GetValue = ConvertHelper.ObjToStr(UILanguages.SelectedValue);
+            if (GetValue.Length > 0)
+            {
+                DeFine.GlobalLocalSetting.CurrentUILanguage = (Languages)Enum.Parse(typeof(Languages), GetValue);
+                UILanguageHelper.ChangeLanguage(DeFine.GlobalLocalSetting.CurrentUILanguage);
+            }
+        }
+
+        private void ChangeTechDarkBlue(object sender, MouseButtonEventArgs e)
+        {
+            DeFine.GlobalLocalSetting.Style = 1;
+            DeFine.GlobalLocalSetting.SaveConfig();
+
+            MessageBoxExtend.Show(this, "The theme is set successfully and will take effect after restarting the software.");
+        }
+
+        private void ChangePurpleStyle(object sender, MouseButtonEventArgs e)
+        {
+            DeFine.GlobalLocalSetting.Style = 2;
+            DeFine.GlobalLocalSetting.SaveConfig();
+
+            MessageBoxExtend.Show(this, "The theme is set successfully and will take effect after restarting the software.");
+        }
+
+        private void AutoUpdateStringsFileToDatabase_Click(object sender, RoutedEventArgs e)
+        {
+            if (AutoUpdateStringsFileToDatabase.IsChecked == true)
+            {
+                DeFine.GlobalLocalSetting.AutoUpdateStringsFileToDatabase = true;
+            }
+            else
+            {
+                DeFine.GlobalLocalSetting.AutoUpdateStringsFileToDatabase = false;
+            }
+
+            DeFine.GlobalLocalSetting.SaveConfig();
+        }
+        private void ForceTranslationConsistency_Click(object sender, RoutedEventArgs e)
+        {
+            if (ForceTranslationConsistency.IsChecked == true)
+            {
+                DeFine.GlobalLocalSetting.ForceTranslationConsistency = true;
+            }
+            else
+            {
+                DeFine.GlobalLocalSetting.ForceTranslationConsistency = false;
+            }
+
+            DeFine.GlobalLocalSetting.SaveConfig();
+        }
+        private void EnableAnalyzingWords_Click(object sender, RoutedEventArgs e)
+        {
+            if (EnableAnalyzingWords.IsChecked == true)
+            {
+                DeFine.GlobalLocalSetting.EnableAnalyzingWords = true;
+            }
+            else
+            {
+                DeFine.GlobalLocalSetting.EnableAnalyzingWords = false;
+            }
+
+            DeFine.GlobalLocalSetting.SaveConfig();
+        }
+        private void EnableGlobalSearch_Click(object sender, RoutedEventArgs e)
+        {
+            if (GlobalSearch.IsChecked == true)
+            {
+                EngineConfig.EnableGlobalSearch = true;
+            }
+            else
+            {
+                EngineConfig.EnableGlobalSearch = false;
+            }
+
+            EngineConfig.Save();
+        }
+
+        private void NextUntranslated_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            for (int i = 0; i < TransViewList?.RealLines.Count; i++)
+            {
+                bool IsCloud = false;
+                var GetLine = TransViewList.RealLines[i];
+                TransViewList.RealLines[i].SyncData(ref IsCloud);
+                if ((GetLine.SourceText + GetLine.RealSource).Trim().Length > 0)
+                {
+                    var SourceLang = LanguageHelper.DetectLanguageByLine(GetLine.SourceText);
+                    if (SourceLang != Engine.To)
+                    {
+                        if (GetLine.TransText.Length == 0 ||
+                         SourceLang ==
+                         LanguageHelper.DetectLanguageByLine(GetLine.TransText)
+                         )
+                        {
+                            TransViewList.Goto(TransViewList.RealLines[i].Key);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void SearchBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                QuickSearch();
+            }
+        }
+
+        private void SEnableLanguageDetect_Click(object sender, RoutedEventArgs e)
+        {
+            if (SEnableLanguageDetect.IsChecked == true)
+            {
+                DeFine.GlobalLocalSetting.EnableLanguageDetect = true;
+            }
+            else
+            {
+                DeFine.GlobalLocalSetting.EnableLanguageDetect = false;
+            }
+        }
+
+        private void TestAll_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            for (int i = 0; i < TransViewList.RealLines.Count; i++)
+            {
+                TransViewList.RealLines[i].TransText = TransViewList.RealLines[i].SourceText + i.ToString() + "ラララ";
+
+                Translator.TransData[TransViewList.RealLines[i].Key] = TransViewList.RealLines[i].TransText;
+
+                TransViewList.RealLines[i].SyncUI(TransViewList);
+            }
+        }
+
+        private void ClearCacheViewClose_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            ClearCacheView.Visibility = Visibility.Collapsed;
+        }
+
+        private void ClearCacheR_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (MessageBoxExtend.Show(this, "Waring", "Are you sure you want to clear the database records? Doing so will lose all translated content. (Note: Under no circumstances should you click this button arbitrarily.)", MsgAction.YesNo, MsgType.Waring) <= 0)
+            {
+                return;
+            }
+
+            if (TransViewList != null)
+            {
+                if (TransViewList.Rows > 0)
+                {
+                    if (ConvertHelper.ObjToStr(ClearCacheButton.Content).Equals(UILanguageHelper.UICache["ClearCacheButton"]))
+                    {
+                        if (ClearCacheTrd == null)
+                        {
+                            bool? GetCloudTranslationCache = CloudTranslationCache.IsChecked;
+                            bool? GetUserTranslationCache = UserTranslationCache.IsChecked;
+
+                            ClearCacheTrd = new Thread(() =>
+                            {
+                                try
+                                {
+                                    ClearCacheButton.Dispatcher.Invoke(new Action(() =>
+                                    {
+                                        ClearCacheButton.Content = UILanguageHelper.UICache["ClearCacheButton1"];
+                                    }));
+
+                                    int CallFuncCount = 0;
+                                    if (GetCloudTranslationCache == true)
+                                    {
+                                        Translator.ClearAICache();
+
+                                        if (Translator.ClearCloudCache(Engine.GetFileUniqueKey()))
+                                        {
+                                            Engine.Vacuum();
+                                            CallFuncCount++;
+                                        }
+                                    }
+                                    if (GetUserTranslationCache == true)
+                                    {
+                                        TranslatorExtend.ClearLocalCache(Engine.GetFileUniqueKey());
+                                        {
+                                            Engine.Vacuum();
+                                            CallFuncCount++;
+                                        }
+
+                                        ToStr.Dispatcher.Invoke(new Action(() =>
+                                        {
+                                            ToStr.Text = "";
+                                        }));
+                                    }
+
+                                    UPDateUI();
+                                }
+                                catch
+                                {
+
+                                }
+
+                                ClearCacheButton.Dispatcher.Invoke(new Action(() =>
+                                {
+                                    ClearCacheButton.Content = UILanguageHelper.UICache["ClearCacheButton"];
+                                }));
+
+                                ClearCacheTrd = null;
+                            });
+
+                            ClearCacheTrd.Start();
+                        }
+                    }
+                }
+            }
+        }
+
+        public void SyncAnimation()
+        {
+            var ExpandMenu = (Storyboard)FindResource("ExpandMenu");
+            var ExpandAnimation = (DoubleAnimation)ExpandMenu.Children[0];
+            ExpandAnimation.To = CalcLeftMenuHeight();
+
+
+            var CollapseMenu = (Storyboard)FindResource("CollapseMenu");
+            var CollapseAnimation = (DoubleAnimation)CollapseMenu.Children[0];
+            CollapseAnimation.From = CalcLeftMenuHeight();
+        }
+
+        public double CalcLeftMenuHeight()
+        {
+            return 0;
+        }
+
+
         #region Setting
 
         public void SelectFristSettingNav()
@@ -3451,220 +3686,5 @@ namespace SSELex
 
 
         #endregion
-
-        private void UILanguages_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            string GetValue = ConvertHelper.ObjToStr(UILanguages.SelectedValue);
-            if (GetValue.Length > 0)
-            {
-                DeFine.GlobalLocalSetting.CurrentUILanguage = (Languages)Enum.Parse(typeof(Languages), GetValue);
-                UILanguageHelper.ChangeLanguage(DeFine.GlobalLocalSetting.CurrentUILanguage);
-            }
-        }
-
-        private void ChangeTechDarkBlue(object sender, MouseButtonEventArgs e)
-        {
-            DeFine.GlobalLocalSetting.Style = 1;
-            DeFine.GlobalLocalSetting.SaveConfig();
-
-            MessageBoxExtend.Show(this, "The theme is set successfully and will take effect after restarting the software.");
-        }
-
-        private void ChangePurpleStyle(object sender, MouseButtonEventArgs e)
-        {
-            DeFine.GlobalLocalSetting.Style = 2;
-            DeFine.GlobalLocalSetting.SaveConfig();
-
-            MessageBoxExtend.Show(this, "The theme is set successfully and will take effect after restarting the software.");
-        }
-
-        private void AutoUpdateStringsFileToDatabase_Click(object sender, RoutedEventArgs e)
-        {
-            if (AutoUpdateStringsFileToDatabase.IsChecked == true)
-            {
-                DeFine.GlobalLocalSetting.AutoUpdateStringsFileToDatabase = true;
-            }
-            else
-            {
-                DeFine.GlobalLocalSetting.AutoUpdateStringsFileToDatabase = false;
-            }
-
-            DeFine.GlobalLocalSetting.SaveConfig();
-        }
-        private void ForceTranslationConsistency_Click(object sender, RoutedEventArgs e)
-        {
-            if (ForceTranslationConsistency.IsChecked == true)
-            {
-                DeFine.GlobalLocalSetting.ForceTranslationConsistency = true;
-            }
-            else
-            {
-                DeFine.GlobalLocalSetting.ForceTranslationConsistency = false;
-            }
-
-            DeFine.GlobalLocalSetting.SaveConfig();
-        }
-        private void EnableAnalyzingWords_Click(object sender, RoutedEventArgs e)
-        {
-            if (EnableAnalyzingWords.IsChecked == true)
-            {
-                DeFine.GlobalLocalSetting.EnableAnalyzingWords = true;
-            }
-            else
-            {
-                DeFine.GlobalLocalSetting.EnableAnalyzingWords = false;
-            }
-
-            DeFine.GlobalLocalSetting.SaveConfig();
-        }
-        private void EnableGlobalSearch_Click(object sender, RoutedEventArgs e)
-        {
-            if (GlobalSearch.IsChecked == true)
-            {
-                EngineConfig.EnableGlobalSearch = true;
-            }
-            else
-            {
-                EngineConfig.EnableGlobalSearch = false;
-            }
-
-            EngineConfig.Save();
-        }
-
-        private void NextUntranslated_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            for (int i = 0; i < TransViewList?.RealLines.Count; i++)
-            {
-                bool IsCloud = false;
-                var GetLine = TransViewList.RealLines[i];
-                TransViewList.RealLines[i].SyncData(ref IsCloud);
-                if ((GetLine.SourceText + GetLine.RealSource).Trim().Length > 0)
-                {
-                    var SourceLang = LanguageHelper.DetectLanguageByLine(GetLine.SourceText);
-                    if (SourceLang != Engine.To)
-                    {
-                        if (GetLine.TransText.Length == 0 ||
-                         SourceLang ==
-                         LanguageHelper.DetectLanguageByLine(GetLine.TransText)
-                         )
-                        {
-                            TransViewList.Goto(TransViewList.RealLines[i].Key);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        private void SearchBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                QuickSearch();
-            }
-        }
-
-        private void SEnableLanguageDetect_Click(object sender, RoutedEventArgs e)
-        {
-            if (SEnableLanguageDetect.IsChecked == true)
-            {
-                DeFine.GlobalLocalSetting.EnableLanguageDetect = true;
-            }
-            else
-            {
-                DeFine.GlobalLocalSetting.EnableLanguageDetect = false;
-            }
-        }
-
-        private void TestAll_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            for (int i = 0; i < TransViewList.RealLines.Count; i++)
-            {
-                TransViewList.RealLines[i].TransText = TransViewList.RealLines[i].SourceText + i.ToString() + "ラララ";
-
-                Translator.TransData[TransViewList.RealLines[i].Key] = TransViewList.RealLines[i].TransText;
-
-                TransViewList.RealLines[i].SyncUI(TransViewList);
-            }
-        }
-
-        private void ClearCacheViewClose_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            ClearCacheView.Visibility = Visibility.Collapsed;
-        }
-
-        private void ClearCacheR_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (MessageBoxExtend.Show(this, "Waring", "Are you sure you want to clear the database records? Doing so will lose all translated content. (Note: Under no circumstances should you click this button arbitrarily.)", MsgAction.YesNo, MsgType.Waring) <= 0)
-            {
-                return;
-            }
-
-            if (TransViewList != null)
-            {
-                if (TransViewList.Rows > 0)
-                {
-                    if (ConvertHelper.ObjToStr(ClearCacheButton.Content).Equals(UILanguageHelper.UICache["ClearCacheButton"]))
-                    {
-                        if (ClearCacheTrd == null)
-                        {
-                            bool? GetCloudTranslationCache = CloudTranslationCache.IsChecked;
-                            bool? GetUserTranslationCache = UserTranslationCache.IsChecked;
-
-                            ClearCacheTrd = new Thread(() =>
-                            {
-                                try
-                                {
-                                    ClearCacheButton.Dispatcher.Invoke(new Action(() =>
-                                    {
-                                        ClearCacheButton.Content = UILanguageHelper.UICache["ClearCacheButton1"];
-                                    }));
-
-                                    int CallFuncCount = 0;
-                                    if (GetCloudTranslationCache == true)
-                                    {
-                                        Translator.ClearAICache();
-
-                                        if (Translator.ClearCloudCache(Engine.GetFileUniqueKey()))
-                                        {
-                                            Engine.Vacuum();
-                                            CallFuncCount++;
-                                        }
-                                    }
-                                    if (GetUserTranslationCache == true)
-                                    {
-                                        TranslatorExtend.ClearLocalCache(Engine.GetFileUniqueKey());
-                                        {
-                                            Engine.Vacuum();
-                                            CallFuncCount++;
-                                        }
-
-                                        ToStr.Dispatcher.Invoke(new Action(() =>
-                                        {
-                                            ToStr.Text = "";
-                                        }));
-                                    }
-
-                                    UPDateUI();
-                                }
-                                catch
-                                {
-
-                                }
-
-                                ClearCacheButton.Dispatcher.Invoke(new Action(() =>
-                                {
-                                    ClearCacheButton.Content = UILanguageHelper.UICache["ClearCacheButton"];
-                                }));
-
-                                ClearCacheTrd = null;
-                            });
-
-                            ClearCacheTrd.Start();
-                        }
-                    }
-                }
-            }
-        }
     }
 }
