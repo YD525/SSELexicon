@@ -401,6 +401,7 @@ namespace SSELex
                         Storyboard.Begin();
 
                         IsExpanded = true;
+                        LeftMenu.Visibility = Visibility.Visible;
                     }
                     else
                     {
@@ -3107,16 +3108,27 @@ namespace SSELex
             }
         }
 
+        //Control the speed to a fixed 1200 px/s
+        private const double ExpandAnimationSpeed = 1500;
         public void SyncAnimation()
         {
+            double AutoHeight = CalcLeftMenuHeight();
+
             var ExpandMenu = (Storyboard)FindResource("ExpandMenu");
             var ExpandAnimation = (DoubleAnimation)ExpandMenu.Children[0];
-            ExpandAnimation.To = CalcLeftMenuHeight();
-
+            ExpandAnimation.To = AutoHeight;
+            ExpandAnimation.Duration = TimeSpan.FromSeconds(Math.Abs(0 - AutoHeight) / ExpandAnimationSpeed);
 
             var CollapseMenu = (Storyboard)FindResource("CollapseMenu");
             var CollapseAnimation = (DoubleAnimation)CollapseMenu.Children[0];
-            CollapseAnimation.From = CalcLeftMenuHeight();
+            CollapseAnimation.From = AutoHeight;
+            CollapseAnimation.Duration = TimeSpan.FromSeconds(Math.Abs(AutoHeight - 0) / ExpandAnimationSpeed);
+
+            CollapseAnimation.Completed += (_, __) =>
+            {
+                LeftMenu.Visibility = Visibility.Collapsed;
+                LeftMenu.BeginAnimation(HeightProperty, null);
+            };
         }
 
 
