@@ -39,7 +39,7 @@ namespace SSELex.SkyrimManagement
                         DSDItem NDSDItem = new DSDItem();
                         NDSDItem.editor_id = Record.EditorID;
                         NDSDItem.form_id = Record.FormID;
-                        NDSDItem.type = Record.ParentSig + " " + Record.ChildSig; ;
+                        NDSDItem.type = Record.ParentSig + " " + Record.ChildSig;
                         NDSDItem.original = Record.String;
                         NDSDItem.@string = GetTransData;
                         DSDItems.Add(NDSDItem);
