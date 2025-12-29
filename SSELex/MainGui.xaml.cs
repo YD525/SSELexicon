@@ -33,6 +33,7 @@ using Newtonsoft.Json;
 using Microsoft.SqlServer.Server;
 using System.Windows.Threading;
 using System.Windows.Forms.VisualStyles;
+using static SSELex.SkyrimManagement.DSDConverter;
 
 namespace SSELex
 {
@@ -2931,33 +2932,27 @@ namespace SSELex
             {
                 if (CurrentTransType == 2 && TransViewList.Rows > 0)
                 {
-                    //if (GlobalEspReader != null)
-                    //{
-                    //    var GetWritePath = DataHelper.ShowSaveFileDialog(LModName + ".json", "DSD (*.json)|*.json");
+                    if (EspReader.Records != null)
+                    {
+                        var GetWritePath = DataHelper.ShowSaveFileDialog(LModName + ".json", "DSD (*.json)|*.json");
+                       
+                        var DSDFile = DSDConverter.RecordsToDSDFile();
+                        if (DSDFile != null)
+                        {
+                            if (DSDFile.DSDItems.Count > 0)
+                            {
+                                List<DSDItem> DSDItems = new List<DSDItem>();
+                                DSDItems = DSDFile.DSDItems;
+                                string GetJson = JsonConvert.SerializeObject(DSDItems, Formatting.Indented);
 
-                    //    UPDateFile(false);
-
-                    //    var JsonOptions = new JsonSerializerOptions
-                    //    {
-                    //        WriteIndented = true,
-                    //        Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-                    //    };
-
-                    //    var GetData = SkyrimDataDSDConvert.EspExportAllByDSD(GlobalEspReader);
-                    //    string GetJson = JsonSerializer.Serialize(GetData, JsonOptions);
-
-                    //    if (GetWritePath != null)
-                    //    {
-                    //        if (GetWritePath.Trim().Length > 0)
-                    //        {
-                    //            if (File.Exists(GetWritePath))
-                    //            {
-                    //                File.Delete(GetWritePath);
-                    //            }
-                    //            DataHelper.WriteFile(GetWritePath, Encoding.UTF8.GetBytes(GetJson));
-                    //        }
-                    //    }
-                    //}
+                                if (File.Exists(GetWritePath))
+                                {
+                                    File.Delete(GetWritePath);
+                                }
+                                DataHelper.WriteFile(GetWritePath, Encoding.UTF8.GetBytes(GetJson));
+                            }
+                        }
+                    }
                 }
                 else
                 {
