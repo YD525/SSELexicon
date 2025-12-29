@@ -161,6 +161,14 @@
         <Setter Property="Panel.ZIndex" Value="0"/>
     </Style>
 
+    <Style x:Key="ChildBlockButton" TargetType="Border">
+        <Setter Property="Width" Value="20"/>
+        <Setter Property="Height" Value="20"/>
+        <Setter Property="Background" Value="#FF373737"/>
+        <Setter Property="Cursor"  Value="Hand"/>
+        <Setter Property="CornerRadius" Value="2"/>
+    </Style>
+
     <Style x:Key="Frame" TargetType="Grid">
         <Setter Property="Panel.ZIndex" Value="1"/>
         <Setter Property="Background" Value="#FFF1F1F1"/>

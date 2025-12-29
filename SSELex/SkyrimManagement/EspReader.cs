@@ -474,7 +474,7 @@ namespace SSELex.SkyrimManagement
 
                 foreach (var Sub in GetRecord.SubRecords)
                 {
-                    var MergeSig = Engine.GetFileUniqueKey() + ":" + ParentFormID + ":" + ParentSig + ":" + Sub.Sig + ":" + Sub.Index;
+                    var MergeSig = Engine.GetFileUniqueKey() + ":" + ParentFormID + ":" + ParentSig + ":" + Sub.Sig + ":" + Sub.Index + ":" + ParentEditorID;
                     string UniqueKey = "[" + Crc32Helper.ComputeCrc32(MergeSig) + "]" + Sub.Sig;
 
                     RecordItem NRecordItem = new RecordItem

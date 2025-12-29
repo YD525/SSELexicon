@@ -1495,76 +1495,6 @@ namespace SSELex
         private void ClearCache_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             ClearCacheView.Visibility = Visibility.Visible;
-
-            //if (MessageBoxExtend.Show(this, "Waring", "Are you sure you want to clear the database records? Doing so will lose all translated content. (Note: Under no circumstances should you click this button arbitrarily.)", MsgAction.YesNo, MsgType.Waring) <= 0)
-            //{
-            //    return;
-            //}
-
-            //if (TransViewList != null)
-            //{
-            //    if (TransViewList.Rows > 0)
-            //    {
-            //        if (ConvertHelper.ObjToStr(ClearCacheButton.Content).Equals(UILanguageHelper.UICache["ClearCacheButton"]))
-            //        {
-            //            if (ClearCacheTrd == null)
-            //            {
-            //                bool? GetCloudTranslationCache = CloudTranslationCache.IsChecked;
-            //                bool? GetUserTranslationCache = UserTranslationCache.IsChecked;
-
-            //                ClearCacheTrd = new Thread(() =>
-            //                {
-            //                    try
-            //                    {
-            //                        ClearCacheButton.Dispatcher.Invoke(new Action(() =>
-            //                        {
-            //                            ClearCacheButton.Content = UILanguageHelper.UICache["ClearCacheButton1"];
-            //                        }));
-
-            //                        int CallFuncCount = 0;
-            //                        if (GetCloudTranslationCache == true)
-            //                        {
-            //                            Translator.ClearAICache();
-
-            //                            if (Translator.ClearCloudCache(Engine.GetFileUniqueKey()))
-            //                            {
-            //                                Engine.Vacuum();
-            //                                CallFuncCount++;
-            //                            }
-            //                        }
-            //                        if (GetUserTranslationCache == true)
-            //                        {
-            //                            TranslatorExtend.ClearLocalCache(Engine.GetFileUniqueKey());
-            //                            {
-            //                                Engine.Vacuum();
-            //                                CallFuncCount++;
-            //                            }
-
-            //                            ToStr.Dispatcher.Invoke(new Action(() => {
-            //                                ToStr.Text = "";
-            //                            }));
-            //                        }
-
-            //                        UPDateUI();
-            //                    }
-            //                    catch
-            //                    {
-
-            //                    }
-
-            //                    ClearCacheButton.Dispatcher.Invoke(new Action(() =>
-            //                    {
-            //                        ClearCacheButton.Content = UILanguageHelper.UICache["ClearCacheButton"];
-            //                    }));
-
-            //                    ClearCacheTrd = null;
-            //                });
-
-            //                ClearCacheTrd.Start();
-            //            }
-            //        }
-            //    }
-            //}
         }
 
         private void RefreshDictionary_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -1651,26 +1581,23 @@ namespace SSELex
                 EmptyFromAndToText();
             }
 
-            //LangFrom.SelectedValue = DeFine.GlobalLocalSetting.SourceLanguage.ToString();
-            //LangTo.SelectedValue = DeFine.GlobalLocalSetting.TargetLanguage.ToString();
+            if (DeFine.GlobalLocalSetting.CanClearCloudTranslationCache)
+            {
+                CloudTranslationCache.IsChecked = true;
+            }
+            else
+            {
+                CloudTranslationCache.IsChecked = false;
+            }
 
-            //if (DeFine.GlobalLocalSetting.CanClearCloudTranslationCache)
-            //{
-            //    CloudTranslationCache.IsChecked = true;
-            //}
-            //else
-            //{
-            //    CloudTranslationCache.IsChecked = false;
-            //}
-
-            //if (DeFine.GlobalLocalSetting.CanClearUserInputTranslationCache)
-            //{
-            //    UserTranslationCache.IsChecked = true;
-            //}
-            //else
-            //{
-            //    UserTranslationCache.IsChecked = false;
-            //}
+            if (DeFine.GlobalLocalSetting.CanClearUserInputTranslationCache)
+            {
+                UserTranslationCache.IsChecked = true;
+            }
+            else
+            {
+                UserTranslationCache.IsChecked = false;
+            }
 
             if (EngineConfig.ContextEnable)
             {
@@ -1745,25 +1672,25 @@ namespace SSELex
         }
         private void CloudTranslationCache_Click(object sender, RoutedEventArgs e)
         {
-            //if (CloudTranslationCache.IsChecked == true)
-            //{
-            //    DeFine.GlobalLocalSetting.CanClearCloudTranslationCache = true;
-            //}
-            //else
-            //{
-            //    DeFine.GlobalLocalSetting.CanClearCloudTranslationCache = false;
-            //}
+            if (CloudTranslationCache.IsChecked == true)
+            {
+                DeFine.GlobalLocalSetting.CanClearCloudTranslationCache = true;
+            }
+            else
+            {
+                DeFine.GlobalLocalSetting.CanClearCloudTranslationCache = false;
+            }
         }
         private void UserTranslationCache_Click(object sender, RoutedEventArgs e)
         {
-            //if (UserTranslationCache.IsChecked == true)
-            //{
-            //    DeFine.GlobalLocalSetting.CanClearUserInputTranslationCache = true;
-            //}
-            //else
-            //{
-            //    DeFine.GlobalLocalSetting.CanClearUserInputTranslationCache = false;
-            //}
+            if (UserTranslationCache.IsChecked == true)
+            {
+                DeFine.GlobalLocalSetting.CanClearUserInputTranslationCache = true;
+            }
+            else
+            {
+                DeFine.GlobalLocalSetting.CanClearUserInputTranslationCache = false;
+            }
         }
         private void SpeakFromStr(object sender, MouseButtonEventArgs e)
         {
@@ -3664,6 +3591,80 @@ namespace SSELex
         private void ClearCacheViewClose_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             ClearCacheView.Visibility = Visibility.Collapsed;
+        }
+
+        private void ClearCacheR_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (MessageBoxExtend.Show(this, "Waring", "Are you sure you want to clear the database records? Doing so will lose all translated content. (Note: Under no circumstances should you click this button arbitrarily.)", MsgAction.YesNo, MsgType.Waring) <= 0)
+            {
+                return;
+            }
+
+            if (TransViewList != null)
+            {
+                if (TransViewList.Rows > 0)
+                {
+                    if (ConvertHelper.ObjToStr(ClearCacheButton.Content).Equals(UILanguageHelper.UICache["ClearCacheButton"]))
+                    {
+                        if (ClearCacheTrd == null)
+                        {
+                            bool? GetCloudTranslationCache = CloudTranslationCache.IsChecked;
+                            bool? GetUserTranslationCache = UserTranslationCache.IsChecked;
+
+                            ClearCacheTrd = new Thread(() =>
+                            {
+                                try
+                                {
+                                    ClearCacheButton.Dispatcher.Invoke(new Action(() =>
+                                    {
+                                        ClearCacheButton.Content = UILanguageHelper.UICache["ClearCacheButton1"];
+                                    }));
+
+                                    int CallFuncCount = 0;
+                                    if (GetCloudTranslationCache == true)
+                                    {
+                                        Translator.ClearAICache();
+
+                                        if (Translator.ClearCloudCache(Engine.GetFileUniqueKey()))
+                                        {
+                                            Engine.Vacuum();
+                                            CallFuncCount++;
+                                        }
+                                    }
+                                    if (GetUserTranslationCache == true)
+                                    {
+                                        TranslatorExtend.ClearLocalCache(Engine.GetFileUniqueKey());
+                                        {
+                                            Engine.Vacuum();
+                                            CallFuncCount++;
+                                        }
+
+                                        ToStr.Dispatcher.Invoke(new Action(() =>
+                                        {
+                                            ToStr.Text = "";
+                                        }));
+                                    }
+
+                                    UPDateUI();
+                                }
+                                catch
+                                {
+
+                                }
+
+                                ClearCacheButton.Dispatcher.Invoke(new Action(() =>
+                                {
+                                    ClearCacheButton.Content = UILanguageHelper.UICache["ClearCacheButton"];
+                                }));
+
+                                ClearCacheTrd = null;
+                            });
+
+                            ClearCacheTrd.Start();
+                        }
+                    }
+                }
+            }
         }
     }
 }
