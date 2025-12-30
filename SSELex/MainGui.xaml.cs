@@ -34,6 +34,7 @@ using Microsoft.SqlServer.Server;
 using System.Windows.Threading;
 using System.Windows.Forms.VisualStyles;
 using static SSELex.SkyrimManagement.DSDConverter;
+using System.Linq;
 
 namespace SSELex
 {

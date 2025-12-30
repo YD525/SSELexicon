@@ -151,7 +151,7 @@ namespace SSELex.SkyrimManagement
 
         // Record Api
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr C_GetRecordSig(IntPtr record);
+        private static extern int C_GetRecordSig(IntPtr RecordPtr, byte[] buffer, int bufferSize);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         private static extern uint C_GetRecordFormID(IntPtr record);
@@ -320,7 +320,13 @@ namespace SSELex.SkyrimManagement
             if (EditorIDPtr == IntPtr.Zero)
                 return string.Empty;
 
-            return Marshal.PtrToStringAnsi(EditorIDPtr) ?? string.Empty;
+            string Result = Marshal.PtrToStringAnsi(EditorIDPtr) ?? string.Empty;
+
+            int NullIndex = Result.IndexOf('\0');
+            if (NullIndex >= 0)
+                Result = Result.Substring(0, NullIndex);
+
+            return Result;
         }
         public static List<EspRecordInfo> SearchBySig(string ParentSig = "ALL", string ChildSig = "")
         {
@@ -346,11 +352,7 @@ namespace SSELex.SkyrimManagement
                     var Record = new EspRecordInfo();
                     Record.Handle = RecordPtr;
 
-                    IntPtr SigPtr = C_GetRecordSig(RecordPtr);
-                    if (SigPtr != IntPtr.Zero)
-                    {
-                        Record.Sig = Marshal.PtrToStringAnsi(SigPtr);
-                    }
+                    Record.Sig = GetRecordSigUtf8(RecordPtr);                 
 
                     Record.FormID = C_GetRecordFormID(RecordPtr);
                     Record.EditorID = GetRecordEditorID(RecordPtr);
@@ -400,37 +402,43 @@ namespace SSELex.SkyrimManagement
             }
         }
 
-        public static string MarshalUtf8String(IntPtr Ptr)
-        {
-            if (Ptr == IntPtr.Zero) return string.Empty;
-
-            int Len = 0;
-            while (Marshal.ReadByte(Ptr, Len) != 0) Len++;
-
-            if (Len == 0) return string.Empty;
-
-            byte[] buffer = new byte[Len];
-            Marshal.Copy(Ptr, buffer, 0, Len);
-
-            return Encoding.UTF8.GetString(buffer);
-        }
-
         private static string GetSubRecordStringUtf8(IntPtr SubRecordPtr)
         {
             int Len = C_SubRecordData_GetStringUtf8(SubRecordPtr, null, 0);
             if (Len <= 0) return string.Empty;
 
-            byte[] Buffer = new byte[Len + 1];
-            C_SubRecordData_GetStringUtf8(SubRecordPtr, Buffer, Buffer.Length);
+            byte[] Buffer = new byte[Len + 1]; 
+            int ActualLen = C_SubRecordData_GetStringUtf8(SubRecordPtr, Buffer, Buffer.Length);
 
-            return Encoding.UTF8.GetString(Buffer, 0, Len);
+            int NullIndex = Array.IndexOf(Buffer, (byte)0, 0, ActualLen);
+            if (NullIndex >= 0)
+                ActualLen = NullIndex;
+
+            return Encoding.UTF8.GetString(Buffer, 0, ActualLen);
         }
 
         private static string GetSubRecordSigUtf8(IntPtr SubRecordPtr)
         {
-            byte[] Buffer = new byte[8]; 
+            byte[] Buffer = new byte[8];
             int Len = C_SubRecordData_GetSigUtf8(SubRecordPtr, Buffer, Buffer.Length);
             if (Len <= 0) return string.Empty;
+
+            int NullIndex = Array.IndexOf(Buffer, (byte)0, 0, Len);
+            if (NullIndex >= 0)
+                Len = NullIndex;
+
+            return Encoding.UTF8.GetString(Buffer, 0, Len);
+        }
+
+        private static string GetRecordSigUtf8(IntPtr RecordPtr)
+        {
+            byte[] Buffer = new byte[8];
+            int Len = C_GetRecordSig(RecordPtr, Buffer, Buffer.Length);
+            if (Len <= 0) return string.Empty;
+
+            int NullIndex = Array.IndexOf(Buffer, (byte)0, 0, Len);
+            if (NullIndex >= 0)
+                Len = NullIndex;
 
             return Encoding.UTF8.GetString(Buffer, 0, Len);
         }
