@@ -3699,5 +3699,10 @@ namespace SSELex
 
 
         #endregion
+
+        private void P_Placeholders_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

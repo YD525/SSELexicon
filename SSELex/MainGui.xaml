@@ -1398,6 +1398,30 @@ Fill="White"/>
                                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 0 0 0" VerticalAlignment="Center" Width="500">
 
                                             <Label Style="{DynamicResource TittleFont}">
+                                                Protected Placeholders
+                                            </Label>
+
+                                            <Border Style="{DynamicResource SectionStyleL}" HorizontalAlignment="Stretch" Margin="0 5 0 10">
+                                                <Grid Margin="0 5 0 5">
+                                                    <StackPanel Orientation="Vertical">
+                                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 5 5 10">
+                                                            <Label Style="{DynamicResource NormalText}">
+                                                                P-Placeholders:
+                                                            </Label>
+                                                            <Border  Style="{DynamicResource DefTextBoxBorder}" Width="300">
+                                                                <TextBox Style="{DynamicResource DefTextBox}" Name="P_Placeholders" TextChanged="P_Placeholders_TextChanged">
+                                                                </TextBox>
+                                                            </Border>
+                                                        </StackPanel>
+
+                                                        <TextBox Margin="10 0 10 0" Grid.Column="1" Style="{DynamicResource InFoText}">
+                                                            The preprocessor is used to protect keywords from translation by both AI and traditional platforms. It uses regular expressions to determine which words can be protected. Please separate multiple regular expressions with ",".(You need to ensure the preprocessor node is enabled for it to function.)
+                                                        </TextBox>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Border>
+
+                                            <Label Style="{DynamicResource TittleFont}">
                                                 Force Translation Consistency
                                             </Label>
 
