@@ -454,6 +454,8 @@ namespace SSELex
             string GetType = ConvertHelper.ObjToStr(TypeSelector.SelectedValue);
             if (GetBtnContent.Equals("Execute"))
             {
+                TranslatorExtend.MakeReady();
+
                 if (FilterFrom != Languages.Null && FilterTo != Languages.Null)
                 {
                     FinalText.Text = string.Empty;
@@ -494,6 +496,7 @@ namespace SSELex
 
         private void DeleteSelectItem(object sender, MouseButtonEventArgs e)
         {
+            
             List<string> Removes = new List<string>();
             foreach (var Get in MatchedKeywords.SelectedItems)
             {
@@ -501,8 +504,17 @@ namespace SSELex
                 if (GetStr.Contains(","))
                 {
                     Removes.Add(GetStr);
+
                     int Rowid = ConvertHelper.ObjToInt(GetStr.Split(',')[0]);
-                    AdvancedDictionary.DeleteByRowid(Rowid);
+
+                    if (GetStr.Contains("__P") && Rowid == 0)
+                    {
+                        MessageBoxExtend.Show(this, "Protective placeholders need to be disabled in EngineConfig.");
+                    }
+                    else
+                    {
+                        AdvancedDictionary.DeleteByRowid(Rowid);
+                    }
                 }
             }
 

@@ -271,6 +271,21 @@ namespace SSELex.TranslateManage
             return false;
         }
 
+        public static void MakeReady()
+        {
+            EngineConfig.Config.ProtectedPatterns.Clear();
+
+            foreach (var GetStr in DeFine.GlobalLocalSetting.P_Placeholders.Split(','))
+            {
+                if (GetStr.Trim().Length > 0)
+                {
+                    EngineConfig.Config.ProtectedPatterns.Add(GetStr);
+                }
+            }
+
+            ProxyCenter.UsingProxy();
+        }
+
         public static bool SyncTransStateFreeze = false;
 
         public static StateControl TranslationStatus = StateControl.Null;
@@ -300,17 +315,7 @@ namespace SSELex.TranslateManage
                     {
                         SyncTransStateFreeze = true;
 
-                        EngineConfig.Config.ProtectedPatterns.Clear();
-
-                        foreach (var GetStr in DeFine.GlobalLocalSetting.P_Placeholders.Split(','))
-                        {
-                            if (GetStr.Trim().Length > 0)
-                            {
-                                EngineConfig.Config.ProtectedPatterns.Add(GetStr);
-                            }
-                        }
-
-                        ProxyCenter.UsingProxy();
+                        MakeReady();
 
                         SetTransBarTittle("Preparing Translation Units...");
 

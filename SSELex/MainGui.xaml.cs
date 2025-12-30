@@ -2646,7 +2646,7 @@ namespace SSELex
         private TextSegmentTranslator CurrentTextSegmentTranslator = null;
         public void TranslateCurrent()
         {
-            ProxyCenter.UsingProxy();
+            TranslatorExtend.MakeReady();
 
             lock (TranslateLocker)
             {

@@ -200,7 +200,7 @@ namespace SSELex
         public bool ForceTranslationConsistency { get; set; } = false;
 
         public bool EnableLanguageDetect { get; set; } = true;
-        public string P_Placeholders { get; set; } = "<(.*?)>,";
+        public string P_Placeholders { get; set; } = "<(.*?)>,$$(.*?)$$";
         public void ReadConfig()
         {
             try
