@@ -329,6 +329,21 @@ namespace SSELex.TranslateManage
                             bool IsCloud = false;
                             Row.SyncData(ref IsCloud);
 
+                            if (Row.SourceText.Equals("Flintlock Rifle Blueprint"))
+                            { 
+                            
+                            }
+
+                            bool HasAddAIMemory = false;
+
+                            if (!HasAddAIMemory && DeFine.GlobalLocalSetting.ForceTranslationConsistency)
+                            {
+                                if (!string.IsNullOrEmpty(Row.TransText))
+                                {
+                                    Engine.AddAIMemory(Row.GetSource(), Row.TransText);
+                                }
+                            }
+
                             if (Row.TransText.Trim().Length == 0)
                             {
                                 bool CanSet = true;
@@ -356,7 +371,6 @@ namespace SSELex.TranslateManage
                                     CanSet = false;
                                 }
 
-                                bool HasAddAIMemory = false;
                                 if (DeFine.WorkingWin?.CurrentTransType == 2)
                                 {
                                     var GetTrans = EspReader.ToStringsFile.QueryData(Row.Key);
@@ -477,13 +491,7 @@ namespace SSELex.TranslateManage
                                     }
                                 }
 
-                                if (!HasAddAIMemory && DeFine.GlobalLocalSetting.ForceTranslationConsistency)
-                                {
-                                    if (!string.IsNullOrEmpty(Row.TransText))
-                                    {
-                                        Engine.AddAIMemory(Row.GetSource(), Row.TransText);
-                                    }
-                                }
+                              
 
                                 if (CanSet)
                                 {
