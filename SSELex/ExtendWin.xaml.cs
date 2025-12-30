@@ -179,7 +179,7 @@ namespace SSELex
                     {
                         if (EspReader.ToStringsFile.Strings.ContainsKey(StringKey) == true)
                         {
-                            string AutoFileName = EspReader.ToStringsFile.CurrentFileName;
+                            string AutoFileName = "Strings";
                             var FindItem = EspReader.ToStringsFile.Strings[StringKey];
 
                             if (FindItem.Type == StringsFileType.DL)

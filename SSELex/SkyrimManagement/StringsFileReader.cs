@@ -25,7 +25,6 @@ namespace SSELex.SkyrimManagement
 
     public class StringsFileReader
     {
-        public string CurrentFileName = "";
         public Dictionary<uint, StringItem> Strings { get; set; }
 
         public Languages CurrentLanguage { get; private set; }
@@ -40,7 +39,6 @@ namespace SSELex.SkyrimManagement
         public void Close()
         {
             Strings.Clear();
-            CurrentFileName = string.Empty;
             CurrentLanguage = Languages.English;
         }
 
@@ -52,6 +50,11 @@ namespace SSELex.SkyrimManagement
 
         public bool LoadStringsFiles(string EspPath, Languages Language = Languages.English)
         {
+            if (EspPath.Length == 0)
+            {
+                return false;
+            }
+
             CurrentLanguage = Language;
             Strings.Clear();
 
