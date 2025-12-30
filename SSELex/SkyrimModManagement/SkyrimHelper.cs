@@ -11,9 +11,9 @@ namespace SSELex.SkyrimModManager
         /// <returns></returns>
         public static bool FindPapyrusCompilerPath(ref string CompilerPathPtr)
         {
-            if (File.Exists(DeFine.GetFullPath(@"Tool\Original Compiler\PapyrusAssembler.exe")))
+            if (File.Exists(DeFine.GetFullPath(@"\Tool\Original Compiler\PapyrusAssembler.exe")))
             {
-                CompilerPathPtr = DeFine.GetFullPath(@"Tool\Original Compiler\PapyrusAssembler.exe");
+                CompilerPathPtr = DeFine.GetFullPath(@"\Tool\Original Compiler\PapyrusAssembler.exe");
                 return true;
             }
             if (Directory.Exists(DeFine.GlobalLocalSetting.SkyrimPath))

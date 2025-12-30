@@ -623,7 +623,7 @@ namespace SSELex
         {
             bool State = true;
             //Frist Check ToolPath
-            if (!File.Exists(DeFine.GetFullPath(@"Tool\Champollion.exe")))
+            if (!File.Exists(DeFine.GetFullPath(@"\Tool\Champollion.exe")))
             {
                 string Msg = "Do you want to download the Champollion component?\nIf you click Yes, the program will automatically download and scan to ensure the file is safe and then install it in the Tool directory.";
 

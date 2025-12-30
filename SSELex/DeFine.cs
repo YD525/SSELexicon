@@ -77,6 +77,13 @@ namespace SSELex
 
         public static string GetFullPath(string Path)
         {
+            if (Path.Length > 0)
+            {
+                if (!Path.Trim().StartsWith(@"\"))
+                {
+                    Path = @"\" + Path;
+                }
+            }
             string GetShellPath = System.Windows.Forms.Application.StartupPath;
             if (GetShellPath.EndsWith(@"\"))
             {
