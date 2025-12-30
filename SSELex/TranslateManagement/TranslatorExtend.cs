@@ -333,17 +333,14 @@ namespace SSELex.TranslateManage
                             {
                                 bool CanSet = true;
 
-                                if (Row.Type.Equals("Book"))
+                                if (Row.Type.Equals("BOOK"))
                                 {
-                                    if (Row.Key.EndsWith("(BookText)"))
+                                    if (DelegateHelper.SetDataCall != null)
                                     {
-                                        if (DelegateHelper.SetDataCall != null)
-                                        {
-                                            DelegateHelper.SetDataCall(0, "Skip Book fields:" + Row.Key);
-                                        }
-
-                                        CanSet = false;
+                                        DelegateHelper.SetDataCall(0, "Skip Book fields:" + Row.Key);
                                     }
+
+                                    CanSet = false;
                                 }
                                 else
                                 if (Row.Score < 5)

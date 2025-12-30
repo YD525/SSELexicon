@@ -414,7 +414,9 @@ namespace SSELex.SkyrimManagement
             if (NullIndex >= 0)
                 ActualLen = NullIndex;
 
-            return Encoding.UTF8.GetString(Buffer, 0, ActualLen);
+            string NewStr = Encoding.UTF8.GetString(Buffer, 0, ActualLen);
+
+            return string.Copy(NewStr);
         }
 
         private static string GetSubRecordSigUtf8(IntPtr SubRecordPtr)
