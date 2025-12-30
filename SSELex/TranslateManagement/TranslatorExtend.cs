@@ -329,11 +329,6 @@ namespace SSELex.TranslateManage
                             bool IsCloud = false;
                             Row.SyncData(ref IsCloud);
 
-                            if (Row.SourceText.Equals("Flintlock Rifle Blueprint"))
-                            { 
-                            
-                            }
-
                             bool HasAddAIMemory = false;
 
                             if (!HasAddAIMemory && DeFine.GlobalLocalSetting.ForceTranslationConsistency)
