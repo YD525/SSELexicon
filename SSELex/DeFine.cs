@@ -200,6 +200,7 @@ namespace SSELex
         public bool ForceTranslationConsistency { get; set; } = false;
 
         public bool EnableLanguageDetect { get; set; } = true;
+        public string P_Placeholders { get; set; } = "<(.*?)>,";
         public void ReadConfig()
         {
             try
@@ -241,6 +242,7 @@ namespace SSELex
                             this.ForceTranslationConsistency = GetSetting.ForceTranslationConsistency;
 
                             this.EnableLanguageDetect = GetSetting.EnableLanguageDetect;
+                            this.P_Placeholders = GetSetting.P_Placeholders;
                         }
                     }
                     else

@@ -300,6 +300,16 @@ namespace SSELex.TranslateManage
                     {
                         SyncTransStateFreeze = true;
 
+                        EngineConfig.Config.ProtectedPatterns.Clear();
+
+                        foreach (var GetStr in DeFine.GlobalLocalSetting.P_Placeholders.Split(','))
+                        {
+                            if (GetStr.Trim().Length > 0)
+                            {
+                                EngineConfig.Config.ProtectedPatterns.Add(GetStr);
+                            }
+                        }
+
                         ProxyCenter.UsingProxy();
 
                         SetTransBarTittle("Preparing Translation Units...");

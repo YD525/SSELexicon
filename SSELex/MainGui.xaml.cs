@@ -3373,9 +3373,16 @@ namespace SSELex
                 {
                     SEnableLanguageDetect.IsChecked = false;
                 }
+
+                P_Placeholders.Text = DeFine.GlobalLocalSetting.P_Placeholders;
             }
         }
 
+        private void P_Placeholders_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            DeFine.GlobalLocalSetting.P_Placeholders = P_Placeholders.Text;
+            DeFine.GlobalLocalSetting.SaveConfig();
+        }
         private void ShowCodeView_Click(object sender, RoutedEventArgs e)
         {
             if (ShowCodeView.IsChecked == true)
@@ -3700,9 +3707,6 @@ namespace SSELex
 
         #endregion
 
-        private void P_Placeholders_TextChanged(object sender, TextChangedEventArgs e)
-        {
 
-        }
     }
 }
