@@ -503,16 +503,15 @@ namespace SSELex
                 string GetStr = ConvertHelper.ObjToStr(Get);
                 if (GetStr.Contains(","))
                 {
-                    Removes.Add(GetStr);
-
                     int Rowid = ConvertHelper.ObjToInt(GetStr.Split(',')[0]);
 
-                    if (GetStr.Contains("__P") && Rowid == 0)
+                    if (GetStr.Contains("__P") || Rowid == 0)
                     {
                         MessageBoxExtend.Show(this, "Protective placeholders need to be disabled in EngineConfig.");
                     }
                     else
                     {
+                        Removes.Add(GetStr);
                         AdvancedDictionary.DeleteByRowid(Rowid);
                     }
                 }
