@@ -1985,8 +1985,13 @@ namespace SSELex
                         SettingView.Visibility = Visibility.Collapsed;
                         DashBoardView.Visibility = Visibility.Collapsed;
 
-                        ProgramVersion.Content = string.Format("Main Program Version: {0}", DeFine.CurrentVersion);
-                        TranslationEngineVersion.Content = string.Format("Translation Engine Version: {0}", Engine.Version);
+                        Modules.Children.Clear();
+
+                        Modules.Children.Add(UIHelper.CreatModuleItem("SSELex", DeFine.CurrentVersion));
+                        Modules.Children.Add(UIHelper.CreatModuleItem("Translation Engine",Engine.Version));
+                        Modules.Children.Add(UIHelper.CreatModuleItem("Pex Analysis", PapyrusHeurCore.Version));
+                        Modules.Children.Add(UIHelper.CreatModuleItem("Esp Reader",EspInterop.Version));
+                        Modules.Children.Add(UIHelper.CreatModuleItem("DSD Convert", DSDConverter.Version));
 
                         DeFine.ExtendWin.CanShow = false;
                         DeFine.ExtendWin.Hide();

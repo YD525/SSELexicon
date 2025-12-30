@@ -305,7 +305,6 @@
                                 <RowDefinition Height="1*"/>
                                 <RowDefinition Height="1*"/>
                                 <RowDefinition Height="1*"/>
-                                <RowDefinition Height="1*"/>
                             </Grid.RowDefinitions>
 
                             <Grid Grid.Row="0">
@@ -320,7 +319,7 @@
                                 </Border>
                             </Grid>
 
-                            <Grid Grid.Row="1">
+                            <!--<Grid Grid.Row="1">
                                 <Border Tag="DashBoard" ToolTip="DashBoard" Style="{DynamicResource MenuBlockStyle}" PreviewMouseDown="ShowView">
                                     <Viewbox Width="23" Height="23" Stretch="Uniform">
                                         <Canvas Width="1024" Height="1024">
@@ -330,9 +329,9 @@
                                         </Canvas>
                                     </Viewbox>
                                 </Border>
-                            </Grid>
+                            </Grid>-->
 
-                            <Grid Grid.Row="2">
+                            <Grid Grid.Row="1">
                                 <Border Tag="Settings" ToolTip="Settings" Style="{DynamicResource MenuBlockStyle}" PreviewMouseDown="ShowView">
                                     <Viewbox Width="21" Height="21" Stretch="Uniform">
                                         <Canvas Width="1024" Height="1024">
@@ -347,7 +346,7 @@
                                 </Border>
                             </Grid>
 
-                            <Grid Grid.Row="3">
+                            <Grid Grid.Row="2">
                                 <Border Tag="About" ToolTip="About" Style="{DynamicResource MenuBlockStyle}" PreviewMouseDown="ShowView">
                                     <Viewbox Width="23" Height="23" Stretch="Uniform">
                                         <Canvas Width="1024" Height="1024">
@@ -903,12 +902,9 @@ Fill="White"/>
                                     </TextBlock>
                                 </StackPanel>
 
-                                <Label Foreground="White" FontWeight="Bold" FontSize="15" HorizontalAlignment="Center" Name="ProgramVersion">
-                                    Main Program Version: 0.0.0.0
-                                </Label>
-                                <Label Foreground="White" FontWeight="Bold" FontSize="15" HorizontalAlignment="Center" Name="TranslationEngineVersion">
-                                    Translation Engine Version: 0.0.0
-                                </Label>
+                                <StackPanel Margin="20 0 0 0" Orientation="Vertical" HorizontalAlignment="Center" Name="Modules">
+
+                                </StackPanel>
 
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                     <TextBlock HorizontalAlignment="Center" Foreground="White" FontSize="14">

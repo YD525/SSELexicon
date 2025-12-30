@@ -550,5 +550,27 @@ namespace SSELex.UIManage
                 }
             }
         }
+
+        public static StackPanel CreatModuleItem(string ModuleName, string Version)
+        {
+            StackPanel LinePanel = new StackPanel();
+            LinePanel.Orientation = Orientation.Horizontal;
+
+            TextBox Name = new TextBox();
+            Name.Foreground = new SolidColorBrush(Colors.White);
+            Name.Text = ModuleName + "-" + Version;
+            Name.BorderBrush = null;
+            Name.BorderThickness = new Thickness(0);
+            Name.Background = null;
+            Name.IsReadOnly = true;
+            Name.VerticalAlignment = VerticalAlignment.Center;
+
+            Name.FontSize = 13.5;
+            Name.FontWeight = FontWeights.Bold;
+
+            LinePanel.Children.Add(Name);
+
+            return LinePanel;
+        }
     }
 }

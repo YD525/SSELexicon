@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using static PhoenixEngine.SSELexiconBridge.NativeBridge;
 
@@ -6,6 +7,7 @@ namespace SSELex.SkyrimManagement
 {
     public class DSDConverter
     {
+        public static string Version = "1.0";
         public class DSDItem
         {
             public string editor_id { get; set; } = "";
