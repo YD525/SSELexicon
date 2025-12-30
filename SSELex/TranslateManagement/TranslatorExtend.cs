@@ -335,12 +335,15 @@ namespace SSELex.TranslateManage
 
                                 if (Row.Type.Equals("BOOK"))
                                 {
-                                    if (DelegateHelper.SetDataCall != null)
+                                    if (Row.Key.EndsWith("DESC"))
                                     {
-                                        DelegateHelper.SetDataCall(0, "Skip Book fields:" + Row.Key);
-                                    }
+                                        if (DelegateHelper.SetDataCall != null)
+                                        {
+                                            DelegateHelper.SetDataCall(0, "Skip Book fields:" + Row.Key);
+                                        }
 
-                                    CanSet = false;
+                                        CanSet = false;
+                                    }
                                 }
                                 else
                                 if (Row.Score < 5)
