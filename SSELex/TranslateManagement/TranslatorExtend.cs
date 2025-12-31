@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using SSELex.SkyrimManagement;
+using static PhoenixEngine.DelegateManagement.DelegateHelper;
 
 namespace SSELex.TranslateManage
 {
@@ -339,6 +340,46 @@ namespace SSELex.TranslateManage
                                 }
                             }
 
+                            if (DeFine.GlobalLocalSetting.AutoUpdateStringsFileToDatabase)
+                            {
+                                if (EspReader.Records.ContainsKey(Row.Key))
+                                {
+                                    var GetRecord = EspReader.Records[Row.Key];
+
+                                    if (GetRecord.StringID > 0 && Row.TransText.Length > 0)
+                                    {
+                                        string AutoType = Row.Type;
+
+                                        if (AutoType == "Papyrus" || AutoType == "MCM")
+                                        {
+                                            AutoType = string.Empty;
+                                        }
+                                        else
+                                        if (AutoType != "NPC_" && AutoType != "WRLD" && AutoType != "CLAS" && AutoType != "ARMO" && AutoType != "AMMO")
+                                        {
+                                            AutoType = string.Empty;
+                                        }
+
+                                        AdvancedDictionaryItem NewItem = new AdvancedDictionaryItem(
+                                            string.Empty,//The rule applies to all files.
+                                            AutoType,//Automatically determine the type of the current term
+                                            Row.GetSource(),//Get the source text corresponding to stringsfile id
+                                            Row.TransText,//Get the translation content
+                                            Engine.From,//Get source language
+                                            Engine.To,//Get target language
+                                            1,//Use full-word matching
+                                            0,//Case sensitivity is not ignored
+                                            string.Empty
+                                            );
+                                        if (!AdvancedDictionary.CheckSame(NewItem))
+                                        {
+                                            AdvancedDictionary.AddItem(NewItem);
+                                        }
+                                    }
+                                   
+                                }
+                            }
+
                             if (Row.TransText.Trim().Length == 0)
                             {
                                 bool CanSet = true;
@@ -438,37 +479,6 @@ namespace SSELex.TranslateManage
                                             Translator.TransData[Row.Key] = GetData.Result;
                                         }
 
-                                        if (DeFine.GlobalLocalSetting.AutoUpdateStringsFileToDatabase)
-                                        {
-                                            string AutoType = Row.Type;
-
-                                            if (AutoType == "Papyrus" || AutoType == "MCM")
-                                            {
-                                                AutoType = string.Empty;
-                                            }
-                                            else
-                                            if (AutoType != "Npc" && AutoType != "Worldspace" && AutoType != "Faction" && AutoType != "Armor" && AutoType != "Weapon")
-                                            {
-                                                AutoType = string.Empty;
-                                            }
-
-                                            AdvancedDictionaryItem NewItem = new AdvancedDictionaryItem(
-                                                string.Empty,//The rule applies to all files.
-                                                AutoType,//Automatically determine the type of the current term
-                                                Row.GetSource(),//Get the source text corresponding to stringsfile id
-                                                GetData.Result,//Get the translation content
-                                                Engine.From,//Get source language
-                                                Engine.To,//Get target language
-                                                1,//Use full-word matching
-                                                0,//Case sensitivity is not ignored
-                                                string.Empty
-                                                );
-                                            if (!AdvancedDictionary.CheckSame(NewItem))
-                                            {
-                                                AdvancedDictionary.AddItem(NewItem);
-                                            }
-                                        }
-
                                         var GetFakeGrid = GetListView.KeyToFakeGrid(Row.Key);
                                         if (GetFakeGrid != null)
                                         {
@@ -485,8 +495,6 @@ namespace SSELex.TranslateManage
                                         CanSet = false;
                                     }
                                 }
-
-                              
 
                                 if (CanSet)
                                 {
