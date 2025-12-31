@@ -555,6 +555,7 @@ namespace SSELex.UIManage
         {
             StackPanel LinePanel = new StackPanel();
             LinePanel.Orientation = Orientation.Horizontal;
+            LinePanel.HorizontalAlignment = HorizontalAlignment.Center;
 
             TextBox Name = new TextBox();
             Name.Foreground = new SolidColorBrush(Colors.White);
@@ -566,7 +567,7 @@ namespace SSELex.UIManage
             Name.VerticalAlignment = VerticalAlignment.Center;
 
             Name.FontSize = 13.5;
-            Name.FontWeight = FontWeights.Bold;
+            Name.FontWeight = FontWeights.DemiBold;
 
             LinePanel.Children.Add(Name);
 

@@ -2648,8 +2648,6 @@ namespace SSELex
         public object TranslateLocker = new object();
         public Thread TranslateTrd = null;
 
-
-        private TextSegmentTranslator CurrentTextSegmentTranslator = null;
         public void TranslateCurrent()
         {
             TranslatorExtend.MakeReady();
@@ -2708,46 +2706,33 @@ namespace SSELex
                             {
                                 CanEditTransView(false);
 
-                                CurrentTextSegmentTranslator = new TextSegmentTranslator();
+                                //CurrentTextSegmentTranslator = new TextSegmentTranslator();
 
-                                TranslateTrd = new Thread(() =>
-                                {
-                                    this.Dispatcher.Invoke(new Action(() =>
-                                    {
-                                        TranslateOTButtonFont.Content = UILanguageHelper.UICache["TranslateOTButtonFont2"];
-                                    }));
+                                //TranslateTrd = new Thread(() =>
+                                //{
+                                //    this.Dispatcher.Invoke(new Action(() =>
+                                //    {
+                                //        TranslateOTButtonFont.Content = UILanguageHelper.UICache["TranslateOTButtonFont2"];
+                                //    }));
 
-                                    try
-                                    {
-                                        CurrentTextSegmentTranslator.TransBook(NewUnit);
-                                    }
-                                    catch { }
+                                //    try
+                                //    {
+                                //        CurrentTextSegmentTranslator.TransBook(NewUnit);
+                                //    }
+                                //    catch { }
 
-                                    CanEditTransView(true);
+                                //    CanEditTransView(true);
 
-                                    this.Dispatcher.Invoke(new Action(() =>
-                                    {
-                                        TranslateOTButtonFont.Content = UILanguageHelper.UICache["TranslateOTButtonFont"];
-                                    }));
+                                //    this.Dispatcher.Invoke(new Action(() =>
+                                //    {
+                                //        TranslateOTButtonFont.Content = UILanguageHelper.UICache["TranslateOTButtonFont"];
+                                //    }));
 
-                                    TranslateTrd = null;
-                                });
-                                TranslateTrd.Start();
+                                //    TranslateTrd = null;
+                                //});
+                                //TranslateTrd.Start();
                             }
                         }
-                    }
-                    else
-                    if (ConvertHelper.ObjToStr(TranslateOTButtonFont.Content).Equals(UILanguageHelper.UICache["TranslateOTButtonFont2"]))
-                    {
-                        if (CurrentTextSegmentTranslator != null)
-                        {
-                            CurrentTextSegmentTranslator.Cancel();
-                        }
-
-                        this.Dispatcher.Invoke(new Action(() =>
-                        {
-                            TranslateOTButtonFont.Content = UILanguageHelper.UICache["TranslateOTButtonFont"];
-                        }));
                     }
                 }
             }
