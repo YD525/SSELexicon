@@ -1,9 +1,9 @@
-# SSE Lexicon - AI Translator
+# Lexicon AI Translator
 
-**SSE Lexicon** is a fully open-source and free tool created to assist with Skyrim mod translation. It supports multiple file formats, including PEX, ESM, ESP, and MCM, offering enhanced convenience and flexibility for translators.  
-By utilizing advanced string processing and optional online translation integration, SSE Lexicon helps streamline translation tasks and improve overall efficiency.
+**Lexicon AI Translator** is a fully open-source and free tool created to assist with Skyrim mod translation. It supports multiple file formats, including PEX, ESM, ESP, and MCM, offering enhanced convenience and flexibility for translators.  
+By utilizing advanced string processing and optional online translation integration, Lex Translator helps streamline translation tasks and improve overall efficiency.
 
-If you want to give feedback, report issues, or discuss SSE Lexicon, please feel free to visit any of the following sites:  
+If you want to give feedback, report issues, or discuss Lex Translator, please feel free to visit any of the following sites:  
 
 - [Nexus Mods (for international users)](https://www.nexusmods.com/skyrimspecialedition/mods/143056)  
 
@@ -32,10 +32,10 @@ Your support and feedback are greatly appreciated!
 
 2. Open the solution in Visual Studio and build the project.
 
-3. After building, make sure to **reference the generated DLLs** (e.g., `PhoenixEngine.dll`) in the **SSE Lexicon** project.  
+3. After building, make sure to **reference the generated DLLs** (e.g., `PhoenixEngine.dll`) in the **Lex Translator** project.  
    You can do this either by adding project references or linking the compiled DLLs directly.
 
-This step is **mandatory** — the SSE Lexicon project will not build correctly without it.
+This step is **mandatory** — the LexTranslator project will not build correctly without it.
 
 ---
 
@@ -76,7 +76,7 @@ I would like to give special thanks to the developers of
 
 [Cutleast](https://github.com/Cutleast), [SkyHorizon3](https://github.com/SkyHorizon3) for helping me resolve the issue with generating specific JSON fields in the DSD file.
 
-Their excellent libraries provide SSE Lexicon with a stable and solid foundation, allowing us to focus more on developing the translation features.
+Their excellent libraries provide Lex Translator with a stable and solid foundation, allowing us to focus more on developing the translation features.
 
 Acknowledgements: Nexus Mods,9DM,2Game.info,and 泰姆瑞尔MOD组, for their support and encouragement that inspire my creative work.
 
@@ -84,13 +84,13 @@ Acknowledgements: Nexus Mods,9DM,2Game.info,and 泰姆瑞尔MOD组, for their su
 
 # ❤️ Personal Note from the Developer
 
-SSE Lexicon and SSEAT may collaborate in the future, complementing each other’s strengths and addressing their respective weaknesses.
+Lex Translator and SSEAT may collaborate in the future, complementing each other’s strengths and addressing their respective weaknesses.
 
 If you find this project helpful,  
 consider giving it a ⭐ star —  
 your support is the driving force behind ongoing development! ❤️
 
-Also, if you're thinking about adapting **SSE Lexicon** to support other games, you're totally welcome to do so!  
+Also, if you're thinking about adapting **Lex Translator** to support other games, you're totally welcome to do so!  
 The `TransItem` class is designed to be generic — you can construct your own instances and plug in custom readers for other game formats.  
 
 Just fork the project and make your own modifications — it's easy to extend.  
