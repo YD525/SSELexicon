@@ -13,7 +13,7 @@ own respective licenses:
 - Newtonsoft.Json
 - System.Data.SQLite
 - \Tool\Original Compiler
-- \Tool\Champollion
+- \Tool\Champollion.exe
 - \Tool\PapyrusAssembler.exe and its associated files (including DLLs)
 
 =======================================================================
