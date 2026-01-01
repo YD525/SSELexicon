@@ -274,7 +274,6 @@ namespace LexTranslator.UIManagement
             GetTranslated.PreviewMouseWheel += OneRTBPreviewMouseWheel;
 
             GetTranslated.MouseLeave += GetTranslated_MouseLeave;
-            GetTranslated.LostFocus += GetTranslated_LostFocus;
 
             GetTranslated.Tag = Item.Key;
 
@@ -362,46 +361,41 @@ namespace LexTranslator.UIManagement
             }
         }
 
-        private void GetTranslated_LostFocus(object sender, RoutedEventArgs e)
-        {
-            SaveText((RichTextBox)sender);
-        }
-
         private void GetTranslated_MouseLeave(object sender, MouseEventArgs e)
         {
             SaveText((RichTextBox)sender);
         }
 
-        public void SaveText(RichTextBox Text)
+        public void SaveText(RichTextBox RTB)
         {
-            if (DeFine.GlobalLocalSetting.ViewMode != "Normal" &&
-                DeFine.WorkingWin != null &&
-                DeFine.WorkingWin.TransViewList != null)
+            // Skip if In Normal View Mode Or Working Window / TransViewList Is Null
+            if (DeFine.GlobalLocalSetting.ViewMode == "Normal" ||
+                DeFine.WorkingWin == null ||
+                DeFine.WorkingWin.TransViewList == null) return;
+            try
             {
-                int CaretIndex = GetCaretIndex(Text);
+                // Get Original Text From RichTextBox
+                string OriginalText = GetRichText(RTB);
+               
+                // Get Key And Target Grid
+                string Key = ConvertHelper.ObjToStr(RTB.Tag);
+                var Target = DeFine.WorkingWin.TransViewList.KeyToFakeGrid(Key);
 
-                string OriginalText = new TextRange(Text.Document.ContentStart, Text.Document.ContentEnd).Text;
-
-                if (OriginalText.Length > 0)
+                // Update Translation Data And History Cache
+                if (Target != null)
                 {
-                    OriginalText = Translator.FormatStr(OriginalText);
-
-                    Text.Document.Blocks.Clear();
-                    Text.Document.Blocks.Add(new Paragraph(new Run(OriginalText)));
-                }
-
-                string GetKey = ConvertHelper.ObjToStr(Text.Tag);
-                var GetTarget = DeFine.WorkingWin.TransViewList.KeyToFakeGrid(GetKey);
-
-                if (GetTarget != null)
-                {
-                    TranslatorBridge.SetTransData(GetKey, GetTarget.SourceText, OriginalText);
+                    TranslatorBridge.SetTransData(Key, Target.SourceText, OriginalText);
                     bool IsCloud = false;
-                    GetTarget.SyncData(ref IsCloud);
-                    TranslatorExtend.SetTranslatorHistoryCache(GetKey, OriginalText, IsCloud);
+                    Target.SyncData(ref IsCloud);
+                    TranslatorExtend.SetTranslatorHistoryCache(Key, OriginalText, IsCloud);
                 }
 
-                SetCaretIndex(Text, CaretIndex);
+                // Apply LTR Or RTL Layout
+                ApplyLTROrRtl(RTB);
+            }
+            finally
+            {
+                
             }
         }
         public static int GetCaretIndex(RichTextBox Rtb)
