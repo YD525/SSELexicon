@@ -366,6 +366,17 @@ namespace LexTranslator.UIManage
             catch { }
         }
 
+        public static void SyncAvalonEditTextLayout()
+        {
+            if (DeFine.GlobalLocalSetting.TextDisplay == TextLayout.LTR)
+            {
+                 DeFine.WorkingWin.FromStr.FlowDirection = FlowDirection.LeftToRight;
+            }
+            else
+            {
+                DeFine.WorkingWin.FromStr.FlowDirection = FlowDirection.RightToLeft;
+            }
+        }
         public enum StyleType
         {
             BlueStyle = 0, RetroStyle = 1

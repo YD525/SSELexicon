@@ -18,6 +18,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using static PhoenixEngine.Bridges.NativeBridge;
 using System.Windows.Documents;
+using ICSharpCode.AvalonEdit;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace LexTranslator.UIManagement
 {
@@ -72,7 +74,7 @@ namespace LexTranslator.UIManagement
             Grid GetTranslatedGrid = (Grid)GetChildGrid.Children[3];
             Border GetTranslatedBorder = (Border)GetTranslatedGrid.Children[0];
 
-            TextBox GetTranslated = (TextBox)(GetTranslatedBorder.Child);
+            TextEditor GetTranslated = (TextEditor)(GetTranslatedBorder.Child);
             GetTranslated.Foreground = new SolidColorBrush(FontColor);
         }
 
@@ -126,9 +128,9 @@ namespace LexTranslator.UIManagement
 
             Border GetTranslatedBorder = (Border)GetTranslatedGrid.Children[0];
 
-            RichTextBox GetTranslated = (RichTextBox)(GetTranslatedBorder.Child);
+            TextEditor GetTranslated = (TextEditor)(GetTranslatedBorder.Child);
 
-            return GetRichText(GetTranslated);
+            return GetTranslated.Text;
         }
 
         public static void SetTranslated(Grid Grid,string Translated)
@@ -139,9 +141,9 @@ namespace LexTranslator.UIManagement
 
             Border SetTranslatedBorder = (Border)SetTranslatedGrid.Children[0];
 
-            RichTextBox SetTranslated = (RichTextBox)(SetTranslatedBorder.Child);
+            TextEditor SetTranslated = (TextEditor)(SetTranslatedBorder.Child);
 
-            SetRichText(SetTranslated,Translated);
+            SetTranslated.Text = Translated;
         }
 
         public ColumnDefinition GetColorCol(Grid Grid)
@@ -261,9 +263,11 @@ namespace LexTranslator.UIManagement
             ((Border)GetColorGrid.Children[1]).PreviewMouseDown += ChangeColor;
             ((Border)GetColorGrid.Children[2]).PreviewMouseDown += ChangeColor;
 
-            RichTextBox GetTranslated = (RichTextBox)(GetTranslatedBorder.Child);
+            TextEditor GetTranslated = (TextEditor)(GetTranslatedBorder.Child);
 
-            SetRichText(GetTranslated,Item.TransText);
+            GetTranslated.TextArea.LeftMargins.Clear();
+
+            GetTranslated.Text = Item.TransText;
 
             if (FontColor == Colors.White)
             { 
@@ -277,6 +281,8 @@ namespace LexTranslator.UIManagement
 
             GetTranslated.Tag = Item.Key;
 
+            GetTranslated.TextArea.Caret.CaretBrush = Brushes.Orange;
+
             if (DeFine.GlobalLocalSetting.ViewMode == "Normal")
             {
                 MainGrid.Cursor = Cursors.Hand;
@@ -289,14 +295,7 @@ namespace LexTranslator.UIManagement
                 GetTranslated.IsReadOnly = true;
                 GetTranslated.VerticalContentAlignment = VerticalAlignment.Center;
 
-                if (DeFine.GlobalLocalSetting.TextDisplay == UIManage.TextLayout.RTL)
-                {
-                    ApplyLTROrRtl(GetTranslated);
-                }
-                else
-                {
-                    ApplyLTROrRtl(GetTranslated);
-                }
+                ApplyLTROrRtl(GetTranslated);
             }
             else
             {
@@ -307,14 +306,7 @@ namespace LexTranslator.UIManagement
                 GetTranslated.IsReadOnly = false;              
                 GetTranslated.VerticalContentAlignment = VerticalAlignment.Center;
 
-                if (DeFine.GlobalLocalSetting.TextDisplay == UIManage.TextLayout.RTL)
-                {
-                    ApplyLTROrRtl(GetTranslated);
-                }
-                else
-                {
-                    ApplyLTROrRtl(GetTranslated);
-                }
+                ApplyLTROrRtl(GetTranslated);
             }
 
             if (Item.Score < 5)
@@ -335,18 +327,7 @@ namespace LexTranslator.UIManagement
             return MainGrid;
         }
 
-
-        public static void SetRichText(RichTextBox Rtb, string text)
-        {
-            Rtb.Document.Blocks.Clear();
-            Rtb.Document.Blocks.Add(new Paragraph(new Run(text)));
-        }
-        public static string GetRichText(RichTextBox Rtb)
-        {
-            return new TextRange(Rtb.Document.ContentStart, Rtb.Document.ContentEnd).Text.TrimEnd('\r', '\n');
-        }
-
-        void ApplyLTROrRtl(RichTextBox Box)
+        void ApplyLTROrRtl(TextEditor Box)
         {
             Box.HorizontalAlignment = HorizontalAlignment.Stretch;
             Box.VerticalContentAlignment = VerticalAlignment.Center;
@@ -363,10 +344,10 @@ namespace LexTranslator.UIManagement
 
         private void GetTranslated_MouseLeave(object sender, MouseEventArgs e)
         {
-            SaveText((RichTextBox)sender);
+            SaveText((TextEditor)sender);
         }
 
-        public void SaveText(RichTextBox RTB)
+        public void SaveText(TextEditor RTB)
         {
             // Skip if In Normal View Mode Or Working Window / TransViewList Is Null
             if (DeFine.GlobalLocalSetting.ViewMode == "Normal" ||
@@ -374,8 +355,7 @@ namespace LexTranslator.UIManagement
                 DeFine.WorkingWin.TransViewList == null) return;
             try
             {
-                // Get Original Text From RichTextBox
-                string OriginalText = GetRichText(RTB);
+                string OriginalText = RTB.Text;
                
                 // Get Key And Target Grid
                 string Key = ConvertHelper.ObjToStr(RTB.Tag);
@@ -397,19 +377,6 @@ namespace LexTranslator.UIManagement
             {
                 
             }
-        }
-        public static int GetCaretIndex(RichTextBox Rtb)
-        {
-            return new TextRange(Rtb.Document.ContentStart, Rtb.CaretPosition).Text.Length;
-        }
-
-        public static void SetCaretIndex(RichTextBox RTB, int Index)
-        {
-            Index = Math.Max(0, Math.Min(Index, new TextRange(RTB.Document.ContentStart, RTB.Document.ContentEnd).Text.Length));
-            TextPointer Start = RTB.Document.ContentStart;
-            TextPointer Caret = Start.GetPositionAtOffset(Index, LogicalDirection.Forward);
-            if (Caret != null)
-                RTB.CaretPosition = Caret;
         }
 
         public static Thread AutoSelectIDETrd = null;
@@ -491,7 +458,7 @@ namespace LexTranslator.UIManagement
 
         public void OneRTBPreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            var TextBox = sender as RichTextBox;
+            var TextBox = sender as TextEditor;
             var Parent = VisualTreeHelper.GetParent(TextBox);
 
             while (Parent != null && !(Parent is ScrollViewer))

@@ -175,6 +175,8 @@ namespace LexTranslator
             Engine.To = DeFine.GlobalLocalSetting.TargetLanguage;
 
             SelectFristSettingNav();
+
+            UIHelper.SyncAvalonEditTextLayout();
         }
 
 
@@ -3630,6 +3632,8 @@ namespace LexTranslator
             {
                 DeFine.GlobalLocalSetting.TextDisplay = TextLayout.LTR;
             }
+
+            UIHelper.SyncAvalonEditTextLayout();
         }
 
         private void CanTranslateBook_Click(object sender, RoutedEventArgs e)

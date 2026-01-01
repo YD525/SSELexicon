@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
         xmlns:local="clr-namespace:LexTranslator.UIManagement"
         mc:Ignorable="d"
         Title="RowStyleWin" Height="450" Width="800" Background="{x:Null}">
@@ -52,8 +53,9 @@
                             </Grid.ColumnDefinitions>
                       
                             <Border Style="{DynamicResource LineTranslatedBorder}" Grid.Column="0">
-                                <RichTextBox Style="{DynamicResource LineTranslatedFont}">
-                                </RichTextBox>
+                                <avalonEdit:TextEditor Style="{DynamicResource LineTranslatedFont}" Margin="5" Name="FromStr" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" IsReadOnly="True"  FontFamily="Consolas" FontSize="16" ShowLineNumbers="True" WordWrap="True" TextOptions.TextFormattingMode="Display">
+
+                                </avalonEdit:TextEditor>
                             </Border>
 
                             <Grid  Margin="0 2 0 2" Grid.Column="1" Height="35" Opacity="0.8">

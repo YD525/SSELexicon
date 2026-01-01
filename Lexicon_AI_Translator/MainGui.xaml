@@ -978,7 +978,7 @@ Fill="White"/>
                         </Grid>
                     </Grid>
 
-                    <Grid Name="SettingView" Style="{DynamicResource FrameStyle}" Visibility="Visible">
+                    <Grid Name="SettingView" Style="{DynamicResource FrameStyle}" Visibility="Collapsed">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="5"/>
