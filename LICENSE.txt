@@ -18,6 +18,9 @@ License https://github.com/JamesNK/Newtonsoft.Json/blob/master/LICENSE.md
 - System.Data.SQLite
 License https://system.data.sqlite.org/home/doc/trunk/www/copyright.wiki
 
+- miniz
+License https://github.com/richgel999/miniz?tab=MIT-1-ov-file
+
 - \Tool\Original Compiler
 License https://github.com/russo-2025/papyrus-compiler/tree/master?tab=MIT-1-ov-file
 
