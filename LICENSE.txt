@@ -27,9 +27,6 @@ License https://github.com/russo-2025/papyrus-compiler/tree/master?tab=MIT-1-ov-
 - \Tool\Champollion.exe
 License https://github.com/Orvid/Champollion?tab=LGPL-3.0-1-ov-file
 
-- \Tool\PapyrusAssembler.exe and its associated files (including DLLs)
-License Papyrus tools are provided by Bethesda and are subject to Bethesda’s EULA.
-
 =======================================================================
 
 Creative Commons Attribution-NonCommercial-NoDerivatives 4.0
