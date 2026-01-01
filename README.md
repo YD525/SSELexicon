@@ -1,7 +1,9 @@
 # Lexicon AI Translator
 
-**Lexicon AI Translator** is a fully open-source and free tool created to assist with Skyrim mod translation. It supports multiple file formats, including PEX, ESM, ESP, and MCM, offering enhanced convenience and flexibility for translators.  
-By utilizing advanced string processing and optional online translation integration, Lex Translator helps streamline translation tasks and improve overall efficiency.
+**Lexicon AI Translator** is a free, open-source tool for Skyrim mod localization.
+It supports multiple mod-related file formats, including PEX, ESM, ESP, and MCM.
+The tool focuses on structured string preprocessing, rule-based protection, and customizable translation workflows to reduce errors during batch translation.
+With optional integration of local or online translation engines and user-defined dictionaries, Lexicon AI Translator helps translators work more efficiently while maintaining control over the final output.
 
 If you want to give feedback, report issues, or discuss Lex Translator, please feel free to visit any of the following sites:  
 
