@@ -52,9 +52,6 @@ The following components are required for compiling `.pex` (Papyrus) scripts:
 - [Champollion](https://github.com/Orvid/Champollion) – Developed by [Orvid], used for decompiling Papyrus compiled scripts.  
 - [Papyrus-compiler](https://github.com/russo-2025/papyrus-compiler/tree/master/bin/Original%20Compiler) – Used to compile `.pas` script files. You can also download the official components and place them in the `Tool\Original Compiler` directory of the program (the same files can be obtained from CK).
 
-Other dependencies (such as various helper libraries) are also used.  
-Please refer to their respective LICENSE files for more information.
-
 ---
 
 ### 🙏 Special Thanks
