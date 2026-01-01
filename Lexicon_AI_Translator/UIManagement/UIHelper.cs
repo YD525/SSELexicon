@@ -370,11 +370,11 @@ namespace LexTranslator.UIManage
         {
             if (DeFine.GlobalLocalSetting.TextDisplay == TextLayout.LTR)
             {
-                 DeFine.WorkingWin.FromStr.FlowDirection = FlowDirection.LeftToRight;
+                 DeFine.WorkingWin.ToStr.FlowDirection = FlowDirection.LeftToRight;
             }
             else
             {
-                DeFine.WorkingWin.FromStr.FlowDirection = FlowDirection.RightToLeft;
+                DeFine.WorkingWin.ToStr.FlowDirection = FlowDirection.RightToLeft;
             }
         }
         public enum StyleType
