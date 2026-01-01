@@ -1,9 +1,20 @@
 Attribution-NonCommercial-NoDerivatives 4.0 International
 
 Copyright (c) 2025 YD525
-Almost all files in this folder are under the license described below.
 
-The only exceptions are AvalonEdit, Newtonsoft.Json, System.Data.SQLite,Original Compiler [skyrim creation kit],Champollion [Orvid], which each have their own licenses.
+Unless otherwise stated, almost all files in this folder are licensed under the
+Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.
+
+Exceptions:
+The following components are NOT covered by this license and are subject to their
+own respective licenses:
+
+- AvalonEdit
+- Newtonsoft.Json
+- System.Data.SQLite
+- \Tool\Original Compiler
+- \Tool\Champollion
+- \Tool\PapyrusAssembler.exe and its associated files (including DLLs)
 
 =======================================================================
 
