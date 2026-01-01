@@ -42,11 +42,6 @@ This step is **mandatory** — the LexTranslator project will not build correctl
 This project uses the following key open-source libraries/frameworks:
 
 - [AvalonEdit](https://github.com/icsharpcode/AvalonEdit) – WPF text editor component used for code/text display.  
-- [Newtonsoft.Json](https://www.newtonsoft.com/json) – JSON parsing and serialization library.  
-- [System.Data.SQLite](https://system.data.sqlite.org/index.html/doc/trunk/www/index.wiki) – SQLite database engine for .NET, used for reading/writing local SQLite databases.
-
-Other dependencies (such as various helper libraries) are also used.  
-Please refer to their respective LICENSE files for more information.
 
 ---
 
