@@ -309,8 +309,7 @@ namespace LexTranslator
             DeFine.WorkingWin.ReloadStringsFile();
             DeFine.WorkingWin.UPDateUI();
 
-            if (CanReload > 0)
-                AutoReload();
+            AutoReload();
         }
 
         private void STo_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -328,8 +327,7 @@ namespace LexTranslator
             DeFine.WorkingWin.ReloadStringsFile();
             DeFine.WorkingWin.UPDateUI();
 
-            if (CanReload > 0)
-                AutoReload();
+            AutoReload();
         }
 
         public void SetOutput(string Str)
