@@ -510,6 +510,7 @@ namespace LexTranslator
 
                 this.Dispatcher.Invoke(new Action(() =>
                 {
+
                     if (TranslatorExtend.TranslationCore != null)
                     {
                         if (ScanAnimator != null)
@@ -524,14 +525,30 @@ namespace LexTranslator
                             }
                         }
 
-                        if (TranslatorExtend.TranslationCore.IsWork && !TranslatorExtend.TranslationCore.IsStop)
+                        if ((TranslatorExtend.TranslationCore.IsWork && !TranslatorExtend.TranslationCore.IsStop) || SingleTrans)
                         {
-                            ThreadInFoFont.Content = string.Format("Thread(Current:{0},Max:{1})", TranslatorExtend.TranslationCore.ThreadUsage.CurrentThreads, EngineConfig.Config.MaxThreadCount);
+                            int Current = TranslatorExtend.TranslationCore.ThreadUsage.CurrentThreads;
+
+                            if (SingleTrans)
+                            {
+                                ThreadInFoFont.Content = string.Format("Thread(Current:{0},Max:{1})", Current + 1, EngineConfig.Config.MaxThreadCount + 1);
+                            }
+                            else
+                            {
+                                ThreadInFoFont.Content = string.Format("Thread(Current:{0},Max:{1})", Current, EngineConfig.Config.MaxThreadCount);
+                            }
                         }
                         else
                         if (TranslatorExtend.TranslationCore.IsWork && TranslatorExtend.TranslationCore.IsStop)
                         {
                             ThreadInFoFont.Content = string.Format("Thread(Current:0,Max:{0})", EngineConfig.Config.MaxThreadCount);
+                        }
+                    }
+                    else
+                    {
+                        if (SingleTrans)
+                        {
+                            ThreadInFoFont.Content = string.Format("Thread(Current:{0},Max:{1})", 1, EngineConfig.Config.MaxThreadCount + 1);
                         }
                     }
 
@@ -2648,6 +2665,7 @@ namespace LexTranslator
         public object TranslateLocker = new object();
         public Thread TranslateTrd = null;
 
+        public bool SingleTrans = false;
         public void TranslateCurrent()
         {
             TranslatorExtend.MakeReady();
@@ -2678,9 +2696,12 @@ namespace LexTranslator
 
                             TranslateTrd = new Thread(() =>
                             {
+                                SingleTrans = true;
+
                                 this.Dispatcher.Invoke(new Action(() =>
                                 {
                                     TranslateOTButtonFont.Content = UILanguageHelper.UICache["TranslateOTButtonFont1"];
+                                    ThreadInFo.Visibility = Visibility.Visible;
                                 }));
 
                                 string GetTranslated = Translator.QuickTrans(
@@ -2692,9 +2713,16 @@ namespace LexTranslator
                                 this.Dispatcher.Invoke(new Action(() =>
                                 {
                                     TranslateOTButtonFont.Content = UILanguageHelper.UICache["TranslateOTButtonFont"];
+
+                                    if (TranslatorExtend.TranslationStatus == StateControl.Null || TranslatorExtend.TranslationStatus == StateControl.Cancel)
+                                    {
+                                        ThreadInFo.Visibility = Visibility.Collapsed;
+                                    }
+                                   
                                     ToStr.Text = GetTranslated;
                                 }));
 
+                                SingleTrans = false;
                                 TranslateTrd = null;
                             });
 
