@@ -574,4 +574,9 @@ namespace LexTranslator.UIManage
             return LinePanel;
         }
     }
+
+    public enum TextLayout
+    {
+        LTR = 0, RTL = 1
+    }
 }

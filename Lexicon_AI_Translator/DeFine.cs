@@ -12,6 +12,7 @@ using LexTranslator.FileManagement;
 using System;
 using Newtonsoft.Json;
 using System.Threading;
+using LexTranslator.UIManage;
 
 namespace LexTranslator
 {
@@ -173,6 +174,7 @@ namespace LexTranslator
         }
     }
 
+ 
     public class LocalSetting
     {
         public int Style { get; set; } = 1;
@@ -208,6 +210,10 @@ namespace LexTranslator
 
         public bool EnableLanguageDetect { get; set; } = true;
         public string P_Placeholders { get; set; } = "<(.*?)>,\\$\\$(.*?)\\$\\$";
+
+        public bool CanSkipBook { get; set; } = false;
+        public TextLayout TextDisplay { get; set; } = TextLayout.LTR;
+
         public void ReadConfig()
         {
             try
@@ -250,6 +256,9 @@ namespace LexTranslator
 
                             this.EnableLanguageDetect = GetSetting.EnableLanguageDetect;
                             this.P_Placeholders = GetSetting.P_Placeholders;
+                            this.CanSkipBook = GetSetting.CanSkipBook;
+
+                            this.TextDisplay = GetSetting.TextDisplay;
                         }
                     }
                     else
