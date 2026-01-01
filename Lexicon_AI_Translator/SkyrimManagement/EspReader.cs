@@ -8,6 +8,7 @@ using PhoenixEngine.EngineManagement;
 using PhoenixEngine.TranslateManage;
 using LexTranslator.TranslateManagement;
 using static PhoenixEngine.Bridges.NativeBridge;
+using LexTranslator.ConvertManager;
 
 namespace LexTranslator.SkyrimManagement
 {
@@ -595,6 +596,11 @@ namespace LexTranslator.SkyrimManagement
                         if (Record.ParentSig == "CELL")
                         {
                             IsCell = true;
+                        }
+
+                        if (ConvertHelper.ObjToLong(GetTransData) > 0)
+                        {
+                            continue;
                         }
 
                         if (EspInterop.ModifySubRecordByOffset(IsCell,Record.ParentIndex,Record.SubIndex, GetTransData))

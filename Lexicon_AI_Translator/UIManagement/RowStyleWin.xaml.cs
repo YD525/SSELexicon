@@ -17,9 +17,7 @@ using System.Threading;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using static PhoenixEngine.Bridges.NativeBridge;
-using System.Windows.Documents;
 using ICSharpCode.AvalonEdit;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace LexTranslator.UIManagement
 {
@@ -275,9 +273,10 @@ namespace LexTranslator.UIManagement
             }
             GetTranslated.Foreground = new SolidColorBrush(FontColor);
 
-            GetTranslated.PreviewMouseWheel += OneRTBPreviewMouseWheel;
+            GetTranslated.PreviewMouseWheel += TextEditorPreviewMouseWheel;
 
             GetTranslated.MouseLeave += GetTranslated_MouseLeave;
+            GetTranslated.LostFocus += GetTranslated_LostFocus;
 
             GetTranslated.Tag = Item.Key;
 
@@ -294,6 +293,9 @@ namespace LexTranslator.UIManagement
 
                 GetTranslated.IsReadOnly = true;
                 GetTranslated.VerticalContentAlignment = VerticalAlignment.Center;
+
+                GetTranslated.TextArea.Caret.Hide();
+                GetTranslated.IsHitTestVisible = false;
 
                 ApplyLTROrRtl(GetTranslated);
             }
@@ -325,6 +327,11 @@ namespace LexTranslator.UIManagement
             }
 
             return MainGrid;
+        }
+
+        private void GetTranslated_LostFocus(object sender, RoutedEventArgs e)
+        {
+            SaveText((TextEditor)sender);
         }
 
         void ApplyLTROrRtl(TextEditor Box)
@@ -456,7 +463,7 @@ namespace LexTranslator.UIManagement
             }
         }
 
-        public void OneRTBPreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        public void TextEditorPreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             var TextBox = sender as TextEditor;
             var Parent = VisualTreeHelper.GetParent(TextBox);
