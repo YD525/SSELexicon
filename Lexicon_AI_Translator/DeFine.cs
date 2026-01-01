@@ -211,7 +211,7 @@ namespace LexTranslator
         public bool EnableLanguageDetect { get; set; } = true;
         public string P_Placeholders { get; set; } = "<(.*?)>,\\$\\$(.*?)\\$\\$";
 
-        public bool CanSkipBook { get; set; } = false;
+        public bool CanTranslateBook { get; set; } = true;
         public TextLayout TextDisplay { get; set; } = TextLayout.LTR;
 
         public void ReadConfig()
@@ -256,7 +256,7 @@ namespace LexTranslator
 
                             this.EnableLanguageDetect = GetSetting.EnableLanguageDetect;
                             this.P_Placeholders = GetSetting.P_Placeholders;
-                            this.CanSkipBook = GetSetting.CanSkipBook;
+                            this.CanTranslateBook = GetSetting.CanTranslateBook;
 
                             this.TextDisplay = GetSetting.TextDisplay;
                         }
