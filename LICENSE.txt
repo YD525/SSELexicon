@@ -3,7 +3,7 @@ Attribution-NonCommercial-NoDerivatives 4.0 International
 Copyright (c) 2025 YD525
 Almost all files in this folder are under the license described below.
 
-The only exceptions are AvalonEdit, Newtonsoft.Json, System.Data.SQLite, which each have their own licenses.
+The only exceptions are AvalonEdit, Newtonsoft.Json, System.Data.SQLite,Original Compiler [skyrim creation kit],Champollion [Orvid], which each have their own licenses.
 
 =======================================================================
 

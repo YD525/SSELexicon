@@ -11,8 +11,6 @@ You can download it directly from Nexus Mods or build it yourself here. Both ver
 
 Your support and feedback are greatly appreciated!
 
-> ⚠️ Note: This App is still under active development.
-
 ---
 
 ## 📦 Features
