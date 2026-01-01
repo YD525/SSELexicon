@@ -473,9 +473,8 @@ namespace SSELex
                             ExecuteBtn.Content = "Executing...";
                         }));
                         bool CanSleep = false;
-                        bool CanAddCache = false;
 
-                        var GetResult = Translator.QuickTrans(NewUnit, ref CanSleep,true);
+                        var GetResult = Translator.QuickTrans(NewUnit, ref CanSleep);
 
                         this.Dispatcher.Invoke(new Action(() =>
                         {
