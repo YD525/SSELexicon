@@ -1042,7 +1042,7 @@ Fill="White"/>
                             </Grid>
 
                             <Grid Grid.Row="2" Name="SettingFrames">
-                                <Border  Style="{DynamicResource SettingFrame}" Tag="Request And ApiKey Configs" Visibility="Collapsed">
+                                <Border  Style="{DynamicResource SettingFrame}" Tag="Request And ApiKey Configs" Visibility="Visible">
                                     <ScrollViewer VerticalScrollBarVisibility="Auto" Style="{DynamicResource for_scrollviewer}">
 
                                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 0 0 0" VerticalAlignment="Center">
@@ -1368,6 +1368,14 @@ Fill="White"/>
                                                 </ComboBox>
                                             </StackPanel>
 
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5 5 5 10">
+                                                <CheckBox Name="RTLEnable" VerticalAlignment="Center" Click="RTLEnable_Click">
+                                                </CheckBox>
+                                                <Label Style="{DynamicResource NormalText}" VerticalAlignment="Center">
+                                                    Display text in RTL layout
+                                                </Label>
+                                            </StackPanel>
+
 
                                             <Label Style="{DynamicResource TittleFont}">
                                                 Theme Configs
@@ -1389,7 +1397,7 @@ Fill="White"/>
                                     </ScrollViewer>
                                 </Border>
 
-                                <Border  Style="{DynamicResource SettingFrame}" Tag="Engine Configs" Visibility="Visible">
+                                <Border  Style="{DynamicResource SettingFrame}" Tag="Engine Configs" Visibility="Collapsed">
                                     <ScrollViewer VerticalScrollBarVisibility="Auto" Style="{DynamicResource for_scrollviewer}">
                                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 0 0 0" VerticalAlignment="Center" Width="500">
 
@@ -1402,7 +1410,7 @@ Fill="White"/>
                                                         <ColumnDefinition Width="30"/>
                                                         <ColumnDefinition Width="1*"/>
                                                     </Grid.ColumnDefinitions>
-                                                    <CheckBox Name="CanTranslateBook" Style="{DynamicResource DefCheckBox}" VerticalAlignment="Center" Grid.Column="0" HorizontalAlignment="Center" Click="ForceTranslationConsistency_Click">
+                                                    <CheckBox Name="CanTranslateBook" Style="{DynamicResource DefCheckBox}" VerticalAlignment="Center" Grid.Column="0" HorizontalAlignment="Center" Click="CanTranslateBook_Click">
 
                                                     </CheckBox>
                                                     <TextBox  Grid.Column="1" Style="{DynamicResource InFoText}">

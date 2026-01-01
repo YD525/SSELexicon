@@ -386,7 +386,7 @@ namespace LexTranslator.TranslateManage
 
                                 if (Row.Type.Equals("BOOK"))
                                 {
-                                    if (Row.Key.EndsWith("DESC"))
+                                    if (Row.Key.EndsWith("DESC") && !DeFine.GlobalLocalSetting.CanTranslateBook)
                                     {
                                         if (DelegateHelper.SetDataCall != null)
                                         {

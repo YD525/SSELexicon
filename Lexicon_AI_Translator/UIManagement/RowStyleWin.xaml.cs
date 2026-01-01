@@ -290,6 +290,13 @@ namespace LexTranslator.UIManagement
 
             GetTranslated.Tag = Item.Key;
 
+            if (DeFine.GlobalLocalSetting.TextDisplay == UIManage.TextLayout.RTL)
+            {
+                GetTranslated.FlowDirection = FlowDirection.RightToLeft;
+                GetTranslated.TextAlignment = TextAlignment.Right;
+                GetTranslated.HorizontalContentAlignment = HorizontalAlignment.Right;
+            }
+
             if (DeFine.GlobalLocalSetting.ViewMode == "Normal")
             {
                 MainGrid.Cursor = Cursors.Hand;

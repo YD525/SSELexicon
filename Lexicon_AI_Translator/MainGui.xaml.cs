@@ -3299,6 +3299,15 @@ namespace LexTranslator
                 {
                     ShowCodeView.IsChecked = false;
                 }
+
+                if (DeFine.GlobalLocalSetting.TextDisplay == TextLayout.RTL)
+                {
+                    RTLEnable.IsChecked = true;
+                }
+                else
+                {
+                    RTLEnable.IsChecked = false;
+                }
             }
             else
             if (Name.Equals("Engine Configs"))
@@ -3364,6 +3373,15 @@ namespace LexTranslator
                 }
 
                 P_Placeholders.Text = DeFine.GlobalLocalSetting.P_Placeholders;
+
+                if (DeFine.GlobalLocalSetting.CanTranslateBook)
+                {
+                    CanTranslateBook.IsChecked = true;
+                }
+                else
+                {
+                    CanTranslateBook.IsChecked = false;
+                }
             }
         }
 
@@ -3602,6 +3620,30 @@ namespace LexTranslator
             }
         }
 
+        private void RTLEnable_Click(object sender, RoutedEventArgs e)
+        {
+            if (RTLEnable.IsChecked == true)
+            {
+                DeFine.GlobalLocalSetting.TextDisplay = TextLayout.RTL;
+            }
+            else
+            {
+                DeFine.GlobalLocalSetting.TextDisplay = TextLayout.LTR;
+            }
+        }
+
+        private void CanTranslateBook_Click(object sender, RoutedEventArgs e)
+        {
+            if (CanTranslateBook.IsChecked == true)
+            {
+                DeFine.GlobalLocalSetting.CanTranslateBook = true;
+            }
+            else
+            {
+                DeFine.GlobalLocalSetting.CanTranslateBook = false;
+            }
+        }
+
         #endregion
 
         #region LogView
@@ -3692,10 +3734,6 @@ namespace LexTranslator
 
             DeFine.GlobalLocalSetting.SaveConfig();
         }
-
-
         #endregion
-
-
     }
 }
