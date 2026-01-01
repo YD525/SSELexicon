@@ -10,7 +10,7 @@ The following components are NOT covered by this license and are subject to thei
 own respective licenses:
 
 - AvalonEdit
-License https://github.com/AvaloniaUI/AvaloniaEdit?tab=MIT-1-ov-file
+License https://github.com/icsharpcode/AvalonEdit?tab=MIT-1-ov-file
 
 - Newtonsoft.Json
 License https://github.com/JamesNK/Newtonsoft.Json/blob/master/LICENSE.md
