@@ -2674,64 +2674,31 @@ namespace LexTranslator
 
                             bool CanSleep = false;
 
-                            if (!QueryGrid.Key.EndsWith("(BookText)"))
-                            {
-                                CanEditTransView(false);
+                            CanEditTransView(false);
 
-                                TranslateTrd = new Thread(() =>
+                            TranslateTrd = new Thread(() =>
+                            {
+                                this.Dispatcher.Invoke(new Action(() =>
                                 {
-                                    this.Dispatcher.Invoke(new Action(() =>
-                                    {
-                                        TranslateOTButtonFont.Content = UILanguageHelper.UICache["TranslateOTButtonFont1"];
-                                    }));
+                                    TranslateOTButtonFont.Content = UILanguageHelper.UICache["TranslateOTButtonFont1"];
+                                }));
 
-                                    string GetTranslated = Translator.QuickTrans(
-                                    NewUnit,
-                                    ref CanSleep);
+                                string GetTranslated = Translator.QuickTrans(
+                                NewUnit,
+                                ref CanSleep);
 
-                                    CanEditTransView(true);
+                                CanEditTransView(true);
 
-                                    this.Dispatcher.Invoke(new Action(() =>
-                                    {
-                                        TranslateOTButtonFont.Content = UILanguageHelper.UICache["TranslateOTButtonFont"];
-                                        ToStr.Text = GetTranslated;
-                                    }));
+                                this.Dispatcher.Invoke(new Action(() =>
+                                {
+                                    TranslateOTButtonFont.Content = UILanguageHelper.UICache["TranslateOTButtonFont"];
+                                    ToStr.Text = GetTranslated;
+                                }));
 
-                                    TranslateTrd = null;
-                                });
+                                TranslateTrd = null;
+                            });
 
-                                TranslateTrd.Start();
-                            }
-                            else
-                            {
-                                CanEditTransView(false);
-
-                                //CurrentTextSegmentTranslator = new TextSegmentTranslator();
-
-                                //TranslateTrd = new Thread(() =>
-                                //{
-                                //    this.Dispatcher.Invoke(new Action(() =>
-                                //    {
-                                //        TranslateOTButtonFont.Content = UILanguageHelper.UICache["TranslateOTButtonFont2"];
-                                //    }));
-
-                                //    try
-                                //    {
-                                //        CurrentTextSegmentTranslator.TransBook(NewUnit);
-                                //    }
-                                //    catch { }
-
-                                //    CanEditTransView(true);
-
-                                //    this.Dispatcher.Invoke(new Action(() =>
-                                //    {
-                                //        TranslateOTButtonFont.Content = UILanguageHelper.UICache["TranslateOTButtonFont"];
-                                //    }));
-
-                                //    TranslateTrd = null;
-                                //});
-                                //TranslateTrd.Start();
-                            }
+                            TranslateTrd.Start();
                         }
                     }
                 }
