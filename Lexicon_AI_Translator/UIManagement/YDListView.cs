@@ -181,7 +181,7 @@ public class YDListView
         Grid GetChildGrid = (Grid)MainBorder.Child;
 
         Grid GetTranslatedGrid = (Grid)GetChildGrid.Children[3];
-        TextBox GetTranslated = (TextBox)(((Border)GetTranslatedGrid.Children[0]).Child);
+        RichTextBox GetTranslated = (RichTextBox)(((Border)GetTranslatedGrid.Children[0]).Child);
 
         GetTranslatedGrid.ColumnDefinitions[1].Width = new GridLength(15,GridUnitType.Pixel);
 

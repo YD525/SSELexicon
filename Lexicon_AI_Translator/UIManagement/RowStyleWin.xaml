@@ -52,9 +52,8 @@
                             </Grid.ColumnDefinitions>
                       
                             <Border Style="{DynamicResource LineTranslatedBorder}" Grid.Column="0">
-                                <TextBox Style="{DynamicResource LineTranslatedFont}">
-
-                                </TextBox>
+                                <RichTextBox Style="{DynamicResource LineTranslatedFont}">
+                                </RichTextBox>
                             </Border>
 
                             <Grid  Margin="0 2 0 2" Grid.Column="1" Height="35" Opacity="0.8">
