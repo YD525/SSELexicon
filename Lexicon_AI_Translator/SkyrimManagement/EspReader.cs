@@ -226,12 +226,18 @@ namespace LexTranslator.SkyrimManagement
             }
         }
 
-        private static IntPtr StringToUtf8IntPtr(string str)
+        private static IntPtr StringToUtf8IntPtr(string Str)
         {
-            byte[] utf8Bytes = Encoding.UTF8.GetBytes(str + "\0"); 
-            IntPtr ptr = Marshal.AllocHGlobal(utf8Bytes.Length);
-            Marshal.Copy(utf8Bytes, 0, ptr, utf8Bytes.Length);
-            return ptr;
+            if (Str == null)
+                Str = "";
+
+            byte[] UTF8 = System.Text.Encoding.UTF8.GetBytes(Str);
+            IntPtr Ptr = Marshal.AllocHGlobal(UTF8.Length + 1);
+
+            Marshal.Copy(UTF8, 0, Ptr, UTF8.Length);
+            Marshal.WriteByte(Ptr, UTF8.Length, 0);
+
+            return Ptr;
         }
 
         public static bool ModifySubRecordByOffset(bool IsCell, int ParentIndex, int SubIndex, string NewUtf8Data)
