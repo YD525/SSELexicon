@@ -3007,7 +3007,7 @@ namespace LexTranslator
         {
             for (int i = 0; i < TransViewList.RealLines.Count; i++)
             {
-                TransViewList.RealLines[i].TransText = TransViewList.RealLines[i].SourceText + i.ToString() + "ラララ";
+                TransViewList.RealLines[i].TransText = TransViewList.RealLines[i].SourceText + "(" + i.ToString() + ")";
 
                 Translator.TransData[TransViewList.RealLines[i].Key] = TransViewList.RealLines[i].TransText;
 
