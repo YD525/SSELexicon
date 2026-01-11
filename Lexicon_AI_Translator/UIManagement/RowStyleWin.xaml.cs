@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using static PhoenixEngine.Bridges.NativeBridge;
 using ICSharpCode.AvalonEdit;
+using LexTranslator.SkyrimManagement;
 
 namespace LexTranslator.UIManagement
 {
@@ -94,6 +95,19 @@ namespace LexTranslator.UIManagement
             }));
 
             return GetKey;
+        }
+
+        public static void MarkLeader(Grid Grid,bool Visible = true)
+        {
+            Grid GetDataGrid = ((Grid)((Border)Grid.Children[0]).Child);
+            Grid GetKeyGrid = (Grid)GetDataGrid.Children[1];
+            StackPanel GetKeyPanel = GetKeyGrid.Children[1] as StackPanel;
+
+            if (GetKeyPanel != null && GetKeyPanel.Children.Count > 1)
+            {
+                Grid GetLeader = (Grid)(GetKeyPanel).Children[1];
+                GetLeader.Visibility = Visible ? Visibility.Visible : Visibility.Collapsed;
+            }
         }
 
         public static void SetOriginal(Grid Grid,string Text)
@@ -239,6 +253,31 @@ namespace LexTranslator.UIManagement
             GetKey.Foreground = new SolidColorBrush(FontColor);
 
             GetKey.PreviewMouseWheel += OnePreviewMouseWheel;
+
+            StackPanel GetKeyPanel = GetKeyGrid.Children[1] as StackPanel;
+            TextBox GetFakeKey = (TextBox)(GetKeyPanel).Children[0];
+
+            if (DeFine.WorkingWin.CurrentTransType == 2 && EspReader.Records.ContainsKey(Item.Key))
+            {
+                GetFakeKey.Text = EspReader.Records[Item.Key].FormID + " " + EspReader.Records[Item.Key].ChildSig;
+            }
+            else
+            {
+                GetFakeKey.Text = Item.Key;
+            }
+
+            if (TranslatorExtend.TranslationCore != null)
+            {
+                if (TranslatorExtend.TranslationCore.UnitsLeaderToTranslate.ContainsKey(Item.Key))
+                {
+                    Grid GetLeader = (Grid)(GetKeyPanel).Children[1];
+                    GetLeader.Visibility = Visibility.Visible;
+                }
+            }
+
+            GetFakeKey.Foreground = new SolidColorBrush(FontColor);
+            
+            GetFakeKey.PreviewMouseWheel += OnePreviewMouseWheel;
 
             Grid GetOriginalGrid = (Grid)GetChildGrid.Children[2];
             TextBox GetOriginal = (TextBox)GetOriginalGrid.Children[0];

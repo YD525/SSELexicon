@@ -33,6 +33,7 @@ using static LexTranslator.SkyrimManagement.DSDConverter;
 using static LexTranslator.UIManagement.DashBoardService;
 using static PhoenixEngine.Bridges.NativeBridge;
 using PhoenixEngine.SSEManage;
+using System.Runtime.CompilerServices;
 
 namespace LexTranslator
 {
@@ -774,6 +775,8 @@ namespace LexTranslator
 
                             ReloadStringsFile();
 
+                            Loading = false;
+
                             DataLoadingTrd = null;
                         });
 
@@ -791,6 +794,8 @@ namespace LexTranslator
                                 TransViewList.AddRowR(LineRenderer.CreatLine(GetItem.Type, GetItem.EditorID, GetItem.Key, GetItem.SourceText, GetItem.GetTextIfTransR(), 999));
                             }));
                         }
+
+                        Loading = false;
                     }
                     else
                     if (CurrentTransType == 3)
@@ -802,6 +807,8 @@ namespace LexTranslator
                                 TransViewList.AddRowR(LineRenderer.CreatLine(GetItem.Type, GetItem.EditorID, GetItem.Key, GetItem.SourceText, GetItem.GetTextIfTransR(), GetItem.TranslationSafetyScore));
                             }));
                         }
+
+                        Loading = false;
                     }
                     else
                     if (CurrentTransType == 6)
@@ -813,6 +820,8 @@ namespace LexTranslator
                                 TransViewList.AddRowR(LineRenderer.CreatLine(GetItem.Type, "", GetItem.Key, GetItem.SourceText, GetItem.TransText, GetItem.Score));
                             }));
                         }
+
+                        Loading = false;
                     }
                 }
 
@@ -822,6 +831,8 @@ namespace LexTranslator
                 {
                     TransViewList.UpdateVisibleRows(true);
                 }));
+
+                TranslatorExtend.PreparingTranslationUnits();
             }
         }
         public bool CheckDictionary()
@@ -915,8 +926,10 @@ namespace LexTranslator
             }
         }
 
+        public bool Loading = false;
         public void LoadAny(string FilePath)
         {
+            Loading = true;
             CancelBatchTranslation();
 
             IsValidFile = false;
@@ -1091,6 +1104,7 @@ namespace LexTranslator
 
                 if (CurrentTransType != 0)
                 {
+                    TranslatorExtend.FristInit = false;
                     LoadSaveState = 1;
                     CheckLoadSaveButtonState();
                 }
@@ -2505,6 +2519,8 @@ namespace LexTranslator
             {
                 ShowClearToStrButton(false);
             }
+
+            UIHelper.ShowButton(ApplyOTButton, true);
         }
 
         private void AutoSpeak_Click(object sender, RoutedEventArgs e)

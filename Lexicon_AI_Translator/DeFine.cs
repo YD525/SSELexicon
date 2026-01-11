@@ -37,7 +37,7 @@ namespace LexTranslator
 
         public static string BackupPath = @"\BackUpData\";
 
-        public static string CurrentVersion = "3.2.3.8";
+        public static string CurrentVersion = "3.2.5.1";
         public static LocalSetting GlobalLocalSetting = new LocalSetting();
 
         public static MainGui WorkingWin = null;
@@ -206,7 +206,7 @@ namespace LexTranslator
 
         public bool EnableAnalyzingWords { get; set; } = true;
         public bool AutoUpdateStringsFileToDatabase { get; set; } = false;
-        public bool ForceTranslationConsistency { get; set; } = false;
+        public bool ForceTranslationConsistency { get; set; } = true;
 
         public bool EnableLanguageDetect { get; set; } = true;
         public string P_Placeholders { get; set; } = "<(.*?)>,\\$\\$(.*?)\\$\\$";
