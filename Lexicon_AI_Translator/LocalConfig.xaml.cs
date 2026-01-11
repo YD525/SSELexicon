@@ -222,7 +222,16 @@ namespace LexTranslator
         {
             if (AutoDetect.IsChecked == true)
             {
-                From.SelectedValue = LanguageHelper.DetectLanguageByLine(SourceStr.Text).ToString();
+                var DetectLang = LanguageHelper.DetectLanguageByLine(SourceStr.Text);
+                if (DetectLang == Languages.SimplifiedChinese || DetectLang == Languages.TraditionalChinese)
+                {
+                    if (Engine.From == Languages.SimplifiedChinese || Engine.From == Languages.TraditionalChinese)
+                    {
+                        DetectLang = Engine.From;
+                    }
+                }
+
+                From.SelectedValue = DetectLang.ToString();
             }
         }
 
@@ -230,7 +239,15 @@ namespace LexTranslator
         {
             if (AutoDetect.IsChecked == true)
             {
-                To.SelectedValue = LanguageHelper.DetectLanguageByLine(TargetStr.Text).ToString();
+                var DetectLang = LanguageHelper.DetectLanguageByLine(TargetStr.Text);
+                if (DetectLang == Languages.SimplifiedChinese || DetectLang == Languages.TraditionalChinese)
+                {
+                    if (Engine.To == Languages.SimplifiedChinese || Engine.To == Languages.TraditionalChinese)
+                    {
+                        DetectLang = Engine.To;
+                    }
+                }
+                To.SelectedValue = DetectLang.ToString();
             }
         }
 
@@ -602,7 +619,7 @@ namespace LexTranslator
                 }));
             }).Start();
         }
-        public void ProcessRecord(string Combined,int SpecialHandling)
+        public void ProcessRecord(string Combined)
         {
             var Parts = Combined.Split(',');
 
@@ -616,9 +633,7 @@ namespace LexTranslator
                     {
                         try
                         {
-                            if (SpecialHandling == 0)
-                            {
-                                if (AdvancedDictionary.AddItem(new AdvancedDictionaryItem(
+                            if (AdvancedDictionary.AddItem(new AdvancedDictionaryItem(
                                    SqlSafeCodec.Decode(Params[4]),
                                    SqlSafeCodec.Decode(Params[5]),
                                    SqlSafeCodec.Decode(Params[6]),
@@ -628,26 +643,8 @@ namespace LexTranslator
                                    Params[2],
                                    Params[3],
                                    string.Empty)))
-                                {
-                                    ImportCount++;
-                                }
-                            }
-                            else
-                            if(SpecialHandling == 3)
                             {
-                                if (AdvancedDictionary.AddItem(new AdvancedDictionaryItem(
-                                      SqlSafeCodec.Decode(Params[4]),
-                                      SqlSafeCodec.Decode(Params[5]),
-                                      SqlSafeCodec.Decode(Params[6]),
-                                      SqlSafeCodec.Decode(Params[7]),
-                                      "1",
-                                      "51",
-                                      Params[2],
-                                      Params[3],
-                                      string.Empty)))
-                                {
-                                    ImportCount++;
-                                }
+                                ImportCount++;
                             }
                         }
                         catch (Exception Ex)
@@ -660,12 +657,12 @@ namespace LexTranslator
 
             LeftOver = Parts[Parts.Length - 1];
         }
-        public void ProcessBuffer(char[] Buffer, int Count,int SpecialHandling = 0)
+        public void ProcessBuffer(char[] Buffer, int Count)
         {
             string Chunk = new string(Buffer, 0, Count);
             string Combined = LeftOver + Chunk;
 
-            ProcessRecord(Combined, SpecialHandling);
+            ProcessRecord(Combined);
         }
         private void ImportTable(object sender, MouseButtonEventArgs e)
         {
@@ -681,19 +678,6 @@ namespace LexTranslator
             {
                 string SelectedFile = Dialog.FileName;
                 string GetFileName = new FileInfo(SelectedFile).Name;
-
-                bool SpecialHandling = false;
-                if (GetFileName.Equals("和光SSE词库1.1.txt") || GetFileName.Equals("重光SSE词库1.1.txt"))
-                {
-                    SpecialHandling = true;
-                }
-
-                int SpecialHandlingState = 0;
-
-                if (SpecialHandling)
-                {
-                    SpecialHandlingState = 3;
-                }
 
                 if (File.Exists(SelectedFile))
                 {
@@ -716,7 +700,7 @@ namespace LexTranslator
                                 int ReadCount = Reader.ReadBlock(Buffer, 0, BufferSize);
                                 if (ReadCount == 0) break;   // EOF
 
-                                ProcessBuffer(Buffer, ReadCount,SpecialHandlingState);
+                                ProcessBuffer(Buffer, ReadCount);
 
                                 Log.Dispatcher.Invoke(new Action(() =>
                                 {
@@ -726,7 +710,7 @@ namespace LexTranslator
 
                             if (!string.IsNullOrWhiteSpace(LeftOver))
                             {
-                                ProcessRecord(LeftOver,SpecialHandlingState);
+                                ProcessRecord(LeftOver);
                             }
 
                             QuickExit:
