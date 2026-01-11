@@ -572,6 +572,14 @@ namespace LexTranslator
                         }
                         else
                         {
+                            if (TranslatorExtend.TranslationCore != null)
+                            {
+                                if (TranslatorExtend.TranslationCore.WorkState < 1)
+                                {
+                                    return;
+                                }
+                            }
+                            
                             if (TranslatorExtend.TranslationStatus == StateControl.Cancel || TranslatorExtend.TranslationStatus == StateControl.Null)
                             {
                                 TransProcess.Content = string.Format("STRINGS({0}/{1})", ModifyCount, GlobalTransCount);
@@ -939,6 +947,7 @@ namespace LexTranslator
             ClosetTransTrd();
             if (System.IO.File.Exists(FilePath))
             {
+                TranslatorExtend.Close();
                 Translator.ClearAICache();
                 //FromStr.Text = "";
                 //ToStr.Text = "";
@@ -1186,6 +1195,8 @@ namespace LexTranslator
 
                 GlobalTransCount = 0;
             }).Start();
+
+            TranslatorExtend.Close();
         }
 
         public bool IsValidFile = false;

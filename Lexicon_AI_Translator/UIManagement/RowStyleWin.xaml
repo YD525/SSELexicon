@@ -46,7 +46,7 @@
                                
                                 <Grid Width="20" Margin="5 0 0 0" VerticalAlignment="Center" Height="20" Visibility="Hidden" ToolTip="Leader">
                                     <Path Data="M 10,2 L 18,10 L 10,18 C 10,18 8,16 8,10 C 8,4 10,2 10,2 Z" 
-                                            Fill="#FF07AFC8"
+                                            Fill="#FF848484"
                                             Stretch="Uniform"
                                             Margin="2">
                                     </Path>

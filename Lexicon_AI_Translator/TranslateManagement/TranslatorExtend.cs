@@ -14,6 +14,7 @@ using System.Linq;
 using System.Threading;
 using LexTranslator.SkyrimManagement;
 using static PhoenixEngine.DelegateManagement.DelegateHelper;
+using System.Windows;
 
 namespace LexTranslator.TranslateManage
 {
@@ -290,6 +291,7 @@ namespace LexTranslator.TranslateManage
         public static bool PreparingComplete = false;
         public static bool FristInit = false;
         public static Thread PreparingTrd = null;
+        public static Thread MarkLeaderTrd = null;
         public static void PreparingTranslationUnits()
         {
             if (!FristInit)
@@ -311,6 +313,16 @@ namespace LexTranslator.TranslateManage
                 catch { }
                 PreparingTrd = null;
             }
+
+            if (MarkLeaderTrd != null)
+            {
+                try
+                {
+                    MarkLeaderTrd.Abort();
+                } catch { }
+                MarkLeaderTrd = null;
+            }
+
             PreparingTrd = new Thread(() =>
             {
                 try
@@ -508,13 +520,21 @@ namespace LexTranslator.TranslateManage
 
                     TranslationCore = new BatchTranslationCore(Engine.From, Engine.To, TranslationUnits);
 
+                    MarkLeaderTrd = new Thread(() =>
+                    {
+                        TranslationCore.MarkLeaders();
+                        MarkLeaderTrd = null;
+                    });
+
                     if (!DeFine.GlobalLocalSetting.EnableAnalyzingWords)
                     {
                         TranslationCore.SkipWordAnalysis = true;
+
+                        MarkLeaderTrd.Start();
                     }
                     else
                     {
-                        TranslationCore.MarkLeaders();
+                        MarkLeaderTrd.Start();
 
                         while (TranslationCore.WorkState < 1)
                         {
@@ -523,23 +543,37 @@ namespace LexTranslator.TranslateManage
                             SetTransBarTittle("Analyzing Words(" + TranslationCore.MarkLeadersPercent + "%)...");
                         }
 
+                        Thread.Sleep(1000);
 
-                        for (int i = 0; i < TranslationCore.UnitsLeaderToTranslate.Count; i++)
-                        {
-                            string GetKey = TranslationCore.UnitsLeaderToTranslate.ElementAt(i).Key;
-
-                            for (int ir = 0; ir < GetListView.VisibleRows.Count; ir++)
+                        GetListView.Parent.Dispatcher.Invoke(new Action(() => {
+                            for (int i = 0; i < TranslationCore.UnitsLeaderToTranslate.Count; i++)
                             {
-                                if (RowStyleWin.GetKey(GetListView.VisibleRows[ir].View).Equals(GetKey))
+                                string GetKey = TranslationCore.UnitsLeaderToTranslate.ElementAt(i).Key;
+
+                                for (int ir = 0; ir < GetListView.VisibleRows.Count; ir++)
                                 {
-                                    RowStyleWin.MarkLeader(GetListView.VisibleRows[ir].View, true);
-                                    break;
+                                    if (RowStyleWin.GetKey(GetListView.VisibleRows[ir].View).Equals(GetKey))
+                                    {
+                                        RowStyleWin.MarkLeader(GetListView.VisibleRows[ir].View, true);
+                                        break;
+                                    }
                                 }
                             }
-                        }
+                        }));
+                    }
+
+                    if (TranslationUnits.Count == 0)
+                    {
+                        NeedNextPreparing = true;
+                    }
+                    else
+                    {
+                        NeedNextPreparing = false;
                     }
 
                     PreparingComplete = true;
+
+                    PreparingTrd = null;
                 }
                 catch
                 {
@@ -550,6 +584,7 @@ namespace LexTranslator.TranslateManage
             PreparingTrd.Start();
         }
 
+        public static bool NeedNextPreparing = false;
 
         public static bool SyncTransStateFreeze = false;
 
@@ -565,11 +600,15 @@ namespace LexTranslator.TranslateManage
 
             if (DeFine.WorkingWin == null)
             {
+                TranslationStatus = StateControl.Cancel;
+                EndAction.Invoke();
                 return;
             }
 
             if (!PreparingComplete)
             {
+                TranslationStatus = StateControl.Cancel;
+                EndAction.Invoke();
                 return;
             }
 
@@ -577,6 +616,25 @@ namespace LexTranslator.TranslateManage
             {
                 if (TranslationStatus == StateControl.Run && !IsKeep)
                 {
+                    if (NeedNextPreparing)
+                    {
+                        FristInit = false;
+
+                        PreparingTranslationUnits();
+
+                        while (PreparingTrd != null)
+                        {
+                            Thread.Sleep(100);
+                        }
+
+                        if ((TranslationCore.UnitsLeaderToTranslate.Count + TranslationCore.UnitsToTranslate.Count) == 0)
+                        {
+                            TranslationStatus = StateControl.Cancel;
+                            EndAction.Invoke();
+                            return;
+                        }
+                    }
+
                     EngineConfig.SyncTrdCount();
 
                     YDListView GetListView = DeFine.WorkingWin.TransViewList;
@@ -736,6 +794,33 @@ namespace LexTranslator.TranslateManage
         public static bool ClearCloudCache(int FileUniqueKey)
         {
             return CloudDBCache.ClearCloudCache(FileUniqueKey);
+        }
+
+        public static void Close()
+        {
+            FristInit = false;
+            NeedNextPreparing = false;
+            TranslationCore = null;
+
+            if (PreparingTrd != null)
+            {
+                try
+                {
+                    PreparingTrd.Abort();
+                }
+                catch { }
+                PreparingTrd = null;
+            }
+
+            if (MarkLeaderTrd != null)
+            {
+                try
+                {
+                    MarkLeaderTrd.Abort();
+                }
+                catch { }
+                MarkLeaderTrd = null;
+            }
         }
     }
 
