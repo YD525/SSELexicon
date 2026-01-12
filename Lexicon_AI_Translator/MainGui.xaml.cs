@@ -735,12 +735,20 @@ namespace LexTranslator
             }
         }
 
+        public string LastSetSig = "";
         public Thread DataLoadingTrd = null;
         public void ReloadDataFunc(bool UseHotReload = false)
         {
             lock (LockerAddTrd)
             {
+                DataLoading = true;
                 ReadTrdWorkState = true;
+
+                if (LastSetSig != CurrentSig)
+                { 
+                    LastSetSig = CurrentSig;
+                    TranslatorExtend.Close();
+                }
 
                 if (!UseHotReload)
                 {
@@ -783,7 +791,9 @@ namespace LexTranslator
 
                             ReloadStringsFile();
 
-                            Loading = false;
+                            Thread.Sleep(100);
+
+                            DataLoading = false;
 
                             DataLoadingTrd = null;
                         });
@@ -803,7 +813,7 @@ namespace LexTranslator
                             }));
                         }
 
-                        Loading = false;
+                        DataLoading = false;
                     }
                     else
                     if (CurrentTransType == 3)
@@ -816,7 +826,7 @@ namespace LexTranslator
                             }));
                         }
 
-                        Loading = false;
+                        DataLoading = false;
                     }
                     else
                     if (CurrentTransType == 6)
@@ -829,7 +839,7 @@ namespace LexTranslator
                             }));
                         }
 
-                        Loading = false;
+                        DataLoading = false;
                     }
                 }
 
@@ -934,10 +944,11 @@ namespace LexTranslator
             }
         }
 
-        public bool Loading = false;
+        public bool DataLoading = false;
         public void LoadAny(string FilePath)
         {
-            Loading = true;
+            LastSetSig = string.Empty;
+
             CancelBatchTranslation();
 
             IsValidFile = false;

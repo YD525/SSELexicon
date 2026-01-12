@@ -327,14 +327,14 @@ namespace LexTranslator.TranslateManage
             {
                 try
                 {
-                    while (DeFine.WorkingWin.Loading == true)
+                    while (DeFine.WorkingWin.DataLoading == true)
                     {
                         Thread.Sleep(1000);
                     }
 
-                    YDListView GetListView = DeFine.WorkingWin.TransViewList;
-
                     SetTransBarTittle("Preparing Translation Units...");
+
+                    YDListView GetListView = DeFine.WorkingWin.TransViewList;
 
                     List<TranslationUnit> TranslationUnits = new List<TranslationUnit>();
 
