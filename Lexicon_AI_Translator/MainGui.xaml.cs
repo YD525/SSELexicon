@@ -642,50 +642,6 @@ namespace LexTranslator
             //LangTo.SelectedValue = DeFine.GlobalLocalSetting.TargetLanguage.ToString();
         }
 
-
-
-        //Champollion Auto Download
-        public bool CheckINeed()
-        {
-            bool State = true;
-            //Frist Check ToolPath
-            if (!File.Exists(DeFine.GetFullPath(@"\Tool\Champollion.exe")))
-            {
-                string Msg = "Do you want to download the Champollion component?\nIf you click Yes, the program will automatically download and scan to ensure the file is safe and then install it in the Tool directory.";
-
-                if (MessageBoxExtend.Show(this, "HelpMsg", Msg, MsgAction.YesNo, MsgType.Info) > 0)
-                {
-                    if (ToolDownloader.DownloadChampollion())
-                    {
-                        State = true;
-                    }
-                    else
-                    {
-                        MessageBoxExtend.Show(this, "HelpMsg", "Download failed. The source URL cannot be accessed or the file has changed.", MsgAction.Yes, MsgType.Info);
-                        State = false;
-                    }
-                }
-                else
-                {
-                    State = false;
-                }
-            }
-
-            string CompilerPath = "";
-            if (!SkyrimHelper.FindPapyrusCompilerPath(ref CompilerPath))
-            {
-                var GetStr = DeFine.GlobalLocalSetting.SkyrimPath + "Papyrus Compiler" + @"\PapyrusAssembler.exe";
-                string Msg = "Please Download CreationKit [" + GetStr + "] Must exist. \n Your Need Configure SkyrimSE path";
-                MessageBoxExtend.Show(this, "PEX File lacks support", Msg, MsgAction.Yes, MsgType.Info);
-                //this.Dispatcher.Invoke(new Action(() =>
-                //{
-                //    ShowSettingsView(Settings.Game);
-                //}));
-                State = false;
-            }
-            return State;
-        }
-
         public void LoadAny()
         {
             var Dialog = new System.Windows.Forms.OpenFileDialog();
@@ -818,13 +774,13 @@ namespace LexTranslator
                     else
                     if (CurrentTransType == 3)
                     {
-                        foreach (var GetItem in GlobalPexReader.Strings)
-                        {
-                            this.Dispatcher.Invoke(new Action(() =>
-                            {
-                                TransViewList.AddRowR(LineRenderer.CreatLine(GetItem.Type, GetItem.EditorID, GetItem.Key, GetItem.SourceText, GetItem.GetTextIfTransR(), GetItem.TranslationSafetyScore));
-                            }));
-                        }
+                        //foreach (var GetItem in GlobalPexReader.Strings)
+                        //{
+                        //    this.Dispatcher.Invoke(new Action(() =>
+                        //    {
+                        //        TransViewList.AddRowR(LineRenderer.CreatLine(GetItem.Type, GetItem.EditorID, GetItem.Key, GetItem.SourceText, GetItem.GetTextIfTransR(), GetItem.TranslationSafetyScore));
+                        //    }));
+                        //}
 
                         DataLoading = false;
                     }
@@ -996,7 +952,7 @@ namespace LexTranslator
                     GlobalRamCacheReader.Close();
                     EspReader.Close();
                     GlobalMCMReader.Close();
-                    GlobalPexReader.Close();
+                    //GlobalPexReader.Close();
 
                     LastSetPath = FilePath;
 
@@ -1021,37 +977,34 @@ namespace LexTranslator
                 }
                 if (FilePath.ToLower().EndsWith(".pex"))
                 {
-                    if (CheckINeed())
+                    SetTittle(FModName);
+                    CurrentTransType = 3;
+
+                    GlobalRamCacheReader.Close();
+                    EspReader.Close();
+                    GlobalMCMReader.Close();
+                    //GlobalPexReader.Close();
+
+                    LastSetPath = FilePath;
+
+                    this.Dispatcher.Invoke(new Action(() =>
                     {
-                        SetTittle(FModName);
-                        CurrentTransType = 3;
+                        TransViewList.Clear();
+                    }));
 
-                        GlobalRamCacheReader.Close();
-                        EspReader.Close();
-                        GlobalMCMReader.Close();
-                        GlobalPexReader.Close();
+                    //GlobalPexReader.LoadPexFile(LastSetPath);
 
-                        LastSetPath = FilePath;
+                    this.Dispatcher.Invoke(new Action(() =>
+                    {
+                        CancelBtn.Opacity = 1;
+                        CancelBtn.IsEnabled = true;
+                        LoadSaveState = 1;
+                    }));
 
-                        this.Dispatcher.Invoke(new Action(() =>
-                        {
-                            TransViewList.Clear();
-                        }));
+                    ReSetTransTargetType(null);
+                    ReloadData();
 
-                        GlobalPexReader.LoadPexFile(LastSetPath);
-
-                        this.Dispatcher.Invoke(new Action(() =>
-                        {
-                            CancelBtn.Opacity = 1;
-                            CancelBtn.IsEnabled = true;
-                            LoadSaveState = 1;
-                        }));
-
-                        ReSetTransTargetType(null);
-                        ReloadData();
-
-                        IsValidFile = true;
-                    }
+                    IsValidFile = true;
                 }
                 if (FilePath.ToLower().EndsWith(".txt"))
                 {
@@ -1061,7 +1014,7 @@ namespace LexTranslator
                     GlobalRamCacheReader.Close();
                     EspReader.Close();
                     GlobalMCMReader.Close();
-                    GlobalPexReader.Close();
+                    //GlobalPexReader.Close();
 
                     LastSetPath = FilePath;
 
@@ -1092,7 +1045,7 @@ namespace LexTranslator
                     GlobalRamCacheReader.Close();
                    
                     GlobalMCMReader.Close();
-                    GlobalPexReader.Close();
+                    //GlobalPexReader.Close();
 
                     LastSetPath = FilePath;
 
@@ -1178,7 +1131,7 @@ namespace LexTranslator
                     TransViewList?.Clear();
                     EspReader.Close();
                     GlobalMCMReader?.Close();
-                    GlobalPexReader?.Close();
+                    //GlobalPexReader?.Close();
 
                     LoadSaveState = 0;
 
@@ -1293,10 +1246,10 @@ namespace LexTranslator
                         if (Translator.TransData.Count > 0)
                             if (GlobalPexReader != null)
                             {
-                                if (!GlobalPexReader.SavePexFile(LastSetPath))
-                                {
-                                    MessageBox.Show("Build Script Error!");
-                                }
+                                //if (!GlobalPexReader.SavePexFile(LastSetPath))
+                                //{
+                                //    MessageBox.Show("Build Script Error!");
+                                //}
                             }
                     }
                     if (CurrentTransType == 2)

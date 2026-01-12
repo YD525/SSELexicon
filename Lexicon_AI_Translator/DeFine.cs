@@ -133,11 +133,6 @@ namespace LexTranslator
 
         public static void Init(MainGui Work)
         {
-            if (ToolDownloader.SCanToolPath() == null)
-            {
-                CloseAny();
-            }
-
             CurrentReplaceView.Owner = Work;
             CurrentReplaceView.Hide();
             RowStyleWin.Hide();

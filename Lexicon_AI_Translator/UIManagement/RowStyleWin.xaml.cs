@@ -456,24 +456,24 @@ namespace LexTranslator.UIManagement
 
                         Token.ThrowIfCancellationRequested();
 
-                        foreach (var Item in DeFine.WorkingWin.GlobalPexReader.HeuristicEngine.DStringItems)
-                        {
-                            if (Item.Key.Equals(GetKey))
-                            {
-                                DeFine.ActiveIDE.Dispatcher.Invoke(() =>
-                                {
-                                    int LineOffset = DeFine.ActiveIDE.Document.Text.IndexOf(Item.SourceLine);
-                                    if (LineOffset == -1) return;
+                        //foreach (var Item in DeFine.WorkingWin.GlobalPexReader.HeuristicEngine.DStringItems)
+                        //{
+                        //    if (Item.Key.Equals(GetKey))
+                        //    {
+                        //        DeFine.ActiveIDE.Dispatcher.Invoke(() =>
+                        //        {
+                        //            int LineOffset = DeFine.ActiveIDE.Document.Text.IndexOf(Item.SourceLine);
+                        //            if (LineOffset == -1) return;
 
-                                    int RelativeOffset = Item.SourceLine.IndexOf("\"" + Item.Str + "\"");
-                                    if (RelativeOffset == -1) return;
+                        //            int RelativeOffset = Item.SourceLine.IndexOf("\"" + Item.Str + "\"");
+                        //            if (RelativeOffset == -1) return;
 
-                                    int AbsoluteOffset = LineOffset + RelativeOffset;
-                                    DeFine.ActiveIDE.ScrollToLine(DeFine.ActiveIDE.Document.GetLineByOffset(AbsoluteOffset).LineNumber);
-                                    DeFine.ActiveIDE.Select(AbsoluteOffset, ("\"" + Item.Str + "\"").Length);
-                                });
-                            }
-                        }
+                        //            int AbsoluteOffset = LineOffset + RelativeOffset;
+                        //            DeFine.ActiveIDE.ScrollToLine(DeFine.ActiveIDE.Document.GetLineByOffset(AbsoluteOffset).LineNumber);
+                        //            DeFine.ActiveIDE.Select(AbsoluteOffset, ("\"" + Item.Str + "\"").Length);
+                        //        });
+                        //    }
+                        //}
                     }
                 }
                 catch (OperationCanceledException)

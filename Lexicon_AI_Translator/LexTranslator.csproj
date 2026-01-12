@@ -135,7 +135,6 @@
     <Compile Include="SkyrimManagement\SkyrimHelper.cs" />
     <Compile Include="SkyrimManagement\StringsFileReader.cs" />
     <Compile Include="SkyrimManagement\YDDictionaryHelper.cs" />
-    <Compile Include="SkyrimModManagement\SkyrimHelper.cs" />
     <Compile Include="SQLManagement\SqlCore.cs" />
     <Compile Include="TranslateManagement\Crc32Helper.cs" />
     <Compile Include="TranslateManagement\TranslatorExtend.cs" />
@@ -178,7 +177,6 @@
     <Compile Include="ConvertManagement\ConvertHelper.cs" />
     <Compile Include="FileManagement\DataHelper.cs" />
     <Compile Include="FileManagement\ExplorerHelper.cs" />
-    <Compile Include="FileManagement\ToolDownloader.cs" />
     <Compile Include="IDEManagement\RichBorderWidthConverter.cs" />
     <Page Include="MessageBoxExtend.xaml">
       <Generator>MSBuild:Compile</Generator>
