@@ -888,7 +888,7 @@ Fill="White"/>
                                                 </LinearGradientBrush.GradientStops>
                                             </LinearGradientBrush>
                                         </Label.Foreground>
-                                        Lite
+                                        Smart
                                     </Label>
                                 </StackPanel>
 
