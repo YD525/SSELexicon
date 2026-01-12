@@ -47,14 +47,6 @@ This project uses the following key open-source libraries/frameworks:
 
 ---
 
-## 🧩 PEX Compilation Dependencies
-
-The following components are required for compiling `.pex` (Papyrus) scripts:
-
-- [Champollion](https://github.com/Orvid/Champollion) – Developed by [Orvid], used for decompiling Papyrus compiled scripts.  
-- [Papyrus-compiler](https://github.com/russo-2025/papyrus-compiler/tree/master/bin/Original%20Compiler) – Used to compile `.pas` script files. You can also download the official components and place them in the `Tool\Original Compiler` directory of the program (the same files can be obtained from CK).
-
----
 
 ### 🙏 Special Thanks
 
@@ -63,6 +55,8 @@ I would like to give special thanks to the developers of
 [Cutleast](https://github.com/Cutleast) It helped me solve some problems with reading ESP files.
 
 [Mutagen.Bethesda](https://github.com/Mutagen-Modding/Mutagen) This framework was a huge help!
+
+[Champollion](https://github.com/Orvid/Champollion)  This framework was a huge help!
 
 [Noggog](https://github.com/Noggog) for helping me understand how StringsFile reads and writes.
 

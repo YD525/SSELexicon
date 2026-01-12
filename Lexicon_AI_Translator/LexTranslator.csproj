@@ -291,9 +291,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Tool\Original Compiler\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="logo.ico" />
   </ItemGroup>
