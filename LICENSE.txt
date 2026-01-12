@@ -21,11 +21,8 @@ License https://system.data.sqlite.org/home/doc/trunk/www/copyright.wiki
 - miniz
 License https://github.com/richgel999/miniz?tab=MIT-1-ov-file
 
-- \Tool\Original Compiler
-License https://github.com/russo-2025/papyrus-compiler/tree/master?tab=MIT-1-ov-file
-
-- \Tool\Champollion.exe
-License https://github.com/Orvid/Champollion?tab=LGPL-3.0-1-ov-file
+- PexReader
+License https://github.com/YD525/PexReader?tab=License-1-ov-file
 
 =======================================================================
 
