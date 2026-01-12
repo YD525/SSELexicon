@@ -774,13 +774,13 @@ namespace LexTranslator
                     else
                     if (CurrentTransType == 3)
                     {
-                        //foreach (var GetItem in GlobalPexReader.Strings)
-                        //{
-                        //    this.Dispatcher.Invoke(new Action(() =>
-                        //    {
-                        //        TransViewList.AddRowR(LineRenderer.CreatLine(GetItem.Type, GetItem.EditorID, GetItem.Key, GetItem.SourceText, GetItem.GetTextIfTransR(), GetItem.TranslationSafetyScore));
-                        //    }));
-                        //}
+                        foreach (var GetItem in GlobalPexReader.StringTable)
+                        {
+                            this.Dispatcher.Invoke(new Action(() =>
+                            {
+                                TransViewList.AddRowR(LineRenderer.CreatLine("Papyrus", GetItem.Index.ToString(), GetItem.Index.ToString(), GetItem.Value, "", -999));
+                            }));
+                        }
 
                         DataLoading = false;
                     }
@@ -952,7 +952,7 @@ namespace LexTranslator
                     GlobalRamCacheReader.Close();
                     EspReader.Close();
                     GlobalMCMReader.Close();
-                    //GlobalPexReader.Close();
+                    GlobalPexReader.Close();
 
                     LastSetPath = FilePath;
 
@@ -983,7 +983,7 @@ namespace LexTranslator
                     GlobalRamCacheReader.Close();
                     EspReader.Close();
                     GlobalMCMReader.Close();
-                    //GlobalPexReader.Close();
+                    GlobalPexReader.Close();
 
                     LastSetPath = FilePath;
 
@@ -992,7 +992,7 @@ namespace LexTranslator
                         TransViewList.Clear();
                     }));
 
-                    //GlobalPexReader.LoadPexFile(LastSetPath);
+                    GlobalPexReader.LoadPex(LastSetPath);
 
                     this.Dispatcher.Invoke(new Action(() =>
                     {
@@ -1014,7 +1014,7 @@ namespace LexTranslator
                     GlobalRamCacheReader.Close();
                     EspReader.Close();
                     GlobalMCMReader.Close();
-                    //GlobalPexReader.Close();
+                    GlobalPexReader.Close();
 
                     LastSetPath = FilePath;
 
@@ -1045,7 +1045,7 @@ namespace LexTranslator
                     GlobalRamCacheReader.Close();
                    
                     GlobalMCMReader.Close();
-                    //GlobalPexReader.Close();
+                    GlobalPexReader.Close();
 
                     LastSetPath = FilePath;
 
@@ -1131,7 +1131,7 @@ namespace LexTranslator
                     TransViewList?.Clear();
                     EspReader.Close();
                     GlobalMCMReader?.Close();
-                    //GlobalPexReader?.Close();
+                    GlobalPexReader?.Close();
 
                     LoadSaveState = 0;
 
@@ -1246,10 +1246,17 @@ namespace LexTranslator
                         if (Translator.TransData.Count > 0)
                             if (GlobalPexReader != null)
                             {
-                                //if (!GlobalPexReader.SavePexFile(LastSetPath))
-                                //{
-                                //    MessageBox.Show("Build Script Error!");
-                                //}
+                                string GetBackUPPath = GetFilePath + GetFileFullName + ".backup";
+
+                                if (!File.Exists(GetBackUPPath))
+                                {
+                                    File.Copy(LastSetPath, GetBackUPPath);
+                                }
+
+                                if (GlobalPexReader.SavePex(LastSetPath) > 0 == false)
+                                {
+                                    MessageBox.Show("Build Script Error!");
+                                }
                             }
                     }
                     if (CurrentTransType == 2)
@@ -1998,6 +2005,7 @@ namespace LexTranslator
                         Modules.Children.Add(UIHelper.CreatModuleItem("Translation Engine",Engine.Version));
                         Modules.Children.Add(UIHelper.CreatModuleItem("Pex Analysis", PapyrusHeurCore.Version));
                         Modules.Children.Add(UIHelper.CreatModuleItem("Esp Reader",EspInterop.Version));
+                        Modules.Children.Add(UIHelper.CreatModuleItem("Pex Reader",PexInterop.Version));
                         Modules.Children.Add(UIHelper.CreatModuleItem("DSD Convert", DSDConverter.Version));
 
                         DeFine.ExtendWin.CanShow = false;
