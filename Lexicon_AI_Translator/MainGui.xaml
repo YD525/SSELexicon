@@ -863,7 +863,7 @@ Fill="White"/>
                             <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Width="500">
                                 <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center">
                                     <Label Grid.Row="0" Foreground="White" FontWeight="DemiBold"  FontSize="50">
-                                        SSE Lexicon
+                                        Lex Translator
                                     </Label>
                                     <Label Grid.Row="0" FontWeight="ExtraBold" FontSize="50">
                                         <Label.Foreground>
