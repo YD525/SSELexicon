@@ -3117,6 +3117,14 @@ namespace LexTranslator
 
                                 }
 
+                                TranslatorExtend.Close();
+                                TranslatorExtend.PreparingTranslationUnits();
+
+                                while (TranslatorExtend.PreparingTrd != null)
+                                {
+                                    Thread.Sleep(100);
+                                }
+
                                 ClearCacheButton.Dispatcher.Invoke(new Action(() =>
                                 {
                                     ClearCacheButton.Content = UILanguageHelper.UICache["ClearCacheButton"];
