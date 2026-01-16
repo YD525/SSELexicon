@@ -130,6 +130,21 @@ namespace LexTranslator.SkyrimManagement
             out uint userFlags, out byte flags, out ushort numParams, out ushort numLocals,
             out ushort numInstructions);
 
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern ushort C_GetFunctionParamCount(ushort objectIndex, ushort stateIndex, ushort funcIndex);
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int C_GetFunctionParamInfo(ushort objectIndex, ushort stateIndex,
+            ushort funcIndex, ushort paramIndex, out ushort name, out ushort type);
+
+        // Function locals
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern ushort C_GetFunctionLocalCount(ushort objectIndex, ushort stateIndex, ushort funcIndex);
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int C_GetFunctionLocalInfo(ushort objectIndex, ushort stateIndex,
+            ushort funcIndex, ushort localIndex, out ushort name, out ushort type);
+
         // Instructions
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int C_GetInstructionInfo(ushort objectIndex, ushort stateIndex,
@@ -273,6 +288,7 @@ namespace LexTranslator.SkyrimManagement
                 return "";
             }
         }
+
 
         // Helper to get debug function line numbers
         public static ushort[] GetDebugFunctionLineNumbers(IntPtr lineNumbersPtr, int lineCount)
@@ -506,6 +522,130 @@ namespace LexTranslator.SkyrimManagement
             }
         }
 
+        public class PexFunctionParam
+        {
+            public ushort NameIndex { get; set; }
+            public ushort TypeIndex { get; set; }
+
+            public string GetName(PexReader reader)
+            {
+                if (reader != null)
+                    return reader.GetString(NameIndex);
+                return "";
+            }
+
+            public string GetTypeName(PexReader reader)
+            {
+                if (reader != null)
+                    return reader.GetString(TypeIndex);
+                return "";
+            }
+        }
+        public class PexFunctionLocal
+        {
+            public ushort NameIndex { get; set; }
+            public ushort TypeIndex { get; set; }
+
+            public string GetName(PexReader reader)
+            {
+                if (reader != null)
+                    return reader.GetString(NameIndex);
+                return "";
+            }
+
+            public string GetTypeName(PexReader reader)
+            {
+                if (reader != null)
+                    return reader.GetString(TypeIndex);
+                return "";
+            }
+        }
+
+        public class PexInstructionArgument
+        {
+            public byte Type { get; set; }
+            public object Value { get; set; }
+
+            public string GetValueAsString(PexReader reader)
+            {
+                if (Value == null)
+                    return "null";
+
+                switch (Type)
+                {
+                    case 0: // null
+                        return "null";
+                    case 1: // identifier
+                    case 2: // string
+                        if (Value is ushort stringIndex)
+                            return reader?.GetString(stringIndex) ?? stringIndex.ToString();
+                        return Value.ToString() ?? "";
+                    case 3: // integer
+                        return Value.ToString() ?? "0";
+                    case 4: // float
+                        return Value is float f ? f.ToString("F6") : "0.000000";
+                    case 5: // bool
+                        return (Value is bool b && b) ? "true" : "false";
+                    default:
+                        return Value.ToString() ?? "";
+                }
+            }
+        }
+        public class PexInstruction
+        {
+            public byte Opcode { get; set; }
+            public List<PexInstructionArgument> Arguments { get; set; }
+
+            public PexInstruction()
+            {
+                Arguments = new List<PexInstructionArgument>();
+            }
+
+            public string GetOpcodeName()
+            {
+                switch (Opcode)
+                {
+                    case 0x00: return "nop";
+                    case 0x01: return "iadd";
+                    case 0x02: return "fadd";
+                    case 0x03: return "isub";
+                    case 0x04: return "fsub";
+                    case 0x05: return "imul";
+                    case 0x06: return "fmul";
+                    case 0x07: return "idiv";
+                    case 0x08: return "fdiv";
+                    case 0x09: return "imod";
+                    case 0x0A: return "not";
+                    case 0x0B: return "ineg";
+                    case 0x0C: return "fneg";
+                    case 0x0D: return "assign";
+                    case 0x0E: return "cast";
+                    case 0x0F: return "cmp_eq";
+                    case 0x10: return "cmp_lt";
+                    case 0x11: return "cmp_le";
+                    case 0x12: return "cmp_gt";
+                    case 0x13: return "cmp_ge";
+                    case 0x14: return "jmp";
+                    case 0x15: return "jmpt";
+                    case 0x16: return "jmpf";
+                    case 0x17: return "callmethod";
+                    case 0x18: return "callparent";
+                    case 0x19: return "callstatic";
+                    case 0x1A: return "return";
+                    case 0x1B: return "strcat";
+                    case 0x1C: return "propget";
+                    case 0x1D: return "propset";
+                    case 0x1E: return "array_create";
+                    case 0x1F: return "array_length";
+                    case 0x20: return "array_getelement";
+                    case 0x21: return "array_setelement";
+                    case 0x22: return "array_findelement";
+                    case 0x23: return "array_rfindelement";
+                    default: return $"0x{Opcode:X2}";
+                }
+            }
+        }
+
         public class PexFunction
         {
             public ushort FunctionNameIndex { get; set; }
@@ -517,7 +657,17 @@ namespace LexTranslator.SkyrimManagement
             public ushort NumLocals { get; set; }
             public ushort NumInstructions { get; set; }
 
-            // 改为方法
+            public List<PexFunctionParam> Parameters { get; set; }
+            public List<PexFunctionLocal> Locals { get; set; }
+            public List<PexInstruction> Instructions { get; set; }
+
+            public PexFunction()
+            {
+                Parameters = new List<PexFunctionParam>();
+                Locals = new List<PexFunctionLocal>();
+                Instructions = new List<PexInstruction>();
+            }
+
             public string GetFunctionName(PexReader reader)
             {
                 if (reader != null)
@@ -935,6 +1085,126 @@ namespace LexTranslator.SkyrimManagement
             }
         }
 
+        private void LoadFunctionParameters(PexFunction func, ushort objectIndex, ushort stateIndex, ushort funcIndex)
+        {
+            ushort paramCount = PexInterop.C_GetFunctionParamCount(objectIndex, stateIndex, funcIndex);
+
+            for (ushort i = 0; i < paramCount; i++)
+            {
+                ushort nameIndex;
+                ushort typeIndex;
+
+                if (PexInterop.C_GetFunctionParamInfo(objectIndex, stateIndex, funcIndex, i,
+                    out nameIndex, out typeIndex) > 0)
+                {
+                    func.Parameters.Add(new PexFunctionParam
+                    {
+                        NameIndex = nameIndex,
+                        TypeIndex = typeIndex
+                    });
+                }
+            }
+        }
+
+        private void LoadFunctionLocals(PexFunction func, ushort objectIndex, ushort stateIndex, ushort funcIndex)
+        {
+            ushort localCount = PexInterop.C_GetFunctionLocalCount(objectIndex, stateIndex, funcIndex);
+
+            for (ushort i = 0; i < localCount; i++)
+            {
+                ushort nameIndex;
+                ushort typeIndex;
+
+                if (PexInterop.C_GetFunctionLocalInfo(objectIndex, stateIndex, funcIndex, i,
+                    out nameIndex, out typeIndex) > 0)
+                {
+                    func.Locals.Add(new PexFunctionLocal
+                    {
+                        NameIndex = nameIndex,
+                        TypeIndex = typeIndex
+                    });
+                }
+            }
+        }
+
+        private void LoadFunctionInstructions(PexFunction func, ushort objectIndex, ushort stateIndex, ushort funcIndex)
+        {
+            for (ushort i = 0; i < func.NumInstructions; i++)
+            {
+                byte opcode;
+                ushort argCount;
+
+                if (PexInterop.C_GetInstructionInfo(objectIndex, stateIndex, funcIndex, i,
+                    out opcode, out argCount) > 0)
+                {
+                    var instruction = new PexInstruction
+                    {
+                        Opcode = opcode
+                    };
+
+                    for (ushort argIndex = 0; argIndex < argCount; argIndex++)
+                    {
+                        byte argType;
+                        IntPtr argValuePtr = Marshal.AllocHGlobal(8); 
+
+                        try
+                        {
+                            if (PexInterop.C_GetInstructionArgument(objectIndex, stateIndex, funcIndex, i, argIndex,
+                                out argType, argValuePtr) > 0)
+                            {
+                                var argument = new PexInstructionArgument
+                                {
+                                    Type = argType
+                                };
+
+                                switch (argType)
+                                {
+                                    case 0: // null
+                                        argument.Value = null;
+                                        break;
+                                    case 1: // identifier
+                                    case 2: // string
+                                        argument.Value = (ushort)Marshal.ReadInt16(argValuePtr);
+                                        break;
+                                    case 3: // integer
+                                        argument.Value = Marshal.ReadInt32(argValuePtr);
+                                        break;
+                                    case 4: // float
+                                        byte[] floatBytes = new byte[4];
+                                        Marshal.Copy(argValuePtr, floatBytes, 0, 4);
+                                        argument.Value = BitConverter.ToSingle(floatBytes, 0);
+                                        break;
+                                    case 5: // bool
+                                        argument.Value = Marshal.ReadByte(argValuePtr) != 0;
+                                        break;
+                                    default:
+                                        argument.Value = null;
+                                        break;
+                                }
+
+                                instruction.Arguments.Add(argument);
+                            }
+                        }
+                        finally
+                        {
+                            Marshal.FreeHGlobal(argValuePtr);
+                        }
+                    }
+
+                    func.Instructions.Add(instruction);
+                }
+            }
+        }
+
+        private void LoadFunctionDetails(PexFunction func, ushort objectIndex, ushort stateIndex, ushort funcIndex)
+        {
+            LoadFunctionParameters(func, objectIndex, stateIndex, funcIndex);
+
+            LoadFunctionLocals(func, objectIndex, stateIndex, funcIndex);
+
+            LoadFunctionInstructions(func, objectIndex, stateIndex, funcIndex);
+        }
+
         private void LoadStateFunctions(PexState state, ushort objectIndex, ushort stateIndex)
         {
             for (ushort k = 0; k < state.NumFunctions; k++)
@@ -953,7 +1223,7 @@ namespace LexTranslator.SkyrimManagement
                     out userFlags, out flags, out numParams,
                     out numLocals, out numInstructions) > 0)
                 {
-                    state.Functions.Add(new PexFunction
+                    var func = new PexFunction
                     {
                         FunctionNameIndex = functionName,
                         ReturnTypeIndex = returnType,
@@ -963,7 +1233,11 @@ namespace LexTranslator.SkyrimManagement
                         NumParams = numParams,
                         NumLocals = numLocals,
                         NumInstructions = numInstructions
-                    });
+                    };
+
+                    LoadFunctionDetails(func, objectIndex, stateIndex, k);
+
+                    state.Functions.Add(func);
                 }
             }
         }

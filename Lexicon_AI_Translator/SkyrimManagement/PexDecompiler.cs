@@ -3,6 +3,7 @@ using System.Text;
 using Newtonsoft.Json;
 using static LexTranslator.SkyrimManagement.PexReader;
 using LexTranslator.ConvertManager;
+using System.Windows.Shapes;
 
 namespace LexTranslator.SkyrimManagement
 {
@@ -40,7 +41,7 @@ namespace LexTranslator.SkyrimManagement
 
         public enum ObjType
         { 
-           Null=0,Variables = 1, Properties = 2
+           Null=0,Variables = 1, Properties = 2, Functions = 3, DebugInfo = 5
         }
         public object QueryAnyByID(int ID,ref ObjType Type)
         {
@@ -61,6 +62,34 @@ namespace LexTranslator.SkyrimManagement
                     {
                         Type = ObjType.Properties;
                         return GetItem;
+                    }
+                }
+
+                List<PexFunction> Functions = new List<PexFunction>();
+
+                foreach (var GetItem in GetObj.States)
+                {
+                    foreach (var GetFunc in GetItem.Functions)
+                    {
+                        if (GetFunc.FunctionNameIndex.Equals((ushort)ID))
+                        {
+                            Type = ObjType.Functions;
+                            Functions.Add(GetFunc);
+                        }
+                    }
+                }
+
+                if (Functions.Count > 0)
+                {
+                    return Functions;
+                }
+
+                foreach (var GetDebugFunc in Reader.DebugInfo.Functions)
+                {
+                    if (GetDebugFunc.FunctionNameIndex.Equals(ID))
+                    {
+                        Type = ObjType.DebugInfo;
+                        return GetDebugFunc;
                     }
                 }
             }
@@ -165,11 +194,6 @@ namespace LexTranslator.SkyrimManagement
 
                 var TempValue = QueryAnyByID(Item.Index, ref CheckType);
 
-                if (Item.Value.Equals("GoldTheftPercentage"))
-                { 
-                
-                }
-
                 if (CheckType == ObjType.Properties)
                 {
                     PexProperty Property = TempValue as PexProperty;
@@ -229,9 +253,51 @@ namespace LexTranslator.SkyrimManagement
                 }
             }
         }
+        
         public void AnalyzeFunction(List<PexString> TempStrings, ref StringBuilder PscCode)
         {
+            for (int i = 0; i < TempStrings.Count; i++)
+            {
+                var Item = TempStrings[i];
+                ObjType CheckType = ObjType.Null;
 
+                if (Item.Index == 3)
+                { 
+                
+                }
+
+                var GetFunc = QueryAnyByID(Item.Index, ref CheckType);
+                if (CheckType == ObjType.Functions)
+                {
+                    List<PexFunction> Function = GetFunc as List<PexFunction>;
+
+
+                    if (Function.Count > 1)
+                    { 
+                    
+                    }
+
+                    //var GetReturnType = TempStrings[Function.ReturnTypeIndex];
+
+                    //var DebugInFo = QueryAnyByID(Item.Index, ref CheckType);
+                    
+
+                    //if (CheckType == ObjType.DebugInfo)
+                    //{
+                    //    List<PexDebugFunction> GetDebugInFo = GetFunc as List<PexDebugFunction>;
+                    //    //GetDebugInFo.StateNameIndex State AllowBreastYokeST EndState
+                    //}
+
+                    //var GetParams = string.Empty;
+
+                    //string FuncLine = "";
+
+                    //if (GenStyle == CodeGenStyle.Papyrus)
+                    //{
+                    //    FuncLine = string.Format("{0} Function {1} ({2})",GetReturnType.Value, Item.Value,GetParams);
+                    //}
+                }
+            }
         }
 
         public string Decompile()
@@ -243,10 +309,7 @@ namespace LexTranslator.SkyrimManagement
 
             AnalyzeClass(TempStrings, ref PscCode);
 
-            //First, Find Global Variables
             AnalyzeGlobalVariables(TempStrings, ref PscCode);
-
-            //Float Property xxx = 50.0 Auto hidden
             AnalyzeAutoGlobalVariables(TempStrings, ref PscCode);
 
             //Function XXX() EndFunction
