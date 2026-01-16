@@ -13,6 +13,7 @@ namespace LexTranslator.SkyrimManagement
 
     public class PexDecompiler
     {
+        public static string Version = "1.0.0 Alpha";
         public PexReader Reader;
 
         public PexDecompiler(PexReader CurrentReader)
@@ -99,8 +100,17 @@ namespace LexTranslator.SkyrimManagement
                 }
             }
         }
+
+        public void AnalyzeAutoGlobalVariables(List<PexString> TempStrings, ref StringBuilder PscCode)
+        { 
         
-        
+        }
+        public void AnalyzeFunction(List<PexString> TempStrings, ref StringBuilder PscCode)
+        {
+
+        }
+
+
         public string Decompile()
         {
             StringBuilder PscCode = new StringBuilder();
@@ -117,6 +127,13 @@ namespace LexTranslator.SkyrimManagement
 
             //First, Find Global Variables
             AnalyzeGlobalVariables(TempStrings, ref PscCode);
+
+            //Float Property xxx = 50.0 Auto hidden
+            AnalyzeAutoGlobalVariables(TempStrings, ref PscCode);
+
+            //Function XXX() EndFunction
+            AnalyzeFunction(TempStrings, ref PscCode);
+
             var GetCode = PscCode.ToString();
 
             return string.Empty;
