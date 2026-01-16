@@ -780,8 +780,9 @@ namespace LexTranslator
                                 TransViewList.AddRowR(LineRenderer.CreatLine("Papyrus", GetItem.Index.ToString(), GetItem.Index.ToString(), GetItem.Value, "", -999));
                             }));
                         }
-
-                        new PexDecompiler(GlobalPexReader).GetJson();
+                        PexDecompiler NPexDecompiler = new PexDecompiler(GlobalPexReader);
+                        string JsonINeed = NPexDecompiler.GetJson();
+                        NPexDecompiler.Decompile();
 
                         DataLoading = false;
                     }

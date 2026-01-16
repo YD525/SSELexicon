@@ -25,6 +25,16 @@ namespace LexTranslator.SkyrimManagement
 
         public string Decompile()
         {
+            if (Reader.Objects.Count > 0)
+            {
+                string ScriptName = Reader.StringTable[Reader.Objects[0].NameIndex].Value;
+                string ParentClass = Reader.StringTable[Reader.Objects[0].ParentClassNameIndex].Value;
+            }
+
+            foreach (var GetItem in Reader.StringTable)
+            { 
+                
+            }
             return string.Empty;
         }
 
