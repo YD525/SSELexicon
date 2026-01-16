@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 using Newtonsoft.Json;
+using static LexTranslator.SkyrimManagement.PexReader;
 
 namespace LexTranslator.SkyrimManagement
 {
@@ -25,16 +26,37 @@ namespace LexTranslator.SkyrimManagement
 
         public string Decompile()
         {
+            StringBuilder PscCode = new StringBuilder();
+            List<PexReader.PexString> TempStrings = new List<PexReader.PexString>();
+
+            TempStrings.AddRange(Reader.StringTable);
+
+            List<PexString> WaitDeleteStrings = new List<PexString>();
+
             if (Reader.Objects.Count > 0)
             {
-                string ScriptName = Reader.StringTable[Reader.Objects[0].NameIndex].Value;
-                string ParentClass = Reader.StringTable[Reader.Objects[0].ParentClassNameIndex].Value;
+                var NameIndexObj = TempStrings[Reader.Objects[0].NameIndex];
+                var ParentClassNameObj = TempStrings[Reader.Objects[0].ParentClassNameIndex];
+
+                string ScriptName = NameIndexObj.Value;
+                string ParentClass = ParentClassNameObj.Value;
+                PscCode.AppendLine(string.Format("ScriptName {0} Extends {1}",ScriptName,ParentClass));
+
+                WaitDeleteStrings.Add(NameIndexObj);
+                WaitDeleteStrings.Add(ParentClassNameObj);
             }
 
-            foreach (var GetItem in Reader.StringTable)
-            { 
-                
+            foreach (var GetWaitDelete in WaitDeleteStrings)
+            {
+                TempStrings.Remove(GetWaitDelete);
             }
+
+            //First, Find Global Variables
+            for (int i = 0; i < TempStrings.Count; i++)
+            { 
+               
+            }
+
             return string.Empty;
         }
 
