@@ -13,12 +13,22 @@ namespace LexTranslator.SkyrimManagement
 
     public class PexDecompiler
     {
+        #region Extend
+        public enum CodeGenStyle
+        { 
+          Null=0,Papyrus = 1,CSharp = 2,Python= 3
+        }
+
+        #endregion
+
         public static string Version = "1.0.0 Alpha";
+        public CodeGenStyle GenStyle = CodeGenStyle.Null;
         public PexReader Reader;
 
-        public PexDecompiler(PexReader CurrentReader)
+        public PexDecompiler(PexReader CurrentReader,CodeGenStyle GenStyle = CodeGenStyle.Papyrus)
         { 
-            Reader = CurrentReader;
+            this.Reader = CurrentReader;
+            this.GenStyle = GenStyle;
         }
 
         public string GetJson()
@@ -122,7 +132,16 @@ namespace LexTranslator.SkyrimManagement
             {
                 string ScriptName = TempStrings[Reader.Objects[0].NameIndex].Value;
                 string ParentClass = TempStrings[Reader.Objects[0].ParentClassNameIndex].Value;
-                PscCode.AppendLine(string.Format("ScriptName {0} Extends {1}",ScriptName,ParentClass));
+
+                if (this.GenStyle == CodeGenStyle.Papyrus)
+                {
+                    PscCode.AppendLine(string.Format("ScriptName {0} Extends {1}", ScriptName, ParentClass));
+                }
+                else
+                if (this.GenStyle == CodeGenStyle.CSharp)
+                {
+                    PscCode.AppendLine(string.Format("public class  {0} : {1} \n {", ScriptName, ParentClass));
+                }
             }
 
             //First, Find Global Variables
@@ -133,6 +152,12 @@ namespace LexTranslator.SkyrimManagement
 
             //Function XXX() EndFunction
             AnalyzeFunction(TempStrings, ref PscCode);
+
+
+            if (this.GenStyle == CodeGenStyle.CSharp)
+            {
+                PscCode.AppendLine("}");
+            }
 
             var GetCode = PscCode.ToString();
 
