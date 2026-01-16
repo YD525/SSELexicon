@@ -68,6 +68,25 @@ namespace LexTranslator.SkyrimManagement
             return null;
         }
 
+        public void AnalyzeClass(List<PexString> TempStrings, ref StringBuilder PscCode)
+        {
+            if (Reader.Objects.Count > 0)
+            {
+                string ScriptName = TempStrings[Reader.Objects[0].NameIndex].Value;
+                string ParentClass = TempStrings[Reader.Objects[0].ParentClassNameIndex].Value;
+
+                if (this.GenStyle == CodeGenStyle.Papyrus)
+                {
+                    PscCode.AppendLine(string.Format("ScriptName {0} Extends {1}", ScriptName, ParentClass));
+                }
+                else
+                if (this.GenStyle == CodeGenStyle.CSharp)
+                {
+                    PscCode.AppendLine(string.Format("public class  {0} : {1} \n {", ScriptName, ParentClass));
+                }
+            }
+        }
+
         public void AnalyzeGlobalVariables(List<PexString> TempStrings,ref StringBuilder PscCode)
         {
             for (int i = 0; i < TempStrings.Count; i++)
@@ -90,18 +109,44 @@ namespace LexTranslator.SkyrimManagement
                         string TryGetValue = ConvertHelper.ObjToStr(Variable.DataValue);
                         if (TryGetValue.Length == 0)
                         {
-                            PscCode.AppendLine(string.Format(GetVariableType + " " + Item.Value));
+                            if (this.GenStyle == CodeGenStyle.Papyrus)
+                            {
+                                PscCode.AppendLine(string.Format(GetVariableType + " " + Item.Value));
+                            }
+                            else
+                            if (this.GenStyle == CodeGenStyle.CSharp)
+                            {
+                                PscCode.AppendLine(string.Format(GetVariableType + " " + Item.Value + ";"));
+                            }
                         }
                         else
                         {
                             if (GetVariableType.ToLower().Equals("string"))
                             {
-                                PscCode.AppendLine(string.Format(GetVariableType + " " + Item.Value
-                                + " = " + "\"" + TryGetValue + "\""));
+                                if (this.GenStyle == CodeGenStyle.Papyrus)
+                                {
+                                    PscCode.AppendLine(string.Format(GetVariableType + " " + Item.Value
+                                    + " = " + "\"" + TryGetValue + "\""));
+                                }
+                                else
+                                if (this.GenStyle == CodeGenStyle.CSharp)
+                                {
+                                    PscCode.AppendLine(string.Format(GetVariableType + " " + Item.Value
+                                    + " = " + "\"" + TryGetValue + "\";"));
+                                }
                             }
                             else
                             {
-                                PscCode.AppendLine(string.Format(GetVariableType + " " + Item.Value + " = " + TryGetValue));
+                                if (this.GenStyle == CodeGenStyle.Papyrus)
+                                {
+                                    PscCode.AppendLine(string.Format(GetVariableType + " " + Item.Value + " = " + TryGetValue));
+                                }
+                                else
+                                if (this.GenStyle == CodeGenStyle.CSharp)
+                                {
+                                    PscCode.AppendLine(string.Format(GetVariableType + " " + Item.Value + " = " + TryGetValue + ";"));
+                                }
+                                   
                             }
 
                         }
@@ -112,14 +157,55 @@ namespace LexTranslator.SkyrimManagement
         }
 
         public void AnalyzeAutoGlobalVariables(List<PexString> TempStrings, ref StringBuilder PscCode)
-        { 
-        
+        {
+            for (int i = 0; i < TempStrings.Count; i++)
+            {
+                var Item = TempStrings[i];
+                ObjType CheckType = ObjType.Null;
+
+                if (i == 407)
+                { 
+                
+                }
+
+                var TempValue = QueryAnyByID(Item.Index, ref CheckType);
+
+                if (CheckType == ObjType.Properties)
+                {
+
+                    if (Item.Value == "BoundKeys")
+                    { 
+                    
+                    }
+
+                    if (!Item.Value.StartsWith("Global_"))
+                    {
+                       
+                        PexProperty Property = TempValue as PexProperty;
+
+                        string GetVariableType = TempStrings[Property.TypeIndex].Value;
+                        string CheckVarName = TempStrings[Property.AutoVarNameIndex].Value;
+                        if (CheckVarName.StartsWith("Global_"))
+                        {
+                            if (this.GenStyle == CodeGenStyle.Papyrus)
+                            {
+                                PscCode.AppendLine(string.Format(GetVariableType + " Property " + Item.Value + " Auto"));
+                            }
+                            else
+                            if (this.GenStyle == CodeGenStyle.CSharp)
+                            {
+                                PscCode.AppendLine("[Property(Auto = true)]");
+                                PscCode.AppendLine(string.Format(GetVariableType + " " + Item.Value + ";"));
+                            }
+                        }
+                    }
+                }
+            }
         }
         public void AnalyzeFunction(List<PexString> TempStrings, ref StringBuilder PscCode)
         {
 
         }
-
 
         public string Decompile()
         {
@@ -128,21 +214,7 @@ namespace LexTranslator.SkyrimManagement
 
             TempStrings.AddRange(Reader.StringTable);
 
-            if (Reader.Objects.Count > 0)
-            {
-                string ScriptName = TempStrings[Reader.Objects[0].NameIndex].Value;
-                string ParentClass = TempStrings[Reader.Objects[0].ParentClassNameIndex].Value;
-
-                if (this.GenStyle == CodeGenStyle.Papyrus)
-                {
-                    PscCode.AppendLine(string.Format("ScriptName {0} Extends {1}", ScriptName, ParentClass));
-                }
-                else
-                if (this.GenStyle == CodeGenStyle.CSharp)
-                {
-                    PscCode.AppendLine(string.Format("public class  {0} : {1} \n {", ScriptName, ParentClass));
-                }
-            }
+            AnalyzeClass(TempStrings, ref PscCode);
 
             //First, Find Global Variables
             AnalyzeGlobalVariables(TempStrings, ref PscCode);
