@@ -33,7 +33,6 @@ using static LexTranslator.SkyrimManagement.DSDConverter;
 using static LexTranslator.UIManagement.DashBoardService;
 using static PhoenixEngine.Bridges.NativeBridge;
 using PhoenixEngine.SSEManage;
-using System.Runtime.CompilerServices;
 
 namespace LexTranslator
 {
@@ -781,6 +780,8 @@ namespace LexTranslator
                                 TransViewList.AddRowR(LineRenderer.CreatLine("Papyrus", GetItem.Index.ToString(), GetItem.Index.ToString(), GetItem.Value, "", -999));
                             }));
                         }
+
+                        new PexDecompiler(GlobalPexReader).GetJson();
 
                         DataLoading = false;
                     }
