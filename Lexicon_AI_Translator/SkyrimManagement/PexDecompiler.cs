@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
-using System.Runtime.InteropServices;
 using Newtonsoft.Json;
 using static LexTranslator.SkyrimManagement.PexReader;
-using System.ComponentModel.DataAnnotations;
 using LexTranslator.ConvertManager;
 
 namespace LexTranslator.SkyrimManagement
 {
+    // This class implements a PEX/PSC Decompiler.
+    // Your overall project is licensed under CC BY-NC-ND 4.0,
+    // but this specific class/code can be used by SSE Auto Translator (https://github.com/Cutleast/SSE-Auto-Translator)
+    // under the MIT License.
+
     public class PexDecompiler
     {
         public PexReader Reader;
@@ -57,21 +57,8 @@ namespace LexTranslator.SkyrimManagement
             return null;
         }
 
-        public string Decompile()
+        public void AnalyzeGlobalVariables(List<PexString> TempStrings,ref StringBuilder PscCode)
         {
-            StringBuilder PscCode = new StringBuilder();
-            List<PexString> TempStrings = new List<PexString>();
-
-            TempStrings.AddRange(Reader.StringTable);
-
-            if (Reader.Objects.Count > 0)
-            {
-                string ScriptName = TempStrings[Reader.Objects[0].NameIndex].Value;
-                string ParentClass = TempStrings[Reader.Objects[0].ParentClassNameIndex].Value;
-                PscCode.AppendLine(string.Format("ScriptName {0} Extends {1}",ScriptName,ParentClass));
-            }
-
-            //First, Find Global Variables
             for (int i = 0; i < TempStrings.Count; i++)
             {
                 var Item = TempStrings[i];
@@ -80,7 +67,7 @@ namespace LexTranslator.SkyrimManagement
 
                 //if (Item.Value.Equals("KeysList"))
                 //{ 
-                
+
                 //}
 
                 if (CheckType == ObjType.Variables)
@@ -98,22 +85,39 @@ namespace LexTranslator.SkyrimManagement
                         {
                             if (GetVariableType.ToLower().Equals("string"))
                             {
-                                PscCode.AppendLine(string.Format(GetVariableType + " " + Item.Value 
+                                PscCode.AppendLine(string.Format(GetVariableType + " " + Item.Value
                                 + " = " + "\"" + TryGetValue + "\""));
                             }
                             else
                             {
                                 PscCode.AppendLine(string.Format(GetVariableType + " " + Item.Value + " = " + TryGetValue));
                             }
-                               
+
                         }
-                        
+
                     }
                 }
             }
+        }
+        
+        
+        public string Decompile()
+        {
+            StringBuilder PscCode = new StringBuilder();
+            List<PexString> TempStrings = new List<PexString>();
 
+            TempStrings.AddRange(Reader.StringTable);
+
+            if (Reader.Objects.Count > 0)
+            {
+                string ScriptName = TempStrings[Reader.Objects[0].NameIndex].Value;
+                string ParentClass = TempStrings[Reader.Objects[0].ParentClassNameIndex].Value;
+                PscCode.AppendLine(string.Format("ScriptName {0} Extends {1}",ScriptName,ParentClass));
+            }
+
+            //First, Find Global Variables
+            AnalyzeGlobalVariables(TempStrings, ref PscCode);
             var GetCode = PscCode.ToString();
-
 
             return string.Empty;
         }
