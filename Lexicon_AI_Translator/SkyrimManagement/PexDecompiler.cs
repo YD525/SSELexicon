@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using static LexTranslator.SkyrimManagement.PexReader;
 using LexTranslator.ConvertManager;
 using System.Windows.Shapes;
+using System;
 
 namespace LexTranslator.SkyrimManagement
 {
@@ -16,8 +17,8 @@ namespace LexTranslator.SkyrimManagement
     {
         #region Extend
         public enum CodeGenStyle
-        { 
-          Null=0,Papyrus = 1,CSharp = 2,Python= 3
+        {
+            Null = 0, Papyrus = 1, CSharp = 2, Python = 3
         }
 
         #endregion
@@ -26,8 +27,8 @@ namespace LexTranslator.SkyrimManagement
         public CodeGenStyle GenStyle = CodeGenStyle.Null;
         public PexReader Reader;
 
-        public PexDecompiler(PexReader CurrentReader,CodeGenStyle GenStyle = CodeGenStyle.Papyrus)
-        { 
+        public PexDecompiler(PexReader CurrentReader, CodeGenStyle GenStyle = CodeGenStyle.Papyrus)
+        {
             this.Reader = CurrentReader;
             this.GenStyle = GenStyle;
         }
@@ -40,10 +41,10 @@ namespace LexTranslator.SkyrimManagement
 
 
         public enum ObjType
-        { 
-           Null=0,Variables = 1, Properties = 2, Functions = 3, DebugInfo = 5
+        {
+            Null = 0, Variables = 1, Properties = 2, Functions = 3, DebugInfo = 5
         }
-        public object QueryAnyByID(int ID,ref ObjType Type)
+        public object QueryAnyByID(int ID, ref ObjType Type)
         {
             foreach (var GetObj in Reader.Objects)
             {
@@ -116,7 +117,7 @@ namespace LexTranslator.SkyrimManagement
             }
         }
 
-        public void AnalyzeGlobalVariables(List<PexString> TempStrings,ref StringBuilder PscCode)
+        public void AnalyzeGlobalVariables(List<PexString> TempStrings, ref StringBuilder PscCode)
         {
             for (int i = 0; i < TempStrings.Count; i++)
             {
@@ -175,7 +176,7 @@ namespace LexTranslator.SkyrimManagement
                                 {
                                     PscCode.AppendLine(string.Format(GetVariableType + " " + Item.Value + " = " + TryGetValue + ";"));
                                 }
-                                   
+
                             }
 
                         }
@@ -249,11 +250,11 @@ namespace LexTranslator.SkyrimManagement
                             PscCode.AppendLine(string.Format(GetVariableType + " " + Item.Value + ";" + NodeStr));
                         }
                     }
-                   
+
                 }
             }
         }
-        
+
         public void AnalyzeFunction(List<PexString> TempStrings, ref StringBuilder PscCode)
         {
             for (int i = 0; i < TempStrings.Count; i++)
@@ -261,9 +262,9 @@ namespace LexTranslator.SkyrimManagement
                 var Item = TempStrings[i];
                 ObjType CheckType = ObjType.Null;
 
-                if (Item.Index == 3)
-                { 
-                
+                if (Item.Value.Equals("OnPageReset"))
+                {
+
                 }
 
                 var GetFunc = QueryAnyByID(Item.Index, ref CheckType);
@@ -271,31 +272,50 @@ namespace LexTranslator.SkyrimManagement
                 {
                     List<PexFunction> Function = GetFunc as List<PexFunction>;
 
+                    if (Function.Count == 1)
+                    {
+                        var GetFunc1st = Function[0];
 
-                    if (Function.Count > 1)
-                    { 
-                    
+                        string GenParams = "";
+
+                        string ReturnType = TempStrings[GetFunc1st.ReturnTypeIndex].Value;
+
+                        if (ReturnType == "None")
+                        {
+                            ReturnType = string.Empty;
+                        }
+                        else
+                        {
+                            ReturnType += " ";
+                        }
+
+                        for (int ir = 0; ir < GetFunc1st.NumParams; ir++)
+                        {
+                            if (GetFunc1st.Parameters.Count > ir)
+                            {
+                                var GetParam = GetFunc1st.Parameters[ir];
+                                string GetType = TempStrings[GetFunc1st.Parameters[ir].TypeIndex].Value;
+                                string GetParamName = TempStrings[GetParam.NameIndex].Value;
+
+                                GenParams += string.Format("{0} {1},", GetType, GetParamName);
+                            }
+                        }
+
+                        if (GenParams.EndsWith(","))
+                        {
+                            GenParams = GenParams.Substring(0, GenParams.Length - 1);
+                        }
+
+                        string GenLine = string.Format("{0}Function {1}({2})", ReturnType, Item.Value, GenParams);
+                        PscCode.AppendLine(GenLine);
+
+                        foreach (var GetInstruction in GetFunc1st.Instructions)
+                        { 
+                        
+                        }
+
+                        PscCode.AppendLine("EndFunction");
                     }
-
-                    //var GetReturnType = TempStrings[Function.ReturnTypeIndex];
-
-                    //var DebugInFo = QueryAnyByID(Item.Index, ref CheckType);
-                    
-
-                    //if (CheckType == ObjType.DebugInfo)
-                    //{
-                    //    List<PexDebugFunction> GetDebugInFo = GetFunc as List<PexDebugFunction>;
-                    //    //GetDebugInFo.StateNameIndex State AllowBreastYokeST EndState
-                    //}
-
-                    //var GetParams = string.Empty;
-
-                    //string FuncLine = "";
-
-                    //if (GenStyle == CodeGenStyle.Papyrus)
-                    //{
-                    //    FuncLine = string.Format("{0} Function {1} ({2})",GetReturnType.Value, Item.Value,GetParams);
-                    //}
                 }
             }
         }
