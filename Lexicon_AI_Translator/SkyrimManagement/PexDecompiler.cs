@@ -26,6 +26,7 @@ namespace LexTranslator.SkyrimManagement
         public static string Version = "1.0.0 Alpha";
         public CodeGenStyle GenStyle = CodeGenStyle.Null;
         public PexReader Reader;
+        string CodeSpace = "    ";
 
         public PexDecompiler(PexReader CurrentReader, CodeGenStyle GenStyle = CodeGenStyle.Papyrus)
         {
@@ -112,13 +113,22 @@ namespace LexTranslator.SkyrimManagement
                 else
                 if (this.GenStyle == CodeGenStyle.CSharp)
                 {
-                    PscCode.AppendLine(string.Format("public class  {0} : {1} \n {", ScriptName, ParentClass));
+                    PscCode.AppendLine("public class  " + ScriptName + " : " + ParentClass + " \n{");
                 }
             }
         }
 
         public void AnalyzeGlobalVariables(List<PexString> TempStrings, ref StringBuilder PscCode)
         {
+            if (GenStyle == CodeGenStyle.Papyrus)
+            {
+                PscCode.AppendLine(";GlobalVariables");
+            }
+            else
+            {
+                PscCode.AppendLine(CodeSpace + "//GlobalVariables");
+            }
+            
             for (int i = 0; i < TempStrings.Count; i++)
             {
                 var Item = TempStrings[i];
@@ -146,7 +156,7 @@ namespace LexTranslator.SkyrimManagement
                             else
                             if (this.GenStyle == CodeGenStyle.CSharp)
                             {
-                                PscCode.AppendLine(string.Format(GetVariableType + " " + Item.Value + ";"));
+                                PscCode.AppendLine(string.Format(CodeSpace + GetVariableType + " " + Item.Value + ";"));
                             }
                         }
                         else
@@ -161,7 +171,7 @@ namespace LexTranslator.SkyrimManagement
                                 else
                                 if (this.GenStyle == CodeGenStyle.CSharp)
                                 {
-                                    PscCode.AppendLine(string.Format(GetVariableType + " " + Item.Value
+                                    PscCode.AppendLine(string.Format(CodeSpace + GetVariableType + " " + Item.Value
                                     + " = " + "\"" + TryGetValue + "\";"));
                                 }
                             }
@@ -174,13 +184,10 @@ namespace LexTranslator.SkyrimManagement
                                 else
                                 if (this.GenStyle == CodeGenStyle.CSharp)
                                 {
-                                    PscCode.AppendLine(string.Format(GetVariableType + " " + Item.Value + " = " + TryGetValue + ";"));
+                                    PscCode.AppendLine(string.Format(CodeSpace + GetVariableType + " " + Item.Value + " = " + TryGetValue + ";"));
                                 }
-
                             }
-
                         }
-
                     }
                 }
             }
@@ -188,6 +195,15 @@ namespace LexTranslator.SkyrimManagement
 
         public void AnalyzeAutoGlobalVariables(List<PexString> TempStrings, ref StringBuilder PscCode)
         {
+            if (GenStyle == CodeGenStyle.Papyrus)
+            {
+                PscCode.AppendLine(";Global Properties");
+            }
+            else
+            {
+                PscCode.AppendLine(CodeSpace + "//Global Properties");
+            }
+
             for (int i = 0; i < TempStrings.Count; i++)
             {
                 var Item = TempStrings[i];
@@ -246,8 +262,8 @@ namespace LexTranslator.SkyrimManagement
                         else
                         if (this.GenStyle == CodeGenStyle.CSharp)
                         {
-                            PscCode.AppendLine("[Property(Auto = true)]");
-                            PscCode.AppendLine(string.Format(GetVariableType + " " + Item.Value + ";" + NodeStr));
+                            PscCode.AppendLine(CodeSpace + "[Property(Auto = true)]");
+                            PscCode.AppendLine(string.Format(CodeSpace + GetVariableType + " " + Item.Value + ";" + NodeStr));
                         }
                     }
 
@@ -261,11 +277,6 @@ namespace LexTranslator.SkyrimManagement
             {
                 var Item = TempStrings[i];
                 ObjType CheckType = ObjType.Null;
-
-                if (Item.Value.Equals("OnPageReset"))
-                {
-
-                }
 
                 var GetFunc = QueryAnyByID(Item.Index, ref CheckType);
                 if (CheckType == ObjType.Functions)
@@ -286,7 +297,10 @@ namespace LexTranslator.SkyrimManagement
                         }
                         else
                         {
-                            ReturnType += " ";
+                            if (ReturnType.Length > 0)
+                            {
+                                ReturnType += " ";
+                            }
                         }
 
                         for (int ir = 0; ir < GetFunc1st.NumParams; ir++)
@@ -306,7 +320,18 @@ namespace LexTranslator.SkyrimManagement
                             GenParams = GenParams.Substring(0, GenParams.Length - 1);
                         }
 
-                        string GenLine = string.Format("{0}Function {1}({2})", ReturnType, Item.Value, GenParams);
+                        string GenLine = "";
+
+                        if (GenStyle == CodeGenStyle.Papyrus)
+                        {
+                            GenLine = string.Format("{0}Function {1}({2})", ReturnType, Item.Value, GenParams);
+                        }
+                        else
+                        if (GenStyle == CodeGenStyle.CSharp)
+                        {
+                            GenLine = string.Format(CodeSpace + "public {0}{1}({2})\n", ReturnType, Item.Value, GenParams) + CodeSpace + "{";
+                        }
+
                         PscCode.AppendLine(GenLine);
 
                         foreach (var GetInstruction in GetFunc1st.Instructions)
@@ -314,7 +339,15 @@ namespace LexTranslator.SkyrimManagement
                         
                         }
 
-                        PscCode.AppendLine("EndFunction");
+                        if (GenStyle == CodeGenStyle.Papyrus)
+                        {
+                            PscCode.AppendLine("EndFunction");
+                        }
+                        else
+                        if (GenStyle == CodeGenStyle.CSharp)
+                        {
+                            PscCode.AppendLine(CodeSpace + "}\n");
+                        }
                     }
                 }
             }
@@ -330,8 +363,9 @@ namespace LexTranslator.SkyrimManagement
             AnalyzeClass(TempStrings, ref PscCode);
 
             AnalyzeGlobalVariables(TempStrings, ref PscCode);
+            PscCode.Append("\n");
             AnalyzeAutoGlobalVariables(TempStrings, ref PscCode);
-
+            PscCode.Append("\n");
             //Function XXX() EndFunction
             AnalyzeFunction(TempStrings, ref PscCode);
 
