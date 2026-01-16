@@ -163,42 +163,45 @@ namespace LexTranslator.SkyrimManagement
                 var Item = TempStrings[i];
                 ObjType CheckType = ObjType.Null;
 
-                if (i == 407)
+                var TempValue = QueryAnyByID(Item.Index, ref CheckType);
+
+                if (Item.Value.Equals("GoldTheftPercentage"))
                 { 
                 
                 }
 
-                var TempValue = QueryAnyByID(Item.Index, ref CheckType);
-
                 if (CheckType == ObjType.Properties)
                 {
+                    PexProperty Property = TempValue as PexProperty;
 
-                    if (Item.Value == "BoundKeys")
-                    { 
-                    
-                    }
+                    string GetVariableType = TempStrings[Property.TypeIndex].Value;
+                    string CheckVarName = TempStrings[Property.AutoVarNameIndex].Value;
 
-                    if (!Item.Value.StartsWith("Global_"))
+                    if (CheckVarName.StartsWith("::"))
                     {
-                       
-                        PexProperty Property = TempValue as PexProperty;
-
-                        string GetVariableType = TempStrings[Property.TypeIndex].Value;
-                        string CheckVarName = TempStrings[Property.AutoVarNameIndex].Value;
-                        if (CheckVarName.StartsWith("Global_"))
+                        if (GetVariableType.Equals("globalvariable"))
                         {
-                            if (this.GenStyle == CodeGenStyle.Papyrus)
-                            {
-                                PscCode.AppendLine(string.Format(GetVariableType + " Property " + Item.Value + " Auto"));
-                            }
-                            else
-                            if (this.GenStyle == CodeGenStyle.CSharp)
-                            {
-                                PscCode.AppendLine("[Property(Auto = true)]");
-                                PscCode.AppendLine(string.Format(GetVariableType + " " + Item.Value + ";"));
-                            }
+                            GetVariableType = "GetVariableType";
+                        }
+
+                        var RealValue = QueryAnyByID(Property.AutoVarNameIndex, ref CheckType);
+                        if (CheckType == ObjType.Variables)
+                        {
+                            string GetRealValue = ConvertHelper.ObjToStr((RealValue as PexVariable).DataValue);
+                        }
+
+                        if (this.GenStyle == CodeGenStyle.Papyrus)
+                        {
+                            PscCode.AppendLine(string.Format(GetVariableType + " Property " + Item.Value + " Auto"));
+                        }
+                        else
+                        if (this.GenStyle == CodeGenStyle.CSharp)
+                        {
+                            PscCode.AppendLine("[Property(Auto = true)]");
+                            PscCode.AppendLine(string.Format(GetVariableType + " " + Item.Value + ";"));
                         }
                     }
+                   
                 }
             }
         }
