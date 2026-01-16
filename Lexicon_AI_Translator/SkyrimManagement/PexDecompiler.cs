@@ -184,21 +184,45 @@ namespace LexTranslator.SkyrimManagement
                             GetVariableType = "GetVariableType";
                         }
 
+                        string NodeStr = "";
+
+                        if (this.GenStyle == CodeGenStyle.Papyrus)
+                        {
+                            NodeStr = " ;";
+                        }
+                        else
+                        if (this.GenStyle == CodeGenStyle.CSharp)
+                        {
+                            NodeStr = " //";
+                        }
+
                         var RealValue = QueryAnyByID(Property.AutoVarNameIndex, ref CheckType);
                         if (CheckType == ObjType.Variables)
                         {
                             string GetRealValue = ConvertHelper.ObjToStr((RealValue as PexVariable).DataValue);
+                            if (GetRealValue.Length > 0)
+                            {
+                                NodeStr += "Value:" + GetRealValue;
+                            }
+                            else
+                            {
+                                NodeStr = string.Empty;
+                            }
+                        }
+                        else
+                        {
+                            NodeStr = string.Empty;
                         }
 
                         if (this.GenStyle == CodeGenStyle.Papyrus)
                         {
-                            PscCode.AppendLine(string.Format(GetVariableType + " Property " + Item.Value + " Auto"));
+                            PscCode.AppendLine(string.Format(GetVariableType + " Property " + Item.Value + " Auto" + NodeStr));
                         }
                         else
                         if (this.GenStyle == CodeGenStyle.CSharp)
                         {
                             PscCode.AppendLine("[Property(Auto = true)]");
-                            PscCode.AppendLine(string.Format(GetVariableType + " " + Item.Value + ";"));
+                            PscCode.AppendLine(string.Format(GetVariableType + " " + Item.Value + ";" + NodeStr));
                         }
                     }
                    
