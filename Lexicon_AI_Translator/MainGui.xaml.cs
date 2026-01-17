@@ -780,9 +780,6 @@ namespace LexTranslator
                                 TransViewList.AddRowR(LineRenderer.CreatLine("Papyrus", GetItem.Index.ToString(), GetItem.Index.ToString(), GetItem.Value, "", -999));
                             }));
                         }
-                        PexDecompiler NPexDecompiler = new PexDecompiler(GlobalPexReader,PexDecompiler.CodeGenStyle.CSharp);
-                        string JsonINeed = NPexDecompiler.GetJson();
-                        NPexDecompiler.Decompile();
 
                         DataLoading = false;
                     }
@@ -995,6 +992,22 @@ namespace LexTranslator
                     }));
 
                     GlobalPexReader.LoadPex(LastSetPath);
+
+                    PexDecompiler NPexDecompiler = new PexDecompiler(GlobalPexReader, PexDecompiler.CodeGenStyle.CSharp);
+                    string JsonINeed = NPexDecompiler.GetJson();
+                    var GetPsc = NPexDecompiler.Decompile();
+
+                    double CalcLeft = this.Left + this.ActualWidth + 1;
+                    double CalcTop = this.Top;
+                    double IDEHeight = this.Height;
+                    DeFine.CurrentCodeView.Dispatcher.Invoke(new Action(() => 
+                    {
+                        DeFine.CurrentCodeView.TextEditor.Text = GetPsc;
+                        DeFine.CurrentCodeView.Left = CalcLeft;
+                        DeFine.CurrentCodeView.Top = CalcTop;
+                        DeFine.CurrentCodeView.Height = IDEHeight;
+                        DeFine.CurrentCodeView.Show();
+                    }));
 
                     this.Dispatcher.Invoke(new Action(() =>
                     {

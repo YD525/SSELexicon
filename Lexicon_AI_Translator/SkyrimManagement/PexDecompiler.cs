@@ -415,7 +415,7 @@ namespace LexTranslator.SkyrimManagement
 
             var GetCode = PscCode.ToString();
 
-            return string.Empty;
+            return GetCode;
         }
 
 

@@ -20,8 +20,6 @@ namespace LexTranslator
             InitializeComponent();
         }
 
-        public FoldingManager FoldingManager = null;
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             string GetName = "LexTranslator" + ".IDERule.Lua.xshd";
@@ -39,14 +37,6 @@ namespace LexTranslator
             }
 
             DeFine.ActiveIDE = TextEditor;
-
-            FoldingManager = FoldingManager.Install(TextEditor.TextArea); // Install the folder
-        }
-
-        public void ReSetFolding()
-        {
-            FunctionFoldingStrategy NBraceFoldingStrategy = new FunctionFoldingStrategy();
-            NBraceFoldingStrategy.UpdateFoldings(FoldingManager, TextEditor.Document);
         }
 
 
@@ -101,68 +91,5 @@ namespace LexTranslator
         }
     }
 
-    public class FunctionFoldingStrategy
-    {
-        public void UpdateFoldings(FoldingManager foldingManager, TextDocument Document)
-        {
-            var newFoldings = CreateNewFoldings(Document);
-            foldingManager.UpdateFoldings(newFoldings, 0);
-        }
-
-        private List<NewFolding> CreateNewFoldings(ITextSource Document)
-        {
-            List<NewFolding> NewFoldings = new List<NewFolding>();
-            Stack<int> StartOffsets = new Stack<int>();
-            string CurrentLine = "";
-
-            for (int I = 0; I < Document.TextLength; I++)
-            {
-                char Line = Document.GetCharAt(I);
-                CurrentLine += Line.ToString();
-
-                if (Line == '\n' || Line == '\r')
-                {
-                    if (CurrentLine.IndexOf("Function", StringComparison.OrdinalIgnoreCase) >= 0)
-                    {
-                        int GetFunctionOffset = CurrentLine.IndexOf("Function");
-                        if (GetFunctionOffset > 0)
-                        {
-                            if (CurrentLine.Substring(GetFunctionOffset - 1, 1).Trim().Length > 0 == false)
-                            {
-                                int GetParamOffset = CurrentLine.IndexOf(")");
-
-                                StartOffsets.Push(I - GetParamOffset + GetParamOffset);
-                            }
-                        }
-                        else
-                        {
-                            int GetParamOffset = CurrentLine.IndexOf(")");
-                            if (GetParamOffset >= 0)
-                            {
-                                StartOffsets.Push((I - GetParamOffset + GetParamOffset));
-                            }
-                        }
-                    }
-
-                    if (CurrentLine.IndexOf("EndFunction", StringComparison.OrdinalIgnoreCase) >= 0 && StartOffsets.Count > 0)
-                    {
-                        if (CurrentLine.Replace("\r", "").Replace("\n", "").Length > 0)
-                        {
-                            int FunctionStart = StartOffsets.Pop();
-
-                            int FunctionEnd = I; //The ending offset should be the end position of the line
-
-                            var Folding = new NewFolding(FunctionStart, FunctionEnd);
-                            NewFoldings.Add(Folding);
-                        }
-                    }
-
-                    CurrentLine = "";
-                }
-            }
-
-            NewFoldings.Sort((a, b) => a.StartOffset.CompareTo(b.StartOffset));
-            return NewFoldings;
-        }
-    }
+  
 }
