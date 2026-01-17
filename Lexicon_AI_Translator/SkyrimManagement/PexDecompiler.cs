@@ -5,6 +5,7 @@ using static LexTranslator.SkyrimManagement.PexReader;
 using LexTranslator.ConvertManager;
 using System.Windows.Shapes;
 using System;
+using System.Linq;
 
 namespace LexTranslator.SkyrimManagement
 {
@@ -19,6 +20,43 @@ namespace LexTranslator.SkyrimManagement
         public enum CodeGenStyle
         {
             Null = 0, Papyrus = 1, CSharp = 2, Python = 3
+        }
+        public enum OpCode
+        {
+            NOP = 0,
+            IADD = 1,
+            FADD = 2,
+            ISUB = 3,
+            FSUB = 4,
+            IMUL = 5,
+            FMUL = 6,
+            IDIV = 7,
+            FDIV = 8,
+            IMOD = 9,
+            NOT = 10,
+            INEG = 11,
+            FNEG = 12,
+            ASSIGN = 13,
+            CAST = 14,
+            CMP_EQ = 15,
+            CMP_LT = 16,
+            CMP_LTE = 17,
+            CMP_GT = 18,
+            CMP_GTE = 19,
+            JMP = 20,      
+            JMPT = 21,     
+            JMPF = 22,     
+            CALLMETHOD = 23,
+            CALLPARENT = 24,
+            CALLSTATIC = 25,
+            RETURN = 26,
+            STRCAT = 27,
+            PROPGET = 28,
+            PROPSET = 29,
+            ARRAY_CREATE = 30,
+            ARRAY_LENGTH = 31,
+            ARRAY_GETELEMENT = 32,
+            ARRAY_SETELEMENT = 33
         }
 
         #endregion
@@ -128,17 +166,12 @@ namespace LexTranslator.SkyrimManagement
             {
                 PscCode.AppendLine(CodeSpace + "//GlobalVariables");
             }
-            
+
             for (int i = 0; i < TempStrings.Count; i++)
             {
                 var Item = TempStrings[i];
                 ObjType CheckType = ObjType.Null;
                 var TempValue = QueryAnyByID(Item.Index, ref CheckType);
-
-                //if (Item.Value.Equals("KeysList"))
-                //{ 
-
-                //}
 
                 if (CheckType == ObjType.Variables)
                 {
@@ -271,6 +304,194 @@ namespace LexTranslator.SkyrimManagement
             }
         }
 
+ 
+        private enum BlockType
+        {
+            Sequential,
+            IfThen,
+            IfElse,
+            While,
+            Return
+        }
+
+        private string DecompileFunction(PexFunction Func, List<PexString> Strings, int Indent = 1)
+        {
+            StringBuilder Code = new StringBuilder();
+            string IndentStr = new string(' ', Indent * 4);
+
+            var Instructions = Func.Instructions.ToList();
+            int i = 0;
+
+            while (i < Instructions.Count)
+            {
+                var Instruction = Instructions[i];
+                OpCode Opcode = (OpCode)Instruction.Opcode;
+
+                switch (Opcode)
+                {
+                    case OpCode.JMPF: 
+                        {
+                            // JMPF condition offset
+                            var Condition = GetArgumentValue(Instruction.Arguments[0], Strings);
+                            int JumpOffset = ConvertHelper.ObjToInt(Instruction.Arguments[1].Value);
+                            int JumpTarget = i + JumpOffset;
+
+                            bool HasElse = false;
+                            int ElseStart = -1;
+                            int EndIfIndex = JumpTarget;
+
+                            for (int j = i + 1; j < JumpTarget && j < Instructions.Count; j++)
+                            {
+                                if ((OpCode)Instructions[j].Opcode == OpCode.JMP)
+                                {
+                                    HasElse = true;
+                                    ElseStart = JumpTarget;
+                                    int elseJumpOffset = ConvertHelper.ObjToInt(Instructions[j].Arguments[0].Value);
+                                    EndIfIndex = j + elseJumpOffset;
+                                    break;
+                                }
+                            }
+
+                            Code.AppendLine($"{IndentStr}If {Condition}");
+
+                            i++;
+                            while (i < (HasElse ? ElseStart - 1 : JumpTarget) && i < Instructions.Count)
+                            {
+                                Code.Append(DecompileInstruction(Instructions[i], Strings, Indent + 1));
+                                i++;
+                            }
+
+                            if (HasElse)
+                            {
+                                Code.AppendLine($"{IndentStr}Else");
+                                i++; 
+
+                                while (i < EndIfIndex && i < Instructions.Count)
+                                {
+                                    Code.Append(DecompileInstruction(Instructions[i], Strings, Indent + 1));
+                                    i++;
+                                }
+                            }
+
+                            Code.AppendLine($"{IndentStr}EndIf");
+                            continue;
+                        }
+
+                    case OpCode.JMPT: 
+                        {
+                            var Condition = GetArgumentValue(Instruction.Arguments[0], Strings);
+                            int JumpOffset = ConvertHelper.ObjToInt(Instruction.Arguments[1].Value);
+                            int JumpTarget = i + JumpOffset;
+
+                            Code.AppendLine($"{IndentStr}If {Condition}");
+
+                            i++;
+                            while (i < JumpTarget && i < Instructions.Count)
+                            {
+                                Code.Append(DecompileInstruction(Instructions[i], Strings, Indent + 1));
+                                i++;
+                            }
+
+                            Code.AppendLine($"{IndentStr}EndIf");
+                            continue;
+                        }
+
+                    case OpCode.JMP:
+                        i++;
+                        continue;
+
+                    case OpCode.RETURN:
+                        {
+                            if (Instruction.Arguments.Count > 0)
+                            {
+                                var ReturnValue = GetArgumentValue(Instruction.Arguments[0], Strings);
+                                Code.AppendLine($"{IndentStr}Return {ReturnValue}");
+                            }
+                            else
+                            {
+                                Code.AppendLine($"{IndentStr}Return");
+                            }
+                            i++;
+                            continue;
+                        }
+
+                    default:
+                        Code.Append(DecompileInstruction(Instruction, Strings, Indent));
+                        i++;
+                        break;
+                }
+            }
+
+            return Code.ToString();
+        }
+
+        private string DecompileInstruction(PexInstruction Instruction, List<PexString> Strings, int Indent)
+        {
+            string IndentStr = new string(' ', Indent * 4);
+            OpCode Opcode = (OpCode)Instruction.Opcode;
+
+            switch (Opcode)
+            {
+                case OpCode.ASSIGN:
+                    {
+                        var Dest = GetArgumentValue(Instruction.Arguments[0], Strings);
+                        var Src = GetArgumentValue(Instruction.Arguments[1], Strings);
+                        return $"{IndentStr}{Dest} = {Src}\n";
+                    }
+
+                case OpCode.CALLMETHOD:
+                case OpCode.CALLSTATIC:
+                    {
+                        string Call = "";
+                        foreach (var Arg in Instruction.Arguments)
+                        {
+                            Call += GetArgumentValue(Arg, Strings) + " ";
+                        }
+                        return $"{IndentStr}{Call.Trim()}\n";
+                    }
+
+                default:
+                    {
+                        string Line = $"{IndentStr} {Opcode}";
+                        foreach (var Arg in Instruction.Arguments)
+                        {
+                            Line += " " + GetArgumentValue(Arg, Strings);
+                        }
+                        return Line + "\n";
+                    }
+            }
+        }
+
+
+        private string GetArgumentValue(PexInstructionArgument Arg, List<PexString> Strings)
+        {
+            int Index = ConvertHelper.ObjToInt(Arg.Value);
+
+            switch (Arg.Type)
+            {
+                case 1:
+                    {
+                        return Strings[Index].Value;
+                    }
+                case 2:
+                    {
+                        return "\"" + Strings[Index].Value + "\"";
+                    }
+                case 3:
+                    {
+                        return ConvertHelper.ObjToStr(Index);
+                    }
+                case 4:
+                    {
+                        return ConvertHelper.ObjToStr(Arg.Value);
+                    }
+                default:
+                    {
+                        return ConvertHelper.ObjToStr(Arg.Value);
+                    }
+            }
+        }
+
         public void AnalyzeFunction(List<PexString> TempStrings, ref StringBuilder PscCode)
         {
             for (int i = 0; i < TempStrings.Count; i++)
@@ -288,7 +509,6 @@ namespace LexTranslator.SkyrimManagement
                         var GetFunc1st = Function[0];
 
                         string GenParams = "";
-
                         string ReturnType = TempStrings[GetFunc1st.ReturnTypeIndex].Value;
 
                         if (ReturnType == "None")
@@ -326,25 +546,27 @@ namespace LexTranslator.SkyrimManagement
                         {
                             GenLine = string.Format("{0}Function {1}({2})", ReturnType, Item.Value, GenParams);
                         }
-                        else
-                        if (GenStyle == CodeGenStyle.CSharp)
+                        else if (GenStyle == CodeGenStyle.CSharp)
                         {
                             GenLine = string.Format(CodeSpace + "public {0}{1}({2})\n", ReturnType, Item.Value, GenParams) + CodeSpace + "{";
                         }
 
                         PscCode.AppendLine(GenLine);
 
-                        foreach (var GetInstruction in GetFunc1st.Instructions)
+                        if (Item.Value == "IsModFound")
                         { 
                         
                         }
 
+                        string FunctionBody = DecompileFunction(GetFunc1st, TempStrings);
+
+                        PscCode.Append(FunctionBody);
+
                         if (GenStyle == CodeGenStyle.Papyrus)
                         {
-                            PscCode.AppendLine("EndFunction");
+                            PscCode.AppendLine("EndFunction\n");
                         }
-                        else
-                        if (GenStyle == CodeGenStyle.CSharp)
+                        else if (GenStyle == CodeGenStyle.CSharp)
                         {
                             PscCode.AppendLine(CodeSpace + "}\n");
                         }
@@ -366,9 +588,7 @@ namespace LexTranslator.SkyrimManagement
             PscCode.Append("\n");
             AnalyzeAutoGlobalVariables(TempStrings, ref PscCode);
             PscCode.Append("\n");
-            //Function XXX() EndFunction
             AnalyzeFunction(TempStrings, ref PscCode);
-
 
             if (this.GenStyle == CodeGenStyle.CSharp)
             {
@@ -377,9 +597,7 @@ namespace LexTranslator.SkyrimManagement
 
             var GetCode = PscCode.ToString();
 
-            return string.Empty;
+            return GetCode; 
         }
-
-
     }
 }

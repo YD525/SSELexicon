@@ -355,8 +355,6 @@ namespace LexTranslator.SkyrimManagement
         {
             public ushort FlagNameIndex { get; set; }
             public byte FlagIndex { get; set; }
-
-            // 改为方法
             public string GetFlagName(PexReader reader)
             {
                 if (reader != null)
@@ -373,8 +371,6 @@ namespace LexTranslator.SkyrimManagement
             public byte FunctionType { get; set; }
             public ushort InstructionCount { get; set; }
             public ushort[] LineNumbers { get; set; }
-
-            // 改为方法
             public string GetObjectName(PexReader reader)
             {
                 if (reader != null)
@@ -441,8 +437,6 @@ namespace LexTranslator.SkyrimManagement
             public uint UserFlags { get; set; }
             public byte DataType { get; set; }
             public object DataValue { get; set; }
-
-            // 改为方法
             public string GetName(PexReader reader)
             {
                 if (reader != null)
@@ -471,8 +465,6 @@ namespace LexTranslator.SkyrimManagement
             public uint UserFlags { get; set; }
             public byte Flags { get; set; }
             public ushort AutoVarNameIndex { get; set; }
-
-            // 改为方法
             public string GetName(PexReader reader)
             {
                 if (reader != null)
@@ -508,7 +500,6 @@ namespace LexTranslator.SkyrimManagement
             public ushort NumFunctions { get; set; }
             public List<PexFunction> Functions { get; set; }
 
-            // 改为方法
             public string GetName(PexReader reader)
             {
                 if (reader != null)
