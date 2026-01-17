@@ -39,7 +39,7 @@
                                
                             </TextBox>
                             
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                 <TextBox Style = "{DynamicResource LineKeyFont}">
 
                                 </TextBox>

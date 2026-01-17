@@ -224,6 +224,11 @@ namespace LexTranslator.UIManagement
 
             Grid GetChildGrid = (Grid)MainBorder.Child;
 
+            GetChildGrid.ColumnDefinitions[0].Width = DeFine.WorkingWin.TransViewHeader.ColumnDefinitions[0].Width;
+            GetChildGrid.ColumnDefinitions[1].Width = DeFine.WorkingWin.TransViewHeader.ColumnDefinitions[1].Width;
+            GetChildGrid.ColumnDefinitions[2].Width = DeFine.WorkingWin.TransViewHeader.ColumnDefinitions[2].Width;
+            GetChildGrid.ColumnDefinitions[3].Width = DeFine.WorkingWin.TransViewHeader.ColumnDefinitions[3].Width;
+
             StackPanel GetStackPanel = (StackPanel)((Grid)GetChildGrid.Children[0]).Children[0];
 
             Ellipse State = (Ellipse)GetStackPanel.Children[0];

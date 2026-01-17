@@ -3743,5 +3743,19 @@ namespace LexTranslator
             DeFine.GlobalLocalSetting.SaveConfig();
         }
         #endregion
+
+
+        private void SyncColumnWidth(object sender, MouseButtonEventArgs e)
+        {
+            for (int i = 0; i < this.TransViewList.VisibleRows.Count; i++)
+            {
+                Grid GetGrid = ((Border)(this.TransViewList.VisibleRows[i].View.Children[0])).Child as Grid;
+
+                for (int ir = 0; ir < GetGrid.ColumnDefinitions.Count; ir++)
+                {
+                    GetGrid.ColumnDefinitions[ir].Width = TransViewHeader.ColumnDefinitions[ir].Width;
+                }
+            }
+        }
     }
 }

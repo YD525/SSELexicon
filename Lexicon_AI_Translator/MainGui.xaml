@@ -575,7 +575,7 @@
                             </Grid>
 
 
-                            <Grid Style="{DynamicResource ListViewHeader}" Grid.Row="3">
+                            <Grid Style="{DynamicResource ListViewHeader}" Grid.Row="3" PreviewMouseUp="SyncColumnWidth" Name="TransViewHeader">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="100"/>
                                     <ColumnDefinition Width="150"/>
@@ -603,7 +603,6 @@
                                         </Label>
                                     </Border>
                                 </StackPanel>
-
                                 <StackPanel Orientation="Horizontal" Grid.Column="3" HorizontalAlignment="Center">
                                     <Label Style="{DynamicResource CaptionTextA}" Name="UITranslated">
                                         Translated
@@ -622,6 +621,11 @@
                                     </Border>
 
                                 </StackPanel>
+
+
+                                <GridSplitter HorizontalAlignment="Right" Height="15" Width="3.5" Background="Gray" Grid.Column="0"/>
+                                <GridSplitter HorizontalAlignment="Right" Height="15" Width="3.5" Background="Gray" Grid.Column="1"/>
+                                <GridSplitter HorizontalAlignment="Right" Height="15" Width="3.5" Background="Gray" Grid.Column="2"/>
                             </Grid>
                             <Grid Name="TransView" Style="{DynamicResource FrameStyle}" Grid.Row="4" Panel.ZIndex="990" Margin="10 0 10 0" Visibility="Visible">
 
