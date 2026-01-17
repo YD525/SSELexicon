@@ -2976,8 +2976,11 @@ namespace LexTranslator
                          LanguageHelper.DetectLanguageByLine(GetLine.TransText)
                          )
                         {
-                            TransViewList.Goto(TransViewList.RealLines[i].Key);
-                            break;
+                            if (TransViewList.RealLines[i].Score > 0)
+                            {
+                                TransViewList.Goto(TransViewList.RealLines[i].Key);
+                                break;
+                            }
                         }
                     }
                 }
