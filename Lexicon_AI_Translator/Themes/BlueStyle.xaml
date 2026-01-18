@@ -44,7 +44,7 @@
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Background" Value="#FF3D3D3D"/>
         <Setter Property="Height"  Value="90"/>
-        <Setter Property="CornerRadius" Value="0 15 15 0"/>
+        <Setter Property="CornerRadius" Value="0 9 9 0"/>
         <Setter Property="BorderThickness" Value="0"/>
     </Style>
 
@@ -53,7 +53,7 @@
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Background" Value="#FF252525"/>
         <Setter Property="Height"  Value="90"/>
-        <Setter Property="CornerRadius" Value="0 15 15 0"/>
+        <Setter Property="CornerRadius" Value="0 9 9 0"/>
         <Setter Property="BorderThickness" Value="0"/>
     </Style>
 

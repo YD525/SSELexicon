@@ -204,7 +204,7 @@ namespace LexTranslator
         public bool ForceTranslationConsistency { get; set; } = true;
 
         public bool EnableLanguageDetect { get; set; } = true;
-        public string P_Placeholders { get; set; } = "<(.*?)>,\\$\\$(.*?)\\$\\$";
+        public string P_Placeholders { get; set; } = "<(.*?)>,";
 
         public bool CanTranslateBook { get; set; } = true;
         public TextLayout TextDisplay { get; set; } = TextLayout.LTR;
