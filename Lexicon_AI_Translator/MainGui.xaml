@@ -447,7 +447,7 @@
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="5"/>
-                                    <RowDefinition Height="45" Name="ContorlRow"/>
+                                    <RowDefinition Height="45"/>
                                     <RowDefinition Height="5"/>
                                     <RowDefinition Height="35"/>
                                     <RowDefinition Height="1*" Name="ListViewArea"/>
