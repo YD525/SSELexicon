@@ -61,7 +61,7 @@
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="25"/>
+                <ColumnDefinition Width="30"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
@@ -1610,15 +1610,15 @@ Fill="White"/>
 
 
             <Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="2">
-                <Border Panel.ZIndex="1" Background="Black" Opacity="0.5" CornerRadius="0 9 9 0" Margin="0 50 0 50">
+                <Border Panel.ZIndex="1" Background="Black" Opacity="0.3" CornerRadius="0 6 6 0" Margin="0 50 0 50">
                 </Border>
-                <StackPanel Orientation="Vertical" VerticalAlignment="Center"  Panel.ZIndex="9">
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center"  Panel.ZIndex="9" Margin="0 0 5 0">
                     <Border Style="{DynamicResource ExWinHide}" Name="CodeViewTag" MouseLeftButtonDown="SelectExView">
-                        <TextBlock Text="Code View" Grid.Row="1" Style="{DynamicResource ContextStyle}"/>
+                        <TextBlock Text="Code View" Grid.Row="1" Style="{DynamicResource TabStyle}"/>
                     </Border>
 
                     <Border Style="{DynamicResource ExWinHide}" Name="ExtendViewTag" Margin="0 15 0 0" MouseLeftButtonDown="SelectExView">
-                        <TextBlock Text="Extend View" Grid.Row="1" Style="{DynamicResource ContextStyle}"/>
+                        <TextBlock Text="Extend View" Grid.Row="1" Style="{DynamicResource TabStyle}"/>
                     </Border>
                 </StackPanel>
             </Grid>

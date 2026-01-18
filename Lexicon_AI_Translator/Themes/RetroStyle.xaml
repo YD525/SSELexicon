@@ -435,6 +435,16 @@
         <Setter Property="LayoutTransform" Value="{DynamicResource RotateTextTransform}"/>
     </Style>
 
+    <Style x:Key="TabStyle" TargetType="TextBlock">
+        <Setter Property="Margin" Value="0 10 0 10"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontSize" Value="11"/>
+        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="LayoutTransform" Value="{DynamicResource RotateTextTransform}"/>
+    </Style>
+
     <Style x:Key="MaskStyle" TargetType="Border">
         <Setter Property="CornerRadius" Value="0 0 8 8"/>
         <Setter Property="Background"  Value="Black"/>
