@@ -52,8 +52,9 @@ This project uses the following key open-source libraries/frameworks:
 
 I’m happy to allow translators to localize the Lexicon AI Translator and share their work with others.  
 **Therefore, a specific exception is allowed for translators to distribute localized versions of this project, strictly limited to localization purposes only.**  
-
 Please note that this exception **does not extend to modification, redistribution, or derivative works beyond translation**.  
+
+The original author assumes no responsibility or liability for any issues arising from translated versions.
 
 ---
 
