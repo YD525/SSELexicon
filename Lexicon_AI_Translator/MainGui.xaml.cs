@@ -3753,6 +3753,7 @@ namespace LexTranslator
             }
         }
 
+        public bool EnableFocusMode = false;
         public string LastSelectExView = "";
         private void SelectExView(object sender, MouseButtonEventArgs e)
         {
@@ -3765,6 +3766,38 @@ namespace LexTranslator
                 string GetExViewName = ConvertHelper.ObjToStr(GetBlock.Text);
                 switch (GetExViewName)
                 {
+                    case "Focus Mode":
+                        {
+                            if (EnableFocusMode == false)
+                            {
+                                NavTag.Visibility = Visibility.Collapsed;
+
+                                HeadLine.Height = new GridLength(0);
+                                FooterLine.Height = new GridLength(0);
+
+                                ModeCol.Width = new GridLength(0);
+                                BarCol.Width = new GridLength(0);
+                                SettingCol.Width = new GridLength(0);
+
+                                FocusModeTag.Style = (Style)this.FindResource("ExWinShow");
+                                EnableFocusMode = true;
+                            }
+                            else
+                            {
+                                NavTag.Visibility = Visibility.Visible;
+
+                                HeadLine.Height = new GridLength(2);
+                                FooterLine.Height = new GridLength(2);
+
+                                ModeCol.Width = new GridLength(120);
+                                BarCol.Width = new GridLength(1,GridUnitType.Star);
+                                SettingCol.Width = new GridLength(50);
+
+                                FocusModeTag.Style = (Style)this.FindResource("ExWinHide");
+                                EnableFocusMode = false;
+                            }
+                        }
+                        break;
                     case "Code View":
                         {
                             if (LastSelectExView != GetExViewName)

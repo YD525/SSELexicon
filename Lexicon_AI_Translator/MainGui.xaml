@@ -72,10 +72,10 @@
             </Border>
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2"/>
+                    <RowDefinition Height="2" Name="HeadLine"/>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0" Background="#FF0A61AF">
+                <Grid Grid.Row="0" Background="#FF01427D">
                 </Grid>
                 <Grid Grid.Row="1">
                     <Grid.ColumnDefinitions>
@@ -376,7 +376,7 @@
                         </Grid>
                     </Border>
 
-                    <Border Style="{DynamicResource NavStyle}" Grid.Column="1" PreviewMouseDown="ShowNav" Margin="-0.5 0 0 0">
+                    <Border Style="{DynamicResource NavStyle}" Grid.Column="1" PreviewMouseDown="ShowNav" Margin="-0.5 0 0 0" Name="NavTag">
                         <ContentControl Style="{DynamicResource TriangleExpandIconStyle}" Name="NavBtn">
                             <ContentControl.RenderTransform>
                                 <RotateTransform Angle="0" CenterX="10" CenterY="10"/>
@@ -447,7 +447,7 @@
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="5"/>
-                                    <RowDefinition Height="45"/>
+                                    <RowDefinition Height="45" Name="ContorlRow"/>
                                     <RowDefinition Height="5"/>
                                     <RowDefinition Height="35"/>
                                     <RowDefinition Height="1*" Name="ListViewArea"/>
@@ -458,9 +458,9 @@
                                 <Grid Grid.Row="1" Margin="10 0 10 0">
                                     <Grid Grid.Column="0">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="120"/>
-                                            <ColumnDefinition Width="1*"/>
-                                            <ColumnDefinition Width="50"/>
+                                            <ColumnDefinition Width="120" Name="ModeCol"/>
+                                            <ColumnDefinition Width="1*" Name="BarCol"/>
+                                            <ColumnDefinition Width="50" Name="SettingCol"/>
                                             <ColumnDefinition Width="0.7*"/>
                                             <ColumnDefinition Width="135"/>
                                         </Grid.ColumnDefinitions>
@@ -1620,16 +1620,20 @@ Fill="White"/>
                     <Border Style="{DynamicResource ExWinHide}" Name="ExtendViewTag" Margin="0 15 0 0" MouseLeftButtonDown="SelectExView">
                         <TextBlock Text="Extend View" Grid.Row="1" Style="{DynamicResource TabStyle}"/>
                     </Border>
+
+                    <Border Style="{DynamicResource ExWinHide}" Name="FocusModeTag" Margin="0 15 0 0" MouseLeftButtonDown="SelectExView">
+                        <TextBlock Text="Focus Mode" Grid.Row="1" Style="{DynamicResource TabStyle}"/>
+                    </Border>
                 </StackPanel>
             </Grid>
 
             <Grid Grid.Row="2" Background="#FF282828">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
-                    <RowDefinition Height="2"/>
+                    <RowDefinition Height="2" Name="FooterLine"/>
                 </Grid.RowDefinitions>
 
-                <Grid Grid.Row="1" Background="#FF0A61AF">
+                <Grid Grid.Row="1" Background="#FF01427D">
                 </Grid>
             </Grid>
         </Grid>
