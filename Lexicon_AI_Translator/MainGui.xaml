@@ -59,16 +59,20 @@
 
     <Border Style="{DynamicResource BorderWinBackgroundR}" Name="MainBackGround">
         <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="25"/>
+            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="39"/>
+                <RowDefinition Height="30"/>
                 <RowDefinition Height="1*"/>
-                <RowDefinition Height="20"/>
+                <RowDefinition Height="10"/>
             </Grid.RowDefinitions>
             <Border Grid.Row="0" MouseLeftButtonDown="WinHead_MouseLeftButtonDown" Style="{DynamicResource PanelHeader}">
             </Border>
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="3"/>
+                    <RowDefinition Height="2"/>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0" Background="#FF0A61AF">
@@ -384,7 +388,6 @@
                 <Grid Style="{DynamicResource Frame}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="30"/>
                     </Grid.ColumnDefinitions>
 
                     <Grid Grid.Column="0" Background="#FF282828">
@@ -1602,28 +1605,28 @@ Fill="White"/>
                             </Grid>
                         </Grid>
                     </Grid>
-
-                    <Grid Grid.Column="1">
-                        <Grid Panel.ZIndex="1" Background="Black" Opacity="0.5">
-                        </Grid>
-                        <StackPanel Orientation="Vertical" VerticalAlignment="Center"  Panel.ZIndex="9">
-                            <Border Style="{DynamicResource ExWinHide}" Name="CodeViewTag" MouseLeftButtonDown="SelectExView">
-                                <TextBlock Text="Code View" Grid.Row="1" Style="{DynamicResource ContextStyle}"/>
-                            </Border>
-
-                            <Border Style="{DynamicResource ExWinShow}" Name="ExtendViewTag" Margin="0 15 0 0" MouseLeftButtonDown="SelectExView">
-                                <TextBlock Text="Extend View" Grid.Row="1" Style="{DynamicResource ContextStyle}"/>
-                            </Border>
-                        </StackPanel>
-                    </Grid>
                 </Grid>
             </Grid>
 
 
+            <Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="2">
+                <Border Panel.ZIndex="1" Background="Black" Opacity="0.5" CornerRadius="0 9 9 0" Margin="0 50 0 50">
+                </Border>
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center"  Panel.ZIndex="9">
+                    <Border Style="{DynamicResource ExWinHide}" Name="CodeViewTag" MouseLeftButtonDown="SelectExView">
+                        <TextBlock Text="Code View" Grid.Row="1" Style="{DynamicResource ContextStyle}"/>
+                    </Border>
+
+                    <Border Style="{DynamicResource ExWinHide}" Name="ExtendViewTag" Margin="0 15 0 0" MouseLeftButtonDown="SelectExView">
+                        <TextBlock Text="Extend View" Grid.Row="1" Style="{DynamicResource ContextStyle}"/>
+                    </Border>
+                </StackPanel>
+            </Grid>
+
             <Grid Grid.Row="2" Background="#FF282828">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
-                    <RowDefinition Height="3"/>
+                    <RowDefinition Height="2"/>
                 </Grid.RowDefinitions>
 
                 <Grid Grid.Row="1" Background="#FF0A61AF">

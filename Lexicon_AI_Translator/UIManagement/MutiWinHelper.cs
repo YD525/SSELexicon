@@ -16,10 +16,10 @@ namespace LexTranslator.UIManagement
 
             double ExtendWinWidth = 300;
 
-            double TittleHeight = 39;
-            double FooterHeight = 20;
+            double TittleHeight = 30;
+            double FooterHeight = 10;
 
-            double CalcLeft = DeFine.WorkingWin.Left + DeFine.WorkingWin.ActualWidth - 5;
+            double CalcLeft = DeFine.WorkingWin.Left + DeFine.WorkingWin.ActualWidth;
             double CalcTop = DeFine.WorkingWin.Top + TittleHeight;
             double CalcHeight = DeFine.WorkingWin.ActualHeight - (TittleHeight + FooterHeight);
 

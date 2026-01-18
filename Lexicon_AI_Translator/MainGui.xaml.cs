@@ -177,9 +177,6 @@ namespace LexTranslator
             SelectFristSettingNav();
 
             UIHelper.SyncAvalonEditTextLayout();
-
-            DeFine.ExtendWin.Show();
-            MutiWinHelper.SyncLocation();
         }
 
 
@@ -3756,7 +3753,7 @@ namespace LexTranslator
             }
         }
 
-        public string LastSelectExView = "Extend View";
+        public string LastSelectExView = "";
         private void SelectExView(object sender, MouseButtonEventArgs e)
         {
             if (sender is Border)
