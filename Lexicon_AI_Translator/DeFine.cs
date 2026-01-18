@@ -47,6 +47,7 @@ namespace LexTranslator
         public static LocalConfig LocalConfigView = null;
         public static RowStyleWin RowStyleWin = new RowStyleWin();
         public static ExtendWin ExtendWin = null;
+        public static CGView CG = null;
 
         public static void CloseAny()
         {

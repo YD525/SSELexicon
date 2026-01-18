@@ -33,6 +33,8 @@ using static LexTranslator.SkyrimManagement.DSDConverter;
 using static LexTranslator.UIManagement.DashBoardService;
 using static PhoenixEngine.Bridges.NativeBridge;
 using PhoenixEngine.SSEManage;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 
 namespace LexTranslator
 {
@@ -177,6 +179,19 @@ namespace LexTranslator
             SelectFristSettingNav();
 
             UIHelper.SyncAvalonEditTextLayout();
+
+            //If you like anime, you can place a CG.png in the program's installation directory, making sure the dimensions are correct. It will display an anime character at the top of the software.
+            string CheckCGPath = DeFine.GetFullPath(@"\CG.png");
+            if (File.Exists(CheckCGPath))
+            {
+                DeFine.CG = new CGView();
+                DeFine.CG.Hide();
+                DeFine.CG.CG.Source = new BitmapImage(new Uri(CheckCGPath));
+
+                DeFine.CG.Owner = this;
+                DeFine.CG.Show();
+                SyncCGLocation();
+            }
         }
 
 
@@ -255,6 +270,14 @@ namespace LexTranslator
         #endregion
 
 
+        public void SyncCGLocation()
+        {
+            if (DeFine.CG != null)
+            {
+                DeFine.CG.Top = (this.Top - DeFine.CG.ActualHeight) + 1;
+                DeFine.CG.Left = this.Left + 100;
+            }
+        }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             DeFine.CloseAny();
@@ -271,11 +294,13 @@ namespace LexTranslator
             }
 
             AutoSizeHistoryList();
+            SyncCGLocation();
         }
 
         private void Window_LocationChanged(object sender, EventArgs e)
         {
             MutiWinHelper.SyncLocation();
+            SyncCGLocation();
         }
 
         private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -1949,17 +1974,6 @@ namespace LexTranslator
                         AboutView.Visibility = Visibility.Collapsed;
                         SettingView.Visibility = Visibility.Collapsed;
                         DashBoardView.Visibility = Visibility.Collapsed;
-
-                        if (DeFine.GlobalLocalSetting.ViewMode == "Normal")
-                        {
-                            DeFine.ExtendWin.CanShow = true;
-                            DeFine.ExtendWin.Show();
-                        }
-                        else
-                        {
-                            DeFine.ExtendWin.CanShow = false;
-                            DeFine.ExtendWin.Hide();
-                        }
                     }
                     break;
                 case "DashBoard":
@@ -1970,9 +1984,6 @@ namespace LexTranslator
                         DashBoardView.Visibility = Visibility.Visible;
                         DeFine.CanUpdateChart = true;
                         UPDateChart();
-
-                        DeFine.ExtendWin.CanShow = false;
-                        DeFine.ExtendWin.Hide();
                     }
                     break;
                 case "Settings":
@@ -1981,9 +1992,6 @@ namespace LexTranslator
                         AboutView.Visibility = Visibility.Collapsed;
                         SettingView.Visibility = Visibility.Visible;
                         DashBoardView.Visibility = Visibility.Collapsed;
-
-                        DeFine.ExtendWin.CanShow = false;
-                        DeFine.ExtendWin.Hide();
                     }
                     break;
                 case "About":
@@ -2001,9 +2009,6 @@ namespace LexTranslator
                         Modules.Children.Add(UIHelper.CreatModuleItem("Esp Reader",EspInterop.Version));
                         Modules.Children.Add(UIHelper.CreatModuleItem("Pex Reader",PexInterop.Version));
                         Modules.Children.Add(UIHelper.CreatModuleItem("DSD Convert", DSDConverter.Version));
-
-                        DeFine.ExtendWin.CanShow = false;
-                        DeFine.ExtendWin.Hide();
                     }
                     break;
             }

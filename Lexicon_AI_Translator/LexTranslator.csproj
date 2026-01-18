@@ -101,6 +101,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CGView.xaml.cs">
+      <DependentUpon>CGView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CodeView.xaml.cs">
       <DependentUpon>CodeView.xaml</DependentUpon>
     </Compile>
@@ -152,6 +155,10 @@
     <Compile Include="YDControls\MainChart.xaml.cs">
       <DependentUpon>MainChart.xaml</DependentUpon>
     </Compile>
+    <Page Include="CGView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CodeView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -293,7 +300,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Resource Include="logo.ico" />
   </ItemGroup>
