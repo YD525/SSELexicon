@@ -51,7 +51,7 @@ This project uses the following key open-source libraries/frameworks:
 ## 📜 Translation & Localization Exception
 
 I’m happy to allow translators to localize the Lexicon AI Translator and share their work with others.  
-**Therefore, I am granting a specific exception that allows translators to create and distribute localized versions of this project, strictly limited to localization purposes only.**  
+**Therefore, a specific exception is allowed for translators to distribute localized versions of this project, strictly limited to localization purposes only.**  
 
 Please note that this exception **does not extend to modification, redistribution, or derivative works beyond translation**.  
 Executable files (`.exe`) included with the project remain the original work of the author and are governed by the **CC BY-NC-ND 4.0 license**.
