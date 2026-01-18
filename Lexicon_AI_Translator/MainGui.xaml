@@ -84,9 +84,13 @@
                         <ColumnDefinition Width="25"/>
                         <ColumnDefinition Width="5"/>
                     </Grid.ColumnDefinitions>
-                    <Label Name="Caption" Style="{DynamicResource CaptionFont}" Grid.Column="0">
-                        LexTranslator Lite
-                    </Label>
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10 0 0 0">
+                        <Label Name="Caption" FontWeight="DemiBold" Foreground="White" Grid.Column="0">
+                            Lex Translator
+                        </Label>
+                    </StackPanel>
+
 
                     <Grid Grid.Column="0" HorizontalAlignment="Right" Style="{DynamicResource ThreadInFo}" Visibility="Collapsed"  Name="ThreadInFo">
                         <Label Style="{DynamicResource ThreadInFoFont}" Name="ThreadInFoFont">
@@ -113,7 +117,7 @@
                     </Border>
                 </Grid>
             </Grid>
-           
+
 
             <Grid Grid.Row="1">
                 <!--LeftMenu-->
@@ -587,7 +591,7 @@
                                         <ComboBox IsTabStop="True" Name="TypeSelector" Grid.Column="1" VerticalAlignment="Center" Cursor="Hand" Width="20" HorizontalAlignment="Stretch" Style="{StaticResource CustomComboBoxStyleL}" Margin="0 0 8 0" SelectionChanged="TransTargetType_SelectionChanged">
                                         </ComboBox>
                                     </StackPanel>
-                                  
+
                                     <Label Grid.Column="1" Style="{DynamicResource CaptionTextA}" Name="UIKey">
                                         Key
                                     </Label>
@@ -1603,11 +1607,11 @@ Fill="White"/>
                         <Grid Panel.ZIndex="1" Background="Black" Opacity="0.5">
                         </Grid>
                         <StackPanel Orientation="Vertical" VerticalAlignment="Center"  Panel.ZIndex="9">
-                            <Border Cursor="Hand" Background="#FF0A61AF" Height="90" CornerRadius="0 15 15 0" Name="CodeViewTag">
+                            <Border Style="{DynamicResource ExWinHide}" Name="CodeViewTag" MouseLeftButtonDown="SelectExView">
                                 <TextBlock Text="Code View" Grid.Row="1" Style="{DynamicResource ContextStyle}"/>
                             </Border>
 
-                            <Border Cursor="Hand" Background="#FF0B74D1" Height="90" CornerRadius="0 15 15 0" Name="ExtendViewTag" Margin="0 5 0 0">
+                            <Border Style="{DynamicResource ExWinShow}" Name="ExtendViewTag" Margin="0 15 0 0" MouseLeftButtonDown="SelectExView">
                                 <TextBlock Text="Extend View" Grid.Row="1" Style="{DynamicResource ContextStyle}"/>
                             </Border>
                         </StackPanel>

@@ -142,6 +142,7 @@
     <Compile Include="UIManagement\DashBoardService.cs" />
     <Compile Include="UIManagement\LineRenderer.cs" />
     <Compile Include="UIManagement\LogHelper.cs" />
+    <Compile Include="UIManagement\MutiWinHelper.cs" />
     <Compile Include="UIManagement\RowStyleWin.xaml.cs">
       <DependentUpon>RowStyleWin.xaml</DependentUpon>
     </Compile>

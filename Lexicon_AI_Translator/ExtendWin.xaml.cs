@@ -87,10 +87,6 @@ namespace LexTranslator
         {
             IsShow = true;
 
-            this.Height = DeFine.WorkingWin.Height;
-            this.Left = DeFine.WorkingWin.Left - this.Width;
-            this.Top = DeFine.WorkingWin.Top;
-
             if (CanShow)
                 this.Show();
         }

@@ -177,6 +177,9 @@ namespace LexTranslator
             SelectFristSettingNav();
 
             UIHelper.SyncAvalonEditTextLayout();
+
+            DeFine.ExtendWin.Show();
+            MutiWinHelper.SyncLocation();
         }
 
 
@@ -271,24 +274,11 @@ namespace LexTranslator
             }
 
             AutoSizeHistoryList();
-
-            if (DeFine.ExtendWin?.IsShow == true)
-            {
-                DeFine.ExtendWin.ShowUI();
-            }
         }
 
         private void Window_LocationChanged(object sender, EventArgs e)
         {
-            if (DeFine.ExtendWin?.IsShow == true)
-            {
-                DeFine.ExtendWin.ShowUI();
-
-                if (DeFine.ExtendWin.WindowState == WindowState.Minimized)
-                {
-                    DeFine.ExtendWin.WindowState = WindowState.Normal;
-                }
-            }
+            MutiWinHelper.SyncLocation();
         }
 
         private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -1003,10 +993,6 @@ namespace LexTranslator
                     DeFine.CurrentCodeView.Dispatcher.Invoke(new Action(() => 
                     {
                         DeFine.CurrentCodeView.TextEditor.Text = GetPsc;
-                        DeFine.CurrentCodeView.Left = CalcLeft;
-                        DeFine.CurrentCodeView.Top = CalcTop;
-                        DeFine.CurrentCodeView.Height = IDEHeight;
-                        DeFine.CurrentCodeView.Show();
                     }));
 
                     this.Dispatcher.Invoke(new Action(() =>
@@ -1673,8 +1659,6 @@ namespace LexTranslator
             }
             WritingArea.Height = new GridLength(AutoHeight, GridUnitType.Pixel);
             SplictLine.Height = new GridLength(3.5, GridUnitType.Pixel);
-
-            DeFine.ShowExtendWin();
         }
 
         public void EnableQuickModel()
@@ -1690,8 +1674,6 @@ namespace LexTranslator
 
             WritingArea.Height = new GridLength(0, GridUnitType.Pixel);
             SplictLine.Height = new GridLength(0, GridUnitType.Pixel);
-
-            DeFine.CloseExtendWin();
         }
 
         private void NormalModel_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -3771,6 +3753,74 @@ namespace LexTranslator
                 {
                     GetGrid.ColumnDefinitions[ir].Width = TransViewHeader.ColumnDefinitions[ir].Width;
                 }
+            }
+        }
+
+        public string LastSelectExView = "Extend View";
+        private void SelectExView(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is Border)
+            {
+                Border GetBorderHandle = sender as Border;
+                TextBlock GetBlock = GetBorderHandle.Child as TextBlock;
+
+
+                string GetExViewName = ConvertHelper.ObjToStr(GetBlock.Text);
+                switch (GetExViewName)
+                {
+                    case "Code View":
+                        {
+                            if (LastSelectExView != GetExViewName)
+                            {
+                                CodeViewTag.Style = (Style)this.FindResource("ExWinShow");
+                                ExtendViewTag.Style = (Style)this.FindResource("ExWinHide");
+
+                                DeFine.CurrentCodeView.Dispatcher.Invoke(new Action(() =>
+                                {
+                                    DeFine.CurrentCodeView.Show();
+                                }));
+                                DeFine.ExtendWin.Hide();
+                                MutiWinHelper.SyncLocation();
+
+                                LastSelectExView = GetExViewName;
+                            }
+                            else
+                            {
+                                DeFine.CurrentCodeView.Dispatcher.Invoke(new Action(() =>
+                                {
+                                    DeFine.CurrentCodeView.Hide();
+                                }));
+                                CodeViewTag.Style = (Style)this.FindResource("ExWinHide");
+                                LastSelectExView = string.Empty;
+                            }
+                              
+                        }
+                    break;
+                    case "Extend View":
+                        {
+                            if (LastSelectExView != GetExViewName)
+                            {
+                                ExtendViewTag.Style = (Style)this.FindResource("ExWinShow");
+                                CodeViewTag.Style = (Style)this.FindResource("ExWinHide");
+
+                                DeFine.ExtendWin.ShowUI();
+                                DeFine.CurrentCodeView.Dispatcher.Invoke(new Action(() =>
+                                {
+                                    DeFine.CurrentCodeView.Hide();
+                                }));
+                                MutiWinHelper.SyncLocation();
+
+                                LastSelectExView = GetExViewName;
+                            }
+                            else
+                            {
+                                DeFine.ExtendWin.Hide();
+                                ExtendViewTag.Style = (Style)this.FindResource("ExWinHide");
+                                LastSelectExView = string.Empty;
+                            }
+                        }
+                    break;
+                }         
             }
         }
     }

@@ -357,22 +357,10 @@
             </Border>
             <Grid Panel.ZIndex="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="30"/>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
 
-                <Grid Grid.Row="0" Name="Header" Margin="10 0 10 0">
-                    <Label HorizontalAlignment="Left" Name="MainCaption" Foreground="White" VerticalAlignment="Center">
-                        Code View
-                    </Label>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Border Style="{DynamicResource BlockButton}" Grid.Column="7" PreviewMouseDown="Close_PreviewMouseDown">
-                            <ContentControl Style="{DynamicResource CloseIconStyle}" Grid.Column="3"/>
-                        </Border>
-                    </StackPanel>
-                </Grid>
-
-                <avalonEdit:TextEditor Margin="5 0 5 5" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" IsReadOnly="True" Name="TextEditor" FontFamily="Consolas" FontSize="16" ShowLineNumbers="True" Background="#FF282828" Foreground="White" Grid.Row="1" WordWrap="True" TextOptions.TextFormattingMode="Display">
+                <avalonEdit:TextEditor Margin="5" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" IsReadOnly="True" Name="TextEditor" FontFamily="Consolas" FontSize="16" ShowLineNumbers="True" Background="#FF282828" Foreground="White" Grid.Row="0" WordWrap="True" TextOptions.TextFormattingMode="Display">
                     
                 </avalonEdit:TextEditor>
             </Grid>
