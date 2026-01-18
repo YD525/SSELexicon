@@ -30,6 +30,17 @@
         </Setter>
     </Style>
 
+    <Style x:Key="BorderWinBackgroundR" TargetType="Border">
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="9"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Border.Effect">
+            <Setter.Value>
+                <DropShadowEffect BlurRadius="5" Direction="1" ShadowDepth="0.7" Color="#FF22A5EF" Opacity="0"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="ToggleCircleCheckBox" TargetType="CheckBox">
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Width" Value="32"/>

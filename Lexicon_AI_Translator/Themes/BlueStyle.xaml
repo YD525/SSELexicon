@@ -21,7 +21,6 @@
 
     <Style x:Key="BorderWinBackground" TargetType="Border">
         <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="CornerRadius" Value="9"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="Background" Value="#FF282828"/>
         <Setter Property="Border.Effect">
@@ -29,6 +28,16 @@
              <DropShadowEffect BlurRadius="5" Direction="1" ShadowDepth="0.7" Color="#FF22A5EF" Opacity="0"/>
          </Setter.Value>
      </Setter>
+    </Style>
+
+    <Style x:Key="BorderWinBackgroundR" TargetType="Border">
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Border.Effect">
+            <Setter.Value>
+                <DropShadowEffect BlurRadius="5" Direction="1" ShadowDepth="0.7" Color="#FF22A5EF" Opacity="0"/>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <Style x:Key="ToggleCircleCheckBox" TargetType="CheckBox">
@@ -131,7 +140,6 @@
 
     <Style x:Key="PanelHeader" TargetType="Border">
         <Setter Property="Background" Value="#FF282828"/>
-        <Setter Property="CornerRadius" Value="8 8 0 0"/>
     </Style>
     
     <Style x:Key="ThreadInFo" TargetType="Grid">
@@ -166,7 +174,6 @@
 
     <Style x:Key="Frame" TargetType="Grid">
         <Setter Property="Panel.ZIndex" Value="1"/>
-        <Setter Property="Background" Value="#FF282828"/>
     </Style>
 
     <Style x:Key="ChildBlockButton" TargetType="Border">
@@ -1084,6 +1091,153 @@
                                                    Storyboard.TargetProperty="Angle"
                                                    To="0"
                                                    Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style x:Key="CustomComboBoxStyleL" TargetType="ComboBox">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="4,2" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ComboBoxItem">
+                    <Setter Property="Foreground" Value="Black" />
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="Padding" Value="6,2" />
+                    <Setter Property="HorizontalContentAlignment" Value="Left" />
+                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="#30FFFFFF" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#EEEEEE" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBox">
+                    <Grid>
+                        <Border x:Name="Border"
+                      Background="{TemplateBinding Background}"
+                      BorderBrush="{TemplateBinding BorderBrush}"
+                      BorderThickness="{TemplateBinding BorderThickness}"
+                      CornerRadius="5" />
+
+                        <ToggleButton x:Name="DropDownToggle"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                            Focusable="False"
+                            ClickMode="Press"
+                            OverridesDefaultStyle="True">
+                            <ToggleButton.Template>
+                                <ControlTemplate TargetType="ToggleButton">
+                                    <Rectangle Fill="Transparent" />
+                                </ControlTemplate>
+                            </ToggleButton.Template>
+                        </ToggleButton>
+
+                        <Grid Margin="6,2,6,2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <ContentPresenter Grid.Column="0"
+                                    IsHitTestVisible="False"
+                                    Content="{TemplateBinding SelectionBoxItem}"
+                                    ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                    ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    TextElement.Foreground="Transparent" />
+
+                            <Path x:Name="Arrow"
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Right"
+                        Margin="0,0,8,0"
+                        Data="M 0 0 L 4 4 L 8 0 Z"
+                        Fill="White"
+                        Stretch="Uniform"
+                        Width="8" Height="4">
+                                <Path.RenderTransform>
+                                    <RotateTransform x:Name="ArrowRotateTransform" Angle="0" CenterX="4" CenterY="2" />
+                                </Path.RenderTransform>
+                            </Path>
+                        </Grid>
+
+                        <Popup x:Name="Popup"
+                     Placement="Bottom"
+                     IsOpen="{TemplateBinding IsDropDownOpen}"
+                     AllowsTransparency="True"
+                     Focusable="False"
+                     PopupAnimation="Fade">
+                            <Border x:Name="DropDown"
+                          SnapsToDevicePixels="True"
+                          MinWidth="{TemplateBinding ActualWidth}"
+                          MaxHeight="200"
+                          Background="White"
+                          BorderBrush="Transparent"
+                          BorderThickness="0"
+                          CornerRadius="5">
+                                <ScrollViewer Margin="0" SnapsToDevicePixels="True">
+                                    <StackPanel IsItemsHost="True"
+                                      KeyboardNavigation.DirectionalNavigation="Contained" />
+                                </ScrollViewer>
+                            </Border>
+                        </Popup>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="Transparent" />
+                            <Setter TargetName="Arrow" Property="Fill" Value="#888" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="Transparent" />
+                            <Setter TargetName="Arrow" Property="Fill" Value="#5588CCFF" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="Transparent" />
+                            <Setter TargetName="Arrow" Property="Fill" Value="#FFFFFF" />
+                        </Trigger>
+                        <Trigger Property="IsDropDownOpen" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="ArrowRotateTransform"
+                                               Storyboard.TargetProperty="Angle"
+                                               To="180"
+                                               Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="ArrowRotateTransform"
+                                               Storyboard.TargetProperty="Angle"
+                                               To="0"
+                                               Duration="0:0:0.2" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.ExitActions>

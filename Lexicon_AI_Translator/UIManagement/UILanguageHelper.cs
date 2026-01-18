@@ -63,11 +63,6 @@ namespace LexTranslator.UIManage
                         DeFine.WorkingWin.UIQuick.Content = Value;
                     }
                 break;
-                case "UITypeSelector":
-                    {
-                        DeFine.WorkingWin.UITypeSelector.Content = Value;
-                    }
-                break;
                 case "LoadFileButton":
                     {
                         DeFine.WorkingWin.LoadFileButton.Content = Value;

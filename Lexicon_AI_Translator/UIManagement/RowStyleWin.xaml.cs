@@ -64,7 +64,9 @@ namespace LexTranslator.UIManagement
 
             Grid GetKeyGrid = (Grid)GetChildGrid.Children[1];
             TextBox GetKey = (TextBox)GetKeyGrid.Children[0];
+            TextBox GetFakeKey = (TextBox)(GetKeyGrid.Children[1] as StackPanel).Children[0];
             GetKey.Foreground = new SolidColorBrush(FontColor);
+            GetFakeKey.Foreground = new SolidColorBrush(FontColor);
 
             Grid GetOriginalGrid = (Grid)GetChildGrid.Children[2];
             TextBox GetOriginal = (TextBox)GetOriginalGrid.Children[0];
