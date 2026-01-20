@@ -406,7 +406,7 @@ namespace LexTranslator.SkyrimManagement
 
                             if (GetOPName == "callmethod" || GetOPName == "callparent" || GetOPName == "callstatic")
                             {
-                                AssemblyHelper.ReconstructFunctionCall(PexFunc, GetOPName,CurrentLine);
+                                AssemblyHelper.ReconstructFunctionCall(PexFunc, GetOPName,CurrentLine,this.GenStyle);
                             }
 
                             TempBlock += "\n";
@@ -488,7 +488,8 @@ public class AssemblyHelper
                             //callmethod LogWarning ::din_util_var ::NoneVar 1 "The mod configuration file is invalid or missing."
                             for (int i = 1; i < GenParam.Length; i++)
                             {
-                                var GetParam = GenParam[i];
+                                var GetParam = GenParam[i].Trim();
+
                                 if (GetParam.EndsWith("_var"))
                                 {
                                     DecompileLine += GetParam.Substring(0, GetParam.Length - "_var".Length) + ".";
@@ -516,7 +517,28 @@ public class AssemblyHelper
                     {
                         if (Func.Parameters.Count == 0)
                         {
+                            if (GenParam.Length > 0)
+                            {
+                                string GetTargetFunc = GenParam[0];
 
+                                if (GetTargetFunc.EndsWith(" self"))
+                                {
+                                    GetTargetFunc = GetTargetFunc.Substring(0, GetTargetFunc.Length - " self".Length);
+                                    if (GenStyle == CodeGenStyle.CSharp)
+                                    {
+                                        GetTargetFunc = "this." + GetTargetFunc;
+                                    }
+                                    else
+                                    if (GenStyle == CodeGenStyle.Papyrus)
+                                    {
+                                        GetTargetFunc = "Self." + GetTargetFunc;
+                                    }
+                                }
+                            }
+                            else
+                            { 
+                            
+                            }
                         }
                         else
                         {
