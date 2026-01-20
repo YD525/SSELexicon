@@ -28,7 +28,7 @@ namespace LexTranslator.SkyrimManagement
 
         #endregion
 
-        public static string Version = "1.0.0 Alpha";
+        public static string Version = "1.0.1 Alpha";
         public CodeGenStyle GenStyle = CodeGenStyle.Null;
         public PexReader Reader;
         string CodeSpace = "    ";
@@ -632,6 +632,21 @@ public class DecompileTracker
         }
         return Params;
     }
+
+    public string FormatVar(string VariableName)
+    {
+        VariableName = VariableName.Trim();
+        if (VariableName.EndsWith("_Var"))
+        {
+            VariableName = VariableName.Substring(0, VariableName.Length - "_Var".Length);
+        }
+        else
+        if (VariableName.EndsWith("_var"))
+        {
+            VariableName = VariableName.Substring(0, VariableName.Length - "_var".Length);
+        }
+        return VariableName;
+    }
     public string CheckCode(int CodeLine, List<int> IntValues,string OPCode,string Line,CodeGenStyle GenStyle)
     {
         List<string> GetParams = CreatParams(Line);
@@ -971,6 +986,7 @@ public class DecompileTracker
 
             return "//" + OPCode + " " + Line;
         }
+        else
         if (OPCode == "cmp_eq" || OPCode == "cmp_lt" || OPCode == "cmp_le" || OPCode == "cmp_gt" || OPCode == "cmp_ge")
         {
             if (GetParams.Count > 0)
@@ -1011,8 +1027,8 @@ public class DecompileTracker
                 NTOperator.LinkVariable = GetParams[0].Trim();
             }
             else
-            { 
-            
+            {
+
             }
 
             return OPCode + " " + Line;
