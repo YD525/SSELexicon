@@ -352,6 +352,7 @@ namespace LexTranslator.SkyrimManagement
 
                         PscCode.AppendLine(GenLine);
 
+                        int CodeLine = 0;
                         string TempBlock = "";
 
                         foreach (var GetInstruction in GetFunc1st.Instructions)
@@ -422,10 +423,11 @@ namespace LexTranslator.SkyrimManagement
                             }
                             else
                             {
-                                TempBlock += GenSpace(2) + Variables.CheckCode(IntValues, GetOPName, CurrentLine,this.GenStyle);
+                                TempBlock += GenSpace(2) + Variables.CheckCode(CodeLine,IntValues, GetOPName, CurrentLine,this.GenStyle);
                             }
 
                             TempBlock += "\n";
+                            CodeLine++;
                         }
 
                         if (TempBlock.EndsWith("\n"))
@@ -493,6 +495,7 @@ public class TVariable
 {
     public string Tag = "";
     public string VariableName = "";
+    public int CodeLine = 0;
 }
 public class VariableTracker
 {
@@ -503,7 +506,7 @@ public class VariableTracker
     {
         this.FuncName = FuncName;
     }
-    public string CheckCode(List<int> IntValues,string OPCode,string Line,CodeGenStyle GenStyle)
+    public string CheckCode(int CodeLine, List<int> IntValues,string OPCode,string Line,CodeGenStyle GenStyle)
     {
         if (OPCode == "assign")
         {
@@ -515,6 +518,7 @@ public class VariableTracker
                 NTVariable.Tag = GetParam[1];
                 NTVariable.VariableName = GetParam[0];
 
+                PexVariables.Add(NTVariable);
                 return string.Empty;
             }
             else
@@ -530,7 +534,12 @@ public class VariableTracker
                 }
                 else
                 {
-                    return OPCode + " " + Line;
+                    TVariable NTVariable = new TVariable();
+                    NTVariable.VariableName = Line;
+
+                    PexVariables.Add(NTVariable);
+
+                    return string.Empty;
                 }
             }
         }
