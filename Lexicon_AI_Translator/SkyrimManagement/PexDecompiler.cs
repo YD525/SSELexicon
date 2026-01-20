@@ -357,6 +357,7 @@ namespace LexTranslator.SkyrimManagement
 
                         int CodeLine = 0;
                         string TempBlock = "";
+                        DecompileTracker Tracker = new DecompileTracker(Item.Value);
 
                         foreach (var GetInstruction in GetFunc1st.Instructions)
                         {
@@ -371,7 +372,6 @@ namespace LexTranslator.SkyrimManagement
 
                             string CurrentLine = "";
                             PexFunction PexFunc = null;
-                            DecompileTracker Tracker = new DecompileTracker(Item.Value);
 
                             foreach (var GetArg in GetInstruction.Arguments)
                             {
@@ -502,11 +502,41 @@ public class TVariable
     public int CodeLine = 0;
 }
 
+public class CastLink
+{
+    public List<string> Links = new List<string>();
+    public int CodeLine = 0;
+
+    public void AddLinks(List<string> SetLinks)
+    {
+        foreach (var GetLink in SetLinks)
+        {
+            if (!this.Links.Contains(GetLink))
+            {
+                this.Links.Add(GetLink);
+            }
+        }
+    }
+    public bool Find(string Name)
+    {
+        foreach (var Get in Links)
+        {
+            if (Get.Equals(Name))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
 public class TFunction
 {
     public List<string> Fronts = new List<string>();
     public string FunctionName = "";
     public List<string> Params = new List<string>();
+
+    public int CodeLine = 0;
 
     public bool Self = false;
 
@@ -517,27 +547,32 @@ public class DecompileTracker
     public string FuncName = "";
     public List<TVariable> PexVariables = new List<TVariable>();
     public List<TFunction> PexFunctions = new List<TFunction>();
+    public List<CastLink> CastLinks = new List<CastLink>();
 
     public DecompileTracker(string FuncName)
     {
         this.FuncName = FuncName;
     }
-    public List<string> GetParams(string Line)
+    public List<string> CreatParams(string Line)
     {
-        return Line.Split(new[] { "::" }, StringSplitOptions.None).ToList();
+        List<string> Params = new List<string>();
+        foreach (var Get in Line.Split(new[] { "::" }, StringSplitOptions.None))
+        {
+            if (Get.Trim().Length > 0)
+            {
+                Params.Add(Get);
+            }
+        }
+        return Params;
     }
     public string CheckCode(int CodeLine, List<int> IntValues,string OPCode,string Line,CodeGenStyle GenStyle)
     {
-        List<string> GetParam = GetParams(Line);
-
-        if (Line.Contains("$RDOVoiceTypeMaleBandit"))
-        { 
-        
-        }
+        List<string> GetParams = CreatParams(Line);
 
         if (OPCode == "callmethod" || OPCode == "callparent" || OPCode == "callstatic")
         {
             TFunction NTFunction = new TFunction();
+            NTFunction.CodeLine = CodeLine;
 
             bool NoParams = false;
 
@@ -545,14 +580,14 @@ public class DecompileTracker
 
             List<string> AParams = new List<string>();
 
-            if (GetParam.Count >= 2)
+            if (GetParams.Count >= 2)
             {
-                GetParam[1] = GetParam[1].Trim();
+                GetParams[1] = GetParams[1].Trim();
 
                 bool Nonevar = false;
-                if (GetParam[1].Contains(" "))
-                { 
-                    var GetStaticValue = GetParam[1].Split(' ');
+                if (GetParams[1].Contains(" "))
+                {
+                    var GetStaticValue = GetParams[1].Split(' ');
 
                     for (int i = 0; i < GetStaticValue.Length; i++)
                     {
@@ -564,22 +599,45 @@ public class DecompileTracker
                         if (GetStaticValue[i].Trim().Length > 0)
                         {
                             AParams.Add(GetStaticValue[i]);
-                        } 
+                        }
                     }
                 }
                 if (Nonevar)
                 {
-                    GetParam[1] = "nonevar";
+                    GetParams[1] = "nonevar";
                 }
-                if (GetParam[1] == "nonevar")
+                if (GetParams[1] == "nonevar")
                 {
                     NoParams = true;
                 }
             }
 
-            if (GetParam.Count > 0)
+            if (GetParams.Count > 0)
             {
-                FristValue = GetParam[0].Trim();
+                FristValue = GetParams[0].Trim();
+            }
+
+            if (GetParams.Count > 2)
+            {
+                for (int i = 2; i < GetParams.Count; i++)
+                {
+                    GetParams[i] = GetParams[i].Trim();
+
+                    if (GetParams[i].Contains(" "))
+                    {
+                        foreach (var Get in GetParams[i].Split(' '))
+                        {
+                            if (Get.Trim().Length > 0)
+                            {
+                                AParams.Add(Get);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        AParams.Add(GetParams[i]);
+                    }
+                }
             }
 
             var NextParams = FristValue.Split(' ');
@@ -587,7 +645,7 @@ public class DecompileTracker
             List<string> Params = new List<string>();
 
             if (AParams.Count > 0)
-            { 
+            {
                 Params.AddRange(AParams);
             }
 
@@ -604,7 +662,7 @@ public class DecompileTracker
 
             if (NoParams)
             {
-                if (NextParams.Length == 2)
+                if (NextParams.Length >= 2)
                 {
                     if (NextParams[1].Equals("self"))
                     {
@@ -626,15 +684,11 @@ public class DecompileTracker
                     NTFunction.Params = Params;
 
                     PexFunctions.Add(NTFunction);
-                }
-                else
-                { 
-                
                 }
             }
             else
             {
-                if (NextParams.Length == 2)
+                if (NextParams.Length >= 2)
                 {
                     if (NextParams[1].Equals("self"))
                     {
@@ -657,22 +711,18 @@ public class DecompileTracker
 
                     PexFunctions.Add(NTFunction);
                 }
-                else
-                { 
-                
-                }
             }
 
-            return OPCode + " " + Line;
+            return "//" + OPCode + " " + Line;
         }
         else
         if (OPCode == "assign")
         {
-            if (GetParam.Count == 2)
+            if (GetParams.Count == 2)
             {
                 TVariable NTVariable = new TVariable();
-                NTVariable.Tag = GetParam[1];
-                NTVariable.VariableName = GetParam[0];
+                NTVariable.Tag = GetParams[1];
+                NTVariable.VariableName = GetParams[0];
 
                 PexVariables.Add(NTVariable);
                 return "//" + OPCode + " " + Line;
@@ -698,6 +748,41 @@ public class DecompileTracker
                     return "//" + OPCode + " " + Line;
                 }
             }
+        }
+        else
+        if (OPCode == "cast")
+        {
+            bool FindLink = false;
+            int SetOffset = -1;
+
+            for (int i=0;i<this.CastLinks.Count;i++)
+            {
+                foreach (var CheckLink in GetParams)
+                {
+                    if (this.CastLinks[i].Find(CheckLink))
+                    {
+                        SetOffset = i;
+                        FindLink = true;
+                        goto SetLink;
+                    }
+                }
+            }
+
+            SetLink:
+            if (FindLink)
+            {
+                this.CastLinks[SetOffset].AddLinks(GetParams);
+            }
+            else
+            {
+                CastLink NCastLink = new CastLink();
+                NCastLink.CodeLine = CodeLine;
+                NCastLink.AddLinks(GetParams);
+
+                this.CastLinks.Add(NCastLink);
+            }
+
+            return "//" + OPCode + " " + Line;
         }
         else
         {
