@@ -277,11 +277,6 @@ namespace LexTranslator.SkyrimManagement
             {
                 var Item = TempStrings[i];
 
-                if (Item.Value == "IsModFound")
-                { 
-                
-                }
-
                 ObjType CheckType = ObjType.Null;
 
                 var GetFunc = QueryAnyByID(Item.Index, ref CheckType);
@@ -345,12 +340,22 @@ namespace LexTranslator.SkyrimManagement
                         foreach (var GetInstruction in GetFunc1st.Instructions)
                         {
                             string GetOPName = GetInstruction.GetOpcodeName();
+
                             TempBlock += GetOPName + " ";
+
+                            string CurrentLine = GetOPName + " ";
+                            PexFunction PexFunc = null;
+
                             foreach (var GetArg in GetInstruction.Arguments)
                             {
                                 var GetIndex = ConvertHelper.ObjToInt(GetArg.Value);
                                 if (GetIndex > 0)
                                 {
+                                    if (GetOPName == "callmethod" || GetOPName == "callparent" || GetOPName == "callstatic")
+                                    { 
+                                    
+                                    }
+
                                     string GetValue = "";
 
                                     if (GetArg.Type == 3)
@@ -359,26 +364,44 @@ namespace LexTranslator.SkyrimManagement
                                     }
                                     else
                                     {
-                                        GetValue = TempStrings[GetIndex].Value;
+                                        var GetObj = TempStrings[GetIndex];
+
+                                        if (GetObj.Value == "Notification")
+                                        { 
+                                        
+                                        }
+
+                                        var ChildType = ObjType.Null;
+                                        var GetChildFunc = QueryAnyByID(GetObj.Index, ref ChildType);
+
+                                        if (ChildType == ObjType.Functions)
+                                        {
+                                            PexFunc = GetChildFunc as PexFunction;
+                                        }
+                                        else
+                                        { 
+                                        
+                                        }
+
+                                        GetValue = GetObj.Value;
                                     }
 
                                     if (GetArg.Type == 2)
                                     {
                                         TempBlock += "\"" + GetValue + "\"" + " ";
+                                        CurrentLine += "\"" + GetValue + "\"" + " ";
                                     }
                                     else
                                     {
                                         TempBlock += GetValue + " ";
+                                        CurrentLine += GetValue + " ";
                                     }
                                 }
                             }
 
-                            //case 0x17: return "callmethod";
-                            //case 0x18: return "callparent";
-                            //case 0x19:return "callstatic";
-                            if (GetOPName == "")
-                            { 
-                            
+                            if (GetOPName == "callmethod" || GetOPName == "callparent" || GetOPName == "callstatic")
+                            {
+                                AssemblyHelper.ReconstructFunctionCall(PexFunc, GetOPName,CurrentLine);
                             }
 
                             TempBlock += "\n";
@@ -432,10 +455,29 @@ namespace LexTranslator.SkyrimManagement
 
 public class AssemblyHelper
 {
-
-    
-    public static string ReconstructFunctionCall(string Type,string Line)
+    public static string ReconstructFunctionCall(PexFunction Func, string Type,string Line)
     {
+        Line = Line.Trim();
+        string TempLine = Line;
+
+        switch (Type)
+        {
+            case "callmethod":
+                {
+                    TempLine = TempLine.Substring(Type.Length).Trim();
+                    string []GenParam = TempLine.Split(' ');
+                   
+                }
+            break;
+            case "callparent":
+                { 
+                }
+            break;
+            case "callstatic":
+                { 
+                }
+            break;
+        }
         return string.Empty;
     
     }
