@@ -377,9 +377,11 @@ namespace LexTranslator.SkyrimManagement
                                 {
                                     string GetValue = "";
 
+
+                                    IntValues.Add(GetArg.Type);
                                     if (GetArg.Type == 3)
                                     {
-                                        IntValues.Add(ConvertHelper.ObjToInt(GetArg.Value));
+                                        
                                     }
                                     else
                                     {
@@ -402,6 +404,15 @@ namespace LexTranslator.SkyrimManagement
                                         }
 
                                         GetValue = GetObj.Value;
+
+                                        ObjType VariableType = ObjType.Null;
+                                        var GetVariableTypes = QueryAnyByID(GetObj.Index, ref VariableType);
+                                        var NextGet = TempStrings[GetObj.Index];
+
+                                        if (GetValue.Equals("NextIndex"))
+                                        { 
+                                        
+                                        }
                                     }
 
                                     if (GetArg.Type == 2)
@@ -416,17 +427,7 @@ namespace LexTranslator.SkyrimManagement
                             }
 
                             CurrentLine = CurrentLine.Trim();
-
-                            if (GetOPName == "callmethod" || GetOPName == "callparent" || GetOPName == "callstatic")
-                            {
-                                TempBlock += GenSpace(2) + AssemblyHelper.ReconstructFunctionCall(PexFunc, GetOPName, CurrentLine, this.GenStyle);
-                            }
-                            else
-                            {
-                                TempBlock += GenSpace(2) + Variables.CheckCode(CodeLine,IntValues, GetOPName, CurrentLine,this.GenStyle);
-                            }
-
-                            TempBlock += "\n";
+                            TempBlock += GenSpace(2) + Variables.CheckCode(CodeLine, IntValues, GetOPName, CurrentLine, this.GenStyle) + "\n";
                             CodeLine++;
                         }
 
@@ -497,10 +498,20 @@ public class TVariable
     public string VariableName = "";
     public int CodeLine = 0;
 }
+
+public class TFunction
+{
+    public List<string> Fronts = new List<string>();
+    public string FunctionName = "";
+    public List<string> Params = new List<string>();
+
+    public string LinkVariable = "";
+}
 public class VariableTracker
 {
     public string FuncName = "";
     public List<TVariable> PexVariables = new List<TVariable>();
+    public List<TFunction> PexFunctions = new List<TFunction>();
 
     public VariableTracker(string FuncName)
     {
@@ -519,7 +530,7 @@ public class VariableTracker
                 NTVariable.VariableName = GetParam[0];
 
                 PexVariables.Add(NTVariable);
-                return string.Empty;
+                return "//" + OPCode + " " + Line;
             }
             else
             {
@@ -539,7 +550,7 @@ public class VariableTracker
 
                     PexVariables.Add(NTVariable);
 
-                    return string.Empty;
+                    return "//" + OPCode + " " + Line;
                 }
             }
         }
@@ -548,184 +559,4 @@ public class VariableTracker
             return OPCode + " " + Line;
         }
     }
-}
-
-public class AssemblyHelper
-{
-    public static string AutoProcessSelfFunction(string GetTargetFunc, CodeGenStyle GenStyle)
-    {
-        GetTargetFunc = GetTargetFunc.Trim();
-        if (GetTargetFunc.EndsWith(" self"))
-        {
-            GetTargetFunc = GetTargetFunc.Substring(0, GetTargetFunc.Length - " self".Length);
-            if (GenStyle == CodeGenStyle.CSharp)
-            {
-                GetTargetFunc = "this." + GetTargetFunc;
-            }
-            else
-            if (GenStyle == CodeGenStyle.Papyrus)
-            {
-                GetTargetFunc = "Self." + GetTargetFunc;
-            }
-            return GetTargetFunc;
-        }
-        return GetTargetFunc;
-    }
-
-    public static string AutoProcessParams(string Func, string Params,CodeGenStyle GenStyle)
-    {
-        string Line = "";
-
-        if (Params.Length == 0)
-        {
-            Line += Func + "()";
-        }
-        else
-        {
-            Line += Func + "(" + Params + ")";
-        }
-
-        if (GenStyle == CodeGenStyle.CSharp)
-        {
-            Line += ";";
-        }
-
-        return Line;
-    }
-
-    public static string ReconstructFunctionCall(PexFunction Func, string Type,string Line, CodeGenStyle GenStyle)
-    {
-        Line = Line.Trim();
-        string TempLine = Line;
-
-
-        if (TempLine.Contains("GetStringVer"))
-        { 
-        
-        }
-
-        string DecompileLine = "";
-
-        if (Func == null)
-        {
-
-        }
-
-        switch (Type)
-        {
-            case "callmethod":
-                {
-                    TempLine = TempLine.Substring(Type.Length).Trim();
-                    string []GenParam = TempLine.Split(new[] { "::" }, StringSplitOptions.None);
-
-                    if (Func == null)
-                    {
-                        if (GenParam.Length > 0)
-                        {
-                            string Params = "";
-                            string GetTargetFunc = GenParam[0];
-                            //callmethod LogWarning ::din_util_var ::NoneVar 1 "The mod configuration file is invalid or missing."
-                            for (int i = 1; i < GenParam.Length; i++)
-                            {
-                                var GetParam = GenParam[i].Trim();
-
-                                if (GetParam.EndsWith("_var"))
-                                {
-                                    DecompileLine += GetParam.Substring(0, GetParam.Length - "_var".Length) + ".";
-                                }
-                                else
-                                {
-                                    Params += GetParam;
-                                }
-                            }
-
-                            if (Params.Length > 0)
-                            {
-                                DecompileLine += AutoProcessParams(GetTargetFunc, Params, GenStyle) + "//" + Line;            
-                            }
-                            else
-                            { 
-                            
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (Func.Parameters.Count == 0)
-                        {
-                            if (GenParam.Length > 0)
-                            {
-                                string Params = "";
-
-                                string GetTargetFunc = GenParam[0];
-
-                                for (int i = 1; i < GenParam.Length; i++)
-                                {
-                                    var GetParam = GenParam[i].Trim();
-
-                                    if (GetParam.EndsWith("_var"))
-                                    {
-                                        DecompileLine += GetParam.Substring(0, GetParam.Length - "_var".Length) + ".";
-                                    }
-                                    else
-                                    {
-                                        Params += GetParam;
-                                    }
-                                }
-
-                                GetTargetFunc = AutoProcessSelfFunction(GetTargetFunc,GenStyle);
-                                DecompileLine += AutoProcessParams(GetTargetFunc, Params, GenStyle) + "//" + Line; ;
-                            }
-                        }
-                        else
-                        {
-                            string Params = "";
-                            if (GenParam.Length > 0)
-                            {
-                                string GetTargetFunc = GenParam[0];
-
-                                for (int i = 1; i < GenParam.Length; i++)
-                                {
-                                    if (GenParam[i].EndsWith("_var"))
-                                    {
-                                        Params += GenParam[i].Substring(0, GenParam[i].Length - "_var".Length);
-                                    }
-                                    else
-                                    if (!GenParam[i].Contains(" "))
-                                    {
-                                        Params += GenParam[i];
-                                    }
-                                }
-
-                                GetTargetFunc = AutoProcessSelfFunction(GetTargetFunc, GenStyle);
-
-                                if (Params.Length > 0)
-                                {
-                                    DecompileLine += AutoProcessParams(GetTargetFunc, Params, GenStyle) + "//" + Line; ;
-                                }
-                            }
-                        }
-                    }
-                }
-            break;
-            case "callparent":
-                {
-                    return Line;
-                }
-            break;
-            case "callstatic":
-                {
-                    return Line;
-                }
-            break;
-        }
-
-        if (DecompileLine.Length > 0)
-        {
-            return DecompileLine;
-        }
-
-        return Line;
-    }
-
 }
