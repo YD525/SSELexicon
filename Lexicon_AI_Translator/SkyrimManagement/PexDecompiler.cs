@@ -376,7 +376,11 @@ namespace LexTranslator.SkyrimManagement
 
                                         if (ChildType == ObjType.Functions)
                                         {
-                                            PexFunc = GetChildFunc as PexFunction;
+                                            var Functions = GetChildFunc as List<PexFunction>;
+                                            if (Functions.Count > 0)
+                                            {
+                                                PexFunc = Functions[0];
+                                            }
                                         }
                                         else
                                         { 
@@ -460,6 +464,11 @@ public class AssemblyHelper
         Line = Line.Trim();
         string TempLine = Line;
 
+        if (Func == null)
+        {
+
+        }
+
         switch (Type)
         {
             case "callmethod":
@@ -467,6 +476,14 @@ public class AssemblyHelper
                     TempLine = TempLine.Substring(Type.Length).Trim();
                     string []GenParam = TempLine.Split(' ');
                    
+                    if (Func.Parameters.Count == 0)
+                    {
+
+                    }
+                    else
+                    { 
+                    
+                    }
                 }
             break;
             case "callparent":
