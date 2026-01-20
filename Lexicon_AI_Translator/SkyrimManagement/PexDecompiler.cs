@@ -5,6 +5,7 @@ using static LexTranslator.SkyrimManagement.PexReader;
 using LexTranslator.ConvertManager;
 using System.Windows.Shapes;
 using System;
+using static LexTranslator.SkyrimManagement.PexDecompiler;
 
 namespace LexTranslator.SkyrimManagement
 {
@@ -459,10 +460,12 @@ namespace LexTranslator.SkyrimManagement
 
 public class AssemblyHelper
 {
-    public static string ReconstructFunctionCall(PexFunction Func, string Type,string Line)
+    public static string ReconstructFunctionCall(PexFunction Func, string Type,string Line, CodeGenStyle GenStyle)
     {
         Line = Line.Trim();
         string TempLine = Line;
+
+        string DecompileLine = "";
 
         if (Func == null)
         {
@@ -474,15 +477,51 @@ public class AssemblyHelper
             case "callmethod":
                 {
                     TempLine = TempLine.Substring(Type.Length).Trim();
-                    string []GenParam = TempLine.Split(' ');
-                   
-                    if (Func.Parameters.Count == 0)
-                    {
+                    string []GenParam = TempLine.Split(new[] { "::" }, StringSplitOptions.None);
 
+                    if (Func == null)
+                    {
+                        if (GenParam.Length > 0)
+                        {
+                            string Params = "";
+                            string GetTargetFunc = GenParam[0];
+                            //callmethod LogWarning ::din_util_var ::NoneVar 1 "The mod configuration file is invalid or missing."
+                            for (int i = 1; i < GenParam.Length; i++)
+                            {
+                                var GetParam = GenParam[i];
+                                if (GetParam.EndsWith("_var"))
+                                {
+                                    DecompileLine += GetParam.Substring(0, GetParam.Length - "_var".Length) + ".";
+                                }
+                                else
+                                {
+                                    Params += GetParam;
+                                }
+                            }
+
+                            if (Params.Length > 0)
+                            {
+                                DecompileLine += GetTargetFunc + "(" + Params + ")";
+
+                                if (GenStyle == CodeGenStyle.CSharp)
+                                {
+                                    DecompileLine += ";";
+                                }
+                                
+                            }
+
+                        }
                     }
                     else
-                    { 
-                    
+                    {
+                        if (Func.Parameters.Count == 0)
+                        {
+
+                        }
+                        else
+                        {
+
+                        }
                     }
                 }
             break;
@@ -495,8 +534,13 @@ public class AssemblyHelper
                 }
             break;
         }
-        return string.Empty;
-    
+
+        if (DecompileLine.Length > 0)
+        {
+            return DecompileLine;
+        }
+
+        return Line;
     }
 
 }
