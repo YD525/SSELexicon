@@ -8,6 +8,8 @@ using System;
 using static LexTranslator.SkyrimManagement.PexDecompiler;
 using LexTranslator.SkyrimManagement;
 using System.Reflection.Emit;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace LexTranslator.SkyrimManagement
 {
@@ -506,6 +508,8 @@ public class TFunction
     public string FunctionName = "";
     public List<string> Params = new List<string>();
 
+    public bool Self = false;
+
     public string LinkVariable = "";
 }
 public class DecompileTracker
@@ -518,18 +522,153 @@ public class DecompileTracker
     {
         this.FuncName = FuncName;
     }
+    public List<string> GetParams(string Line)
+    {
+        return Line.Split(new[] { "::" }, StringSplitOptions.None).ToList();
+    }
     public string CheckCode(int CodeLine, List<int> IntValues,string OPCode,string Line,CodeGenStyle GenStyle)
     {
+        List<string> GetParam = GetParams(Line);
+
+        if (Line.Contains("$RDOVoiceTypeMaleBandit"))
+        { 
+        
+        }
+
         if (OPCode == "callmethod" || OPCode == "callparent" || OPCode == "callstatic")
         {
+            TFunction NTFunction = new TFunction();
+
+            bool NoParams = false;
+
+            string FristValue = "";
+
+            List<string> AParams = new List<string>();
+
+            if (GetParam.Count >= 2)
+            {
+                GetParam[1] = GetParam[1].Trim();
+
+                bool Nonevar = false;
+                if (GetParam[1].Contains(" "))
+                { 
+                    var GetStaticValue = GetParam[1].Split(' ');
+
+                    for (int i = 0; i < GetStaticValue.Length; i++)
+                    {
+                        if (GetStaticValue[i] == "nonevar")
+                        {
+                            Nonevar = true;
+                        }
+                        else
+                        if (GetStaticValue[i].Trim().Length > 0)
+                        {
+                            AParams.Add(GetStaticValue[i]);
+                        } 
+                    }
+                }
+                if (Nonevar)
+                {
+                    GetParam[1] = "nonevar";
+                }
+                if (GetParam[1] == "nonevar")
+                {
+                    NoParams = true;
+                }
+            }
+
+            if (GetParam.Count > 0)
+            {
+                FristValue = GetParam[0].Trim();
+            }
+
+            var NextParams = FristValue.Split(' ');
+            List<string> Fronts = new List<string>();
+            List<string> Params = new List<string>();
+
+            if (AParams.Count > 0)
+            { 
+                Params.AddRange(AParams);
+            }
+
+            if (FristValue.Contains(" "))
+            {
+                for (int i = 1; i < NextParams.Length; i++)
+                {
+                    if (NextParams[i] != "self")
+                    {
+                        Fronts.Add(NextParams[i]);
+                    }
+                }
+            }
+
+            if (NoParams)
+            {
+                if (NextParams.Length == 2)
+                {
+                    if (NextParams[1].Equals("self"))
+                    {
+                        NTFunction.Self = true;
+                        NTFunction.FunctionName = NextParams[0];
+
+                        NTFunction.Fronts = Fronts;
+                        NTFunction.Params = Params;
+
+                        PexFunctions.Add(NTFunction);
+                    }
+                }
+                else
+                if (NextParams.Length > 0)
+                {
+                    NTFunction.FunctionName = NextParams[0];
+
+                    NTFunction.Fronts = Fronts;
+                    NTFunction.Params = Params;
+
+                    PexFunctions.Add(NTFunction);
+                }
+                else
+                { 
+                
+                }
+            }
+            else
+            {
+                if (NextParams.Length == 2)
+                {
+                    if (NextParams[1].Equals("self"))
+                    {
+                        NTFunction.Self = true;
+                        NTFunction.FunctionName = NextParams[0];
+
+                        NTFunction.Fronts = Fronts;
+                        NTFunction.Params = Params;
+
+                        PexFunctions.Add(NTFunction);
+                    }
+                }
+                else
+                if (NextParams.Length > 0)
+                {
+                    NTFunction.FunctionName = NextParams[0];
+
+                    NTFunction.Fronts = Fronts;
+                    NTFunction.Params = Params;
+
+                    PexFunctions.Add(NTFunction);
+                }
+                else
+                { 
+                
+                }
+            }
+
             return OPCode + " " + Line;
         }
         else
         if (OPCode == "assign")
         {
-            string[] GetParam = Line.Split(new[] { "::" }, StringSplitOptions.None);
-
-            if (GetParam.Length == 2)
+            if (GetParam.Count == 2)
             {
                 TVariable NTVariable = new TVariable();
                 NTVariable.Tag = GetParam[1];
