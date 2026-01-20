@@ -464,6 +464,47 @@ namespace LexTranslator.SkyrimManagement
 
 public class AssemblyHelper
 {
+    public static string AutoProcessSelfFunction(string GetTargetFunc, CodeGenStyle GenStyle)
+    {
+        GetTargetFunc = GetTargetFunc.Trim();
+        if (GetTargetFunc.EndsWith(" self"))
+        {
+            GetTargetFunc = GetTargetFunc.Substring(0, GetTargetFunc.Length - " self".Length);
+            if (GenStyle == CodeGenStyle.CSharp)
+            {
+                GetTargetFunc = "this." + GetTargetFunc;
+            }
+            else
+            if (GenStyle == CodeGenStyle.Papyrus)
+            {
+                GetTargetFunc = "Self." + GetTargetFunc;
+            }
+            return GetTargetFunc;
+        }
+        return GetTargetFunc;
+    }
+
+    public static string AutoProcessParams(string Func, string Params,CodeGenStyle GenStyle)
+    {
+        string Line = "";
+
+        if (Params.Length == 0)
+        {
+            Line += "()";
+        }
+        else
+        {
+            Line += "(" + Params + ")";
+        }
+
+        if (GenStyle == CodeGenStyle.CSharp)
+        {
+            Line += ";";
+        }
+
+        return Line;
+    }
+
     public static string ReconstructFunctionCall(PexFunction Func, string Type,string Line, CodeGenStyle GenStyle)
     {
         Line = Line.Trim();
@@ -506,12 +547,7 @@ public class AssemblyHelper
 
                             if (Params.Length > 0)
                             {
-                                DecompileLine += GetTargetFunc + "(" + Params + ")";
-
-                                if (GenStyle == CodeGenStyle.CSharp)
-                                {
-                                    DecompileLine += ";";
-                                }
+                                DecompileLine += AutoProcessParams(GetTargetFunc, Params, GenStyle);            
                             }
                             else
                             { 
@@ -527,20 +563,7 @@ public class AssemblyHelper
                             if (GenParam.Length > 0)
                             {
                                 string GetTargetFunc = GenParam[0];
-
-                                if (GetTargetFunc.EndsWith(" self"))
-                                {
-                                    GetTargetFunc = GetTargetFunc.Substring(0, GetTargetFunc.Length - " self".Length);
-                                    if (GenStyle == CodeGenStyle.CSharp)
-                                    {
-                                        GetTargetFunc = "this." + GetTargetFunc;
-                                    }
-                                    else
-                                    if (GenStyle == CodeGenStyle.Papyrus)
-                                    {
-                                        GetTargetFunc = "Self." + GetTargetFunc;
-                                    }
-                                }
+                                GetTargetFunc = AutoProcessSelfFunction(GetTargetFunc,GenStyle);
                             }
                             else
                             { 
@@ -562,9 +585,11 @@ public class AssemblyHelper
                                     }
                                 }
 
+                                GetTargetFunc = AutoProcessSelfFunction(GetTargetFunc, GenStyle);
+
                                 if (Params.Length > 0)
                                 {
-                                    DecompileLine += GetTargetFunc + "(" + Params + ")";
+                                    DecompileLine += AutoProcessParams(GetTargetFunc, Params, GenStyle);
 
                                     if (GenStyle == CodeGenStyle.CSharp)
                                     {
