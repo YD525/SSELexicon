@@ -372,6 +372,15 @@ namespace LexTranslator.SkyrimManagement
                                     }
                                 }
                             }
+
+                            //case 0x17: return "callmethod";
+                            //case 0x18: return "callparent";
+                            //case 0x19:return "callstatic";
+                            if (GetOPName == "")
+                            { 
+                            
+                            }
+
                             TempBlock += "\n";
                         }
 
@@ -418,6 +427,17 @@ namespace LexTranslator.SkyrimManagement
             return GetCode;
         }
 
-
     }
+}
+
+public class AssemblyHelper
+{
+
+    
+    public static string ReconstructFunctionCall(string Type,string Line)
+    {
+        return string.Empty;
+    
+    }
+
 }
