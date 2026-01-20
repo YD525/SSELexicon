@@ -6,6 +6,7 @@ using LexTranslator.ConvertManager;
 using System.Windows.Shapes;
 using System;
 using static LexTranslator.SkyrimManagement.PexDecompiler;
+using LexTranslator.SkyrimManagement;
 
 namespace LexTranslator.SkyrimManagement
 {
@@ -428,12 +429,15 @@ namespace LexTranslator.SkyrimManagement
             }
         }
 
+        public List<PexString> CurrentStrings = new List<PexString>();
         public string Decompile()
         {
             StringBuilder PscCode = new StringBuilder();
             List<PexString> TempStrings = new List<PexString>();
 
             TempStrings.AddRange(Reader.StringTable);
+
+            CurrentStrings = TempStrings;
 
             AnalyzeClass(TempStrings, ref PscCode);
 
@@ -508,7 +512,10 @@ public class AssemblyHelper
                                 {
                                     DecompileLine += ";";
                                 }
-                                
+                            }
+                            else
+                            { 
+                            
                             }
 
                         }
@@ -542,7 +549,38 @@ public class AssemblyHelper
                         }
                         else
                         {
+                            string Params = "";
+                            if (GenParam.Length > 0)
+                            {
+                                string GetTargetFunc = GenParam[0];
 
+                                for (int i = 1; i < GenParam.Length; i++)
+                                {
+                                    if (GenParam[i].EndsWith("_var"))
+                                    {
+                                        Params += GenParam[i].Substring(0, GenParam[i].Length - "_var".Length);
+                                    }
+                                }
+
+                                if (Params.Length > 0)
+                                {
+                                    DecompileLine += GetTargetFunc + "(" + Params + ")";
+
+                                    if (GenStyle == CodeGenStyle.CSharp)
+                                    {
+                                        DecompileLine += ";";
+                                    }
+                                }
+                                else
+                                { 
+                                
+                                }
+                            }
+                            else
+                            { 
+                            
+                            }
+                           
                         }
                     }
                 }
