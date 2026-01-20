@@ -289,6 +289,11 @@ namespace LexTranslator.SkyrimManagement
             {
                 var Item = TempStrings[i];
 
+                if (Item.Value == "RDO_SetActorAggression")
+                { 
+                
+                }
+
                 ObjType CheckType = ObjType.Null;
 
                 var GetFunc = QueryAnyByID(Item.Index, ref CheckType);
@@ -353,30 +358,31 @@ namespace LexTranslator.SkyrimManagement
                         {
                             string GetOPName = GetInstruction.GetOpcodeName();
 
-                            string CurrentLine = GetOPName + " ";
+                            if (GetOPName == "return")
+                            { 
+                            
+                            }
+
+                            List<int> IntValues = new List<int>();
+
+                            string CurrentLine = "";
                             PexFunction PexFunc = null;
+                            VariableTracker Variables = new VariableTracker(Item.Value);
 
                             foreach (var GetArg in GetInstruction.Arguments)
                             {
                                 var GetIndex = ConvertHelper.ObjToInt(GetArg.Value);
                                 if (GetIndex > 0)
                                 {
-
-
                                     string GetValue = "";
 
                                     if (GetArg.Type == 3)
                                     {
-                                        GetValue = GetIndex.ToString();
+                                        IntValues.Add(ConvertHelper.ObjToInt(GetArg.Value));
                                     }
                                     else
                                     {
                                         var GetObj = TempStrings[GetIndex];
-
-                                        if (GetObj.Value == "Notification")
-                                        { 
-                                        
-                                        }
 
                                         var ChildType = ObjType.Null;
                                         var GetChildFunc = QueryAnyByID(GetObj.Index, ref ChildType);
@@ -416,8 +422,7 @@ namespace LexTranslator.SkyrimManagement
                             }
                             else
                             {
-                                TempBlock += GetOPName + " ";
-                                TempBlock += CurrentLine;
+                                TempBlock += GenSpace(2) + Variables.CheckCode(IntValues, GetOPName, CurrentLine,this.GenStyle);
                             }
 
                             TempBlock += "\n";
@@ -477,6 +482,65 @@ namespace LexTranslator.SkyrimManagement
     }
 }
 
+public class Function
+{
+    public string ParentFunction = "";
+    public int CodeLine = 0;
+    public string SelfVariable = "";
+}
+
+public class TVariable
+{
+    public string Tag = "";
+    public string VariableName = "";
+}
+public class VariableTracker
+{
+    public string FuncName = "";
+    public List<TVariable> PexVariables = new List<TVariable>();
+
+    public VariableTracker(string FuncName)
+    {
+        this.FuncName = FuncName;
+    }
+    public string CheckCode(List<int> IntValues,string OPCode,string Line,CodeGenStyle GenStyle)
+    {
+        if (OPCode == "assign")
+        {
+            string[] GetParam = Line.Split(new[] { "::" }, StringSplitOptions.None);
+
+            if (GetParam.Length == 2)
+            {
+                TVariable NTVariable = new TVariable();
+                NTVariable.Tag = GetParam[1];
+                NTVariable.VariableName = GetParam[0];
+
+                return string.Empty;
+            }
+            else
+            {
+                if (Line.Split(' ').Length == 2)
+                {
+                    string ReturnLine = Line.Split(' ')[0] + " = " + Line.Split(' ')[1];
+                    if (GenStyle == CodeGenStyle.CSharp)
+                    {
+                        ReturnLine += ";";
+                    }
+                    return ReturnLine;
+                }
+                else
+                {
+                    return OPCode + " " + Line;
+                }
+            }
+        }
+        else
+        {
+            return OPCode + " " + Line;
+        }
+    }
+}
+
 public class AssemblyHelper
 {
     public static string AutoProcessSelfFunction(string GetTargetFunc, CodeGenStyle GenStyle)
@@ -525,6 +589,12 @@ public class AssemblyHelper
         Line = Line.Trim();
         string TempLine = Line;
 
+
+        if (TempLine.Contains("GetStringVer"))
+        { 
+        
+        }
+
         string DecompileLine = "";
 
         if (Func == null)
@@ -562,13 +632,12 @@ public class AssemblyHelper
 
                             if (Params.Length > 0)
                             {
-                                DecompileLine += AutoProcessParams(GetTargetFunc, Params, GenStyle);            
+                                DecompileLine += AutoProcessParams(GetTargetFunc, Params, GenStyle) + "//" + Line;            
                             }
                             else
                             { 
                             
                             }
-
                         }
                     }
                     else
@@ -577,9 +646,26 @@ public class AssemblyHelper
                         {
                             if (GenParam.Length > 0)
                             {
+                                string Params = "";
+
                                 string GetTargetFunc = GenParam[0];
+
+                                for (int i = 1; i < GenParam.Length; i++)
+                                {
+                                    var GetParam = GenParam[i].Trim();
+
+                                    if (GetParam.EndsWith("_var"))
+                                    {
+                                        DecompileLine += GetParam.Substring(0, GetParam.Length - "_var".Length) + ".";
+                                    }
+                                    else
+                                    {
+                                        Params += GetParam;
+                                    }
+                                }
+
                                 GetTargetFunc = AutoProcessSelfFunction(GetTargetFunc,GenStyle);
-                                DecompileLine += AutoProcessParams(GetTargetFunc, string.Empty, GenStyle);
+                                DecompileLine += AutoProcessParams(GetTargetFunc, Params, GenStyle) + "//" + Line; ;
                             }
                         }
                         else
@@ -606,7 +692,7 @@ public class AssemblyHelper
 
                                 if (Params.Length > 0)
                                 {
-                                    DecompileLine += AutoProcessParams(GetTargetFunc, Params, GenStyle);
+                                    DecompileLine += AutoProcessParams(GetTargetFunc, Params, GenStyle) + "//" + Line; ;
                                 }
                             }
                         }

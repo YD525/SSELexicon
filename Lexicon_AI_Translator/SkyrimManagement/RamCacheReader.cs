@@ -12,19 +12,23 @@ namespace LexTranslator.SkyrimManagement
         public List<FakeGrid> RamLines = new List<FakeGrid>();
         public void Load(string FilePath)
         {
-            if (File.Exists(FilePath))
+            try
             {
-                string GetRamCache = Encoding.UTF8.GetString(DataHelper.ReadFile(FilePath));
-                this.RamLines = JsonConvert.DeserializeObject<List<FakeGrid>>(GetRamCache);
-
-                if (RamLines != null)
+                if (File.Exists(FilePath))
                 {
-                    foreach (var Get in RamLines)
+                    string GetRamCache = Encoding.UTF8.GetString(DataHelper.ReadFile(FilePath));
+                    this.RamLines = JsonConvert.DeserializeObject<List<FakeGrid>>(GetRamCache);
+
+                    if (RamLines != null)
                     {
-                        TranslatorBridge.SetTransCache(Get.Key, Get.TransText);
+                        foreach (var Get in RamLines)
+                        {
+                            TranslatorBridge.SetTransCache(Get.Key, Get.TransText);
+                        }
                     }
                 }
             }
+            catch { }
         }
         public void Close()
         {
@@ -60,7 +64,7 @@ namespace LexTranslator.SkyrimManagement
 
                 return true;
             }
-            catch 
+            catch
             {
                 return false;
             }
