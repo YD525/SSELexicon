@@ -565,6 +565,16 @@ public class TStrcat
 
     public int CodeLine = 0;
 }
+
+public class TOperator
+{
+    public string Operator = "";
+    public string ValueA = "";
+    public string ValueB = "";
+
+    public string LinkVariable = "";
+    public int CodeLine = 0;
+}
 public class DecompileTracker
 {
     public string FuncName = "";
@@ -573,6 +583,7 @@ public class DecompileTracker
     public List<CastLink> CastLinks = new List<CastLink>();
     public List<TProp> Props = new List<TProp>();
     public List<TStrcat> Strcats = new List<TStrcat>();
+    public List<TOperator> Operators = new List<TOperator>();
 
     public string QueryVariables(string TempName)
     {
@@ -959,6 +970,52 @@ public class DecompileTracker
             }
 
             return "//" + OPCode + " " + Line;
+        }
+        if (OPCode == "cmp_eq" || OPCode == "cmp_lt" || OPCode == "cmp_le" || OPCode == "cmp_gt" || OPCode == "cmp_ge")
+        {
+            if (GetParams.Count > 0)
+            {
+                string Operator = "";
+                switch (OPCode)
+                {
+                    case "cmp_eq":
+                        {
+                            Operator = "==";
+                        }
+                        break;
+                    case "cmp_lt":
+                        {
+                            Operator = "<";
+                        }
+                        break;
+                    case "cmp_le":
+                        {
+                            Operator = "<=";
+                        }
+                        break;
+                    case "cmp_gt":
+                        {
+                            Operator = ">";
+                        }
+                        break;
+                    case "cmp_ge":
+                        {
+                            Operator = ">=";
+                        }
+                        break;
+                }
+
+                TOperator NTOperator = new TOperator();
+                NTOperator.CodeLine = CodeLine;
+                NTOperator.Operator = Operator;
+                NTOperator.LinkVariable = GetParams[0].Trim();
+            }
+            else
+            { 
+            
+            }
+
+            return OPCode + " " + Line;
         }
         else
         {
