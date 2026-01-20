@@ -530,6 +530,16 @@ public class CastLink
     }
 }
 
+public class TProp
+{
+    public List<string> Fronts = new List<string>();
+    public string PropName = "";
+    public string LinkVariable = "";
+    public int CodeLine = 0;
+    public int IsGetOrSet = 0;
+    public bool Self = false;
+}
+
 public class TFunction
 {
     public List<string> Fronts = new List<string>();
@@ -548,7 +558,39 @@ public class DecompileTracker
     public List<TVariable> PexVariables = new List<TVariable>();
     public List<TFunction> PexFunctions = new List<TFunction>();
     public List<CastLink> CastLinks = new List<CastLink>();
+    public List<TProp> Props = new List<TProp>();
 
+    public string QueryVariables(string TempName)
+    {
+        TempName = TempName.Trim();
+        foreach (var Get in this.CastLinks)
+        {
+            if (Get.Find(TempName))
+            {
+                foreach (var GetLinkValue in Get.Links)
+                {
+                    foreach (var GetVariable in PexVariables)
+                    {
+                        if (GetVariable.Tag.Equals(GetLinkValue))
+                        {
+                            return GetVariable.VariableName.Trim();
+                        }
+                    }
+                }
+                break;
+            }
+        }
+
+        foreach (var GetVariable in PexVariables)
+        {
+            if (GetVariable.Tag.Equals(TempName))
+            {
+                return GetVariable.VariableName.Trim();
+            }
+        }
+
+        return string.Empty;
+    }
     public DecompileTracker(string FuncName)
     {
         this.FuncName = FuncName;
@@ -736,7 +778,7 @@ public class DecompileTracker
                     {
                         ReturnLine += ";";
                     }
-                    return ReturnLine;
+                    return "//" + ReturnLine;
                 }
                 else
                 {
@@ -755,7 +797,7 @@ public class DecompileTracker
             bool FindLink = false;
             int SetOffset = -1;
 
-            for (int i=0;i<this.CastLinks.Count;i++)
+            for (int i = 0; i < this.CastLinks.Count; i++)
             {
                 foreach (var CheckLink in GetParams)
                 {
@@ -768,7 +810,7 @@ public class DecompileTracker
                 }
             }
 
-            SetLink:
+        SetLink:
             if (FindLink)
             {
                 this.CastLinks[SetOffset].AddLinks(GetParams);
@@ -783,6 +825,73 @@ public class DecompileTracker
             }
 
             return "//" + OPCode + " " + Line;
+        }
+        else
+        if (OPCode == "propget" || OPCode == "propset")
+        {
+            TProp NTProp = new TProp();
+            NTProp.CodeLine = CodeLine;
+
+            if (OPCode == "propset")
+            {
+                NTProp.IsGetOrSet = 1;
+            }
+
+            if (GetParams.Count == 2)
+            {
+                string GetPropName = GetParams[0];
+                GetPropName = GetPropName.Trim();
+                if (GetPropName.Contains(" "))
+                {
+                    var GetPropNames = GetPropName.Split(' ');
+                    if (GetPropNames.Length >= 2)
+                    {
+                        NTProp.PropName = GetPropNames[0];
+
+                        if (GetPropNames[1] == "self")
+                        {
+                            NTProp.Self = true;
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                    else
+                    {
+
+                    }
+
+                    NTProp.LinkVariable = GetParams[1];
+                }
+                else
+                {
+                    NTProp.PropName = GetPropName;
+                    NTProp.LinkVariable = GetParams[1];
+                }
+            }
+            else
+            {
+                List<string> GetFronts = new List<string>();
+
+                foreach (var Get in GetParams)
+                {
+                    if (Get.Trim() != GetParams[GetParams.Count - 1].Trim() && Get.Trim() != GetParams[0].Trim())
+                    {
+                        GetFronts.Add(Get.Trim());
+                    }
+                }
+
+                NTProp.PropName = GetParams[0].Trim();
+                NTProp.LinkVariable = GetParams[GetParams.Count - 1].Trim();
+                NTProp.Fronts = GetFronts;
+            }
+            return "//" + OPCode + " " + Line;
+        }
+        else
+        if (OPCode == "strcat")
+        {
+            return OPCode + " " + Line;
         }
         else
         {
