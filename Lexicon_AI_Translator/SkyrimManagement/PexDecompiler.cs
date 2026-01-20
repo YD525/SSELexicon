@@ -7,6 +7,7 @@ using System.Windows.Shapes;
 using System;
 using static LexTranslator.SkyrimManagement.PexDecompiler;
 using LexTranslator.SkyrimManagement;
+using System.Reflection.Emit;
 
 namespace LexTranslator.SkyrimManagement
 {
@@ -368,7 +369,7 @@ namespace LexTranslator.SkyrimManagement
 
                             string CurrentLine = "";
                             PexFunction PexFunc = null;
-                            VariableTracker Variables = new VariableTracker(Item.Value);
+                            DecompileTracker Tracker = new DecompileTracker(Item.Value);
 
                             foreach (var GetArg in GetInstruction.Arguments)
                             {
@@ -427,7 +428,7 @@ namespace LexTranslator.SkyrimManagement
                             }
 
                             CurrentLine = CurrentLine.Trim();
-                            TempBlock += GenSpace(2) + Variables.CheckCode(CodeLine, IntValues, GetOPName, CurrentLine, this.GenStyle) + "\n";
+                            TempBlock += GenSpace(2) + Tracker.CheckCode(CodeLine, IntValues, GetOPName, CurrentLine, this.GenStyle) + "\n";
                             CodeLine++;
                         }
 
@@ -507,18 +508,23 @@ public class TFunction
 
     public string LinkVariable = "";
 }
-public class VariableTracker
+public class DecompileTracker
 {
     public string FuncName = "";
     public List<TVariable> PexVariables = new List<TVariable>();
     public List<TFunction> PexFunctions = new List<TFunction>();
 
-    public VariableTracker(string FuncName)
+    public DecompileTracker(string FuncName)
     {
         this.FuncName = FuncName;
     }
     public string CheckCode(int CodeLine, List<int> IntValues,string OPCode,string Line,CodeGenStyle GenStyle)
     {
+        if (OPCode == "callmethod" || OPCode == "callparent" || OPCode == "callstatic")
+        {
+            return OPCode + " " + Line;
+        }
+        else
         if (OPCode == "assign")
         {
             string[] GetParam = Line.Split(new[] { "::" }, StringSplitOptions.None);
