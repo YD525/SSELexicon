@@ -552,6 +552,19 @@ public class TFunction
 
     public string LinkVariable = "";
 }
+
+public class TStrcat
+{
+    public string LinkVariable = "";
+
+    public string Value = "";
+
+    public string MergeStr = "";
+
+    public bool IsLeft = false;
+
+    public int CodeLine = 0;
+}
 public class DecompileTracker
 {
     public string FuncName = "";
@@ -559,6 +572,7 @@ public class DecompileTracker
     public List<TFunction> PexFunctions = new List<TFunction>();
     public List<CastLink> CastLinks = new List<CastLink>();
     public List<TProp> Props = new List<TProp>();
+    public List<TStrcat> Strcats = new List<TStrcat>();
 
     public string QueryVariables(string TempName)
     {
@@ -891,7 +905,60 @@ public class DecompileTracker
         else
         if (OPCode == "strcat")
         {
-            return OPCode + " " + Line;
+            if (GetParams.Count > 0)
+            {
+                string StrValue = "";
+                List<string> StrcatParams = new List<string>();
+
+                if (GetParams.Count > 0 && GetParams.Count < 2)
+                {
+                    foreach (var Get in GetParams[0].Split(' '))
+                    {
+                        if (Get.Trim().StartsWith("\""))
+                        {
+                            StrValue = Get.Trim();
+                        }
+                        else
+                        if (Get.Trim().Length > 0)
+                        {
+                            StrcatParams.Add(Get.Trim());
+                        }
+                    }
+                }
+                else
+                if (GetParams.Count >= 2)
+                {
+                    StrcatParams = GetParams;
+                }
+
+                TStrcat NTStrcat = new TStrcat();
+                NTStrcat.CodeLine = CodeLine;
+                NTStrcat.LinkVariable = StrcatParams[0].Trim();
+                if (StrValue.Trim().Length > 0)
+                {
+                    NTStrcat.Value = StrcatParams[StrcatParams.Count - 1];
+                    NTStrcat.MergeStr = StrValue;
+                }
+                else
+                {
+                    NTStrcat.MergeStr = StrcatParams[StrcatParams.Count - 1];
+                }
+
+                NTStrcat.MergeStr = NTStrcat.MergeStr.Trim();
+                if (NTStrcat.MergeStr.StartsWith(NTStrcat.LinkVariable))
+                {
+                    NTStrcat.MergeStr = NTStrcat.MergeStr.Substring(NTStrcat.LinkVariable.Length).Trim();
+                    NTStrcat.IsLeft = true;
+                }
+                if (NTStrcat.MergeStr.EndsWith(NTStrcat.LinkVariable))
+                {
+                    NTStrcat.MergeStr = NTStrcat.MergeStr.Substring(0, NTStrcat.MergeStr.Length - NTStrcat.LinkVariable.Length).Trim();
+                    NTStrcat.IsLeft = false;
+                }
+                Strcats.Add(NTStrcat);
+            }
+
+            return "//" + OPCode + " " + Line;
         }
         else
         {
