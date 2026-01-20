@@ -273,6 +273,16 @@ namespace LexTranslator.SkyrimManagement
             }
         }
 
+        public string GenSpace(int Count)
+        {
+            string Space = "";
+            for (int i = 0; i < Count; i++)
+            {
+                Space += CodeSpace;
+            }
+            return Space;
+        }
+
         public void AnalyzeFunction(List<PexString> TempStrings, ref StringBuilder PscCode)
         {
             for (int i = 0; i < TempStrings.Count; i++)
@@ -343,8 +353,6 @@ namespace LexTranslator.SkyrimManagement
                         {
                             string GetOPName = GetInstruction.GetOpcodeName();
 
-                            TempBlock += GetOPName + " ";
-
                             string CurrentLine = GetOPName + " ";
                             PexFunction PexFunc = null;
 
@@ -353,10 +361,7 @@ namespace LexTranslator.SkyrimManagement
                                 var GetIndex = ConvertHelper.ObjToInt(GetArg.Value);
                                 if (GetIndex > 0)
                                 {
-                                    if (GetOPName == "callmethod" || GetOPName == "callparent" || GetOPName == "callstatic")
-                                    { 
-                                    
-                                    }
+
 
                                     string GetValue = "";
 
@@ -394,23 +399,33 @@ namespace LexTranslator.SkyrimManagement
 
                                     if (GetArg.Type == 2)
                                     {
-                                        TempBlock += "\"" + GetValue + "\"" + " ";
                                         CurrentLine += "\"" + GetValue + "\"" + " ";
                                     }
                                     else
                                     {
-                                        TempBlock += GetValue + " ";
                                         CurrentLine += GetValue + " ";
                                     }
                                 }
                             }
 
+                            CurrentLine = CurrentLine.Trim();
+
                             if (GetOPName == "callmethod" || GetOPName == "callparent" || GetOPName == "callstatic")
                             {
-                                AssemblyHelper.ReconstructFunctionCall(PexFunc, GetOPName,CurrentLine,this.GenStyle);
+                                TempBlock += GenSpace(2) + AssemblyHelper.ReconstructFunctionCall(PexFunc, GetOPName, CurrentLine, this.GenStyle);
+                            }
+                            else
+                            {
+                                TempBlock += GetOPName + " ";
+                                TempBlock += CurrentLine;
                             }
 
                             TempBlock += "\n";
+                        }
+
+                        if (TempBlock.EndsWith("\n"))
+                        {
+                            TempBlock = TempBlock.Substring(0, TempBlock.Length - "\n".Length);
                         }
 
                         PscCode.AppendLine(TempBlock);
@@ -490,11 +505,11 @@ public class AssemblyHelper
 
         if (Params.Length == 0)
         {
-            Line += "()";
+            Line += Func + "()";
         }
         else
         {
-            Line += "(" + Params + ")";
+            Line += Func + "(" + Params + ")";
         }
 
         if (GenStyle == CodeGenStyle.CSharp)
@@ -564,10 +579,7 @@ public class AssemblyHelper
                             {
                                 string GetTargetFunc = GenParam[0];
                                 GetTargetFunc = AutoProcessSelfFunction(GetTargetFunc,GenStyle);
-                            }
-                            else
-                            { 
-                            
+                                DecompileLine += AutoProcessParams(GetTargetFunc, string.Empty, GenStyle);
                             }
                         }
                         else
@@ -583,6 +595,11 @@ public class AssemblyHelper
                                     {
                                         Params += GenParam[i].Substring(0, GenParam[i].Length - "_var".Length);
                                     }
+                                    else
+                                    if (!GenParam[i].Contains(" "))
+                                    {
+                                        Params += GenParam[i];
+                                    }
                                 }
 
                                 GetTargetFunc = AutoProcessSelfFunction(GetTargetFunc, GenStyle);
@@ -590,32 +607,20 @@ public class AssemblyHelper
                                 if (Params.Length > 0)
                                 {
                                     DecompileLine += AutoProcessParams(GetTargetFunc, Params, GenStyle);
-
-                                    if (GenStyle == CodeGenStyle.CSharp)
-                                    {
-                                        DecompileLine += ";";
-                                    }
-                                }
-                                else
-                                { 
-                                
                                 }
                             }
-                            else
-                            { 
-                            
-                            }
-                           
                         }
                     }
                 }
             break;
             case "callparent":
-                { 
+                {
+                    return Line;
                 }
             break;
             case "callstatic":
-                { 
+                {
+                    return Line;
                 }
             break;
         }
