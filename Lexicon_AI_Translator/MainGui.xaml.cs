@@ -36,6 +36,7 @@ using PhoenixEngine.SSEManage;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using PhoenixEngine.PlatformManagement;
+using System.Linq;
 
 namespace LexTranslator
 {
@@ -3560,9 +3561,11 @@ namespace LexTranslator
         {
             for (int i = 0; i < EngineConfig.Config.PlatformConfigs.Count; i++)
             {
-                if (EngineConfig.Config.PlatformConfigs[i].Platform == Type)
+                int GetKey = EngineConfig.Config.PlatformConfigs.ElementAt(i).Key;
+
+                if (EngineConfig.Config.PlatformConfigs[GetKey].Platform == Type)
                 {
-                    EngineConfig.Config.PlatformConfigs[i].ApiKeys = EngineConfig.Config.KeysStrToArray(KeysStr);
+                    EngineConfig.Config.PlatformConfigs[GetKey].ApiKeys = EngineConfig.Config.KeysStrToArray(KeysStr);
                     break;
                 }
             }
