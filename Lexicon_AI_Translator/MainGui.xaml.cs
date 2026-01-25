@@ -35,6 +35,7 @@ using static PhoenixEngine.Bridges.NativeBridge;
 using PhoenixEngine.SSEManage;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using PhoenixEngine.PlatformManagement;
 
 namespace LexTranslator
 {
@@ -2075,10 +2076,9 @@ namespace LexTranslator
                                             return;
                                         }
 
-                                        if (EngineConfig.Config.LMLocalAIEnable)
+                                        if (EngineConfig.Config.GetPlatformData(LMStudio.Type).Enable)
                                         {
-                                            EngineConfig.Config.LMModel = string.Empty;
-                                            new LMStudio().GetCurrentModel();
+                                            LMStudio.CurrentModel = string.Empty;
                                         }
 
                                         TRun.Visibility = Visibility.Collapsed;
@@ -2259,7 +2259,7 @@ namespace LexTranslator
                                         break;
                                     case "Gemini":
                                         {
-                                            if (EngineConfig.Config.GeminiApiEnable)
+                                            if (EngineConfig.Config.GetPlatformData(GeminiApi.Type).Enable)
                                             {
                                                 GetStateGrid.Style = NodeEnable;
                                             }
@@ -2271,7 +2271,7 @@ namespace LexTranslator
                                         break;
                                     case "ChatGpt":
                                         {
-                                            if (EngineConfig.Config.ChatGptApiEnable)
+                                            if (EngineConfig.Config.GetPlatformData(ChatGptApi.Type).Enable)
                                             {
                                                 GetStateGrid.Style = NodeEnable;
                                             }
@@ -2283,7 +2283,7 @@ namespace LexTranslator
                                         break;
                                     case "DeepSeek":
                                         {
-                                            if (EngineConfig.Config.DeepSeekApiEnable)
+                                            if (EngineConfig.Config.GetPlatformData(DeepSeekApi.Type).Enable)
                                             {
                                                 GetStateGrid.Style = NodeEnable;
                                             }
@@ -2295,7 +2295,7 @@ namespace LexTranslator
                                         break;
                                     case "LMLocalAI":
                                         {
-                                            if (EngineConfig.Config.LMLocalAIEnable)
+                                            if (EngineConfig.Config.GetPlatformData(LMStudio.Type).Enable)
                                             {
                                                 GetStateGrid.Style = NodeEnable;
                                             }
@@ -2307,7 +2307,7 @@ namespace LexTranslator
                                         break;
                                     case "DeepL":
                                         {
-                                            if (EngineConfig.Config.DeepLApiEnable)
+                                            if (EngineConfig.Config.GetPlatformData(DeepLApi.Type).Enable)
                                             {
                                                 GetStateGrid.Style = NodeEnable;
                                             }
@@ -2366,70 +2366,75 @@ namespace LexTranslator
                                 break;
                             case "Gemini":
                                 {
-                                    if (!EngineConfig.Config.GeminiApiEnable)
+                                    int SetKey = (int)GeminiApi.Type;
+                                    if (!EngineConfig.Config.PlatformConfigs[SetKey].Enable)
                                     {
-                                        EngineConfig.Config.GeminiApiEnable = true;
+                                        EngineConfig.Config.PlatformConfigs[SetKey].Enable = true;
                                         GetStateGrid.Style = NodeEnable;
                                     }
                                     else
                                     {
-                                        EngineConfig.Config.GeminiApiEnable = false;
+                                        EngineConfig.Config.PlatformConfigs[SetKey].Enable = false;
                                         GetStateGrid.Style = NodeDisable;
                                     }
                                 }
                                 break;
                             case "ChatGpt":
                                 {
-                                    if (!EngineConfig.Config.ChatGptApiEnable)
+                                    int SetKey = (int)ChatGptApi.Type;
+                                    if (!EngineConfig.Config.PlatformConfigs[SetKey].Enable)
                                     {
-                                        EngineConfig.Config.ChatGptApiEnable = true;
+                                        EngineConfig.Config.PlatformConfigs[SetKey].Enable = true;
                                         GetStateGrid.Style = NodeEnable;
                                     }
                                     else
                                     {
-                                        EngineConfig.Config.ChatGptApiEnable = false;
+                                        EngineConfig.Config.PlatformConfigs[SetKey].Enable = false;
                                         GetStateGrid.Style = NodeDisable;
                                     }
                                 }
                                 break;
                             case "DeepSeek":
                                 {
-                                    if (!EngineConfig.Config.DeepSeekApiEnable)
+                                    int SetKey = (int)DeepSeekApi.Type;
+                                    if (!EngineConfig.Config.PlatformConfigs[SetKey].Enable)
                                     {
-                                        EngineConfig.Config.DeepSeekApiEnable = true;
+                                        EngineConfig.Config.PlatformConfigs[SetKey].Enable = true;
                                         GetStateGrid.Style = NodeEnable;
                                     }
                                     else
                                     {
-                                        EngineConfig.Config.DeepSeekApiEnable = false;
+                                        EngineConfig.Config.PlatformConfigs[SetKey].Enable = false;
                                         GetStateGrid.Style = NodeDisable;
                                     }
                                 }
                                 break;
                             case "LMLocalAI":
                                 {
-                                    if (!EngineConfig.Config.LMLocalAIEnable)
+                                    int SetKey = (int)LMStudio.Type;
+                                    if (!EngineConfig.Config.PlatformConfigs[SetKey].Enable)
                                     {
-                                        EngineConfig.Config.LMLocalAIEnable = true;
+                                        EngineConfig.Config.PlatformConfigs[SetKey].Enable = true;
                                         GetStateGrid.Style = NodeEnable;
                                     }
                                     else
                                     {
-                                        EngineConfig.Config.LMLocalAIEnable = false;
+                                        EngineConfig.Config.PlatformConfigs[SetKey].Enable = false;
                                         GetStateGrid.Style = NodeDisable;
                                     }
                                 }
                                 break;
                             case "DeepL":
                                 {
-                                    if (!EngineConfig.Config.DeepLApiEnable)
+                                    int SetKey = (int)DeepLApi.Type;
+                                    if (!EngineConfig.Config.PlatformConfigs[SetKey].Enable)
                                     {
-                                        EngineConfig.Config.DeepLApiEnable = true;
+                                        EngineConfig.Config.PlatformConfigs[SetKey].Enable = true;
                                         GetStateGrid.Style = NodeEnable;
                                     }
                                     else
                                     {
-                                        EngineConfig.Config.DeepLApiEnable = false;
+                                        EngineConfig.Config.PlatformConfigs[SetKey].Enable = false;
                                         GetStateGrid.Style = NodeDisable;
                                     }
                                 }
@@ -3212,22 +3217,24 @@ namespace LexTranslator
         {
             if (Name.Equals("Request And ApiKey Configs"))
             {
+                var PhoenixConfig = EngineConfig.Config;
+
                 STimeOut.Text = EngineConfig.Config.GlobalRequestTimeOut.ToString();
 
                 SProxyUrl.Text = EngineConfig.Config.ProxyUrl;
                 SProxyUserName.Text = EngineConfig.Config.ProxyUserName;
-                SProxyPassword.Password = EngineConfig.Config.ProxyPassword;
+                SProxyPassword.Text = EngineConfig.Config.ProxyPassword;
 
-                SGeminiKey.Password = EngineConfig.Config.GeminiKey;
-                SGeminiModel.Text = EngineConfig.Config.GeminiModel;
+                SGeminiKey.Text = PhoenixConfig.GetPlatformKeysStr(PhoenixConfig.GetPlatformData(GeminiApi.Type));
+                SGeminiModel.Text = EngineConfig.Config.GetPlatformData(GeminiApi.Type).Model;
 
                 SGeminiModelSelect.Items.Clear();
                 SGeminiModelSelect.Items.Add("gemini-2.5-flash");
                 SGeminiModelSelect.Items.Add("gemini-2.0-flash");
                 SGeminiModelSelect.SelectedValue = null;
 
-                SChatGptKey.Password = EngineConfig.Config.ChatGptKey;
-                SChatGptModel.Text = EngineConfig.Config.ChatGptModel;
+                SChatGptKey.Text = PhoenixConfig.GetPlatformKeysStr(PhoenixConfig.GetPlatformData(ChatGptApi.Type));
+                SChatGptModel.Text = EngineConfig.Config.GetPlatformData(ChatGptApi.Type).Model;
                 SChatGptModelSelect.Items.Clear();
                 SChatGptModelSelect.Items.Add("gpt-5-nano");
                 SChatGptModelSelect.Items.Add("gpt-5-mini");
@@ -3237,20 +3244,19 @@ namespace LexTranslator
                 SChatGptModelSelect.SelectedValue = null;
 
 
-                SDeepSeekKey.Password = EngineConfig.Config.DeepSeekKey;
-                SDeepSeekModel.Text = EngineConfig.Config.DeepSeekModel;
+                SDeepSeekKey.Text = PhoenixConfig.GetPlatformKeysStr(PhoenixConfig.GetPlatformData(DeepSeekApi.Type));
+                SDeepSeekModel.Text = EngineConfig.Config.GetPlatformData(DeepSeekApi.Type).Model;
                 SDeepSeekModelSelect.Items.Clear();
                 SDeepSeekModelSelect.Items.Add("deepseek-chat");
                 SDeepSeekModelSelect.Items.Add("deepseek-reasoner");
                 SDeepSeekModelSelect.SelectedValue = null;
 
-                SLMHost.Text = EngineConfig.Config.LMHost;
-                SLMPort.Text = EngineConfig.Config.LMPort.ToString();
-                SLMModel.Text = EngineConfig.Config.LMModel;
+                SLMPort.Text = PhoenixConfig.GetPlatformData(LMStudio.Type).LocalPort.ToString();
+                SLMModel.Text = LMStudio.CurrentModel;
 
-                SDeepLKey.Password = EngineConfig.Config.DeepLKey;
+                SDeepLKey.Text = PhoenixConfig.GetPlatformKeysStr(PhoenixConfig.GetPlatformData(DeepLApi.Type));
 
-                if (EngineConfig.Config.IsFreeDeepL)
+                if (PhoenixConfig.GetPlatformData(DeepLApi.Type).IsFree)
                 {
                     IsFreeDeepL.IsChecked = true;
                 }
@@ -3455,18 +3461,13 @@ namespace LexTranslator
         {
             EngineConfig.Config.ProxyUserName = SProxyUserName.Text;
         }
-        private void SProxyPassword_PasswordChanged(object sender, RoutedEventArgs e)
+        private void SProxyPassword_TextChanged(object sender, TextChangedEventArgs e)
         {
-            EngineConfig.Config.ProxyPassword = SProxyPassword.Password;
-        }
-
-        private void SGeminiKey_PasswordChanged(object sender, RoutedEventArgs e)
-        {
-            EngineConfig.Config.GeminiKey = SGeminiKey.Password;
+            EngineConfig.Config.ProxyPassword = SProxyPassword.Text;
         }
         private void SGeminiModel_TextChanged(object sender, TextChangedEventArgs e)
         {
-            EngineConfig.Config.GeminiModel = SGeminiModel.Text;
+            EngineConfig.Config.PlatformConfigs[(int)GeminiApi.Type].Model = SGeminiModel.Text;
         }
         private void SGeminiModelSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -3477,14 +3478,9 @@ namespace LexTranslator
                 SGeminiModel.Text = GetModel;
             }
         }
-
-        private void SChatGptKey_PasswordChanged(object sender, RoutedEventArgs e)
-        {
-            EngineConfig.Config.ChatGptKey = SChatGptKey.Password;
-        }
         private void SChatGptModel_TextChanged(object sender, TextChangedEventArgs e)
         {
-            EngineConfig.Config.ChatGptModel = SChatGptModel.Text;
+            EngineConfig.Config.PlatformConfigs[(int)ChatGptApi.Type].Model = SChatGptModel.Text;
         }
         private void SChatGptModelSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -3495,14 +3491,9 @@ namespace LexTranslator
                 SChatGptModel.Text = GetModel;
             }
         }
-
-        private void SDeepSeekKey_PasswordChanged(object sender, RoutedEventArgs e)
-        {
-            EngineConfig.Config.DeepSeekKey = SDeepSeekKey.Password;
-        }
         private void SDeepSeekModel_TextChanged(object sender, TextChangedEventArgs e)
         {
-            EngineConfig.Config.DeepSeekModel = SDeepSeekModel.Text;
+            EngineConfig.Config.PlatformConfigs[(int)DeepSeekApi.Type].Model = SDeepSeekModel.Text;
         }
         private void SDeepSeekModelSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -3514,54 +3505,20 @@ namespace LexTranslator
             }
         }
 
-        private void SLMHost_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            EngineConfig.Config.LMHost = SLMHost.Text;
-        }
         private void SLMPort_TextChanged(object sender, TextChangedEventArgs e)
         {
-            EngineConfig.Config.LMPort = ConvertHelper.ObjToInt(SLMPort.Text);
-        }
-        private void SLMHost_MouseLeave(object sender, MouseEventArgs e)
-        {
-            //Auto Format
-            string Url = SLMHost.Text;
-
-            Uri Uri = null;
-
-            if (Uri.TryCreate(Url, UriKind.Absolute, out Uri))
-            {
-                if (Uri != null)
-                {
-                    string HostWithScheme = Uri.Scheme + "://" + Uri.Host;
-                    int Port = Uri.Port;
-
-                    if (Port > 0 && Port != 80)
-                    {
-                        EngineConfig.Config.LMHost = HostWithScheme;
-                        EngineConfig.Config.LMPort = Port;
-
-                        SLMHost.Text = EngineConfig.Config.LMHost;
-                        SLMPort.Text = EngineConfig.Config.LMPort.ToString();
-                    }
-                }
-            }
-        }
-
-        private void SDeepLKey_PasswordChanged(object sender, RoutedEventArgs e)
-        {
-            EngineConfig.Config.DeepLKey = SDeepLKey.Password;
+            EngineConfig.Config.PlatformConfigs[(int)LMStudio.Type].LocalPort = ConvertHelper.ObjToInt(SLMPort.Text);
         }
 
         private void IsFreeDeepL_Click(object sender, RoutedEventArgs e)
         {
             if (IsFreeDeepL.IsChecked == true)
             {
-                EngineConfig.Config.IsFreeDeepL = true;
+                EngineConfig.Config.PlatformConfigs[(int)DeepLApi.Type].IsFree = true;
             }
             else
             {
-                EngineConfig.Config.IsFreeDeepL = false;
+                EngineConfig.Config.PlatformConfigs[(int)DeepLApi.Type].IsFree = false;
             }
         }
         private void SContextLimit_TextChanged(object sender, TextChangedEventArgs e)
@@ -3597,6 +3554,40 @@ namespace LexTranslator
             {
                 DeFine.GlobalLocalSetting.GameType = (GameNames)Enum.Parse(typeof(GameNames), GetName);
             }
+        }
+
+        public void SaveApiKey(PlatformType Type,string KeysStr)
+        {
+            for (int i = 0; i < EngineConfig.Config.PlatformConfigs.Count; i++)
+            {
+                if (EngineConfig.Config.PlatformConfigs[i].Platform == Type)
+                {
+                    EngineConfig.Config.PlatformConfigs[i].ApiKeys = EngineConfig.Config.KeysStrToArray(KeysStr);
+                    break;
+                }
+            }
+
+            EngineConfig.Save();
+        }
+
+        private void SGeminiKey_MouseLeave(object sender, MouseEventArgs e)
+        {
+            SaveApiKey(PlatformType.Gemini, SGeminiKey.Text);
+        }
+
+        private void SChatGptKey_MouseLeave(object sender, MouseEventArgs e)
+        {
+            SaveApiKey(PlatformType.ChatGpt, SChatGptKey.Text);
+        }
+
+        private void SDeepSeekKey_MouseLeave(object sender, MouseEventArgs e)
+        {
+            SaveApiKey(PlatformType.DeepSeek, SDeepSeekKey.Text);
+        }
+
+        private void SDeepLKey_MouseLeave(object sender, MouseEventArgs e)
+        {
+            SaveApiKey(PlatformType.DeepL, SDeepLKey.Text);
         }
 
         private void SThrottlingRatio_TextChanged(object sender, TextChangedEventArgs e)

@@ -637,7 +637,7 @@
                                     <GridSplitter HorizontalAlignment="Right" Height="15" Width="3.5" Background="Gray" Grid.Column="1"/>
                                     <GridSplitter HorizontalAlignment="Right" Height="15" Width="3.5" Background="Gray" Grid.Column="2"/>
                                 </Grid>
-                                <Grid Name="TransView" Style="{DynamicResource FrameStyle}" Grid.Row="4" Panel.ZIndex="990" Margin="10 0 10 0" Visibility="Visible">
+                                <Grid Name="TransView" Style="{DynamicResource FrameStyle}" Grid.Row="4" Panel.ZIndex="990" Margin="10 0 10 0" Visibility="Hidden">
 
                                     <Grid.ContextMenu>
                                         <ContextMenu>
@@ -991,7 +991,7 @@ Fill="White"/>
                             </Grid>
                         </Grid>
 
-                        <Grid Name="SettingView" Style="{DynamicResource FrameStyle}" Visibility="Collapsed">
+                        <Grid Name="SettingView" Style="{DynamicResource FrameStyle}" Visibility="Hidden">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="5"/>
@@ -1103,8 +1103,8 @@ Fill="White"/>
                                                     </Label>
 
                                                     <Border  Style="{DynamicResource DefTextBoxBorder}" Width="100" >
-                                                        <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="SProxyPassword" PasswordChanged="SProxyPassword_PasswordChanged">
-                                                        </PasswordBox>
+                                                        <TextBox Style="{DynamicResource DefTextBox}" Name="SProxyPassword" TextChanged="SProxyPassword_TextChanged">
+                                                        </TextBox>
                                                     </Border>
                                                 </StackPanel>
 
@@ -1119,20 +1119,20 @@ Fill="White"/>
                                                             https://aistudio.google.com/apikey
                                                         </Label>
                                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                                            <Label Style="{DynamicResource NormalText}">
+                                                            <Label Style="{DynamicResource NormalText}" VerticalAlignment="Center">
                                                                 Gemini ApiKey:
                                                             </Label>
 
                                                             <Border Style="{DynamicResource DefTextBoxBorder}" Width="300">
-                                                                <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="SGeminiKey" PasswordChanged="SGeminiKey_PasswordChanged">
-                                                                </PasswordBox>
+                                                                <TextBox Style="{DynamicResource DefApiKeyBox}" Name="SGeminiKey" MouseLeave="SGeminiKey_MouseLeave">
+                                                                </TextBox>
                                                             </Border>
 
-                                                            <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
+                                                            <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0" VerticalAlignment="Center">
                                                                 Mode:
                                                             </Label>
 
-                                                            <Border  Style="{DynamicResource DefTextBoxBorder}" Width="100">
+                                                            <Border  Style="{DynamicResource DefTextBoxBorder}" Width="100" VerticalAlignment="Center" Height="30">
                                                                 <TextBox Style="{DynamicResource DefTextBox}" Name="SGeminiModel" TextChanged="SGeminiModel_TextChanged">
                                                                 </TextBox>
                                                             </Border>
@@ -1150,20 +1150,20 @@ Fill="White"/>
                                                         </Label>
 
                                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                                            <Label Style="{DynamicResource NormalText}">
+                                                            <Label Style="{DynamicResource NormalText}" VerticalAlignment="Center">
                                                                 ChatGpt ApiKey:
                                                             </Label>
 
-                                                            <Border  Style="{DynamicResource DefTextBoxBorder}" Width="300" >
-                                                                <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="SChatGptKey" PasswordChanged="SChatGptKey_PasswordChanged">
-                                                                </PasswordBox>
+                                                            <Border  Style="{DynamicResource DefTextBoxBorder}" Width="300">
+                                                                <TextBox Style="{DynamicResource DefApiKeyBox}" Name="SChatGptKey" MouseLeave="SChatGptKey_MouseLeave">
+                                                                </TextBox>
                                                             </Border>
 
-                                                            <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
+                                                            <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0" VerticalAlignment="Center">
                                                                 Mode:
                                                             </Label>
 
-                                                            <Border Style="{DynamicResource DefTextBoxBorder}" Width="100">
+                                                            <Border Style="{DynamicResource DefTextBoxBorder}" Width="100" VerticalAlignment="Center" Height="30">
                                                                 <TextBox Style="{DynamicResource DefTextBox}" Name="SChatGptModel" TextChanged="SChatGptModel_TextChanged">
                                                                 </TextBox>
                                                             </Border>
@@ -1180,20 +1180,20 @@ Fill="White"/>
                                                             https://platform.deepseek.com/api_keys
                                                         </Label>
                                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                                            <Label Style="{DynamicResource NormalText}">
+                                                            <Label Style="{DynamicResource NormalText}" VerticalAlignment="Center">
                                                                 DeepSeek ApiKey:
                                                             </Label>
 
                                                             <Border Style="{DynamicResource DefTextBoxBorder}" Width="300">
-                                                                <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="SDeepSeekKey" PasswordChanged="SDeepSeekKey_PasswordChanged">
-                                                                </PasswordBox>
+                                                                <TextBox Style="{DynamicResource DefApiKeyBox}" Name="SDeepSeekKey" MouseLeave="SDeepSeekKey_MouseLeave">
+                                                                </TextBox>
                                                             </Border>
 
-                                                            <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
+                                                            <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0" VerticalAlignment="Center">
                                                                 Mode:
                                                             </Label>
 
-                                                            <Border Style="{DynamicResource DefTextBoxBorder}" Width="100">
+                                                            <Border Style="{DynamicResource DefTextBoxBorder}" Width="100" VerticalAlignment="Center" Height="30">
                                                                 <TextBox Style="{DynamicResource DefTextBox}" Name="SDeepSeekModel" TextChanged="SDeepSeekModel_TextChanged">
                                                                 </TextBox>
                                                             </Border>
@@ -1210,29 +1210,21 @@ Fill="White"/>
                                                             https://lmstudio.ai/
                                                         </Label>
                                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                                            <Label Style="{DynamicResource NormalText}">
-                                                                LocalAI(LM) Host:
-                                                            </Label>
 
-                                                            <Border Style="{DynamicResource DefTextBoxBorder}" Width="150">
-                                                                <TextBox Style="{DynamicResource DefTextBox}" Name="SLMHost" TextChanged="SLMHost_TextChanged" MouseLeave="SLMHost_MouseLeave">
-                                                                </TextBox>
-                                                            </Border>
-
-                                                            <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
+                                                            <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0" VerticalAlignment="Center">
                                                                 Port:
                                                             </Label>
 
                                                             <Border Style="{DynamicResource DefTextBoxBorder}" Width="50">
-                                                                <TextBox Style="{DynamicResource DefTextBox}" Name="SLMPort" TextChanged="SLMPort_TextChanged">
+                                                                <TextBox Style="{DynamicResource DefTextBox}" Name="SLMPort" TextChanged="SLMPort_TextChanged" VerticalAlignment="Center" Height="30">
                                                                 </TextBox>
                                                             </Border>
 
-                                                            <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0">
+                                                            <Label Style="{DynamicResource NormalText}" Margin="5 0 0 0" VerticalAlignment="Center">
                                                                 Mode:
                                                             </Label>
 
-                                                            <Border Style="{DynamicResource DefTextBoxBorder}" Width="200">
+                                                            <Border Style="{DynamicResource DefTextBoxBorder}" Width="200" VerticalAlignment="Center" Height="30">
                                                                 <TextBox Style="{DynamicResource DefTextBox}" Name="SLMModel" IsReadOnly="True">
                                                                 </TextBox>
                                                             </Border>
@@ -1247,16 +1239,16 @@ Fill="White"/>
                                                             https://www.deepl.com/your-account/keys
                                                         </Label>
                                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                                            <Label Style="{DynamicResource NormalText}">
+                                                            <Label Style="{DynamicResource NormalText}" VerticalAlignment="Center">
                                                                 DeepL ApiKey:
                                                             </Label>
 
                                                             <Border Style="{DynamicResource DefTextBoxBorder}" Width="300">
-                                                                <PasswordBox Style="{DynamicResource DefPasswordBox}" Name="SDeepLKey" PasswordChanged="SDeepLKey_PasswordChanged">
-                                                                </PasswordBox>
+                                                                <TextBox Style="{DynamicResource DefApiKeyBox}" Name="SDeepLKey" MouseLeave="SDeepLKey_MouseLeave">
+                                                                </TextBox>
                                                             </Border>
 
-                                                            <CheckBox Style="{DynamicResource DefCheckBox}" Margin="5 0 0 0" Name="IsFreeDeepL" Click="IsFreeDeepL_Click">
+                                                            <CheckBox Style="{DynamicResource DefCheckBox}" Margin="5 0 0 0" Name="IsFreeDeepL" Click="IsFreeDeepL_Click" VerticalAlignment="Center">
                                                                 It is a free DeepL key
                                                             </CheckBox>
                                                         </StackPanel>

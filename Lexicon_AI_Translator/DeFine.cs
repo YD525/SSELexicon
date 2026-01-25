@@ -13,6 +13,7 @@ using System;
 using Newtonsoft.Json;
 using System.Threading;
 using LexTranslator.UIManage;
+using PhoenixEngine.TranslateManage;
 
 namespace LexTranslator
 {
@@ -37,7 +38,7 @@ namespace LexTranslator
 
         public static string BackupPath = @"\BackUpData\";
 
-        public static string CurrentVersion = "3.2.5.2";
+        public static string CurrentVersion = "3.2.5.3";
         public static LocalSetting GlobalLocalSetting = new LocalSetting();
 
         public static MainGui WorkingWin = null;
@@ -53,6 +54,12 @@ namespace LexTranslator
         {
             if (WorkingWin != null)
             {
+                WorkingWin.SaveApiKey(PlatformType.Gemini, WorkingWin.SGeminiKey.Text);
+                WorkingWin.SaveApiKey(PlatformType.ChatGpt, WorkingWin.SChatGptKey.Text);
+                WorkingWin.SaveApiKey(PlatformType.DeepSeek, WorkingWin.SDeepSeekKey.Text);
+
+                WorkingWin.SaveApiKey(PlatformType.DeepL, WorkingWin.SDeepLKey.Text);
+
                 WorkingWin.Hide();
             }
 
