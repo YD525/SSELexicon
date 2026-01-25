@@ -1143,6 +1143,11 @@ namespace LexTranslator
 
             CurrentSearchData = new SearchData();
 
+            DeFine.CurrentCodeView.Dispatcher.Invoke(new Action(() => 
+            {
+                DeFine.CurrentCodeView.TextEditor.Text = string.Empty;
+            }));
+
             this.Dispatcher.Invoke(new Action(() =>
             {
                 try
