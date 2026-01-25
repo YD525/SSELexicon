@@ -637,7 +637,7 @@
                                     <GridSplitter HorizontalAlignment="Right" Height="15" Width="3.5" Background="Gray" Grid.Column="1"/>
                                     <GridSplitter HorizontalAlignment="Right" Height="15" Width="3.5" Background="Gray" Grid.Column="2"/>
                                 </Grid>
-                                <Grid Name="TransView" Style="{DynamicResource FrameStyle}" Grid.Row="4" Panel.ZIndex="990" Margin="10 0 10 0" Visibility="Hidden">
+                                <Grid Name="TransView" Style="{DynamicResource FrameStyle}" Grid.Row="4" Panel.ZIndex="990" Margin="10 0 10 0" Visibility="Visible">
 
                                     <Grid.ContextMenu>
                                         <ContextMenu>
