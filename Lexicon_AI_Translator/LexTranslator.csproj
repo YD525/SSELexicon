@@ -140,6 +140,7 @@
     <Compile Include="SkyrimManagement\StringsFileReader.cs" />
     <Compile Include="SkyrimManagement\YDDictionaryHelper.cs" />
     <Compile Include="SQLManagement\SqlCore.cs" />
+    <Compile Include="TestNode.cs" />
     <Compile Include="TranslateManagement\Crc32Helper.cs" />
     <Compile Include="TranslateManagement\TranslatorExtend.cs" />
     <Compile Include="UIManagement\DashBoardService.cs" />

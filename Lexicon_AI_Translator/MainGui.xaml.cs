@@ -194,6 +194,8 @@ namespace LexTranslator
                 DeFine.CG.Show();
                 SyncCGLocation();
             }
+
+            TestNode.StartTest();
         }
 
 
