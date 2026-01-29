@@ -71,7 +71,7 @@ namespace LexTranslator
                 }));
             }
 
-            EngineConfig.Save();
+            Phoenix.SaveConfig();
             DeFine.GlobalLocalSetting.SaveConfig();
             Environment.Exit(0);
         }
@@ -152,7 +152,7 @@ namespace LexTranslator
             WorkingWin = Work;
             //Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-            Engine.Init();
+            Phoenix.Init();
 
             Thread NewWindowThread = new Thread(() =>
             {
@@ -282,7 +282,7 @@ namespace LexTranslator
 
             DataHelper.WriteFile(DeFine.GetFullPath(@"\setting.config"), Encoding.UTF8.GetBytes(GetSettingContent));
 
-            EngineConfig.Save();
+            Phoenix.SaveConfig();
         }
     }
 }

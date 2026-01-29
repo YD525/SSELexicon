@@ -205,7 +205,7 @@ namespace LexTranslator.UIManagement
 
             Color FontColor = Colors.White;
 
-            var QueryColor = FontColorFinder.FindColor(Engine.GetFileUniqueKey(), Item.Key);
+            var QueryColor = FontColorFinder.FindColor(Phoenix.GetFileUniqueKey(), Item.Key);
 
             if (QueryColor != null)
             {
@@ -535,7 +535,7 @@ namespace LexTranslator.UIManagement
 
                 if (DeFine.WorkingWin.TransViewList != null)
                 {
-                    DeFine.WorkingWin.TransViewList.ChangeFontColor(Engine.GetFileUniqueKey(), GetColor.R, GetColor.G, GetColor.B);
+                    DeFine.WorkingWin.TransViewList.ChangeFontColor(Phoenix.GetFileUniqueKey(), GetColor.R, GetColor.G, GetColor.B);
                 }
             }
         }

@@ -137,8 +137,8 @@ namespace LexTranslator
                 MatchView.Children.Clear();
             }));
 
-            var MatchCloudItems = LocalDBCache.MatchLocalItem((int)Engine.To, Original);
-            MatchCloudItems.AddRange(CloudDBCache.MatchCloudItem((int)Engine.To, Original));
+            var MatchCloudItems = LocalDBCache.MatchLocalItem((int)Phoenix.To, Original);
+            MatchCloudItems.AddRange(CloudDBCache.MatchCloudItem((int)Phoenix.To, Original));
 
             foreach (var GetMatch in MatchCloudItems)
             {

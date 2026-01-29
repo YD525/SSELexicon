@@ -485,7 +485,7 @@ namespace LexTranslator.SkyrimManagement
 
                 foreach (var Sub in GetRecord.SubRecords)
                 {
-                    var MergeSig = Engine.GetFileUniqueKey() + ":" + ParentFormID + ":" + ParentSig + ":" + Sub.Sig + ":" + Sub.Index + ":" + ParentEditorID;
+                    var MergeSig = Phoenix.GetFileUniqueKey() + ":" + ParentFormID + ":" + ParentSig + ":" + Sub.Sig + ":" + Sub.Index + ":" + ParentEditorID;
                     string UniqueKey = "[" + Crc32Helper.ComputeCrc32(MergeSig) + "]" + Sub.Sig;
 
                     RecordItem NRecordItem = new RecordItem
@@ -555,8 +555,8 @@ namespace LexTranslator.SkyrimManagement
             FromStringsFile.Close();
             ToStringsFile.Close();
 
-            FromStringsFile.LoadStringsFiles(EspPath,Engine.From);
-            ToStringsFile.LoadStringsFiles(EspPath,Engine.To);
+            FromStringsFile.LoadStringsFiles(EspPath, Phoenix.From);
+            ToStringsFile.LoadStringsFiles(EspPath, Phoenix.To);
         }
 
         //public static void TestSaveEsp()

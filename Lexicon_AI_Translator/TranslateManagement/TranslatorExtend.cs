@@ -275,13 +275,13 @@ namespace LexTranslator.TranslateManage
 
         public static void MakeReady()
         {
-            EngineConfig.Config.ProtectedPatterns.Clear();
+            Phoenix.Config.ProtectedPatterns.Clear();
 
             foreach (var GetStr in DeFine.GlobalLocalSetting.P_Placeholders.Split(','))
             {
                 if (GetStr.Trim().Length > 0)
                 {
-                    EngineConfig.Config.ProtectedPatterns.Add(GetStr);
+                    Phoenix.Config.ProtectedPatterns.Add(GetStr);
                 }
             }
 
@@ -350,7 +350,7 @@ namespace LexTranslator.TranslateManage
                         {
                             if (!string.IsNullOrEmpty(Row.TransText))
                             {
-                                Engine.AddAIMemory(Row.GetSource(), Row.TransText);
+                                Phoenix.AddAIMemory(Row.GetSource(), Row.TransText);
                             }
                         }
 
@@ -379,8 +379,8 @@ namespace LexTranslator.TranslateManage
                                         AutoType,//Automatically determine the type of the current term
                                         Row.GetSource(),//Get the source text corresponding to stringsfile id
                                         Row.TransText,//Get the translation content
-                                        Engine.From,//Get source language
-                                        Engine.To,//Get target language
+                                        Phoenix.From,//Get source language
+                                        Phoenix.To,//Get target language
                                         1,//Use full-word matching
                                         0,//Case sensitivity is not ignored
                                         string.Empty
@@ -428,7 +428,7 @@ namespace LexTranslator.TranslateManage
                                 if (GetTrans != null)
                                 {
                                     //Added to context memory. Helps AI improve accuracy.
-                                    Engine.AddAIMemory(Row.GetSource(), GetTrans.Value);
+                                    Phoenix.AddAIMemory(Row.GetSource(), GetTrans.Value);
                                     HasAddAIMemory = true;
 
                                     if (!Translator.TransData.ContainsKey(Row.Key))
@@ -473,15 +473,15 @@ namespace LexTranslator.TranslateManage
                                 }
                             }
 
-                            if (EngineConfig.Config.EnableGlobalSearch)
+                            if (Phoenix.Config.EnableGlobalSearch)
                             {
-                                var QueryData = CloudDBCache.MatchOtherCloudItem(-1, (int)Engine.To, Row.SourceText);
+                                var QueryData = CloudDBCache.MatchOtherCloudItem(-1, (int)Phoenix.To, Row.SourceText);
 
                                 if (QueryData.Count > 0)
                                 {
                                     var GetData = QueryData[QueryData.Count - 1];
 
-                                    Engine.AddAIMemory(Row.GetSource(), GetData.Result);
+                                    Phoenix.AddAIMemory(Row.GetSource(), GetData.Result);
                                     HasAddAIMemory = true;
 
                                     if (!Translator.TransData.ContainsKey(Row.Key))
@@ -512,13 +512,13 @@ namespace LexTranslator.TranslateManage
 
                             if (CanSet)
                             {
-                                TranslationUnits.Add(new TranslationUnit(Engine.GetFileUniqueKey(),
-                                Row.Key, Row.Type, Row.SourceText, Row.TransText, "", Engine.From, Engine.To, Row.Score));
+                                TranslationUnits.Add(new TranslationUnit(Phoenix.GetFileUniqueKey(),
+                                Row.Key, Row.Type, Row.SourceText, Row.TransText, "", Phoenix.From, Phoenix.To, Row.Score));
                             }
                         }
                     }
 
-                    TranslationCore = new BatchTranslationCore(Engine.From, Engine.To, TranslationUnits);
+                    TranslationCore = new BatchTranslationCore(Phoenix.From, Phoenix.To, TranslationUnits);
 
                     MarkLeaderTrd = new Thread(() =>
                     {
@@ -635,7 +635,7 @@ namespace LexTranslator.TranslateManage
                         }
                     }
 
-                    EngineConfig.SyncTrdCount();
+                    Phoenix.SyncTrdCount();
 
                     YDListView GetListView = DeFine.WorkingWin.TransViewList;
 
@@ -661,7 +661,7 @@ namespace LexTranslator.TranslateManage
                                 {
                                     if (!string.IsNullOrEmpty(Row.TransText))
                                     {
-                                        Engine.AddAIMemory(Row.GetSource(), Row.TransText);
+                                        Phoenix.AddAIMemory(Row.GetSource(), Row.TransText);
                                     }
                                 }
                             }
@@ -673,7 +673,7 @@ namespace LexTranslator.TranslateManage
 
                         EndAction.Invoke();
 
-                        int ModifyCount = Engine.TranslatedCount;
+                        int ModifyCount = Phoenix.TranslatedCount;
 
                         SetTransBarTittle(string.Format("STRINGS({0}/{1})", ModifyCount, GetListView.Rows));
 
@@ -700,8 +700,8 @@ namespace LexTranslator.TranslateManage
                                     GetFakeGrid.SyncUI(GetListView);
                                     SetTranslatorHistoryCache(GetGrid.Key, GetGrid.TransText, true);
 
-                                    Engine.TranslatedCount++;
-                                    SetTransBarTittle(string.Format("STRINGS({0}/{1})", Engine.TranslatedCount, GetListView.Rows));
+                                    Phoenix.TranslatedCount++;
+                                    SetTransBarTittle(string.Format("STRINGS({0}/{1})", Phoenix.TranslatedCount, GetListView.Rows));
                                 }
                             }
 

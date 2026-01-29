@@ -175,8 +175,8 @@ namespace LexTranslator
 
             SyncTransStateUI();
 
-            Engine.From = DeFine.GlobalLocalSetting.SourceLanguage;
-            Engine.To = DeFine.GlobalLocalSetting.TargetLanguage;
+            Phoenix.From = DeFine.GlobalLocalSetting.SourceLanguage;
+            Phoenix.To = DeFine.GlobalLocalSetting.TargetLanguage;
 
             SelectFristSettingNav();
 
@@ -469,15 +469,15 @@ namespace LexTranslator
             if (ContextGeneration.IsChecked == true)
             {
                 RightContextIndicator.Visibility = Visibility.Visible;
-                EngineConfig.Config.ContextEnable = true;
+                Phoenix.Config.ContextEnable = true;
             }
             else
             {
                 RightContextIndicator.Visibility = Visibility.Collapsed;
-                EngineConfig.Config.ContextEnable = false;
+                Phoenix.Config.ContextEnable = false;
             }
 
-            EngineConfig.Save();
+            Phoenix.SaveConfig();
         }
 
 
@@ -520,7 +520,7 @@ namespace LexTranslator
         {
             try
             {
-                int ModifyCount = Engine.TranslatedCount;
+                int ModifyCount = Phoenix.TranslatedCount;
 
                 this.Dispatcher.Invoke(new Action(() =>
                 {
@@ -545,24 +545,24 @@ namespace LexTranslator
 
                             if (SingleTrans)
                             {
-                                ThreadInFoFont.Content = string.Format("Thread(Current:{0},Max:{1})", Current + 1, EngineConfig.Config.MaxThreadCount + 1);
+                                ThreadInFoFont.Content = string.Format("Thread(Current:{0},Max:{1})", Current + 1, Phoenix.Config.MaxThreadCount + 1);
                             }
                             else
                             {
-                                ThreadInFoFont.Content = string.Format("Thread(Current:{0},Max:{1})", Current, EngineConfig.Config.MaxThreadCount);
+                                ThreadInFoFont.Content = string.Format("Thread(Current:{0},Max:{1})", Current, Phoenix.Config.MaxThreadCount);
                             }
                         }
                         else
                         if (TranslatorExtend.TranslationCore.IsWork && TranslatorExtend.TranslationCore.IsStop)
                         {
-                            ThreadInFoFont.Content = string.Format("Thread(Current:0,Max:{0})", EngineConfig.Config.MaxThreadCount);
+                            ThreadInFoFont.Content = string.Format("Thread(Current:0,Max:{0})", Phoenix.Config.MaxThreadCount);
                         }
                     }
                     else
                     {
                         if (SingleTrans)
                         {
-                            ThreadInFoFont.Content = string.Format("Thread(Current:{0},Max:{1})", 1, EngineConfig.Config.MaxThreadCount + 1);
+                            ThreadInFoFont.Content = string.Format("Thread(Current:{0},Max:{1})", 1, Phoenix.Config.MaxThreadCount + 1);
                         }
                     }
 
@@ -824,7 +824,7 @@ namespace LexTranslator
         }
         public bool CheckDictionary()
         {
-            string SetPath = DeFine.GetFullPath(@"\Librarys\" + Engine.LastLoadFileName + ".Json");
+            string SetPath = DeFine.GetFullPath(@"\Librarys\" + Phoenix.LastLoadFileName + ".Json");
             if (File.Exists(SetPath))
             {
                 return true;
@@ -935,7 +935,7 @@ namespace LexTranslator
                 string GetFileName = FilePath.Substring(FilePath.LastIndexOf(@"\") + @"\".Length);
                 //Caption.Text = GetFileName;
 
-                Engine.LoadFile(FilePath);
+                Phoenix.LoadFile(FilePath);
 
                 string GetModName = GetFileName;
                 FModName = LModName = GetModName;
@@ -1096,7 +1096,7 @@ namespace LexTranslator
 
                     if (DeFine.GlobalLocalSetting.EnableLanguageDetect)
                     {
-                        Engine.From = DetectLang();
+                        Phoenix.From = DetectLang();
                     }
                 }
 
@@ -1139,7 +1139,7 @@ namespace LexTranslator
 
             EmptyFromAndToText();
 
-            Engine.ChangeUniqueKey(0);
+            Phoenix.ChangeUniqueKey(0);
 
             CurrentSearchData = new SearchData();
 
@@ -1499,7 +1499,7 @@ namespace LexTranslator
             {
                 EmptyFromAndToText();
                 Translator.TransData.Clear();
-                Engine.GetTranslatedCount(Engine.GetFileUniqueKey());
+                Phoenix.GetTranslatedCount(Phoenix.GetFileUniqueKey());
 
                 if (TransViewList != null)
                 {
@@ -1560,13 +1560,13 @@ namespace LexTranslator
                 RefreshButton.Dispatcher.Invoke(new Action(() => {
                     RefreshButton.Content = UILanguageHelper.UICache["RefreshButton1"];
                 }));
-                var FileUniqueKey = Engine.GetFileUniqueKey();
+                var FileUniqueKey = Phoenix.GetFileUniqueKey();
 
                 if (FileUniqueKey > 0)
                 {
                     int CallFuncCount = 0;
 
-                    string SetPath = DeFine.GetFullPath(@"\Librarys\" + Engine.LastLoadFileName + ".Json");
+                    string SetPath = DeFine.GetFullPath(@"\Librarys\" + Phoenix.LastLoadFileName + ".Json");
 
                     if (File.Exists(SetPath))
                     {
@@ -1646,7 +1646,7 @@ namespace LexTranslator
                 UserTranslationCache.IsChecked = false;
             }
 
-            if (EngineConfig.Config.ContextEnable)
+            if (Phoenix.Config.ContextEnable)
             {
                 ContextGeneration.IsChecked = true;
                 RightContextIndicator.Visibility = Visibility.Visible;
@@ -1913,7 +1913,7 @@ namespace LexTranslator
 
             if (TransViewList.RealLines.Count > 0)
             {
-                DeFine.LocalConfigView.SFrom.SelectedValue = Engine.From.ToString();
+                DeFine.LocalConfigView.SFrom.SelectedValue = Phoenix.From.ToString();
             }
             else
             {
@@ -2011,7 +2011,7 @@ namespace LexTranslator
                         Modules.Children.Clear();
 
                         Modules.Children.Add(UIHelper.CreatModuleItem("LexTranslator", DeFine.CurrentVersion));
-                        Modules.Children.Add(UIHelper.CreatModuleItem("Translation Engine",Engine.Version));
+                        Modules.Children.Add(UIHelper.CreatModuleItem("Translation Engine", Phoenix.Version));
                         Modules.Children.Add(UIHelper.CreatModuleItem("Pex Analysis", PapyrusHeurCore.Version));
                         Modules.Children.Add(UIHelper.CreatModuleItem("Esp Reader",EspInterop.Version));
                         Modules.Children.Add(UIHelper.CreatModuleItem("Pex Reader",PexInterop.Version));
@@ -2075,14 +2075,14 @@ namespace LexTranslator
                                     if (ConvertHelper.ObjToStr(TransProcess.Content).StartsWith("STRINGS("))
                                     {
                                       
-                                        if (Engine.From == Engine.To)
+                                        if (Phoenix.From == Phoenix.To)
                                         {
                                             MessageBoxExtend.Show(this, "The source language and target language cannot be the same!");
                                             CallSucess = false;
                                             return;
                                         }
 
-                                        if (EngineConfig.Config.GetPlatformData(LMStudio.Type).Enable)
+                                        if (Phoenix.Config.GetPlatformData(LMStudio.Type).Enable)
                                         {
                                             LMStudio.CurrentModel = string.Empty;
                                         }
@@ -2150,7 +2150,7 @@ namespace LexTranslator
 
                 if (TransViewList != null)
                 {
-                    TransViewList.ChangeFontColor(Engine.GetFileUniqueKey(), GetColor.R, GetColor.G, GetColor.B);
+                    TransViewList.ChangeFontColor(Phoenix.GetFileUniqueKey(), GetColor.R, GetColor.G, GetColor.B);
                 }
             }
         }
@@ -2188,9 +2188,9 @@ namespace LexTranslator
 
                         try
                         {
-                            if (CloudDBCache.FindCache(Engine.GetFileUniqueKey(), GetGrid.Key, Engine.To).Equals(GetGrid.TransText))
+                            if (CloudDBCache.FindCache(Phoenix.GetFileUniqueKey(), GetGrid.Key, Phoenix.To).Equals(GetGrid.TransText))
                             {
-                                LocalDBCache.DeleteCache(Engine.GetFileUniqueKey(), GetGrid.Key, Engine.To);
+                                LocalDBCache.DeleteCache(Phoenix.GetFileUniqueKey(), GetGrid.Key, Phoenix.To);
 
                                 if (Translator.TransData.ContainsKey(GetGrid.Key))
                                 {
@@ -2253,7 +2253,7 @@ namespace LexTranslator
                                 {
                                     case "PreTranslate":
                                         {
-                                            if (EngineConfig.Config.PreTranslateEnable)
+                                            if (Phoenix.Config.PreTranslateEnable)
                                             {
                                                 GetStateGrid.Style = NodeEnable;
                                             }
@@ -2265,7 +2265,7 @@ namespace LexTranslator
                                         break;
                                     case "Gemini":
                                         {
-                                            if (EngineConfig.Config.GetPlatformData(GeminiApi.Type).Enable)
+                                            if (Phoenix.Config.GetPlatformData(GeminiApi.Type).Enable)
                                             {
                                                 GetStateGrid.Style = NodeEnable;
                                             }
@@ -2277,7 +2277,7 @@ namespace LexTranslator
                                         break;
                                     case "ChatGpt":
                                         {
-                                            if (EngineConfig.Config.GetPlatformData(ChatGptApi.Type).Enable)
+                                            if (Phoenix.Config.GetPlatformData(ChatGptApi.Type).Enable)
                                             {
                                                 GetStateGrid.Style = NodeEnable;
                                             }
@@ -2289,7 +2289,7 @@ namespace LexTranslator
                                         break;
                                     case "DeepSeek":
                                         {
-                                            if (EngineConfig.Config.GetPlatformData(DeepSeekApi.Type).Enable)
+                                            if (Phoenix.Config.GetPlatformData(DeepSeekApi.Type).Enable)
                                             {
                                                 GetStateGrid.Style = NodeEnable;
                                             }
@@ -2301,7 +2301,7 @@ namespace LexTranslator
                                         break;
                                     case "LMLocalAI":
                                         {
-                                            if (EngineConfig.Config.GetPlatformData(LMStudio.Type).Enable)
+                                            if (Phoenix.Config.GetPlatformData(LMStudio.Type).Enable)
                                             {
                                                 GetStateGrid.Style = NodeEnable;
                                             }
@@ -2313,7 +2313,7 @@ namespace LexTranslator
                                         break;
                                     case "DeepL":
                                         {
-                                            if (EngineConfig.Config.GetPlatformData(DeepLApi.Type).Enable)
+                                            if (Phoenix.Config.GetPlatformData(DeepLApi.Type).Enable)
                                             {
                                                 GetStateGrid.Style = NodeEnable;
                                             }
@@ -2358,14 +2358,14 @@ namespace LexTranslator
                         {
                             case "PreTranslate":
                                 {
-                                    if (!EngineConfig.Config.PreTranslateEnable)
+                                    if (!Phoenix.Config.PreTranslateEnable)
                                     {
-                                        EngineConfig.Config.PreTranslateEnable = true;
+                                        Phoenix.Config.PreTranslateEnable = true;
                                         GetStateGrid.Style = NodeEnable;
                                     }
                                     else
                                     {
-                                        EngineConfig.Config.PreTranslateEnable = false;
+                                        Phoenix.Config.PreTranslateEnable = false;
                                         GetStateGrid.Style = NodeDisable;
                                     }
                                 }
@@ -2373,14 +2373,14 @@ namespace LexTranslator
                             case "Gemini":
                                 {
                                     int SetKey = (int)GeminiApi.Type;
-                                    if (!EngineConfig.Config.PlatformConfigs[SetKey].Enable)
+                                    if (!Phoenix.Config.PlatformConfigs[SetKey].Enable)
                                     {
-                                        EngineConfig.Config.PlatformConfigs[SetKey].Enable = true;
+                                        Phoenix.Config.PlatformConfigs[SetKey].Enable = true;
                                         GetStateGrid.Style = NodeEnable;
                                     }
                                     else
                                     {
-                                        EngineConfig.Config.PlatformConfigs[SetKey].Enable = false;
+                                        Phoenix.Config.PlatformConfigs[SetKey].Enable = false;
                                         GetStateGrid.Style = NodeDisable;
                                     }
                                 }
@@ -2388,14 +2388,14 @@ namespace LexTranslator
                             case "ChatGpt":
                                 {
                                     int SetKey = (int)ChatGptApi.Type;
-                                    if (!EngineConfig.Config.PlatformConfigs[SetKey].Enable)
+                                    if (!Phoenix.Config.PlatformConfigs[SetKey].Enable)
                                     {
-                                        EngineConfig.Config.PlatformConfigs[SetKey].Enable = true;
+                                        Phoenix.Config.PlatformConfigs[SetKey].Enable = true;
                                         GetStateGrid.Style = NodeEnable;
                                     }
                                     else
                                     {
-                                        EngineConfig.Config.PlatformConfigs[SetKey].Enable = false;
+                                        Phoenix.Config.PlatformConfigs[SetKey].Enable = false;
                                         GetStateGrid.Style = NodeDisable;
                                     }
                                 }
@@ -2403,14 +2403,14 @@ namespace LexTranslator
                             case "DeepSeek":
                                 {
                                     int SetKey = (int)DeepSeekApi.Type;
-                                    if (!EngineConfig.Config.PlatformConfigs[SetKey].Enable)
+                                    if (!Phoenix.Config.PlatformConfigs[SetKey].Enable)
                                     {
-                                        EngineConfig.Config.PlatformConfigs[SetKey].Enable = true;
+                                        Phoenix.Config.PlatformConfigs[SetKey].Enable = true;
                                         GetStateGrid.Style = NodeEnable;
                                     }
                                     else
                                     {
-                                        EngineConfig.Config.PlatformConfigs[SetKey].Enable = false;
+                                        Phoenix.Config.PlatformConfigs[SetKey].Enable = false;
                                         GetStateGrid.Style = NodeDisable;
                                     }
                                 }
@@ -2418,14 +2418,14 @@ namespace LexTranslator
                             case "LMLocalAI":
                                 {
                                     int SetKey = (int)LMStudio.Type;
-                                    if (!EngineConfig.Config.PlatformConfigs[SetKey].Enable)
+                                    if (!Phoenix.Config.PlatformConfigs[SetKey].Enable)
                                     {
-                                        EngineConfig.Config.PlatformConfigs[SetKey].Enable = true;
+                                        Phoenix.Config.PlatformConfigs[SetKey].Enable = true;
                                         GetStateGrid.Style = NodeEnable;
                                     }
                                     else
                                     {
-                                        EngineConfig.Config.PlatformConfigs[SetKey].Enable = false;
+                                        Phoenix.Config.PlatformConfigs[SetKey].Enable = false;
                                         GetStateGrid.Style = NodeDisable;
                                     }
                                 }
@@ -2433,20 +2433,20 @@ namespace LexTranslator
                             case "DeepL":
                                 {
                                     int SetKey = (int)DeepLApi.Type;
-                                    if (!EngineConfig.Config.PlatformConfigs[SetKey].Enable)
+                                    if (!Phoenix.Config.PlatformConfigs[SetKey].Enable)
                                     {
-                                        EngineConfig.Config.PlatformConfigs[SetKey].Enable = true;
+                                        Phoenix.Config.PlatformConfigs[SetKey].Enable = true;
                                         GetStateGrid.Style = NodeEnable;
                                     }
                                     else
                                     {
-                                        EngineConfig.Config.PlatformConfigs[SetKey].Enable = false;
+                                        Phoenix.Config.PlatformConfigs[SetKey].Enable = false;
                                         GetStateGrid.Style = NodeDisable;
                                     }
                                 }
                                 break;
                         }
-                        EngineConfig.Save();
+                        Phoenix.SaveConfig();
                     }
                 }
             }
@@ -2694,10 +2694,10 @@ namespace LexTranslator
 
                             if (QueryGrid.TransText.Length > 0)
                             {
-                                CloudDBCache.DeleteCache(Engine.GetFileUniqueKey(), QueryGrid.Key, Engine.To);
+                                CloudDBCache.DeleteCache(Phoenix.GetFileUniqueKey(), QueryGrid.Key, Phoenix.To);
                             }
 
-                            TranslationUnit NewUnit = new TranslationUnit(Engine.GetFileUniqueKey(), QueryGrid.Key, QueryGrid.Type, QueryGrid.SourceText, QueryGrid.TransText, "", Engine.From, Engine.To, 100);
+                            TranslationUnit NewUnit = new TranslationUnit(Phoenix.GetFileUniqueKey(), QueryGrid.Key, QueryGrid.Type, QueryGrid.SourceText, QueryGrid.TransText, "", Phoenix.From, Phoenix.To, 100);
 
                             bool CanSleep = false;
 
@@ -2957,14 +2957,14 @@ namespace LexTranslator
         {
             if (GlobalSearch.IsChecked == true)
             {
-                EngineConfig.Config.EnableGlobalSearch = true;
+                Phoenix.Config.EnableGlobalSearch = true;
             }
             else
             {
-                EngineConfig.Config.EnableGlobalSearch = false;
+                Phoenix.Config.EnableGlobalSearch = false;
             }
 
-            EngineConfig.Save();
+            Phoenix.SaveConfig();
         }
 
         private void NextUntranslated_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -2977,7 +2977,7 @@ namespace LexTranslator
                 if ((GetLine.SourceText + GetLine.RealSource).Trim().Length > 0)
                 {
                     var SourceLang = LanguageHelper.DetectLanguageByLine(GetLine.SourceText);
-                    if (SourceLang != Engine.To)
+                    if (SourceLang != Phoenix.To)
                     {
                         if (GetLine.TransText.Length == 0 ||
                          SourceLang ==
@@ -3064,17 +3064,17 @@ namespace LexTranslator
                                     {
                                         Translator.ClearAICache();
 
-                                        if (Translator.ClearCloudCache(Engine.GetFileUniqueKey()))
+                                        if (Translator.ClearCloudCache(Phoenix.GetFileUniqueKey()))
                                         {
-                                            Engine.Vacuum();
+                                            Phoenix.Vacuum();
                                             CallFuncCount++;
                                         }
                                     }
                                     if (GetUserTranslationCache == true)
                                     {
-                                        TranslatorExtend.ClearLocalCache(Engine.GetFileUniqueKey());
+                                        TranslatorExtend.ClearLocalCache(Phoenix.GetFileUniqueKey());
                                         {
-                                            Engine.Vacuum();
+                                            Phoenix.Vacuum();
                                             CallFuncCount++;
                                         }
 
@@ -3223,16 +3223,16 @@ namespace LexTranslator
         {
             if (Name.Equals("Request And ApiKey Configs"))
             {
-                var PhoenixConfig = EngineConfig.Config;
+                var PhoenixConfig = Phoenix.Config;
 
-                STimeOut.Text = EngineConfig.Config.GlobalRequestTimeOut.ToString();
+                STimeOut.Text = Phoenix.Config.GlobalRequestTimeOut.ToString();
 
-                SProxyUrl.Text = EngineConfig.Config.ProxyUrl;
-                SProxyUserName.Text = EngineConfig.Config.ProxyUserName;
-                SProxyPassword.Text = EngineConfig.Config.ProxyPassword;
+                SProxyUrl.Text = Phoenix.Config.ProxyUrl;
+                SProxyUserName.Text = Phoenix.Config.ProxyUserName;
+                SProxyPassword.Text = Phoenix.Config.ProxyPassword;
 
                 SGeminiKey.Text = PhoenixConfig.GetPlatformKeysStr(PhoenixConfig.GetPlatformData(GeminiApi.Type));
-                SGeminiModel.Text = EngineConfig.Config.GetPlatformData(GeminiApi.Type).Model;
+                SGeminiModel.Text = Phoenix.Config.GetPlatformData(GeminiApi.Type).Model;
 
                 SGeminiModelSelect.Items.Clear();
                 SGeminiModelSelect.Items.Add("gemini-2.5-flash");
@@ -3240,7 +3240,7 @@ namespace LexTranslator
                 SGeminiModelSelect.SelectedValue = null;
 
                 SChatGptKey.Text = PhoenixConfig.GetPlatformKeysStr(PhoenixConfig.GetPlatformData(ChatGptApi.Type));
-                SChatGptModel.Text = EngineConfig.Config.GetPlatformData(ChatGptApi.Type).Model;
+                SChatGptModel.Text = Phoenix.Config.GetPlatformData(ChatGptApi.Type).Model;
                 SChatGptModelSelect.Items.Clear();
                 SChatGptModelSelect.Items.Add("gpt-5-nano");
                 SChatGptModelSelect.Items.Add("gpt-5-mini");
@@ -3251,7 +3251,7 @@ namespace LexTranslator
 
 
                 SDeepSeekKey.Text = PhoenixConfig.GetPlatformKeysStr(PhoenixConfig.GetPlatformData(DeepSeekApi.Type));
-                SDeepSeekModel.Text = EngineConfig.Config.GetPlatformData(DeepSeekApi.Type).Model;
+                SDeepSeekModel.Text = Phoenix.Config.GetPlatformData(DeepSeekApi.Type).Model;
                 SDeepSeekModelSelect.Items.Clear();
                 SDeepSeekModelSelect.Items.Add("deepseek-chat");
                 SDeepSeekModelSelect.Items.Add("deepseek-reasoner");
@@ -3275,9 +3275,9 @@ namespace LexTranslator
             else
             if (Name.Equals("AI Configs"))
             {
-                SContextLimit.Text = EngineConfig.Config.ContextLimit.ToString();
+                SContextLimit.Text = Phoenix.Config.ContextLimit.ToString();
 
-                if (EngineConfig.Config.ContextEnable)
+                if (Phoenix.Config.ContextEnable)
                 {
                     SContextEnable.IsChecked = true;
                 }
@@ -3286,7 +3286,7 @@ namespace LexTranslator
                     SContextEnable.IsChecked = false;
                 }
 
-                SAIKeyword.Text = EngineConfig.Config.UserCustomAIPrompt;
+                SAIKeyword.Text = Phoenix.Config.UserCustomAIPrompt;
             }
             else
             if (Name.Equals("Game Configs"))
@@ -3330,13 +3330,13 @@ namespace LexTranslator
             else
             if (Name.Equals("Engine Configs"))
             {
-                SThrottlingRatio.Text = EngineConfig.Config.ThrottleRatio.ToString();
+                SThrottlingRatio.Text = Phoenix.Config.ThrottleRatio.ToString();
 
-                SRotationDelay.Text = EngineConfig.Config.ThrottleDelayMs.ToString();
+                SRotationDelay.Text = Phoenix.Config.ThrottleDelayMs.ToString();
 
-                SMaxThread.Text = EngineConfig.Config.MaxThreadCount.ToString();
+                SMaxThread.Text = Phoenix.Config.MaxThreadCount.ToString();
 
-                if (EngineConfig.Config.AutoSetThreadLimit)
+                if (Phoenix.Config.AutoSetThreadLimit)
                 {
                     SAutoSetThreadLimit.IsChecked = true;
                 }
@@ -3372,7 +3372,7 @@ namespace LexTranslator
                     EnableAnalyzingWords.IsChecked = false;
                 }
 
-                if (EngineConfig.Config.EnableGlobalSearch)
+                if (Phoenix.Config.EnableGlobalSearch)
                 {
                     GlobalSearch.IsChecked = true;
                 }
@@ -3456,24 +3456,24 @@ namespace LexTranslator
 
             if (GetTimeOut > 0)
             {
-                EngineConfig.Config.GlobalRequestTimeOut = GetTimeOut;
+                Phoenix.Config.GlobalRequestTimeOut = GetTimeOut;
             }
         }
         private void SProxyUrl_TextChanged(object sender, TextChangedEventArgs e)
         {
-            EngineConfig.Config.ProxyUrl = SProxyUrl.Text;
+            Phoenix.Config.ProxyUrl = SProxyUrl.Text;
         }
         private void SProxyUserName_TextChanged(object sender, TextChangedEventArgs e)
         {
-            EngineConfig.Config.ProxyUserName = SProxyUserName.Text;
+            Phoenix.Config.ProxyUserName = SProxyUserName.Text;
         }
         private void SProxyPassword_TextChanged(object sender, TextChangedEventArgs e)
         {
-            EngineConfig.Config.ProxyPassword = SProxyPassword.Text;
+            Phoenix.Config.ProxyPassword = SProxyPassword.Text;
         }
         private void SGeminiModel_TextChanged(object sender, TextChangedEventArgs e)
         {
-            EngineConfig.Config.PlatformConfigs[(int)GeminiApi.Type].Model = SGeminiModel.Text;
+            Phoenix.Config.PlatformConfigs[(int)GeminiApi.Type].Model = SGeminiModel.Text;
         }
         private void SGeminiModelSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -3486,7 +3486,7 @@ namespace LexTranslator
         }
         private void SChatGptModel_TextChanged(object sender, TextChangedEventArgs e)
         {
-            EngineConfig.Config.PlatformConfigs[(int)ChatGptApi.Type].Model = SChatGptModel.Text;
+            Phoenix.Config.PlatformConfigs[(int)ChatGptApi.Type].Model = SChatGptModel.Text;
         }
         private void SChatGptModelSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -3499,7 +3499,7 @@ namespace LexTranslator
         }
         private void SDeepSeekModel_TextChanged(object sender, TextChangedEventArgs e)
         {
-            EngineConfig.Config.PlatformConfigs[(int)DeepSeekApi.Type].Model = SDeepSeekModel.Text;
+            Phoenix.Config.PlatformConfigs[(int)DeepSeekApi.Type].Model = SDeepSeekModel.Text;
         }
         private void SDeepSeekModelSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -3513,41 +3513,41 @@ namespace LexTranslator
 
         private void SLMPort_TextChanged(object sender, TextChangedEventArgs e)
         {
-            EngineConfig.Config.PlatformConfigs[(int)LMStudio.Type].LocalPort = ConvertHelper.ObjToInt(SLMPort.Text);
+            Phoenix.Config.PlatformConfigs[(int)LMStudio.Type].LocalPort = ConvertHelper.ObjToInt(SLMPort.Text);
         }
 
         private void IsFreeDeepL_Click(object sender, RoutedEventArgs e)
         {
             if (IsFreeDeepL.IsChecked == true)
             {
-                EngineConfig.Config.PlatformConfigs[(int)DeepLApi.Type].IsFree = true;
+                Phoenix.Config.PlatformConfigs[(int)DeepLApi.Type].IsFree = true;
             }
             else
             {
-                EngineConfig.Config.PlatformConfigs[(int)DeepLApi.Type].IsFree = false;
+                Phoenix.Config.PlatformConfigs[(int)DeepLApi.Type].IsFree = false;
             }
         }
         private void SContextLimit_TextChanged(object sender, TextChangedEventArgs e)
         {
-            EngineConfig.Config.ContextLimit = ConvertHelper.ObjToInt(SContextLimit.Text);
+            Phoenix.Config.ContextLimit = ConvertHelper.ObjToInt(SContextLimit.Text);
         }
 
         private void SAIKeyword_TextChanged(object sender, TextChangedEventArgs e)
         {
-            EngineConfig.Config.UserCustomAIPrompt = SAIKeyword.Text.Trim();
+            Phoenix.Config.UserCustomAIPrompt = SAIKeyword.Text.Trim();
         }
 
         private void SContextEnable_Click(object sender, RoutedEventArgs e)
         {
             if (SContextEnable.IsChecked == true)
             {
-                EngineConfig.Config.ContextEnable = true;
+                Phoenix.Config.ContextEnable = true;
                 ContextGeneration.IsChecked = true;
                 RightContextIndicator.Visibility = Visibility.Visible;
             }
             else
             {
-                EngineConfig.Config.ContextEnable = false;
+                Phoenix.Config.ContextEnable = false;
                 ContextGeneration.IsChecked = false;
                 RightContextIndicator.Visibility = Visibility.Collapsed;
             }
@@ -3564,18 +3564,18 @@ namespace LexTranslator
 
         public void SaveApiKey(PlatformType Type,string KeysStr)
         {
-            for (int i = 0; i < EngineConfig.Config.PlatformConfigs.Count; i++)
+            for (int i = 0; i < Phoenix.Config.PlatformConfigs.Count; i++)
             {
-                int GetKey = EngineConfig.Config.PlatformConfigs.ElementAt(i).Key;
+                int GetKey = Phoenix.Config.PlatformConfigs.ElementAt(i).Key;
 
-                if (EngineConfig.Config.PlatformConfigs[GetKey].Platform == Type)
+                if (Phoenix.Config.PlatformConfigs[GetKey].Platform == Type)
                 {
-                    EngineConfig.Config.PlatformConfigs[GetKey].ApiKeys = EngineConfig.Config.KeysStrToArray(KeysStr);
+                    Phoenix.Config.PlatformConfigs[GetKey].ApiKeys = Phoenix.Config.KeysStrToArray(KeysStr);
                     break;
                 }
             }
 
-            EngineConfig.Save();
+            Phoenix.SaveConfig();
         }
 
         private void SGeminiKey_MouseLeave(object sender, MouseEventArgs e)
@@ -3600,28 +3600,28 @@ namespace LexTranslator
 
         private void SThrottlingRatio_TextChanged(object sender, TextChangedEventArgs e)
         {
-            EngineConfig.Config.ThrottleRatio = ConvertHelper.ObjToDouble(SThrottlingRatio.Text);
+            Phoenix.Config.ThrottleRatio = ConvertHelper.ObjToDouble(SThrottlingRatio.Text);
         }
 
         private void SRotationDelay_TextChanged(object sender, TextChangedEventArgs e)
         {
-            EngineConfig.Config.ThrottleDelayMs = ConvertHelper.ObjToInt(SRotationDelay.Text);
+            Phoenix.Config.ThrottleDelayMs = ConvertHelper.ObjToInt(SRotationDelay.Text);
         }
 
         private void SMaxThread_TextChanged(object sender, TextChangedEventArgs e)
         {
-            EngineConfig.Config.MaxThreadCount = ConvertHelper.ObjToInt(SMaxThread.Text);
+            Phoenix.Config.MaxThreadCount = ConvertHelper.ObjToInt(SMaxThread.Text);
         }
 
         private void SAutoSetThreadLimit_Click(object sender, RoutedEventArgs e)
         {
             if (SAutoSetThreadLimit.IsChecked == true)
             {
-                EngineConfig.Config.AutoSetThreadLimit = true;
+                Phoenix.Config.AutoSetThreadLimit = true;
             }
             else
             {
-                EngineConfig.Config.AutoSetThreadLimit = false;
+                Phoenix.Config.AutoSetThreadLimit = false;
             }
         }
 

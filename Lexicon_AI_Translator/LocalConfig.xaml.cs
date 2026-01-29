@@ -225,9 +225,9 @@ namespace LexTranslator
                 var DetectLang = LanguageHelper.DetectLanguageByLine(SourceStr.Text);
                 if (DetectLang == Languages.SimplifiedChinese || DetectLang == Languages.TraditionalChinese)
                 {
-                    if (Engine.From == Languages.SimplifiedChinese || Engine.From == Languages.TraditionalChinese)
+                    if (Phoenix.From == Languages.SimplifiedChinese || Phoenix.From == Languages.TraditionalChinese)
                     {
-                        DetectLang = Engine.From;
+                        DetectLang = Phoenix.From;
                     }
                 }
 
@@ -242,9 +242,9 @@ namespace LexTranslator
                 var DetectLang = LanguageHelper.DetectLanguageByLine(TargetStr.Text);
                 if (DetectLang == Languages.SimplifiedChinese || DetectLang == Languages.TraditionalChinese)
                 {
-                    if (Engine.To == Languages.SimplifiedChinese || Engine.To == Languages.TraditionalChinese)
+                    if (Phoenix.To == Languages.SimplifiedChinese || Phoenix.To == Languages.TraditionalChinese)
                     {
-                        DetectLang = Engine.To;
+                        DetectLang = Phoenix.To;
                     }
                 }
                 To.SelectedValue = DetectLang.ToString();
@@ -319,7 +319,7 @@ namespace LexTranslator
                 FilterFrom = (Languages)Enum.Parse(typeof(Languages), GetLang.Trim());
             }
 
-            Engine.From = FilterFrom;
+            Phoenix.From = FilterFrom;
             DeFine.GlobalLocalSetting.SourceLanguage = FilterFrom;
             DeFine.GlobalLocalSetting.SaveConfig();
 
@@ -338,7 +338,7 @@ namespace LexTranslator
                 FilterTo = (Languages)Enum.Parse(typeof(Languages), GetLang.Trim());
             }
 
-            Engine.To = FilterTo;
+            Phoenix.To = FilterTo;
             DeFine.GlobalLocalSetting.TargetLanguage = FilterTo;
             DeFine.GlobalLocalSetting.SaveConfig();
 
