@@ -196,6 +196,7 @@ namespace LexTranslator
             }
 
             TestNode.StartTest();
+            new CustomWizard().Show();
         }
 
 

@@ -107,6 +107,9 @@
     <Compile Include="CodeView.xaml.cs">
       <DependentUpon>CodeView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomWizard.xaml.cs">
+      <DependentUpon>CustomWizard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DeFine.cs" />
     <Compile Include="ExtendWin.xaml.cs">
       <DependentUpon>ExtendWin.xaml</DependentUpon>
@@ -163,6 +166,10 @@
     <Page Include="CodeView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomWizard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ExtendWin.xaml">
       <Generator>MSBuild:Compile</Generator>
