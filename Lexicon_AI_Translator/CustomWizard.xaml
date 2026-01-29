@@ -25,17 +25,48 @@
             </StackPanel>
         </Grid>
 
+        <Grid Grid.Row="1" Margin="5 0 5 0" VerticalAlignment="Center">
+            <Grid Name="View1st">
+                <StackPanel Orientation="Vertical">
+                    <TextBox BorderThickness="0" BorderBrush="{x:Null}" IsReadOnly="True" Background="{x:Null}" Foreground="White" CaretBrush="White" TextWrapping="Wrap" AcceptsReturn="True">
+                        Select the type of translation platform you want to add. Please make sure to select the correct one from the drop-down menu below, whether it's an AI platform or a traditional translation platform.
+                    </TextBox>
+                    <StackPanel Orientation="Horizontal" Margin="0 10 0 0" HorizontalAlignment="Center">
+                        <Label Foreground="White">
+                            Platform Type
+                        </Label>
+                        <ComboBox Width="100" VerticalContentAlignment="Center">
+                            AI Platform
+                        </ComboBox>
+                    </StackPanel>
+                </StackPanel>
+              
+            </Grid>
+        </Grid>
+
         <Grid Grid.Row="2" HorizontalAlignment="Right" Margin="5 0 5 0">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                <Border CornerRadius="6" BorderThickness="1" BorderBrush="White" Background="#FF2F2F2F" Cursor="Hand" Margin="0 0 5 0">
+                <Border Name="CancelBtn" CornerRadius="6" BorderThickness="1" BorderBrush="White" Background="#FF2F2F2F" Cursor="Hand" Margin="0 0 5 0">
                     <Label Foreground="White" VerticalAlignment="Center" IsHitTestVisible="False">
                         Cancel
                     </Label>
                 </Border>
 
-                <Border CornerRadius="6" BorderThickness="1" BorderBrush="White" Background="#FF2F2F2F" Cursor="Hand">
+                <Border Name="BackBtn" CornerRadius="6" BorderThickness="1" BorderBrush="White" Background="#FF2F2F2F" Cursor="Hand" Margin="0 0 5 0" Visibility="Collapsed">
+                    <Label Foreground="White" VerticalAlignment="Center" IsHitTestVisible="False">
+                        Back
+                    </Label>
+                </Border>
+
+                <Border Name="NextBtn" CornerRadius="6" BorderThickness="1" BorderBrush="White" Background="#FF2F2F2F" Cursor="Hand">
                     <Label Foreground="White" VerticalAlignment="Center" IsHitTestVisible="False">
                         Next
+                    </Label>
+                </Border>
+
+                <Border Name="FinishBtn" CornerRadius="6" BorderThickness="1" BorderBrush="White" Background="#FF2F2F2F" Cursor="Hand" Margin="0 0 5 0" Visibility="Collapsed">
+                    <Label Foreground="White" VerticalAlignment="Center" IsHitTestVisible="False">
+                        Finish
                     </Label>
                 </Border>
             </StackPanel>
