@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using PhoenixEngine.EngineManagement;
@@ -13,6 +14,8 @@ namespace LexTranslator
 
         public static void StartTest()
         {
+            List<ReqReplaceTag> GenTags = null;
+
             CustomReqCore NewCore = new CustomReqCore();
 
             PlatformConfig CustomNode = new PlatformConfig();
@@ -23,6 +26,10 @@ namespace LexTranslator
             NewCore.SetUrl(CustomNode.CustomInFo.Url);
             var UrlValues = NewCore.GetUrlKeyValues();
 
+            GenTags = new List<ReqReplaceTag>();
+            GenTags.Add(new ReqReplaceTag("q", "Test1"));
+            string BuildUrl = NewCore.GenUrl(GenTags);//√
+
 
             CustomNode.CustomInFo.Header = 
                 "Content-Type: application/json\n" +
@@ -31,6 +38,11 @@ namespace LexTranslator
 
             NewCore.SetHeader(CustomNode.CustomInFo.Header);
             var HeaderValues = NewCore.GetHeaderKeyValues();
+
+            GenTags = new List<ReqReplaceTag>();
+            GenTags.Add(new ReqReplaceTag("Authorization", "Test1"));
+
+            WebHeaderCollection BuildHeader = NewCore.GenHeader(GenTags);//√
 
 
             CustomNode.CustomInFo.PayLoad = "{\r\n " +
@@ -43,12 +55,12 @@ namespace LexTranslator
 
             var GetPayLoadValues = NewCore.GetPayLoadKeyValues();
 
-            List<ReqReplaceTag> GenTags = new List<ReqReplaceTag>();
+            GenTags = new List<ReqReplaceTag>();
             GenTags.Add(new ReqReplaceTag("model", "Test1"));
             GenTags.Add(new ReqReplaceTag("messages[0].content", "Test2"));
             GenTags.Add(new ReqReplaceTag("messages[1].content", "Test3"));
 
-            string BuildPayload = NewCore.GenPayLoad(GenTags);
+            string BuildPayload = NewCore.GenPayLoad(GenTags);//√
             //
             //Phoenix.Config.PlatformConfigs.Add();
         }
